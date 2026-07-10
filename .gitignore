@@ -1,0 +1,33 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+*.egg-info/
+
+# Virtual environments and tool caches
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.env
+
+# Local data and generated artifacts. The canonical root is outside this repo:
+# /Users/kyledorman/data/er_commons
+data/
+artifacts/
+reports/
+runs/
+
+# Large or derived artifacts if a command is accidentally pointed at the repo.
+*.parquet
+*.csv
+*.jsonl
+*.sqlite
+*.db
+*.pdf
+*.zip
+*.tar
+*.gz
+*.joblib
+*.pkl
