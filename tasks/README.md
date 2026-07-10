@@ -4,8 +4,10 @@ Numbered task files are agent-sized implementation contracts. They preserve the
 context needed for a later agent to complete one bounded piece of work without
 replaying the whole project conversation.
 
-Start with `AGENTS.md`, `docs/index.md`, and `docs/todo.md`; then read only the
-active task and the documents it names. Do not scan every task to begin work.
+Start with `AGENTS.md`, `docs/index.md`, and `docs/todo.md`. If a task is active,
+read only that task and the documents it names. If no task is active, use the
+current sprint plan to write the next bounded contract before implementation.
+Do not scan every historical task to begin work.
 
 ## Ownership
 

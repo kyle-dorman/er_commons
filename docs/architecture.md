@@ -30,6 +30,14 @@ The initial CLI uses the Python standard library deliberately. It exposes the
 artifact root but does not create pipeline behavior. A later task should choose
 a maintained library only if it materially improves a concrete command.
 
+For the accepted Brisbane vertical slice, the planned implementation stack is
+Docling for conversion, Label Studio Community for human review, BM25S for the
+first retriever, and distinct local Ollama models for reference-case curation,
+target generation, and rubric judging. These are selected contracts, not yet
+installed runtime dependencies: each is added only by the task that implements
+its narrow boundary. The benchmark must retain the exact tool/model version and
+resolved model digest in its artifacts.
+
 ## External data and artifact layout
 
 ```text

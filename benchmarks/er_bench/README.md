@@ -10,5 +10,6 @@ The benchmark inputs, snapshots, and run outputs belong outside Git under:
 /Users/kyledorman/data/er_commons/benchmarks/er_bench/
 ```
 
-Task 01 must define and document the Sprint 1 benchmark version before code,
-labels, or metrics are chosen. Its working template is `sprint1.md`.
+Sprint 1 accepted the first benchmark contract in `sprint1.md`. Sprint 2 is
+current and implements that contract one bounded task at a time; no Sprint 2
+task exists until its contract is written immediately before execution.

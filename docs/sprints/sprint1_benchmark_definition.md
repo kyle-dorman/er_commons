@@ -5,6 +5,15 @@ benchmark. Read it when planning Sprint 1; use Task 01 for the detailed
 execution contract and `benchmarks/er_bench/sprint1.md` for the specification
 being completed.
 
+## Outcome
+
+Sprint 1 accepted `er_bench.sprint1.brisbane_draft_defense.v1`: the model uses
+only the original Draft EIR to write a cited defense of a public comment. Final
+EIR responses are curator-only candidate provenance. The specification is in
+`benchmarks/er_bench/sprint1.md`; the durable decision is
+`docs/decisions/001_brisbane_draft_eir_defense_benchmark.md`. Sprint 2 is now
+current with an accepted sprint plan and no pre-created implementation tasks.
+
 ## Goal
 
 Leave Sprint 1 with an implementable benchmark contract, not a broad research

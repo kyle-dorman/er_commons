@@ -75,3 +75,27 @@ constrain subsequent work.
 - Do not select the revision-family backlog item by default.
 - Do not download or commit a large CEQA corpus.
 - Do not create a workflow engine or general-purpose framework.
+
+## Outcome
+
+Completed 2026-07-10. The project selected
+`er_bench.sprint1.brisbane_draft_defense.v1`: given a public comment and the
+original Brisbane Baylands Draft EIR, produce a concise Draft-EIR-only defense
+with citations. May 2026 Final EIR Volume 4 responses identify candidate
+no-change cases but are never model input. The accepted source, label, split,
+metric, UI, baseline, and artifact policies are in
+`benchmarks/er_bench/sprint1.md`; the durable rationale is in
+`docs/decisions/001_brisbane_draft_eir_defense_benchmark.md`.
+
+Learning notes: an agency response is a discovery and reference aid, not proof
+of correctness. The no-change rule makes a Draft-EIR-only evidence task
+possible. A transparent Docling + BM25 + pinned local-model baseline separates
+extraction, retrieval, and generation failures; a separate local judge is a
+calibrated triage aid, not ground truth.
+
+Validation: primary source pages and maintainer documentation were reviewed;
+documentation validation is recorded with this change.
+
+Sprint 2 is promoted with an accepted sprint plan and no pre-created numbered
+task. Its next action is to write the bounded source-freeze task immediately
+before execution.

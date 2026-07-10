@@ -2,26 +2,24 @@
 
 ## Sprint status
 
-Status: Sprint 1, define the first benchmark version.
+Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
-Current active task:
+Current active task: none. Sprint 2 was promoted from its accepted plan without
+pre-creating numbered implementation tasks.
 
-```text
-tasks/sprint1/01_define_sprint1_benchmark.md
-```
-
-Current next action: write the reviewable Sprint 1 benchmark specification in
-`benchmarks/er_bench/sprint1.md` before planning ingestion or evaluation code.
+Current next action: write the bounded Task 02 source-freeze contract from the
+provisional Sprint 2 sequence, then execute it. Create later task contracts one
+at a time from the preceding outcomes rather than treating the provisional
+numbers as fixed scope.
 
 ## Open queue
 
-1. Task 01 — define one version of the Sprint 1 benchmark: its user question,
-   scope boundary, candidate CEQA source, evaluation unit, anti-leakage split,
-   metric, baseline direction, and implementation gate.
-2. After Task 01, select a source-contract task that records acquisition,
-   licensing, schema, normalization, and provenance requirements.
-3. Only after those decisions, create the smallest reproducible baseline task
-   for `er_bench`.
+1. Write and execute the source-freeze task.
+2. Continue through canonical extraction, extraction QA, response inventory,
+   case authoring, and benchmark freezing using one bounded task at a time.
+3. Freeze human evaluation before BM25 retrieval, target generation, and judge
+   calibration; finish with the primary test and oracle diagnostics.
 
-Task 01 owns the detail. Do not promote items 2 or 3 into implementation until
-the Task 01 outcome has made the Sprint 1 choices explicit.
+Sprint 2 scope, decisions, and provisional sequencing live in
+`docs/sprints/sprint2_brisbane_draft_eir_defense.md`. No numbered task owns
+active implementation detail until its contract is created.

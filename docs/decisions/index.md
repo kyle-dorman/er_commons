@@ -5,5 +5,5 @@ Read it when work touches a selected data source, benchmark contract, artifact
 policy, dependency choice, or sprint boundary. Use `docs/todo.md` for active
 work and task files for detailed execution context.
 
-No project-specific decision has been accepted yet. Task 01 may create the first
-decision note only after its research establishes a conclusion worth preserving.
+- [001: Brisbane Draft-EIR defense benchmark](001_brisbane_draft_eir_defense_benchmark.md)
+  — source roles, eligible-case policy, local pilot stack, and claim boundary.

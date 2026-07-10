@@ -23,7 +23,9 @@ active numbered task under `tasks/`. For data or artifact work, read
 read `docs/architecture.md`.
 
 After a new chat, resume, or context compaction, reread this file,
-`docs/index.md`, `docs/todo.md`, and the active task before editing.
+`docs/index.md`, and `docs/todo.md`. If `docs/todo.md` names an active task,
+read that task before editing; when no task is active, use the current sprint
+plan to write the next bounded task contract before implementation.
 
 ## Working approach
 

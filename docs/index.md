@@ -5,17 +5,15 @@ Start with `AGENTS.md`, then return here to decide what to read or skip.
 
 ## Current status
 
-The repository is in Sprint 1: define the first benchmark version. The only
-active implementation contract is:
+Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
+task. Sprint 2 is current, with no active numbered task at promotion.
 
-```text
-tasks/sprint1/01_define_sprint1_benchmark.md
-```
-
-Sprint 1 is intentionally a narrow research and specification task. It must
-make one benchmark version's user question, scope, CEQA source, provenance,
-evaluation policy, and minimal open-source stack explicit before implementation
-begins. Its source of truth is `benchmarks/er_bench/sprint1.md`.
+The accepted source of truth is `benchmarks/er_bench/sprint1.md`; the durable
+rationale is [Decision 001](decisions/001_brisbane_draft_eir_defense_benchmark.md).
+Sprint 2 is the smallest source-to-evaluation vertical slice and begins by
+writing the bounded source-freeze task from the provisional sequence in the
+[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Detailed task
+contracts are created one at a time immediately before execution.
 
 ## Document roles
 
@@ -35,5 +33,6 @@ begins. Its source of truth is `benchmarks/er_bench/sprint1.md`.
 - `docs/decisions/`: durable accepted choices and non-promoted results.
 - `tasks/`: narrow agent-sized contracts with validation and outcomes.
 
-Do not read every document to begin a narrow task. Use the active task's input
-list and the roles above.
+Do not read every document to begin narrow work. When a task is active, use its
+input list and the roles above. When no task is active, use `docs/todo.md` and
+the current sprint plan only to write the next bounded task contract.
