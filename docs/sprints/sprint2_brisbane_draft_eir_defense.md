@@ -123,6 +123,16 @@ EIR evidence spans, page renders, source-usability status, and relevant
 cross-references, then reapplies the eligibility criteria. A case becomes
 accepted only after passing both reviews.
 
+Preserve every inventory, screening, evidence-verification, acceptance, and
+selection decision as a versioned record rather than overwriting earlier
+dispositions. Each decision records the stable source or case ID, review stage,
+disposition, reason code, reviewer, timestamp, and the input artifact version
+that was reviewed. Produce an annotation attrition waterfall with raw counts at
+each stage—from the complete response inventory through plausible candidates,
+first-pass eligibility, evidence verification, accepted cases, and final split
+selection—and report exclusions by reason code. The waterfall is an audit
+summary derived from the decision records, not a separately maintained count.
+
 Where practical, the second-pass interface should not emphasize the first-pass
 rationale until the verification decision is made, reducing anchoring without
 claiming reviewer independence. Report this as repeated single-curator review,
@@ -145,6 +155,17 @@ warning but not an automatic edge. Broad sections may support distinct issues,
 so the curator confirms whether the cases are substantively duplicative before
 they are joined. Preserve the overlap signal and disposition for audit even
 when no edge is created.
+
+Before freezing the split, validate duplicate and near-duplicate candidate
+generation against a small deterministic fixture containing representative
+positive and negative pairs. Cover exact duplicates, harmless formatting or
+preamble changes, paraphrased duplicates, and distinct issues that share
+boilerplate. Report misses and false-positive candidates; do not select a fuzzy
+threshold by intuition alone. Also produce a split-leakage audit showing that
+no confirmed relationship or duplicate-cluster edge crosses the proposed
+development/test boundary and listing every warning and curator disposition.
+This fixture validates candidate enumeration only; it does not replace human
+authority over substantive clustering edges.
 
 Never split a confirmed cluster. Select 25 cases from the larger accepted pool
 so whole clusters produce exactly 10 development and 15 test cases, preferring
@@ -450,7 +471,10 @@ too large or new evidence creates a distinct decision or validation boundary.
 1. **Task 02 — Freeze sources and provenance.** Inventory, acquire, checksum,
    validate, and manifest the complete Draft EIR main report, all official
    appendices, curator-only Final EIR Volume 4, and duplicate chapter files used
-   only for recovery or QA.
+   only for recovery or QA. Record URL, checksum, page count, and source role
+   per file. For this local MVP, use one corpus-level visible-terms note with a
+   per-file override only when a source differs; do not require a separate
+   per-PDF legal matrix or make a reuse determination.
 2. **Task 03 — Build the canonical Draft EIR extraction.** Pin Docling and its
    configuration; produce canonical document, section, page, block, table,
    figure, image, page-render, and cross-reference records with version-scoped
@@ -469,7 +493,10 @@ too large or new evidence creates a distinct decision or validation boundary.
 6. **Task 07 — Curate, cluster, split, and freeze the benchmark.** Identify at
    least 35 plausible cases, finish two-pass single-curator review, accept at
    least 25 cases, form reviewed clusters, and materialize the deterministic
-   10-development/15-test split.
+   10-development/15-test split. Preserve versioned decisions throughout and
+   publish the derived annotation attrition waterfall with exclusion counts by
+   reason code. Validate duplicate candidate generation on the small adversarial
+   fixture and publish the final cross-split leakage audit.
 7. **Task 08 — Build and freeze human evaluation.** Implement the staged,
    blinded evidence-support, responsiveness, and reference-coverage forms and
    anchored `0`/`1`/`2` rubric before target-model development.
