@@ -5,15 +5,22 @@ Start with `AGENTS.md`, then return here to decide what to read or skip.
 
 ## Current status
 
-Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
-task. Sprint 2 is current, with no active numbered task at promotion.
+This section is the source of record for the current sprint and active task.
+`docs/todo.md` owns the detailed queue and next action.
 
-The accepted source of truth is `benchmarks/er_bench/sprint1.md`; the durable
-rationale is [Decision 001](decisions/001_brisbane_draft_eir_defense_benchmark.md).
-Sprint 2 is the smallest source-to-evaluation vertical slice and begins by
-writing the bounded source-freeze task from the provisional sequence in the
-[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Detailed task
-contracts are created one at a time immediately before execution.
+Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
+task. Sprint 2 is current, and
+[Task 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) is the active
+source-freeze contract.
+
+The accepted benchmark contract is `benchmarks/er_bench/sprint1.md`; the
+durable rationale is
+[Decision 001](decisions/001_brisbane_draft_eir_defense_benchmark.md).
+Sprint 2 is the smallest source-to-evaluation vertical slice. Task 02 freezes
+the official source release and provenance before canonical extraction begins;
+its position in the provisional sequence is recorded in the
+[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Later detailed
+task contracts are created one at a time immediately before execution.
 
 ## Document roles
 

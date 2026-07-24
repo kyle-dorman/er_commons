@@ -69,7 +69,7 @@ Status: **accepted 2026-07-10; Sprint 2 implementation plan current**.
 
 ## Scope boundary
 
-Sprint 1 has defined the contract and Sprint 2 plan; it has not downloaded,
-converted, labeled, indexed, prompted, or evaluated a document. Sprint 2 is
-current with no active numbered task; its provisional execution sequence is in
-the [Sprint 2 plan](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md).
+Sprint 1 defined this accepted benchmark contract; it did not download,
+convert, label, index, prompt, or evaluate a document. This specification is a
+durable benchmark record, not the owner of current project status. See the
+[docs index](../../docs/index.md) for the current sprint and active task.

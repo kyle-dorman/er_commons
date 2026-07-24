@@ -6,11 +6,12 @@ before creating or editing durable docs, task outcomes, or decision notes.
 ## Ownership
 
 - `AGENTS.md`: agent entry path, work rules, setup, and validation.
-- `docs/index.md`: documentation router and read/skip guidance.
+- `docs/index.md`: documentation router, current sprint and active-task summary,
+  and read/skip guidance.
 - `docs/product.md`: purpose, scope, claims, and success criteria.
 - `docs/architecture.md`: technical contracts and boundaries.
 - `docs/data_artifacts.md`: artifact roots, Git policy, and provenance.
-- `docs/todo.md`: active task status and next action.
+- `docs/todo.md`: detailed active queue and next action.
 - `docs/backlog.md`: unselected future ideas only.
 - `docs/sprints/`: sprint scope, research themes, and sequencing.
 - `docs/decisions/`: accepted choices and negative/non-promoted results.
