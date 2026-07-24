@@ -4,8 +4,8 @@
 
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
-Current active task: none. Sprint 2 was promoted from its accepted plan without
-pre-creating numbered implementation tasks.
+Current active task: none. Task 02A moved the local artifact root to the
+external SSD without beginning source acquisition.
 
 Current next action: write the bounded Task 02 source-freeze contract from the
 provisional Sprint 2 sequence, then execute it. Create later task contracts one

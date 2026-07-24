@@ -13,7 +13,7 @@ dist/
 .env
 
 # Local data and generated artifacts. The canonical root is outside this repo:
-# /Users/kyledorman/data/er_commons
+# /Volumes/x10pro/er_commons
 data/
 artifacts/
 reports/

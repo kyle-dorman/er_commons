@@ -20,9 +20,9 @@ make check
 ```
 
 Project commands require `ER_COMMONS_DATA_ROOT` in a local `.env` file. This
-checkout is configured for `/Users/kyledorman/data/er_commons`; use
-`.env.example` to create the file on another machine. `make` loads the value and
-validates it before commands that use project settings.
+checkout is configured for `/Volumes/x10pro/er_commons`; use `.env.example` to
+create the file on another machine. `make` loads the value and validates it
+before commands that use project settings.
 
 ## Layout
 
@@ -35,7 +35,7 @@ er_commons/                         # Git repository: code, docs, configs, tests
   docs/                             # Product, architecture, planning, decisions
   tasks/                            # Narrow agent-sized implementation contracts
 
-/Users/kyledorman/data/er_commons/  # Not tracked by Git: data and run artifacts
+/Volumes/x10pro/er_commons/         # Not tracked by Git: data and run artifacts
   datasets/ceqa/                    # CEQA source files and normalized derivatives
   pipelines/                        # Pipeline manifests and generated run outputs
   benchmarks/er_bench/              # Benchmark inputs, snapshots, and run results

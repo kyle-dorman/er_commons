@@ -5,7 +5,7 @@ wrappers, and reusable configuration that a later task explicitly promotes.
 Generated pipeline manifests and outputs belong under:
 
 ```text
-/Users/kyledorman/data/er_commons/pipelines/
+/Volumes/x10pro/er_commons/pipelines/
 ```
 
 Start each pipeline as the smallest restartable sequence of existing

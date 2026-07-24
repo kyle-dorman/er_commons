@@ -41,7 +41,7 @@ resolved model digest in its artifacts.
 ## External data and artifact layout
 
 ```text
-/Users/kyledorman/data/er_commons/
+/Volumes/x10pro/er_commons/
   datasets/
     ceqa/
       raw/               # Immutable source downloads or source references

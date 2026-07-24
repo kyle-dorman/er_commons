@@ -59,7 +59,7 @@ Keep the repository limited to source, tests, small configs, docs, task files,
 and benchmark specifications. The canonical untracked data/artifact root is:
 
 ```text
-/Users/kyledorman/data/er_commons
+/Volumes/x10pro/er_commons
 ```
 
 `ER_COMMONS_DATA_ROOT` must be set in the local, untracked `.env`; the project

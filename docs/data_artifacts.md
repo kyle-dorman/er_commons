@@ -9,7 +9,7 @@ interpreting data or generated outputs.
 Data and generated artifacts live outside the repository at:
 
 ```text
-/Users/kyledorman/data/er_commons
+/Volumes/x10pro/er_commons
 ```
 
 The root currently contains these deliberately empty entry points:
@@ -23,7 +23,9 @@ benchmarks/er_bench/
 `ER_COMMONS_DATA_ROOT` must be explicitly set in the local, untracked `.env`.
 There is no code default. `make bootstrap` validates the setting and creates the
 three documented entry-point directories. Do not create or populate deeper data
-folders until the task defines their role.
+folders until the task defines their role. [Decision
+002](decisions/002_external_ssd_artifact_root.md) records why this local MVP
+uses the external SSD.
 
 ## Git policy
 
