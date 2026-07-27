@@ -1,0 +1,946 @@
+{
+  "schema_version": "er_commons.source_spec.v1",
+  "release_id": "brisbane_baylands_2025_deir_sources_v1",
+  "manifest_schema_version": "er_commons.source_manifest.v1",
+  "landing_pages": [
+    {
+      "key": "draft_eir",
+      "url": "https://www.brisbaneca.gov/237/2025-Draft-EIR",
+      "snapshot_filename": "draft_eir.html",
+      "expected_excluded_document_ids": [
+        503,
+        504,
+        569
+      ]
+    },
+    {
+      "key": "deir_comments",
+      "url": "https://www.brisbaneca.gov/570/2025-DEIR-Comments",
+      "snapshot_filename": "deir_comments.html",
+      "expected_excluded_document_ids": []
+    },
+    {
+      "key": "final_eir",
+      "url": "https://www.brisbaneca.gov/774/2026-Final-EIR",
+      "snapshot_filename": "final_eir.html",
+      "expected_excluded_document_ids": [
+        2974,
+        2975,
+        2976,
+        2978,
+        2949,
+        2943,
+        2951,
+        2960,
+        2952,
+        2972,
+        2944,
+        2955,
+        2962,
+        2970,
+        2971,
+        2957,
+        2945,
+        2958,
+        2953,
+        2966,
+        2963,
+        2946,
+        2956,
+        2959,
+        2948,
+        2938,
+        2961,
+        2954,
+        2947,
+        2939,
+        2973,
+        2940,
+        2964,
+        2950,
+        2941,
+        2942,
+        2967,
+        2968,
+        2969,
+        3010,
+        3011
+      ]
+    },
+    {
+      "key": "copyright",
+      "url": "https://www.brisbaneca.gov/copyright",
+      "snapshot_filename": "copyright.html",
+      "expected_excluded_document_ids": []
+    }
+  ],
+  "terms_note_filename": "visible_terms_note.md",
+  "sources": [
+    {
+      "source_id": "deir_main",
+      "document_center_id": 530,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Complete 2025 Baylands Specific Plan DEIR (PDF)",
+      "local_filename": "deir_main.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_a",
+      "document_center_id": 559,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix A - 2025 Baylands Specific Plan (PDF)",
+      "local_filename": "deir_appendix_a.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_b",
+      "document_center_id": 562,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix B - Notice of Preparation(s) Distribution List (PDF)",
+      "local_filename": "deir_appendix_b.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_c",
+      "document_center_id": 565,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix C - Urban Decay Technical Report (PDF)",
+      "local_filename": "deir_appendix_c.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_d",
+      "document_center_id": 560,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix D - Biological Resources Technical Report (PDF)",
+      "local_filename": "deir_appendix_d.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_e",
+      "document_center_id": 557,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix E - Cultural Resources Technical Report (PDF)",
+      "local_filename": "deir_appendix_e.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_f1",
+      "document_center_id": 553,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix F1 - Transportation Impact Assessment (PDF)",
+      "local_filename": "deir_appendix_f1.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_f2",
+      "document_center_id": 552,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix F2 - Safe Routes to School Study (PDF)",
+      "local_filename": "deir_appendix_f2.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_g1",
+      "document_center_id": 548,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix G1 - Air Quality Technical Report (PDF)",
+      "local_filename": "deir_appendix_g1.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_g2",
+      "document_center_id": 545,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix G2 - Health Risk Assessment (PDF)",
+      "local_filename": "deir_appendix_g2.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_g3",
+      "document_center_id": 541,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix G3 - Mitigated Air Quality and Health Risk Calculations (PDF)",
+      "local_filename": "deir_appendix_g3.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_h",
+      "document_center_id": 542,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix H - Greenhouse Gas Emissions Technical Report (PDF)",
+      "local_filename": "deir_appendix_h.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_i",
+      "document_center_id": 538,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix I - Energy Resources Technical Report (PDF)",
+      "local_filename": "deir_appendix_i.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_j",
+      "document_center_id": 566,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix J - Noise Technical Report (PDF)",
+      "local_filename": "deir_appendix_j.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k1_part_1_of_4",
+      "document_center_id": 563,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K1 - OU-SM RAP 1 of 4 (PDF)",
+      "local_filename": "deir_appendix_k1_part_1_of_4.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k1_part_2_of_4",
+      "document_center_id": 558,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K1 - OU-SM RAP 2 of 4 (PDF)",
+      "local_filename": "deir_appendix_k1_part_2_of_4.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k1_part_3_of_4",
+      "document_center_id": 555,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K1 - OU-SM RAP 3 of 4 (PDF)",
+      "local_filename": "deir_appendix_k1_part_3_of_4.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k1_part_4_of_4",
+      "document_center_id": 554,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K1 - OU-SM RAP 4 of 4 (PDF)",
+      "local_filename": "deir_appendix_k1_part_4_of_4.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k2_part_1_of_5",
+      "document_center_id": 547,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K2 - OU-2 RAP 1 of 5 (PDF)",
+      "local_filename": "deir_appendix_k2_part_1_of_5.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k2_part_2_of_5",
+      "document_center_id": 2965,
+      "landing_page_key": "final_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K2 - OU-2 RAP 2 of 5 (PDF)",
+      "local_filename": "deir_appendix_k2_part_2_of_5.pdf",
+      "warnings": [
+        "source_edition_override: Draft landing page omitted K2 part 2; user approved Final-EIR record 2965 on 2026-07-24."
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k2_part_3_of_5",
+      "document_center_id": 543,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K2 - OU-2 RAP 3 of 5 (PDF)",
+      "local_filename": "deir_appendix_k2_part_3_of_5.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k2_part_4_of_5",
+      "document_center_id": 539,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K2 - OU-2 RAP 4 of 5 (PDF)",
+      "local_filename": "deir_appendix_k2_part_4_of_5.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k2_part_5_of_5",
+      "document_center_id": 537,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K2 - OU-2 RAP 5 of 5 (PDF)",
+      "local_filename": "deir_appendix_k2_part_5_of_5.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k3",
+      "document_center_id": 536,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K3 - Former Brisbane Landfill Closure Plan and Post Closure Maintenance Plan (PDF)",
+      "local_filename": "deir_appendix_k3.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k4",
+      "document_center_id": 568,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K4 - OU-SM Approval Record (PDF)",
+      "local_filename": "deir_appendix_k4.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k5",
+      "document_center_id": 567,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K5 - OU-2 Approval Record (PDF)",
+      "local_filename": "deir_appendix_k5.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_k6",
+      "document_center_id": 564,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix K6 - Former Brisbane Landfill Closure Plan Approval Record (PDF)",
+      "local_filename": "deir_appendix_k6.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_l",
+      "document_center_id": 561,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix L - Sea Level Rise Technical Report (PDF)",
+      "local_filename": "deir_appendix_l.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_m1",
+      "document_center_id": 556,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix M1 - Geotechnical Report (Western Portion of the Baylands) (PDF)",
+      "local_filename": "deir_appendix_m1.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_m2",
+      "document_center_id": 550,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix M2 - Geotechnical Report (Eastern Portion of the Baylands) (PDF)",
+      "local_filename": "deir_appendix_m2.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_m3",
+      "document_center_id": 551,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix M3 - Paleontological Resource Report (PDF)",
+      "local_filename": "deir_appendix_m3.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_n1",
+      "document_center_id": 549,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix N1 - Police Protection Facilities Plan (PDF)",
+      "local_filename": "deir_appendix_n1.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_n2",
+      "document_center_id": 546,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix N2 - Fire Protection Services Plan (PDF)",
+      "local_filename": "deir_appendix_n2.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_o",
+      "document_center_id": 544,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix O - Wind Analysis (PDF)",
+      "local_filename": "deir_appendix_o.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_appendix_p",
+      "document_center_id": 540,
+      "landing_page_key": "draft_eir",
+      "role": "model_corpus",
+      "expected_label": "Appendix P - Water Supply Assessment (PDF)",
+      "local_filename": "deir_appendix_p.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "feir_volume_4",
+      "document_center_id": 2977,
+      "landing_page_key": "final_eir",
+      "role": "curator_only_response_source",
+      "expected_label": "Final Environmental Impact Report Volume 4 - Response to Comments on the DEIR (Chapters 11-13)",
+      "local_filename": "feir_volume_4.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0570",
+      "document_center_id": 570,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "6-6-2025 - San Mateo County Economic Development Association (PDF)",
+      "local_filename": "deir_comment_document_0570.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0572",
+      "document_center_id": 572,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "6-11-2025 - Peninsula For Everyone (PDF)",
+      "local_filename": "deir_comment_document_0572.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0573",
+      "document_center_id": 573,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "6-12-2025 - Lacsamana N (PDF)",
+      "local_filename": "deir_comment_document_0573.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0574",
+      "document_center_id": 574,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "6-12-2025 - Peninsula For Everyone (PDF)",
+      "local_filename": "deir_comment_document_0574.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0575",
+      "document_center_id": 575,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "7-16-2025 - Lopipero-Langmo P (PDF)",
+      "local_filename": "deir_comment_document_0575.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0576",
+      "document_center_id": 576,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "7-17-2025 - Basa T (PDF)",
+      "local_filename": "deir_comment_document_0576.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0577",
+      "document_center_id": 577,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "7-17-2025 - Saul-Gershenz L (PDF)",
+      "local_filename": "deir_comment_document_0577.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0571",
+      "document_center_id": 571,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "7-25-2025 - Bayshore Sanitary District (PDF)",
+      "local_filename": "deir_comment_document_0571.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0578",
+      "document_center_id": 578,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "8-3-2025 - Mills S (PDF)",
+      "local_filename": "deir_comment_document_0578.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0597",
+      "document_center_id": 597,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "8-13-2025 - Housing Leadership Council of San Mateo County, Bay Area Council, Housing Action Coalition (PDF)",
+      "local_filename": "deir_comment_document_0597.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0579",
+      "document_center_id": 579,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "8-15-2025 - Local Agency Formation Commission (PDF)",
+      "local_filename": "deir_comment_document_0579.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0580",
+      "document_center_id": 580,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "8-16-2025 - CA Native Plant Society, Yerba Buena Chapter (PDF)",
+      "local_filename": "deir_comment_document_0580.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0581",
+      "document_center_id": 581,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "8-21-2025 - CA Water Boards, State Water Resources Control Board (PDF)",
+      "local_filename": "deir_comment_document_0581.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0582",
+      "document_center_id": 582,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "8-29-2025 - CA Department of Fish and Wildlife, Bay Delta Region (PDF)",
+      "local_filename": "deir_comment_document_0582.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0585",
+      "document_center_id": 585,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "8-29-2025 - Caltrain (PDF)",
+      "local_filename": "deir_comment_document_0585.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0583",
+      "document_center_id": 583,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "8-29-2025 - CA High-Speed Rail Authority (PDF)",
+      "local_filename": "deir_comment_document_0583.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0584",
+      "document_center_id": 584,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "8-29-2025 - Golden Gate Bird Alliance (PDF)",
+      "local_filename": "deir_comment_document_0584.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0598",
+      "document_center_id": 598,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9/2/2025 - Sierra Club Bay Alive, Loma Prieta Ch., SF Bay Citizens Co. to Complete Future, Green Foothills, San Mateo County Bird Alliance (PDF)",
+      "local_filename": "deir_comment_document_0598.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0588",
+      "document_center_id": 588,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - Caltrans, Distract 4, Office of Regional and Community Planning (PDF)",
+      "local_filename": "deir_comment_document_0588.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0586",
+      "document_center_id": 586,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - City of Brisbane, Complete Streets Safety Committee (PDF)",
+      "local_filename": "deir_comment_document_0586.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0587",
+      "document_center_id": 587,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - City of Brisbane, Open Space and Ecology Committee (OSEC) (PDF)",
+      "local_filename": "deir_comment_document_0587.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0593",
+      "document_center_id": 593,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - Florkowski C (PDF)",
+      "local_filename": "deir_comment_document_0593.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0591",
+      "document_center_id": 591,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - Greenbelt Alliance (PDF)",
+      "local_filename": "deir_comment_document_0591.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0594",
+      "document_center_id": 594,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - Johnson C (PDF)",
+      "local_filename": "deir_comment_document_0594.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0589",
+      "document_center_id": 589,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - Recology San Francisco (PDF)",
+      "local_filename": "deir_comment_document_0589.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0590",
+      "document_center_id": 590,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - San Bruno Mountain Watch (PDF)",
+      "local_filename": "deir_comment_document_0590.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0595",
+      "document_center_id": 595,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - San Francisco Planning Department 313.78 KB (PDF)",
+      "local_filename": "deir_comment_document_0595.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0596",
+      "document_center_id": 596,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - SFPUC Water Enterprise 6.05 MB (PDF)",
+      "local_filename": "deir_comment_document_0596.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_comment_document_0592",
+      "document_center_id": 592,
+      "landing_page_key": "deir_comments",
+      "role": "curator_qa_original_submission",
+      "expected_label": "9-2-2025 - YIMBY Law (PDF)",
+      "local_filename": "deir_comment_document_0592.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_01",
+      "document_center_id": 534,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "01 - Table of Contents (PDF)",
+      "local_filename": "deir_chapter_duplicate_01.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_02",
+      "document_center_id": 535,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "02 - Executive Summary (PDF)",
+      "local_filename": "deir_chapter_duplicate_02.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_03",
+      "document_center_id": 531,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "03 - Chapter 1 - Introduction (PDF)",
+      "local_filename": "deir_chapter_duplicate_03.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_04",
+      "document_center_id": 524,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "04 - Chapter 2 - General Environmental and Planning Context (PDF)",
+      "local_filename": "deir_chapter_duplicate_04.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_05",
+      "document_center_id": 520,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "05 - Chapter 3 - Project Description (PDF)",
+      "local_filename": "deir_chapter_duplicate_05.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_06",
+      "document_center_id": 525,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "06 - Section 4-1 Introduction to the Analysis (PDF)",
+      "local_filename": "deir_chapter_duplicate_06.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_07",
+      "document_center_id": 517,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "07 - Section 4-2 Effects Found Not to be Significant and Dismissed from Further Review (PDF)",
+      "local_filename": "deir_chapter_duplicate_07.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_08",
+      "document_center_id": 513,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "08 - Section 4-3 Land Use and Planning Policies (PDF)",
+      "local_filename": "deir_chapter_duplicate_08.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_09",
+      "document_center_id": 510,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "09 - Section 4-4 Population and Housing (PDF)",
+      "local_filename": "deir_chapter_duplicate_09.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_10",
+      "document_center_id": 506,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "10 - Section 4-5 Aesthetics and Visual Resources (PDF)",
+      "local_filename": "deir_chapter_duplicate_10.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_11",
+      "document_center_id": 505,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "11 - Section 4-6 Biological Resources (PDF)",
+      "local_filename": "deir_chapter_duplicate_11.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_12",
+      "document_center_id": 2659,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "12 - Section 4-7 Cultural Resources and Tribal Cultural Resources",
+      "local_filename": "deir_chapter_duplicate_12.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_13",
+      "document_center_id": 532,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "13 - Section 4-8 Transportation (PDF)",
+      "local_filename": "deir_chapter_duplicate_13.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_14",
+      "document_center_id": 528,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "14 - Section 4-9 Air Quality (PDF)",
+      "local_filename": "deir_chapter_duplicate_14.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_15",
+      "document_center_id": 526,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "15 - Section 4-10 Greenhouse Gas Emissions (PDF)",
+      "local_filename": "deir_chapter_duplicate_15.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_16",
+      "document_center_id": 521,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "16 - Section 4-11 Energy Resources (PDF)",
+      "local_filename": "deir_chapter_duplicate_16.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_17",
+      "document_center_id": 518,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "17 - Section 4-12 Noise and Vibration (PDF)",
+      "local_filename": "deir_chapter_duplicate_17.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_18",
+      "document_center_id": 519,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "18 - Section 4-13 Hazards and Hazardous Materials (PDF)",
+      "local_filename": "deir_chapter_duplicate_18.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_19",
+      "document_center_id": 514,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "19 - Section 4-14 Hydrology and Water Quality (PDF)",
+      "local_filename": "deir_chapter_duplicate_19.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_20",
+      "document_center_id": 511,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "20 - Section 4-15 Geology, Soils, and Seismicity (PDF)",
+      "local_filename": "deir_chapter_duplicate_20.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_21",
+      "document_center_id": 507,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "21 - Section 4-16 Utilities, Service Systems, and Water Supply (PDF)",
+      "local_filename": "deir_chapter_duplicate_21.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_22",
+      "document_center_id": 508,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "22 - Section 4-17 Public Services and Facilities (PDF)",
+      "local_filename": "deir_chapter_duplicate_22.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_24",
+      "document_center_id": 533,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "24 - Section 4-19 Wildland Fire (PDF)",
+      "local_filename": "deir_chapter_duplicate_24.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_25",
+      "document_center_id": 529,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "25 - Section 4-20 Significant Unavoidable Environmental Effects (PDF)",
+      "local_filename": "deir_chapter_duplicate_25.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_26",
+      "document_center_id": 527,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "26 - Section 4-21 Program EIR Mitigation Measures (PDF)",
+      "local_filename": "deir_chapter_duplicate_26.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_27",
+      "document_center_id": 522,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "27 - Chapter 5 - Irreversible Environmental Effects (PDF)",
+      "local_filename": "deir_chapter_duplicate_27.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_28",
+      "document_center_id": 523,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "28 - Chapter 6 - Growth Inducing Effects (PDF)",
+      "local_filename": "deir_chapter_duplicate_28.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_29",
+      "document_center_id": 515,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "29 - Chapter 7 - Cumulative Environmental Effects (PDF)",
+      "local_filename": "deir_chapter_duplicate_29.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_30",
+      "document_center_id": 516,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "30 - Chapter 8 - Alternatives (PDF)",
+      "local_filename": "deir_chapter_duplicate_30.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_31",
+      "document_center_id": 512,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "31 - Chapter 9 - Subsequent EIR Analysis (PDF)",
+      "local_filename": "deir_chapter_duplicate_31.pdf",
+      "warnings": []
+    },
+    {
+      "source_id": "deir_chapter_duplicate_32",
+      "document_center_id": 509,
+      "landing_page_key": "draft_eir",
+      "role": "recovery_qa_duplicate",
+      "expected_label": "32 - Chapter 10 - EIR Preparation Staff and Resources (PDF)",
+      "local_filename": "deir_chapter_duplicate_32.pdf",
+      "warnings": []
+    }
+  ]
+}

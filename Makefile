@@ -4,13 +4,16 @@ ENV_FILE := .env
 -include $(ENV_FILE)
 export ER_COMMONS_DATA_ROOT
 
-.PHONY: help bootstrap sync check-env data-dirs about paths format format-check lint lint-fix type test check fix
+.PHONY: help bootstrap sync check-env data-dirs about paths freeze-brisbane-sources \
+	verify-brisbane-sources format format-check lint lint-fix type test check fix
 
 help:
 	@echo "ER Commons commands:"
 	@echo "  make bootstrap   Install dependencies and create external data directories"
 	@echo "  make about       Describe the current project scope"
 	@echo "  make paths       Show the configured external data/artifact paths"
+	@echo "  make freeze-brisbane-sources  Freeze the reviewed Brisbane source release"
+	@echo "  make verify-brisbane-sources  Verify the frozen release without network access"
 	@echo "  make fix         Apply lint and formatting fixes"
 	@echo "  make check       Run formatting, linting, types, and tests"
 
@@ -33,6 +36,14 @@ about: check-env
 
 paths: check-env
 	uv run er-commons paths
+
+freeze-brisbane-sources: check-env
+	uv run er-commons sources freeze \
+		--spec configs/brisbane_baylands_2025_deir_sources_v1.json
+
+verify-brisbane-sources: check-env
+	uv run er-commons sources verify \
+		--spec configs/brisbane_baylands_2025_deir_sources_v1.json
 
 format:
 	uv run ruff format .

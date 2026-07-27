@@ -5,9 +5,14 @@ description = "Small, reproducible glue workflows for environmental-review data 
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "beautifulsoup4>=4.13,<5",
+    "pikepdf>=10,<11",
     "pydantic>=2.12,<3",
     "pydantic-settings>=2.12,<3",
+    "pypdf>=6,<7",
+    "requests>=2.32,<3",
     "typer>=0.21,<1",
+    "urllib3>=2,<3",
 ]
 
 [project.scripts]

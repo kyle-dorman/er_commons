@@ -185,6 +185,125 @@ Review the completed implementation and artifacts through these lenses:
   checksum mismatches, and malformed PDFs produce recoverable evidence and
   cannot masquerade as a successful freeze.
 
+## Implementation plan
+
+Frozen 2026-07-24 before source acquisition.
+
+### Release and layout
+
+The immutable release ID is
+`brisbane_baylands_2025_deir_sources_v1`. Its root is:
+
+```text
+datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/
+  sources/
+    model_corpus/
+    curator_only_response_source/
+    curator_qa_original_submission/
+    recovery_qa_duplicate/
+  landing_pages/
+  records/
+    source_manifest.json
+    acquisition_record.json
+    completion_record.json
+    landing_page_inventory.json
+    visible_terms_note.md
+  logs/
+```
+
+All paths stored in records are relative to `ER_COMMONS_DATA_ROOT`. Stable
+source IDs are semantic lowercase identifiers, such as `deir_main`,
+`deir_appendix_k2_part_2`, `deir_comment_document_0570`, and `feir_volume_4`;
+landing-page order and City Document Center IDs are preserved separately and
+never define identity.
+
+The manifest is one versioned JSON document containing release metadata,
+landing-page records, source records, role aggregates, warnings, and the
+source-specification checksum. Each source record contains the fields required
+under Outputs above. The acquisition record contains the exact command,
+software versions, source-specification identity, aggregate counts, landing
+page provenance, and warnings. The landing-page inventory materializes every
+link label, position, Document Center ID, URL, selection disposition, stable
+source ID, and role from the saved snapshots. A completion record is published
+last and seals the manifest, acquisition record, ordered inventory, and
+visible-terms note with SHA-256 and byte size; offline verification requires
+all five records.
+
+### Inventory and role checks
+
+The reviewed source specification lives at
+`configs/brisbane_baylands_2025_deir_sources_v1.json`. It is authoritative for
+stable IDs, expected City Document Center IDs, roles, local filenames, and
+which live links belong to the release. The live pages remain authoritative
+for official labels, ordering, linked URLs, and change detection. Acquisition
+stops unless the specification and live links reconcile exactly.
+
+Expected completeness is one complete main report plus every original Draft
+EIR appendix as `model_corpus`, every separately published Draft EIR chapter
+as `recovery_qa_duplicate`, every PDF on the official comments page as
+`curator_qa_original_submission`, and exactly Final EIR Volume 4 as
+`curator_only_response_source`. The exact counts are frozen only after the
+reviewed inventory resolves the Draft page's Appendix K2 label anomaly.
+Revised Final-EIR volumes, Volume 5, Final-EIR appendices and notices, and
+Draft-page notices or FAQs are rejected by the role checks.
+
+The live reconciliation found that the Draft page omits K2 part 2 and labels
+two distinct links as part 5. On 2026-07-24 the user approved a narrow repair:
+use Final-EIR Document Center record 2965 for K2 part 2, use Draft-EIR record
+537 for K2 part 5, and treat Draft record 569 as the duplicate/mislabeled
+landing-page slot. The repaired part retains `model_corpus` role but must carry
+a machine-readable `source_edition_override` warning and its Final-EIR landing
+page provenance. Later response screening must flag any candidate whose
+evidence depends on this part for explicit review. This exception does not
+authorize any other Final-EIR appendix substitution.
+
+### Retrieval and publication behavior
+
+Requests streams each GET through a client with explicit connect/read
+timeouts, bounded GET-only urllib3 retries, exponential backoff, `Retry-After`
+support, redirect history, and a project user agent. Downloads go to a unique
+same-directory `.part` file while SHA-256 and byte size are calculated. A
+successful response must have a PDF signature, open with the selected
+validators, have a positive page count, and complete or explicitly warn on
+structural checks before an atomic same-filesystem no-clobber publication.
+Failures remove only the temporary file.
+
+A matching existing final file is checksummed, validated, and reused. A
+mismatch, changed live inventory, unexpected redirect host, malformed PDF,
+incomplete response, or conflicting final path stops the release. Existing
+files are never overwritten. A missing source may be retrieved only during
+freeze mode; verify mode is network-free and requires every manifest artifact
+to exist and validate.
+
+Landing pages and the visible copyright page are fetched, checksummed, and
+saved before source retrieval after their inventories reconcile. Their linked
+and final URLs, redirect histories, access times, and response metadata are
+recorded just like the PDF provenance.
+
+### Packages and commands
+
+Requests plus urllib3 provide streaming, redirects, response metadata, and a
+declarative bounded retry policy with less project code than `urllib.request`
+or HTTPX plus a separate retry layer. Beautiful Soup provides maintained HTML
+parsing rather than selector logic built on regular expressions. Pikepdf
+provides page counts plus structural and stream checks. Strict pypdf parsing is
+a recorded fallback for a published PDF that Poppler and pypdf can open but
+pikepdf rejects; the fallback never erases the primary validator's warning.
+Standard library `hashlib` supplies streaming SHA-256. This mirrors BagIt's
+completeness, relative-path containment, and checksum-validation invariants
+without implementing a BagIt package.
+
+The live and verification commands are:
+
+```bash
+make freeze-brisbane-sources
+make verify-brisbane-sources
+```
+
+They wrap the package-backed CLI and the reviewed specification. Generated
+artifacts remain below the release root above; no source bytes or generated
+records enter Git.
+
 ## Validation
 
 - Unit-test source-role validation, stable IDs, manifest serialization,
@@ -260,3 +379,85 @@ git diff --check
 - publication, bulk redistribution, or a legal reuse determination
 - a general CEQA crawler, downloader framework, cloud sync, backup system, or
   remote-compute layout
+
+## Outcome
+
+Completed 2026-07-24. The package-backed source workflow froze and independently
+verified `brisbane_baylands_2025_deir_sources_v1` below:
+
+```text
+/Volumes/x10pro/er_commons/datasets/ceqa/raw/brisbane_baylands/
+  brisbane_baylands_2025_deir_sources_v1/
+```
+
+The release contains 96 unique PDFs totaling 1,630,758,324 bytes and 51,407
+pages:
+
+| Source role | Files | Bytes | Pages |
+| --- | ---: | ---: | ---: |
+| `model_corpus` | 35 | 1,519,926,399 | 48,341 |
+| `curator_only_response_source` | 1 | 9,217,817 | 744 |
+| `curator_qa_original_submission` | 29 | 26,338,011 | 272 |
+| `recovery_qa_duplicate` | 31 | 75,276,097 | 2,050 |
+
+The reviewed configuration reconciles every Document Center link on the
+[Draft EIR](https://www.brisbaneca.gov/237/2025-Draft-EIR),
+[comments](https://www.brisbaneca.gov/570/2025-DEIR-Comments), and
+[Final EIR](https://www.brisbaneca.gov/774/2026-Final-EIR) pages. All 140 live
+PDF links returned directly without HTTP redirects. The manifest accounts for
+excluded notices, Final-EIR material, and the duplicate Draft K2 link rather
+than silently omitting them. The ordered landing-page inventory preserves all
+140 labels and positions with 96 selected and 44 explicitly excluded links.
+
+The City Draft page omitted Appendix K2 part 2 and linked two records labeled
+part 5. The user approved a narrow documented repair: model-corpus K2 part 2 is
+Final-EIR record 2965 (70,207,279 bytes, 1,048 pages), while part 5 is Draft
+record 537 (43,974,745 bytes, 2,328 pages). Part 2 carries a
+`source_edition_override` warning. Task 03 must propagate that flag into
+page-usability records, and later response/case screening must explicitly
+review any case whose evidence depends on that part.
+
+Every acquired file has a stable ID, role, official and resolved URL, UTC
+access time, HTTP metadata, contained relative path, original filename,
+SHA-256, byte size, delivered and detected type, PDF signature, positive page
+count, validation status, warnings, and terms-note reference. Sixteen records
+had parser-repair warnings; a seventeenth carries only the K2 provenance
+override. The two-page chapter duplicate `deir_chapter_duplicate_07` is
+readable by Poppler and strict pypdf but lacks the `/Root` dictionary pikepdf
+expects, so the manifest preserves the primary-validator failure and fallback.
+Most remaining warnings are low-level repaired-object diagnostics, dominated
+by K2 part 4, and remain attached to their source records.
+
+The final completion record hashes the manifest, acquisition record, ordered
+landing-page inventory, and terms note and is published only after those
+required records exist. The network-free verifier requires that marker and
+validates all sealed checksums, so a crash between record writes cannot
+masquerade as a completed release.
+
+Requests and urllib3 reduced custom streaming and retry code; Beautiful Soup
+owns HTML parsing; pikepdf and strict pypdf own PDF parsing; `hashlib` owns
+streaming SHA-256. The workflow mirrors [RFC
+8493](https://www.rfc-editor.org/rfc/rfc8493.html) completeness, relative-path,
+and checksum invariants without implementing BagIt. The practical lessons are:
+public availability is access provenance rather than a reuse license; linked
+URL, resolved URL, and checksum are distinct source-identity evidence; and
+mechanical roles keep duplicate and curator-only material outside the model
+corpus.
+
+The visible-terms note records the saved
+[Copyright Notices](https://www.brisbaneca.gov/copyright) page without making
+a reuse conclusion. No PDF, page snapshot, partial download, or generated
+release record exists in Git. Validation passed:
+
+```text
+make fix
+make check
+make freeze-brisbane-sources
+make verify-brisbane-sources
+git diff --check
+```
+
+The precise Task 03 input is `records/source_manifest.json` in the release
+above, filtered to the 35 `model_corpus` records and pinned to their recorded
+checksums. Task 03 should write the bounded canonical-extraction contract
+before installing or running Docling; no extraction began in this task.

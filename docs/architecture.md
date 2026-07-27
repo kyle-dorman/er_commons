@@ -26,9 +26,13 @@ tests/                   # Fast tests for project-owned glue and contracts
 docs/ and tasks/         # Routing, decisions, plans, and execution contracts
 ```
 
-The initial CLI uses the Python standard library deliberately. It exposes the
-artifact root but does not create pipeline behavior. A later task should choose
-a maintained library only if it materially improves a concrete command.
+The initial CLI exposes the artifact root. Task 02 added a `sources` command
+group backed by Requests and urllib3 for bounded streaming and retries,
+Beautiful Soup for landing-page reconciliation, pikepdf for structural PDF
+validation, strict pypdf as a recorded fallback for recoverable published-file
+defects, and standard-library `hashlib` for SHA-256. The project code owns the
+typed source specification, role isolation, no-clobber publication, manifest,
+and verification contracts rather than reimplementing those packages.
 
 For the accepted Brisbane vertical slice, the planned implementation stack is
 Docling for conversion, Label Studio Community for human review, BM25S for the
@@ -55,9 +59,10 @@ resolved model digest in its artifacts.
       runs/              # Evaluation outputs keyed by benchmark version/run
 ```
 
-The currently created root contains only empty `datasets/ceqa`, `pipelines`,
-and `benchmarks/er_bench` directories. Create deeper folders only when a task
-defines what they contain; record their source and schema in a manifest.
+Task 02 populated the versioned Brisbane release below
+`datasets/ceqa/raw/brisbane_baylands/`; its generated source manifest owns the
+exact contents and schema. Create other deeper folders only when a task defines
+what they contain and records their source and schema in a manifest.
 
 ## Configuration and paths
 

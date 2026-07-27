@@ -12,7 +12,7 @@ Data and generated artifacts live outside the repository at:
 /Volumes/x10pro/er_commons
 ```
 
-The root currently contains these deliberately empty entry points:
+The root contains these entry points:
 
 ```text
 datasets/ceqa/
@@ -22,8 +22,17 @@ benchmarks/er_bench/
 
 `ER_COMMONS_DATA_ROOT` must be explicitly set in the local, untracked `.env`.
 There is no code default. `make bootstrap` validates the setting and creates the
-three documented entry-point directories. Do not create or populate deeper data
-folders until the task defines their role. [Decision
+three documented entry-point directories. Task 02 created the first deeper
+versioned release:
+
+```text
+datasets/ceqa/raw/brisbane_baylands/
+  brisbane_baylands_2025_deir_sources_v1/
+```
+
+Its `sources/`, `landing_pages/`, and `records/` contents are immutable,
+manifested external artifacts. Do not create other deeper data folders until
+their owning task defines the role. [Decision
 002](decisions/002_external_ssd_artifact_root.md) records why this local MVP
 uses the external SSD.
 
