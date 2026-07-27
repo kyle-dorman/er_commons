@@ -478,7 +478,27 @@ too large or new evidence creates a distinct decision or validation boundary.
 2. **Task 03 — Build the canonical Draft EIR extraction.** Pin Docling and its
    configuration; produce canonical document, section, page, block, table,
    figure, image, page-render, and cross-reference records with version-scoped
-   deterministic IDs.
+   deterministic IDs. At the user's request, this large stage is split into
+   eight stop-and-review contracts:
+   - [Task 03A](../../tasks/sprint2/03a_validate_document_parser.md): validate
+     Docling, the native-only configuration, and structural failure modes;
+   - [Task 03B](../../tasks/sprint2/03b_define_canonical_extraction_contract.md):
+     define extraction versioning, schemas, provenance, coordinates, and IDs;
+   - [Task 03C](../../tasks/sprint2/03c_build_single_document_conversion.md):
+     build atomic raw conversion for one manifest-selected document;
+   - [Task 03D](../../tasks/sprint2/03d_materialize_canonical_records.md):
+     materialize core canonical records from preserved raw output;
+   - [Task 03E](../../tasks/sprint2/03e_build_hierarchy_and_cross_references.md):
+     derive hierarchy, printed labels, and cross-reference candidates;
+   - [Task 03F](../../tasks/sprint2/03f_make_extraction_restartable.md): add
+     restartable, resource-bounded corpus orchestration;
+   - [Task 03G](../../tasks/sprint2/03g_run_representative_extraction_pilot.md):
+     run the full-document production pilot, rehearse the human-usability
+     review, and freeze its configuration and review method; and
+   - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
+     all 35 sources and publish the candidate extraction for Task 04.
+   Only Task 03A is active. The later contracts are provisional and must be
+   revised from each accepted preceding outcome before activation.
 3. **Task 04 — Review usability and freeze extraction v1.** Run automated
    integrity checks and representative visual QA; review every excluded page
    or document; publish the page-level usability registry and frozen extraction

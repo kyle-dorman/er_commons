@@ -11,16 +11,20 @@ This section is the source of record for the current sprint and active task.
 Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
 task. Sprint 2 is current. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) completed the
-versioned source freeze, and no numbered task is currently active.
+versioned source freeze. [Task
+03A](../tasks/sprint2/03a_validate_document_parser.md) is active and will
+validate Docling plus the native-only extraction configuration on a
+representative structural pilot.
 
 The accepted benchmark contract is `benchmarks/er_bench/sprint1.md`; the
 durable rationale is
 [Decision 001](decisions/001_brisbane_draft_eir_defense_benchmark.md).
-Sprint 2 is the smallest source-to-evaluation vertical slice. The next action
-is to write the bounded Task 03 canonical-extraction contract from Task 02's
-frozen manifest and outcome. Its provisional position is recorded in the
-[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md); later detailed
-task contracts are still created one at a time immediately before execution.
+Sprint 2 is the smallest source-to-evaluation vertical slice. At the user's
+request, the large canonical-extraction stage is decomposed into Task 03A
+through Task 03H in the
+[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Only Task 03A
+is active. Task 03B through Task 03H are provisional learning and execution
+contracts that must be revised from each preceding outcome before activation.
 
 ## Document roles
 

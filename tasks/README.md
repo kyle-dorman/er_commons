@@ -9,6 +9,11 @@ read only that task and the documents it names. If no task is active, use the
 current sprint plan to write the next bounded contract before implementation.
 Do not scan every historical task to begin work.
 
+When a user explicitly requests that one large stage be decomposed in advance,
+later subtask files may be written as provisional contracts. Mark them
+provisional, keep only the first subtask active, and revise each next contract
+from the accepted preceding outcome before execution.
+
 ## Ownership
 
 - `docs/todo.md` owns current task order and status.
