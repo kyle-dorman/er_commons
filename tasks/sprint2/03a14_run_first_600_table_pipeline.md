@@ -1,6 +1,6 @@
 # Task 03A.14: Run the Unified Table Pipeline on Pages 1-600
 
-Status: **completed 2026-07-28; provisionally accepted pending cross-document validation**.
+Status: **completed 2026-07-28; accepted within its first-600-page G3 scope**.
 
 ## Abstract
 

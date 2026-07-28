@@ -25,7 +25,7 @@ import re
 import time
 import unicodedata
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import camelot
 import cv2
@@ -38,6 +38,7 @@ NUMERIC_CELL = re.compile(
     r"(?:[eE][+\-]?\d+)?(?:\s*[%a-zA-Z/³².-]+)?[\s*†‡]*$"
 )
 COORDINATE_KEY = re.compile(r"\b\d{6}\.\d+_\d{7}\.\d+_?")
+ExplicitRoute = Literal["full_page_numeric", "layout_regions"]
 
 
 def sha256_file(path: Path) -> str:
@@ -269,6 +270,8 @@ def parse_complex_page(
     page_number: int,
     ruled_regions: list[dict[str, Any]],
     config: dict[str, Any],
+    *,
+    include_network: bool = True,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Parse ruled grids precisely, then add unexplained borderless regions."""
     started = time.perf_counter()
@@ -330,13 +333,17 @@ def parse_complex_page(
             }
         )
 
-    network_tables = list(
-        camelot.read_pdf(  # type: ignore[attr-defined]
-            pdf_path,
-            pages=str(page_number),
-            flavor="network",
-            suppress_stdout=False,
+    network_tables = (
+        list(
+            camelot.read_pdf(  # type: ignore[attr-defined]
+                pdf_path,
+                pages=str(page_number),
+                flavor="network",
+                suppress_stdout=False,
+            )
         )
+        if include_network
+        else []
     )
     network_decisions = []
     for table in network_tables:
@@ -479,8 +486,12 @@ def extract_page(
     detection: dict[str, Any],
     cleanup: dict[str, Any],
     output_dir: Path,
+    *,
+    route_mode: ExplicitRoute | None = None,
+    layout_regions: list[list[float]] | None = None,
+    table_id_prefix: str = "g3",
 ) -> dict[str, Any]:
-    """Extract one page directly or reuse its completed result."""
+    """Extract one page using an explicit route or the legacy ruling-line router."""
     result_path = output_dir / "result.json"
     if result_path.exists():
         return dict(json.loads(result_path.read_text()))
@@ -518,7 +529,30 @@ def extract_page(
     )
 
     complex_page = len(ruled_regions) >= int(detection["complex_page_minimum_regions"])
-    if complex_page:
+    if route_mode == "full_page_numeric":
+        route = "full_page_numeric"
+        candidates, parser_evidence = parse_simple_page(pdf_path, page_number)
+    elif route_mode == "layout_regions":
+        if not layout_regions:
+            raise ValueError("layout_regions route requires at least one table region")
+        routed_regions = [
+            {
+                "region_id": f"layout_{index:03d}",
+                "bbox_pdf_points_bottom_left": box,
+            }
+            for index, box in enumerate(layout_regions, start=1)
+        ]
+        route = "layout_regions"
+        candidates, parser_evidence = parse_complex_page(
+            pdf_path,
+            page_number,
+            routed_regions,
+            detection,
+            include_network=False,
+        )
+    elif route_mode is not None:
+        raise ValueError(f"unsupported explicit table route: {route_mode}")
+    elif complex_page:
         route = "complex_segmented"
         candidates, parser_evidence = parse_complex_page(
             pdf_path,
@@ -543,7 +577,7 @@ def extract_page(
     }
     scale = float(detection["render_scale"])
     for index, candidate in enumerate(candidates, start=1):
-        table_id = f"g3_p{page_number:05d}_t{index:03d}"
+        table_id = f"{table_id_prefix}_p{page_number:05d}_t{index:03d}"
         table_dir = table_root / table_id
         table_dir.mkdir()
         table = candidate.pop("table")
@@ -617,6 +651,7 @@ def extract_page(
         "schema_version": "1.0.0",
         "physical_pdf_page": page_number,
         "route": route,
+        "route_requested": route_mode,
         "complex_page": complex_page,
         "page_size_pdf_points": [page_width, page_height],
         "ruling_region_count": len(ruled_regions),

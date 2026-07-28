@@ -11,6 +11,7 @@ from pydantic import ValidationError
 from er_commons.table_extraction.models import (
     FIRST_600_PAGES,
     REVIEW_SAMPLE_PAGES,
+    TableExtractionConfig,
     load_config,
 )
 
@@ -35,7 +36,7 @@ def test_task03a13_config_rejects_scope_expansion(tmp_path: Path) -> None:
     payload["physical_pdf_pages"] = list(range(1, 601))
     changed = tmp_path / "expanded.json"
     changed.write_text(json.dumps(payload))
-    with pytest.raises(ValidationError, match="exact reviewed physical pages"):
+    with pytest.raises(ValidationError, match="exact configured physical pages"):
         load_config(changed)
 
 
@@ -61,5 +62,31 @@ def test_first_600_scope_rejects_partial_range(tmp_path: Path) -> None:
     payload["physical_pdf_pages"] = payload["physical_pdf_pages"][:-1]
     changed = tmp_path / "partial.json"
     changed.write_text(json.dumps(payload))
-    with pytest.raises(ValidationError, match="exact reviewed physical pages"):
+    with pytest.raises(ValidationError, match="exact configured physical pages"):
         load_config(changed)
+
+
+def test_routed_scope_requires_matching_explicit_page_requests() -> None:
+    """A document router can select pages without weakening fixed review scopes."""
+    payload = json.loads(UNIFIED_CONFIG.read_text())
+    payload.update(
+        {
+            "validation_scope": "routed_pages",
+            "physical_pdf_pages": [1000],
+            "table_id_prefix": "appendix_g3",
+            "family_id_prefix": "appendix_g3_table",
+            "routed_pages": [
+                {
+                    "physical_pdf_page": 1000,
+                    "route": "full_page_numeric",
+                    "layout_regions_pdf_points_bottom_left": [],
+                }
+            ],
+        }
+    )
+    config = TableExtractionConfig.model_validate(payload)
+    assert config.routed_pages[0].route == "full_page_numeric"
+
+    payload["physical_pdf_pages"] = [999]
+    with pytest.raises(ValidationError, match="exact configured physical pages"):
+        TableExtractionConfig.model_validate(payload)

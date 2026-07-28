@@ -136,7 +136,7 @@ def artifact_inventory(root: Path, excluded: set[str]) -> dict[str, Any]:
 
 
 def run_table_extraction(data_root: Path, config_path: Path) -> Path:
-    """Run the fixed ten-page review sample and return its manifest."""
+    """Run one validated table-extraction request and return its manifest."""
     started = time.perf_counter()
     config, config_sha256 = load_config(config_path)
     table_environment = installed_table_environment()
@@ -166,16 +166,23 @@ def run_table_extraction(data_root: Path, config_path: Path) -> Path:
 
     page_results = []
     reused_page_count = 0
+    routed_by_page = {item.physical_pdf_page: item for item in config.routed_pages}
     for page in config.physical_pdf_pages:
         page_root = root / "pages" / f"page_{page:05d}"
         if (page_root / "result.json").exists():
             reused_page_count += 1
+        routed = routed_by_page.get(page)
         result = extract_page(
             source_path,
             page,
             config.detection.model_dump(mode="json"),
             config.cleanup.model_dump(mode="json"),
             page_root,
+            route_mode=routed.route if routed is not None else None,
+            layout_regions=(
+                routed.layout_regions_pdf_points_bottom_left if routed is not None else None
+            ),
+            table_id_prefix=config.table_id_prefix,
         )
         page_results.append(result)
         LOGGER.info(
@@ -213,7 +220,11 @@ def run_table_extraction(data_root: Path, config_path: Path) -> Path:
     if len({table["table_id"] for table in tables}) != len(tables):
         raise ValueError("logical table IDs are not unique")
 
-    assignments, families = assign_families(page_records, tables)
+    assignments, families = assign_families(
+        page_records,
+        tables,
+        family_id_prefix=config.family_id_prefix,
+    )
     if len(assignments) != len(tables) or len(
         {assignment["table_id"] for assignment in assignments}
     ) != len(tables):
@@ -263,6 +274,10 @@ def run_table_extraction(data_root: Path, config_path: Path) -> Path:
         "page_count": len(page_results),
         "simple_page_count": sum(page["route"] == "simple_stream" for page in page_results),
         "complex_page_count": sum(page["route"] == "complex_segmented" for page in page_results),
+        "full_page_numeric_count": sum(
+            page["route"] == "full_page_numeric" for page in page_results
+        ),
+        "layout_regions_count": sum(page["route"] == "layout_regions" for page in page_results),
         "logical_table_count": len(tables),
         "stream_table_count": sum(table["parser"] == "camelot_stream" for table in tables),
         "lattice_table_count": sum(table["parser"] == "camelot_lattice" for table in tables),
@@ -279,7 +294,11 @@ def run_table_extraction(data_root: Path, config_path: Path) -> Path:
             comparison["exact_semantic_match"] if comparison is not None else None
         ),
         "first_600_pages_ran": config.validation_scope == "first_600",
-        "review_status": "draft_awaiting_user_review",
+        "review_status": (
+            "component_complete"
+            if config.validation_scope == "routed_pages"
+            else "draft_awaiting_user_review"
+        ),
     }
     write_json_atomic(root / "summary.json", summary)
     write_json_atomic(

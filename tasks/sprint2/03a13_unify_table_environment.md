@@ -1,6 +1,6 @@
 # Task 03A.13: Unify the Table-Parsing Environment
 
-Status: **completed 2026-07-28; draft awaiting user code review**.
+Status: **completed 2026-07-28; accepted through Tasks 03A.14-03A.15**.
 
 ## Abstract
 
@@ -106,7 +106,8 @@ pipelines/brisbane_baylands/task_03a13_unified_table_pipeline_v1/
 - Only one OpenCV distribution is installed.
 - The comparison is exact or any differences are small, explicit, and
   understood.
-- The ten-page result remains a draft awaiting user review.
+- The ten-page result remained at its review boundary until the Task 03A.14
+  first-600 run and Task 03A.15 integration accepted it.
 - Pages 1-600 do not run.
 
 ## Non-goals

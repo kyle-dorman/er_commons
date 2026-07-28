@@ -61,3 +61,15 @@ def test_exact_headers_merge_adjacent_nonowners() -> None:
     assignments, families = assign_families(pages, tables)
     assert len({item["family_id"] for item in assignments}) == 1
     assert families[0]["evidence"] == ["exact_cleaned_header"]
+
+
+def test_family_prefix_is_source_scoped() -> None:
+    """Routed sources cannot collide while legacy G3 IDs remain the default."""
+    pages = [{"physical_pdf_page": 1, "footer": None, "footer_owner_table_id": None}]
+    assignments, families = assign_families(
+        pages,
+        [table("main_p00001_t001", 1, 1, [])],
+        family_id_prefix="main_table",
+    )
+    assert assignments[0]["family_id"] == "main_table_family_0001"
+    assert families[0]["family_id"] == "main_table_family_0001"

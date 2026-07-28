@@ -1,6 +1,6 @@
 # Task 03A.12: Rewrite the Table-Parsing Pipeline
 
-Status: **completed 2026-07-28; draft awaiting user code review**.
+Status: **completed 2026-07-28; accepted through Tasks 03A.13-03A.15**.
 
 ## Abstract
 
@@ -139,7 +139,8 @@ different evidence and that parser hypotheses are not logical table IDs.
 - Configuration owns thresholds and page selection.
 - The small run succeeds and its limitations are stated.
 - No 600-page run occurs.
-- The task stops with the draft awaiting user code review.
+- The task stopped at its review boundary and was later accepted through the
+  exact Task 03A.13 reproduction and Task 03A.14/03A.15 validations.
 
 ## Non-goals
 

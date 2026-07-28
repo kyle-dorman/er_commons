@@ -4,28 +4,102 @@
 
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
-Current active task: [Task
-03A](../tasks/sprint2/03a_validate_document_parser.md), validate the document
-parser and native-only extraction configuration. [Task
+Current active task: none. Task 03A is closed. Revise the provisional Task 03B
+contract before activating it.
+
+Most recently completed: [Task
+03A.15](../tasks/sprint2/03a15_rewrite_document_parser_pipeline.md) replaced
+the document-parser proof of concept, disabled TableFormer, and integrated the
+content router with the complete clean table pipeline. The final ten-page v4
+run had zero errors, matched every non-table range, produced the two expected
+table routes, preserved cleanup/footer/family behavior, and reduced measured
+Docling range time from 112.03 to 9.30 seconds. [Task
+03A.14](../tasks/sprint2/03a14_run_first_600_table_pipeline.md) completed the
+user-approved first-600-page validation of the clean unified table parser in
+19.66 minutes. It produced 681 logical tables and exactly matched the ten
+reviewed page/table regressions.
+[Task 03A.13](../tasks/sprint2/03a13_unify_table_environment.md) moved the clean
+table parser into one main uv environment and reproduced all stable Task
+03A.12 outputs exactly on the ten-page sample. Tasks 03A.14-03A.15 subsequently
+accepted that implementation.
+[Task
+03A.12](../tasks/sprint2/03a12_rewrite_table_pipeline.md) completed a clean
+table-stage draft and ten-page mixed-route test. It produced 89 logical tables,
+passed the full 72-test project check, and was accepted through the later
+reproduction and integration tasks. [Task
+03A.11](../tasks/sprint2/03a11_test_complex_page_segmentation.md) completed the
+fixed-parameter test on physical Appendix G3 pages 19, 273, and 592. It found
+4, 4, and 35 logical tables respectively, parsed every ruling-derived region,
+and was accepted through Task 03A.12. [Task
+03A.10](../tasks/sprint2/03a10_detect_complex_page_tables.md) automatically
+detected and parsed 34 ruled regions plus one unexplained borderless region on
+physical page 527.
+[Task
+03A.9](../tasks/sprint2/03a9_build_footer_aware_table_families.md) completed
+the footer-aware native pass. Four exact worksheet runs cover 582 pages, each
+footer belongs only to the last parser table on its page, and footer cleanup
+reduces the review-only proposal to 37 families. Page 527 table 2 through page
+591 is one 65-page run.
+[Task
+03A.8](../tasks/sprint2/03a8_cascade_cached_header_evidence.md) completed the
+cached cascade. Exact native header matrices passed 130 of 161 boundaries,
+recovering 60 beyond Task 03A.7 and reducing the review-only proposal to 62
+families. TableFormer uniquely added no passing boundary; no parser, renderer,
+or learned model reran.
+[Task
+03A.7](../tasks/sprint2/03a7_merge_table_families_with_tableformer.md)
+completed the first-600-page TableFormer edge pass. All 241 deduplicated crops
+and predictions succeeded. Exact non-empty nested headers merged 70 of 161
+eligible boundaries, reducing the review-only proposal from 192 to 122
+families without rerunning the fast parser.
+[Task
+03A.6](../tasks/sprint2/03a6_compare_nested_header_labels.md) completed the
+exact nested-label comparison. All four pages match, supporting a proposed
+merge of families 0014-0016 into pages 22-46 without leaf detection, spans,
+geometry, or a model rerun. The Task 03A.4 list remains historical exploratory
+evidence. [Task
+03A.5](../tasks/sprint2/03a5_test_tableformer_boundary_merge.md) completed the
+four-crop TableFormer test at the page 29/30 and 31/32 boundaries. Inference
+was fast and coarse shapes matched, but exact grouped-header spans differed at
+both boundaries, so the merge result is inconclusive and the Task 03A.4 list
+remains unchanged. [Task
+03A.4](../tasks/sprint2/03a4_pilot_contiguous_table_families.md) completed the
+fast-parser family pilot for G3 pages 1-600. Its unaccepted 192-family proposal
+is retained as exploratory evidence and was superseded by the footer-aware
+clean pipeline. [Task
+03A.3](../tasks/sprint2/03a3_classify_numeric_table_pages.md) completed the
+partial numeric-table classification without overwriting Task 03A.2. It
+classified 6,067 of 6,104 G3 pages as fast-route candidates, left 37
+general-path candidates, and preserved pages 525-526 as a reviewed run
+distinct from page 527. [Task
+03A.2](../tasks/sprint2/03a2_classify_table_dominant_pages.md) classified all
+6,104 Appendix G3 pages in 129 seconds and identified 4,408 table-dominant
+pages as conservative fast-route candidates. [Task
+03A.1](../tasks/sprint2/03a1_validate_table_extraction.md) completed the
+fast-table and accelerator comparison, found a provisional Lattice/Stream
+split, and rejected MPS.
+[Task 03A](../tasks/sprint2/03a_validate_document_parser.md) completed the
+native-only parser pilot and accepted the revised PyPdfium2-backed Docling
+candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Current next action: execute Task 03A only, explain the document-AI evidence and
-tradeoffs, and stop for user review. Task 03B through Task 03H are provisional
-contracts written at the user's request; revise the next one from the accepted
-preceding outcome before activating it.
+Current next action: revise Task 03B around the accepted ownership boundary
+before activation. Docling owns native text/layout/provenance; the reviewed
+router selects table work; the full clean table pipeline owns reconstruction,
+cleanup, footer ownership, and family assignment. Do not process pages
+601-6104 while revising that contract.
 
 ## Open queue
 
-1. Execute Task 03A and review the parser/configuration evidence.
-2. Continue through provisional Tasks 03B–03H one at a time: canonical
+1. Revise and then execute provisional Tasks 03B–03H one at a time: canonical
    contract, single-document conversion, core records, hierarchy and
    cross-references, restartable batching, production pilot, and full candidate
    extraction.
-3. Independently review usability and freeze extraction v1 in Task 04.
-4. Continue through response inventory, case authoring, and benchmark freezing
+2. Independently review usability and freeze extraction v1 in Task 04.
+3. Continue through response inventory, case authoring, and benchmark freezing
    using one bounded task at a time.
-5. Freeze human evaluation before BM25 retrieval, target generation, and judge
+4. Freeze human evaluation before BM25 retrieval, target generation, and judge
    calibration; finish with the primary test and oracle diagnostics.
 
 Sprint 2 scope, decisions, and provisional sequencing live in

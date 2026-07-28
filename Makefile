@@ -5,7 +5,7 @@ ENV_FILE := .env
 export ER_COMMONS_DATA_ROOT
 
 .PHONY: help bootstrap sync check-env data-dirs about paths freeze-brisbane-sources \
-	verify-brisbane-sources run-table-review run-table-first-600 \
+	verify-brisbane-sources run-document-review run-table-review run-table-first-600 \
 	format format-check lint lint-fix type test check fix
 
 help:
@@ -15,6 +15,7 @@ help:
 	@echo "  make paths       Show the configured external data/artifact paths"
 	@echo "  make freeze-brisbane-sources  Freeze the reviewed Brisbane source release"
 	@echo "  make verify-brisbane-sources  Verify the frozen release without network access"
+	@echo "  make run-document-review      Run the clean ten-page document parser"
 	@echo "  make run-table-review         Run or resume the ten-page table review"
 	@echo "  make run-table-first-600      Run or resume the first-600-page table validation"
 	@echo "  make fix         Apply lint and formatting fixes"
@@ -47,6 +48,9 @@ freeze-brisbane-sources: check-env
 verify-brisbane-sources: check-env
 	uv run er-commons sources verify \
 		--spec configs/brisbane_baylands_2025_deir_sources_v1.json
+
+run-document-review: check-env
+	uv run er-commons documents run-review
 
 run-table-review: check-env
 	uv run er-commons tables run-review

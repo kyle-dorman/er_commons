@@ -76,6 +76,8 @@ def headers_match(left: dict[str, Any], right: dict[str, Any]) -> bool:
 def assign_families(
     page_records: list[dict[str, Any]],
     tables: list[dict[str, Any]],
+    *,
+    family_id_prefix: str = "g3_table",
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Assign every logical table once using footer evidence before headers."""
     page_by_table = {str(table["table_id"]): int(table["physical_pdf_page"]) for table in tables}
@@ -131,7 +133,7 @@ def assign_families(
     family_by_table: dict[str, str] = {}
     families = []
     for number, (root, members) in enumerate(ordered_components, start=1):
-        family_id = f"g3_table_family_{number:04d}"
+        family_id = f"{family_id_prefix}_family_{number:04d}"
         members.sort(
             key=lambda table_id: (
                 page_by_table[table_id],

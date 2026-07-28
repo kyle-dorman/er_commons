@@ -7,6 +7,7 @@ from typing import Annotated
 
 import typer
 
+from er_commons.document_extraction import run_document_extraction
 from er_commons.settings import ProjectSettings, load_settings
 from er_commons.source_freeze import freeze_release, verify_release
 from er_commons.table_extraction import run_table_extraction
@@ -16,11 +17,16 @@ app = typer.Typer(
     no_args_is_help=True,
 )
 sources_app = typer.Typer(help="Acquire and verify immutable public source releases.")
+documents_app = typer.Typer(help="Extract native PDF structure into reviewable artifacts.")
 tables_app = typer.Typer(help="Extract native PDF tables into reviewable artifacts.")
 app.add_typer(sources_app, name="sources")
+app.add_typer(documents_app, name="documents")
 app.add_typer(tables_app, name="tables")
 
 DEFAULT_BRISBANE_SOURCE_SPEC = Path("configs/brisbane_baylands_2025_deir_sources_v1.json")
+DEFAULT_DOCUMENT_REVIEW_SPEC = Path(
+    "configs/brisbane_baylands_2025_deir_task03a15_document_pipeline_v4.json"
+)
 DEFAULT_TABLE_REVIEW_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03a13_unified_table_pipeline_v1.json"
 )
@@ -94,6 +100,24 @@ def verify_sources(
     typer.echo(f"files={manifest.aggregates['file_count']}")
     typer.echo(f"bytes={manifest.aggregates['byte_count']}")
     typer.echo(f"pages={manifest.aggregates['page_count']}")
+
+
+@documents_app.command("run-review")
+def run_document_review(
+    config: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Fixed ten-page document-extraction pipeline configuration.",
+        ),
+    ] = DEFAULT_DOCUMENT_REVIEW_SPEC,
+) -> None:
+    """Run the clean Task 03A parser and compare it with accepted JSON."""
+    manifest_path = run_document_extraction(load_settings().data_root, config)
+    typer.echo(f"pipeline_manifest={manifest_path}")
 
 
 @tables_app.command("run-review")

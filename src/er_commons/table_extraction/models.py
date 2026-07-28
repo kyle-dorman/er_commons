@@ -41,6 +41,25 @@ class CleanupConfig(BaseModel):
     minimum_numeric_cell_fraction_for_data_row: float = Field(ge=0, le=1)
 
 
+class RoutedPageConfig(BaseModel):
+    """One upstream-selected page and the evidence needed by its parser route."""
+
+    physical_pdf_page: int = Field(gt=0)
+    route: Literal["full_page_numeric", "layout_regions"]
+    layout_regions_pdf_points_bottom_left: list[list[float]] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def validate_route_evidence(self) -> RoutedPageConfig:
+        """Require bounded layout evidence only for the layout-region route."""
+        if self.route == "layout_regions" and not self.layout_regions_pdf_points_bottom_left:
+            raise ValueError("layout_regions route requires at least one region")
+        if self.route == "full_page_numeric" and self.layout_regions_pdf_points_bottom_left:
+            raise ValueError("full_page_numeric does not consume layout regions")
+        if any(len(box) != 4 for box in self.layout_regions_pdf_points_bottom_left):
+            raise ValueError("each layout region must contain four PDF coordinates")
+        return self
+
+
 class TableExtractionConfig(BaseModel):
     """Complete machine-readable clean table-pipeline contract."""
 
@@ -52,7 +71,10 @@ class TableExtractionConfig(BaseModel):
     expected_pdf_page_count: int = Field(gt=0)
     physical_pdf_pages: list[int]
     artifact_relative_root: Path
-    validation_scope: Literal["ten_page_review", "first_600"] = "ten_page_review"
+    validation_scope: Literal["ten_page_review", "first_600", "routed_pages"] = "ten_page_review"
+    table_id_prefix: str = Field(default="g3", pattern=r"^[a-z0-9_]+$")
+    family_id_prefix: str = Field(default="g3_table", pattern=r"^[a-z0-9_]+$")
+    routed_pages: list[RoutedPageConfig] = Field(default_factory=list)
     comparison_relative_root: Path | None = None
     comparison_scope: Literal["exact", "baseline_pages"] = "exact"
     execution: ExecutionConfig
@@ -62,11 +84,20 @@ class TableExtractionConfig(BaseModel):
     @model_validator(mode="after")
     def validate_review_scope(self) -> TableExtractionConfig:
         """Prevent an accidental first-600-page run during code review."""
-        expected_pages = (
-            REVIEW_SAMPLE_PAGES if self.validation_scope == "ten_page_review" else FIRST_600_PAGES
-        )
+        if self.validation_scope == "ten_page_review":
+            expected_pages = REVIEW_SAMPLE_PAGES
+        elif self.validation_scope == "first_600":
+            expected_pages = FIRST_600_PAGES
+        else:
+            expected_pages = [item.physical_pdf_page for item in self.routed_pages]
+            if not expected_pages:
+                raise ValueError("routed_pages requires at least one routed page")
         if self.physical_pdf_pages != expected_pages:
-            raise ValueError(f"{self.validation_scope} requires its exact reviewed physical pages")
+            raise ValueError(
+                f"{self.validation_scope} requires its exact configured physical pages"
+            )
+        if self.physical_pdf_pages != sorted(self.physical_pdf_pages):
+            raise ValueError("physical pages must be sorted")
         if len(set(self.physical_pdf_pages)) != len(self.physical_pdf_pages):
             raise ValueError("physical pages must be unique")
         if self.artifact_relative_root.is_absolute():
@@ -78,6 +109,8 @@ class TableExtractionConfig(BaseModel):
             raise ValueError("comparison root must be relative to ER_COMMONS_DATA_ROOT")
         if self.comparison_scope == "baseline_pages" and self.comparison_relative_root is None:
             raise ValueError("baseline-pages comparison requires a comparison root")
+        if self.validation_scope != "routed_pages" and self.routed_pages:
+            raise ValueError("fixed validation scopes cannot include routed page requests")
         return self
 
 

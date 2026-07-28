@@ -1,0 +1,156 @@
+{
+  "pilot_spec_schema_version": "1.0.0",
+  "pilot_id": "brisbane_baylands_2025_deir_task03a_pilot_v1",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "page_number_basis": "one_based_physical_pdf_page",
+  "sources": [
+    {
+      "source_id": "deir_main",
+      "expected_sha256": "0b81e84176c86205c07d9ae6b2a9994fcd45405e516546bcfc7ab9b1f88cf83f",
+      "expected_pdf_page_count": 2092,
+      "page_ranges": [
+        {
+          "first_page": 44,
+          "last_page": 44,
+          "expected_printed_labels": [
+            "ES-2"
+          ],
+          "stressors": [
+            "nested_headings",
+            "nested_lists",
+            "repeated_furniture",
+            "figure_caption_and_prose"
+          ]
+        },
+        {
+          "first_page": 45,
+          "last_page": 45,
+          "expected_printed_labels": [
+            "ES-3"
+          ],
+          "stressors": [
+            "cross_page_list_continuation",
+            "nested_lists",
+            "narrative_and_list_association",
+            "repeated_furniture"
+          ]
+        },
+        {
+          "first_page": 46,
+          "last_page": 46,
+          "expected_printed_labels": [
+            "ES-4"
+          ],
+          "stressors": [
+            "visual_dominated_page",
+            "figure_caption_and_source",
+            "minimal_narrative"
+          ]
+        },
+        {
+          "first_page": 1500,
+          "last_page": 1500,
+          "expected_printed_labels": [
+            "4.16-44"
+          ],
+          "stressors": [
+            "wide_table",
+            "multi_row_headers",
+            "many_numeric_columns",
+            "table_footnotes"
+          ]
+        },
+        {
+          "first_page": 2000,
+          "last_page": 2000,
+          "expected_printed_labels": [
+            "8-146"
+          ],
+          "stressors": [
+            "ordinary_single_column_narrative",
+            "subsections",
+            "repeated_furniture"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "deir_appendix_a",
+      "expected_sha256": "6f77ff07db8037b382cbe7ad4555e65bb9808749004a2324f48c615b2e378dd4",
+      "expected_pdf_page_count": 514,
+      "page_ranges": [
+        {
+          "first_page": 20,
+          "last_page": 20,
+          "expected_printed_labels": [
+            "12"
+          ],
+          "stressors": [
+            "two_column_narrative",
+            "image_caption_and_prose"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "deir_appendix_b",
+      "expected_sha256": "ae3f77879164c4567c1d614daf285a0fb68db5c97b80fa2bc93f53bac1a5ce04",
+      "expected_pdf_page_count": 258,
+      "page_ranges": [
+        {
+          "first_page": 107,
+          "last_page": 107,
+          "expected_printed_labels": [],
+          "stressors": [
+            "task02_page_local_content_stream_warnings",
+            "email_field_value_association",
+            "attachments_and_contact_block",
+            "native_character_recovery"
+          ]
+        },
+        {
+          "first_page": 108,
+          "last_page": 108,
+          "expected_printed_labels": [],
+          "stressors": [
+            "task02_page_local_content_stream_warnings",
+            "dense_continuation_prose",
+            "wrapped_hyperlink",
+            "line_joining"
+          ]
+        },
+        {
+          "first_page": 109,
+          "last_page": 109,
+          "expected_printed_labels": [],
+          "stressors": [
+            "task02_page_local_content_stream_warnings",
+            "formal_letter_and_signature",
+            "printed_page_label",
+            "body_furniture_separation"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "deir_appendix_g3",
+      "expected_sha256": "2f06933b506dd55e30cc965422b7a3dd55fb9dc6b0416a8bed651864bc147e97",
+      "expected_pdf_page_count": 6104,
+      "page_ranges": [
+        {
+          "first_page": 1000,
+          "last_page": 1000,
+          "expected_printed_labels": [],
+          "stressors": [
+            "long_difficult_appendix",
+            "task02_source_parser_warning",
+            "extremely_dense_wide_table",
+            "multi_level_table_headers"
+          ]
+        }
+      ]
+    }
+  ],
+  "expected_selected_page_count": 10
+}

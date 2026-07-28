@@ -34,3 +34,11 @@ def test_tables_group_exposes_only_retained_pipeline_runs() -> None:
     assert "run-review" in result.output
     assert "run-first-600" in result.output
     assert "task03a1" not in result.output
+
+
+def test_documents_group_exposes_clean_review_pipeline() -> None:
+    """The document CLI has one explicit maintained review command."""
+    result = CliRunner().invoke(app, ["documents", "--help"])
+
+    assert result.exit_code == 0
+    assert "run-review" in result.output

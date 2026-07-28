@@ -10,6 +10,7 @@ dependencies = [
     "docling==2.115.0",
     "opencv-python-headless==5.0.0.93",
     "pikepdf>=10,<11",
+    "psutil>=7.2,<8",
     "pydantic>=2.12,<3",
     "pydantic-settings>=2.12,<3",
     "pypdf>=6,<7",

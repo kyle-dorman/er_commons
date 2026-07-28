@@ -12,9 +12,88 @@ Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
 task. Sprint 2 is current. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) completed the
 versioned source freeze. [Task
-03A](../tasks/sprint2/03a_validate_document_parser.md) is active and will
-validate Docling plus the native-only extraction configuration on a
-representative structural pilot.
+03A](../tasks/sprint2/03a_validate_document_parser.md) completed the
+native-only structural pilot and accepted the revised
+Docling-plus-PyPdfium2 candidate with one bounded dense-table failure. [Task
+03A.1](../tasks/sprint2/03a1_validate_table_extraction.md) completed the
+fast-table comparison. It found a promising Lattice/Stream split and rejected
+MPS, but formally rejected the split as the production contract because the
+all-table stress projection exceeded 72 hours. [Task
+03A.2](../tasks/sprint2/03a2_classify_table_dominant_pages.md) completed a cheap
+native-PDF table-dominance scan across Appendix G3. It classified 4,408 of
+6,104 pages in 129 seconds and was accepted as a conservative routing signal,
+not table validation. [Task
+03A.3](../tasks/sprint2/03a3_classify_numeric_table_pages.md) completed the
+expanded G3 numeric-table routing signal. It classified 6,067 of 6,104 pages
+as fast-route candidates, added 1,659 partial or non-dominant table pages
+without removing a Task 03A.2 positive, and preserved pages 525-526 as one
+reviewed run distinct from page 527.
+[Task
+03A.4](../tasks/sprint2/03a4_pilot_contiguous_table_families.md) completed the
+first G3 contiguous-family pilot. Its over-segmented 192-family proposal is
+closed as exploratory evidence and was superseded by the footer-aware clean
+pipeline.
+[Task
+03A.5](../tasks/sprint2/03a5_test_tableformer_boundary_merge.md) completed one
+bounded bare-TableFormer boundary test. Four header-plus-data crops ran in
+1.74 total inference seconds and all produced the same 4-row, 7-column coarse
+shape, but grouped-header span predictions differed at both boundaries. The
+exact merge rule is therefore inconclusive and the Task 03A.4 list remains
+unchanged.
+[Task
+03A.6](../tasks/sprint2/03a6_compare_nested_header_labels.md) completed the
+simple reanalysis. All four preserved predictions have an identical nested
+tuple of normalized header labels, so the rule recommends merging families
+0014-0016 into pages 22-46. It did not identify leaf headers, use spans, rerun
+a model, or rewrite the Task 03A.4 list.
+[Task
+03A.7](../tasks/sprint2/03a7_merge_table_families_with_tableformer.md)
+completed the first-600-page boundary pass. All 241 deduplicated edge crops
+and predictions succeeded; 70 of 161 boundaries passed the exact non-empty
+nested-header rule, reducing the review-only proposal from 192 to 122
+families. The revised list remains historical exploratory evidence.
+[Task
+03A.8](../tasks/sprint2/03a8_cascade_cached_header_evidence.md) completed the
+cached evidence cascade. Exact native header matrices passed 130 of 161
+boundaries and reduced the review-only proposal to 62 families; TableFormer
+uniquely added no passing boundary. Pages 71/72 merge, pages 526/527 remain
+split, and no parser, renderer, or learned model reran.
+[Task
+03A.9](../tasks/sprint2/03a9_build_footer_aware_table_families.md) completed
+the footer-aware native pass. It found four exact worksheet runs on 582 pages,
+assigned each footer only to the last Camelot table on its page, cleaned
+footer-only columns, and reduced the review-only proposal to 37 families.
+Page 527 table 2 through page 591 is one 65-page run; TableFormer did not run.
+[Task
+03A.10](../tasks/sprint2/03a10_detect_complex_page_tables.md) completed the
+one-page experiment: automatic ruling geometry plus an unexplained Network
+region proposed 35 logical page-527 tables and parsed all 34 ruled regions.
+[Task
+03A.11](../tasks/sprint2/03a11_test_complex_page_segmentation.md) completed the
+fixed-parameter test on physical pages 19, 273, and 592. It proposed 4, 4, and
+35 logical tables respectively, parsed all 42 ruling-derived regions, and
+retained one unexplained borderless Network region on page 592.
+[Task
+03A.12](../tasks/sprint2/03a12_rewrite_table_pipeline.md) completed the clean
+table-stage draft and ten-page mixed-route test. It produced 89 logical tables
+across four simple and six complex pages, passed the full project check, and
+was accepted through the exact Task 03A.13 reproduction and subsequent
+first-600 and cross-document integration validations.
+[Task
+03A.13](../tasks/sprint2/03a13_unify_table_environment.md) put Docling and
+Camelot in one locked headless-OpenCV environment and removed the clean
+parser's subprocess boundary. Its sequential ten-page run exactly matched all
+stable Task 03A.12 page, table, and family outputs. [Task
+03A.14](../tasks/sprint2/03a14_run_first_600_table_pipeline.md) completed the
+user-approved validation on exactly physical pages 1-600. It produced 681
+logical tables in 19.66 minutes, formed four footer runs plus 99 singleton
+families, and exactly matched the ten reviewed page/table regressions.
+[Task
+03A.15](../tasks/sprint2/03a15_rewrite_document_parser_pipeline.md) completed
+the maintainable document-pipeline rewrite and closed Task 03A. Its final v4
+run disabled TableFormer, reproduced all non-table invariants, routed exactly
+main page 1500 and G3 page 1000, and invoked the complete clean table pipeline
+without bypassing cleanup, footer ownership, family assignment, or sealing.
 
 The accepted benchmark contract is `benchmarks/er_bench/sprint1.md`; the
 durable rationale is
@@ -22,9 +101,9 @@ durable rationale is
 Sprint 2 is the smallest source-to-evaluation vertical slice. At the user's
 request, the large canonical-extraction stage is decomposed into Task 03A
 through Task 03H in the
-[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Only Task 03A
-is active. Task 03B through Task 03H are provisional learning and execution
-contracts that must be revised from each preceding outcome before activation.
+[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Task 03B
+through Task 03H remain provisional learning and execution contracts that must
+be revised from each preceding outcome before activation.
 
 ## Document roles
 
