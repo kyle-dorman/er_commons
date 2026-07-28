@@ -9,15 +9,24 @@ import typer
 
 from er_commons.settings import ProjectSettings, load_settings
 from er_commons.source_freeze import freeze_release, verify_release
+from er_commons.table_extraction import run_table_extraction
 
 app = typer.Typer(
     help="Small, reproducible environmental-review data workflows.",
     no_args_is_help=True,
 )
 sources_app = typer.Typer(help="Acquire and verify immutable public source releases.")
+tables_app = typer.Typer(help="Extract native PDF tables into reviewable artifacts.")
 app.add_typer(sources_app, name="sources")
+app.add_typer(tables_app, name="tables")
 
 DEFAULT_BRISBANE_SOURCE_SPEC = Path("configs/brisbane_baylands_2025_deir_sources_v1.json")
+DEFAULT_TABLE_REVIEW_SPEC = Path(
+    "configs/brisbane_baylands_2025_deir_task03a13_unified_table_pipeline_v1.json"
+)
+DEFAULT_TABLE_FIRST_600_SPEC = Path(
+    "configs/brisbane_baylands_2025_deir_task03a14_first_600_table_pipeline_v1.json"
+)
 
 
 def configured_paths(settings: ProjectSettings) -> dict[str, Path]:
@@ -85,6 +94,42 @@ def verify_sources(
     typer.echo(f"files={manifest.aggregates['file_count']}")
     typer.echo(f"bytes={manifest.aggregates['byte_count']}")
     typer.echo(f"pages={manifest.aggregates['page_count']}")
+
+
+@tables_app.command("run-review")
+def run_table_review(
+    spec: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Reviewed ten-page table-extraction specification.",
+        ),
+    ] = DEFAULT_TABLE_REVIEW_SPEC,
+) -> None:
+    """Run or resume the fixed ten-page table-parser review."""
+    manifest_path = run_table_extraction(load_settings().data_root, spec)
+    typer.echo(f"pipeline_manifest={manifest_path}")
+
+
+@tables_app.command("run-first-600")
+def run_table_first_600(
+    spec: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Reviewed first-600-page table-extraction specification.",
+        ),
+    ] = DEFAULT_TABLE_FIRST_600_SPEC,
+) -> None:
+    """Run or resume the parser on exactly physical PDF pages 1-600."""
+    manifest_path = run_table_extraction(load_settings().data_root, spec)
+    typer.echo(f"pipeline_manifest={manifest_path}")
 
 
 def main() -> None:

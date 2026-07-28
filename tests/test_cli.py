@@ -24,3 +24,13 @@ def test_paths_reports_expected_subdirectories(monkeypatch: pytest.MonkeyPatch) 
     assert "ceqa_dataset=/tmp/er-commons-test/datasets/ceqa" in result.output
     assert "pipeline_artifacts=/tmp/er-commons-test/pipelines" in result.output
     assert "benchmark_artifacts=/tmp/er-commons-test/benchmarks/er_bench" in result.output
+
+
+def test_tables_group_exposes_only_retained_pipeline_runs() -> None:
+    """The CLI omits superseded exploratory table-pilot commands."""
+    result = CliRunner().invoke(app, ["tables", "--help"])
+
+    assert result.exit_code == 0
+    assert "run-review" in result.output
+    assert "run-first-600" in result.output
+    assert "task03a1" not in result.output
