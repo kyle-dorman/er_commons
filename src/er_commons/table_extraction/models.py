@@ -77,6 +77,7 @@ class TableExtractionConfig(BaseModel):
     routed_pages: list[RoutedPageConfig] = Field(default_factory=list)
     comparison_relative_root: Path | None = None
     comparison_scope: Literal["exact", "baseline_pages"] = "exact"
+    retain_review_derivatives: bool = True
     execution: ExecutionConfig
     detection: DetectionConfig
     cleanup: CleanupConfig

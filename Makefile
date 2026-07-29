@@ -6,6 +6,7 @@ export ER_COMMONS_DATA_ROOT
 
 .PHONY: help bootstrap sync check-env data-dirs about paths freeze-brisbane-sources \
 	verify-brisbane-sources run-document-review run-table-review run-table-first-600 \
+	run-complete-document \
 	format format-check lint lint-fix type test check fix
 
 help:
@@ -16,6 +17,7 @@ help:
 	@echo "  make freeze-brisbane-sources  Freeze the reviewed Brisbane source release"
 	@echo "  make verify-brisbane-sources  Verify the frozen release without network access"
 	@echo "  make run-document-review      Run the clean ten-page document parser"
+	@echo "  make run-complete-document    Run or verify the Task 03C Appendix P producer"
 	@echo "  make run-table-review         Run or resume the ten-page table review"
 	@echo "  make run-table-first-600      Run or resume the first-600-page table validation"
 	@echo "  make fix         Apply lint and formatting fixes"
@@ -51,6 +53,9 @@ verify-brisbane-sources: check-env
 
 run-document-review: check-env
 	uv run er-commons documents run-review
+
+run-complete-document: check-env
+	uv run er-commons documents run-complete
 
 run-table-review: check-env
 	uv run er-commons tables run-review

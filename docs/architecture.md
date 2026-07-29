@@ -72,3 +72,26 @@ CLI, while `make` loads and validates the same value for routine commands.
 Committed workflow configuration must not depend on a developer's absolute
 paths. Future workflow settings should use validated Pydantic contracts rather
 than untyped dictionaries.
+
+Task 03C adds a separate complete-document producer policy above the accepted
+Task 03A parser components. `documents run-review` remains the fixed comparison
+harness; `documents run-complete` resolves one source through the sealed
+manifest, verifies the accepted local models, converts and routes every page,
+runs complete-document table families, and atomically publishes a task-scoped
+producer run. Its `producer_run_id` content-binds source, release, runtime,
+models, routing/table policy, packages, and project code. It is reusable raw
+producer identity, not the later canonical `extraction_id`. Partial work is
+retained only as attempt evidence, and final reuse requires every inventoried
+checksum to verify.
+
+Task 03C.1 makes that policy human-owned without changing parser behavior.
+`complete_document.py` is the application shell; `producer_identity.py`,
+`producer_conversion.py`, `producer_routing.py`, `producer_tables.py`, and
+`producer_publication.py` each own one stage responsibility.
+`producer_records.py` defines persisted records, `producer_services.py` exposes
+only the external seams needed by offline tests, and `producer_artifacts.py`
+owns durable Docling export and completed-run verification. Stage validation
+uses named fail-closed invariants rather than one compound success boolean.
+The v2 configuration and rewritten code intentionally derive a new
+`producer_run_id`; semantic acceptance is established independently against
+the immutable v1 artifact.

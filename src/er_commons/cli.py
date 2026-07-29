@@ -7,7 +7,10 @@ from typing import Annotated
 
 import typer
 
-from er_commons.document_extraction import run_document_extraction
+from er_commons.document_extraction import (
+    run_complete_document_producer,
+    run_document_extraction,
+)
 from er_commons.settings import ProjectSettings, load_settings
 from er_commons.source_freeze import freeze_release, verify_release
 from er_commons.table_extraction import run_table_extraction
@@ -26,6 +29,9 @@ app.add_typer(tables_app, name="tables")
 DEFAULT_BRISBANE_SOURCE_SPEC = Path("configs/brisbane_baylands_2025_deir_sources_v1.json")
 DEFAULT_DOCUMENT_REVIEW_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03a15_document_pipeline_v4.json"
+)
+DEFAULT_COMPLETE_DOCUMENT_SPEC = Path(
+    "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json"
 )
 DEFAULT_TABLE_REVIEW_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03a13_unified_table_pipeline_v1.json"
@@ -118,6 +124,27 @@ def run_document_review(
     """Run the clean Task 03A parser and compare it with accepted JSON."""
     manifest_path = run_document_extraction(load_settings().data_root, config)
     typer.echo(f"pipeline_manifest={manifest_path}")
+
+
+@documents_app.command("run-complete")
+def run_complete_document(
+    config: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Manifest-selected complete-document producer configuration.",
+        ),
+    ] = DEFAULT_COMPLETE_DOCUMENT_SPEC,
+) -> None:
+    """Publish or checksum-verify one complete Task 03C producer run."""
+    completion_path = run_complete_document_producer(
+        load_settings().data_root,
+        config,
+    )
+    typer.echo(f"producer_completion={completion_path}")
 
 
 @tables_app.command("run-review")

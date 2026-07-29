@@ -3,7 +3,7 @@
 import pytest
 from typer.testing import CliRunner
 
-from er_commons.cli import app
+from er_commons.cli import DEFAULT_COMPLETE_DOCUMENT_SPEC, app
 from er_commons.settings import ProjectSettings
 
 
@@ -36,9 +36,11 @@ def test_tables_group_exposes_only_retained_pipeline_runs() -> None:
     assert "task03a1" not in result.output
 
 
-def test_documents_group_exposes_clean_review_pipeline() -> None:
-    """The document CLI has one explicit maintained review command."""
+def test_documents_group_exposes_review_and_complete_producer_commands() -> None:
+    """Review and production policy remain distinct package-backed commands."""
     result = CliRunner().invoke(app, ["documents", "--help"])
 
     assert result.exit_code == 0
     assert "run-review" in result.output
+    assert "run-complete" in result.output
+    assert DEFAULT_COMPLETE_DOCUMENT_SPEC.name.endswith("appendix_p_v2.json")

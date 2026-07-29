@@ -20,9 +20,11 @@ available root.
 The previous root, `/Users/kyledorman/data/er_commons`, was empty, but the
 internal drive had little remaining capacity before source acquisition began.
 Sprint 2 will retain full source PDFs, structured conversion output, extracted
-images, and a full-page render for every source page. The mounted external SSD
-has substantially more available space and keeps those durable artifacts off
-the constrained internal disk.
+images, and requested review-cache derivatives. Task 03B later made full-page
+renders reproducible cache entries rather than mandatory extraction artifacts;
+that lifecycle refinement does not change the external-root decision. The
+mounted external SSD has substantially more available space and keeps those
+artifacts off the constrained internal disk.
 
 The MVP will run locally. Remote A40 compute and periodic cloud synchronization
 are deferred; adopting either later requires a bounded task that preserves the

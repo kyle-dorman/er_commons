@@ -47,3 +47,4 @@ def test_routed_request_preserves_full_table_pipeline_contract() -> None:
     assert request.routed_pages[0].layout_regions_pdf_points_bottom_left == []
     assert request.cleanup == config.table_cleanup
     assert request.detection == config.table_detection
+    assert request.retain_review_derivatives

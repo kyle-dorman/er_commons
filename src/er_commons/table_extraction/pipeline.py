@@ -135,12 +135,22 @@ def artifact_inventory(root: Path, excluded: set[str]) -> dict[str, Any]:
     }
 
 
-def run_table_extraction(data_root: Path, config_path: Path) -> Path:
+def run_table_extraction(
+    data_root: Path,
+    config_path: Path,
+    artifact_root_override: Path | None = None,
+) -> Path:
     """Run one validated table-extraction request and return its manifest."""
     started = time.perf_counter()
     config, config_sha256 = load_config(config_path)
     table_environment = installed_table_environment()
-    root = (data_root / config.artifact_relative_root).resolve()
+    root = (
+        artifact_root_override.resolve()
+        if artifact_root_override is not None
+        else (data_root / config.artifact_relative_root).resolve()
+    )
+    if not root.is_relative_to(data_root.resolve()):
+        raise ValueError("table artifact root escapes ER_COMMONS_DATA_ROOT")
     root.mkdir(parents=True, exist_ok=True)
 
     configuration_output = root / "configuration.json"
@@ -183,6 +193,7 @@ def run_table_extraction(data_root: Path, config_path: Path) -> Path:
                 routed.layout_regions_pdf_points_bottom_left if routed is not None else None
             ),
             table_id_prefix=config.table_id_prefix,
+            retain_review_derivatives=config.retain_review_derivatives,
         )
         page_results.append(result)
         LOGGER.info(
@@ -203,20 +214,20 @@ def run_table_extraction(data_root: Path, config_path: Path) -> Path:
         tables.extend(
             prefix_table_paths(table, page_relative_root) for table in page_result["tables"]
         )
-        page_records.append(
-            {
-                "physical_pdf_page": page_number,
-                "route": page_result["route"],
-                "complex_page": page_result["complex_page"],
-                "ruling_region_count": page_result["ruling_region_count"],
-                "table_count": page_result["table_count"],
-                "footer": page_result["footer"],
-                "footer_owner_table_id": page_result["footer_owner_table_id"],
-                "result": (page_relative_root / "result.json").as_posix(),
-                "annotated": (page_relative_root / "annotated.png").as_posix(),
-                "wall_seconds": page_result["wall_seconds"],
-            }
-        )
+        page_record = {
+            "physical_pdf_page": page_number,
+            "route": page_result["route"],
+            "complex_page": page_result["complex_page"],
+            "ruling_region_count": page_result["ruling_region_count"],
+            "table_count": page_result["table_count"],
+            "footer": page_result["footer"],
+            "footer_owner_table_id": page_result["footer_owner_table_id"],
+            "result": (page_relative_root / "result.json").as_posix(),
+            "wall_seconds": page_result["wall_seconds"],
+        }
+        if config.retain_review_derivatives:
+            page_record["annotated"] = (page_relative_root / "annotated.png").as_posix()
+        page_records.append(page_record)
     if len({table["table_id"] for table in tables}) != len(tables):
         raise ValueError("logical table IDs are not unique")
 
@@ -299,6 +310,7 @@ def run_table_extraction(data_root: Path, config_path: Path) -> Path:
             if config.validation_scope == "routed_pages"
             else "draft_awaiting_user_review"
         ),
+        "review_derivatives_retained": config.retain_review_derivatives,
     }
     write_json_atomic(root / "summary.json", summary)
     write_json_atomic(

@@ -5,12 +5,21 @@
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
 Most recently completed: [Task
-03B](../tasks/sprint2/03b_define_canonical_extraction_contract.md). Its MVP
-contract, executable schemas, fixtures, and offline invariant tests are
-implemented. The requested cleanup pass separated bundle, content, and lineage
-policies for human ownership. Task 03C remains inactive pending user review.
+03C.1](../tasks/sprint2/03c1_rewrite_complete_document_producer.md). It
+replaced the Task 03C reference orchestrator with human-owned modules, named
+invariants, typed records, explicit test seams, and focused offline tests. The
+new code-bound Appendix P run is semantically identical to v1 across Docling,
+routing, assets, tables, and families; all 112 tests pass.
 
 Previously completed: [Task
+03C](../tasks/sprint2/03c_build_single_document_conversion.md). It converted
+all 222 physical pages of Appendix P, saved 27 figure assets, routed 33 pages
+through the complete clean table stage, produced 19 logical tables and 19
+complete-document families, and atomically published a checksum-verified
+task-scoped producer run. Fourteen routed pages have explicit zero-table
+mappings, and the run is `complete_with_warnings`.
+
+Earlier completed: [Task
 03A.15](../tasks/sprint2/03a15_rewrite_document_parser_pipeline.md) replaced
 the document-parser proof of concept, disabled TableFormer, and integrated the
 content router with the complete clean table pipeline. The final ten-page v4
@@ -87,20 +96,17 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Current next action: review the completed Task 03B MVP and cleanup handoff,
-then revise Task 03C before deciding whether to activate it. Docling owns
-native text/layout/provenance; the reviewed router selects table work; the full
-clean table pipeline owns reconstruction, cleanup, footer ownership, and
-family assignment. Table families are complete-document,
-extraction-version-scoped machine records, while Task 04 owns the linked human
-usability registry. Do not activate Task 03C or process pages 601-6104.
+Current next action: finish user review of the Task 03C producer boundary,
+repeated Docling list-parent warning, 14 explicit zero-table mappings, and the
+guided visual sample. Then revise Task 03D from the accepted human-owned
+producer artifacts before explicit activation. Do not begin canonical record
+materialization in the Task 03C review step.
 
 ## Open queue
 
-1. Review the completed Task 03B handoff, then revise and execute Tasks 03C–03H
-   one at a time: single-document conversion, core records, hierarchy and
-   cross-references, restartable batching, production pilot, and full candidate
-   extraction.
+1. Review Task 03C, then revise and execute Tasks 03D–03H one at a time: core
+   records, hierarchy and cross-references, restartable batching, production
+   pilot, and full candidate extraction.
 2. Independently review usability and freeze extraction v1 in Task 04.
 3. Continue through response inventory, case authoring, and benchmark freezing
    using one bounded task at a time.

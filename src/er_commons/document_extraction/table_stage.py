@@ -15,6 +15,8 @@ from er_commons.document_extraction.config import PipelineConfig, SelectionSpec
 from er_commons.document_extraction.sources import ResolvedSource
 from er_commons.source_freeze import write_json_atomic
 from er_commons.table_extraction.models import (
+    CleanupConfig,
+    DetectionConfig,
     ExecutionConfig,
     RoutedPageConfig,
     TableExtractionConfig,
@@ -29,6 +31,32 @@ def build_table_request(
     route_records: list[dict[str, Any]],
 ) -> TableExtractionConfig:
     """Build one validated source-scoped request from positive page routes."""
+    return build_complete_table_request(
+        pipeline_id=document_config.pipeline_id,
+        source_release_version=selection.source_release_version,
+        source=source,
+        route_records=route_records,
+        artifact_relative_root=(
+            document_config.artifact_relative_root / "table_pipeline" / source.source_id
+        ),
+        detection=document_config.table_detection,
+        cleanup=document_config.table_cleanup,
+        retain_review_derivatives=True,
+    )
+
+
+def build_complete_table_request(
+    *,
+    pipeline_id: str,
+    source_release_version: str,
+    source: ResolvedSource,
+    route_records: list[dict[str, Any]],
+    artifact_relative_root: Path,
+    detection: DetectionConfig,
+    cleanup: CleanupConfig,
+    retain_review_derivatives: bool,
+) -> TableExtractionConfig:
+    """Adapt positive routes to the accepted clean table-pipeline contract."""
     ordered = sorted(route_records, key=lambda item: int(item["physical_pdf_page"]))
     prefix = source.source_id.removeprefix("deir_")
     routed_pages = [
@@ -45,24 +73,23 @@ def build_table_request(
     ]
     return TableExtractionConfig(
         schema_version="1.0.0",
-        pipeline_id=f"{document_config.pipeline_id}_{source.source_id}_tables",
-        source_release_version=selection.source_release_version,
+        pipeline_id=f"{pipeline_id}_{source.source_id}_tables",
+        source_release_version=source_release_version,
         source_id=source.source_id,
         expected_source_sha256=source.source_sha256,
         expected_pdf_page_count=source.source_page_count,
         physical_pdf_pages=[item.physical_pdf_page for item in routed_pages],
-        artifact_relative_root=(
-            document_config.artifact_relative_root / "table_pipeline" / source.source_id
-        ),
+        artifact_relative_root=artifact_relative_root,
         validation_scope="routed_pages",
         table_id_prefix=prefix,
         family_id_prefix=f"{prefix}_table",
         routed_pages=routed_pages,
         comparison_relative_root=None,
         comparison_scope="exact",
+        retain_review_derivatives=retain_review_derivatives,
         execution=ExecutionConfig(maximum_workers=1),
-        detection=document_config.table_detection,
-        cleanup=document_config.table_cleanup,
+        detection=detection,
+        cleanup=cleanup,
     )
 
 

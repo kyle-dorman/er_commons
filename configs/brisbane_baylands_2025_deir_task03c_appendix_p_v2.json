@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "producer_policy_version": "task03c-v2",
+  "pipeline_id": "brisbane_baylands_2025_deir_task03c_appendix_p_v2",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "source": {
+    "source_id": "deir_appendix_p",
+    "official_title": "Appendix P - Water Supply Assessment (PDF)",
+    "expected_sha256": "2dfceac46931a946bc343d52b09104b7b58ed8831bc4f49a03f0b8655e4e6ea1",
+    "expected_byte_size": 6528561,
+    "expected_pdf_page_count": 222
+  },
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03c_single_document",
+  "model_inventory_relative_path": "pipelines/brisbane_baylands/task_03a_docling_native_pilot_v1/model_inventory.json",
+  "configuration_id": "docling_native_pypdfium2_heron_layout_only_cpu",
+  "backend": "pypdfium2",
+  "device": "cpu",
+  "thread_count": 4,
+  "document_timeout_seconds": null,
+  "strict_table_dominant_thresholds": {
+    "minimum_text_width_fraction": 0.70,
+    "minimum_text_height_fraction": 0.75,
+    "minimum_nonempty_line_count": 80,
+    "minimum_nonspace_characters_per_square_point": 0.02,
+    "minimum_digit_fraction": 0.35
+  },
+  "numeric_table_bearing_thresholds": {
+    "minimum_text_width_fraction": 0.70,
+    "minimum_nonempty_line_count": 20,
+    "minimum_nonspace_characters_per_square_point": 0.005,
+    "minimum_digit_fraction": 0.50
+  },
+  "table_detection": {
+    "render_scale": 3.0,
+    "horizontal_kernel_pixels": 24,
+    "vertical_kernel_pixels": 12,
+    "minimum_region_width_pixels": 60,
+    "minimum_region_height_pixels": 18,
+    "minimum_intersections": 4,
+    "complex_page_minimum_regions": 2,
+    "maximum_network_ruling_coverage": 0.1,
+    "minimum_region_match_iou": 0.5
+  },
+  "table_cleanup": {
+    "footer_pattern": "(?P<sheet>\\d+\\.[A-Za-z0-9_]+)\\s+(?P<page>\\d+)\\s+of\\s+(?P<total>\\d+)",
+    "footer_counter_pattern": "\\b\\d+\\s+of\\s+\\d+\\b",
+    "leading_filename_pattern": "^[a-z0-9_]+_v[0-9]+$",
+    "maximum_header_rows": 8,
+    "minimum_numeric_cell_fraction_for_data_row": 0.5
+  }
+}

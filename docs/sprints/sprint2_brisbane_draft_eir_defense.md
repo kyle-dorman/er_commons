@@ -50,13 +50,14 @@ partial-run family numbers are not canonical identities.
 
 Save extracted images and their source-page and bounding-box metadata as part
 of the conversion artifacts, even though first-pass retrieval and generation
-remain text-only. Also save a full-page render for every PDF page, using
-deterministic document and page identifiers and linking each render from its
-canonical page record. Storage cost is not a reason to omit these durable
-visual-QA artifacts. Do not silently discard figures or other visual elements;
+remain text-only. Do not silently discard figures or other visual elements;
 represent them in the structural record and link them to the saved image
-artifact. Retrieval passage size, overlap, and heading composition are later
-BM25 decisions and must not be fixed by the extraction task.
+artifact. Full-page renders, overlays, diagnostic HTML and Markdown, ruling
+masks, and table-debug images are reproducible review-cache derivatives, not
+canonical extraction artifacts. Generate and checksum them only for requested
+review or labeling pages. Retrieval passage size, overlap, and heading
+composition are later BM25 decisions and must not be fixed by the extraction
+task.
 
 Use native PDF text and layout extraction only in this sprint; do not apply
 OCR. Task 03 canonical page, table, and table-family records contain
@@ -68,28 +69,28 @@ Task 04 maintains separate linked page, table, and table-family usability
 records for every source document, keyed by Task 03 canonical IDs. Each review
 record identifies its entity type and records human review status, exclusion
 reason when present, reviewer, review date, and links to the applicable
-canonical content and full-page render. This granularity permits one table in a
-family to pass while another does not. Task 04 rolls page statuses up into
-document dispositions such as `usable`, `usable_with_exclusions`, and
-`skipped_no_ocr`; reviewer fields and human dispositions do not enter immutable
-Task 03 machine records.
+canonical content and requested review-cache render. This granularity permits
+one table in a family to pass while another does not. Task 04 rolls page
+statuses up into document dispositions such as `usable`,
+`usable_with_exclusions`, and `skipped_no_ocr`; reviewer fields and human
+dispositions do not enter immutable Task 03 machine records.
 
 An isolated failed page does not require excluding an otherwise usable
 appendix. Mark failed pages unusable and retain the appendix as
 `usable_with_exclusions` when the missing material does not make the remaining
 content or its cross-references unreliable. Skip the entire appendix when
 failure is widespread or affects essential context. A human must review every
-excluded page and wholly skipped document against the page renders. Make the
-usability registry available to curator-only response inventory and screening
-so response references can be resolved against usable parts of each appendix.
-Exclude candidate cases whose required evidence depends on unusable pages. The
-complete main report is mandatory and cannot be silently skipped under this
-policy; a material native-extraction failure there is a stop condition
-requiring a new decision.
+excluded page and wholly skipped document against requested review-cache
+renders. Make the usability registry available to curator-only response
+inventory and screening so response references can be resolved against usable
+parts of each appendix. Exclude candidate cases whose required evidence
+depends on unusable pages. The complete main report is mandatory and cannot be
+silently skipped under this policy; a material native-extraction failure there
+is a stop condition requiring a new decision.
 
 First-pass retrieval and generation may use a table only when the clean table
 pipeline produces a canonical structured or textual representation and Task 04
-human review verifies it against the corresponding page render. For a
+human review verifies it against a corresponding review-cache render. For a
 multi-table family, review must make the family membership, per-table content,
 and any one-to-many Docling-region mapping visible; verification of one member
 does not silently verify every member. Figure captions and surrounding prose
@@ -143,9 +144,9 @@ human reviewer. In the first pass, the curator reviews the resolved
 comment-response pair, including linked general responses, and assigns
 provisional eligibility with a reason code. In the later evidence-verification
 pass, the curator reviews the original comment, resolved response, exact Draft
-EIR evidence spans, page renders, source-usability status, and relevant
-cross-references, then reapplies the eligibility criteria. A case becomes
-accepted only after passing both reviews.
+EIR evidence spans, requested review-cache renders, source-usability status,
+and relevant cross-references, then reapplies the eligibility criteria. A case
+becomes accepted only after passing both reviews.
 
 Preserve every inventory, screening, evidence-verification, acceptance, and
 selection decision as a versioned record rather than overwriting earlier
@@ -265,12 +266,12 @@ semantic citation unit. Preserve the source's own document or appendix,
 section, table, and figure references as semantic evidence units, including
 units that span multiple pages. Attach one or more exact canonical page,
 block, table, or visual-asset anchors beneath each unit for verification,
-retrieval scoring, and page-render review. A response-level reference to an
-entire section or appendix seeds search within that unit; the accepted evidence
-retains both the original semantic reference and the exact supporting anchors
-found within it. Human-readable citations should follow the source's naming
-conventions while remaining mechanically resolvable through the internal
-anchors.
+retrieval scoring, and review-cache rendering. A response-level reference to
+an entire section or appendix seeds search within that unit; the accepted
+evidence retains both the original semantic reference and the exact supporting
+anchors found within it. Human-readable citations should follow the source's
+naming conventions while remaining mechanically resolvable through the
+internal anchors.
 
 Create reviewed reference-evidence records during case authoring as the bridge
 between canonical extraction records and curator-approved citations. Each
@@ -502,16 +503,16 @@ too large or new evidence creates a distinct decision or validation boundary.
    per-PDF legal matrix or make a reuse determination.
 2. **Task 03 — Build the canonical Draft EIR extraction.** Pin the accepted
    Docling-plus-clean-table configuration; produce canonical document, section,
-   page, block, table, table-family, figure, image, page-render, and
-   cross-reference records with version-scoped deterministic IDs. At the
-   user's request, this large stage is split into
+   page, block, table, table-family, figure, image, asset, and cross-reference
+   records with version-scoped deterministic IDs. At the user's request, this
+   large stage is split into
    eight stop-and-review contracts:
    - [Task 03A](../../tasks/sprint2/03a_validate_document_parser.md): validate
      Docling, the native-only configuration, and structural failure modes;
    - [Task 03B](../../tasks/sprint2/03b_define_canonical_extraction_contract.md):
      define extraction versioning, schemas, provenance, coordinates, and IDs;
    - [Task 03C](../../tasks/sprint2/03c_build_single_document_conversion.md):
-     build atomic raw conversion for one manifest-selected document;
+     promote the accepted producer stack into one atomic complete-document run;
    - [Task 03D](../../tasks/sprint2/03d_materialize_canonical_records.md):
      materialize core canonical records from preserved raw output;
    - [Task 03E](../../tasks/sprint2/03e_build_hierarchy_and_cross_references.md):
@@ -523,9 +524,15 @@ too large or new evidence creates a distinct decision or validation boundary.
      review, and freeze its configuration and review method; and
    - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
      all 35 sources and publish the candidate extraction for Task 04.
-   Task 03A is closed. Task 03B is a revised provisional contract and remains
-   inactive pending explicit activation. Later contracts remain provisional
-   and must be revised from each accepted preceding outcome before activation.
+   Tasks 03A through 03C are complete. Task 03C published the checksum-verified
+   222-page Appendix P producer run with 19 clean tables and 19
+   complete-document families. [Task
+   03C.1](../../tasks/sprint2/03c1_rewrite_complete_document_producer.md)
+   subsequently replaced the reference orchestrator with the accepted
+   human-owned implementation and proved semantic equivalence through a second
+   complete Appendix P run. Task 03D is inactive pending user review and
+   revision from those artifacts. Tasks 03D through 03H remain provisional and
+   must be revised from each accepted preceding outcome before activation.
 3. **Task 04 — Review usability and freeze extraction v1.** Run automated
    integrity checks and representative visual QA; review every excluded page
    or document and every table proposed for retrieval; inspect per-table
@@ -618,13 +625,13 @@ counts and per-case records alongside any summary statistics.
 
 Stage human evaluation to reduce reference-answer bias. First run mechanical
 validation. Next score evidence support while showing each generated statement,
-its cited evidence, and page-render links but hiding the reviewed evidence
-summary and reference defense. Then score responsiveness from the original
-comment and complete generated defense while the reference remains hidden.
-Only after those decisions are saved should the interface reveal the reviewed
-evidence summary and reference defense for reference-coverage scoring. Preserve
-the saved result and timestamp from each stage rather than allowing later
-reference exposure to silently rewrite earlier judgments.
+its cited evidence, and requested review-cache links but hiding the reviewed
+evidence summary and reference defense. Then score responsiveness from the
+original comment and complete generated defense while the reference remains
+hidden. Only after those decisions are saved should the interface reveal the
+reviewed evidence summary and reference defense for reference-coverage
+scoring. Preserve the saved result and timestamp from each stage rather than
+allowing later reference exposure to silently rewrite earlier judgments.
 
 Blind the human evaluator to target-model identity and size, experiment labels
 that reveal the condition, automated-judge scores and explanations, and

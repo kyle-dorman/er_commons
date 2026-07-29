@@ -98,8 +98,16 @@ The completed [Task
 03B](../tasks/sprint2/03b_define_canonical_extraction_contract.md) defines the
 MVP canonical contract, executable schemas, fixtures, and offline invariant
 tests. Its separate cleanup pass reorganized executable enforcement around
-human-owned bundle, content, and lineage policies. Task 03C remains inactive
-until user review.
+human-owned bundle, content, and lineage policies. [Task
+03C](../tasks/sprint2/03c_build_single_document_conversion.md) completed the
+first task-scoped complete-document producer run. Appendix P covered all 222
+pages, routed 33 pages into the clean table stage, produced 19 tables and 19
+complete-document families, and atomically published a checksum-verified run.
+[Task
+03C.1](../tasks/sprint2/03c1_rewrite_complete_document_producer.md) replaced
+the Task 03C reference orchestrator with the human-owned implementation. Its
+new code-bound run reproduced all semantic producer artifacts, passed 112
+offline tests, and is now the default `documents run-complete` implementation.
 
 The accepted benchmark contract is `benchmarks/er_bench/sprint1.md`; the
 durable rationale is
@@ -107,10 +115,11 @@ durable rationale is
 Sprint 2 is the smallest source-to-evaluation vertical slice. At the user's
 request, the large canonical-extraction stage is decomposed into Task 03A
 through Task 03H in the
-[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Task 03B is
-complete and awaiting user review before the next task is activated. Tasks 03C
-through 03H remain provisional learning and execution contracts that must be
-revised from each preceding outcome before activation.
+[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Tasks 03B and
+03C, including the 03C.1 maintainability rewrite, are complete. Task 03D is
+inactive pending user review and contract revision from the actual producer
+artifacts. Tasks 03D through 03H remain provisional learning and execution
+contracts that must be revised from each preceding outcome before activation.
 
 ## Document roles
 

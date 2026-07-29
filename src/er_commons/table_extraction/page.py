@@ -490,8 +490,9 @@ def extract_page(
     route_mode: ExplicitRoute | None = None,
     layout_regions: list[list[float]] | None = None,
     table_id_prefix: str = "g3",
+    retain_review_derivatives: bool = True,
 ) -> dict[str, Any]:
-    """Extract one page using an explicit route or the legacy ruling-line router."""
+    """Extract one page, optionally omitting reproducible review images."""
     result_path = output_dir / "result.json"
     if result_path.exists():
         return dict(json.loads(result_path.read_text()))
@@ -514,18 +515,10 @@ def extract_page(
     page.close()
     document.close()
 
-    page_image_path = output_dir / "page.png"
-    image.save(page_image_path, optimize=False, compress_level=9)
     ruled_regions, ruling_mask = detect_ruled_regions(
         image,
         page_height,
         detection,
-    )
-    ruling_mask_path = output_dir / "ruling_mask.png"
-    cv2.imwrite(
-        str(ruling_mask_path),
-        ruling_mask,
-        [cv2.IMWRITE_PNG_COMPRESSION, 9],
     )
 
     complex_page = len(ruled_regions) >= int(detection["complex_page_minimum_regions"])
@@ -645,8 +638,32 @@ def extract_page(
         if footer and table_records
         else None
     )
-    annotated_path = output_dir / "annotated.png"
-    annotated.save(annotated_path, optimize=False, compress_level=9)
+    artifacts: dict[str, dict[str, str]] = {}
+    if retain_review_derivatives:
+        page_image_path = output_dir / "page.png"
+        image.save(page_image_path, optimize=False, compress_level=9)
+        ruling_mask_path = output_dir / "ruling_mask.png"
+        cv2.imwrite(
+            str(ruling_mask_path),
+            ruling_mask,
+            [cv2.IMWRITE_PNG_COMPRESSION, 9],
+        )
+        annotated_path = output_dir / "annotated.png"
+        annotated.save(annotated_path, optimize=False, compress_level=9)
+        artifacts = {
+            "page_image": {
+                "path": "page.png",
+                "sha256": sha256_file(page_image_path),
+            },
+            "ruling_mask": {
+                "path": "ruling_mask.png",
+                "sha256": sha256_file(ruling_mask_path),
+            },
+            "annotated": {
+                "path": "annotated.png",
+                "sha256": sha256_file(annotated_path),
+            },
+        }
     result = {
         "schema_version": "1.0.0",
         "physical_pdf_page": page_number,
@@ -661,20 +678,7 @@ def extract_page(
         "tables": table_records,
         "footer": footer,
         "footer_owner_table_id": footer_owner,
-        "artifacts": {
-            "page_image": {
-                "path": "page.png",
-                "sha256": sha256_file(page_image_path),
-            },
-            "ruling_mask": {
-                "path": "ruling_mask.png",
-                "sha256": sha256_file(ruling_mask_path),
-            },
-            "annotated": {
-                "path": "annotated.png",
-                "sha256": sha256_file(annotated_path),
-            },
-        },
+        "artifacts": artifacts,
         "wall_seconds": time.perf_counter() - started,
     }
     write_json(result_path, result)

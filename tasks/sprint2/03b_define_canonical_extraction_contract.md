@@ -326,5 +326,5 @@ passed
 ```
 
 No canonical schema or fixture semantics changed during cleanup. Task 03B is
-complete as an MVP. Task 03C remains inactive until the user reviews this
-handoff.
+complete as an MVP. At Task 03B closure, Task 03C remained inactive pending
+user review of that handoff.

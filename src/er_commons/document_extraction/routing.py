@@ -130,18 +130,33 @@ def classify_page(
 
 def layout_table_regions(document_payload: dict[str, Any], page_number: int) -> list[list[float]]:
     """Read Heron's table-labeled regions without consuming TableFormer cells."""
-    regions: list[list[float]] = []
-    for table in document_payload.get("tables", []):
-        for provenance in table.get("prov", []):
+    return [
+        observation["bbox_pdf_points_bottom_left"]
+        for observation in layout_table_observations(document_payload, page_number)
+    ]
+
+
+def layout_table_observations(
+    document_payload: dict[str, Any],
+    page_number: int,
+) -> list[dict[str, Any]]:
+    """Retain raw Docling pointers for every routed Heron table observation."""
+    observations: list[dict[str, Any]] = []
+    for table_index, table in enumerate(document_payload.get("tables", [])):
+        for provenance_index, provenance in enumerate(table.get("prov", [])):
             if int(provenance.get("page_no", -1)) != page_number:
                 continue
             bbox = provenance.get("bbox", {})
-            regions.append(
-                [
-                    float(bbox["l"]),
-                    float(bbox["b"]),
-                    float(bbox["r"]),
-                    float(bbox["t"]),
-                ]
+            observations.append(
+                {
+                    "raw_object_ref": f"#/tables/{table_index}",
+                    "provenance_index": provenance_index,
+                    "bbox_pdf_points_bottom_left": [
+                        float(bbox["l"]),
+                        float(bbox["b"]),
+                        float(bbox["r"]),
+                        float(bbox["t"]),
+                    ],
+                }
             )
-    return regions
+    return observations
