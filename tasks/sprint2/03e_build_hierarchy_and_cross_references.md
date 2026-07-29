@@ -1,51 +1,62 @@
-# Task 03E: Build Hierarchy and Cross-Reference Candidates
+# Task 03E: Build Hierarchy and Printed-Page Labels
 
-Status: **provisional**. Revise this contract from the accepted Task 03D outcome
-before activating it.
+Status: **provisional; scope split recorded 2026-07-29**. Revise this contract
+from the accepted Task 03D outcome before activating it. Cross-reference
+mention extraction and candidate resolution are deferred to a future Task
+03E.1 contract written only after Task 03E is accepted.
 
 ## Abstract
 
-Derive the canonical section hierarchy, printed-page-label observations, and
-explicit cross-reference candidate graph from the core records produced by
-Task 03D. Preserve the signals and ambiguity behind every inferred relationship
-rather than forcing uncertain headings, page labels, or references into a
-single authoritative target. Do not use an LLM or define retrieval passages.
+Replace Task 03D's synthetic containment-only roots with a deterministic
+canonical section hierarchy and add printed-page-label observations. Preserve
+the signals and ambiguity behind inferred heading levels, boundaries, and page
+labels rather than forcing uncertain evidence into one unqualified structure.
+Do not extract or resolve cross-references in this task.
 
 ## Goal
 
-Represent the Draft EIR as both an ordered document and a provenance-preserving
-semantic graph so later curation, retrieval, citation rendering, and human
-review can navigate sections and references without weakening exact page/block
-anchors.
+Represent the Draft EIR as both an ordered document and a
+provenance-preserving section tree so later curation, retrieval, citation
+rendering, human review, and Task 03E.1 cross-reference linking can use semantic
+paths without weakening exact page and content anchors.
 
 ## Inputs
 
 - completed Task 03B canonical contract
-- completed Task 03D core canonical records and raw mappings
-- Docling heading labels, levels, group structure, and body order
-- PDF outline/page-label metadata where present
+- accepted Task 03D core canonical records, synthetic roots, observations, and
+  raw mappings
+- Docling heading labels, group structure, body order, typography, and
+  provenance retained through Task 03D
+- PDF outline and page-label metadata where present
 - source titles, appendix identities, visible numbering, and canonical page
-  renders
+  geometry
+- on-demand review-cache renders for selected validation pages
 - current Docling
   [heading-hierarchy options](https://docling-project.github.io/docling/reference/pipeline_options/)
 
 ## Outputs
 
-- canonical section records and heading paths
-- printed-page-label observations with method and provenance
-- explicit cross-reference mention records
-- zero-or-more candidate target records per mention, with resolution state and
-  deterministic evidence for each candidate
-- section/page/block graph edges that preserve exact low-level anchors
-- fixtures covering nested numbering, missing levels, ambiguous references,
-  appendix aliases, page-label mismatches, and unresolved targets
-- validation summaries for hierarchy and graph integrity
+- canonical semantic section records and heading paths beneath the retained
+  document roots
+- deterministic reassignment of blocks, tables, and figures from synthetic
+  roots into inferred sections
+- printed-page-label observations with method, evidence, and explicit unknown
+  or ambiguous states
+- section, page, block, table, and figure graph edges that preserve exact
+  low-level anchors
+- a reviewed alias inventory for document, appendix, section, table, figure,
+  and printed-page targets that Task 03E.1 may consume
+- fixtures covering nested numbering, missing levels, repeated headings,
+  ambiguous levels, appendix aliases, absent outlines, and printed-label
+  mismatches
+- validation summaries for hierarchy, membership, labels, aliases, and graph
+  integrity
 
 ## Research / learning checkpoint
 
 Inspect how heading levels are produced by the selected Docling configuration.
 The layout model may identify a region as a section header without establishing
-its level; bookmarks, numbering, typography, and learned or heuristic hierarchy
+its level; bookmarks, numbering, typography, and deterministic hierarchy
 inference are separate signals. Review current research on
 [document-tree reconstruction](https://aclanthology.org/2024.findings-emnlp.628/)
 and [reading-order relations](https://aclanthology.org/2024.emnlp-main.540/)
@@ -56,75 +67,89 @@ The outcome must explain:
 - **Reading order and hierarchy are different latent structures.** A correct
   sequence of blocks does not determine whether a heading is a sibling, child,
   caption, or continuation.
+- **Task 03D roots are scaffolding, not semantic findings.** Retain stable body
+  and furniture roots as containment anchors while replacing their flat
+  child membership with reviewed inferred sections and direct children.
 - **PDF outlines are evidence, not ground truth.** Bookmarks may be incomplete,
   stale, overly coarse, or absent even when visible headings are clear.
 - **Heading induction is multi-signal inference.** Numbering patterns,
   typography, indentation, bookmarks, parser labels, and prior heading context
   can disagree. Preserve the evidence and deterministic rule that produced a
   level.
-- **Printed labels differ from PDF page identity.** Keep zero- or one-based
-  internal indices, one-based PDF page numbers, page-tree labels, and visible
-  printed labels distinct. Appendix page `3.5-17` is not interchangeable with
-  PDF page 17.
-- **Cross-reference resolution is entity linking.** “See Appendix G, Section
-  4.2, page 3.5-17” requires mention parsing, aliases, candidate generation, and
-  target resolution. Precision errors create false evidence paths; recall
-  errors hide useful context.
-- **Ambiguity belongs in the data model.** Store the raw mention, candidate set,
-  rule/evidence, and `resolved`, `ambiguous`, or `unresolved` state. Do not
-  convert uncertainty into a fabricated single edge.
-- **Semantic units and physical anchors coexist.** A section or table can be a
-  human citation unit while one or more exact pages, blocks, and table regions
-  remain the verification units.
+- **Printed labels differ from PDF page identity.** Keep internal indices,
+  one-based physical PDF page numbers, page-tree labels, and visible printed
+  labels distinct. Appendix page `3.5-17` is not interchangeable with physical
+  page 17.
+- **Ambiguity belongs in the data model.** Unknown or conflicting heading and
+  label evidence must remain explicit rather than becoming a fabricated
+  confident value.
+- **Semantic units and physical anchors coexist.** A section can be a human
+  citation unit while exact pages, blocks, tables, and figure regions remain
+  the verification units.
 - **Hierarchy quality affects later LLM evaluation.** Heading paths influence
-  BM25 terms and passage boundaries; wrong links can inflate apparent
+  BM25 terms and passage boundaries; wrong containment can inflate apparent
   retrieval recall or feed irrelevant context that looks authoritative.
+- **Cross-reference linking depends on reviewed targets.** Task 03E should
+  establish section paths, printed labels, and normalized aliases before Task
+  03E.1 parses mentions or proposes targets.
 
 ## Plan / spec requirement
 
-Write a hierarchy and linking specification before implementation. It must
-define:
+Write a hierarchy and printed-label specification before implementation. It
+must define:
 
 1. heading-signal precedence and conflict representation;
-2. section start/end and containment rules;
-3. synthetic root and unknown-level behavior;
+2. section start, end, containment, and direct-membership rules;
+3. how Task 03D synthetic roots are retained and extended;
 4. title, appendix, section, table, figure, and page-label alias normalization;
-5. printed-label observation methods and confidence/evidence fields;
-6. supported cross-reference patterns and intentionally unsupported language;
-7. candidate generation, deterministic resolution, and ambiguity rules;
-8. graph-edge types and referential-integrity invariants;
-9. whether failures are fatal, warnings, or unresolved records; and
-10. how later tasks may extend the graph without rewriting canonical source
-    transcription.
+5. printed-label observation methods, confidence, evidence, and unknown states;
+6. behavior for skipped, repeated, malformed, and absent heading levels;
+7. graph-edge types and referential-integrity invariants;
+8. whether failures are fatal, warnings, or explicit unknowns;
+9. deterministic ordering and candidate-identity consequences; and
+10. the exact reviewed target and alias handoff to Task 03E.1.
 
-Prefer deterministic parsing and explicit candidate records. Do not add an LLM
-linker, embeddings, fuzzy semantic search, or a general knowledge-graph
-framework.
+Prefer deterministic parsing and explicit evidence records. Do not add an LLM
+hierarchy repairer, embeddings, fuzzy semantic search, cross-reference parser,
+or general knowledge-graph framework.
 
 ## Review pass
 
-- **Hierarchy fidelity:** inspect nested, skipped, repeated, and appendix-specific
-  heading patterns.
+- **Hierarchy fidelity:** inspect nested, skipped, repeated, and
+  appendix-specific heading patterns.
+- **Root continuity:** verify semantic sections extend rather than accidentally
+  duplicate or orphan the Task 03D containment roots.
 - **Identity discipline:** verify printed labels never replace physical PDF
   page identity.
-- **Linking precision:** ensure uncertain aliases or references produce
-  candidate or unresolved records rather than confident false links.
-- **Provenance:** every inferred section and edge retains the source blocks and
-  rule that produced it.
+- **Ambiguity:** ensure uncertain heading levels or labels remain explicit.
+- **Provenance:** every inferred section, label, membership, and alias retains
+  its source blocks and deterministic rule.
 - **Downstream safety:** graph metadata helps curation and retrieval without
-  introducing curator labels or target-facing gold information.
+  introducing curator labels, target-facing gold information, or premature
+  cross-reference edges.
 
 ## Validation
 
-- Validate section paths and parent/child edges as an acyclic rooted forest per
-  document or the exact structure specified in Task 03B.
-- Verify every section range resolves to ordered canonical blocks and pages.
-- Verify page-label records distinguish PDF and printed identities.
-- Test exact, aliased, ambiguous, missing, and malformed cross-reference
+- Validate section paths and parent/child edges as the exact acyclic rooted
+  structure specified by the revised Task 03B contract.
+- Verify every section range and direct membership resolves to ordered
+  canonical blocks, tables, figures, and pages.
+- Verify every core content record belongs to exactly one direct section and
+  the inverse ordered-child relationship is exact.
+- Verify printed-page-label observations distinguish physical PDF identity,
+  page-tree labels, and visible printed labels.
+- Test nested, skipped, repeated, absent, malformed, and ambiguous heading
   fixtures.
-- Confirm unresolved references remain discoverable and no mention disappears.
-- Inspect representative hierarchy and reference outputs against page renders.
-- Confirm repeated execution yields identical sections, candidates, and edges.
+- Test exact, absent, conflicting, and appendix-specific printed-label
+  fixtures.
+- Verify the alias inventory is deterministic, provenance-backed, and contains
+  no inferred cross-reference mentions or targets.
+- Inspect representative hierarchy and printed-label outputs with on-demand
+  review-cache renders.
+- Confirm repeated execution yields identical sections, memberships, labels,
+  aliases, and edges.
+- Confirm no cross-reference mention extraction or candidate resolution was
+  introduced.
 - Run:
 
 ```bash
@@ -135,21 +160,43 @@ git diff --check
 
 ## Acceptance criteria
 
-- Canonical sections have deterministic identities, paths, source evidence, and
-  exact block/page membership.
-- Printed-page-label observations never overwrite PDF page numbers or indices.
-- Every supported cross-reference mention is preserved with zero or more
-  candidate targets and an explicit resolution state.
-- Ambiguity and unsupported patterns are visible rather than silently dropped.
+- Canonical sections have deterministic candidate identities, paths, source
+  evidence, and exact content/page membership.
+- Synthetic Task 03D roots remain valid containment anchors and all semantic
+  sections are connected beneath them.
+- Printed-page-label observations never overwrite physical PDF page numbers or
+  indices.
+- Unknown and conflicting hierarchy or label states are visible rather than
+  silently forced.
+- The reviewed target and alias inventory is sufficient for a future Task
+  03E.1 contract to define supported cross-reference patterns and deterministic
+  candidate resolution without reopening source transcription.
+- No cross-reference mention or candidate records are emitted.
 - No LLM, embedding model, retrieval index, or curator-only response content is
   used.
 - The hierarchy remains connected to exact low-level anchors needed for later
   evidence verification.
-- The outcome requests user review before Task 03F.
+- The outcome requests user review before Task 03E.1 is written.
+
+## Handoff to Task 03E.1
+
+Do not write the detailed Task 03E.1 execution contract until Task 03E is
+accepted. Its intended scope is already fixed at the routing level:
+
+- extract supported cross-reference mentions from canonical source text;
+- preserve raw mention text, spans, and provenance;
+- generate zero-or-more targets from the reviewed Task 03E section,
+  printed-page, table, figure, document, and appendix aliases;
+- record `resolved`, `ambiguous`, or `unresolved` state and deterministic
+  evidence; and
+- avoid LLM linking, embeddings, fuzzy semantic search, curator-only content,
+  and retrieval-specific graph construction.
 
 ## Non-goals
 
-- perfect resolution of every natural-language reference
+- cross-reference mention extraction, pattern definition, candidate generation,
+  or target resolution
+- perfect semantic hierarchy for every irregular source
 - response/general-response linking in Final EIR Volume 4
 - semantic evidence selection or citation approval
 - chunking, BM25 indexing, embeddings, or graph retrieval

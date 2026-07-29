@@ -96,17 +96,18 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Current next action: finish user review of the Task 03C producer boundary,
-repeated Docling list-parent warning, 14 explicit zero-table mappings, and the
-guided visual sample. Then revise Task 03D from the accepted human-owned
-producer artifacts before explicit activation. Do not begin canonical record
-materialization in the Task 03C review step.
+Current active task: execute Task 03D from its approved contract. It consumes
+the accepted human-owned Appendix P producer run, distinguishes 34 region
+mappings from 14 zero-table pages, excludes durable page renders, uses a
+non-release one-document candidate identity, and limits tables to the clean
+rectangular grid plus CSV representation.
 
 ## Open queue
 
-1. Review Task 03C, then revise and execute Tasks 03D–03H one at a time: core
-   records, hierarchy and cross-references, restartable batching, production
-   pilot, and full candidate extraction.
+1. Execute active Task 03D, then revise and execute later contracts one at a
+   time: hierarchy and printed-page labels in Task 03E, cross-reference
+   mentions and candidates in planned Task 03E.1, restartable batching,
+   production pilot, and full candidate extraction.
 2. Independently review usability and freeze extraction v1 in Task 04.
 3. Continue through response inventory, case authoring, and benchmark freezing
    using one bounded task at a time.

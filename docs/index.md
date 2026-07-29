@@ -117,9 +117,10 @@ request, the large canonical-extraction stage is decomposed into Task 03A
 through Task 03H in the
 [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Tasks 03B and
 03C, including the 03C.1 maintainability rewrite, are complete. Task 03D is
-inactive pending user review and contract revision from the actual producer
-artifacts. Tasks 03D through 03H remain provisional learning and execution
-contracts that must be revised from each preceding outcome before activation.
+active. Its contract was revised from the actual Appendix P producer artifacts,
+reviewed against the saved handoff, and approved on 2026-07-29. Tasks 03E
+through 03H remain provisional learning and execution contracts that must be
+revised from each preceding outcome before activation.
 
 ## Document roles
 

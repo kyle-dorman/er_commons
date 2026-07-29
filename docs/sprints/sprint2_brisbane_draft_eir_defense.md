@@ -505,8 +505,7 @@ too large or new evidence creates a distinct decision or validation boundary.
    Docling-plus-clean-table configuration; produce canonical document, section,
    page, block, table, table-family, figure, image, asset, and cross-reference
    records with version-scoped deterministic IDs. At the user's request, this
-   large stage is split into
-   eight stop-and-review contracts:
+   large stage is split into bounded stop-and-review contracts:
    - [Task 03A](../../tasks/sprint2/03a_validate_document_parser.md): validate
      Docling, the native-only configuration, and structural failure modes;
    - [Task 03B](../../tasks/sprint2/03b_define_canonical_extraction_contract.md):
@@ -516,7 +515,10 @@ too large or new evidence creates a distinct decision or validation boundary.
    - [Task 03D](../../tasks/sprint2/03d_materialize_canonical_records.md):
      materialize core canonical records from preserved raw output;
    - [Task 03E](../../tasks/sprint2/03e_build_hierarchy_and_cross_references.md):
-     derive hierarchy, printed labels, and cross-reference candidates;
+     derive hierarchy and printed-page labels;
+   - **planned Task 03E.1:** extract cross-reference mentions and resolve
+     candidates against the accepted Task 03E hierarchy, labels, and aliases;
+     write its detailed contract only after Task 03E is accepted;
    - [Task 03F](../../tasks/sprint2/03f_make_extraction_restartable.md): add
      restartable, resource-bounded corpus orchestration;
    - [Task 03G](../../tasks/sprint2/03g_run_representative_extraction_pilot.md):
@@ -530,9 +532,10 @@ too large or new evidence creates a distinct decision or validation boundary.
    03C.1](../../tasks/sprint2/03c1_rewrite_complete_document_producer.md)
    subsequently replaced the reference orchestrator with the accepted
    human-owned implementation and proved semantic equivalence through a second
-   complete Appendix P run. Task 03D is inactive pending user review and
-   revision from those artifacts. Tasks 03D through 03H remain provisional and
-   must be revised from each accepted preceding outcome before activation.
+   complete Appendix P run. Task 03D is active after revision from those
+   artifacts, review against the saved handoff, and user approval on
+   2026-07-29. Tasks 03E through 03H remain provisional and must be revised
+   from each accepted preceding outcome before activation.
 3. **Task 04 — Review usability and freeze extraction v1.** Run automated
    integrity checks and representative visual QA; review every excluded page
    or document and every table proposed for retrieval; inspect per-table

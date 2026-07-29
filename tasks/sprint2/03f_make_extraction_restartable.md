@@ -1,7 +1,7 @@
 # Task 03F: Make Extraction Batch-Safe and Restartable
 
-Status: **provisional**. Revise this contract from the accepted Task 03E outcome
-before activating it.
+Status: **provisional**. Revise this contract from the accepted Task 03E.1
+outcome before activating it.
 
 ## Abstract
 
@@ -20,7 +20,7 @@ existence as proof of success.
 
 ## Inputs
 
-- completed Tasks 03B–03E contracts and implementation
+- completed Tasks 03B through 03E and the accepted Task 03E.1 implementation
 - the sealed Task 02 source manifest filtered to 35 `model_corpus` records
 - per-document conversion, canonicalization, hierarchy, and validation commands
 - Docling's current
