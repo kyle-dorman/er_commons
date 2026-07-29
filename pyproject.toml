@@ -8,6 +8,7 @@ dependencies = [
     "beautifulsoup4>=4.13,<5",
     "camelot-py==2.0.0",
     "docling==2.115.0",
+    "jsonschema>=4.26,<5",
     "opencv-python-headless==5.0.0.93",
     "pikepdf>=10,<11",
     "psutil>=7.2,<8",
@@ -16,6 +17,7 @@ dependencies = [
     "pypdf>=6,<7",
     "pypdfium2==5.12.1",
     "requests>=2.32,<3",
+    "rfc8785>=0.1.4,<0.2",
     "typer>=0.21,<1",
     "urllib3>=2,<3",
 ]

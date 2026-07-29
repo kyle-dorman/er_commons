@@ -94,10 +94,12 @@ the maintainable document-pipeline rewrite and closed Task 03A. Its final v4
 run disabled TableFormer, reproduced all non-table invariants, routed exactly
 main page 1500 and G3 page 1000, and invoked the complete clean table pipeline
 without bypassing cleanup, footer ownership, family assignment, or sealing.
-The [revised provisional Task
-03B](../tasks/sprint2/03b_define_canonical_extraction_contract.md) now reflects
-that accepted ownership boundary and remains inactive pending explicit
-activation.
+The completed [Task
+03B](../tasks/sprint2/03b_define_canonical_extraction_contract.md) defines the
+MVP canonical contract, executable schemas, fixtures, and offline invariant
+tests. Its separate cleanup pass reorganized executable enforcement around
+human-owned bundle, content, and lineage policies. Task 03C remains inactive
+until user review.
 
 The accepted benchmark contract is `benchmarks/er_bench/sprint1.md`; the
 durable rationale is
@@ -106,9 +108,9 @@ Sprint 2 is the smallest source-to-evaluation vertical slice. At the user's
 request, the large canonical-extraction stage is decomposed into Task 03A
 through Task 03H in the
 [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Task 03B is
-revised but inactive pending explicit activation. Tasks 03C through 03H remain
-provisional learning and execution contracts that must be revised from each
-preceding outcome before activation.
+complete and awaiting user review before the next task is activated. Tasks 03C
+through 03H remain provisional learning and execution contracts that must be
+revised from each preceding outcome before activation.
 
 ## Document roles
 

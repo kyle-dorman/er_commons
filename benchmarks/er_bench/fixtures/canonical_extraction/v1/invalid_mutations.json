@@ -1,0 +1,18 @@
+[
+  {"name": "identity_rejects_dirty_code", "collection": "identity", "index": null, "operation": "replace", "path": ["project_code", "git_dirty"], "value": true},
+  {"name": "manifest_rejects_review_field", "collection": "manifest", "index": null, "operation": "add", "path": ["reviewer"], "value": "human"},
+  {"name": "document_rejects_curator_role", "collection": "documents", "index": 0, "operation": "replace", "path": ["source_role"], "value": "curator_only_response_source"},
+  {"name": "page_rejects_usability", "collection": "pages", "index": 0, "operation": "add", "path": ["usability"], "value": "usable"},
+  {"name": "section_rejects_review_date", "collection": "sections", "index": 0, "operation": "add", "path": ["review_date"], "value": "2026-07-29"},
+  {"name": "block_rejects_disposition", "collection": "blocks", "index": 0, "operation": "add", "path": ["disposition"], "value": "accepted"},
+  {"name": "table_rejects_exclusion", "collection": "tables", "index": 0, "operation": "add", "path": ["excluded"], "value": false},
+  {"name": "table_family_requires_complete_document", "collection": "table_families", "index": 0, "operation": "replace", "path": ["document_scope_complete"], "value": false},
+  {"name": "figure_rejects_reviewer", "collection": "figures", "index": 0, "operation": "add", "path": ["reviewer"], "value": "human"},
+  {"name": "image_rejects_reviewer", "collection": "images", "index": 0, "operation": "add", "path": ["reviewer"], "value": "human"},
+  {"name": "asset_rejects_absolute_path", "collection": "assets", "index": 0, "operation": "replace", "path": ["path"], "value": "/tmp/document.json"},
+  {"name": "cross_reference_rejects_curator_note", "collection": "cross_references", "index": 0, "operation": "add", "path": ["curator_note"], "value": "gold"},
+  {"name": "routing_rejects_human_status", "collection": "routing_observations", "index": 0, "operation": "replace", "path": ["status"], "value": "usable"},
+  {"name": "table_stage_rejects_human_status", "collection": "table_stage_observations", "index": 0, "operation": "replace", "path": ["status"], "value": "accepted"},
+  {"name": "conversion_rejects_human_status", "collection": "conversion_observations", "index": 0, "operation": "replace", "path": ["status"], "value": "review_complete"},
+  {"name": "mapping_requires_raw_lineage", "collection": "raw_mappings", "index": 0, "operation": "replace", "path": ["raw_links"], "value": []}
+]

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/canonical-extraction/v1/review_cache.schema.json",
+  "title": "Optional regenerable review-cache entry",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "extraction_id",
+    "source_id",
+    "source_sha256",
+    "physical_page_number",
+    "derivative_type",
+    "render_config_sha256",
+    "generator_code_sha256",
+    "path",
+    "sha256",
+    "byte_size",
+    "disposable"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.review_cache_entry.v1"
+    },
+    "extraction_id": {
+      "type": "string",
+      "pattern": "^exv1-[0-9a-f]{64}$"
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "physical_page_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "derivative_type": {
+      "enum": [
+        "page_render",
+        "annotated_overlay",
+        "diagnostic_html",
+        "diagnostic_markdown",
+        "ruling_mask",
+        "table_debug"
+      ]
+    },
+    "render_config_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "generator_code_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*\\.\\.).+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "byte_size": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "disposable": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,8 +1,9 @@
 # Task 03B: Define the Canonical Extraction Contract
 
-Status: **revised provisional contract; inactive pending explicit activation**.
-Do not begin the schema, fixture, or test work until the user activates this
-task.
+Status: **complete 2026-07-29; MVP and human-maintainability pass implemented**.
+The user explicitly requested an MVP implementation followed by a separate
+code-cleanup pass. Both passes are complete. Do not activate Task 03C until the
+user reviews this contract.
 
 ## Abstract
 
@@ -229,3 +230,101 @@ git diff --check
 - assigning page exclusions or document usability
 - building Label Studio interfaces
 - designing LLM prompts, citation-generation behavior, or evaluation rubrics
+
+## Outcome
+
+The first implementation pass added:
+
+- [`docs/specs/canonical_extraction_v1.md`](../../docs/specs/canonical_extraction_v1.md),
+  which freezes producer ownership, extraction identity, versioned artifact
+  layout, record serialization, deterministic IDs and order, coordinates,
+  text, hierarchy, mappings, machine status, provenance, compatibility, and
+  the Task 04 boundary;
+- one strict JSON Schema Draft 2020-12 bundle with executable definitions for
+  extraction identity, manifest, document, section, page, block, table,
+  table-family, figure, image, asset, cross-reference, routing observation,
+  table-stage observation, conversion observation, and raw mapping records;
+- a tiny complete valid bundle that exercises multi-region provenance,
+  zero/one/many table-region mappings, complete-document families, figures,
+  images, cross-references, assets, raw lineage, and the inherited
+  `source_edition_override`;
+- mutation-based invalid fixtures for every required record family; and
+- project-owned offline invariant checks for RFC 8785 identity hashing,
+  extraction-scoped typed IDs, reference scope, exact order and counts,
+  geometry, hierarchy, table topology, family symmetry, mapping coverage,
+  permitted text normalization, source-edition propagation, and nested
+  human-review leakage.
+
+Research confirmed that Docling content is a normalized graph whose body order
+and zero/one/many provenance must not be collapsed into one nested tree.
+Docling JSON is the lossless producer artifact, and its raw pointers are
+locators rather than canonical IDs. Camelot cells use bottom-left PDF geometry;
+its parsing metrics are diagnostics rather than correctness or usability.
+The contract therefore keeps Docling table regions as observations and takes
+canonical table content only from the accepted clean Camelot pipeline.
+
+An independent review initially found acceptance-blocking false positives:
+identity fields were not content-bound, references were untyped, ordering was
+single-document only, geometry combinations could contradict each other,
+table-family pointers could diverge, statuses could imply impossible outputs,
+and raw mapping or nested review leakage was insufficiently constrained. The
+MVP was hardened against those cases before handoff.
+
+User review then made two contract changes. Local IDs now use explicit,
+type-specific prefixes such as `tbl`, `fam`, and `fig`; ID policy version 2
+enforces them even though the path namespace already distinguishes record
+types. Full-page renders, overlays, diagnostic HTML and Markdown, ruling masks,
+and table-debug images were removed from canonical asset roles and extraction
+completeness. A separate strict review-cache schema makes those derivatives
+disposable and reproducible on demand for selected review or labeling pages.
+
+Initial MVP validation completed:
+
+```text
+uv run pytest tests/test_canonical_extraction_contract.py -q
+32 passed
+
+make check
+77 passed
+
+git diff --check
+passed
+```
+
+No parser ran, no real Task 03A artifacts were canonicalized, and no external
+derived directory was created. A later read-only smoke test verified the
+mounted source release and accepted v4 artifact hashes but did not use those
+bytes to replace the intentionally tiny synthetic fixture.
+
+The requested cleanup pass preserved the schema, fixture, and public-helper
+behavior while replacing the original 560-line mixed-purpose validator.
+Reusable identity, ID, coordinate, bundle-index, and traversal concepts now
+have small modules. Cross-record rules are grouped by human ownership:
+bundle/serialization, document content, and provenance/lineage. The public
+validator is an ordered 21-policy checklist, so a maintainer can see the full
+contract flow without reading every implementation first. Compound tests were
+split into single-policy examples with names that state the invariant.
+
+Cleanup validation completed:
+
+```text
+uv run ruff check src/er_commons/canonical_extraction \
+  tests/test_canonical_extraction_contract.py
+passed
+
+uv run mypy src/er_commons/canonical_extraction
+passed
+
+uv run pytest tests/test_canonical_extraction_contract.py -q
+42 passed
+
+make check
+87 passed
+
+git diff --check
+passed
+```
+
+No canonical schema or fixture semantics changed during cleanup. Task 03B is
+complete as an MVP. Task 03C remains inactive until the user reviews this
+handoff.

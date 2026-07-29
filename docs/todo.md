@@ -4,11 +4,13 @@
 
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
-Current active task: none. Task 03A is closed. The Task 03B contract has been
-revised around the accepted parser/table ownership boundary and remains
-inactive pending explicit activation.
-
 Most recently completed: [Task
+03B](../tasks/sprint2/03b_define_canonical_extraction_contract.md). Its MVP
+contract, executable schemas, fixtures, and offline invariant tests are
+implemented. The requested cleanup pass separated bundle, content, and lineage
+policies for human ownership. Task 03C remains inactive pending user review.
+
+Previously completed: [Task
 03A.15](../tasks/sprint2/03a15_rewrite_document_parser_pipeline.md) replaced
 the document-parser proof of concept, disabled TableFormer, and integrated the
 content router with the complete clean table pipeline. The final ten-page v4
@@ -85,20 +87,20 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Current next action: activate the revised Task 03B only on explicit user
-direction. Docling owns native text/layout/provenance; the reviewed router
-selects table work; the full clean table pipeline owns reconstruction, cleanup,
-footer ownership, and family assignment. Table families become
-complete-document, extraction-version-scoped machine records, while Task 04
-owns the linked human usability registry. Do not execute Task 03B or process
-pages 601-6104 before activation.
+Current next action: review the completed Task 03B MVP and cleanup handoff,
+then revise Task 03C before deciding whether to activate it. Docling owns
+native text/layout/provenance; the reviewed router selects table work; the full
+clean table pipeline owns reconstruction, cleanup, footer ownership, and
+family assignment. Table families are complete-document,
+extraction-version-scoped machine records, while Task 04 owns the linked human
+usability registry. Do not activate Task 03C or process pages 601-6104.
 
 ## Open queue
 
-1. Activate and execute the revised Task 03B on explicit user direction, then
-   revise and execute Tasks 03C–03H one at a time: single-document conversion,
-   core records, hierarchy and cross-references, restartable batching,
-   production pilot, and full candidate extraction.
+1. Review the completed Task 03B handoff, then revise and execute Tasks 03C–03H
+   one at a time: single-document conversion, core records, hierarchy and
+   cross-references, restartable batching, production pilot, and full candidate
+   extraction.
 2. Independently review usability and freeze extraction v1 in Task 04.
 3. Continue through response inventory, case authoring, and benchmark freezing
    using one bounded task at a time.
