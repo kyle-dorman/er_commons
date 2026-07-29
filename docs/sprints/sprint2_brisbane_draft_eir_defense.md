@@ -29,12 +29,24 @@ splitting while preserving the minimum 25 accepted cases.
 
 ### Canonical extraction boundary
 
-Retain Docling's original structured output and materialize a stable canonical
-interface with page records and structural block records. Page records preserve
+Retain Docling's original structured output and the clean table pipeline's raw
+and cleaned outputs, and materialize a stable canonical interface with page,
+structural-block, table, and table-family records. Page records preserve
 document identity, PDF page number, printed page label when present, canonical
 text, and conversion provenance. Structural blocks preserve headings,
-paragraphs, list items, tables, captions, and other detected elements with
-stable links to their source page and location.
+paragraphs, list items, captions, Docling table-region observations, and other
+detected elements with stable links to their source page and location. Clean
+table-pipeline records supply canonical table content; TableFormer remains
+disabled and Docling table regions do not supply canonical cells.
+
+Preserve explicit mappings between Docling table-region observations and clean
+logical tables. One observed region may map to zero, one, or several clean
+tables; do not force a one-to-one relationship or collapse separately
+reconstructed tables. Represent related tables as first-class, machine-derived
+table families where the reviewed footer and header evidence supports reading
+them together. Finalize deterministic family membership and IDs only over a
+complete document and scope those IDs to one extraction version; pilot and
+partial-run family numbers are not canonical identities.
 
 Save extracted images and their source-page and bounding-box metadata as part
 of the conversion artifacts, even though first-pass retrieval and generation
@@ -47,11 +59,20 @@ artifact. Retrieval passage size, overlap, and heading composition are later
 BM25 decisions and must not be fixed by the extraction task.
 
 Use native PDF text and layout extraction only in this sprint; do not apply
-OCR. Maintain a page-level usability registry for every source document. Each
-page records its extraction and review status, exclusion reason when present,
-reviewer, review date, and links to its canonical text, blocks, and full-page
-render. Roll those page statuses up into document dispositions such as
-`usable`, `usable_with_exclusions`, and `skipped_no_ocr`.
+OCR. Task 03 canonical page, table, and table-family records contain
+machine-derived content, provenance, and stage statuses only. Conversion,
+routing, table-stage, and canonicalization statuses remain distinct and do not
+constitute usability judgments.
+
+Task 04 maintains separate linked page, table, and table-family usability
+records for every source document, keyed by Task 03 canonical IDs. Each review
+record identifies its entity type and records human review status, exclusion
+reason when present, reviewer, review date, and links to the applicable
+canonical content and full-page render. This granularity permits one table in a
+family to pass while another does not. Task 04 rolls page statuses up into
+document dispositions such as `usable`, `usable_with_exclusions`, and
+`skipped_no_ocr`; reviewer fields and human dispositions do not enter immutable
+Task 03 machine records.
 
 An isolated failed page does not require excluding an otherwise usable
 appendix. Mark failed pages unusable and retain the appendix as
@@ -66,9 +87,12 @@ complete main report is mandatory and cannot be silently skipped under this
 policy; a material native-extraction failure there is a stop condition
 requiring a new decision.
 
-First-pass retrieval and generation may use a table only when Docling produces
-a reliable structured or textual representation and a human verifies it
-against the corresponding page render. Figure captions and surrounding prose
+First-pass retrieval and generation may use a table only when the clean table
+pipeline produces a canonical structured or textual representation and Task 04
+human review verifies it against the corresponding page render. For a
+multi-table family, review must make the family membership, per-table content,
+and any one-to-many Docling-region mapping visible; verification of one member
+does not silently verify every member. Figure captions and surrounding prose
 may serve as text evidence. Exclude any candidate whose defense requires the
 target model to interpret a chart, map, photograph, diagram, or other visual
 content that it will not receive. Record these cases as
@@ -266,14 +290,15 @@ retriever and may cite only those passage IDs. Reference and retrieval records
 share the same canonical-anchor and display-citation conventions but use
 distinct artifact roles and namespaces. Judging and evaluation may compare the
 two after prediction; the target never receives the reference-evidence IDs,
-labels, or dispositions. Docling supplies canonical source entities and
-anchors, case authoring owns reviewed reference evidence, and the retrieval
-stage owns target passage records.
+labels, or dispositions. The accepted Docling-plus-clean-table pipeline
+supplies canonical source entities and anchors, case authoring owns reviewed
+reference evidence, and the retrieval stage owns target passage records.
 
 Canonical source and anchor IDs are deterministic within a frozen extraction
 version, not promised to survive a materially different conversion. Record the
-source checksums, Docling version, configuration hash, and corpus version that
-define each extraction. An identical rerun must reproduce the same IDs; a
+source checksums, Docling and table-pipeline versions, complete configuration
+hash, and corpus version that define each extraction. An identical rerun must
+reproduce the same IDs; a
 changed converter or configuration creates a new corpus version and new
 low-level anchors. Pin reviewed evidence and benchmark cases to the exact
 extraction version. Human-readable document and section slugs may remain
@@ -475,10 +500,11 @@ too large or new evidence creates a distinct decision or validation boundary.
    per file. For this local MVP, use one corpus-level visible-terms note with a
    per-file override only when a source differs; do not require a separate
    per-PDF legal matrix or make a reuse determination.
-2. **Task 03 — Build the canonical Draft EIR extraction.** Pin Docling and its
-   configuration; produce canonical document, section, page, block, table,
-   figure, image, page-render, and cross-reference records with version-scoped
-   deterministic IDs. At the user's request, this large stage is split into
+2. **Task 03 — Build the canonical Draft EIR extraction.** Pin the accepted
+   Docling-plus-clean-table configuration; produce canonical document, section,
+   page, block, table, table-family, figure, image, page-render, and
+   cross-reference records with version-scoped deterministic IDs. At the
+   user's request, this large stage is split into
    eight stop-and-review contracts:
    - [Task 03A](../../tasks/sprint2/03a_validate_document_parser.md): validate
      Docling, the native-only configuration, and structural failure modes;
@@ -497,12 +523,16 @@ too large or new evidence creates a distinct decision or validation boundary.
      review, and freeze its configuration and review method; and
    - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
      all 35 sources and publish the candidate extraction for Task 04.
-   Only Task 03A is active. The later contracts are provisional and must be
-   revised from each accepted preceding outcome before activation.
+   Task 03A is closed. Task 03B is a revised provisional contract and remains
+   inactive pending explicit activation. Later contracts remain provisional
+   and must be revised from each accepted preceding outcome before activation.
 3. **Task 04 — Review usability and freeze extraction v1.** Run automated
    integrity checks and representative visual QA; review every excluded page
-   or document; publish the page-level usability registry and frozen extraction
-   manifest without using OCR.
+   or document and every table proposed for retrieval; inspect per-table
+   content, table-family membership, and Docling-region-to-clean-table mappings;
+   publish the separate page/table usability registry and frozen extraction
+   manifest without adding reviewer fields to Task 03 machine records or using
+   OCR.
 4. **Task 05 — Build the complete curator-only response inventory.** Enumerate
    every comment, individual response, general response, relationship, and
    orphan in Volume 4; produce provenance-preserving resolved review views.

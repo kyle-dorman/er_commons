@@ -30,8 +30,9 @@ human usability review freezes it.
 
 ## Outputs
 
-- raw Docling output, page renders, extracted images, canonical records,
-  hierarchy records, and cross-reference candidates for all accepted
+- raw Docling and clean table-pipeline output, page renders, extracted images,
+  canonical records including tables and table families, hierarchy records,
+  mapping observations, and cross-reference candidates for all accepted
   conversions
 - one per-document completion or explicit failure record for every required
   source
@@ -40,7 +41,8 @@ human usability review freezes it.
   record
 - producer-side completeness, schema, referential-integrity, coordinate, asset,
   and rerun-validation reports for Task 04 to check independently
-- page-level machine-observation records for Task 04, with review fields unset
+- page-, table-, and table-family machine records plus mapping observations for
+  Task 04, with no human-review fields
 - document-level machine summaries for Task 04, without usability dispositions
 - propagation of every Task 02 source warning through the applicable candidate
   document/page records, including `source_edition_override` for Appendix K2
@@ -98,7 +100,7 @@ Write a short run plan immediately before execution. It must confirm:
 6. how partial/failing documents remain preserved without marking the candidate
    producer-complete;
 7. fixed-subset rerun checks after completion;
-8. Task 04 machine-observation and unset-review fields; and
+8. Task 04 machine-record handoff with human-review fields absent; and
 9. final artifact retention and rejected-version isolation.
 
 Do not change the accepted parser configuration or canonical schemas during the
@@ -129,15 +131,17 @@ earlier-task revision; it is not patched only for the remaining documents.
 - Validate every raw/canonical artifact role, schema, checksum, and contained
   path.
 - Validate global ID uniqueness within the extraction version and every
-  document/page/block/section/table/figure/image/asset/reference relationship.
+  document, page, block, section, table, table-family, figure, image, asset,
+  mapping, and reference relationship.
 - Validate bounding boxes against page dimensions and declared coordinate
   frames.
 - Validate every required page render and every referenced extracted asset.
 - Recompute aggregate counts from records rather than trusting separately
   maintained totals.
 - Rerun the Task 03G fixed subset and compare the declared semantic invariants.
-- Verify Task 04 review fields are unset and all applicable Task 02 source
-  warnings are propagated, including K2's source-edition warning.
+- Verify human-review fields are absent from Task 03 records and all applicable
+  Task 02 source warnings are propagated, including K2's source-edition
+  warning.
 - Verify Git contains no raw PDFs, converted bulk content, renders, models, or
   generated extraction records.
 - Run:
@@ -156,16 +160,16 @@ git diff --check
   explicit reviewed exception.
 - Any material native-extraction failure in the main report stops the candidate
   and requires a new decision; it cannot be passed forward as a skipped source.
-- Raw Docling output, canonical records, renders, assets, logs, warnings, and
-  manifests are complete and internally linked.
+- Raw Docling and clean table-pipeline output, canonical records, renders,
+  assets, logs, warnings, and manifests are complete and internally linked.
 - All schemas, IDs, coordinates, checksums, and referential-integrity checks
   pass.
 - Fixed-subset reruns satisfy the frozen semantic reproducibility policy.
 - Every Task 02 source warning remains discoverable in the applicable candidate
   metadata, and `source_edition_override` is present on the K2 part 2 document
   and page machine metadata.
-- Task 04 receives a complete machine-observation registry with human review
-  fields unset.
+- Task 04 receives complete page, table, table-family, and mapping machine
+  records with human-review fields absent.
 - Generated bulk artifacts remain outside Git under the versioned external
   extraction root.
 - The outcome reports exact counts, bytes, timings, warnings, validation

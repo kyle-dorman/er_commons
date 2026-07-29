@@ -1,27 +1,32 @@
 # Task 03B: Define the Canonical Extraction Contract
 
-Status: **provisional**. Revise this contract from the accepted Task 03A outcome
-before activating it.
+Status: **revised provisional contract; inactive pending explicit activation**.
+Do not begin the schema, fixture, or test work until the user activates this
+task.
 
 ## Abstract
 
-Translate the accepted Task 03A parser evidence into a versioned,
-project-owned canonical extraction contract before production code is written.
-Define artifact boundaries, schemas, coordinate and text conventions,
+Translate the accepted Task 03A parser and table-pipeline evidence into a
+versioned, project-owned canonical extraction contract before canonicalization
+or full-document production conversion begins. Define producer ownership,
+artifact boundaries, executable schemas, coordinate and text conventions,
 deterministic extraction-scoped identifiers, provenance links, machine status,
 and the precise handoff to later usability, retrieval, and evaluation stages.
-Do not convert full documents.
+Do not convert or canonicalize real documents.
 
 ## Goal
 
-Create a canonical interface that insulates the benchmark from Docling schema
-changes while preserving enough raw structure to verify every later evidence
-anchor against the frozen PDFs and page renders.
+Create a canonical interface that insulates the benchmark from both Docling
+and Camelot schema changes while preserving enough raw structure to verify
+every later evidence anchor against the frozen PDFs and page renders.
 
 ## Inputs
 
 - the completed Task 03A outcome, parser decision, configuration, and pilot
   artifacts
+- `tasks/sprint2/03a15_rewrite_document_parser_pipeline.md`
+- the accepted `document_extraction` and `table_extraction` package boundaries
+  and their final Task 03A.15 external artifacts
 - `docs/architecture.md`
 - `docs/data_artifacts.md`
 - `docs/sprints/sprint2_brisbane_draft_eir_defense.md`
@@ -30,27 +35,39 @@ anchor against the frozen PDFs and page renders.
 - Docling's current
   [document model](https://docling-project.github.io/docling/concepts/docling_document/)
   and [lossless JSON output](https://docling-project.github.io/docling/usage/supported_formats/)
+- Camelot's current Lattice, Stream, table, cell, and parsing-report
+  documentation
 
 ## Outputs
 
 - a tracked canonical-extraction specification
-- versioned schemas for document, section, page, block, table, figure, image,
-  asset, cross-reference, conversion-observation, and manifest records
+- versioned executable schemas for document, section, page, block, table,
+  table-family, figure, image, asset, cross-reference, routing-observation,
+  table-stage-observation, conversion-observation, raw-to-canonical mapping,
+  and manifest records
 - an external derived-artifact layout owned by the extraction version
+- a producer-ownership and mapping matrix covering raw Docling output, routing
+  observations, clean table-pipeline output, canonical records, and QA/debug
+  assets
 - a deterministic ID grammar and canonical ordering policy
 - explicit coordinate, text, hierarchy, nullability, and provenance conventions
 - an extraction-version identity and compatibility policy
 - tiny valid and invalid fixtures covering key relationships and invariants
+- offline contract tests that validate the schemas, fixtures, IDs, ordering,
+  coordinates, and referential integrity without running a parser
 - a precise split between Task 03 machine observations and Task 04 human
   usability decisions
 
 ## Research / learning checkpoint
 
 Study Docling's parent-child references, body versus furniture trees,
-provenance entries, coordinate origins, and page representation. Compare those
-vendor concepts with the benchmark's own evidence hierarchy and later target
-passage contract. The goal is not to reproduce Docling's schema under new field
-names; it is to own the smallest stable interface required by this benchmark.
+provenance entries, coordinate origins, and page representation. Trace the
+accepted routing records and clean table-pipeline records through reconstructed
+tables, cleaned cells, footer ownership, and table-family assignment. Compare
+those producer concepts with the benchmark's own evidence hierarchy and later
+target passage contract. The goal is not to reproduce either producer's schema
+under new field names; it is to own the smallest stable interface required by
+this benchmark.
 
 The outcome must teach these document-extraction design issues:
 
@@ -65,6 +82,22 @@ The outcome must teach these document-extraction design issues:
   containment are hierarchical, while page provenance, multi-region items,
   captions, tables, and cross-references introduce many-to-many edges. A single
   nested JSON tree is not sufficient as the only canonical interface.
+- **Producer ownership is part of meaning.** Docling with PyPdfium2 and Heron
+  owns native text, layout, reading order, figures, and provenance. The reviewed
+  PDFium/Heron router owns page-level routing observations. The clean Camelot
+  pipeline owns reconstructed tables and cells, while project code owns cleanup
+  evidence, footer ownership, and table-family assignment. TableFormer remains
+  disabled and its historical cells are not canonical input.
+- **Detection regions and reconstructed tables are not one-to-one.** One
+  Docling table-labeled region may correspond to zero, one, or several clean
+  logical tables. Preserve an explicit crosswalk rather than forcing one
+  producer's region boundaries onto the other producer's table boundaries.
+  Several small reconstructed tables may remain distinct canonical tables while
+  belonging to one table family that signals they should be read together.
+- **Table families are machine-derived canonical entities, not usability
+  judgments.** Finalize their deterministic membership and IDs only with the
+  complete document in scope. Scope those IDs to the extraction version; pilot
+  and partial-run family numbers are evidence, not stable canonical IDs.
 - **Geometry is data, not decoration.** Coordinate origin, units, page
   dimensions, rotation, clipping, and bounding-box multiplicity must be explicit
   or visual verification will be unreliable.
@@ -86,18 +119,26 @@ The outcome must teach these document-extraction design issues:
 Freeze a written data contract before implementation. It must decide:
 
 1. extraction-version inputs: source-release identity and manifest checksum,
-   ordered source checksums, Docling and model versions, backend, complete
-   configuration hash, canonical-schema version, and relevant project code
-   identity;
-2. raw-versus-canonical artifact roles and immutability;
-3. normalized record families and their serialization formats;
+   ordered source checksums, Docling and model versions, Camelot and PDFium
+   versions, backend, routing/table/cleanup/family configuration hashes,
+   canonical-schema version, and relevant project code identity;
+2. immutable producer-artifact roles for raw Docling output, routing
+   observations, raw and cleaned table-stage output, and QA/debug assets,
+   distinct from canonical records;
+3. normalized record families and their serialization formats, including
+   first-class table-family records;
 4. ID grammar, canonical ordering, collision handling, and version scope;
+   table-family IDs must be finalized over one complete document and must not
+   depend on a pilot or partial-page subset;
 5. page-number, printed-page-label, coordinate, rotation, and bounding-box
-   conventions;
+   conventions, including explicit transforms between bottom-left PDF points
+   and top-left render pixels;
 6. raw text, canonical text, and permitted normalization behavior;
 7. representation of multi-page or multi-region entities;
-8. tables, cells, figures, captions, images, and asset relationships;
-9. conversion status and warnings versus human review status;
+8. tables, cells, table families, Docling table-region observations, their
+   zero/one/many crosswalks, figures, captions, images, and asset relationships;
+9. separate conversion, routing, table-stage, and canonicalization machine
+   statuses and warnings; none may imply Task 04 human usability;
 10. the inherited `source_edition_override` propagation rule;
 11. schema validation and referential-integrity invariants; and
 12. which fields later retrieval, curation, target generation, and evaluation
@@ -107,12 +148,18 @@ Prefer plain versioned JSON or JSONL records and referenced binary assets unless
 the pilot demonstrates a specific need for another maintained format. Do not
 introduce a database, graph service, or general schema framework.
 
+The Task 03 page, table, and table-family records contain machine-derived
+content and observations only. Reviewer, review-date, exclusion, usability,
+and document-disposition fields belong in a separate Task 04 registry linked
+by canonical IDs. Task 03B must define that handoff without defining or
+populating Task 04 decisions.
+
 ## Review pass
 
 Review the proposed contract through:
 
 - **Traceability:** can any canonical text or visual entity be traced to an
-  immutable source page and raw parser object?
+  immutable source page and the responsible raw producer object?
 - **Evolution:** can a changed parser/configuration coexist as a new extraction
   without overwriting v1 or pretending IDs are compatible?
 - **Downstream isolation:** can later code consume stable records without
@@ -127,8 +174,14 @@ Review the proposed contract through:
 - Validate positive and negative fixtures against every schema.
 - Test ID reproducibility, collision rejection, and ordering invariants.
 - Test coordinate bounds, page references, and multi-region provenance.
-- Test referential integrity across documents, pages, blocks, tables, figures,
-  images, assets, and cross-references.
+- Test referential integrity across documents, pages, blocks, tables,
+  table families, figures, images, assets, mappings, and cross-references.
+- Test zero-, one-, and multiple-table mappings from Docling table-region
+  observations without merging distinct clean tables.
+- Test that table-family IDs are complete-document and extraction-version
+  scoped and cannot be finalized from a partial-page subset.
+- Test that conversion, routing, table-stage, and canonicalization statuses
+  remain distinct and cannot imply human usability.
 - Test that curator-only roles and human-review fields are rejected from the
   model-corpus canonical contract.
 - Test propagation of `source_edition_override` into document/page machine
@@ -146,10 +199,16 @@ git diff --check
   ID rules, or provenance semantics.
 - The extraction identity completely names the source, parser/model,
   configuration, and canonical-schema interpretation.
-- Raw Docling output remains preserved and distinguishable from project-owned
-  canonical records.
+- Raw Docling output and clean table-pipeline output remain preserved and
+  distinguishable from each other and from project-owned canonical records.
 - All low-level anchors are deterministic within the frozen extraction version
   and are not claimed stable across materially different conversions.
+- Clean table-pipeline records, not disabled TableFormer cells, supply canonical
+  table content; Docling table-labeled regions remain provenance and routing
+  observations linked through explicit zero/one/many mappings.
+- Table families are first-class machine-derived canonical records whose IDs
+  and membership are finalized only over a complete document and scoped to the
+  extraction version.
 - The schemas preserve geometry, raw text, canonical text, hierarchy, and
   transitive source provenance.
 - Task 03 machine observations and Task 04 human usability decisions have a
@@ -162,6 +221,9 @@ git diff --check
 
 - installing or running the production parser
 - implementing conversion or canonicalization code
+- changing the accepted Docling, routing, table reconstruction, cleanup,
+  footer-ownership, or family-assignment algorithms
+- running schemas or mappings over real Task 03A artifacts
 - choosing retrieval chunks, tokenization, overlap, or embeddings
 - resolving every document cross-reference
 - assigning page exclusions or document usability
