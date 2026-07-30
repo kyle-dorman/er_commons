@@ -2,7 +2,7 @@
 
 Status: **accepted Task 03B MVP contract; not an accepted corpus release**.
 This contract defines the current candidate extraction representation. Task 04,
-not Task 03B, decides whether a candidate is usable. If the Task 03E.1
+not Task 03B, decides whether a candidate is usable. If the Task 03E.3
 semantic-structure contract changes this schema, Task 04 freezes the accepted
 successor release rather than presuming that the current v1 shape remains
 final.

@@ -7,6 +7,9 @@ from pathlib import Path
 
 import pytest
 
+from er_commons.document_extraction.hierarchy.specification import (
+    load_hierarchy_evaluation_spec,
+)
 from er_commons.document_extraction.producer_config import (
     CompleteSource,
     ProducerConfig,
@@ -101,6 +104,52 @@ def test_tracked_configs_preserve_v1_and_select_human_owned_v2() -> None:
     payload["artifact_relative_root"] = "../escape"
     with pytest.raises(ValueError, match="contained relative"):
         ProducerConfig.model_validate(payload)
+
+
+def test_task03e_configs_freeze_hierarchy_options_and_review_gate() -> None:
+    """The active task binds maintained defaults before any live conversion."""
+    candidate, _ = load_producer_config(
+        Path("configs/brisbane_baylands_2025_deir_task03e_appendix_p_v1.json")
+    )
+    evaluation, _ = load_hierarchy_evaluation_spec(
+        Path("configs/brisbane_baylands_2025_deir_task03e_hierarchy_evaluation_v1.json")
+    )
+
+    assert candidate.producer_policy_version == "task03e-v1"
+    assert candidate.heading_hierarchy_options == evaluation.heading_hierarchy_options
+    assert evaluation.diagnostic_variant.allowed is False
+    assert [item.physical_page for item in evaluation.appendix_p_review_pages] == [
+        4,
+        5,
+        6,
+        8,
+        10,
+        16,
+        24,
+        41,
+        52,
+        53,
+        54,
+        55,
+        60,
+        80,
+        92,
+        98,
+        103,
+        110,
+        112,
+        120,
+        180,
+        221,
+        222,
+    ]
+    assert evaluation.thresholds.maximum_material_failures == 0
+    assert evaluation.thresholds.maximum_repeat_build_mismatches == 0
+
+    invalid = candidate.model_dump(mode="json")
+    invalid["configuration_id"] = "docling_native_pypdfium2_heron_layout_only_cpu"
+    with pytest.raises(ValueError, match="hierarchy policy"):
+        ProducerConfig.model_validate(invalid)
 
 
 def test_complete_source_rejects_ambiguous_or_wrong_role(tmp_path: Path) -> None:

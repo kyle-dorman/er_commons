@@ -1,19 +1,19 @@
-# Task 03E.2: Materialize Semantic Structure for Appendix P
+# Task 03E.4: Materialize Semantic Structure for Appendix P
 
-Status: **provisional**. Revise this contract from the accepted Task 03E.1
+Status: **provisional**. Revise this contract from the accepted Task 03E.3
 outcome before activation.
 
 ## Abstract
 
 Implement the accepted semantic-structure contract as thin project-owned glue
-over the accepted Docling hierarchy. Publish a new immutable Appendix P
-canonical candidate containing semantic sections, printed-page-label evidence
-and resolved values, deterministic target aliases, and exact correspondence to
-the Task 03D.1 core records.
+over the accepted Task 03E.2 corrected hierarchy. Publish a new immutable
+Appendix P canonical candidate containing semantic sections,
+printed-page-label evidence and resolved values, deterministic target aliases,
+and exact correspondence to the Task 03D.1 core records.
 
-Visible TOCs and the PDF outline support deterministic reconciliation,
-validation, and aliases. They do not authorize a competing project-owned
-hierarchy inference algorithm.
+Visible TOCs and the PDF outline carry accepted Task 03E.2 reconciliation
+evidence and support validation and aliases. They do not authorize new
+materialization-local hierarchy inference.
 
 ## Goal
 
@@ -23,8 +23,9 @@ ordering, warning, and lineage semantics remain unchanged.
 
 ## Inputs
 
-- accepted Task 03E producer completion and hierarchy output
-- accepted Task 03E.1 specification, schemas, fixtures, identity, and
+- accepted Task 03E.2 corrected hierarchy, raw correspondence, completion, and
+  comparison artifacts
+- accepted Task 03E.3 specification, schemas, fixtures, identity, and
   equivalence policy
 - immutable Task 03D.1 candidate
   `exv1-2ea82d10c3459d4a4249b875c0ec1cbe594bc81a1c1b541f2fe85554b6854b28`
@@ -40,7 +41,7 @@ ordering, warning, and lineage semantics remain unchanged.
 - a new immutable non-release canonical candidate under the existing canonical
   candidate lifecycle
 - semantic section, membership, hierarchy-evidence, page-label, and alias
-  outputs exactly as accepted in Task 03E.1
+  outputs exactly as accepted in Task 03E.3
 - old-to-new canonical correspondence and independent Task 03D.1 preservation
   report
 - manifest, inventory, summary, warnings/errors, and completion-last record
@@ -49,11 +50,11 @@ ordering, warning, and lineage semantics remain unchanged.
 
 ## Research / learning checkpoint
 
-Trace representative accepted Docling headings through canonical section
-construction and exact low-level anchors. Trace one visible TOC entry into alias
-and reconciliation evidence without treating it as a body boundary. Trace one
-resolved visible printed label while retaining its physical page number and
-source block.
+Trace representative accepted corrected headings back through raw Docling
+evidence and forward through canonical section construction and exact low-level
+anchors. Trace one visible TOC entry into alias and reconciliation evidence
+without treating it as a body boundary. Trace one resolved visible printed
+label while retaining its physical page number and source block.
 
 The outcome must explain:
 
@@ -65,7 +66,7 @@ The outcome must explain:
 - **Furniture is not semantic body structure.** Repeated page furniture stays
   under the furniture root unless the accepted contract names a narrow
   exception.
-- **Aliases are targets, not mentions.** Mention extraction remains Task 03E.3.
+- **Aliases are targets, not mentions.** Mention extraction remains Task 03E.5.
 
 ## Plan / spec requirement
 
@@ -82,7 +83,8 @@ Before implementation, write the short stage plan naming:
 
 ## Review pass
 
-- **Tool boundary:** hierarchy levels come from accepted Docling output.
+- **Correction boundary:** hierarchy roles and levels come from the accepted
+  Task 03E.2 artifact; this task does not rerun or reinterpret correction rules.
 - **Preservation:** every undeclared Task 03D.1 value remains equivalent.
 - **Order and containment:** roots, semantic sections, pages, and mixed content
   have exact forward/inverse relationships.
@@ -123,18 +125,19 @@ git diff --check
 
 - The candidate is reproducible, schema-valid, checksum-verified, and
   completion-last published without changing completed inputs.
-- Accepted Docling hierarchy is mapped without a competing inference algorithm.
+- The accepted Task 03E.2 hierarchy is mapped without changing its correction
+  policy.
 - Every undeclared Task 03D.1 semantic has exact verified correspondence.
 - Roots, sections, content membership, page labels, aliases, evidence, and
-  ambiguity satisfy the Task 03E.1 contract.
+  ambiguity satisfy the Task 03E.3 contract.
 - Review-cache renders are disposable and absent from candidate identity and
   completeness.
-- The outcome requests user review before Task 03E.3 activates.
+- The outcome requests user review before Task 03E.5 activates.
 
 ## Non-goals
 
 - rerunning or retuning Docling
-- custom hierarchy repair
+- changing or bypassing accepted Task 03E.2 hierarchy correction
 - cross-reference mentions, resolution candidates, or corpus graph edges
 - processing another complete document
 - corpus batching, retrieval, usability review, or LLM work

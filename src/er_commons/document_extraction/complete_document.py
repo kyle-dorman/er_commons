@@ -82,12 +82,28 @@ def prepare_producer(
     source_completion_path = source_manifest_path.parent / "completion_record.json"
     model_inventory_path = (data_root / config.model_inventory_relative_path).resolve()
     model_inventory, models_root = verify_model_inventory(data_root, model_inventory_path)
-    converter, options, format_option = services.build_converter(
-        models_root,
-        thread_count=config.thread_count,
-    )
+    converter_kwargs: dict[str, Any] = {"thread_count": config.thread_count}
+    if config.heading_hierarchy_options is not None:
+        converter_kwargs["heading_hierarchy_options"] = config.heading_hierarchy_options
+    converter, options, format_option = services.build_converter(models_root, **converter_kwargs)
     if options.document_timeout != config.document_timeout_seconds:
         raise ValueError("effective Docling timeout differs from producer config")
+    effective_hierarchy = options.heading_hierarchy_options.model_dump(mode="json")
+    expected_hierarchy = (
+        config.heading_hierarchy_options.model_dump(mode="json")
+        if config.heading_hierarchy_options is not None
+        else {
+            "enabled": False,
+            "use_bookmarks": True,
+            "use_numbering": True,
+            "use_style": True,
+            "numbering_schemes": None,
+            "max_level": 6,
+            "bookmark_match_threshold": 0.8,
+        }
+    )
+    if effective_hierarchy != expected_hierarchy:
+        raise ValueError("effective Docling hierarchy options differ from producer config")
 
     runtime = runtime_identity(config, options, format_option)
     repo_root = Path(__file__).resolve().parents[3]
@@ -133,13 +149,19 @@ def run_complete_document_producer(
     config_path: Path,
     *,
     services: ProducerServices | None = None,
+    artifact_root_override: Path | None = None,
 ) -> Path:
     """Run or checksum-verify one complete immutable producer publication."""
     active_services = services or ProducerServices()
     started_at = active_services.now()
     started = active_services.monotonic()
     config, _digest = load_producer_config(config_path)
-    task_root = task_artifact_root(data_root, config.artifact_relative_root)
+    task_root = task_artifact_root(
+        data_root,
+        artifact_root_override
+        if artifact_root_override is not None
+        else config.artifact_relative_root,
+    )
     producer_run_id: str | None = None
     workspace: ProducerWorkspace | None = None
     stage = "preflight"

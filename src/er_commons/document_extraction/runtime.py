@@ -9,6 +9,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
+from er_commons.document_extraction.producer_config import HeadingHierarchyConfig
 from er_commons.source_freeze import sha256_file
 
 PACKAGE_NAMES = (
@@ -96,13 +97,18 @@ def build_converter(
     models_root: Path,
     *,
     thread_count: int,
+    heading_hierarchy_options: HeadingHierarchyConfig | None = None,
 ) -> tuple[Any, Any, Any]:
     """Build the one accepted local, native-text-only Docling converter."""
     from docling.backend.pypdfium2_backend import PyPdfiumDocumentBackend
     from docling.datamodel.accelerator_options import AcceleratorDevice, AcceleratorOptions
     from docling.datamodel.base_models import InputFormat
     from docling.datamodel.layout_model_specs import DOCLING_LAYOUT_HERON
-    from docling.datamodel.pipeline_options import LayoutOptions, ThreadedPdfPipelineOptions
+    from docling.datamodel.pipeline_options import (
+        HeadingHierarchyOptions,
+        LayoutOptions,
+        ThreadedPdfPipelineOptions,
+    )
     from docling.document_converter import DocumentConverter, PdfFormatOption
     from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
 
@@ -127,6 +133,9 @@ def build_converter(
         generate_parsed_pages=True,
         images_scale=2.0,
         layout_options=LayoutOptions(model_spec=DOCLING_LAYOUT_HERON),
+        heading_hierarchy_options=HeadingHierarchyOptions(**heading_hierarchy_options.model_dump())
+        if heading_hierarchy_options is not None
+        else HeadingHierarchyOptions(),
     )
     format_option = PdfFormatOption(
         pipeline_cls=StandardPdfPipeline,

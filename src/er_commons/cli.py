@@ -11,6 +11,7 @@ from er_commons.canonical_extraction import run_document_canonicalization
 from er_commons.document_extraction import (
     run_complete_document_producer,
     run_document_extraction,
+    run_hierarchy_producer_evaluation,
 )
 from er_commons.settings import ProjectSettings, load_settings
 from er_commons.source_freeze import freeze_release, verify_release
@@ -37,6 +38,9 @@ DEFAULT_DOCUMENT_REVIEW_SPEC = Path(
 )
 DEFAULT_COMPLETE_DOCUMENT_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json"
+)
+DEFAULT_HIERARCHY_EVALUATION_SPEC = Path(
+    "configs/brisbane_baylands_2025_deir_task03e_hierarchy_evaluation_v1.json"
 )
 DEFAULT_CANONICALIZATION_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json"
@@ -153,6 +157,27 @@ def run_complete_document(
         config,
     )
     typer.echo(f"producer_completion={completion_path}")
+
+
+@documents_app.command("evaluate-hierarchy")
+def evaluate_document_hierarchy(
+    evaluation: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Frozen Task 03E hierarchy evaluation specification.",
+        ),
+    ] = DEFAULT_HIERARCHY_EVALUATION_SPEC,
+) -> None:
+    """Run the repeated Appendix P hierarchy producer gate."""
+    report_path = run_hierarchy_producer_evaluation(
+        load_settings().data_root,
+        evaluation,
+    )
+    typer.echo(f"hierarchy_producer_report={report_path}")
 
 
 @canonicalize_app.command("run-document")

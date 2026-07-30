@@ -63,8 +63,19 @@ def runtime_identity(
 
 def producer_code_paths(repo_root: Path) -> list[Path]:
     """List every tracked-code surface that can change producer behavior."""
+    evaluation_only = {
+        "hierarchy_comparison.py",
+        "hierarchy_controls.py",
+        "hierarchy_evaluation.py",
+        "hierarchy_runner.py",
+    }
+    document_code = [
+        path
+        for path in sorted((repo_root / "src/er_commons/document_extraction").glob("*.py"))
+        if path.name not in evaluation_only
+    ]
     candidates = [
-        *sorted((repo_root / "src/er_commons/document_extraction").glob("*.py")),
+        *document_code,
         *sorted((repo_root / "src/er_commons/table_extraction").glob("*.py")),
         repo_root / "src/er_commons/source_freeze.py",
         repo_root / "src/er_commons/cli.py",
@@ -102,13 +113,16 @@ def build_producer_identity(
     project_code: dict[str, Any],
 ) -> ProducerIdentity:
     """Bind source, policy, runtime, models, packages, and code into one ID."""
+    configuration_policy = config.model_dump(
+        mode="json",
+        exclude={"artifact_relative_root"},
+    )
+    if config.heading_hierarchy_options is None:
+        configuration_policy.pop("heading_hierarchy_options")
     payload = {
         "identity_schema_version": "task03c-producer-identity-v1",
         "producer_policy_version": config.producer_policy_version,
-        "configuration_policy": config.model_dump(
-            mode="json",
-            exclude={"artifact_relative_root"},
-        ),
+        "configuration_policy": configuration_policy,
         "source": {
             "source_id": source.source_id,
             "sha256": source.source_sha256,

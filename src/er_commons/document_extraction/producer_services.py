@@ -12,6 +12,7 @@ from pathlib import Path
 from types import TracebackType
 from typing import Any, Protocol, Self
 
+from er_commons.document_extraction.producer_config import HeadingHierarchyConfig
 from er_commons.document_extraction.runtime import MemorySampler, build_converter
 from er_commons.table_extraction.pipeline import run_table_extraction
 
@@ -24,6 +25,7 @@ class ConverterBuilder(Protocol):
         models_root: Path,
         *,
         thread_count: int,
+        heading_hierarchy_options: HeadingHierarchyConfig | None = None,
     ) -> tuple[Any, Any, Any]: ...
 
 

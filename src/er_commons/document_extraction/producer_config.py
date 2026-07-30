@@ -25,22 +25,45 @@ class CompleteSource(BaseModel):
     expected_pdf_page_count: int = Field(gt=0)
 
 
+class HeadingHierarchyConfig(BaseModel):
+    """Frozen maintained Docling hierarchy options for a producer candidate."""
+
+    enabled: Literal[True]
+    use_bookmarks: Literal[True]
+    use_numbering: Literal[True]
+    use_style: Literal[True]
+    numbering_schemes: None = None
+    max_level: Literal[6]
+    bookmark_match_threshold: float = Field(ge=0, le=1)
+
+    @model_validator(mode="after")
+    def validate_maintained_defaults(self) -> HeadingHierarchyConfig:
+        """Reject threshold tuning outside Docling's maintained defaults."""
+        if self.bookmark_match_threshold != 0.8:
+            raise ValueError("heading bookmark threshold differs from maintained default")
+        return self
+
+
 class ProducerConfig(BaseModel):
     """Closed Task 03C producer policy and accepted parser configuration."""
 
     schema_version: Literal["1.0.0"]
-    producer_policy_version: Literal["task03c-v1", "task03c-v2"]
+    producer_policy_version: Literal["task03c-v1", "task03c-v2", "task03e-v1"]
     pipeline_id: str
     source_release_version: str
     source_manifest_relative_path: Path
     source: CompleteSource
     artifact_relative_root: Path
     model_inventory_relative_path: Path
-    configuration_id: Literal["docling_native_pypdfium2_heron_layout_only_cpu"]
+    configuration_id: Literal[
+        "docling_native_pypdfium2_heron_layout_only_cpu",
+        "docling_native_pypdfium2_heron_layout_heading_hierarchy_defaults_cpu",
+    ]
     backend: Literal["pypdfium2"]
     device: Literal["cpu"]
     thread_count: Literal[4]
     document_timeout_seconds: None = None
+    heading_hierarchy_options: HeadingHierarchyConfig | None = None
     strict_table_dominant_thresholds: StrictTableThresholds
     numeric_table_bearing_thresholds: NumericTableThresholds
     table_detection: DetectionConfig
@@ -53,7 +76,7 @@ class ProducerConfig(BaseModel):
 
     @model_validator(mode="after")
     def validate_relative_paths(self) -> ProducerConfig:
-        """Keep all committed paths contained below ER_COMMONS_DATA_ROOT."""
+        """Keep paths contained and hierarchy identity fail-closed."""
         for path in (
             self.source_manifest_relative_path,
             self.artifact_relative_root,
@@ -61,6 +84,11 @@ class ProducerConfig(BaseModel):
         ):
             if path.is_absolute() or ".." in path.parts:
                 raise ValueError("producer paths must be contained relative paths")
+        hierarchy_enabled = self.heading_hierarchy_options is not None
+        hierarchy_policy = self.producer_policy_version == "task03e-v1"
+        hierarchy_identity = self.configuration_id.endswith("_heading_hierarchy_defaults_cpu")
+        if len({hierarchy_enabled, hierarchy_policy, hierarchy_identity}) != 1:
+            raise ValueError("producer hierarchy policy, options, and identity differ")
         return self
 
 

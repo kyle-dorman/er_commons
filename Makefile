@@ -6,7 +6,7 @@ export ER_COMMONS_DATA_ROOT
 
 .PHONY: help bootstrap sync check-env data-dirs about paths freeze-brisbane-sources \
 	verify-brisbane-sources run-document-review run-table-review run-table-first-600 \
-	run-complete-document run-canonical-document \
+	run-complete-document run-hierarchy-evaluation run-canonical-document \
 	format format-check lint lint-fix type test check fix
 
 help:
@@ -18,6 +18,7 @@ help:
 	@echo "  make verify-brisbane-sources  Verify the frozen release without network access"
 	@echo "  make run-document-review      Run the clean ten-page document parser"
 	@echo "  make run-complete-document    Run or verify the Task 03C Appendix P producer"
+	@echo "  make run-hierarchy-evaluation Run the Task 03E repeated producer gate"
 	@echo "  make run-canonical-document   Materialize or verify the Task 03D candidate"
 	@echo "  make run-table-review         Run or resume the ten-page table review"
 	@echo "  make run-table-first-600      Run or resume the first-600-page table validation"
@@ -57,6 +58,9 @@ run-document-review: check-env
 
 run-complete-document: check-env
 	uv run er-commons documents run-complete
+
+run-hierarchy-evaluation: check-env
+	uv run er-commons documents evaluate-hierarchy
 
 run-canonical-document: check-env
 	uv run er-commons canonicalize run-document

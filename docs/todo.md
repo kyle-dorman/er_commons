@@ -5,12 +5,17 @@
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
 Most recently completed: [Task
-03D.1](../tasks/sprint2/03d1_rewrite_canonical_materializer.md). It replaced
-the Task 03D MVP's monolithic record builder with typed, responsibility-specific
-modules and passed an independent 57-path semantic-equivalence gate with zero
-mismatches.
+03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
+and repeatability gates passed, but the user rejected Docling's maintained
+defaults as the sole hierarchy policy because known false headings remained, a
+visible subheading remained plain text, and unsupported style fallback produced
+poor depths. The immutable candidate remains evaluation evidence.
 
 Previously completed: [Task
+03D.1](../tasks/sprint2/03d1_rewrite_canonical_materializer.md). It replaced
+the Task 03D MVP's monolithic record builder with typed,
+responsibility-specific modules and passed an independent 57-path
+semantic-equivalence gate with zero mismatches. [Task
 03C](../tasks/sprint2/03c_build_single_document_conversion.md). It converted
 all 222 physical pages of Appendix P, saved 27 figure assets, routed 33 pages
 through the complete clean table stage, produced 19 logical tables and 19
@@ -95,26 +100,27 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Current active task: none. Review the completed human-owned Task 03D.1 result
-and planned
-[Task 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md)
-Docling hierarchy evaluation before activating the next implementation task.
+Current active task: **none**. [Task
+03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
+behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
+159-artifact comparisons exactly. Do not start hierarchy-correction work
+without separate user approval.
 
 ## Open queue
 
-1. Review and explicitly activate Task 03E only when ready. It enables
-   Docling's maintained hierarchy in a new producer candidate and compares it
-   with the accepted Task 03C.1 output under a predeclared good-enough gate.
-2. If Task 03E is accepted, revise and execute the provisional contracts one
-   at a time: [Task
-   03E.1](../tasks/sprint2/03e1_define_semantic_structure_contract.md), [Task
-   03E.2](../tasks/sprint2/03e2_materialize_semantic_structure.md), [Task
-   03E.3](../tasks/sprint2/03e3_pilot_cross_references.md), [Task
+1. After separate approval, revise and execute the provisional
+   correction contracts one at a time: [Task
+   03E.1](../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md)
+   defines the deterministic, no-LLM correction contract; [Task
+   03E.2](../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md)
+   implements and evaluates it.
+2. If Task 03E.2 is accepted, revise and execute [Task
+   03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md), [Task
+   03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md), [Task
+   03E.5](../tasks/sprint2/03e5_pilot_cross_references.md), [Task
    03F](../tasks/sprint2/03f_make_extraction_restartable.md), [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md). If Docling is
-   rejected, write a new bounded fallback-planning task; the current sequence
-   does not authorize a custom hierarchy implementation.
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) one at a time.
 3. Independently review usability and freeze the accepted extraction release
    in Task 04.
 4. Continue through the separately identified curator-only response inventory,

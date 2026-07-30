@@ -139,7 +139,7 @@ def _resolved_ranges(
     return ranges
 
 
-def _convert_range(
+def convert_review_range(
     converter: Any,
     format_option: Any,
     source: ResolvedSource,
@@ -271,7 +271,7 @@ def run_document_extraction(data_root: Path, config_path: Path) -> Path:
         for selected_range in ranges:
             range_root = root / "ranges" / selected_range.name
             timings.append(
-                _convert_range(
+                convert_review_range(
                     converter,
                     format_option,
                     selected_range.source,

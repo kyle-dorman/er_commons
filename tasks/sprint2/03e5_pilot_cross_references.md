@@ -1,6 +1,6 @@
-# Task 03E.3: Pilot Canonical Cross-References
+# Task 03E.5: Pilot Canonical Cross-References
 
-Status: **provisional**. Revise this contract from the accepted Task 03E.2
+Status: **provisional**. Revise this contract from the accepted Task 03E.4
 outcome before activation.
 
 ## Abstract
@@ -24,7 +24,7 @@ response content, or retrieval-specific graph construction.
 
 ## Inputs
 
-- accepted Task 03E.2 semantic candidate and completion artifacts
+- accepted Task 03E.4 semantic candidate and completion artifacts
 - semantic section, printed-page, document, appendix, table, and figure aliases
 - canonical block, table, figure, page, and section anchors
 - checksum-pinned source and raw producer lineage
@@ -42,7 +42,7 @@ response content, or retrieval-specific graph construction.
   as decided by the revised contract
 - deterministic mention, within-document resolution, and unresolved-reference
   summaries
-- independent preservation evidence against Task 03E.2
+- independent preservation evidence against Task 03E.4
 - exact target/alias/index handoff to Task 03F
 
 ## Research / learning checkpoint
@@ -54,7 +54,7 @@ do not add a broad NLP dependency merely to replace a few explicit patterns.
 
 The outcome must explain:
 
-- **Aliases and mentions are separate data.** Task 03E.2 defines potential
+- **Aliases and mentions are separate data.** Task 03E.4 defines potential
   targets; this task locates source spans that may refer to them.
 - **Candidate generation is not confident resolution.** Zero, one, or several
   candidates remain visible with deterministic evidence.
@@ -76,7 +76,7 @@ Freeze before implementation:
 5. source record, character span, region, raw-lineage, and evidence fields;
 6. ordering and ID rules;
 7. schema/identity/publication consequences;
-8. exact permitted differences from Task 03E.2;
+8. exact permitted differences from Task 03E.4;
 9. corpus target-index and second-pass handoff; and
 10. unsupported forms and warning/failure policy.
 
@@ -98,7 +98,7 @@ Freeze before implementation:
 - Verify exact source spans, regions, aliases, candidates, status, evidence, and
   deterministic ordering.
 - Verify candidates target only accepted canonical target types.
-- Require exact preservation of Task 03E.2 records and assets outside declared
+- Require exact preservation of Task 03E.4 records and assets outside declared
   identity and cross-reference outputs.
 - Confirm repeat execution and fresh staging are byte-identical.
 - Confirm no LLM, embedding, fuzzy semantic retrieval, response inventory, or

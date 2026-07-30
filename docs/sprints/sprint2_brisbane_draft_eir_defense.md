@@ -523,9 +523,10 @@ model drafts, reviewed evidence summary, or reviewed reference defense.
 
 ## Provisional execution sequence
 
-Sprint 2 is current, but no numbered task is active. Task 03E is planned and
-inactive pending explicit user activation; Tasks 03E.1 through 03H are
-provisional and must be revised from each accepted predecessor. The numbers
+Sprint 2 is current. Task 03E is completed and rejected as the sole hierarchy
+policy. Task 03E.0 completed the behavior-preserving maintainability rewrite
+of its evaluator. Tasks 03E.1 through 03H are provisional and must be revised
+from each accepted predecessor. The numbers
 below are routing labels, not a promise that the sprint will contain only these
 tasks. Split a stage further whenever its contract is too large or new evidence
 creates a distinct decision or validation boundary.
@@ -553,21 +554,31 @@ creates a distinct decision or validation boundary.
    - [Task 03E](../../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md):
      evaluate Docling's maintained heading-hierarchy feature on Appendix P and
      accept or reject it under a predeclared good-enough gate;
-   - [Task 03E.1](../../tasks/sprint2/03e1_define_semantic_structure_contract.md):
+   - [Task 03E.0](../../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md):
+     replace the Task 03E MVP evaluator with a behavior-preserving,
+     human-owned implementation before correction work;
+   - [Task 03E.1](../../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md):
+     define deterministic features, visible-TOC reconciliation, correction
+     rules, evidence, ambiguity, identity, held-out review, and no-LLM runtime
+     boundaries without implementing the layer;
+   - [Task 03E.2](../../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md):
+     implement and evaluate the deterministic correction overlay without
+     mutating or rerunning Docling;
+   - [Task 03E.3](../../tasks/sprint2/03e3_define_semantic_structure_contract.md):
      define semantic sections, ordered membership, printed-label observations
      and resolutions, aliases, evidence, ambiguity, and correspondence without
      producing a live candidate;
-   - [Task 03E.2](../../tasks/sprint2/03e2_materialize_semantic_structure.md):
-     map the accepted Docling hierarchy into a new immutable Appendix P
+   - [Task 03E.4](../../tasks/sprint2/03e4_materialize_semantic_structure.md):
+     map the accepted corrected hierarchy into a new immutable Appendix P
      canonical candidate with thin, deterministic glue;
-   - [Task 03E.3](../../tasks/sprint2/03e3_pilot_cross_references.md):
+   - [Task 03E.5](../../tasks/sprint2/03e5_pilot_cross_references.md):
      extract exact reference mentions and pilot within-document resolution,
      leaving other-document references for the corpus pass;
    - [Task 03F](../../tasks/sprint2/03f_make_extraction_restartable.md): add
      restartable per-document stage one, a sealed corpus target/alias index,
      and an immutable cross-document-resolution pass;
    - [Task 03G](../../tasks/sprint2/03g_run_representative_extraction_pilot.md):
-     test the full two-stage workflow and Docling hierarchy across
+     test the full two-stage workflow and corrected hierarchy across
      heterogeneous document regimes, rehearse human review, and freeze or
      reject the production configuration; and
    - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
@@ -583,11 +594,13 @@ creates a distinct decision or validation boundary.
    checksum-verified canonical candidate and preserved the observed producer
    anomalies. Task 03D.1 replaced the MVP materializer with a human-owned
    implementation and passed a record-level equivalence gate with zero
-   mismatches. Task 03E now points to that accepted candidate and remains
-   inactive pending user review. Tasks 03E.1 through 03H remain provisional.
-   Continuing beyond Task 03E requires explicit acceptance that Docling's
-   maintained hierarchy is good enough; rejection creates a new bounded
-   fallback-planning task rather than silently authorizing a custom hierarchy.
+   mismatches. Task 03E evaluated the maintained hierarchy, passed producer
+   preservation and repeatability, and rejected the defaults as the sole
+   project policy. Tasks 03E.1 and 03E.2 are the authorized provisional
+   deterministic fallback sequence; Tasks 03E.3 through 03H are renumbered
+   downstream contracts. Task 03E.0 then replaced the evaluator with a
+   human-owned implementation and exactly reproduced both frozen 159-artifact
+   comparisons. No correction task is active.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

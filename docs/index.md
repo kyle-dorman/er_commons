@@ -121,11 +121,18 @@ completed Task 03D MVP remains reference evidence. [Task
 03D.1](../tasks/sprint2/03d1_rewrite_canonical_materializer.md) replaced its
 monolithic materializer with a human-owned implementation and passed an
 independent record-level equivalence gate. [Task
-03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md) now evaluates
-Docling's maintained heading hierarchy against that accepted candidate and is
-planned but inactive pending user review. Tasks 03E.1 through 03H are
-provisional contracts that assume the Task 03E acceptance gate passes and must
-still be revised from each preceding outcome before activation.
+03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md) completed its
+deterministic producer gate but rejected Docling's maintained defaults as the
+sole project hierarchy policy. The Task 03D.1 candidate remains downstream
+reference evidence. [Task
+03E.1](../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md)
+provisionally defines a deterministic correction contract, and [Task
+03E.2](../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md)
+provisionally implements and evaluates it. Tasks 03E.3 through 03H are
+renumbered downstream contracts. [Task
+03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) replaced the
+Task 03E MVP evaluator with an exactly equivalent human-owned implementation.
+No correction or downstream task is active.
 
 ## Document roles
 

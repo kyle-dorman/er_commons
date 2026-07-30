@@ -1,9 +1,9 @@
 # Task 03E: Evaluate Docling Heading Hierarchy
 
-Status: **planned and inactive pending explicit user activation**. Writing this
-contract does not authorize a producer run. Tasks 03E.1 through 03E.3 are
-provisional and cannot activate unless this task accepts Docling's maintained
-hierarchy output as good enough.
+Status: **completed and rejected 2026-07-30**. The user accepted the
+recommendation to reject Docling's maintained defaults as the sole project
+hierarchy policy and authorized planning for a deterministic correction layer.
+Tasks 03E.1 through 03E.5 remain provisional and inactive.
 
 ## Abstract
 
@@ -62,7 +62,8 @@ External:
 
 - a new immutable Appendix P producer candidate under the existing
   `task_03c_single_document/<producer_run_id>/` lifecycle
-- an independent comparison report against the accepted Task 03C.1 producer
+- an independent comparison report against the accepted Task 03C.1 producer,
+  which is the sole direct comparison baseline
 - an inventory of every changed heading level, promoted item, label, parent,
   child relationship, and hierarchy-dependent serialized value
 - bounded hierarchy-enabled diagnostic runs for only the predeclared Task 03A
@@ -141,10 +142,12 @@ before reviewing its output.
 - Require exact source and 222-page coverage.
 - Compare every producer artifact and normalized record, not only aggregate
   counts.
-- Require exact equality for raw/canonical text, non-hierarchy reading order,
-  tables, table families, figures, images, valid geometry, saved content assets,
-  routing/table observations, and warnings after declared identity
-  normalization.
+- Require exact equality for producer-owned Docling `text` and `orig` values,
+  non-hierarchy reading order, tables, table families, figures, images, valid
+  geometry, saved content assets, routing/table observations, and warnings
+  after declared identity normalization. The accepted Task 03D.1 canonical
+  candidate is downstream reference evidence; do not rerun or directly compare
+  canonical materialization in this task.
 - Enumerate every allowed heading-level, promotion, label, parent, child, and
   hierarchy serialization change.
 - Reconcile bookmark-covered headings with the embedded outline and inspect
@@ -153,8 +156,10 @@ before reviewing its output.
   against requested review-cache renders. Run the controls only through the
   accepted bounded-review harness; do not publish them as complete-document
   producer candidates or generalize their page-range result to the corpus.
-- Repeat the accepted candidate and require semantic equality and verified
-  checksum reuse.
+- Build the selected candidate independently in fresh scratch publication
+  roots and require semantic equality before one immutable publication. Then
+  invoke the normal command again and require checksum-verified reuse without
+  conversion or table rebuilding.
 - Run:
 
 ```bash
@@ -173,11 +178,12 @@ git diff --check
 - The selected configuration is deterministic and versioned.
 - The accepted Task 03C.1 producer remains checksum-valid and unchanged.
 - No competing project-owned hierarchy algorithm is introduced.
-- The task stops for explicit user acceptance before Task 03E.1 activates.
+- The task stops for explicit user disposition before any correction or
+  semantic-structure task activates.
 
-If Docling is rejected or inconclusive, Tasks 03E.1 through 03H remain inactive.
-The outcome must describe the failure evidence and propose, but not implement,
-the smallest new fallback evaluation task.
+If Docling is rejected or inconclusive, downstream tasks remain inactive until
+the outcome describes the failure evidence and the user authorizes a bounded
+fallback evaluation sequence.
 
 ## Non-goals
 
@@ -189,3 +195,79 @@ the smallest new fallback evaluation task.
 - OCR, VLM, LLM, embedding, or fuzzy semantic hierarchy repair
 - a project-owned document-tree inference algorithm
 - committing, pushing, or activating a later task without separate approval
+
+## Evaluation evidence (2026-07-30)
+
+The maintained-default candidate is
+`prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1`.
+It was built in two fresh, independent Python processes. Both 159-file
+inventories compare equal after only the frozen identity and measurement
+normalizations, and the normal producer command checksum-verified reuse in
+4.18 seconds. The accepted Task 03C.1 producer remains checksum-valid and
+unchanged.
+
+The full producer comparison aligned all 6,931 Docling text items, preserved
+semantic reading order and every non-hierarchy comparison surface, and
+enumerated 256 hierarchy-only level changes, zero promotions, zero reference
+rewrites, and zero undeclared baseline changes. On the frozen Appendix P review
+set, 29 of 29 uniquely exact bookmark-covered headings received their expected
+clamped outline level, 21 of 21 reviewed numbered headings received the
+correct relative level, and no visible TOC row was promoted.
+
+The bounded controls fail task sufficiency even though their conversions and
+preservation comparisons pass:
+
+- Main-report pages 44-45 retain the known false-positive bullet headings
+  `General Plan Amendment` and `Specific Plan`, now at levels 3 and 2.
+- Main-report page 2000 retains the visible subheading `Exacerbate Land Use /
+  Noise Incompatibilities by Placing People in High Noise Areas` as plain
+  `text` with no hierarchy level.
+- The Appendix P review also found poor style-fallback depths outside bookmark
+  coverage, including `Existing SSF District` at level 6 on page 8, a skipped
+  level between `Article 2` and sections `2.01`/`2.02` on page 120, and
+  `B. Balancing Account Under This Agreement` at level 6 on page 180.
+
+Decision: **rejected** as the sole project hierarchy policy. This is a quality
+rejection, not a producer-integrity failure. The
+immutable candidate remains valid evaluation evidence but is not accepted for
+downstream canonical work.
+
+Learning note: Docling applies the embedded PDF outline first, then recognized
+numbering, then font style. That precedence explains the perfect exact match
+for eligible bookmarks and numbered headings, but it cannot be treated as
+project-owned canonical hierarchy. The embedded outline is distinct from
+visible TOC content, style fallback can assign implausible deep levels, and the
+stage does not generally demote existing false section headers or promote
+unbookmarked text headings. Tool completion therefore establishes neither
+section-boundary accuracy nor retrieval suitability.
+
+Evidence:
+
+- external producer comparison:
+  `pipelines/brisbane_baylands/task_03e_hierarchy_review/cmpv2-9106e5d03fa4f1e8f57eadd2b1aa8cc0a02030131f9684964caf6bea86f3aff0/producer_comparison_report.json`
+- external bounded review:
+  `pipelines/brisbane_baylands/task_03e_hierarchy_review/cmpv2-9106e5d03fa4f1e8f57eadd2b1aa8cc0a02030131f9684964caf6bea86f3aff0/bounded_review_report.json`
+- disposable renders:
+  `pipelines/brisbane_baylands/review_cache/cmpv2-9106e5d03fa4f1e8f57eadd2b1aa8cc0a02030131f9684964caf6bea86f3aff0/`
+
+Explicit user disposition: **rejected**. The user authorized two provisional
+fallback tasks: Task 03E.1 defines the deterministic correction contract and
+Task 03E.2 implements and evaluates it. The former semantic-structure and
+cross-reference tasks are renumbered 03E.3 through 03E.5. No fallback
+implementation is active.
+
+## Outcome
+
+Docling's maintained hierarchy stage is deterministic, preserves the accepted
+producer, and performs well for exact embedded-outline matches and conventional
+numbering. It is not sufficient as the sole project hierarchy policy because
+it retains known false heading labels, misses a visible plain-text subheading,
+and assigns poor global fallback depths outside outline coverage.
+
+The accepted next direction is a fast deterministic overlay that preserves raw
+Docling evidence, reconciles visible TOC entries to body targets, applies named
+project-owned correction rules, records ambiguity, and contains no LLM or
+learned component at runtime. Task 03E.1 owns the correction contract; Task
+03E.2 owns implementation and evaluation. Both remain inactive pending later
+explicit activation and the separately requested cleanup of the Task 03E MVP
+implementation.

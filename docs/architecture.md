@@ -125,3 +125,20 @@ code-bundle digest without pretending the schema or mapping policy changed.
 Promotion requires exact ordered record equivalence after narrow
 extraction-ID normalization, exact generated clean-asset bytes, exact
 accounting summaries, and an independently rebuilt byte-identical candidate.
+
+Task 03E.0 applies the same human-ownership boundary to hierarchy evaluation.
+The stable `hierarchy_runner.py` facade preserves the CLI entry point, while
+the `document_extraction/hierarchy/` package gives specification validation,
+Docling indexing and semantic comparison, artifact normalization, whole-run
+comparison, independent subprocess execution, fixed controls, report
+construction, and workflow sequencing separate owners. The workflow is an
+application shell; comparison and normalization remain deterministic
+functional code.
+
+Hierarchy evaluation is intentionally outside complete-document producer
+behavior. The accepted producer identity and bytes therefore remain unchanged
+when evaluator code changes. Acceptance is instead grounded in a test that
+recomputes both frozen 159-artifact Task 03E comparisons and requires exact
+report equality, plus focused failure-path tests. This evaluator does not
+correct headings or use a learned component; deterministic correction remains
+the separate Task 03E.1 and Task 03E.2 boundary.

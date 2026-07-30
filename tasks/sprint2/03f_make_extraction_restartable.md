@@ -1,7 +1,7 @@
 # Task 03F: Make Two-Stage Corpus Extraction Restartable
 
 Status: **provisional**. Revise this contract from the accepted Tasks
-03E–03E.3 outcomes before activating it.
+03E–03E.5 outcomes before activating it.
 
 ## Abstract
 
@@ -25,7 +25,7 @@ acceptance freeze.
 
 ## Inputs
 
-- accepted Tasks 03C.1, 03D.1, and 03E–03E.3 implementations and contracts
+- accepted Tasks 03C.1, 03D.1, and 03E–03E.5 implementations and contracts
 - the sealed Task 02 source manifest filtered to 35 `model_corpus` records
 - per-document conversion, canonicalization, semantic-structure, label, alias,
   mention, and within-document-resolution commands
