@@ -79,6 +79,7 @@ Task 03E.2 writes a new candidate below:
 pipelines/brisbane_baylands/task_03e2_hierarchy_correction/<candidate_id>/
   records/identity.json
   records/input_inventory.json
+  records/environment.json
   records/completion_record.json
   artifacts/item_features.jsonl
   artifacts/visible_toc_entries.jsonl
@@ -92,6 +93,18 @@ pipelines/brisbane_baylands/task_03e2_hierarchy_correction/<candidate_id>/
   records/metrics.json
   records/artifact_inventory.json
 ```
+
+`records/input_inventory.json` is the authoritative input manifest. It lists
+the producer completion and inventory, source PDF and source manifest, policy,
+schemas, fixture manifest, and held-out manifest with their paths and
+checksums. There is no separate candidate `manifest.json`.
+
+`records/environment.json` is reproducibility evidence, not a hierarchy-policy
+input: it records the Python version, platform, `uv.lock` checksum, and resolved
+package versions. Candidate identity continues to bind the specified code,
+policy, configuration, schema, producer, and source digests; the environment
+record makes a later repeat failure diagnosable without adding a duplicate
+semantic identity surface.
 
 All JSONL files are in increasing `reading_order_index` and then stable-key
 order; roots and edges are likewise ordered. Publication is atomic, no-clobber,

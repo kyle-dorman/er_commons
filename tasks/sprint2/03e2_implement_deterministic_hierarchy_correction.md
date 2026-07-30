@@ -61,8 +61,8 @@ External:
 - two fresh independent build artifacts or checksummed scratch evidence
 - bounded development and held-out review reports and requested review-cache
   renders
-- inventory, summary, environment, timing, manifest, completion-last, and
-  failed-attempt evidence
+- input inventory (the authoritative input manifest), environment, summary,
+  metrics, completion-last, and failed-attempt evidence
 
 ## Research / learning checkpoint
 
@@ -133,8 +133,9 @@ Before implementation, write a short stage plan naming:
   and configuration, then run the held-out review once under the Task 03E.1
   stop rules.
 - Require the known main-report bullet false headings not to start semantic
-  sections and the page-2000 visible sibling heading to receive the declared
-  correction or an outcome explicitly permitted by the frozen contract.
+  sections. Preserve the page-2000 unanchored plain-text heading as the frozen,
+  non-blocking R06 `content` ambiguity unless it gains an exact outline or TOC
+  anchor under the accepted policy.
 - Verify exact outline-anchor and numbered-heading results inherited from Task
   03E unless a predeclared correction explains the difference.
 - Verify every visible TOC row remains non-boundary content and every parsed

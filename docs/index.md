@@ -125,11 +125,6 @@ independent record-level equivalence gate. [Task
 deterministic producer gate but rejected Docling's maintained defaults as the
 sole project hierarchy policy. The Task 03D.1 candidate remains downstream
 reference evidence. [Task
-03E.1](../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md)
-provisionally defines a deterministic correction contract, and [Task
-03E.2](../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md)
-provisionally implements and evaluates it. Tasks 03E.3 through 03H are
-renumbered downstream contracts. [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) replaced the
 Task 03E MVP evaluator with an exactly equivalent human-owned implementation.
 [Task
@@ -137,7 +132,10 @@ Task 03E MVP evaluator with an exactly equivalent human-owned implementation.
 completed its deterministic contract, fixtures, and human-oriented
 cross-record validator after a reference-equivalence and maintainability gate.
 The unanchored page-2000 heading remains a non-blocking ambiguity by user
-decision. No correction implementation or downstream task is active.
+decision. [Task
+03E.2](../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md)
+remains provisional and inactive pending explicit approval; Tasks 03E.3 through
+03H are renumbered downstream contracts.
 
 ## Document roles
 

@@ -225,5 +225,6 @@ not rewritten.
 `make fix`, `make check`, and `git diff --check` pass. The final project suite
 contains 162 passing tests, including focused gate/report/process tests and the
 external frozen-evidence equivalence test. Task 03E remains rejected as the
-sole hierarchy policy. Task 03E.1 remains inactive pending separate user
-review and activation.
+sole hierarchy policy. Task 03E.1 subsequently completed the correction
+contract; Task 03E.2 remains inactive pending separate user review and
+activation.

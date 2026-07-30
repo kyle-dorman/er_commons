@@ -3,7 +3,8 @@
 Status: **completed and rejected 2026-07-30**. The user accepted the
 recommendation to reject Docling's maintained defaults as the sole project
 hierarchy policy and authorized planning for a deterministic correction layer.
-Tasks 03E.1 through 03E.5 remain provisional and inactive.
+Task 03E.1 subsequently completed the correction contract. Tasks 03E.2 through
+03E.5 remain provisional and inactive.
 
 ## Abstract
 
@@ -250,11 +251,11 @@ Evidence:
 - disposable renders:
   `pipelines/brisbane_baylands/review_cache/cmpv2-9106e5d03fa4f1e8f57eadd2b1aa8cc0a02030131f9684964caf6bea86f3aff0/`
 
-Explicit user disposition: **rejected**. The user authorized two provisional
-fallback tasks: Task 03E.1 defines the deterministic correction contract and
-Task 03E.2 implements and evaluates it. The former semantic-structure and
-cross-reference tasks are renumbered 03E.3 through 03E.5. No fallback
-implementation is active.
+Explicit user disposition: **rejected**. The user authorized a two-stage
+fallback: Task 03E.1 defined the deterministic correction contract, and Task
+03E.2 will implement and evaluate it after separate activation. The former
+semantic-structure and cross-reference tasks are renumbered 03E.3 through
+03E.5. No fallback implementation is active.
 
 ## Outcome
 
@@ -267,7 +268,7 @@ and assigns poor global fallback depths outside outline coverage.
 The accepted next direction is a fast deterministic overlay that preserves raw
 Docling evidence, reconciles visible TOC entries to body targets, applies named
 project-owned correction rules, records ambiguity, and contains no LLM or
-learned component at runtime. Task 03E.1 owns the correction contract; Task
-03E.2 owns implementation and evaluation. Both remain inactive pending later
-explicit activation and the separately requested cleanup of the Task 03E MVP
-implementation.
+learned component at runtime. Task 03E.1 completed the correction contract;
+Task 03E.2 owns implementation and evaluation and remains inactive pending
+later explicit activation. The separate Task 03E MVP maintainability cleanup is
+complete.

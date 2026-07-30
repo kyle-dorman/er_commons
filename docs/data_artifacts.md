@@ -77,6 +77,21 @@ The compared producer candidates remain immutable. The review report records
 the frozen sample, metrics, observed regressions, and explicit acceptance or
 rejection; it is not itself a canonical candidate or accepted release.
 
+Task 03E.2 correction candidates and their held-out review evidence use
+separate roots:
+
+```text
+pipelines/brisbane_baylands/task_03e2_hierarchy_correction/<candidate_id>/
+pipelines/brisbane_baylands/task_03e2_hierarchy_review/<candidate_id>/
+```
+
+The candidate's `records/input_inventory.json` is its authoritative input
+manifest; it lists all verified inputs and checksums. `records/environment.json`
+records Python/platform, `uv.lock`, and resolved-package evidence for diagnosis
+without creating a second semantic identity surface. Source-only held-out
+annotations and their evaluation remain external review evidence, not producer
+or canonical records.
+
 ## Git policy
 
 Track in Git:

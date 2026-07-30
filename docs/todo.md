@@ -5,6 +5,13 @@
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
 Most recently completed: [Task
+03E.1](../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md). It
+froze the deterministic correction contract, executable schemas, fixtures,
+held-out review protocol, and human-oriented cross-record validator. The known
+unanchored page-2000 heading remains a non-blocking R06 `content` ambiguity by
+user decision; no correction implementation has run.
+
+Previously completed: [Task
 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
 and repeatability gates passed, but the user rejected Docling's maintained
 defaults as the sole hierarchy policy because known false headings remained, a
