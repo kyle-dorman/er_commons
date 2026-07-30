@@ -61,8 +61,9 @@ External:
 - two fresh independent build artifacts or checksummed scratch evidence
 - bounded development and held-out review reports and requested review-cache
   renders
-- input inventory (the authoritative input manifest), environment, summary,
-  metrics, completion-last, and failed-attempt evidence
+- input inventory (the authoritative manifest for verified external correction
+  inputs), identity, environment, summary, metrics, completion-last, and
+  failed-attempt evidence
 
 ## Research / learning checkpoint
 
@@ -126,8 +127,9 @@ Before implementation, write a short stage plan naming:
 
 ## Validation
 
-- Verify all source, producer, model, configuration, inventory, and completion
-  checksums before reading inputs.
+- Verify the source and producer completion/inventory checksums, including the
+  producer-sealed model evidence, and verify every correction identity digest
+  before reading semantic inputs.
 - Require exact source coverage and stable item correspondence.
 - Run the frozen development fixtures first, freeze the selected implementation
   and configuration, then run the held-out review once under the Task 03E.1

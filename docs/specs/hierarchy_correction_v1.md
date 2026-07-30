@@ -94,10 +94,14 @@ pipelines/brisbane_baylands/task_03e2_hierarchy_correction/<candidate_id>/
   records/artifact_inventory.json
 ```
 
-`records/input_inventory.json` is the authoritative input manifest. It lists
-the producer completion and inventory, source PDF and source manifest, policy,
-schemas, fixture manifest, and held-out manifest with their paths and
-checksums. There is no separate candidate `manifest.json`.
+`records/input_inventory.json` is the authoritative manifest for verified
+external correction inputs. It lists the producer completion and inventory
+plus the source PDF with their paths and checksums and records the verified
+file count. `records/identity.json` separately content-binds the source
+manifest and checked-in policy, configuration, schema, and code-bundle
+digests. Development fixtures and the held-out manifest constrain evaluation;
+they are not producer inputs or candidate-owned semantic artifacts. There is no
+separate candidate `manifest.json`.
 
 `records/environment.json` is reproducibility evidence, not a hierarchy-policy
 input: it records the Python version, platform, `uv.lock` checksum, and resolved

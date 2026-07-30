@@ -255,7 +255,11 @@ Explicit user disposition: **rejected**. The user authorized a two-stage
 fallback: Task 03E.1 defined the deterministic correction contract, and Task
 03E.2 will implement and evaluate it after separate activation. The former
 semantic-structure and cross-reference tasks are renumbered 03E.3 through
-03E.5. No fallback implementation is active.
+03E.5. No fallback implementation is active. The immutable comparison and
+bounded-review reports retain their pre-disposition `pending` fields; this
+completed task record and [Decision
+003](../../docs/decisions/003_deterministic_hierarchy_correction.md) own the
+later explicit rejection.
 
 ## Outcome
 

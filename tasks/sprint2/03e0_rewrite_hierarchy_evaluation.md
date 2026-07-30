@@ -12,10 +12,10 @@ Treat the existing implementation and published Task 03E evidence as an
 immutable behavioral reference.
 
 This is a maintainability rewrite, not a hierarchy-policy revision. Preserve
-the accepted Appendix P producer candidate, comparator semantics, independent
-scratch-repeat gate, controls, CLI, report evidence, and Task 03E rejection.
-Do not implement the deterministic correction layer owned by Tasks 03E.1 and
-03E.2.
+the valid immutable Appendix P producer candidate, comparator semantics,
+independent scratch-repeat gate, controls, CLI, report evidence, and Task 03E
+hierarchy-policy rejection. Do not implement the deterministic correction
+layer owned by Tasks 03E.1 and 03E.2.
 
 ## Goal
 
@@ -36,7 +36,7 @@ invariant, expected value, and actual value that caused them.
 - the completed Task 03E producer candidate:
 
 ```text
-pipelines/brisbane_baylands/task_03c_complete_document/
+pipelines/brisbane_baylands/task_03c_single_document/
   prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1/
 ```
 

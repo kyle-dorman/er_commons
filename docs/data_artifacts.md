@@ -74,8 +74,12 @@ pipelines/brisbane_baylands/task_03e_hierarchy_review/<comparison_id>/
 ```
 
 The compared producer candidates remain immutable. The review report records
-the frozen sample, metrics, observed regressions, and explicit acceptance or
-rejection; it is not itself a canonical candidate or accepted release.
+the frozen sample, metrics, observed regressions, and the pre-disposition
+recommendation or status. The completed task record and accepted decision note
+own the later explicit user disposition; neither changes the frozen report.
+For Task 03E, that durable decision is [Decision
+003](decisions/003_deterministic_hierarchy_correction.md). The report is not
+itself a canonical candidate or accepted release.
 
 Task 03E.2 correction candidates and their held-out review evidence use
 separate roots:
@@ -85,12 +89,16 @@ pipelines/brisbane_baylands/task_03e2_hierarchy_correction/<candidate_id>/
 pipelines/brisbane_baylands/task_03e2_hierarchy_review/<candidate_id>/
 ```
 
-The candidate's `records/input_inventory.json` is its authoritative input
-manifest; it lists all verified inputs and checksums. `records/environment.json`
-records Python/platform, `uv.lock`, and resolved-package evidence for diagnosis
-without creating a second semantic identity surface. Source-only held-out
-annotations and their evaluation remain external review evidence, not producer
-or canonical records.
+The candidate's `records/input_inventory.json` is the authoritative manifest
+for verified external correction inputs: the producer completion and inventory
+plus the source PDF, with their paths and checksums. `records/identity.json`
+separately content-binds the source manifest and checked-in correction policy,
+configuration, schema, and code bundle. Development fixtures and held-out
+manifests are evaluation inputs, not candidate-owned producer inputs.
+`records/environment.json` records Python/platform, `uv.lock`, and
+resolved-package evidence for diagnosis without creating a second semantic
+identity surface. Source-only held-out annotations and their evaluation remain
+external review evidence, not producer or canonical records.
 
 ## Git policy
 
