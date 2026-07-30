@@ -96,21 +96,30 @@ candidate. [Task
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
 Current active task: none. Review the completed human-owned Task 03D.1 result
-and revised
-[Task 03E](../tasks/sprint2/03e_build_hierarchy_and_cross_references.md)
-contract before activating the next implementation task.
+and planned
+[Task 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md)
+Docling hierarchy evaluation before activating the next implementation task.
 
 ## Open queue
 
-1. Review the human-owned Task 03D result and decide whether to activate the
-   revised Task 03E hierarchy and printed-page-label contract. Then revise and
-   execute later contracts one at a time: cross-reference mentions and
-   candidates in planned Task 03E.1, restartable batching, production pilot,
-   and full candidate extraction.
-2. Independently review usability and freeze extraction v1 in Task 04.
-3. Continue through response inventory, case authoring, and benchmark freezing
-   using one bounded task at a time.
-4. Freeze human evaluation before BM25 retrieval, target generation, and judge
+1. Review and explicitly activate Task 03E only when ready. It enables
+   Docling's maintained hierarchy in a new producer candidate and compares it
+   with the accepted Task 03C.1 output under a predeclared good-enough gate.
+2. If Task 03E is accepted, revise and execute the provisional contracts one
+   at a time: [Task
+   03E.1](../tasks/sprint2/03e1_define_semantic_structure_contract.md), [Task
+   03E.2](../tasks/sprint2/03e2_materialize_semantic_structure.md), [Task
+   03E.3](../tasks/sprint2/03e3_pilot_cross_references.md), [Task
+   03F](../tasks/sprint2/03f_make_extraction_restartable.md), [Task
+   03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md). If Docling is
+   rejected, write a new bounded fallback-planning task; the current sequence
+   does not authorize a custom hierarchy implementation.
+3. Independently review usability and freeze the accepted extraction release
+   in Task 04.
+4. Continue through the separately identified curator-only response inventory,
+   reference-case authoring, clustering, and benchmark freeze.
+5. Freeze human evaluation before BM25 retrieval, target generation, and judge
    calibration; finish with the primary test and oracle diagnostics.
 
 Sprint 2 scope, decisions, and provisional sequencing live in

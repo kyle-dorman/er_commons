@@ -1,8 +1,11 @@
 # Canonical Extraction Contract v1
 
-Status: **MVP candidate for Task 03B review**. This contract defines a
-candidate extraction representation. Task 04, not Task 03B, decides whether a
-candidate is usable and may freeze it as extraction v1.
+Status: **accepted Task 03B MVP contract; not an accepted corpus release**.
+This contract defines the current candidate extraction representation. Task 04,
+not Task 03B, decides whether a candidate is usable. If the Task 03E.1
+semantic-structure contract changes this schema, Task 04 freezes the accepted
+successor release rather than presuming that the current v1 shape remains
+final.
 
 ## Purpose and boundary
 

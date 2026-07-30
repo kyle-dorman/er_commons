@@ -31,13 +31,17 @@ splitting while preserving the minimum 25 accepted cases.
 
 Retain Docling's original structured output and the clean table pipeline's raw
 and cleaned outputs, and materialize a stable canonical interface with page,
-structural-block, table, and table-family records. Page records preserve
-document identity, PDF page number, printed page label when present, canonical
-text, and conversion provenance. Structural blocks preserve headings,
-paragraphs, list items, captions, Docling table-region observations, and other
-detected elements with stable links to their source page and location. Clean
-table-pipeline records supply canonical table content; TableFormer remains
-disabled and Docling table regions do not supply canonical cells.
+structural-block, semantic-section, printed-label, alias, table, table-family,
+and cross-reference records. Page records preserve document identity, PDF page
+number, printed-label evidence and resolution when present, canonical text,
+and conversion provenance. Structural blocks preserve headings, paragraphs,
+list items, captions, Docling table-region observations, and other detected
+elements with stable links to their source page and location. Semantic
+sections retain ordered block membership beneath separate body and furniture
+roots. Visible table-of-contents entries may supply hierarchy evidence and
+aliases, but are not body-section starts. Clean table-pipeline records supply
+canonical table content; TableFormer remains disabled and Docling table
+regions do not supply canonical cells.
 
 Preserve explicit mappings between Docling table-region observations and clean
 logical tables. One observed region may map to zero, one, or several clean
@@ -65,15 +69,19 @@ machine-derived content, provenance, and stage statuses only. Conversion,
 routing, table-stage, and canonicalization statuses remain distinct and do not
 constitute usability judgments.
 
-Task 04 maintains separate linked page, table, and table-family usability
-records for every source document, keyed by Task 03 canonical IDs. Each review
-record identifies its entity type and records human review status, exclusion
-reason when present, reviewer, review date, and links to the applicable
-canonical content and requested review-cache render. This granularity permits
-one table in a family to pass while another does not. Task 04 rolls page
-statuses up into document dispositions such as `usable`,
-`usable_with_exclusions`, and `skipped_no_ocr`; reviewer fields and human
-dispositions do not enter immutable Task 03 machine records.
+Task 04 maintains a separate usability registry for every Task 03 source,
+including sources whose terminal failure leaves no canonical document ID.
+Registry rows therefore retain the corpus candidate and source IDs and add
+canonical IDs only when those entities exist. Page, table, and table-family
+records identify their entity type, human review status, exclusion reason when
+present, reviewer, review date, and links to applicable canonical content and
+requested review-cache renders. This granularity permits one table in a family
+to pass while another does not. Task 04 also records sampled or
+anomaly-triggered observations for body/furniture classification, hierarchy,
+printed labels, aliases, and cross-references. It rolls page statuses up into
+document dispositions such as `usable`, `usable_with_exclusions`, and
+`skipped_no_ocr`; reviewer fields and human dispositions never enter immutable
+Task 03 machine records.
 
 An isolated failed page does not require excluding an otherwise usable
 appendix. Mark failed pages unusable and retain the appendix as
@@ -109,12 +117,16 @@ and stated Draft EIR chapter, appendix, or page references. Represent
 one-to-many and many-to-one comment-response relationships explicitly rather
 than forcing each source unit into an artificial one-to-one row.
 
-Preserve general responses as canonical source units with their own IDs and
-anchors. For every response that refers to a general response, also produce a
-derived resolved review view that includes the referenced general-response
-text, ID, and source anchor with the individual comment-response pair. This
-view must be independently reviewable without erasing where the incorporated
-text came from or altering the canonical source transcription.
+Preserve general responses as canonical units only within the curator-only Task
+05 namespace, with their own IDs and anchors. Final EIR Volume 4 is not part of
+the Task 03 model corpus or accepted Draft EIR extraction release. Task 05 may
+reuse maintained producer components where suitable, but its bounded extraction
+or transcription route, identities, and acceptance records remain separate.
+For every response that refers to a general response, also produce a derived
+resolved review view that includes the referenced general-response text, ID,
+and source anchor with the individual comment-response pair. This view must be
+independently reviewable without erasing where the incorporated text came from
+or altering the curator-only source transcription.
 
 Validate the relationship graph in both directions. Flag every identifiable
 comment with no response as an orphan for human review, and flag every general
@@ -166,8 +178,10 @@ Sprint 2 and cannot substitute for either human pass.
 
 During accepted-case review, build split-clustering candidates
 deterministically from commenter-letter membership, explicit response and
-general-response links, cross-references, and duplicate or near-duplicate
-source text. The curator does not manually compare every inventory pair. For
+general-response links, Task 05 cross-references among curator-only response
+units, and duplicate or near-duplicate source text. Links from an official
+response reference to a Task 03 Draft EIR target are excluded from automatic
+cluster edges. The curator does not manually compare every inventory pair. For
 each general-response link attached to a provisionally accepted case, the
 review form asks whether the linked general response contributes substantively
 to the defense or is merely administrative. Confirmed substantive links create
@@ -180,6 +194,19 @@ warning but not an automatic edge. Broad sections may support distinct issues,
 so the curator confirms whether the cases are substantively duplicative before
 they are joined. Preserve the overlap signal and disposition for audit even
 when no edge is created.
+
+Keep the project's graph roles distinct:
+
+- Task 03 owns the canonical Draft EIR cross-reference graph.
+- Task 05 owns the curator-only comment, individual-response, and
+  general-response relationship graph plus links from official response
+  references to Task 03 targets.
+- Task 06 owns only a curator-search traversal/index view over the accepted
+  Task 03 graph.
+- Task 07 owns the case-clustering graph.
+
+Draft EIR section adjacency, a shared Task 03 target, or traversal proximity
+must never become an automatic Task 07 clustering edge.
 
 Before freezing the split, validate duplicate and near-duplicate candidate
 generation against a small deterministic fixture containing representative
@@ -302,17 +329,20 @@ hash, and corpus version that define each extraction. An identical rerun must
 reproduce the same IDs; a
 changed converter or configuration creates a new corpus version and new
 low-level anchors. Pin reviewed evidence and benchmark cases to the exact
-extraction version. Human-readable document and section slugs may remain
-recognizable across versions, but they do not replace content and configuration
-checksums.
+accepted Task 03 extraction identity, Task 04 usability-registry version,
+Task 05 inventory version, and Task 07 case/split versions. Human-readable
+document and section slugs may remain recognizable across versions, but they
+do not replace content and configuration checksums.
 
 Present the target model's five retrieved passages in BM25 rank order. Each
 record includes an anonymous passage ID, human-readable document or appendix
 and section metadata, printed and PDF page locations when available, and the
 passage text. Do not expose numeric retrieval scores, gold-evidence overlap,
 curator labels or dispositions, official-response discovery provenance, or QA
-notes. Unusable source content is excluded before retrieval rather than marked
-for the target. Rank conveys ordering; the model receives no gold annotations.
+notes, printed-label confidence, unresolved candidates, or usability
+diagnostics. Unusable source content is excluded before retrieval rather than
+marked for the target. Rank conveys ordering; the model receives no gold
+annotations.
 
 Pre-register two secondary oracle scaffold diagnostics using the three-stage
 reference artifacts. The primary baseline remains the scoped comment plus five
@@ -367,16 +397,19 @@ Use whole leaf sections—the smallest heading-defined sections in the canonical
 hierarchy—as the preferred BM25 retrieval units. Preserve paragraph and
 list-item boundaries within them, keep verified tables as distinct structured
 units, carry the full heading path as metadata, and retain exact canonical
-anchors. Before building the development index, analyze and report the leaf
-section length distribution by source document, including outliers and the
-combined size of five large results relative to the target context budget.
+anchors. Build units only from Task 04-approved body content and tables; never
+span excluded content. Before building the development index, analyze and
+report the leaf-section length distribution by source document, including
+outliers and the combined size of five large results relative to the target
+context budget.
 
 Proceed with whole leaf sections only if that analysis shows usable and
 reasonably bounded units. If lengths are too variable, appendices lack useful
 heading structure, or large sections would exceed the context budget, pilot a
-fixed-length structure-preserving fallback within section boundaries. Do not
-split all sections by default, cross semantic boundaries, or choose a fallback
-size without recording the length evidence that required it.
+fixed-length, contiguous, structure-preserving fallback within section
+boundaries. Do not split all sections by default, cross semantic or excluded
+content boundaries, or choose a fallback size without recording the length
+evidence that required it.
 
 Index each retrieval unit's full canonical heading path together with its body
 text because section and appendix headings may contain important topic terms
@@ -446,13 +479,16 @@ results before the citation-proposal model sees them. Model-generated query
 expansion is out of scope for the initial pilot and may be tested later only if
 the recorded evidence shows inadequate recall.
 
-Also build a deterministic section-reference graph from explicit references
-within the Draft EIR corpus. Graph nodes identify canonical document sections
-and graph edges retain the source span containing each cross-reference. Use
-bounded graph traversal to add explicitly referenced neighboring sections to
-the curator evidence pool. Preserve the complete discovery path for every
-graph-expanded span, deduplicate cycles, and record any configured traversal or
-result limit rather than silently truncating the expansion.
+Materialize a deterministic traversal/index view over the accepted Task 03
+cross-reference records; Task 06 does not re-extract or re-resolve references.
+Use Task 05 official-response references as curator-only seeds and traverse
+only resolved edges whose targets remain usable under Task 04. Unresolved
+mentions remain lexical-search or manual-review signals, not graph edges.
+Semantic section or printed-label references seed search, but accepted evidence
+still requires exact block or table anchors. Preserve the complete discovery
+path for every graph-expanded span, deduplicate cycles, and record any
+configured traversal or result limit rather than silently truncating the
+expansion.
 
 For the pilot, traverse at most two explicit-reference edges from each seed
 section. This permits paths such as a response-cited section referring to a
@@ -487,12 +523,12 @@ model drafts, reviewed evidence summary, or reviewed reference defense.
 
 ## Provisional execution sequence
 
-Sprint 2 is current, but it has no active numbered task at promotion. Create
-each detailed task contract immediately before executing that bounded stage,
-using the prior outcome and current artifacts as its inputs. The numbers below
-are provisional routing labels, not a promise that the sprint will contain
-only 11 tasks. Split a stage further whenever its implementation contract is
-too large or new evidence creates a distinct decision or validation boundary.
+Sprint 2 is current, but no numbered task is active. Task 03E is planned and
+inactive pending explicit user activation; Tasks 03E.1 through 03H are
+provisional and must be revised from each accepted predecessor. The numbers
+below are routing labels, not a promise that the sprint will contain only these
+tasks. Split a stage further whenever its contract is too large or new evidence
+creates a distinct decision or validation boundary.
 
 1. **Task 02 — Freeze sources and provenance.** Inventory, acquire, checksum,
    validate, and manifest the complete Draft EIR main report, all official
@@ -514,18 +550,29 @@ too large or new evidence creates a distinct decision or validation boundary.
      promote the accepted producer stack into one atomic complete-document run;
    - [Task 03D](../../tasks/sprint2/03d_materialize_canonical_records.md):
      materialize core canonical records from preserved raw output;
-   - [Task 03E](../../tasks/sprint2/03e_build_hierarchy_and_cross_references.md):
-     derive hierarchy and printed-page labels;
-   - **planned Task 03E.1:** extract cross-reference mentions and resolve
-     candidates against the accepted Task 03E hierarchy, labels, and aliases;
-     write its detailed contract only after Task 03E is accepted;
+   - [Task 03E](../../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md):
+     evaluate Docling's maintained heading-hierarchy feature on Appendix P and
+     accept or reject it under a predeclared good-enough gate;
+   - [Task 03E.1](../../tasks/sprint2/03e1_define_semantic_structure_contract.md):
+     define semantic sections, ordered membership, printed-label observations
+     and resolutions, aliases, evidence, ambiguity, and correspondence without
+     producing a live candidate;
+   - [Task 03E.2](../../tasks/sprint2/03e2_materialize_semantic_structure.md):
+     map the accepted Docling hierarchy into a new immutable Appendix P
+     canonical candidate with thin, deterministic glue;
+   - [Task 03E.3](../../tasks/sprint2/03e3_pilot_cross_references.md):
+     extract exact reference mentions and pilot within-document resolution,
+     leaving other-document references for the corpus pass;
    - [Task 03F](../../tasks/sprint2/03f_make_extraction_restartable.md): add
-     restartable, resource-bounded corpus orchestration;
+     restartable per-document stage one, a sealed corpus target/alias index,
+     and an immutable cross-document-resolution pass;
    - [Task 03G](../../tasks/sprint2/03g_run_representative_extraction_pilot.md):
-     run the full-document production pilot, rehearse the human-usability
-     review, and freeze its configuration and review method; and
+     test the full two-stage workflow and Docling hierarchy across
+     heterogeneous document regimes, rehearse human review, and freeze or
+     reject the production configuration; and
    - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
-     all 35 sources and publish the candidate extraction for Task 04.
+     all 35 sources, preserve explicit terminal failures, and publish the
+     candidate extraction and accounting handoff for Task 04.
    Tasks 03A through 03D are complete. Task 03C published the checksum-verified
    222-page Appendix P producer run with 19 clean tables and 19
    complete-document families. [Task
@@ -537,53 +584,76 @@ too large or new evidence creates a distinct decision or validation boundary.
    anomalies. Task 03D.1 replaced the MVP materializer with a human-owned
    implementation and passed a record-level equivalence gate with zero
    mismatches. Task 03E now points to that accepted candidate and remains
-   inactive pending user review. Tasks 03F through 03H remain provisional and
-   must be revised from each accepted preceding outcome before activation.
-3. **Task 04 — Review usability and freeze extraction v1.** Run automated
-   integrity checks and representative visual QA; review every excluded page
-   or document and every table proposed for retrieval; inspect per-table
-   content, table-family membership, and Docling-region-to-clean-table mappings;
-   publish the separate page/table usability registry and frozen extraction
-   manifest without adding reviewer fields to Task 03 machine records or using
-   OCR.
-4. **Task 05 — Build the complete curator-only response inventory.** Enumerate
-   every comment, individual response, general response, relationship, and
-   orphan in Volume 4; produce provenance-preserving resolved review views.
-5. **Task 06 — Pilot reference-case authoring.** Implement and test the
-   deterministic high-recall curator search, two-hop section-reference graph,
-   three approval-gated GPT-OSS authoring calls, evidence registry, and
-   Label Studio review flow on a small varied pilot.
+   inactive pending user review. Tasks 03E.1 through 03H remain provisional.
+   Continuing beyond Task 03E requires explicit acceptance that Docling's
+   maintained hierarchy is good enough; rejection creates a new bounded
+   fallback-planning task rather than silently authorizing a custom hierarchy.
+3. **Task 04 — Review usability and freeze the accepted extraction release.**
+   Validate all source terminal records and machine integrity, then perform
+   stratified and risk-triggered QA. Review every failed or skipped document,
+   excluded page, retrieval-eligible table, and targeted hierarchy, label,
+   alias, or cross-reference anomaly. Key the separate registry by corpus
+   candidate and source identity, adding canonical IDs only where they exist.
+   Keep renders regenerable and outside the accepted extraction identity.
+4. **Task 05 — Build the complete curator-only response inventory.** Use a
+   bounded, separately identified transcription/extraction route for Final EIR
+   Volume 4; do not add it to the Task 03 model corpus. Enumerate every comment,
+   individual response, general response, relationship, orphan, and official
+   Draft EIR reference. Build the curator-only response graph and resolve its
+   Draft EIR references against the frozen Task 03 target/alias index subject
+   to Task 04 usability.
+5. **Task 06 — Pilot reference-case authoring.** Implement deterministic
+   high-recall curator search, a two-hop traversal/index view over the accepted
+   Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence
+   registry, and Label Studio review on a small varied pilot. Official-response
+   references are curator-only seeds; accepted evidence requires exact
+   canonical block or table anchors.
 6. **Task 07 — Curate, cluster, split, and freeze the benchmark.** Identify at
    least 35 plausible cases, finish two-pass single-curator review, accept at
-   least 25 cases, form reviewed clusters, and materialize the deterministic
-   10-development/15-test split. Preserve versioned decisions throughout and
-   publish the derived annotation attrition waterfall with exclusion counts by
-   reason code. Validate duplicate candidate generation on the small adversarial
-   fixture and publish the final cross-split leakage audit.
+   least 25 cases, and materialize the deterministic 10-development/15-test
+   split. Build cluster edges only from commenter membership, Task 05
+   response-unit relationships, confirmed duplicates, and reviewed substantive
+   themes. Task 03 section adjacency, official-response-to-Draft-target links,
+   and shared Task 03 targets are warnings, never automatic edges. Preserve
+   decisions, validate duplicate candidates, and publish the cross-split
+   leakage audit.
 7. **Task 08 — Build and freeze human evaluation.** Implement the staged,
    blinded evidence-support, responsiveness, and reference-coverage forms and
-   anchored `0`/`1`/`2` rubric before target-model development.
-8. **Task 09 — Build and freeze BM25 retrieval.** Analyze leaf-section lengths,
-   choose whole sections or the documented fallback, run the small lexical
-   preprocessing pilot, freeze the index, and report evidence-coverage curves.
-9. **Task 10 — Build and freeze target generation.** Implement the zero-shot
-   Qwen3 4B structured-output prompt, abstention and citation validation,
-   output-length pilot, and development stability check.
-10. **Task 11 — Calibrate the automated judge.** Run the three staged Gemma 3
-    12B judge calls against locked human development scores and either freeze
+   anchored `0`/`1`/`2` rubric. Pin exports and forms to the accepted Task 03
+   extraction, Task 04 registry, and Task 07 case/split versions; link requested
+   render cache separately.
+8. **Task 09 — Build and freeze BM25 retrieval.** Build units from accepted
+   hierarchy and Task 04-approved body content and tables. Analyze leaf-section
+   lengths, choose whole sections or a documented contiguous fallback that
+   never spans excluded content, run the lexical preprocessing pilot, freeze
+   the index, and report development-only evidence-coverage curves. Do not
+   graph-expand benchmark retrieval unless a later explicit decision adds that
+   condition.
+9. **Task 10 — Build and freeze target generation.** Pin the full extraction,
+   usability, case, split, index, prompt, model, and schema identity chain.
+   Implement the zero-shot Qwen3 4B prompt, abstention and citation validation,
+   deterministic source-label rendering, output-length pilot, and development
+   stability check without exposing curator-only or QA metadata.
+10. **Task 11 — Calibrate the automated judge.** Pin and verify the same
+    identity chain. Run the three staged Gemma 3 12B judge calls against locked
+    human development scores without raw Final EIR response text, then freeze
     the judge or retain it as diagnostic-only under the accepted gate.
-11. **Task 12 — Run the locked test and close Sprint 2.** Execute the primary
-    baseline first, then the pre-registered `A` and `A+B` oracle diagnostics;
-    human-review every test prediction, preserve automated scores separately,
-    analyze errors by stage, and make the second-project decision.
+11. **Task 12 — Run the locked test and close Sprint 2.** Verify the complete
+    identity chain before execution. Run the primary baseline first, then the
+    pre-registered `A` and `A+B` oracle diagnostics; human-review every test
+    prediction, preserve automated scores separately, analyze errors by stage,
+    and make the second-project decision.
 
 ## UI and artifact boundary
 
-Docling Serve's UI is a convenience for conversion spot checks. Canonical
-extraction evidence is the saved Docling outputs and page-level QA log. Label
-Studio is the human-review surface; a deterministic export converter produces
-canonical benchmark JSONL. Raw PDFs, converted text, indices, local models,
-and runs remain under `ER_COMMONS_DATA_ROOT`, not Git.
+Docling Serve's UI is a convenience for conversion spot checks. Keep three
+artifact layers explicit: preserved producer output, immutable canonical
+records, and regenerable review cache. Canonical extraction evidence is the
+saved producer and canonical output plus machine validation records, not the
+presence of renders. Label Studio is the human-review surface; a deterministic
+export converter produces benchmark JSONL pinned to accepted artifact
+identities. Raw PDFs, converted text, renders, indices, local models, and runs
+remain under `ER_COMMONS_DATA_ROOT`, not Git.
 
 ## Human evaluation boundary
 

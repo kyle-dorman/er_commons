@@ -49,9 +49,11 @@ can be traced to the accepted producer run and checksum-pinned PDF.
 - Task 03D emits only deterministic synthetic body and furniture root sections
   needed for schema-valid containment. It does not infer semantic heading
   levels or section boundaries.
-- Task 03E remains separate. Revise it into a hierarchy and printed-page-label
-  pass, then place cross-reference mention and candidate resolution behind a
-  separate review boundary.
+- Later semantic work remains separate. Task 03E first evaluates Docling's
+  maintained hierarchy. If accepted, Tasks 03E.1 and 03E.2 define and
+  materialize semantic hierarchy, printed-label evidence, and aliases; Task
+  03E.3 keeps reference mentions and resolution behind another review
+  boundary.
 
 ## Inputs
 
@@ -469,7 +471,8 @@ make check
 git diff --check
 ```
 
-Task 03E has been revised from this accepted handoff and remains inactive
-pending user review. It extends these synthetic roots with semantic hierarchy
-and printed-page-label observations only. Cross-reference work remains behind
-the later Task 03E.1 review boundary.
+The current planned sequence remains inactive pending user review. Task 03E
+first evaluates Docling's maintained heading hierarchy. If accepted, Task
+03E.1 defines semantic hierarchy, printed-label, alias, evidence, ambiguity,
+and correspondence contracts; Task 03E.2 materializes them; and Task 03E.3
+pilots reference mentions and within-document resolution.

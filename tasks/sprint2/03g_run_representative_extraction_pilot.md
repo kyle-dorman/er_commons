@@ -1,176 +1,146 @@
-# Task 03G: Run the Representative Production Pilot
+# Task 03G: Run the Representative Two-Stage Extraction Pilot
 
-Status: **provisional**. Revise this contract from the accepted Task 03F outcome
-before activating it.
+Status: **provisional**. Revise this contract from the accepted Task 03F
+outcome before activating it.
 
 ## Abstract
 
-Run the complete extraction workflow on a predeclared, heterogeneous subset of
-full Brisbane Draft EIR documents. Measure structural failure modes, runtime,
-memory, output size, restart behavior, and semantic reproducibility; inspect
-the resulting raw, canonical, hierarchy, cross-reference, render, and asset
-artifacts; and rehearse Task 04's human-usability review on a predeclared page
-sample. Use provisional pilot-only review records to freeze or reject the
-production configuration and review method. This is the last configuration
-gate before the 48,341-page corpus run.
+Run the complete two-stage extraction workflow on a predeclared,
+heterogeneous subset of full Brisbane Draft EIR documents. Measure structural
+failure modes, runtime, memory, storage, restart behavior, and semantic
+reproducibility. Inspect hierarchy, printed labels, aliases, reference
+mentions, within- and cross-document resolutions, tables, assets, and requested
+review cache. Rehearse Task 04's human-usability review in a provisional
+namespace. This is the final configuration and workload gate before Task 03H.
 
 ## Goal
 
-Demonstrate that the complete pipeline is operationally credible and
-task-sufficient across representative document regimes, and that Task 04 can
-review it efficiently under a tested rubric, not merely that conversion
-commands complete on small page-range examples.
+Demonstrate that the accepted Docling-backed hierarchy and complete corpus
+workflow remain task-sufficient across representative document regimes, and
+that systematic failures return to their owning task rather than accumulating
+document-specific patches.
 
 ## Inputs
 
-- completed Tasks 03A–03F
-- the frozen candidate extraction contract and batch command
+- accepted Tasks 03A–03F
+- the frozen corpus extraction identity and two-stage batch command
 - the sealed model-corpus source manifest
-- a reviewed pilot selection covering the main report and structurally distinct
+- a reviewed pilot selection spanning structurally distinct reports and
   appendices, including a very large document and known source warnings
-- Task 03A page-level observations and error dimensions
-- primary evaluation guidance such as
-  [READoc](https://aclanthology.org/2025.findings-acl.1128/) and
-  [DocLayNet](https://arxiv.org/abs/2206.01062)
+- Task 03A parser observations, including known heading false-positive and
+  false-negative controls
+- the accepted Task 03E hierarchy rubric and Task 03E.1 semantic-structure
+  contract
 
 ## Outputs
 
 - a frozen full-document pilot specification selected before execution
-- completed external extraction artifacts for every pilot document
+- completed external stage-one artifacts for every pilot source or explicit
+  terminal failure records
+- a sealed pilot target/alias index and immutable cross-document resolutions
 - per-stage runtime, peak-resource, and artifact-size observations
-- structural distributions and outlier reports
-- an extraction error taxonomy with representative preserved examples
-- a mini Task 04 review protocol and predeclared page sample containing
-  stratified ordinary pages, structural stress pages, and every pilot anomaly
-- provisional pilot-only page observations and document-level review summaries
-- semantic reproducibility results from repeated conversion of a fixed subset
-- a reviewed production configuration and schema freeze, or a documented stop
-  requiring an earlier-task revision
-- a reviewed Task 04 sampling, escalation, and disposition procedure, or a
-  documented stop if the candidate cannot be reviewed reliably
-- a capacity estimate and safe execution settings for Task 03H
+- structural distributions and a failure taxonomy with preserved examples
+- a mini Task 04 review protocol and predeclared sample combining ordinary,
+  structural-stress, and anomaly-triggered pages
+- provisional pilot-only page, table, document, hierarchy, label, alias, and
+  cross-reference observations
+- repeated-run semantic and identity results from a fixed subset
+- tested interruption, resume, failure-accounting, and unresolved-reference
+  behavior
+- a reviewed production configuration and Task 04 review method, or a
+  documented stop requiring revision of the owning earlier task
+- a capacity estimate and safe Task 03H settings
 
 ## Research / learning checkpoint
 
-Design the pilot as an experiment with predeclared observables and stop rules,
-not as an informal demo. Include at least:
+Design the pilot as an experiment with predeclared observables and stop rules.
+The sample must cover, where available:
 
 - the main Draft EIR report;
 - a typical narrative appendix;
 - a table- or figure-heavy appendix;
-- a document with known Task 02 parser warnings;
-- a very large appendix that exercises memory and long-tail runtime;
-- Appendix K2 part 2 with `source_edition_override`; and
-- any document regime Task 03A identified as materially different.
-
-If that set is operationally too large for one bounded task, preserve the
-selection criteria and use document/page strata that still exercise the
-long-document path; record the limitation rather than substituting only easy
-examples.
+- a very large appendix and a document with Task 02 warnings;
+- Appendix K2 part 2 with `source_edition_override`;
+- documents with and without PDF outlines and visible tables of contents;
+- numbered and unnumbered headings;
+- embedded numbering or printed-page-label resets;
+- explicit PDF page-label metadata, if any, and absent-metadata or
+  visible-label-only regimes; and
+- a regime Task 03A identified as materially different.
 
 The outcome must explain:
 
+- **Appendix P acceptance is necessary, not corpus-wide proof.** The accepted
+  Task 03E result is a hypothesis to test against heterogeneous structure.
+- **Hierarchy and label failures have mechanisms.** Measure heading
+  promotions/misses, incorrect nesting, table-of-contents rows promoted as
+  starts, furniture promoted as body sections, label conflicts, and alias
+  collisions separately.
+- **Cross-reference quality has two stages.** Report mention detection,
+  within-document resolution, cross-document resolution, ambiguity, and
+  unresolved reason codes independently.
 - **Parser-intrinsic correctness, task-conditioned sufficiency, and corpus
-  coverage are different questions.** A reconstruction can contain local errors
-  yet remain sufficient for text-only retrieval, while a visually polished
-  conversion can omit the exact table or section needed by a benchmark case.
-- **Error taxonomies should follow failure mechanisms.** Separate omission,
-  duplication, reading-order corruption, region-label confusion, heading-level
-  error, table-topology error, caption/figure misassociation, geometry error,
-  cross-reference error, and serialization/provenance loss.
-- **Aggregate text similarity is inadequate.** Correct characters in the wrong
-  order can break retrieval; correct table text with wrong row/column structure
-  can reverse meaning; correct prose without anchors cannot support auditable
-  citations.
-- **Domain shift is structural.** Environmental reports contain appendices,
-  engineering tables, maps, repeated exhibit templates, and numbering regimes
-  that may differ from document-layout training corpora.
-- **Silent failure matters more than loud failure.** Explicit conversion errors
-  are easier to quarantine than plausible-looking but structurally wrong
-  outputs.
+  coverage are distinct.**
+- **Silent structural failure matters more than loud failure.** Plausible
+  hierarchy or labels can still misroute retrieval and citations.
 - **Reproducibility is empirical.** Repeat a fixed subset and compare semantic
-  records, IDs, geometry, and assets; do not infer determinism from fixed
-  settings.
-- **Capacity planning must use distributions.** Report per-document and
-  per-page tails, peak memory, and storage by artifact family rather than only a
-  mean pages-per-second estimate.
-- **Parser QA needs both probability sampling and risk-based sampling.** A
-  stratified ordinary-page sample estimates how often routine output is
-  acceptable, while anomaly-triggered and structural-stress pages test known
-  high-consequence failure modes. Neither sample alone supports both purposes.
-- **A review rubric must be consequence-aware.** Text completeness, reading
-  order, hierarchy, table topology, figure/caption linkage, and anchor geometry
-  have different effects on text-only retrieval and citation verification.
-  Review should record the failure mechanism and downstream consequence rather
-  than one undifferentiated quality score.
-- **Pilot labels and release labels have different authority.** Provisional
-  review records test configuration and workflow. They do not become frozen
-  page dispositions because Task 03H has not yet produced the complete candidate
-  and Task 04 has not independently validated it.
-- **Extraction quality bounds later evaluation.** Missing canonical evidence
-  caps retrieval recall. Later analysis must distinguish evidence absent from
-  the extraction from evidence present but missed by BM25.
+  records, IDs, geometry, assets, indexes, and resolution outputs.
+- **Review cache is not candidate completeness.** Page renders exist only for
+  selected human review and are regenerable.
+- **Pilot labels and Task 04 decisions have different authority.** Pilot review
+  tests the workflow but cannot prefill the accepted usability registry.
 
 ## Plan / spec requirement
 
 Before running the pilot, freeze:
 
-1. selected documents and coverage rationale;
-2. structural and operational observables;
+1. selected documents and structural-regime rationale;
+2. stage-one, target-index, and second-pass observables;
 3. repeated-run subset and equality criteria;
-4. automated anomaly rules and their intended interpretation;
-5. the mini Task 04 sample, combining a predeclared stratified ordinary-page
-   sample with all anomaly-triggered and structural-stress pages;
-6. the provisional page-review dimensions, reason codes, and document rollup;
-7. review-time observations and escalation rules for excluded-page or
-   skipped-document candidates;
-8. runtime, memory, storage, review burden, and failure stop thresholds;
+4. hierarchy, label, alias, and cross-reference anomaly rules;
+5. the mini Task 04 sample and requested render-cache recipe;
+6. review dimensions, reason codes, escalation rules, and timing measures;
+7. a simulated source failure and expected accounting/resolution behavior;
+8. runtime, memory, storage, review-burden, and failure stop thresholds;
 9. permitted configuration changes and required reruns;
-10. the evidence required to freeze production settings and the Task 04 review
-    method; and
-11. cleanup or retention rules for rejected extraction versions.
+10. the evidence needed to freeze Task 03H settings; and
+11. retention rules for rejected extraction versions and disposable cache.
 
-Task 03G performs a mini human-usability review to validate the parser,
-configuration, anomaly detection, sampling plan, and review workflow. Store its
-decisions in a distinct pilot namespace and mark them non-authoritative. It must
-not populate the Task 04 registry, freeze final page exclusions, or assign
-release document dispositions.
+Systematic hierarchy failure returns to Task 03E, contract failure to Task
+03E.1, materialization failure to Task 03E.2, reference-policy failure to Task
+03E.3, and batch-state failure to Task 03F. Do not add pilot-local heuristics
+that bypass the owning contract.
 
 ## Review pass
 
-- **Sample adequacy:** the pilot spans failure mechanisms rather than only
-  convenient file sizes.
-- **Structural quality:** anomalies are evaluated by type and downstream
-  consequence.
-- **Operational credibility:** long-tail runtime, memory, storage, and resume
-  behavior support a safe full run.
-- **Version freeze:** accepted artifacts all share one closed
-  source/parser/model/configuration/schema identity.
-- **Review-loop quality:** the pilot combines representative and risk-based
-  pages, captures review burden, and makes systemic failures visible before the
+- **Sample adequacy:** the pilot spans structural mechanisms, not only convenient
+  file sizes.
+- **Identity:** all accepted artifacts share the corpus identity and only the
+  permitted subordinate transaction identities.
+- **Structural quality:** body/furniture roots, hierarchy, labels, aliases, and
+  reference outcomes are reviewed by type and downstream consequence.
+- **Two-stage integrity:** the target index is sealed from terminal stage-one
+  inputs and the second pass leaves them unchanged.
+- **Operational credibility:** resource tails and restart evidence support the
   full run.
-- **Human-review boundary:** pilot review records are explicit and useful but
-  cannot masquerade as the frozen Task 04 usability registry.
+- **Human-review boundary:** provisional records remain outside Task 04.
 
 ## Validation
 
-- Verify every pilot input against the source manifest before conversion.
-- Run through the same batch entrypoint intended for Task 03H.
-- Validate schemas, references, coordinates, counts, assets, completion records,
-  and source-warning propagation.
-- Repeat the fixed subset and compare version-scoped IDs and semantic outputs.
-- Exercise stop/resume during at least one nontrivial conversion if Task 03F did
-  not already prove the real path.
-- Perform the mini Task 04 review against page renders for the complete
-  predeclared ordinary-page sample, every structural stress page, and every
-  algorithmically flagged pilot outlier.
-- Review every provisional excluded-page or skipped-document candidate in the
-  pilot and verify that the reason codes and escalation rules are usable.
-- Record review time and estimate the likely Task 04 workload from ordinary and
-  anomaly-triggered strata separately.
-- Verify pilot decisions are stored outside the final usability registry and
-  marked non-authoritative.
-- Confirm rejected configurations cannot mix with the accepted version.
+- Verify every pilot input against the source manifest.
+- Run the same two-stage entrypoint intended for Task 03H.
+- Validate schemas, references, coordinates, counts, assets, completion
+  records, identity, and warning propagation.
+- Repeat the fixed subset and compare declared semantic invariants.
+- Exercise stop/resume and one simulated document failure.
+- Confirm the simulated failure is accounted for and references to its missing
+  targets remain explicit and unresolved.
+- Review all predeclared hierarchy, label, alias, and cross-reference
+  observables plus every algorithmically flagged pilot outlier.
+- Generate renders only for the frozen review sample; verify their absence does
+  not invalidate the candidate.
+- Record review time by ordinary and risk-triggered strata.
+- Confirm rejected configurations cannot mix with the accepted identity.
 - Run:
 
 ```bash
@@ -180,34 +150,29 @@ git diff --check
 
 ## Acceptance criteria
 
-- The pilot exercises the main report, representative appendices, long-document
-  behavior, known warnings, and the K2 provenance exception.
-- Structural and operational results are reported by failure mode and
-  distribution, not only aggregate success.
-- Semantic rerun behavior is measured and compatible with deterministic
-  extraction-scoped anchors.
-- Resource evidence supports explicit Task 03H concurrency, timeout, and storage
-  settings.
-- The mini review demonstrates that ordinary pages and every flagged pilot
-  anomaly can be adjudicated using the proposed Task 04 dimensions, reason
-  codes, renders, and canonical links.
-- No unbounded or systemic failure pattern remains that would make the full
-  candidate predictably fail Task 04; otherwise the task returns to the
-  responsible earlier subtask before Task 03H.
-- Review effort is measured by sample stratum and supports a credible Task 04
-  workload estimate.
-- All accepted pilot artifacts share one frozen extraction identity.
-- Any material configuration or schema change triggers the specified rerun
-  rather than being applied only to later documents.
-- Pilot review records are explicitly provisional and do not prefill or replace
-  Task 04 decisions.
+- The pilot exercises the main report, representative appendices,
+  long-document behavior, known warnings, and the K2 provenance exception.
+- The accepted Docling hierarchy is good enough across the declared document
+  regimes under the frozen rubric; otherwise Task 03H does not proceed.
+- Visible tables of contents inform aliases/evidence without becoming false
+  body-section starts.
+- Printed-label regimes and conflicts remain explicit rather than collapsing
+  into physical page numbers.
+- Cross-document resolution uses the sealed target/alias index, and unresolved
+  outcomes carry deterministic reasons.
+- Semantic reruns preserve the declared identities and invariants.
+- Resource evidence supports explicit Task 03H settings.
+- The mini review demonstrates a credible Task 04 process without making
+  authoritative dispositions.
+- No unbounded or systemic failure remains; any such failure returns to its
+  owning task.
 - The outcome asks for explicit user approval before Task 03H.
 
 ## Non-goals
 
 - converting all 35 model-corpus PDFs
-- final or authoritative page-level usability review
-- OCR fallback or generative repair
-- benchmark candidate selection
-- retrieval, target generation, judging, or LLM evaluation
-- claiming corpus-wide parser accuracy from the pilot
+- corpus acceptance or final page usability decisions
+- OCR fallback, generative repair, or a custom hierarchy algorithm
+- benchmark case selection
+- retrieval, target generation, judging, or evaluation
+- claiming corpus-wide accuracy from the pilot

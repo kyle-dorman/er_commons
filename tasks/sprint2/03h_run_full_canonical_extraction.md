@@ -1,149 +1,134 @@
 # Task 03H: Run and Validate the Full Canonical Extraction
 
-Status: **provisional**. Revise this contract from the accepted Task 03G outcome
-before activating it.
+Status: **provisional**. Revise this contract from the accepted Task 03G
+outcome before activating it.
 
 ## Abstract
 
-Execute the frozen Task 03G workflow across all 35 checksum-pinned model-corpus
-PDFs, validate the resulting raw and canonical artifact graph, and publish a
-complete candidate extraction plus producer-side integrity evidence and the
-precise Task 04 usability handoff. Account explicitly for every source, page,
-record, asset, warning, partial result, and inherited provenance exception.
-Task 04 independently validates the candidate and freezes extraction v1; do not
-make human page-usability or document-disposition decisions here.
+Run the frozen two-stage workflow across all 35 checksum-pinned model-corpus
+PDFs. Publish immutable per-document stage-one candidates, seal the corpus
+target/alias index, publish cross-document resolution records, and account
+explicitly for every source and terminal state. Produce a candidate handoff and
+producer-side integrity evidence for Task 04. Task 04 independently decides
+usability and freezes the accepted extraction release; Task 03H does not
+silently represent a failed source as a successful extraction.
 
 ## Goal
 
-Produce a complete, reproducible, internally consistent candidate canonical
-extraction whose lineage and limitations can be independently validated before
-human usability review freezes it.
+Produce a reproducible, internally consistent candidate corpus whose successes,
+failures, lineage, hierarchy, labels, aliases, and cross-references can be
+independently validated before benchmark use.
 
 ## Inputs
 
-- user-approved Task 03G production configuration and capacity settings
-- the sealed Task 02 `source_manifest.json`, filtered to its 35
-  checksum-pinned `model_corpus` records
-- production commands and schemas completed in Tasks 03C–03F
-- accepted pilot artifacts and extraction-version identity
-- `/Volumes/x10pro/er_commons` with sufficient verified free space
+- user-approved Task 03G configuration, corpus identity, and capacity settings
+- the sealed Task 02 manifest filtered to its 35 ordered, checksum-pinned
+  `model_corpus` records
+- production commands and contracts accepted in Tasks 03C.1–03F
+- accepted pilot evidence and `/Volumes/x10pro/er_commons` capacity
 
 ## Outputs
 
-- raw Docling and clean table-pipeline output, page renders, extracted images,
-  canonical records including tables and table families, hierarchy records,
-  mapping observations, and cross-reference candidates for all accepted
-  conversions
-- one per-document completion or explicit failure record for every required
-  source
-- corpus-level candidate manifest, producer summary, checksums, warnings,
-  configuration, software/model/runtime identities, and producer completion
-  record
-- producer-side completeness, schema, referential-integrity, coordinate, asset,
-  and rerun-validation reports for Task 04 to check independently
-- page-, table-, and table-family machine records plus mapping observations for
-  Task 04, with no human-review fields
-- document-level machine summaries for Task 04, without usability dispositions
-- propagation of every Task 02 source warning through the applicable candidate
-  document/page records, including `source_edition_override` for Appendix K2
-  part 2
-- an exact Task 04 input path and review boundary
+- immutable raw producer output, canonical records, semantic hierarchy,
+  printed-label evidence and resolutions, aliases, reference mentions,
+  within-document resolutions, content assets, and mappings for every
+  successful stage-one document
+- one explicit terminal success or failure record for every required source
+- a sealed target/alias index over terminal stage-one results
+- immutable cross-document-resolution records, including explicit unresolved
+  reasons for unavailable or ambiguous targets
+- separate target-index, resolution, all-source-accounting, and candidate-
+  handoff completion records
+- corpus manifest, producer summary, checksums, warnings, configuration, and
+  software/model/runtime identities
+- producer-side completeness, schema, referential-integrity, coordinate,
+  asset, stage-immutability, and rerun reports
+- page-, table-, table-family-, hierarchy-, label-, alias-, mention-, and
+  resolution-level machine observations for Task 04, with no human-review
+  fields
+- an exact Task 04 input path and review-cache recipe
+
+Page renders are not canonical outputs. Generate only the predeclared Task 04
+review sample as regenerable cache, outside extraction identity and
+completeness.
 
 ## Research / learning checkpoint
 
-Before the full run, review the distinction between conversion status,
-artifact integrity, and semantic correctness. Use W3C
-[PROV-O](https://www.w3.org/TR/prov-o/) as a general lineage vocabulary and
-Docling's conversion status/error model as the concrete parser boundary.
-
 The outcome must explain:
 
-- **A zero exit code is not a data-release proof.** Release validation has
-  layers: source coverage, artifact completeness, schema validity, referential
-  integrity, geometric consistency, semantic rerun checks, and explicit warning
-  accounting.
-- **Producer completeness is not correctness or release acceptance.** Automated
-  checks can establish that
-  48,341 expected pages and their relationships were accounted for; they cannot
-  establish that every table, reading order, or heading is semantically right.
-  Task 04 remains the independent validation and freeze gate.
-- **Partial success requires policy, not optimism.** A raw parser document with
-  warnings or missing stages must retain its evidence and cannot be silently
-  promoted to an accepted corpus member.
-- **Extraction recall bounds retrieval recall.** If support is absent or
-  unusable in the canonical corpus, no retriever can recover it. Later
-  evaluation should separate extraction absence from ranking failure and from
-  target-model synthesis failure.
-- **Oracle contexts do not repair corpus lineage.** Later oracle evidence
-  diagnostics help localize retrieval versus synthesis limitations only when
-  their evidence anchors resolve against this exact extraction version.
-- **Extraction changes invalidate anchors.** Reprocessing with a new parser,
-  model, or configuration creates a new corpus version and requires explicit
-  benchmark migration; it must not silently refresh low-level evidence under
-  old IDs.
-- **Warnings are part of the release contract.** Parser repairs, partial
-  results, suspicious structural distributions, and the K2 source override
-  must remain queryable by later curation and attrition analysis.
-- **Evaluation validity depends on a fixed preprocessing treatment.** Comparing
-  target or retriever runs over different unnoticed extraction states creates a
-  confounded experiment even if model settings are identical.
+- **A zero exit code is not a release proof.** Source accounting, artifact
+  integrity, schema validity, referential integrity, stage immutability,
+  rerun checks, and warning visibility are separate layers.
+- **Accounting is not success.** Every source can have a terminal record even
+  when policy blocks candidate handoff or later acceptance.
+- **Producer handoff is not Task 04 freeze.** Task 03H reports exactly what was
+  produced; Task 04 determines what is usable for the benchmark.
+- **The corpus pass cannot rewrite documents.** Cross-document resolutions are
+  new records over a sealed target index.
+- **Extraction recall bounds retrieval recall.** Later analysis must distinguish
+  absent/unusable evidence from ranking and synthesis failures.
+- **Extraction changes invalidate anchors.** A new parser, hierarchy,
+  configuration, schema, or resolution policy creates a new identity and
+  requires explicit benchmark migration.
+- **Warnings and failures are release data.** Parser anomalies, source
+  exceptions, partial outcomes, and unresolved references must remain
+  queryable.
 
 ## Plan / spec requirement
 
-Write a short run plan immediately before execution. It must confirm:
+Write a short run plan immediately before execution. Confirm:
 
-1. source and extraction identities plus available storage;
-2. exact commands, concurrency, device, batch, timeout, and retry settings;
-3. progress-monitoring and interruption behavior;
-4. required per-document and corpus completion records;
-5. producer-side validation layers and stop conditions;
-6. how partial/failing documents remain preserved without marking the candidate
-   producer-complete;
-7. fixed-subset rerun checks after completion;
-8. Task 04 machine-record handoff with human-review fields absent; and
-9. final artifact retention and rejected-version isolation.
+1. all source, corpus, parser, model, configuration, schema, hierarchy, and
+   resolution identities;
+2. exact commands and resource/retry settings;
+3. stage-one monitoring, interruption, and atomic publication;
+4. terminal-state and all-source-accounting requirements;
+5. target-index sealing and second-pass no-mutation checks;
+6. candidate-handoff policy for failures, including the hard stop for a
+   material main-report failure;
+7. fixed-subset rerun checks;
+8. Task 04 machine-record and review-cache handoff; and
+9. retention and isolation of failed or rejected versions.
 
-Do not change the accepted parser configuration or canonical schemas during the
-run. A material new failure mode stops the release for an explicit Task 03G or
-earlier-task revision; it is not patched only for the remaining documents.
+Do not change accepted parser, hierarchy, schema, or resolution policy during
+the run. A material new failure mode stops the candidate for an explicit Task
+03G or earlier-task revision.
 
 ## Review pass
 
-- **Corpus completeness:** all and only the 35 model-corpus sources and their
-  expected pages are accounted for.
-- **Candidate integrity:** every required artifact is checksummed, contained,
-  referenced, and marked producer-complete only after producer validation.
-- **Structural consistency:** IDs, hierarchy, cross-references, coordinates,
-  assets, and raw mappings satisfy the frozen contract.
-- **Warning visibility:** no partial success, parser warning, anomaly, or source
-  exception is erased by aggregation.
-- **Evaluation handoff:** Task 04 can review page renders and machine
-  observations without recomputing extraction or receiving prefilled human
-  judgments.
-- **Independent freeze:** the candidate does not claim the Task 04 extraction-v1
-  freeze or substitute producer checks for independent validation.
+- **Source accounting:** all and only the 35 model-corpus sources have terminal
+  records.
+- **Candidate integrity:** every published artifact is checksummed, contained,
+  referenced, and covered by the appropriate completion record.
+- **Stage isolation:** target-index and cross-document passes preserve
+  stage-one bytes.
+- **Structural consistency:** IDs, hierarchy, labels, aliases, references,
+  coordinates, assets, and mappings satisfy the frozen contracts.
+- **Warning visibility:** no failure, warning, anomaly, or source exception is
+  erased by aggregation.
+- **Independent freeze:** the candidate does not claim Task 04 acceptance.
 
 ## Validation
 
-- Reconcile extraction inputs against all 35 ordered manifest records and
-  recorded source checksums.
-- Reconcile expected versus produced PDF page counts per document and corpus.
-- Validate every raw/canonical artifact role, schema, checksum, and contained
-  path.
-- Validate global ID uniqueness within the extraction version and every
-  document, page, block, section, table, table-family, figure, image, asset,
-  mapping, and reference relationship.
-- Validate bounding boxes against page dimensions and declared coordinate
-  frames.
-- Validate every required page render and every referenced extracted asset.
-- Recompute aggregate counts from records rather than trusting separately
-  maintained totals.
-- Rerun the Task 03G fixed subset and compare the declared semantic invariants.
-- Verify human-review fields are absent from Task 03 records and all applicable
-  Task 02 source warnings are propagated, including K2's source-edition
-  warning.
-- Verify Git contains no raw PDFs, converted bulk content, renders, models, or
-  generated extraction records.
+- Reconcile inputs against all 35 ordered manifest records and checksums.
+- Reconcile expected pages for every successful extraction; preserve explicit
+  failure coverage rather than fabricating page success for failed sources.
+- Validate every artifact role, schema, checksum, contained path, and identity.
+- Validate global ID uniqueness and all document, page, block, section, table,
+  table-family, figure, image, asset, mapping, alias, mention, and resolution
+  relationships.
+- Validate bounding boxes against page dimensions and coordinate frames.
+- Validate every referenced content asset.
+- Verify the target index contains exactly the eligible terminal stage-one
+  outputs.
+- Verify cross-document resolution leaves stage-one checksums unchanged.
+- Recompute aggregate counts instead of trusting separately maintained totals.
+- Rerun the Task 03G fixed subset and compare frozen invariants.
+- Verify human-review fields are absent and all Task 02 warnings propagate,
+  including K2's `source_edition_override`.
+- Verify requested review renders are reproducible cache and excluded from
+  completeness.
+- Verify Git contains no bulk source or generated extraction artifacts.
 - Run:
 
 ```bash
@@ -153,36 +138,31 @@ git diff --check
 
 ## Acceptance criteria
 
-- Every one of the 35 source-manifest records has a producer-verified completed
-  extraction under one frozen extraction identity; otherwise no producer
-  completion record is published.
-- Expected source and PDF page counts reconcile exactly or stop with an
-  explicit reviewed exception.
-- Any material native-extraction failure in the main report stops the candidate
-  and requires a new decision; it cannot be passed forward as a skipped source.
-- Raw Docling and clean table-pipeline output, canonical records, renders,
-  assets, logs, warnings, and manifests are complete and internally linked.
-- All schemas, IDs, coordinates, checksums, and referential-integrity checks
-  pass.
-- Fixed-subset reruns satisfy the frozen semantic reproducibility policy.
-- Every Task 02 source warning remains discoverable in the applicable candidate
-  metadata, and `source_edition_override` is present on the K2 part 2 document
-  and page machine metadata.
-- Task 04 receives complete page, table, table-family, and mapping machine
-  records with human-review fields absent.
-- Generated bulk artifacts remain outside Git under the versioned external
-  extraction root.
-- The outcome reports exact counts, bytes, timings, warnings, validation
-  commands, and the precise Task 04 input.
-- The candidate is not called extraction v1 or frozen until Task 04 independently
-  validates and accepts it.
+- All 35 sources have explicit terminal records under one corpus identity.
+- Every successful document has a verified immutable stage-one candidate;
+  failures remain failures with deterministic reasons.
+- A material native-extraction failure in the main report blocks candidate
+  handoff and requires a new decision.
+- The target index and cross-document resolution are complete under the frozen
+  policy and do not mutate document candidates.
+- All-source accounting, candidate handoff, and the later Task 04 freeze are
+  represented by distinct records.
+- Schemas, IDs, coordinates, checksums, assets, references, and fixed-subset
+  rerun checks pass for published candidates.
+- Task 04 receives complete machine observations and source-failure records
+  without prefilled human dispositions.
+- Page renders are absent from canonical completeness claims.
+- Generated bulk artifacts remain outside Git.
+- The outcome reports exact success/failure counts, pages, bytes, timings,
+  warnings, unresolved references, validation commands, and Task 04 input.
+- The candidate is not called accepted or frozen until Task 04 independently
+  validates it.
 
 ## Non-goals
 
-- assigning `usable`, `usable_with_exclusions`, or `skipped_no_ocr`
-- reviewing every page render or verifying every table semantically
+- assigning final usability or document dispositions
+- reviewing every page or table semantically
 - OCR, LLM repair, or visual-question answering
 - extracting Final EIR Volume 4 comments and responses
-- case screening, evidence authoring, or benchmark splitting
-- retrieval indexing, target generation, judging, or scoring
-- changing the parser, schema, or configuration during the run
+- case screening, evidence authoring, retrieval, generation, or scoring
+- changing parser, hierarchy, schema, or resolution policy during the run

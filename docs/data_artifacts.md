@@ -40,7 +40,7 @@ Task 03 producer and canonicalization artifacts live under the pipeline
 workspace:
 
 ```text
-pipelines/brisbane_baylands/task_03c_document_extraction/<producer_run_id>/
+pipelines/brisbane_baylands/task_03c_single_document/<producer_run_id>/
 pipelines/brisbane_baylands/task_03d_canonical_records/<candidate_id>/
 ```
 
@@ -66,6 +66,16 @@ pipelines/brisbane_baylands/task_03d1_rewrite_review/<comparison_id>/
 
 The comparison report is evidence about two immutable candidates. It does not
 promote either candidate into a corpus release.
+
+Task 03E hierarchy comparisons use the same pattern:
+
+```text
+pipelines/brisbane_baylands/task_03e_hierarchy_review/<comparison_id>/
+```
+
+The compared producer candidates remain immutable. The review report records
+the frozen sample, metrics, observed regressions, and explicit acceptance or
+rejection; it is not itself a canonical candidate or accepted release.
 
 ## Git policy
 

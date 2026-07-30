@@ -310,5 +310,6 @@ make check  # 154 passed
 git diff --check
 ```
 
-The reference candidate remains checksum-valid and unchanged. Task 03E now
-points to the human-owned candidate and remains inactive pending user review.
+The reference candidate remains checksum-valid and unchanged. The planned Task
+03E Docling hierarchy evaluation points to the human-owned candidate and
+remains inactive pending user review.
