@@ -3,7 +3,11 @@
 import pytest
 from typer.testing import CliRunner
 
-from er_commons.cli import DEFAULT_COMPLETE_DOCUMENT_SPEC, app
+from er_commons.cli import (
+    DEFAULT_CANONICALIZATION_SPEC,
+    DEFAULT_COMPLETE_DOCUMENT_SPEC,
+    app,
+)
 from er_commons.settings import ProjectSettings
 
 
@@ -44,3 +48,12 @@ def test_documents_group_exposes_review_and_complete_producer_commands() -> None
     assert "run-review" in result.output
     assert "run-complete" in result.output
     assert DEFAULT_COMPLETE_DOCUMENT_SPEC.name.endswith("appendix_p_v2.json")
+
+
+def test_canonicalize_group_exposes_document_scoped_materialization() -> None:
+    """Canonical records have a distinct package-backed command boundary."""
+    result = CliRunner().invoke(app, ["canonicalize", "--help"])
+
+    assert result.exit_code == 0
+    assert "run-document" in result.output
+    assert DEFAULT_CANONICALIZATION_SPEC.name.endswith("task03d_appendix_p_v1.json")

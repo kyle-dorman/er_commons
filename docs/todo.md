@@ -5,11 +5,10 @@
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
 Most recently completed: [Task
-03C.1](../tasks/sprint2/03c1_rewrite_complete_document_producer.md). It
-replaced the Task 03C reference orchestrator with human-owned modules, named
-invariants, typed records, explicit test seams, and focused offline tests. The
-new code-bound Appendix P run is semantically identical to v1 across Docling,
-routing, assets, tables, and families; all 112 tests pass.
+03D.1](../tasks/sprint2/03d1_rewrite_canonical_materializer.md). It replaced
+the Task 03D MVP's monolithic record builder with typed, responsibility-specific
+modules and passed an independent 57-path semantic-equivalence gate with zero
+mismatches.
 
 Previously completed: [Task
 03C](../tasks/sprint2/03c_build_single_document_conversion.md). It converted
@@ -96,18 +95,18 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Current active task: execute Task 03D from its approved contract. It consumes
-the accepted human-owned Appendix P producer run, distinguishes 34 region
-mappings from 14 zero-table pages, excludes durable page renders, uses a
-non-release one-document candidate identity, and limits tables to the clean
-rectangular grid plus CSV representation.
+Current active task: none. Review the completed human-owned Task 03D.1 result
+and revised
+[Task 03E](../tasks/sprint2/03e_build_hierarchy_and_cross_references.md)
+contract before activating the next implementation task.
 
 ## Open queue
 
-1. Execute active Task 03D, then revise and execute later contracts one at a
-   time: hierarchy and printed-page labels in Task 03E, cross-reference
-   mentions and candidates in planned Task 03E.1, restartable batching,
-   production pilot, and full candidate extraction.
+1. Review the human-owned Task 03D result and decide whether to activate the
+   revised Task 03E hierarchy and printed-page-label contract. Then revise and
+   execute later contracts one at a time: cross-reference mentions and
+   candidates in planned Task 03E.1, restartable batching, production pilot,
+   and full candidate extraction.
 2. Independently review usability and freeze extraction v1 in Task 04.
 3. Continue through response inventory, case authoring, and benchmark freezing
    using one bounded task at a time.

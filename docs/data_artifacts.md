@@ -36,6 +36,37 @@ their owning task defines the role. [Decision
 002](decisions/002_external_ssd_artifact_root.md) records why this local MVP
 uses the external SSD.
 
+Task 03 producer and canonicalization artifacts live under the pipeline
+workspace:
+
+```text
+pipelines/brisbane_baylands/task_03c_document_extraction/<producer_run_id>/
+pipelines/brisbane_baylands/task_03d_canonical_records/<candidate_id>/
+```
+
+A Task 03D candidate is complete only when its
+`records/completion_record.json` exists and validates. Candidate identity binds
+the selected source release, producer inventory, schema, policy, config,
+mapping specification, and implementation inputs, so a matching completed
+candidate can be reused without mutation. These task-scoped candidates are not
+promoted `datasets/.../derived` releases.
+
+Rendered pages and overlays used for bounded visual review are disposable
+review aids under:
+
+```text
+pipelines/brisbane_baylands/review_cache/<candidate_id>/
+```
+
+Maintainability rewrites may store their independent semantic comparison under:
+
+```text
+pipelines/brisbane_baylands/task_03d1_rewrite_review/<comparison_id>/
+```
+
+The comparison report is evidence about two immutable candidates. It does not
+promote either candidate into a corpus release.
+
 ## Git policy
 
 Track in Git:

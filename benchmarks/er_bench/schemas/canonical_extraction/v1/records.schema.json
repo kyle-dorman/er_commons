@@ -691,7 +691,11 @@
                 "raw_table_json",
                 "raw_table_cells_json",
                 "raw_table_csv",
+                "clean_table_json",
+                "clean_table_cells_json",
                 "clean_table_csv",
+                "table_family_assignments_jsonl",
+                "table_families_json",
                 "content_image"
               ]
             },
@@ -1119,6 +1123,7 @@
         "extraction_id",
         "identity_sha256",
         "source_release",
+        "materialization_scope",
         "docling",
         "table_pipeline",
         "canonical_contract",
@@ -1175,6 +1180,82 @@
             }
           },
           "additionalProperties": false
+        },
+        "materialization_scope": {
+          "type": "object",
+          "required": [
+            "scope_kind",
+            "release_status",
+            "ordered_source_ids",
+            "producer_runs",
+            "mapping_policy_version",
+            "mapping_policy_sha256"
+          ],
+          "properties": {
+            "scope_kind": {
+              "enum": ["document_candidate", "corpus"]
+            },
+            "release_status": {
+              "enum": ["non_release_candidate", "release_candidate"]
+            },
+            "ordered_source_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_]*$"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "producer_runs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "source_id",
+                  "producer_run_id",
+                  "artifact_inventory_path",
+                  "artifact_inventory_sha256"
+                ],
+                "properties": {
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_]*$"
+                  },
+                  "producer_run_id": {
+                    "type": "string",
+                    "pattern": "^prv1-[0-9a-f]{64}$"
+                  },
+                  "artifact_inventory_path": {
+                    "type": "string",
+                    "pattern": "^(?!/)(?!.*\\.\\.).+$"
+                  },
+                  "artifact_inventory_sha256": {"$ref": "#/$defs/sha256"}
+                },
+                "additionalProperties": false
+              },
+              "minItems": 1
+            },
+            "mapping_policy_version": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9._-]*$"
+            },
+            "mapping_policy_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {"scope_kind": {"const": "document_candidate"}},
+                "required": ["scope_kind"]
+              },
+              "then": {
+                "properties": {
+                  "release_status": {"const": "non_release_candidate"}
+                }
+              }
+            }
+          ]
         },
         "docling": {
           "type": "object",
@@ -1284,13 +1365,37 @@
               "type": "string",
               "pattern": "^[0-9a-f]{40}$"
             },
-            "git_dirty": {"const": false},
+            "git_dirty": {"type": "boolean"},
             "owned_code_bundle_sha256": {"$ref": "#/$defs/sha256"}
           },
           "additionalProperties": false
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "materialization_scope": {
+                "properties": {
+                  "release_status": {"const": "release_candidate"}
+                },
+                "required": ["release_status"]
+              }
+            },
+            "required": ["materialization_scope"]
+          },
+          "then": {
+            "properties": {
+              "project_code": {
+                "properties": {
+                  "git_dirty": {"const": false}
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "manifest": {
       "type": "object",

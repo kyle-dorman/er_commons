@@ -4,6 +4,7 @@ from er_commons.canonical_extraction.errors import ContractError
 from er_commons.canonical_extraction.geometry import pdf_bbox_to_render_pixels
 from er_commons.canonical_extraction.identifiers import make_record_id
 from er_commons.canonical_extraction.identity import extraction_identity_sha256
+from er_commons.canonical_extraction.materialize import run_document_canonicalization
 from er_commons.canonical_extraction.validation import validate_bundle_integrity
 
 __all__ = [
@@ -11,5 +12,6 @@ __all__ = [
     "extraction_identity_sha256",
     "make_record_id",
     "pdf_bbox_to_render_pixels",
+    "run_document_canonicalization",
     "validate_bundle_integrity",
 ]

@@ -1,5 +1,5 @@
 [
-  {"name": "identity_rejects_dirty_code", "collection": "identity", "index": null, "operation": "replace", "path": ["project_code", "git_dirty"], "value": true},
+  {"name": "identity_requires_nonempty_materialization_scope", "collection": "identity", "index": null, "operation": "replace", "path": ["materialization_scope", "ordered_source_ids"], "value": []},
   {"name": "manifest_rejects_review_field", "collection": "manifest", "index": null, "operation": "add", "path": ["reviewer"], "value": "human"},
   {"name": "document_rejects_curator_role", "collection": "documents", "index": 0, "operation": "replace", "path": ["source_role"], "value": "curator_only_response_source"},
   {"name": "page_rejects_usability", "collection": "pages", "index": 0, "operation": "add", "path": ["usability"], "value": "usable"},

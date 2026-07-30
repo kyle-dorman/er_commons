@@ -1,7 +1,7 @@
 # Task 03D: Materialize Core Canonical Records
 
-Status: **active, approved 2026-07-29 after review of the accepted Task 03C.1
-producer run**.
+Status: **complete 2026-07-29; non-release Appendix P core candidate
+materialized and verified**.
 
 ## Abstract
 
@@ -389,3 +389,87 @@ git diff --check
 - furniture removal for retrieval
 - passage construction, chunking, or indexing
 - LLM-based cleanup, enrichment, or evaluation
+
+## Outcome
+
+Task 03D is complete. The implementation adds a separate
+`canonical_extraction` application boundary with strict configuration, verified
+plain-data inputs, deterministic candidate identity, saved-dictionary Docling
+traversal, clean-table projection, record materialization, schema and
+cross-record validation, checksum inventory, completion-last publication, and
+checksum-verified reuse. The package imports neither Docling nor Camelot in the
+canonicalization path.
+
+The field-level mapping is frozen in
+[`docs/specs/task03d_appendix_p_mapping_v1.md`](../../docs/specs/task03d_appendix_p_mapping_v1.md).
+The shared v1 schema now keeps the complete 35-source sealed release distinct
+from the selected materialization scope. A document candidate must be marked
+non-release and binds its ordered source IDs, accepted producer run and
+inventory, and mapping policy. Dirty Git state is recorded truthfully for this
+non-release candidate, while a future release candidate still requires clean
+code. The asset enum was extended only for clean table JSON, clean table cells,
+family assignments, and family definitions.
+
+Inspection found one important producer-to-canonical distinction. The 19 saved
+`cells.json` files contain 3,776 raw Camelot cells, while the accepted clean
+shapes and CSVs contain 3,669 cells. Eight tables remove one empty raw column.
+Canonicalization therefore applies the recorded removed-row and retained-column
+indices, reindexes the surviving grid, compares every retained cell with the
+clean CSV, preserves raw cell assets, and writes separate checksum-pinned clean
+table and clean-cell assets. No merged spans or header semantics are inferred.
+
+The completed candidate is:
+
+```text
+extraction_id:
+  exv1-9e33eb783b4145fa25065121de851d9055dfd6275066dcd80243ecde3b321774
+completion_record:
+  pipelines/brisbane_baylands/task_03d_canonical_records/
+  exv1-9e33eb783b4145fa25065121de851d9055dfd6275066dcd80243ecde3b321774/
+  records/completion_record.json
+```
+
+It contains 1 document, 222 pages, 2 synthetic roots, 3,706 blocks, 19
+tables, 19 table families, 27 figures, 27 images, 146 assets, 222 routing
+observations, 34 region-level table-stage observations, one conversion
+observation, and 3,798 raw mappings. The 34 table regions split exactly into
+19 mapped and 15 zero mapped. All 3,669 clean cells are rectangular and
+CSV-matched. All seven `document_index` wrappers remain zero mapped and their
+663 unique descendant text items are emitted once.
+
+All 6,931 Docling text items are accounted for: 3,706 emit as blocks and 3,225
+are explicitly suppressed as mapped-table or picture-owned descendants.
+Furniture accounting is exactly 522 producer items, 521 emitted, and the one
+picture-owned footer at `#/texts/312` explicitly suppressed. Thirty-seven
+multi-provenance text items retain all valid anchors. The single invalid entry,
+`#/texts/4634` provenance index 1, remains verbatim in raw lineage and is
+reported as out of page bounds without clamping; its valid provenance index 0
+is retained.
+
+The candidate is `complete_with_warnings`: 33 producer list-parent warnings,
+15 explicit zero-table mappings, and the one rejected invalid provenance
+entry. There are zero structured errors. An independent fresh staging build
+matched all 57 candidate-owned files byte for byte. A second normal invocation
+checksum-verified reuse without conversion or table parsing.
+
+Disposable 144-DPI review-cache renders and overlays for physical pages 4, 84,
+and 104 were validated against the review-cache schema. Visual inspection
+confirmed document-index text alignment, the page-84 clean table boundary and
+descendant suppression, and the page-104 figure, caption, and surrounding text
+geometry. These six derivatives are outside candidate completeness.
+
+Focused tests cover candidate scope, input seals, table cleanup, the page-84
+one/zero crosswalk, traversal and cycles, document-index fallback, picture and
+furniture suppression, multi-region and invalid provenance, publication
+no-clobber behavior, and checksum reuse. Final project validation completed:
+
+```text
+make fix
+make check
+git diff --check
+```
+
+Task 03E has been revised from this accepted handoff and remains inactive
+pending user review. It extends these synthetic roots with semantic hierarchy
+and printed-page-label observations only. Cross-reference work remains behind
+the later Task 03E.1 review boundary.

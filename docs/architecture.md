@@ -95,3 +95,33 @@ uses named fail-closed invariants rather than one compound success boolean.
 The v2 configuration and rewritten code intentionally derive a new
 `producer_run_id`; semantic acceptance is established independently against
 the immutable v1 artifact.
+
+Task 03D adds a package-backed `canonicalize run-document` command that reads
+the sealed Task 02 source release and completed Task 03C.1 producer artifacts,
+then materializes a deterministic, schema-valid canonical-record candidate.
+The command traverses the Docling hierarchy exactly once, preserves raw
+geometry and invalid provenance evidence, projects producer table cells
+through recorded cleanup indices, and publishes only after independent bundle
+validation succeeds.
+
+Candidate identity is content-derived from the selected source, producer
+completion and inventory, canonicalization policy, schema, config, mapping
+specification, and implementation inputs. A matching completed candidate is
+reused rather than rewritten. The task-scoped candidate is an evaluation
+artifact, not a promoted benchmark release; downstream hierarchy work consumes
+its completion artifact rather than rediscovering producer files.
+
+Task 03D.1 keeps that policy but replaces the MVP's monolithic materializer
+with a functional core and explicit application shell. `materialize.py` owns
+only stage order and failure preservation. Immutable context and ID allocation,
+asset registration, content records, support records, provenance projection,
+candidate sealing, and semantic comparison each have one responsibility-owned
+module. JSON Schema remains the persisted record contract; frozen dataclasses
+name internal stage results, and existing producer Pydantic models validate
+producer-owned input records.
+
+Implementation changes receive a new candidate ID through the existing
+code-bundle digest without pretending the schema or mapping policy changed.
+Promotion requires exact ordered record equivalence after narrow
+extraction-ID normalization, exact generated clean-asset bytes, exact
+accounting summaries, and an independently rebuilt byte-identical candidate.

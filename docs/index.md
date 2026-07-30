@@ -115,10 +115,13 @@ durable rationale is
 Sprint 2 is the smallest source-to-evaluation vertical slice. At the user's
 request, the large canonical-extraction stage is decomposed into Task 03A
 through Task 03H in the
-[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Tasks 03B and
-03C, including the 03C.1 maintainability rewrite, are complete. Task 03D is
-active. Its contract was revised from the actual Appendix P producer artifacts,
-reviewed against the saved handoff, and approved on 2026-07-29. Tasks 03E
+[Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Tasks 03B
+through 03D, including the 03C.1 maintainability rewrite, are complete. Task
+The completed Task 03D MVP remains reference evidence. [Task
+03D.1](../tasks/sprint2/03d1_rewrite_canonical_materializer.md) replaced its
+monolithic materializer with a human-owned implementation and passed an
+independent record-level equivalence gate. Task 03E points to that accepted
+candidate and remains revised but inactive pending user review. Tasks 03F
 through 03H remain provisional learning and execution contracts that must be
 revised from each preceding outcome before activation.
 

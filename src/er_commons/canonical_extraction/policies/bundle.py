@@ -105,19 +105,41 @@ def manifest_matches_serialized_records(view: BundleView) -> None:
 
 
 def source_release_matches_documents(view: BundleView) -> None:
-    """Match frozen source identity to manifest and canonical documents."""
+    """Match selected documents to their entries in the full frozen release."""
     identity_release = view.bundle["identity"]["source_release"]
+    materialization_scope = view.bundle["identity"]["materialization_scope"]
     manifest = view.bundle["manifest"]
-    document_sources = [
-        {
-            "source_id": document["source_id"],
-            "sha256": document["source_sha256"],
-            "pdf_page_count": document["page_count"],
-        }
-        for document in view.bundle["documents"]
+    release_sources = {
+        source["source_id"]: source for source in identity_release["ordered_model_corpus"]
+    }
+    selected_source_ids = materialization_scope["ordered_source_ids"]
+    document_source_ids = [document["source_id"] for document in view.bundle["documents"]]
+    if selected_source_ids != document_source_ids:
+        raise ContractError("materialization scope differs from canonical documents")
+
+    missing_release_sources = [
+        source_id for source_id in selected_source_ids if source_id not in release_sources
     ]
-    if identity_release["ordered_model_corpus"] != document_sources:
-        raise ContractError("identity source order differs from canonical documents")
+    if missing_release_sources:
+        raise ContractError(
+            f"materialization scope references unknown release sources: {missing_release_sources}"
+        )
+
+    for document in view.bundle["documents"]:
+        release_source = release_sources[document["source_id"]]
+        if (
+            document["source_sha256"] != release_source["sha256"]
+            or document["page_count"] != release_source["pdf_page_count"]
+        ):
+            raise ContractError(
+                f"canonical document differs from release source: {document['source_id']}"
+            )
+
+    producer_source_ids = [
+        producer_run["source_id"] for producer_run in materialization_scope["producer_runs"]
+    ]
+    if producer_source_ids != selected_source_ids:
+        raise ContractError("producer run order differs from materialization scope")
 
     release_fields = (
         "source_release_version",

@@ -1,9 +1,9 @@
 # Task 03E: Build Hierarchy and Printed-Page Labels
 
-Status: **provisional; scope split recorded 2026-07-29**. Revise this contract
-from the accepted Task 03D outcome before activating it. Cross-reference
-mention extraction and candidate resolution are deferred to a future Task
-03E.1 contract written only after Task 03E is accepted.
+Status: **revised from the completed Task 03D outcome; inactive pending user
+review**. Cross-reference mention extraction and candidate resolution are
+deferred to a future Task 03E.1 contract written only after Task 03E is
+accepted.
 
 ## Abstract
 
@@ -25,6 +25,13 @@ paths without weakening exact page and content anchors.
 - completed Task 03B canonical contract
 - accepted Task 03D core canonical records, synthetic roots, observations, and
   raw mappings
+- Task 03D candidate
+  `exv1-2ea82d10c3459d4a4249b875c0ec1cbe594bc81a1c1b541f2fe85554b6854b28`,
+  including 3,706 blocks, 19 tables, 27 figures, the exact mixed-content
+  order, and the two synthetic roots
+- the one explicitly rejected producer provenance entry retained through raw
+  lineage; hierarchy may use the item's valid anchor but must not fabricate a
+  replacement for its rejected page-106 geometry
 - Docling heading labels, group structure, body order, typography, and
   provenance retained through Task 03D
 - PDF outline and page-label metadata where present

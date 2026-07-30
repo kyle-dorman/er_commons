@@ -20,7 +20,9 @@ from er_commons.canonical_extraction import (
     pdf_bbox_to_render_pixels,
     validate_bundle_integrity,
 )
+from er_commons.canonical_extraction.bundle import BundleView
 from er_commons.canonical_extraction.layout import RECORD_COLLECTIONS
+from er_commons.canonical_extraction.policies.bundle import source_release_matches_documents
 
 ROOT = Path(__file__).parents[1]
 SCHEMA_PATH = (
@@ -241,6 +243,60 @@ def test_identity_payload_is_content_bound_to_its_digest() -> None:
         validate_bundle_integrity(mismatched)
 
 
+def test_materialization_scope_selects_documents_from_full_release() -> None:
+    release_source_ids = [
+        source["source_id"]
+        for source in BUNDLE["identity"]["source_release"]["ordered_model_corpus"]
+    ]
+    selected_source_ids = BUNDLE["identity"]["materialization_scope"]["ordered_source_ids"]
+    assert release_source_ids == ["deir_fixture", "deir_unselected_fixture"]
+    assert selected_source_ids == ["deir_fixture"]
+    validate_bundle_integrity(BUNDLE)
+
+    unknown_source = copy.deepcopy(BUNDLE)
+    unknown_source["identity"]["materialization_scope"]["ordered_source_ids"] = [
+        "deir_unselected_fixture"
+    ]
+    with pytest.raises(ContractError, match="materialization scope differs"):
+        source_release_matches_documents(BundleView(unknown_source))
+
+    missing_release_source = copy.deepcopy(BUNDLE)
+    missing_release_source["identity"]["source_release"]["ordered_model_corpus"] = [
+        missing_release_source["identity"]["source_release"]["ordered_model_corpus"][1]
+    ]
+    with pytest.raises(ContractError, match="unknown release sources"):
+        source_release_matches_documents(BundleView(missing_release_source))
+
+    checksum_mismatch = copy.deepcopy(BUNDLE)
+    checksum_mismatch["documents"][0]["source_sha256"] = "0" * 64
+    with pytest.raises(ContractError, match="differs from release source"):
+        source_release_matches_documents(BundleView(checksum_mismatch))
+
+
+def test_materialization_scope_binds_ordered_producer_runs() -> None:
+    mismatched = copy.deepcopy(BUNDLE)
+    mismatched["identity"]["materialization_scope"]["producer_runs"][0]["source_id"] = (
+        "deir_unselected_fixture"
+    )
+    with pytest.raises(ContractError, match="producer run order"):
+        source_release_matches_documents(BundleView(mismatched))
+
+
+def test_dirty_code_is_allowed_only_for_non_release_candidates() -> None:
+    non_release = copy.deepcopy(BUNDLE["identity"])
+    non_release["project_code"]["git_dirty"] = True
+    definition_validator("extraction_identity").validate(non_release)
+
+    release = copy.deepcopy(non_release)
+    release["materialization_scope"]["scope_kind"] = "corpus"
+    release["materialization_scope"]["release_status"] = "release_candidate"
+    with pytest.raises(ValidationError):
+        definition_validator("extraction_identity").validate(release)
+
+    release["project_code"]["git_dirty"] = False
+    definition_validator("extraction_identity").validate(release)
+
+
 def test_geometry_coordinate_combinations_and_rotations_are_strict() -> None:
     invalid = copy.deepcopy(BUNDLE["blocks"][0]["regions"][0])
     invalid["coordinate_space"] = "canonical_pdf"
@@ -322,6 +378,16 @@ def test_review_derivatives_are_not_canonical_assets() -> None:
     review_asset["role"] = "page_render"
     with pytest.raises(ValidationError):
         definition_validator("asset").validate(review_asset)
+
+
+def test_task03d_producer_asset_roles_are_canonical() -> None:
+    roles = {asset["role"] for asset in BUNDLE["assets"]}
+    assert {
+        "clean_table_json",
+        "clean_table_cells_json",
+        "table_family_assignments_jsonl",
+        "table_families_json",
+    } <= roles
 
 
 def test_review_cache_entries_are_explicitly_disposable() -> None:

@@ -83,19 +83,32 @@ machine names, timing, output paths, and the digest itself. It contains:
 2. source release version, sealed manifest path and SHA-256, completion-record
    path and SHA-256, and manifest-ordered `model_corpus` source IDs, SHA-256s,
    and page counts;
-3. Docling configuration ID, pipeline and backend classes, effective options,
+3. materialization scope kind and release status, ordered selected source IDs,
+   the producer run and checksum-pinned artifact inventory for each selected
+   source, and the canonical mapping-policy version and checksum;
+4. Docling configuration ID, pipeline and backend classes, effective options,
    package versions, model inventory checksum, and resolved model revisions and
    file checksums;
-4. Camelot, PDFium, and OpenCV versions plus routing, detection, cleanup, and
+5. Camelot, PDFium, and OpenCV versions plus routing, detection, cleanup, and
    family configuration hashes;
-5. canonical schema, ID, ordering, and serialization policy versions; and
-6. clean project Git commit and owned-code bundle SHA-256.
+6. canonical schema, ID, ordering, and serialization policy versions; and
+7. project Git commit, truthful dirty-worktree state, and owned-code bundle
+   SHA-256.
 
-The manifest must reject dirty or unknown code identity for a releasable
-candidate. Any meaning- or behavior-changing identity field produces a new
-`extraction_id` and a new artifact root. Low-level IDs are reproducible only
-inside that extraction. Identical local names in different extractions do not
-identify the same anchor.
+`source_release.ordered_model_corpus` always preserves the complete sealed
+release inventory. `materialization_scope.ordered_source_ids` separately names
+the ordered subset actually emitted as canonical documents. Every selected
+source must match one full-release checksum and page count, and its producer
+run must appear in the same order. A document-scoped candidate is explicitly
+`non_release_candidate`; it must not be presented as the final corpus
+extraction.
+
+Non-release candidates record `git_dirty` truthfully and may set it to true so
+bounded development pilots do not require a user-unrequested commit. A
+`release_candidate` must reject dirty code. Any meaning- or behavior-changing
+identity field produces a new `extraction_id` and a new artifact root.
+Low-level IDs are reproducible only inside that extraction. Identical local
+names in different extractions do not identify the same anchor.
 
 ## Record IDs and order
 
@@ -208,6 +221,13 @@ datasets/ceqa/derived/brisbane_baylands/<extraction_id>/
 Existing Task 03A roots remain immutable evidence. Producers write immutable
 artifacts first. Canonical records reference them by `asset_id` and
 `raw_object_ref`. A completion record is published last.
+
+Canonical asset roles include preserved raw Docling, conversion, routing,
+table, and image artifacts. The clean table stage additionally uses
+`clean_table_json`, `clean_table_cells_json`, and `clean_table_csv`; complete
+family lineage uses `table_family_assignments_jsonl` and
+`table_families_json`. These checksum-pinned producer artifacts remain
+distinct from canonical table and table-family records.
 
 Full-page renders, annotated overlays, diagnostic HTML and Markdown, ruling
 masks, and table-debug images are not extraction artifacts and do not

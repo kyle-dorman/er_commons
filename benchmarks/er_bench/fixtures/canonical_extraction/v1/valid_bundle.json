@@ -2,8 +2,8 @@
   "identity": {
     "schema_version": "er_commons.extraction_identity.v1",
     "extraction_version_name": "fixture_extraction_candidate_v1",
-    "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-    "identity_sha256": "35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
+    "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+    "identity_sha256": "8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
     "source_release": {
       "source_release_version": "fixture_sources_v1",
       "source_manifest_path": "datasets/fixture/records/source_manifest.json",
@@ -15,8 +15,30 @@
           "source_id": "deir_fixture",
           "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
           "pdf_page_count": 1
+        },
+        {
+          "source_id": "deir_unselected_fixture",
+          "sha256": "1212121212121212121212121212121212121212121212121212121212121212",
+          "pdf_page_count": 2
         }
       ]
+    },
+    "materialization_scope": {
+      "scope_kind": "document_candidate",
+      "release_status": "non_release_candidate",
+      "ordered_source_ids": [
+        "deir_fixture"
+      ],
+      "producer_runs": [
+        {
+          "source_id": "deir_fixture",
+          "producer_run_id": "prv1-3434343434343434343434343434343434343434343434343434343434343434",
+          "artifact_inventory_path": "producer/deir_fixture/records/artifact_inventory.json",
+          "artifact_inventory_sha256": "4545454545454545454545454545454545454545454545454545454545454545"
+        }
+      ],
+      "mapping_policy_version": "task03d_appendix_p_mapping_v1",
+      "mapping_policy_sha256": "5656565656565656565656565656565656565656565656565656565656565656"
     },
     "docling": {
       "configuration_id": "docling_native_pypdfium2_heron_layout_only_cpu",
@@ -54,26 +76,26 @@
     },
     "canonical_contract": {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "schema_bundle_sha256": "f4698e5b518914246946063d34e7e5d3beacbf520668a05790889a67d4c7df1b",
+      "schema_bundle_sha256": "964504342b817cb4d7106ef08ac1b05da9df07ee00bcce32b65778e0301d72ba",
       "id_policy_version": "2",
       "ordering_policy_version": "1",
       "serialization_policy_version": "1"
     },
     "project_code": {
       "git_commit": "1234567890123456789012345678901234567890",
-      "git_dirty": false,
+      "git_dirty": true,
       "owned_code_bundle_sha256": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
     }
   },
   "manifest": {
     "schema_version": "er_commons.canonical_extraction_manifest.v1",
-    "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-    "identity_sha256": "35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
+    "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+    "identity_sha256": "8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
     "source_release_version": "fixture_sources_v1",
     "source_manifest_path": "datasets/fixture/records/source_manifest.json",
     "source_manifest_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
     "ordered_document_ids": [
-      "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture"
+      "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture"
     ],
     "record_files": [
       {"record_type": "document", "path": "canonical/documents.jsonl", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "record_count": 1},
@@ -84,7 +106,7 @@
       {"record_type": "table_family", "path": "canonical/table_families.jsonl", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "record_count": 2},
       {"record_type": "figure", "path": "canonical/figures.jsonl", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "record_count": 1},
       {"record_type": "image", "path": "canonical/images.jsonl", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "record_count": 1},
-      {"record_type": "asset", "path": "canonical/assets.jsonl", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "record_count": 4},
+      {"record_type": "asset", "path": "canonical/assets.jsonl", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "record_count": 8},
       {"record_type": "cross_reference", "path": "canonical/cross_references.jsonl", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "record_count": 1},
       {"record_type": "routing_observation", "path": "observations/routing.jsonl", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "record_count": 1},
       {"record_type": "table_stage_observation", "path": "observations/table_stage.jsonl", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "record_count": 3},
@@ -101,8 +123,8 @@
   "documents": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "source_release_version": "fixture_sources_v1",
       "source_manifest_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
       "source_id": "deir_fixture",
@@ -111,10 +133,10 @@
       "title": "Fixture Draft EIR",
       "page_count": 1,
       "page_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001"
       ],
       "conversion_observation_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/conversion-observation/deir_fixture/conv000001"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/conversion-observation/deir_fixture/conv000001"
       ],
       "source_manifest_warnings": [
         "source_edition_override: fixture approved source record."
@@ -130,9 +152,9 @@
   "pages": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "physical_page_number": 1,
       "printed_page_label": "ES-1",
       "width_pdf_points": 612.0,
@@ -144,41 +166,41 @@
         "provenance_landing_page_key": "final_eir"
       },
       "ordered_content_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000001",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000002",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000001",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000002",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/figure/deir_fixture/fig000001"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000001",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000002",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000001",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000002",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/figure/deir_fixture/fig000001"
       ],
-      "routing_observation_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/routing-observation/deir_fixture/route-p000001",
+      "routing_observation_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/routing-observation/deir_fixture/route-p000001",
       "table_stage_observation_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-stage-observation/deir_fixture/stage-p000001-o000001",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-stage-observation/deir_fixture/stage-p000001-o000002",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-stage-observation/deir_fixture/stage-p000001-o000003"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-stage-observation/deir_fixture/stage-p000001-o000001",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-stage-observation/deir_fixture/stage-p000001-o000002",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-stage-observation/deir_fixture/stage-p000001-o000003"
       ]
     }
   ],
   "sections": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/section/deir_fixture/sec000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/section/deir_fixture/sec000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "sequence": 1,
       "content_layer": "body",
       "parent_section_id": null,
-      "heading_block_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000001",
+      "heading_block_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000001",
       "ordered_child_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000001",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000002",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000001",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000002",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/figure/deir_fixture/fig000001"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000001",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000002",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000001",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000002",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/figure/deir_fixture/fig000001"
       ],
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/body/children/0",
           "provenance_index": null
         }
@@ -188,10 +210,10 @@
   "blocks": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
-      "section_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/section/deir_fixture/sec000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
+      "section_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/section/deir_fixture/sec000001",
       "sequence": 1,
       "content_layer": "body",
       "block_type": "heading",
@@ -200,7 +222,7 @@
       "normalization_operations": ["none"],
       "regions": [
         {
-          "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+          "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
           "coordinate_space": "producer_pdf",
           "origin": "top_left",
           "units": "pdf_points",
@@ -215,7 +237,7 @@
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/texts/0",
           "provenance_index": 0
         }
@@ -223,10 +245,10 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000002",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
-      "section_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/section/deir_fixture/sec000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000002",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
+      "section_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/section/deir_fixture/sec000001",
       "sequence": 2,
       "content_layer": "body",
       "block_type": "caption",
@@ -235,7 +257,7 @@
       "normalization_operations": ["none"],
       "regions": [
         {
-          "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+          "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
           "coordinate_space": "producer_pdf",
           "origin": "top_left",
           "units": "pdf_points",
@@ -250,7 +272,7 @@
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/texts/1",
           "provenance_index": 0
         }
@@ -260,12 +282,12 @@
   "tables": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
-      "section_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/section/deir_fixture/sec000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
+      "section_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/section/deir_fixture/sec000001",
       "sequence": 1,
-      "table_family_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-family/deir_fixture/fam000001",
+      "table_family_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-family/deir_fixture/fam000001",
       "producer_table_id": "fixture_p00001_t001",
       "parser": "camelot_lattice",
       "shape": [1, 1],
@@ -278,7 +300,7 @@
           "producer_normalized_text": "Value 1",
           "canonical_text": "Value 1",
           "region": {
-            "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+            "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
             "coordinate_space": "producer_pdf",
             "origin": "bottom_left",
             "units": "pdf_points",
@@ -294,7 +316,7 @@
       "caption_block_ids": [],
       "regions": [
         {
-          "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+          "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
           "coordinate_space": "producer_pdf",
           "origin": "bottom_left",
           "units": "pdf_points",
@@ -309,7 +331,7 @@
       "raw_links": [
         {
           "producer": "camelot_clean_pipeline",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/table/ast000002",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/table/ast000002",
           "object_pointer": "/tables/0",
           "provenance_index": null
         }
@@ -318,12 +340,12 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000002",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
-      "section_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/section/deir_fixture/sec000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000002",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
+      "section_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/section/deir_fixture/sec000001",
       "sequence": 2,
-      "table_family_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-family/deir_fixture/fam000002",
+      "table_family_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-family/deir_fixture/fam000002",
       "producer_table_id": "fixture_p00001_t002",
       "parser": "camelot_stream",
       "shape": [1, 1],
@@ -336,7 +358,7 @@
           "producer_normalized_text": "Value 2",
           "canonical_text": "Value 2",
           "region": {
-            "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+            "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
             "coordinate_space": "producer_pdf",
             "origin": "bottom_left",
             "units": "pdf_points",
@@ -352,7 +374,7 @@
       "caption_block_ids": [],
       "regions": [
         {
-          "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+          "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
           "coordinate_space": "producer_pdf",
           "origin": "bottom_left",
           "units": "pdf_points",
@@ -367,7 +389,7 @@
       "raw_links": [
         {
           "producer": "camelot_clean_pipeline",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/table/ast000002",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/table/ast000002",
           "object_pointer": "/tables/1",
           "provenance_index": null
         }
@@ -378,25 +400,25 @@
   "table_families": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-family/deir_fixture/fam000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-family/deir_fixture/fam000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "sequence": 1,
       "document_scope_complete": true,
       "member_table_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000001"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000001"
       ],
       "evidence": ["singleton"]
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-family/deir_fixture/fam000002",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-family/deir_fixture/fam000002",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "sequence": 2,
       "document_scope_complete": true,
       "member_table_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000002"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000002"
       ],
       "evidence": ["singleton"]
     }
@@ -404,20 +426,20 @@
   "figures": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/figure/deir_fixture/fig000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
-      "section_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/section/deir_fixture/sec000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/figure/deir_fixture/fig000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
+      "section_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/section/deir_fixture/sec000001",
       "sequence": 1,
       "caption_block_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000002"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000002"
       ],
       "image_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/image/deir_fixture/img000001"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/image/deir_fixture/img000001"
       ],
       "regions": [
         {
-          "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+          "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
           "coordinate_space": "producer_pdf",
           "origin": "top_left",
           "units": "pdf_points",
@@ -432,7 +454,7 @@
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/pictures/0",
           "provenance_index": 0
         }
@@ -442,14 +464,14 @@
   "images": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/image/deir_fixture/img000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/image/deir_fixture/img000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "sequence": 1,
-      "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/image/ast000003",
+      "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/image/ast000003",
       "regions": [
         {
-          "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+          "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
           "coordinate_space": "producer_pdf",
           "origin": "top_left",
           "units": "pdf_points",
@@ -464,7 +486,7 @@
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/pictures/0/image",
           "provenance_index": null
         }
@@ -474,9 +496,9 @@
   "assets": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "role": "raw_docling_json",
       "path": "documents/deir_fixture/producer/docling/document.json",
       "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
@@ -486,9 +508,9 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/table/ast000002",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/table/ast000002",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "role": "raw_table_json",
       "path": "documents/deir_fixture/producer/tables/tables.jsonl",
       "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
@@ -498,9 +520,9 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/image/ast000003",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/image/ast000003",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "role": "content_image",
       "path": "documents/deir_fixture/assets/images/img000001.png",
       "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
@@ -510,32 +532,80 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/routing/ast000004",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/routing/ast000004",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "role": "routing_jsonl",
       "path": "documents/deir_fixture/producer/routing/page_routes.jsonl",
       "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
       "byte_size": 150,
       "media_type": "application/x-ndjson",
       "producer": "pdfium_router"
+    },
+    {
+      "schema_version": "er_commons.canonical_extraction.v1",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/clean_table_json/ast000005",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
+      "role": "clean_table_json",
+      "path": "documents/deir_fixture/producer/tables/clean_tables.jsonl",
+      "sha256": "6767676767676767676767676767676767676767676767676767676767676767",
+      "byte_size": 210,
+      "media_type": "application/x-ndjson",
+      "producer": "camelot_clean_pipeline"
+    },
+    {
+      "schema_version": "er_commons.canonical_extraction.v1",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/clean_table_cells_json/ast000006",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
+      "role": "clean_table_cells_json",
+      "path": "documents/deir_fixture/producer/tables/clean_cells.json",
+      "sha256": "6868686868686868686868686868686868686868686868686868686868686868",
+      "byte_size": 220,
+      "media_type": "application/json",
+      "producer": "camelot_clean_pipeline"
+    },
+    {
+      "schema_version": "er_commons.canonical_extraction.v1",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/table_family_assignments_jsonl/ast000007",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
+      "role": "table_family_assignments_jsonl",
+      "path": "documents/deir_fixture/producer/tables/family_assignments.jsonl",
+      "sha256": "6969696969696969696969696969696969696969696969696969696969696969",
+      "byte_size": 230,
+      "media_type": "application/x-ndjson",
+      "producer": "project"
+    },
+    {
+      "schema_version": "er_commons.canonical_extraction.v1",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/table_families_json/ast000008",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
+      "role": "table_families_json",
+      "path": "documents/deir_fixture/producer/tables/families.json",
+      "sha256": "7070707070707070707070707070707070707070707070707070707070707070",
+      "byte_size": 240,
+      "media_type": "application/json",
+      "producer": "project"
     }
   ],
   "cross_references": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/cross-reference/deir_fixture/xref000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/cross-reference/deir_fixture/xref000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "sequence": 1,
-      "source_record_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000001",
+      "source_record_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000001",
       "target_record_ids": [],
       "raw_text": "See Chapter 4.",
       "resolution_status": "unresolved",
       "source_charspan": [0, 14],
       "regions": [
         {
-          "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+          "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
           "coordinate_space": "producer_pdf",
           "origin": "top_left",
           "units": "pdf_points",
@@ -550,7 +620,7 @@
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/texts/0",
           "provenance_index": 0
         }
@@ -560,9 +630,9 @@
   "routing_observations": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/routing-observation/deir_fixture/route-p000001",
-      "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/routing-observation/deir_fixture/route-p000001",
+      "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
       "status": "complete",
       "route": "layout_regions",
       "native_text_features": {
@@ -574,13 +644,13 @@
       "docling_table_region_raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/tables/0",
           "provenance_index": 0
         },
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/tables/1",
           "provenance_index": 0
         }
@@ -591,14 +661,14 @@
   "table_stage_observations": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-stage-observation/deir_fixture/stage-p000001-o000001",
-      "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-stage-observation/deir_fixture/stage-p000001-o000001",
+      "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
       "status": "complete_with_warnings",
       "route": "layout_regions",
       "source_region_raw_link": {
         "producer": "docling",
-        "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+        "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
         "object_pointer": "#/tables/0",
         "provenance_index": 0
       },
@@ -612,19 +682,19 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-stage-observation/deir_fixture/stage-p000001-o000002",
-      "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-stage-observation/deir_fixture/stage-p000001-o000002",
+      "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
       "status": "complete",
       "route": "layout_regions",
       "source_region_raw_link": {
         "producer": "docling",
-        "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+        "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
         "object_pointer": "#/tables/1",
         "provenance_index": 0
       },
       "canonical_table_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000001"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000001"
       ],
       "unmapped_reason": null,
       "cleanup_complete": true,
@@ -635,15 +705,15 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-stage-observation/deir_fixture/stage-p000001-o000003",
-      "page_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/page/deir_fixture/p000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-stage-observation/deir_fixture/stage-p000001-o000003",
+      "page_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/page/deir_fixture/p000001",
       "status": "complete",
       "route": "full_page_numeric",
       "source_region_raw_link": null,
       "canonical_table_ids": [
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000001",
-        "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000002"
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000001",
+        "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000002"
       ],
       "unmapped_reason": null,
       "cleanup_complete": true,
@@ -656,15 +726,15 @@
   "conversion_observations": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/conversion-observation/deir_fixture/conv000001",
-      "document_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/document/deir_fixture",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/conversion-observation/deir_fixture/conv000001",
+      "document_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/document/deir_fixture",
       "first_physical_page": 1,
       "last_physical_page": 1,
       "status": "complete",
       "pipeline_class": "docling.pipeline.standard_pdf_pipeline.StandardPdfPipeline",
       "backend_class": "docling.backend.pypdfium2_backend.PyPdfiumDocumentBackend",
-      "raw_document_asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+      "raw_document_asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
       "errors": [],
       "warnings": []
     }
@@ -672,14 +742,14 @@
   "raw_mappings": [
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/raw-mapping/deir_fixture/map000001",
-      "canonical_record_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/raw-mapping/deir_fixture/map000001",
+      "canonical_record_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000001",
       "mapping_role": "text_provenance",
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/texts/0",
           "provenance_index": 0
         }
@@ -687,14 +757,14 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/raw-mapping/deir_fixture/map000002",
-      "canonical_record_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/raw-mapping/deir_fixture/map000002",
+      "canonical_record_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000001",
       "mapping_role": "producer_table_lineage",
       "raw_links": [
         {
           "producer": "camelot_clean_pipeline",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/table/ast000002",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/table/ast000002",
           "object_pointer": "/tables/0",
           "provenance_index": null
         }
@@ -702,14 +772,14 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/raw-mapping/deir_fixture/map000003",
-      "canonical_record_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-family/deir_fixture/fam000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/raw-mapping/deir_fixture/map000003",
+      "canonical_record_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-family/deir_fixture/fam000001",
       "mapping_role": "derived_family_lineage",
       "raw_links": [
         {
           "producer": "project_family_assignment",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/table/ast000002",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/table/ast000002",
           "object_pointer": "/families/0",
           "provenance_index": null
         }
@@ -717,14 +787,14 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/raw-mapping/deir_fixture/map000004",
-      "canonical_record_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/block/deir_fixture/blk000002",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/raw-mapping/deir_fixture/map000004",
+      "canonical_record_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/block/deir_fixture/blk000002",
       "mapping_role": "text_provenance",
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/texts/1",
           "provenance_index": 0
         }
@@ -732,14 +802,14 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/raw-mapping/deir_fixture/map000005",
-      "canonical_record_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table/deir_fixture/tbl000002",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/raw-mapping/deir_fixture/map000005",
+      "canonical_record_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table/deir_fixture/tbl000002",
       "mapping_role": "producer_table_lineage",
       "raw_links": [
         {
           "producer": "camelot_clean_pipeline",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/table/ast000002",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/table/ast000002",
           "object_pointer": "/tables/1",
           "provenance_index": null
         }
@@ -747,14 +817,14 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/raw-mapping/deir_fixture/map000006",
-      "canonical_record_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/table-family/deir_fixture/fam000002",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/raw-mapping/deir_fixture/map000006",
+      "canonical_record_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/table-family/deir_fixture/fam000002",
       "mapping_role": "derived_family_lineage",
       "raw_links": [
         {
           "producer": "project_family_assignment",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/table/ast000002",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/table/ast000002",
           "object_pointer": "/families/1",
           "provenance_index": null
         }
@@ -762,14 +832,14 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/raw-mapping/deir_fixture/map000007",
-      "canonical_record_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/figure/deir_fixture/fig000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/raw-mapping/deir_fixture/map000007",
+      "canonical_record_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/figure/deir_fixture/fig000001",
       "mapping_role": "geometry_provenance",
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/pictures/0",
           "provenance_index": 0
         }
@@ -777,14 +847,14 @@
     },
     {
       "schema_version": "er_commons.canonical_extraction.v1",
-      "extraction_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7",
-      "id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/raw-mapping/deir_fixture/map000008",
-      "canonical_record_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/image/deir_fixture/img000001",
+      "extraction_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b",
+      "id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/raw-mapping/deir_fixture/map000008",
+      "canonical_record_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/image/deir_fixture/img000001",
       "mapping_role": "geometry_provenance",
       "raw_links": [
         {
           "producer": "docling",
-          "asset_id": "exv1-35cc41d4e0590259aa417ea6e0a1de7b4b5aade60928039d8fa4ce7871aad4e7/asset/deir_fixture/raw/ast000001",
+          "asset_id": "exv1-8c80303693dd15711d7336c877f64ab9d9e54b9bd91ae534c57c773ec511e43b/asset/deir_fixture/raw/ast000001",
           "object_pointer": "#/pictures/0/image",
           "provenance_index": null
         }

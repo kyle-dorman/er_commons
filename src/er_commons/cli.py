@@ -7,6 +7,7 @@ from typing import Annotated
 
 import typer
 
+from er_commons.canonical_extraction import run_document_canonicalization
 from er_commons.document_extraction import (
     run_complete_document_producer,
     run_document_extraction,
@@ -22,9 +23,13 @@ app = typer.Typer(
 sources_app = typer.Typer(help="Acquire and verify immutable public source releases.")
 documents_app = typer.Typer(help="Extract native PDF structure into reviewable artifacts.")
 tables_app = typer.Typer(help="Extract native PDF tables into reviewable artifacts.")
+canonicalize_app = typer.Typer(
+    help="Materialize project-owned canonical records from verified producer artifacts."
+)
 app.add_typer(sources_app, name="sources")
 app.add_typer(documents_app, name="documents")
 app.add_typer(tables_app, name="tables")
+app.add_typer(canonicalize_app, name="canonicalize")
 
 DEFAULT_BRISBANE_SOURCE_SPEC = Path("configs/brisbane_baylands_2025_deir_sources_v1.json")
 DEFAULT_DOCUMENT_REVIEW_SPEC = Path(
@@ -32,6 +37,9 @@ DEFAULT_DOCUMENT_REVIEW_SPEC = Path(
 )
 DEFAULT_COMPLETE_DOCUMENT_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json"
+)
+DEFAULT_CANONICALIZATION_SPEC = Path(
+    "configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json"
 )
 DEFAULT_TABLE_REVIEW_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03a13_unified_table_pipeline_v1.json"
@@ -145,6 +153,27 @@ def run_complete_document(
         config,
     )
     typer.echo(f"producer_completion={completion_path}")
+
+
+@canonicalize_app.command("run-document")
+def run_canonical_document(
+    config: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Reviewed document-scoped canonicalization configuration.",
+        ),
+    ] = DEFAULT_CANONICALIZATION_SPEC,
+) -> None:
+    """Publish or checksum-verify the Task 03D Appendix P core candidate."""
+    completion_path = run_document_canonicalization(
+        load_settings().data_root,
+        config,
+    )
+    typer.echo(f"canonicalization_completion={completion_path}")
 
 
 @tables_app.command("run-review")

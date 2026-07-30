@@ -526,16 +526,19 @@ too large or new evidence creates a distinct decision or validation boundary.
      review, and freeze its configuration and review method; and
    - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
      all 35 sources and publish the candidate extraction for Task 04.
-   Tasks 03A through 03C are complete. Task 03C published the checksum-verified
+   Tasks 03A through 03D are complete. Task 03C published the checksum-verified
    222-page Appendix P producer run with 19 clean tables and 19
    complete-document families. [Task
    03C.1](../../tasks/sprint2/03c1_rewrite_complete_document_producer.md)
    subsequently replaced the reference orchestrator with the accepted
    human-owned implementation and proved semantic equivalence through a second
-   complete Appendix P run. Task 03D is active after revision from those
-   artifacts, review against the saved handoff, and user approval on
-   2026-07-29. Tasks 03E through 03H remain provisional and must be revised
-   from each accepted preceding outcome before activation.
+   complete Appendix P run. Task 03D then materialized its schema-valid,
+   checksum-verified canonical candidate and preserved the observed producer
+   anomalies. Task 03D.1 replaced the MVP materializer with a human-owned
+   implementation and passed a record-level equivalence gate with zero
+   mismatches. Task 03E now points to that accepted candidate and remains
+   inactive pending user review. Tasks 03F through 03H remain provisional and
+   must be revised from each accepted preceding outcome before activation.
 3. **Task 04 — Review usability and freeze extraction v1.** Run automated
    integrity checks and representative visual QA; review every excluded page
    or document and every table proposed for retrieval; inspect per-table
