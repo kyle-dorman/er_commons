@@ -1,0 +1,8 @@
+[
+  {"name": "toc_row_cannot_be_boundary", "path": ["toc_entries", 0, "boundary_eligible"], "value": true},
+  {"name": "unknown_rule_is_rejected", "path": ["decisions", 0, "selected_rule_id"], "value": "R99_LITERAL_EXCEPTION"},
+  {"name": "candidate_identity_has_typed_prefix", "path": ["identity", "candidate_id"], "value": "candidate-1"},
+  {"name": "feature_requires_known_layer", "path": ["features", 0, "content_layer"], "value": "margin"},
+  {"name": "non_heading_cannot_have_level", "path": ["decisions", 1, "corrected_level"], "value": 2},
+  {"name": "exact_reconciliation_requires_target", "path": ["reconciliations", 0, "target_key"], "value": null}
+]

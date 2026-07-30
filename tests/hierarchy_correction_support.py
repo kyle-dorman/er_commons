@@ -1,0 +1,257 @@
+"""Shared fixtures and named mutations for hierarchy-correction tests."""
+
+from __future__ import annotations
+
+import copy
+import json
+from pathlib import Path
+from typing import Any
+
+ROOT = Path(__file__).parents[1]
+SCHEMA_ROOT = ROOT / "benchmarks/er_bench/schemas/hierarchy_correction/v1"
+FIXTURE_ROOT = ROOT / "benchmarks/er_bench/fixtures/hierarchy_correction/v1"
+
+RECORD_SCHEMA = json.loads((SCHEMA_ROOT / "records.schema.json").read_text())
+REVIEW_SCHEMA = json.loads((SCHEMA_ROOT / "review.schema.json").read_text())
+VALID_BUNDLE = json.loads((FIXTURE_ROOT / "valid_bundle.json").read_text())
+INVALID_SCHEMA_MUTATIONS = json.loads((FIXTURE_ROOT / "invalid_mutations.json").read_text())
+FIXTURE_MANIFEST = json.loads((FIXTURE_ROOT / "fixture_manifest.json").read_text())
+DEVELOPMENT_CASES = json.loads((FIXTURE_ROOT / "development_cases.json").read_text())
+HELD_OUT_MANIFEST = json.loads((FIXTURE_ROOT / "held_out_manifest.json").read_text())
+
+
+def apply_schema_mutation(
+    bundle: dict[str, Any],
+    mutation: dict[str, Any],
+) -> dict[str, Any]:
+    """Apply one intentionally schema-invalid fixture change."""
+    target: Any = bundle
+    for path_part in mutation["path"][:-1]:
+        target = target[path_part]
+    target[mutation["path"][-1]] = mutation["value"]
+    return bundle
+
+
+def valid_annotation_bundle() -> dict[str, Any]:
+    """Return one complete source-only annotation bundle."""
+    return {
+        "record_type": "held_out_annotations",
+        "schema_version": "1.0.0",
+        "source_id": "deir_appendix_p",
+        "source_sha256": VALID_BUNDLE["identity"]["source_sha256"],
+        "held_out_manifest_sha256": "2" * 64,
+        "policy_sha256": VALID_BUNDLE["identity"]["policy_sha256"],
+        "code_bundle_sha256": VALID_BUNDLE["identity"]["code_bundle_sha256"],
+        "created_before_corrected_output": True,
+        "post_review_tuning_allowed": False,
+        "pages": [
+            {
+                "physical_page": 73,
+                "source_render_sha256": "5" * 64,
+                "eligible_item_keys": ["3" * 64],
+                "annotations": [
+                    {
+                        "stable_item_key": "3" * 64,
+                        "expected_boundary": True,
+                        "expected_level": 1,
+                        "expected_parent_key": None,
+                        "expected_regime_action": "start",
+                        "source_ambiguous": False,
+                        "note": "",
+                    }
+                ],
+            }
+        ],
+    }
+
+
+def valid_deep_hierarchy_bundle() -> dict[str, Any]:
+    """Return a valid three-level hierarchy with two ordered edges."""
+    bundle = copy.deepcopy(VALID_BUNDLE)
+    root_key = bundle["features"][0]["stable_item_key"]
+    level_two_key = bundle["features"][1]["stable_item_key"]
+    level_three_key = bundle["features"][2]["stable_item_key"]
+
+    level_two_feature = bundle["features"][1]
+    level_two_feature["numbering_kind"] = "none"
+    level_two_feature["numbering_token"] = None
+    level_two_feature["numbering_depth"] = None
+    level_two_decision = bundle["decisions"][1]
+    level_two_decision["selected_rule_id"] = "R08_DEFAULT_PRESERVE"
+    level_two_decision["eligible_rule_ids"] = ["R08_DEFAULT_PRESERVE"]
+    level_two_decision["corrected_role"] = "heading"
+    level_two_decision["corrected_level"] = 2
+    level_two_decision["outcome"] = "unchanged"
+    level_two_decision["evidence"]["numbering_kind"] = "none"
+    level_two_decision["evidence"]["numbering_depth"] = None
+    level_two_decision["evidence"]["next_list_indent_delta_pt"] = None
+
+    level_three_feature = bundle["features"][2]
+    level_three_feature["raw_role"] = "section_header"
+    level_three_feature["raw_level"] = 3
+    level_three_decision = bundle["decisions"][2]
+    level_three_decision["raw_role"] = "section_header"
+    level_three_decision["raw_level"] = 3
+    level_three_decision["corrected_role"] = "heading"
+    level_three_decision["corrected_level"] = 3
+
+    bundle["hierarchy"] = {
+        "roots": [root_key],
+        "edges": [
+            {"parent_key": root_key, "child_key": level_two_key},
+            {"parent_key": level_two_key, "child_key": level_three_key},
+        ],
+        "direct_membership": [],
+        "unassigned_content": [],
+    }
+    bundle["summary"]["heading_count"] = 3
+    bundle["summary"]["content_count"] = 0
+    return bundle
+
+
+def valid_multiple_roots_bundle() -> dict[str, Any]:
+    """Return a valid hierarchy with three roots in reading order."""
+    bundle = valid_deep_hierarchy_bundle()
+    for feature, decision in zip(
+        bundle["features"][1:3],
+        bundle["decisions"][1:3],
+        strict=True,
+    ):
+        feature["raw_level"] = 1
+        decision["raw_level"] = 1
+        decision["corrected_level"] = 1
+    bundle["hierarchy"]["roots"] = [
+        feature["stable_item_key"] for feature in bundle["features"][:3]
+    ]
+    bundle["hierarchy"]["edges"] = []
+    return bundle
+
+
+def semantic_mutation_cases() -> list[tuple[str, dict[str, Any]]]:
+    """Return named schema-valid bundles that each violate one policy."""
+    cases = []
+
+    def add(name: str, bundle: dict[str, Any]) -> None:
+        cases.append((name, bundle))
+
+    duplicate_decision = copy.deepcopy(VALID_BUNDLE)
+    duplicate_decision["decisions"].append(copy.deepcopy(duplicate_decision["decisions"][0]))
+    add("duplicate_decision", duplicate_decision)
+
+    wrong_membership = copy.deepcopy(VALID_BUNDLE)
+    wrong_membership["hierarchy"]["direct_membership"] = []
+    add("wrong_membership", wrong_membership)
+
+    ambiguous_heading = copy.deepcopy(VALID_BUNDLE)
+    ambiguous_heading["decisions"][0]["outcome"] = "ambiguous"
+    add("ambiguous_heading", ambiguous_heading)
+
+    wrong_summary = copy.deepcopy(VALID_BUNDLE)
+    wrong_summary["summary"]["heading_count"] = 99
+    add("wrong_summary", wrong_summary)
+
+    missing_toc = copy.deepcopy(VALID_BUNDLE)
+    missing_toc["toc_entries"] = []
+    missing_toc["reconciliations"] = []
+    add("missing_toc", missing_toc)
+
+    unknown_evidence = copy.deepcopy(VALID_BUNDLE)
+    unknown_evidence["decisions"][0]["evidence"]["source_item_keys"] = ["f" * 64]
+    add("unknown_evidence", unknown_evidence)
+
+    self_parented_regime = copy.deepcopy(VALID_BUNDLE)
+    self_parented_regime["regimes"][0]["parent_regime_id"] = self_parented_regime["regimes"][0][
+        "regime_id"
+    ]
+    add("self_parented_regime", self_parented_regime)
+
+    reversed_decisions = copy.deepcopy(VALID_BUNDLE)
+    reversed_decisions["decisions"].reverse()
+    add("reversed_decisions", reversed_decisions)
+
+    duplicate_inventory_path = copy.deepcopy(VALID_BUNDLE)
+    duplicate_inventory_path["artifact_inventory"]["files"][1]["path"] = duplicate_inventory_path[
+        "artifact_inventory"
+    ]["files"][0]["path"]
+    add("duplicate_inventory_path", duplicate_inventory_path)
+
+    wrong_inventory_seal = copy.deepcopy(VALID_BUNDLE)
+    wrong_inventory_seal["completion"]["artifact_inventory_sha256"] = "f" * 64
+    add("wrong_inventory_seal", wrong_inventory_seal)
+
+    wrong_status = copy.deepcopy(VALID_BUNDLE)
+    wrong_status["summary"]["status"] = "complete_with_ambiguities"
+    wrong_status["completion"]["status"] = "complete_with_ambiguities"
+    add("wrong_status", wrong_status)
+
+    wrong_r02_role = copy.deepcopy(VALID_BUNDLE)
+    wrong_r02_role["features"][1]["raw_role"] = "list_item"
+    wrong_r02_role["decisions"][1]["raw_role"] = "list_item"
+    add("wrong_r02_role", wrong_r02_role)
+
+    wrong_r03_action = copy.deepcopy(VALID_BUNDLE)
+    wrong_r03_action["decisions"][0]["corrected_role"] = "content"
+    wrong_r03_action["decisions"][0]["corrected_level"] = None
+    add("wrong_r03_action", wrong_r03_action)
+
+    wrong_r05_evidence = copy.deepcopy(VALID_BUNDLE)
+    wrong_r05_evidence["decisions"][0]["selected_rule_id"] = "R05_APPLY_NUMBERING_REGIME"
+    wrong_r05_evidence["decisions"][0]["eligible_rule_ids"] = ["R05_APPLY_NUMBERING_REGIME"]
+    wrong_r05_evidence["decisions"][0]["evidence"]["numbering_kind"] = "article"
+    add("wrong_r05_evidence", wrong_r05_evidence)
+
+    wrong_r04_target = copy.deepcopy(VALID_BUNDLE)
+    wrong_r04_target["decisions"][0]["selected_rule_id"] = "R04_APPLY_EXACT_TOC_ANCHOR"
+    wrong_r04_target["decisions"][0]["eligible_rule_ids"] = ["R04_APPLY_EXACT_TOC_ANCHOR"]
+    wrong_r04_target["decisions"][0]["evidence"]["toc_entry_id"] = "toc-ffffffffffffffff"
+    add("wrong_r04_target", wrong_r04_target)
+
+    wrong_r08_action = copy.deepcopy(VALID_BUNDLE)
+    wrong_r08_action["decisions"][0]["selected_rule_id"] = "R08_DEFAULT_PRESERVE"
+    wrong_r08_action["decisions"][0]["eligible_rule_ids"] = ["R08_DEFAULT_PRESERVE"]
+    wrong_r08_action["decisions"][0]["corrected_role"] = "content"
+    wrong_r08_action["decisions"][0]["corrected_level"] = None
+    wrong_r08_action["decisions"][0]["outcome"] = "unchanged"
+    add("wrong_r08_action", wrong_r08_action)
+
+    reversed_regime_interval = copy.deepcopy(VALID_BUNDLE)
+    reversed_regime_interval["regimes"][0]["start_item_key"] = "5" * 64
+    reversed_regime_interval["regimes"][0]["end_item_key"] = "3" * 64
+    add("reversed_regime_interval", reversed_regime_interval)
+
+    anchored_r02 = copy.deepcopy(VALID_BUNDLE)
+    anchored_r02["features"][1]["outline_state"] = "unique_exact"
+    anchored_r02["features"][1]["outline_level"] = 2
+    add("anchored_r02", anchored_r02)
+
+    toc_item_escapes_r01 = copy.deepcopy(VALID_BUNDLE)
+    toc_feature = toc_item_escapes_r01["features"][3]
+    toc_feature["outline_state"] = "unique_exact"
+    toc_feature["outline_level"] = 1
+    toc_decision = toc_item_escapes_r01["decisions"][3]
+    toc_decision["selected_rule_id"] = "R03_APPLY_EXACT_OUTLINE_ANCHOR"
+    toc_decision["eligible_rule_ids"] = ["R03_APPLY_EXACT_OUTLINE_ANCHOR"]
+    toc_decision["corrected_role"] = "heading"
+    toc_decision["corrected_level"] = 1
+    toc_decision["evidence"]["outline_level"] = 1
+    toc_item_escapes_r01["hierarchy"]["roots"].append(toc_feature["stable_item_key"])
+    toc_item_escapes_r01["summary"]["heading_count"] = 2
+    toc_item_escapes_r01["summary"]["excluded_count"] = 0
+    add("toc_item_escapes_r01", toc_item_escapes_r01)
+
+    furniture_item_escapes_r01 = copy.deepcopy(VALID_BUNDLE)
+    furniture_item_escapes_r01["features"][2]["content_layer"] = "furniture"
+    add("furniture_item_escapes_r01", furniture_item_escapes_r01)
+
+    overlapping_siblings = copy.deepcopy(VALID_BUNDLE)
+    child = copy.deepcopy(overlapping_siblings["regimes"][0])
+    child["regime_id"] = "reg-1111111111111111"
+    child["parent_regime_id"] = overlapping_siblings["regimes"][0]["regime_id"]
+    child["start_item_key"] = "4" * 64
+    overlapping_siblings["regimes"].append(child)
+    sibling = copy.deepcopy(child)
+    sibling["regime_id"] = "reg-2222222222222222"
+    overlapping_siblings["regimes"].append(sibling)
+    add("overlapping_siblings", overlapping_siblings)
+
+    return cases

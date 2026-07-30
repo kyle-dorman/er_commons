@@ -1,11 +1,10 @@
 # Task 03E.1: Define the Deterministic Hierarchy-Correction Contract
 
-Status: **provisional and inactive**. Task 03E rejected Docling's maintained
-defaults as the sole project hierarchy policy. Activate this contract only
-after the user separately authorizes correction-layer work and the Task 03E
-evaluation implementation has received its requested maintainability cleanup.
-This task defines contracts and fixtures only; it does not implement or run the
-correction layer.
+Status: **completed 2026-07-30**. Task 03E rejected Docling's maintained
+defaults as the sole project hierarchy policy, and Task 03E.0 completed the
+requested maintainability cleanup. The user separately authorized this
+correction-layer contract work. This task defines contracts and fixtures only;
+it does not implement or run the correction layer.
 
 ## Abstract
 
@@ -199,3 +198,52 @@ git diff --check
 - corpus batching or processing another complete document
 - retrieval units, embeddings, LLM inference, or human review fields
 - accepting page-specific or literal-text production exceptions
+- comprehensive recovery of unanchored headings omitted from the source TOC
+  and PDF outline
+
+## Outcome
+
+Activation completed on 2026-07-30 after the user authorized Task 03E.1 and
+Task 03E.0's maintainability prerequisite was complete. The revised contract
+adds [`hierarchy_correction_v1.md`](../../docs/specs/hierarchy_correction_v1.md),
+a strict Draft 2020-12 record schema, a reusable cross-record validator,
+positive and negative fixtures, eight checksum-bound development cases, and a
+leakage-aware eight-page held-out manifest.
+
+Review against the frozen producer corrected the initial draft's TOC
+fragmentation, continued-region overlap, printed-page, embedded-regime,
+preamble-membership, rule-precedence, hierarchy, publication-seal, and
+held-out-leakage gaps. The contract now states exact rule formulas and makes
+unsupported decisions fail closed.
+
+The user confirmed that comprehensive recovery of headings absent from both
+the source TOC and PDF outline is not required for the target tool-call
+navigation/search workflow. The known page-2000 plain-text subheading therefore
+remains a visible, non-blocking R06 `content` ambiguity. This avoids adding a
+source-PDF style extractor solely for a lower-value unanchored boundary while
+retaining strict gates for TOC/outline-backed navigation, numbering regimes,
+and hierarchy integrity.
+
+The initial 595-line dictionary-oriented validator was retained only long
+enough to serve as an executable reference. It was replaced by the
+human-oriented [`hierarchy_correction`](../../src/er_commons/hierarchy_correction)
+package: a readable indexed bundle view, responsibility-owned policy modules,
+named rule validators, explicit regime intervals and open-heading records, and
+a thin ordered validation shell. Tests are separated into schema/evidence,
+cross-record policy, and held-out review responsibilities.
+
+The replacement matched the reference validator's accept/reject disposition on
+one valid bundle and 21 named semantic mutations with zero mismatches. It also
+produced the same held-out evaluation record. Three independently reviewed
+legacy gaps were then strengthened deliberately: R01 exclusion is mandatory in
+both directions, held-out annotations bind to source/policy/code digests, and
+hierarchy roots, edges, membership, and unassigned content preserve canonical
+order. Focused negative tests cover each change.
+
+Final validation passed Ruff formatting and lint, mypy over `src`, all 217
+repository tests, and `git diff --check`. Independent maintainability and
+schema reviews found no remaining blockers. On the small valid fixture, 10,000
+in-process validations averaged 0.0331 ms for the reference and 0.0742 ms for
+the replacement; the absolute difference is operationally immaterial and
+includes normative RFC 8785 digest handling. No correction implementation has
+run, and Task 03E.2 still requires separate activation.

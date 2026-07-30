@@ -1,0 +1,203 @@
+"""JSON Schema and frozen-evidence tests for hierarchy correction v1."""
+
+from __future__ import annotations
+
+import copy
+import hashlib
+import json
+from typing import Any
+
+import pytest
+from hierarchy_correction_support import (
+    DEVELOPMENT_CASES,
+    FIXTURE_MANIFEST,
+    HELD_OUT_MANIFEST,
+    INVALID_SCHEMA_MUTATIONS,
+    RECORD_SCHEMA,
+    VALID_BUNDLE,
+    apply_schema_mutation,
+)
+from jsonschema import Draft202012Validator
+from jsonschema.exceptions import ValidationError
+
+from er_commons.hierarchy_correction.digests import canonical_json_sha256
+
+
+def test_valid_bundle_matches_draft_2020_12_contract() -> None:
+    """Validate aggregate shape and its RFC 8785 content identity."""
+    Draft202012Validator.check_schema(RECORD_SCHEMA)
+    Draft202012Validator(RECORD_SCHEMA).validate(VALID_BUNDLE)
+    identity = VALID_BUNDLE["identity"]
+    identity_inputs = {key: value for key, value in identity.items() if key != "candidate_id"}
+    assert identity["candidate_id"] == f"hcorv1-{canonical_json_sha256(identity_inputs)}"
+
+
+def test_contract_digests_use_rfc_8785_number_and_key_normalization() -> None:
+    """Distinguish the normative digest from ordinary sorted JSON."""
+    first = {"z": "é", "number": 1.0, "nested": {"b": False, "a": None}}
+    equivalent = {"nested": {"a": None, "b": False}, "number": 1, "z": "é"}
+    changed = {"z": "e", "number": 1, "nested": {"a": None, "b": False}}
+
+    assert canonical_json_sha256(first) == canonical_json_sha256(equivalent)
+    assert canonical_json_sha256(first) != canonical_json_sha256(changed)
+
+
+@pytest.mark.parametrize(
+    ("definition", "value"),
+    [
+        ("identity", VALID_BUNDLE["identity"]),
+        ("input_inventory", VALID_BUNDLE["input_inventory"]),
+        ("feature", VALID_BUNDLE["features"][0]),
+        ("toc_entry", VALID_BUNDLE["toc_entries"][0]),
+        ("reconciliation", VALID_BUNDLE["reconciliations"][0]),
+        ("regime", VALID_BUNDLE["regimes"][0]),
+        ("decision", VALID_BUNDLE["decisions"][0]),
+        ("hierarchy", VALID_BUNDLE["hierarchy"]),
+        (
+            "diagnostic",
+            {
+                "reading_order_index": 1,
+                "stable_item_key": VALID_BUNDLE["features"][0]["stable_item_key"],
+                "code": "SIBLING_EVIDENCE_CONFLICT",
+                "detail": "fixture diagnostic",
+            },
+        ),
+        ("summary", VALID_BUNDLE["summary"]),
+        ("metrics", VALID_BUNDLE["metrics"]),
+        ("artifact_inventory", VALID_BUNDLE["artifact_inventory"]),
+        ("completion", VALID_BUNDLE["completion"]),
+    ],
+)
+def test_each_persisted_record_definition_validates(
+    definition: str,
+    value: dict[str, Any],
+) -> None:
+    """Validate each physical record shape, not only the aggregate fixture."""
+    Draft202012Validator(
+        {
+            "$schema": RECORD_SCHEMA["$schema"],
+            "$ref": f"#/$defs/{definition}",
+            "$defs": RECORD_SCHEMA["$defs"],
+        }
+    ).validate(value)
+
+
+def test_failed_attempt_definition_validates() -> None:
+    """Keep a schema-valid record for failed, unpublished attempts."""
+    attempt = {
+        "candidate_id": VALID_BUNDLE["identity"]["candidate_id"],
+        "status": "failed",
+        "fatal_code": "INPUT_COMPLETION_INVALID",
+        "detail": "fixture failure",
+    }
+    Draft202012Validator(
+        {
+            "$schema": RECORD_SCHEMA["$schema"],
+            "$ref": "#/$defs/attempt_record",
+            "$defs": RECORD_SCHEMA["$defs"],
+        }
+    ).validate(attempt)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    INVALID_SCHEMA_MUTATIONS,
+    ids=[case["name"] for case in INVALID_SCHEMA_MUTATIONS],
+)
+def test_schema_rejects_invalid_mutation(mutation: dict[str, Any]) -> None:
+    invalid = apply_schema_mutation(copy.deepcopy(VALID_BUNDLE), mutation)
+    with pytest.raises(ValidationError):
+        Draft202012Validator(RECORD_SCHEMA).validate(invalid)
+
+
+def test_fixture_manifest_separates_development_from_holdout() -> None:
+    """Keep reviewed development pages out of the blind review set."""
+    reviewed = set(HELD_OUT_MANIFEST["excluded_previously_reviewed_pages"])
+    selected = set(HELD_OUT_MANIFEST["unique_selected_pages"])
+    assert HELD_OUT_MANIFEST["status"] == "frozen_before_rule_implementation"
+    assert reviewed.isdisjoint(selected)
+    assert selected == {73, 82, 96, 105, 131, 155, 166, 220}
+    assert (
+        HELD_OUT_MANIFEST["selection"]["rank_key"]
+        == "sha256(source_sha256 + ':' + unpadded_decimal_physical_page)"
+    )
+    for stratum in HELD_OUT_MANIFEST["selection"]["strata"]:
+        for page, prefix in zip(
+            stratum["selected_pages"],
+            stratum.get("rank_prefixes", []),
+            strict=True,
+        ):
+            rank_input = f"{HELD_OUT_MANIFEST['source_sha256']}:{page}".encode()
+            assert hashlib.sha256(rank_input).hexdigest().startswith(prefix)
+    assert (
+        "no production rule may match literal document heading text"
+        in FIXTURE_MANIFEST["prohibitions"]
+    )
+
+
+def test_development_cases_are_stable_key_bound() -> None:
+    """Recompute each reviewed case key from its frozen producer evidence."""
+    for case in DEVELOPMENT_CASES["cases"]:
+        identity = {
+            "text": case["text"],
+            "orig": case["orig"],
+            "page_no": case["physical_page"],
+            "bbox": case["bbox"],
+            "charspan": case["charspan"],
+        }
+        encoded = json.dumps(
+            identity,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode()
+        assert hashlib.sha256(encoded).hexdigest() == case["stable_item_key"]
+
+
+def test_development_evidence_supports_each_expected_rule() -> None:
+    """Freeze the local evidence used by bullet, ambiguity, transfer, and numbering rules."""
+    cases = {case["case_id"]: case for case in DEVELOPMENT_CASES["cases"]}
+    for case_id in ("bullet-general-plan-amendment", "bullet-specific-plan"):
+        evidence = cases[case_id]["evidence_context"]
+        assert evidence["outline_exact"] is False
+        assert evidence["toc_exact"] is False
+        assert evidence["segment_list_indent_delta_pt"] >= 18
+
+    structural = cases["plain-visible-subheading"]["evidence_context"]
+    assert structural["outline_exact"] is False
+    assert structural["toc_exact"] is False
+    assert structural["shared_heading_level"] == 2
+    assert structural["left_delta_previous_pt"] <= 1
+    assert structural["left_delta_next_pt"] <= 1
+    assert structural["aligned_line_count"] == 1
+
+    transfer = cases["unsupported-style-existing-district"]["evidence_context"]
+    assert len(transfer["cluster_item_keys"]) >= 2
+    assert transfer["supported_before_level"] + 1 == transfer["supported_after_level"]
+    assert transfer["maximum_cluster_to_after_left_delta_pt"] <= 1
+
+    numbering_cases = [
+        case
+        for case in DEVELOPMENT_CASES["cases"]
+        if case["expected_rule_id"] == "R05_APPLY_NUMBERING_REGIME"
+    ]
+    assert {case["evidence_context"]["regime_start_item_key"] for case in numbering_cases} == {
+        "3a80553fe23f770299c2415d0c6aa357e706597132126d3354a29eac123e0bd3"
+    }
+    assert all(
+        case["expected_level"] == case["evidence_context"]["numbering_depth"]
+        for case in numbering_cases
+    )
+
+
+def test_external_review_evidence_is_checksum_and_count_bound() -> None:
+    """Bind acceptance counts to the reports that established them."""
+    evidence = FIXTURE_MANIFEST["development_evidence"]
+    assert evidence["task_03e_comparison_report_sha256"] == (
+        "33574f6b15dc128a7bf58d6e2ab1a35c867ce1df493fe317a46bed1b8e8bf364"
+    )
+    assert evidence["task_03e_bounded_review_sha256"] == (
+        "7b7e2ecbcede6f9d0a628037e72939e3ab8daa9d0f951b39a6267a49e4de0865"
+    )
+    assert evidence["reviewed_exact_outline_anchor_count"] == 29
+    assert evidence["reviewed_numbering_relation_count"] == 21

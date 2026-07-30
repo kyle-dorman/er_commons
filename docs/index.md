@@ -132,7 +132,12 @@ provisionally implements and evaluates it. Tasks 03E.3 through 03H are
 renumbered downstream contracts. [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) replaced the
 Task 03E MVP evaluator with an exactly equivalent human-owned implementation.
-No correction or downstream task is active.
+[Task
+03E.1](../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md)
+completed its deterministic contract, fixtures, and human-oriented
+cross-record validator after a reference-equivalence and maintainability gate.
+The unanchored page-2000 heading remains a non-blocking ambiguity by user
+decision. No correction implementation or downstream task is active.
 
 ## Document roles
 

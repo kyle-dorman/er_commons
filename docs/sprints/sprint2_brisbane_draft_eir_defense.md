@@ -600,7 +600,11 @@ creates a distinct decision or validation boundary.
    deterministic fallback sequence; Tasks 03E.3 through 03H are renumbered
    downstream contracts. Task 03E.0 then replaced the evaluator with a
    human-owned implementation and exactly reproduced both frozen 159-artifact
-   comparisons. No correction task is active.
+   comparisons. Task 03E.1 completed the deterministic correction contract,
+   fixtures, and human-oriented cross-record validator after reference
+   equivalence and maintainability review. The unanchored page-2000 heading
+   remains a non-blocking ambiguity by user decision. No correction
+   implementation task is active.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

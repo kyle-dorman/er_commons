@@ -101,19 +101,21 @@ candidate. [Task
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
 Current active task: **none**. [Task
+03E.1](../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md)
+completed the deterministic contract, fixtures, and human-oriented
+cross-record validator. The known unanchored page-2000 heading remains a
+non-blocking ambiguity by user decision; no correction implementation has run.
+[Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
-159-artifact comparisons exactly. Do not start hierarchy-correction work
-without separate user approval.
+159-artifact comparisons exactly.
 
 ## Open queue
 
-1. After separate approval, revise and execute the provisional
-   correction contracts one at a time: [Task
-   03E.1](../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md)
-   defines the deterministic, no-LLM correction contract; [Task
+1. After separate approval, revise and execute [Task
    03E.2](../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md)
-   implements and evaluates it.
+   to implement and evaluate the completed deterministic, no-LLM correction
+   contract.
 2. If Task 03E.2 is accepted, revise and execute [Task
    03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md), [Task
    03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md), [Task
