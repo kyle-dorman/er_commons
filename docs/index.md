@@ -140,8 +140,12 @@ false table boundaries plus four wrong level/parent results. Outline,
 numbering, controls, preservation, repeatability, and resource gates passed.
 That candidate remains historically rejected; the task is closed as MVP
 reference evidence and was superseded for production ownership by Task 03E.2b.
-Task 03E.3 is revised but inactive; Tasks 03E.4 through 03H remain provisional
-downstream contracts.
+Task 03E.3 is complete after its human-ownership rewrite. Canonical-extraction
+schema major v2, exact bridge and preservation contracts, 222-page label
+outcomes, target-only aliases, and bounded-control propagation now have a
+responsibility-owned validator that passed independent maintainability and
+refactor-safety review. Tasks 03E.4 through 03H remain provisional downstream
+contracts.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions
@@ -156,11 +160,11 @@ production implementation. [Task
 complete. It published the full human-owned Appendix P correction candidate
 `hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1`
 under a separate, candidate-bound `accepted_with_known_limitations`
-authorization while preserving the historical rejection. Task 03E.3 is now
-the next task. Its contract has been revised against the exact Task 03E.2d
-handoff, including the two semantic digest roles, cross-producer bridge,
-mixed-content coverage, page-label provenance, and bounded-acceptance
-requirements. It remains inactive until explicitly activated.
+authorization while preserving the historical rejection. Task 03E.3's
+behavioral MVP satisfies the exact handoff, including both semantic digest
+roles, the cross-producer bridge, mixed-content coverage, page-label provenance,
+and bounded-acceptance requirements. Its human-owned validator is complete and
+does not activate Task 03E.4.
 
 ## Document roles
 

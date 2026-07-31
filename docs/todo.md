@@ -5,20 +5,17 @@
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
 Most recently completed: [Task
-03E.2d](../tasks/sprint2/03e2d_accept_and_publish_hierarchy_correction.md). It
-published the full 222-page human-owned correction candidate
-`hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1`.
-The complete payload is byte-identical to the frozen post-03E.2a semantics and
-is authorized by a separate, candidate-bound
-`accepted_with_known_limitations` record. The historical Task 03E.2 quality
-rejection remains unchanged, and this Appendix P decision is evidence to test
-in Task 03G rather than corpus-wide proof.
+03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md). Its schema-
+major v2 contract now has a responsibility-owned, human-readable validator for
+sections, page labels, aliases, exact producer bridge evidence, control
+provenance, and candidate correspondence. Independent maintainability and
+refactor-safety reviews passed, as did the 40 focused tests and 372-test project
+suite. It published no candidate.
 
 Active implementation: none. [Task
-03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md) is next. It
-has been revised against the exact immutable Task 03E.2d handoff and is ready
-for explicit activation. It remains inactive; this documentation readiness pass
-did not start the task.
+03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md) remains
+provisional and inactive until revised from the accepted Task 03E.3 contract
+and explicitly activated.
 
 Previously completed: [Task
 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
@@ -116,8 +113,7 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Task 03E.2d is complete. Task 03E.3 is next, revised, and ready for explicit
-activation. It remains inactive until the user activates it.
+Tasks 03E.2d and 03E.3 are complete. No task is currently active.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -125,9 +121,10 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Explicitly activate and execute [Task
-   03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md), [Task
-   03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md), [Task
+1. Revise [Task
+   03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md) against the
+   exact accepted Task 03E.3 outcome, and activate it only by explicit user
+   decision. Then proceed through [Task
    03E.5](../tasks/sprint2/03e5_pilot_cross_references.md), [Task
    03F](../tasks/sprint2/03f_make_extraction_restartable.md), [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task

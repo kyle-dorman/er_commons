@@ -1,8 +1,8 @@
 # Task 03E.3: Define the Semantic-Structure Contract
 
-Status: **revised from the completed Task 03E.2d handoff and ready for explicit
-activation**. It remains inactive until the user authorizes execution. It
-changes tracked contracts, schemas, fixtures, and validators but does not
+Status: **complete as of 2026-07-31 after human-ownership rewrite**. The schema
+and behavioral MVP remain reference evidence; the repository implementation is
+the responsibility-owned validator described in the outcome. This task did not
 publish a live canonical candidate.
 
 ## Abstract
@@ -304,3 +304,55 @@ git diff --check
 - corpus identity, batching, or cross-document resolution
 - Task 04 usability judgments
 - retrieval units, indexing, or graph traversal
+
+## Outcome
+
+The Task 03E.3 behavioral MVP is complete. It defines canonical-extraction
+schema major v2 while
+preserving strict v1 and the immutable Task 03D.1 candidate. The contract
+extends sections rather than creating another semantic layer, emits one page-
+label outcome per physical page, introduces target-only aliases, and keeps
+bridge, correspondence, preservation, and bounded-acceptance verification as
+checksummed support artifacts.
+
+The executable schema, positive/negative fixtures, and human-owned validator
+cover exact ordered hierarchy inversion, sparse accepted levels, repeated
+headings, heading ownership, pre-root and TOC content, furniture, tables,
+figures, page-label provenance and conflicts, alias collisions and target
+restrictions, cross-producer bridge coverage, the two permitted replacement
+dispositions, old/new allowed differences, and exact Task 03E.2d control
+binding. Fixtures contain no mention-derived cross-reference candidates.
+
+The read-only handoff audit verified all 15 Task 03E.2d managed files and the
+candidate-bound authorization. It distinguished the inventory digest,
+semantic-file-set digest, and reconstructed aggregate digest; confirmed all
+6,931 stable keys in the producer comparison; and established that all 246
+headings map uniquely to canonical blocks. Of 4,571 direct members, 2,255 map
+to blocks and exactly 2,316 use the evidence-backed table-replacement or
+picture-suppression dispositions. Appendix P has no explicit `/PageLabels`;
+the contract rejects pypdf's synthesized defaults and requires 222 page
+outcomes independently of text-item presence.
+
+Research retained JSON Schema Draft 2020-12 for strict shapes, RFC 8785 for
+identity serialization, and ISO 32000-2 page-label semantics. The closed v1
+shapes and meaning changes require a schema major; the unchanged identity hash
+algorithm retains the `exv1-` prefix while the expanded payload creates a new
+candidate.
+
+The accepted behavioral MVP was then rewritten for human ownership. The public
+facade now only sequences named policy modules for sections, page labels,
+aliases, bridge evidence, control provenance, and candidate correspondence;
+shared indexing, normalization, and sealed-input handoff each have one explicit
+home. Bridge validation requires independently supplied producer evidence, so
+the persisted payload cannot authenticate its own pointers or unmapped
+dispositions. Tests use named fixture selectors and describe the invariant each
+mutation protects.
+
+Two independent final reviews passed: the maintainability review found the code
+readable, understandable, debuggable, and editable, and the refactor-safety
+review rejected all adversarial counterexamples. Focused validation passed 40
+tests. Full `make fix`, `make check`, and `git diff --check` passed with 372
+tests, Ruff, and mypy. A final read-only audit reverified the real 222-page
+sealed handoff and its `accepted_with_known_limitations` control. No producer
+ran and no external candidate was published. Task 03E.4 remains inactive
+pending revision and explicit activation.

@@ -107,6 +107,13 @@ known limitation inventory, and authorizes publication without changing the
 historical Task 03E.2 reject reports. The completed candidate continues to use
 the existing correction v1 artifact layout and completion-last contract.
 
+Task 03E.4 will publish its semantic canonical candidate under the existing
+Task 03D canonical-record root with a new content-derived candidate ID. Its
+inventory must include the cross-producer bridge, Task 03D.1-to-v2
+correspondence/preservation report, and compact bounded-control verification as
+support files. They are control evidence, not canonical record families. The
+immutable Task 03D.1 and Task 03E.2d roots remain external inputs.
+
 ## Git policy
 
 Track in Git:

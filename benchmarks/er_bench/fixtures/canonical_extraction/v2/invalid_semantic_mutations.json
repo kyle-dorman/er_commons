@@ -1,0 +1,11 @@
+[
+  {"name": "semantic_level_out_of_range", "path": ["sections", 2, "semantic_level"], "value": 7},
+  {"name": "section_rejects_review_field", "path": ["sections", 2, "reviewer"], "value": "human"},
+  {"name": "page_label_rejects_synthesized_default", "path": ["page_label_observations", 2, "synthesized_default_rejected"], "value": false},
+  {"name": "alias_rejects_mention_text", "path": ["target_aliases", 0, "mention_text"], "value": "see section 1"},
+  {"name": "alias_target_type_is_closed", "path": ["target_aliases", 0, "targets", 0, "target_type"], "value": "cross-reference"},
+  {"name": "bridge_disposition_is_closed", "path": ["bridge_entries", 0, "disposition"], "value": "other"},
+  {"name": "control_digest_is_exact", "path": ["control_provenance", "bounded_acceptance_sha256"], "value": "0000000000000000000000000000000000000000000000000000000000000000"},
+  {"name": "mentions_are_absent", "path": ["cross_references"], "value": [{"mention": "forbidden"}]},
+  {"name": "allowed_differences_are_closed", "path": ["correspondence_report", "allowed_difference_categories"], "value": ["anything"]}
+]

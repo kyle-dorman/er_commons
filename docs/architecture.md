@@ -205,3 +205,20 @@ copying it, extend existing canonical page and section concepts where possible,
 and persist only the semantic facts downstream consumers need. Cross-reference
 mentions remain a later enrichment because aliases describe possible targets,
 whereas mentions are source spans that point toward those targets.
+
+Task 03E.3 defines that join as canonical-extraction schema major v2 while
+leaving strict v1 and the Task 03D.1 candidate immutable. V2 extends sections,
+adds one page-label observation per physical page and one target-alias record
+family, and keeps bridge, old/new correspondence, preservation, and bounded-
+control verification as checksummed support artifacts. Cross-record validation
+is order-sensitive and admits the accepted hierarchy's skipped numeric levels;
+visible TOC rows and furniture never induce body sections.
+
+The executable contract lives under `er_commons.semantic_structure`. Its
+public `validation` facade only sequences named policies; `sections`,
+`page_labels`, `aliases`, `bridge`, `control`, and `correspondence` each own one
+reviewable invariant family. `bundle` builds the shared indexes, `handoff`
+verifies sealed external evidence, and `normalization` owns the alias text
+rule. Bridge validation requires an independently constructed producer-evidence
+index, so persisted bridge rows cannot authenticate their own pointers or
+unmapped dispositions.

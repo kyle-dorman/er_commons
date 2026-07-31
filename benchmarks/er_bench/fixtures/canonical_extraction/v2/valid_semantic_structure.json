@@ -1,0 +1,4214 @@
+{
+  "document_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/document/deir_fixture",
+  "expected_page_count": 222,
+  "global_content_order_ids": [
+    "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000001",
+    "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000002",
+    "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000003",
+    "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000004",
+    "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/table/deir_fixture/tbl000001",
+    "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000005",
+    "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/figure/deir_fixture/fig000001",
+    "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000006",
+    "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000007"
+  ],
+  "sections": [
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000001",
+      "document_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/document/deir_fixture",
+      "sequence": 1,
+      "content_layer": "body",
+      "section_kind": "synthetic_body_root",
+      "semantic_level": null,
+      "section_path_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000001"
+      ],
+      "parent_section_id": null,
+      "heading_block_id": null,
+      "ordered_child_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000001",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000002",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000003",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000005"
+      ],
+      "inference_method": "synthetic",
+      "source_stable_item_key": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000002",
+      "document_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/document/deir_fixture",
+      "sequence": 2,
+      "content_layer": "furniture",
+      "section_kind": "synthetic_furniture_root",
+      "semantic_level": null,
+      "section_path_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000002"
+      ],
+      "parent_section_id": null,
+      "heading_block_id": null,
+      "ordered_child_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000007"
+      ],
+      "inference_method": "synthetic",
+      "source_stable_item_key": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000003",
+      "document_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/document/deir_fixture",
+      "sequence": 3,
+      "content_layer": "body",
+      "section_kind": "semantic",
+      "semantic_level": 1,
+      "section_path_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000001",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000003"
+      ],
+      "parent_section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000001",
+      "heading_block_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000003",
+      "ordered_child_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000003",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000004",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/table/deir_fixture/tbl000001",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000004"
+      ],
+      "inference_method": "accepted_hierarchy_correction",
+      "source_stable_item_key": "1111111111111111111111111111111111111111111111111111111111111111",
+      "evidence_ref": {
+        "path": "artifacts/decisions.jsonl",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000004",
+      "document_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/document/deir_fixture",
+      "sequence": 4,
+      "content_layer": "body",
+      "section_kind": "semantic",
+      "semantic_level": 3,
+      "section_path_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000001",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000003",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000004"
+      ],
+      "parent_section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000003",
+      "heading_block_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000005",
+      "ordered_child_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000005",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/figure/deir_fixture/fig000001"
+      ],
+      "inference_method": "accepted_hierarchy_correction",
+      "source_stable_item_key": "3333333333333333333333333333333333333333333333333333333333333333",
+      "evidence_ref": {
+        "path": "artifacts/decisions.jsonl",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000005",
+      "document_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/document/deir_fixture",
+      "sequence": 5,
+      "content_layer": "body",
+      "section_kind": "semantic",
+      "semantic_level": 3,
+      "section_path_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000001",
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000005"
+      ],
+      "parent_section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000001",
+      "heading_block_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000006",
+      "ordered_child_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000006"
+      ],
+      "inference_method": "accepted_hierarchy_correction",
+      "source_stable_item_key": "6666666666666666666666666666666666666666666666666666666666666666",
+      "evidence_ref": {
+        "path": "artifacts/decisions.jsonl",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    }
+  ],
+  "content": [
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000001",
+      "record_type": "block",
+      "content_layer": "body",
+      "section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000001",
+      "sequence": 1,
+      "semantic_placement": "pre_root",
+      "is_toc_row": false,
+      "stable_item_key": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000002",
+      "record_type": "block",
+      "content_layer": "body",
+      "section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000001",
+      "sequence": 2,
+      "semantic_placement": "toc_content",
+      "is_toc_row": true,
+      "stable_item_key": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000003",
+      "record_type": "block",
+      "content_layer": "body",
+      "section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000003",
+      "sequence": 3,
+      "semantic_placement": "heading_owner",
+      "is_toc_row": false,
+      "stable_item_key": "1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000004",
+      "record_type": "block",
+      "content_layer": "body",
+      "section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000003",
+      "sequence": 4,
+      "semantic_placement": "direct_body",
+      "is_toc_row": false,
+      "stable_item_key": "4444444444444444444444444444444444444444444444444444444444444444"
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/table/deir_fixture/tbl000001",
+      "record_type": "table",
+      "content_layer": "body",
+      "section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000003",
+      "sequence": 1,
+      "semantic_placement": "inherited_nontext",
+      "is_toc_row": false,
+      "stable_item_key": null
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000005",
+      "record_type": "block",
+      "content_layer": "body",
+      "section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000004",
+      "sequence": 5,
+      "semantic_placement": "heading_owner",
+      "is_toc_row": false,
+      "stable_item_key": "3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/figure/deir_fixture/fig000001",
+      "record_type": "figure",
+      "content_layer": "body",
+      "section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000004",
+      "sequence": 1,
+      "semantic_placement": "inherited_nontext",
+      "is_toc_row": false,
+      "stable_item_key": null
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000006",
+      "record_type": "block",
+      "content_layer": "body",
+      "section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000005",
+      "sequence": 6,
+      "semantic_placement": "heading_owner",
+      "is_toc_row": false,
+      "stable_item_key": "6666666666666666666666666666666666666666666666666666666666666666"
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000007",
+      "record_type": "block",
+      "content_layer": "furniture",
+      "section_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000002",
+      "sequence": 7,
+      "semantic_placement": "furniture",
+      "is_toc_row": false,
+      "stable_item_key": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  ],
+  "page_label_observations": [
+    {
+      "physical_page_number": 1,
+      "explicit_pdf_label": {
+        "state": "present",
+        "value": "i",
+        "evidence_refs": [
+          {
+            "path": "source.pdf#PageLabels",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        ]
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "resolved",
+      "resolved_label": "i",
+      "resolution_basis": "explicit_pdf_page_labels",
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 2,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "present",
+        "value": "1",
+        "evidence_refs": [
+          {
+            "path": "artifacts/item_features.jsonl/5",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        ]
+      },
+      "resolved_state": "resolved",
+      "resolved_label": "1",
+      "resolution_basis": "visible_footer_consensus",
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 3,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 4,
+      "explicit_pdf_label": {
+        "state": "present",
+        "value": "3",
+        "evidence_refs": [
+          {
+            "path": "source.pdf#PageLabels",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        ]
+      },
+      "visible_label": {
+        "state": "present",
+        "value": "4",
+        "evidence_refs": [
+          {
+            "path": "artifacts/item_features.jsonl/9",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        ]
+      },
+      "resolved_state": "conflict",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 5,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 6,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 7,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 8,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 9,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 10,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 11,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 12,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 13,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 14,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 15,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 16,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 17,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 18,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 19,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 20,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 21,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 22,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 23,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 24,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 25,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 26,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 27,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 28,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 29,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 30,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 31,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 32,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 33,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 34,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 35,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 36,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 37,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 38,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 39,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 40,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 41,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 42,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 43,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 44,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 45,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 46,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 47,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 48,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 49,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 50,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 51,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 52,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 53,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 54,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 55,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 56,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 57,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 58,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 59,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 60,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 61,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 62,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 63,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 64,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 65,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 66,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 67,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 68,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 69,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 70,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 71,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 72,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 73,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 74,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 75,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 76,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 77,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 78,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 79,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 80,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 81,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 82,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 83,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 84,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 85,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 86,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 87,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 88,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 89,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 90,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 91,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 92,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 93,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 94,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 95,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 96,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 97,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 98,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 99,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 100,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 101,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 102,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 103,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 104,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 105,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 106,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 107,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 108,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 109,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 110,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 111,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 112,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 113,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 114,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 115,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 116,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 117,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 118,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 119,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 120,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 121,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 122,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 123,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 124,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 125,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 126,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 127,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 128,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 129,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 130,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 131,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 132,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 133,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 134,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 135,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 136,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 137,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 138,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 139,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 140,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 141,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 142,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 143,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 144,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 145,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 146,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 147,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 148,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 149,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 150,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 151,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 152,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 153,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 154,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 155,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 156,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 157,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 158,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 159,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 160,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 161,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 162,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 163,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 164,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 165,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 166,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 167,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 168,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 169,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 170,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 171,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 172,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 173,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 174,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 175,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 176,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 177,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 178,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 179,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 180,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 181,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 182,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 183,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 184,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 185,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 186,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 187,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 188,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 189,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 190,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 191,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 192,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 193,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 194,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 195,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 196,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 197,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 198,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 199,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 200,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 201,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 202,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 203,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 204,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 205,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 206,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 207,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 208,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 209,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 210,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 211,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 212,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 213,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 214,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 215,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 216,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 217,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 218,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 219,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 220,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 221,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    },
+    {
+      "physical_page_number": 222,
+      "explicit_pdf_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "visible_label": {
+        "state": "absent",
+        "value": null,
+        "evidence_refs": []
+      },
+      "resolved_state": "unknown",
+      "resolved_label": null,
+      "resolution_basis": null,
+      "synthesized_default_rejected": true
+    }
+  ],
+  "target_aliases": [
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/target-alias/deir_fixture/alias000001",
+      "document_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/document/deir_fixture",
+      "sequence": 1,
+      "alias_kind": "section",
+      "raw_values": [
+        "1. Introduction"
+      ],
+      "normalized_alias": "1. introduction",
+      "normalization_policy": "nfc_nbsp_ascii_whitespace_casefold_v1",
+      "resolution_status": "unique",
+      "targets": [
+        {
+          "target_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000003",
+          "target_type": "section",
+          "evidence_kind": "visible_toc_reconciliation",
+          "evidence_ref": {
+            "path": "artifacts/visible_toc_entries.jsonl/0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          "toc_reconciliation_ref": {
+            "path": "artifacts/toc_reconciliation.jsonl/0",
+            "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/target-alias/deir_fixture/alias000002",
+      "document_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/document/deir_fixture",
+      "sequence": 2,
+      "alias_kind": "section",
+      "raw_values": [
+        "Repeated Heading"
+      ],
+      "normalized_alias": "repeated heading",
+      "normalization_policy": "nfc_nbsp_ascii_whitespace_casefold_v1",
+      "resolution_status": "ambiguous",
+      "targets": [
+        {
+          "target_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000004",
+          "target_type": "section",
+          "evidence_kind": "heading_text",
+          "evidence_ref": {
+            "path": "artifacts/decisions.jsonl/3",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "toc_reconciliation_ref": null
+        },
+        {
+          "target_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/section/deir_fixture/sec000005",
+          "target_type": "section",
+          "evidence_kind": "heading_text",
+          "evidence_ref": {
+            "path": "artifacts/decisions.jsonl/6",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "toc_reconciliation_ref": null
+        }
+      ]
+    }
+  ],
+  "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+  "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+  "bridge_entries": [
+    {
+      "stable_item_key": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_raw_pointer": "#/texts/0",
+      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_raw_pointer": "#/texts/0",
+      "status": "mapped",
+      "canonical_record_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000001"
+      ],
+      "disposition": null
+    },
+    {
+      "stable_item_key": "1111111111111111111111111111111111111111111111111111111111111111",
+      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_raw_pointer": "#/texts/1",
+      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_raw_pointer": "#/texts/1",
+      "status": "mapped",
+      "canonical_record_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000003"
+      ],
+      "disposition": null
+    },
+    {
+      "stable_item_key": "3333333333333333333333333333333333333333333333333333333333333333",
+      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_raw_pointer": "#/texts/3",
+      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_raw_pointer": "#/texts/3",
+      "status": "mapped",
+      "canonical_record_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000005"
+      ],
+      "disposition": null
+    },
+    {
+      "stable_item_key": "4444444444444444444444444444444444444444444444444444444444444444",
+      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_raw_pointer": "#/texts/4",
+      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_raw_pointer": "#/texts/4",
+      "status": "mapped",
+      "canonical_record_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000004"
+      ],
+      "disposition": null
+    },
+    {
+      "stable_item_key": "6666666666666666666666666666666666666666666666666666666666666666",
+      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_raw_pointer": "#/texts/6",
+      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_raw_pointer": "#/texts/6",
+      "status": "mapped",
+      "canonical_record_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000006"
+      ],
+      "disposition": null
+    },
+    {
+      "stable_item_key": "7777777777777777777777777777777777777777777777777777777777777777",
+      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_raw_pointer": "#/texts/7",
+      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_raw_pointer": "#/texts/7",
+      "status": "mapped",
+      "canonical_record_ids": [
+        "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/block/deir_fixture/blk000007"
+      ],
+      "disposition": null
+    }
+  ],
+  "control_provenance": {
+    "candidate_id": "hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1",
+    "completion_status": "complete_with_ambiguities",
+    "artifact_inventory_sha256": "8242a22aab347b17964562081e3a4f1f38b2efec23480aed07b770c2ada35c3a",
+    "semantic_file_set_sha256": "75a0e36c7e5814d5135763a09c7374643fdd5e0edafd30de360bb954345dd3d2",
+    "aggregate_semantic_sha256": "c3036210f5698a295ca799ee25d1850a080f0a5d211bef303b94900882cb4db8",
+    "bounded_acceptance_sha256": "5335737128fcbac2b1f2d41c42712af0534e2d15141ccf1150c37ffbf70f328c",
+    "authorization_id": "brisbane_baylands_2025_deir_task03e2d_bounded_acceptance_v1",
+    "acceptance_status": "accepted_with_known_limitations",
+    "source_id": "deir_appendix_p",
+    "physical_page_count": 222,
+    "corpus_wide_acceptance": false,
+    "authorized_uses": [
+      "task_03e3_semantic_contract_input",
+      "task_03e4_semantic_materialization_input",
+      "task_03g_representative_pilot_hypothesis"
+    ],
+    "limitations": [
+      "historical_development_and_held_out_quality_rejection",
+      "two_observed_false_table_boundaries",
+      "frozen_r04_r05_attribution_disagreements",
+      "existing_ssf_district_level_disagreement",
+      "page_2000_r06_content_ambiguity",
+      "remaining_payload_ambiguities_and_warnings",
+      "task_03e2a_has_no_new_held_out_evaluation"
+    ],
+    "semantic_counts": {
+      "features": 6931,
+      "toc_entries": 140,
+      "reconciliations": 140,
+      "regimes": 2,
+      "decisions": 6931,
+      "roots": 12,
+      "edges": 234,
+      "direct_membership": 4571,
+      "unassigned_content": 2,
+      "ambiguities": 17,
+      "warnings": 148
+    },
+    "producer_comparison_sha256": "33574f6b15dc128a7bf58d6e2ab1a35c867ce1df493fe317a46bed1b8e8bf364"
+  },
+  "correspondence_report": {
+    "baseline_candidate_id": "exv1-2ea82d10c3459d4a4249b875c0ec1cbe594bc81a1c1b541f2fe85554b6854b28",
+    "new_candidate_id": "exv1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "allowed_difference_categories": [
+      "identity_and_schema",
+      "semantic_sections_and_membership",
+      "page_label_resolution_and_observations",
+      "target_aliases",
+      "semantic_support_and_completion"
+    ],
+    "undeclared_difference_count": 0,
+    "status": "equivalent_with_declared_semantic_extensions"
+  },
+  "cross_references": []
+}
