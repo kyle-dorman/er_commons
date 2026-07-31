@@ -12,10 +12,12 @@ provenance, and candidate correspondence. Independent maintainability and
 refactor-safety reviews passed, as did the 40 focused tests and 372-test project
 suite. It published no candidate.
 
-Active implementation: none. [Task
-03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md) remains
-provisional and inactive until revised from the accepted Task 03E.3 contract
-and explicitly activated.
+Active implementation: [Task
+03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md). By explicit user
+decision, its contract is active after revision from the accepted Task 03E.3
+outcome. The next action is to implement and validate the schema-major v2
+Appendix P semantic candidate, including the exact ten-page visual review
+sample, without activating Task 03E.5.
 
 Previously completed: [Task
 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
@@ -113,7 +115,8 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Tasks 03E.2d and 03E.3 are complete. No task is currently active.
+Tasks 03E.2d and 03E.3 are complete. Task 03E.4 is the only active
+implementation task.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -121,10 +124,10 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Revise [Task
-   03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md) against the
-   exact accepted Task 03E.3 outcome, and activate it only by explicit user
-   decision. Then proceed through [Task
+1. Execute active [Task
+   03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md), review its
+   semantic candidate and ten-page visual sample, and request user acceptance
+   before activating [Task
    03E.5](../tasks/sprint2/03e5_pilot_cross_references.md), [Task
    03F](../tasks/sprint2/03f_make_extraction_restartable.md), [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task

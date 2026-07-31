@@ -531,12 +531,12 @@ it; Task 03E.2a fixed its nested-regime exit defect; and Task 03E.2b accepted th
 human-owned implementation by exact post-03E.2a semantic equivalence. Task
 03E.2d published the complete human-owned Appendix P correction under a
 distinct bounded-acceptance record. Task 03E.3 is complete with a human-owned
-schema-major v2 contract and validator. Tasks 03E.4 through 03H
-remain provisional and
-must be revised from each accepted predecessor. The numbers
-below are routing labels, not a promise that the sprint will contain only these
-tasks. Split a stage further whenever its contract is too large or new evidence
-creates a distinct decision or validation boundary.
+schema-major v2 contract and validator. Task 03E.4 is active by explicit user
+decision after revision from that accepted outcome. Tasks 03E.5 through 03H
+remain provisional and must be revised from each accepted predecessor. The
+numbers below are routing labels, not a promise that the sprint will contain
+only these tasks. Split a stage further whenever its contract is too large or
+new evidence creates a distinct decision or validation boundary.
 
 1. **Task 02 — Freeze sources and provenance.** Inventory, acquire, checksum,
    validate, and manifest the complete Draft EIR main report, all official
@@ -630,8 +630,10 @@ creates a distinct decision or validation boundary.
    under a distinct `accepted_with_known_limitations` authorization without
    changing the historical rejection. Task 03E.3 has been revised against that
    exact handoff and is complete after its human-ownership rewrite. It has not
-   published a candidate.
-   Tasks 03E.4 through 03H remain provisional downstream contracts.
+   published a candidate. Task 03E.4 is active by explicit user decision to
+   materialize the schema-major v2 Appendix P semantic candidate and perform
+   the exact ten-page visual review. Tasks 03E.5 through 03H remain provisional
+   downstream contracts.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

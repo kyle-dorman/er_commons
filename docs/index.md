@@ -144,8 +144,12 @@ Task 03E.3 is complete after its human-ownership rewrite. Canonical-extraction
 schema major v2, exact bridge and preservation contracts, 222-page label
 outcomes, target-only aliases, and bounded-control propagation now have a
 responsibility-owned validator that passed independent maintainability and
-refactor-safety review. Tasks 03E.4 through 03H remain provisional downstream
-contracts.
+refactor-safety review. [Task
+03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md) is active by
+explicit user decision after revision from that accepted outcome. It will
+materialize the schema-major v2 Appendix P semantic candidate and exact
+ten-page visual review sample. Tasks 03E.5 through 03H remain provisional
+downstream contracts.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions
@@ -164,7 +168,7 @@ authorization while preserving the historical rejection. Task 03E.3's
 behavioral MVP satisfies the exact handoff, including both semantic digest
 roles, the cross-producer bridge, mixed-content coverage, page-label provenance,
 and bounded-acceptance requirements. Its human-owned validator is complete and
-does not activate Task 03E.4.
+is the accepted validation authority for active Task 03E.4.
 
 ## Document roles
 
