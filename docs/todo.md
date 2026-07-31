@@ -16,8 +16,9 @@ in Task 03G rather than corpus-wide proof.
 
 Active implementation: none. [Task
 03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md) is next. It
-remains provisional and inactive until its contract is revised against the
-exact immutable Task 03E.2d handoff and the user explicitly activates it.
+has been revised against the exact immutable Task 03E.2d handoff and is ready
+for explicit activation. It remains inactive; this documentation readiness pass
+did not start the task.
 
 Previously completed: [Task
 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
@@ -115,9 +116,8 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Task 03E.2d is complete. Task 03E.3 is next and remains provisional and
-inactive until its contract is revised against that exact handoff and the user
-explicitly activates it.
+Task 03E.2d is complete. Task 03E.3 is next, revised, and ready for explicit
+activation. It remains inactive until the user activates it.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -125,22 +125,20 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Revise the provisional [Task
-   03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md) contract
-   against the accepted Task 03E.2d outcome, then activate it only with user
-   approval.
-2. After activation, execute [Task
+1. Explicitly activate and execute [Task
    03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md), [Task
    03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md), [Task
    03E.5](../tasks/sprint2/03e5_pilot_cross_references.md), [Task
    03F](../tasks/sprint2/03f_make_extraction_restartable.md), [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) one at a time.
-3. Independently review usability and freeze the accepted extraction release
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) one at a time,
+   revising and activating each later provisional contract only after the
+   preceding outcome is accepted.
+2. Independently review usability and freeze the accepted extraction release
    in Task 04.
-4. Continue through the separately identified curator-only response inventory,
+3. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
-5. Freeze human evaluation before BM25 retrieval, target generation, and judge
+4. Freeze human evaluation before BM25 retrieval, target generation, and judge
    calibration; finish with the primary test and oracle diagnostics.
 
 Sprint 2 scope, decisions, and provisional sequencing live in

@@ -24,15 +24,16 @@ ordering, warning, and lineage semantics remain unchanged.
 
 ## Inputs
 
-- accepted Task 03E.2d corrected hierarchy, raw correspondence, completion,
-  bounded-acceptance, and comparison artifacts
+- exact Task 03E.2d candidate, completion, two semantic digest forms, and
+  external bounded-acceptance authorization named by Task 03E.3
 - accepted Task 03E.3 specification, schemas, fixtures, identity, and
-  equivalence policy
+  equivalence policy, including its cross-producer bridge and mixed-content
+  projection rules
 - immutable Task 03D.1 candidate
   `exv1-2ea82d10c3459d4a4249b875c0ec1cbe594bc81a1c1b541f2fe85554b6854b28`
 - checksum-pinned source PDF and preserved producer artifacts
-- PDF outline and explicit `/PageLabels` metadata when actually present
-- visible TOC/index blocks, furniture labels, and exact canonical anchors
+- PDF outline and verified absence of explicit Appendix P `/PageLabels` metadata
+- visible TOC blocks, furniture labels, and exact canonical anchors
 - requested on-demand review-cache renders
 
 ## Outputs
@@ -78,12 +79,15 @@ Before implementation, write the short stage plan naming:
 1. module and public command boundaries;
 2. verified Task 03E.2d correction candidate/evidence and Task 03D.1 canonical
    inputs;
-3. candidate identity inputs and artifact paths;
-4. hierarchy, label, alias, correspondence, and warning construction stages;
-5. exact allowed-difference normalization;
-6. atomic publication, no-clobber reuse, and failed-attempt behavior;
-7. on-demand review pages and review-cache recipes; and
-8. acceptance and rollback/stop behavior.
+3. verified cross-producer pointer/key bridge and coverage rules;
+4. candidate identity inputs, both upstream semantic digest forms, bounded-
+   acceptance reference, and artifact paths;
+5. hierarchy, mixed-content membership, label, alias, correspondence, and
+   warning construction stages;
+6. exact allowed-difference normalization;
+7. atomic publication, no-clobber reuse, and failed-attempt behavior;
+8. on-demand review pages and review-cache recipes; and
+9. acceptance and rollback/stop behavior.
 
 ## Review pass
 
@@ -101,16 +105,22 @@ Before implementation, write the short stage plan naming:
 ## Validation
 
 - Verify all input completion records and inventories before construction.
+- Verify the exact Task 03E.2d semantic-file-set digest, aggregate-payload
+  digest, bounded-acceptance checksum, seven limitations, and authorized scope.
 - Require the accepted 222 pages, 3,706 blocks, 19 tables, 3,669 clean cells,
   19 families, 27 figures, 27 images, 146 assets, 34 table observations, and
-  3,798 raw mappings unless Task 03E's explicitly accepted item promotion
-  changes a declared record-family count.
+  3,798 raw mappings. New semantic or observation families may add their own
+  declared counts but may not change these Task 03D.1 core counts.
 - Compare ordered text, mixed content, tables/cells/CSVs/families,
   figures/images/assets, observations, valid geometry, rejected raw geometry,
   raw mappings, warnings, and errors under only the declared normalization.
 - Validate exact ordered inverse section membership and retained roots.
+- Validate the accepted Task 03E.3 cross-producer bridge and exact placement of
+  heading blocks, ordinary blocks, pre-root content, TOC rows, tables, figures,
+  and furniture without materialization-local inference.
 - Validate physical pages, explicit PDF labels, visible-label observations,
-  resolved labels, ambiguity, and aliases.
+  resolved labels for all 222 pages, ambiguity, and aliases; reject synthesized
+  library defaults as source evidence.
 - Verify every TOC-derived alias points to its reconciled body target and no
   visible TOC row becomes a semantic section start or alias target.
 - Independently rebuild fresh staging and require byte-identical
