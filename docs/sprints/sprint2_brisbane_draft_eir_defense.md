@@ -525,8 +525,10 @@ model drafts, reviewed evidence summary, or reviewed reference defense.
 
 Sprint 2 is current. Task 03E is completed and rejected as the sole hierarchy
 policy. Task 03E.0 completed the behavior-preserving maintainability rewrite
-of its evaluator. Tasks 03E.1 through 03H are provisional and must be revised
-from each accepted predecessor. The numbers
+of its evaluator. Task 03E.1 completed the deterministic correction contract,
+and Task 03E.2 is active after revision against that accepted outcome. Tasks
+03E.3 through 03H remain provisional and must be revised from each accepted
+predecessor. The numbers
 below are routing labels, not a promise that the sprint will contain only these
 tasks. Split a stage further whenever its contract is too large or new evidence
 creates a distinct decision or validation boundary.
@@ -596,15 +598,15 @@ creates a distinct decision or validation boundary.
    implementation and passed a record-level equivalence gate with zero
    mismatches. Task 03E evaluated the maintained hierarchy, passed producer
    preservation and repeatability, and rejected the defaults as the sole
-   project policy. Tasks 03E.1 and 03E.2 are the authorized provisional
-   deterministic fallback sequence; Tasks 03E.3 through 03H are renumbered
-   downstream contracts. Task 03E.0 then replaced the evaluator with a
+   project policy. Task 03E.0 then replaced the evaluator with a
    human-owned implementation and exactly reproduced both frozen 159-artifact
    comparisons. Task 03E.1 completed the deterministic correction contract,
    fixtures, and human-oriented cross-record validator after reference
    equivalence and maintainability review. The unanchored page-2000 heading
-   remains a non-blocking ambiguity by user decision. No correction
-   implementation task is active.
+   remains a non-blocking ambiguity by user decision. Task 03E.2 is active,
+   but implementation awaits the requested user check-in and no correction run
+   has occurred. Tasks 03E.3 through 03H remain provisional downstream
+   contracts.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

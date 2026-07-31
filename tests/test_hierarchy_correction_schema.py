@@ -99,6 +99,41 @@ def test_failed_attempt_definition_validates() -> None:
     ).validate(attempt)
 
 
+def test_picture_caption_disagreement_has_a_fatal_attempt_code() -> None:
+    """Keep source-relation disagreement fail-closed before publication."""
+    attempt = {
+        "candidate_id": VALID_BUNDLE["identity"]["candidate_id"],
+        "status": "failed",
+        "fatal_code": "PICTURE_CAPTION_RELATION_MISMATCH",
+        "detail": "picture caption page differs from owning picture page",
+    }
+    Draft202012Validator(
+        {
+            "$schema": RECORD_SCHEMA["$schema"],
+            "$ref": "#/$defs/attempt_record",
+            "$defs": RECORD_SCHEMA["$defs"],
+        }
+    ).validate(attempt)
+
+
+def test_level_gap_is_not_a_fatal_attempt_code() -> None:
+    """Keep accepted sparse depth out of the failed-attempt vocabulary."""
+    attempt = {
+        "candidate_id": VALID_BUNDLE["identity"]["candidate_id"],
+        "status": "failed",
+        "fatal_code": "HIERARCHY_LEVEL_SKIP",
+        "detail": "accepted sparse level",
+    }
+    with pytest.raises(ValidationError):
+        Draft202012Validator(
+            {
+                "$schema": RECORD_SCHEMA["$schema"],
+                "$ref": "#/$defs/attempt_record",
+                "$defs": RECORD_SCHEMA["$defs"],
+            }
+        ).validate(attempt)
+
+
 @pytest.mark.parametrize(
     "mutation",
     INVALID_SCHEMA_MUTATIONS,

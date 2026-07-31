@@ -13,6 +13,11 @@ from er_commons.document_extraction import (
     run_document_extraction,
     run_hierarchy_producer_evaluation,
 )
+from er_commons.hierarchy_correction import (
+    prepare_held_out_review,
+    run_hierarchy_correction,
+    seal_held_out_annotations,
+)
 from er_commons.settings import ProjectSettings, load_settings
 from er_commons.source_freeze import freeze_release, verify_release
 from er_commons.table_extraction import run_table_extraction
@@ -27,10 +32,12 @@ tables_app = typer.Typer(help="Extract native PDF tables into reviewable artifac
 canonicalize_app = typer.Typer(
     help="Materialize project-owned canonical records from verified producer artifacts."
 )
+hierarchy_app = typer.Typer(help="Build deterministic hierarchy-correction overlays.")
 app.add_typer(sources_app, name="sources")
 app.add_typer(documents_app, name="documents")
 app.add_typer(tables_app, name="tables")
 app.add_typer(canonicalize_app, name="canonicalize")
+app.add_typer(hierarchy_app, name="hierarchy")
 
 DEFAULT_BRISBANE_SOURCE_SPEC = Path("configs/brisbane_baylands_2025_deir_sources_v1.json")
 DEFAULT_DOCUMENT_REVIEW_SPEC = Path(
@@ -44,6 +51,9 @@ DEFAULT_HIERARCHY_EVALUATION_SPEC = Path(
 )
 DEFAULT_CANONICALIZATION_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json"
+)
+DEFAULT_HIERARCHY_CORRECTION_SPEC = Path(
+    "configs/brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1.json"
 )
 DEFAULT_TABLE_REVIEW_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03a13_unified_table_pipeline_v1.json"
@@ -199,6 +209,78 @@ def run_canonical_document(
         config,
     )
     typer.echo(f"canonicalization_completion={completion_path}")
+
+
+@hierarchy_app.command("correct-document")
+def correct_document_hierarchy(
+    config: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Reviewed deterministic hierarchy-correction configuration.",
+        ),
+    ] = DEFAULT_HIERARCHY_CORRECTION_SPEC,
+) -> None:
+    """Publish or exactly reuse one Task 03E.2 correction candidate."""
+    completion_path = run_hierarchy_correction(load_settings().data_root, config)
+    typer.echo(f"hierarchy_correction_completion={completion_path}")
+
+
+@hierarchy_app.command("prepare-heldout")
+def prepare_hierarchy_heldout(
+    config: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Reviewed deterministic hierarchy-correction configuration.",
+        ),
+    ] = DEFAULT_HIERARCHY_CORRECTION_SPEC,
+) -> None:
+    """Prepare source-only held-out renders and an incomplete annotation template."""
+    template_path = prepare_held_out_review(
+        data_root=load_settings().data_root,
+        config_path=config,
+    )
+    typer.echo(f"held_out_template={template_path}")
+
+
+@hierarchy_app.command("seal-heldout")
+def seal_hierarchy_heldout(
+    completed_template: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Completed source-only held-out annotation template.",
+        ),
+    ],
+    config: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Reviewed deterministic hierarchy-correction configuration.",
+        ),
+    ] = DEFAULT_HIERARCHY_CORRECTION_SPEC,
+) -> None:
+    """Validate and checksum-seal completed held-out annotations."""
+    seal = seal_held_out_annotations(
+        data_root=load_settings().data_root,
+        config_path=config,
+        completed_template_path=completed_template,
+    )
+    typer.echo(f"held_out_annotations={seal.annotations_path}")
+    typer.echo(f"held_out_seal={seal.seal_path}")
 
 
 @tables_app.command("run-review")

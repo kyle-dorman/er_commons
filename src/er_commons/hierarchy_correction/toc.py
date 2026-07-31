@@ -2,8 +2,20 @@
 
 from __future__ import annotations
 
+import re
+
 from er_commons.hierarchy_correction.bundle import CorrectionBundleView, JsonRecord
 from er_commons.hierarchy_correction.checks import require, require_sorted, require_unique
+from er_commons.hierarchy_correction.features import normalize_text
+from er_commons.hierarchy_correction.toc_text import (
+    split_heading_text as _split_body_title,
+)
+from er_commons.hierarchy_correction.toc_text import (
+    typographic_canonical as _typographic_canonical,
+)
+
+_NUMERIC_MARKER = re.compile(r"^[0-9]+(?:\.[0-9]+){0,5}$")
+_APPENDIX_MARKER = re.compile(r"^appendix [a-z]$")
 
 
 def toc_rows_are_ordered_and_owned(view: CorrectionBundleView) -> None:
@@ -17,6 +29,7 @@ def toc_rows_are_ordered_and_owned(view: CorrectionBundleView) -> None:
 
     known_features = set(view.features_by_key)
     for entry in view.toc_entries:
+        _validate_normalized_numeric_marker(entry)
         source_keys = set(entry["source_item_keys"])
         require(source_keys <= known_features, f"unknown TOC source key: {entry['toc_entry_id']}")
         require(
@@ -32,6 +45,23 @@ def toc_rows_are_ordered_and_owned(view: CorrectionBundleView) -> None:
         if feature["toc_region"] and feature["raw_role"] != "section_header"
     }
     require(expected_items <= represented_items, "TOC region item lacks row or diagnostic")
+
+
+def _validate_normalized_numeric_marker(entry: JsonRecord) -> None:
+    """Require numeric row markers to retain a token without terminal punctuation."""
+    title_with = entry["title_with_marker_normalized"]
+    title_without = entry["title_without_marker_normalized"]
+    if title_with == title_without:
+        return
+    first, separator, remainder = title_with.partition(" ")
+    normalized = first.removesuffix(".")
+    if not separator or not _NUMERIC_MARKER.fullmatch(normalized):
+        return
+    require(remainder == title_without, f"numeric TOC title differs: {entry['toc_entry_id']}")
+    require(
+        entry["numbering_token"] == normalized,
+        f"numeric TOC token retains terminal punctuation: {entry['toc_entry_id']}",
+    )
 
 
 def toc_reconciliations_are_complete(view: CorrectionBundleView) -> None:
@@ -60,6 +90,7 @@ def toc_reconciliations_are_complete(view: CorrectionBundleView) -> None:
             f"reconciliation candidate is not body content: {toc_id}",
         )
         _validate_state_cardinality(reconciliation)
+        _validate_match_basis(view, reconciliation)
 
 
 def _unparseable_toc_item_keys(view: CorrectionBundleView) -> set[str]:
@@ -73,7 +104,11 @@ def _unparseable_toc_item_keys(view: CorrectionBundleView) -> set[str]:
 
 def _is_body_target(view: CorrectionBundleView, key: str) -> bool:
     feature = view.features_by_key[key]
-    return feature["content_layer"] == "body" and not feature["toc_region"]
+    return (
+        feature["content_layer"] == "body"
+        and not feature["toc_region"]
+        and not feature["raw_parent_ref"].startswith("#/pictures/")
+    )
 
 
 def _validate_state_cardinality(reconciliation: JsonRecord) -> None:
@@ -92,3 +127,105 @@ def _validate_state_cardinality(reconciliation: JsonRecord) -> None:
         require(len(candidates) > 1, "ambiguous reconciliation cardinality differs")
     elif state != "exact":
         require(len(candidates) == 1, "conflict reconciliation cardinality differs")
+
+
+def _validate_match_basis(view: CorrectionBundleView, reconciliation: JsonRecord) -> None:
+    """Recompute each exact tier's evidence boundary independently."""
+    basis = reconciliation["match_basis"]
+    evidence = reconciliation["target_evidence_keys"]
+    target = reconciliation["target_key"]
+    _validate_native_pdf_evidence(view, reconciliation)
+    if reconciliation["state"] == "missing":
+        require(basis == "none", "non-exact reconciliation has match basis")
+        require(not evidence, "non-exact reconciliation has target evidence")
+        return
+    if reconciliation["state"] != "exact":
+        require(basis != "none", "conflict reconciliation lacks attempted match basis")
+        require(
+            set(reconciliation["candidate_keys"]) <= set(evidence),
+            "conflict candidate evidence differs",
+        )
+        require(
+            set(evidence) <= set(view.features_by_key),
+            "unknown reconciliation target evidence",
+        )
+        return
+    require(
+        target is not None and evidence[0] == target, "target evidence does not start at target"
+    )
+    require(
+        set(evidence) <= set(view.features_by_key),
+        "unknown reconciliation target evidence",
+    )
+    entry = view.toc_entries_by_id[reconciliation["toc_entry_id"]]
+    target_feature = view.features_by_key[target]
+    marker, title = _split_body_title(target_feature["text"])
+    expected_marker = entry["numbering_token"]
+    marker_matches = expected_marker is None or marker.casefold() == expected_marker.casefold()
+    strict = title == entry["title_without_marker_normalized"] and marker_matches
+    canonical = (
+        _typographic_canonical(title)
+        == _typographic_canonical(entry["title_without_marker_normalized"])
+        and marker_matches
+    )
+    if basis == "strict_exact":
+        require(strict and evidence == [target], "strict TOC match evidence differs")
+    elif basis == "typographic_canonical":
+        require(not strict and canonical and evidence == [target], "canonical TOC match differs")
+    elif basis == "composite_appendix":
+        require(
+            isinstance(expected_marker, str)
+            and _APPENDIX_MARKER.fullmatch(normalize_text(expected_marker)) is not None
+            and target_feature["raw_role"] == "section_header"
+            and normalize_text(target_feature["text"]) == normalize_text(expected_marker)
+            and 1 <= len(evidence) <= 2,
+            "composite Appendix evidence differs",
+        )
+    elif basis == "multi_item_heading":
+        require(len(evidence) == 2, "multi-item TOC evidence cardinality differs")
+        second = view.features_by_key[evidence[1]]
+        source_marker = view.features_by_key[entry["source_item_keys"][0]]
+        require(
+            target_feature["raw_role"] in {"text", "section_header"}
+            and target_feature["physical_page"] == second["physical_page"]
+            and target_feature["reading_order_index"] + 1 == second["reading_order_index"]
+            and normalize_text(target_feature["text"]) == normalize_text(source_marker["text"])
+            and _typographic_canonical(second["text"])
+            == _typographic_canonical(entry["title_without_marker_normalized"]),
+            "multi-item TOC evidence differs",
+        )
+    elif basis == "native_pdf_bbox_exact":
+        require(evidence == [target], "native-PDF TOC evidence keys differ")
+    else:
+        require(False, f"unknown exact TOC match basis: {basis}")
+
+
+def _validate_native_pdf_evidence(view: CorrectionBundleView, reconciliation: JsonRecord) -> None:
+    """Independently enforce the narrow bbox-exact tail-artifact record."""
+    basis = reconciliation["match_basis"]
+    native = reconciliation["native_pdf_evidence"]
+    if basis != "native_pdf_bbox_exact":
+        require(native is None, "non-native TOC match has native-PDF evidence")
+        return
+    require(native is not None, "native TOC match lacks native-PDF evidence")
+    candidates = reconciliation["candidate_keys"]
+    require(len(candidates) == 1, "native TOC match candidate is not unique")
+    candidate = view.features_by_key[candidates[0]]
+    entry = view.toc_entries_by_id[reconciliation["toc_entry_id"]]
+    expected = entry["title_with_marker_normalized"]
+    candidate_text = normalize_text(candidate["text"])
+    marker, _title = _split_body_title(candidate["text"])
+    expected_marker = entry["numbering_token"]
+    require(
+        candidate["raw_role"] == "section_header"
+        and (expected_marker is None or marker.casefold() == expected_marker.casefold())
+        and candidate_text.startswith(expected)
+        and re.fullmatch(r" [a-z]", candidate_text.removeprefix(expected)) is not None,
+        "native TOC candidate is not a narrow tail artifact",
+    )
+    require(
+        native["physical_page"] == candidate["physical_page"]
+        and native["bbox"] == candidate["bbox"]
+        and native["normalized_text"] == expected,
+        "native TOC bbox evidence differs",
+    )

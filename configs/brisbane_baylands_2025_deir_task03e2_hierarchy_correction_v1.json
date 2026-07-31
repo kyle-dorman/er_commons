@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "pipeline_id": "brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "source": {
+    "source_id": "deir_appendix_p",
+    "official_title": "Appendix P - Water Supply Assessment (PDF)",
+    "expected_sha256": "2dfceac46931a946bc343d52b09104b7b58ed8831bc4f49a03f0b8655e4e6ea1",
+    "expected_byte_size": 6528561,
+    "expected_pdf_page_count": 222
+  },
+  "producer_artifact_relative_root": "pipelines/brisbane_baylands/task_03c_single_document",
+  "producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03e2_hierarchy_correction",
+  "review_artifact_relative_root": "pipelines/brisbane_baylands/task_03e2_hierarchy_review",
+  "policy_relative_path": "docs/specs/hierarchy_correction_v1.md",
+  "schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json"
+}

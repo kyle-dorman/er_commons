@@ -30,7 +30,7 @@ The input inventory is limited to these persisted signals:
 | --- | --- | --- |
 | `stable_item_key`, text, original text | Docling text item | fatal if key inputs missing |
 | raw role and raw level | Docling `label` and `level` | level is `null` when absent |
-| reading-order index and raw parent ref | body/furniture traversal | fatal if order is invalid |
+| reading-order index and raw parent ref | complete Docling text inventory plus body/furniture traversal, retaining exact `#/pictures/<n>` ownership | fatal if order or parent ownership is invalid |
 | content layer and object role | Docling text item/tree | fatal if layer unknown |
 | source anchor | first Docling provenance, PDF points, bottom-left | `null` only for an explicitly unanchored non-body item |
 | page dimensions | `conversion_pages.json` | fatal if the anchored page is absent |
@@ -49,6 +49,19 @@ use six decimal places with round-half-even. Text comparison applies Unicode
 NFC, maps NBSP to ASCII space, trims, collapses ASCII whitespace, and case-folds.
 It does not remove punctuation, numbering, bullets, or diacritics. Raw `text`
 and `orig` are retained unchanged.
+
+Every provenance-bearing item in the producer `texts` collection emits one
+feature, including text owned by a picture that Task 03D suppresses as a
+duplicate canonical block. A picture-owned text item is an explicit picture
+caption only when all four producer observations agree: the owning picture's
+`captions` array contains the text `self_ref`, the text label is exactly
+`caption`, the text `parent` equals that picture's `self_ref`, and the first
+text and picture provenance entries name the same physical page. A missing,
+one-sided, multiply owned, cross-parent, or cross-page relation is fatal as
+`PICTURE_CAPTION_RELATION_MISMATCH`; extraction may not guess caption status or
+drop the text feature. Non-caption picture descendants retain their exact raw
+parent but are excluded by R01. Verified picture captions continue through the
+ordinary fallback as non-heading `content`.
 
 The body-heading numbering grammar is frozen and matched from the start of
 normalized text in this order:
@@ -108,7 +121,8 @@ input: it records the Python version, platform, `uv.lock` checksum, and resolved
 package versions. Candidate identity continues to bind the specified code,
 policy, configuration, schema, producer, and source digests; the environment
 record makes a later repeat failure diagnosable without adding a duplicate
-semantic identity surface.
+semantic identity surface. It is nevertheless a checksum-managed candidate
+record and must appear in `records/artifact_inventory.json`.
 
 All JSONL files are in increasing `reading_order_index` and then stable-key
 order; roots and edges are likewise ordered. Publication is atomic, no-clobber,
@@ -139,9 +153,10 @@ active region is `TOC_ROW_UNPARSEABLE`, not a nested region.
 Without a usable outline node, an embedded region is scanned forward. Its end
 is the start of the earliest later physical page satisfying both conditions:
 (a) its unique producer footer changes from a lower-case Roman token in the
-region to Arabic token `1`; and (b) before any later TOC leader or page token,
-the page contains a raw body heading that matches `article` or top-level
-`decimal` and is followed before the next heading by nonempty body content.
+region to Arabic token `1`; and (b) the page contains both a raw body heading
+that matches `article` or top-level `decimal` and nonempty non-heading body
+content. The reset heading and body content are independent page-level
+observations; intervening headings do not invalidate the endpoint.
 The region ends before the first body item on that page, so title and
 introductory material preceding the numbered heading are not excluded. If this
 transition is absent, the implementation must scan provisional rows and use
@@ -160,7 +175,7 @@ TOC token grammars are full-item matches and are distinct from body-prefix
 grammars:
 
 ```text
-row marker:  ^(?:(?:Article|ARTICLE) [0-9IVXLCDM]+\.?|[0-9]+(?:\.[0-9]+){0,5}|Appendix [A-Z])$
+row marker:  ^(?:(?:Article|ARTICLE) [0-9IVXLCDM]+\.?|[0-9]+(?:\.[0-9]+){0,5}\.?|Appendix [A-Z])$
 leader:      ^\.+$
 page token:  ^[A-Za-z]?[0-9]+(?:-[0-9]+)?$
 ```
@@ -168,8 +183,16 @@ page token:  ^[A-Za-z]?[0-9]+(?:-[0-9]+)?$
 Rows are assembled from consecutive region items with this finite-state parser:
 
 1. `start`: treat a row-marker token as a marker only when lookahead finds a
-   non-leader, non-page title item before the next marker; otherwise it is a
-   page token for the previous row. Then require one title item;
+   non-leader, non-page title item before the next marker or page token;
+   otherwise it is a terminal page token for the previous row. Numeric markers
+   may contain one optional terminal period; retain the normalized numbering
+   token without that terminal period. When PDF extraction splits that terminal
+   period into the immediately following full-item `.` token, it is reattached
+   only if both items are on the same page, consecutive in reading order, the
+   period begins no more than 3 PDF points after the marker, and their lower
+   bbox baselines differ by no more than 1 PDF point. Both raw items and their
+   text remain unchanged and are retained as row evidence. Then require one
+   title item;
 2. `title`: append consecutive non-token title items; a leader token, including
    a single period, enters `leader`;
 3. `leader`: consume one or more consecutive leader items, then require one page
@@ -180,6 +203,17 @@ Rows are assembled from consecutive region items with this finite-state parser:
    tokens, or an unexpected raw heading emits an ambiguity rather than splitting
    text heuristically.
 
+An end-of-region item sequence without a row marker, leader, or terminal page
+token is `TOC_ROW_UNPARSEABLE`; it is not emitted as a fabricated unmarked row.
+Within the primary TOC, a full-item `Appendix [A-Z]` section header starts an
+Appendix row. Consecutive same-page non-heading body items supply its title
+until the next Appendix marker or another section boundary, which permits
+Appendix D and E to remain individually accounted for without merging their
+descriptions.
+Because these rows are marker-bounded and intentionally lack printed-page
+leaders, a description ending in a year is not treated as an inseparable page
+token.
+
 Every row records all source item keys, anchors, normalized title with and
 without its marker, numbering token, depth evidence, printed-page token, and
 parser state. Depth evidence is,
@@ -188,10 +222,40 @@ one. The row itself always has corrected role `excluded`.
 
 The body candidate set contains items after the region through the end of the
 outline parent's subtree; without a usable outline parent it extends to document
-end. It may therefore cross nested local regimes. Candidate text is split with
-the body-prefix numbering grammar.
-Rows with a marker require exact marker equality and exact marker-stripped title
-equality; unmarked rows require exact marker-stripped title equality. Printed
+end. Picture-owned text is never a reconciliation target, including verified
+captions. The candidate set may otherwise cross nested local regimes. Candidate
+text is split with the body-prefix numbering grammar.
+Reconciliation applies these deterministic tiers in order and stops at the
+first tier with any candidate:
+
+1. strict exact marker and marker-stripped title equality;
+2. typographic canonical exact equality, folding only curly/straight
+   apostrophes, Unicode dash variants to ASCII hyphen, and whitespace around
+   hyphens, in addition to the base normalization. Its depth check uses an
+   outline depth only when the same approved canonical title has one unique
+   depth on the candidate's physical page;
+3. a composite Appendix match to one unique exact `Appendix [A-Z]` body
+   `section_header`, in monotonic target order, with an optional canonical-exact
+   description in the immediately following same-page non-heading body item as
+   corroboration; and
+4. a multi-item heading consisting of consecutive same-page body items whose
+   first item is the exact marker alone and whose second item is the exact or
+   typographic-canonical title alone. The marker item is the target and both
+   keys are evidence; and
+5. a native-PDF bbox-exact match for one unique body `section_header` whose
+   Docling text is the exact clean TOC heading followed by one whitespace-
+   separated orphaned ASCII letter. Independent pypdfium2 text extraction
+   bounded to that unchanged Docling bbox must equal the complete clean TOC
+   heading exactly. The marker remains exact. More than one eligible Docling
+   candidate, more than one exact same-page outline title, a longer suffix, or
+   any native-text difference rejects this tier. A unique exact same-page
+   outline title, when present, supplies the depth check against the clean
+   native title rather than the dirty Docling text.
+
+No tier uses edit distance, arbitrary punctuation removal, suffix stripping,
+feature-text rewriting, fuzzy matching,
+composite-Appendix guessing, or more than the declared two-item body heading.
+Rows with a marker otherwise require exact marker equality. Printed
 page compatibility uses a unique producer furniture observation matching
 `^Page (?P<label>[A-Za-z]?[0-9]+) of [0-9]+$`, or otherwise the unique
 standalone page-footer token matching
@@ -208,6 +272,17 @@ multiple candidates, `missing` for zero candidates, `page_conflict`,
 `level_conflict`, then `order_conflict`. An `exact` record contains exactly one
 candidate and that same non-null target; every other state has a null target.
 TOC absence is never negative evidence against a body item.
+Every reconciliation persists `match_basis` as `strict_exact`,
+`typographic_canonical`, `composite_appendix`, `multi_item_heading`,
+`native_pdf_bbox_exact`, or `none`,
+plus the candidate target keys and ordered `target_evidence_keys`. Exact
+multi-item evidence contains both consecutive body keys; composite Appendix
+evidence contains the marker key and the optional exact description key. The
+native tier additionally persists physical page, unchanged bbox, exact
+normalized native text, and the zero-or-one exact outline IDs as
+`native_pdf_evidence`; all other tiers persist that field as null.
+Conflict states retain their attempted basis and evidence; only `missing` uses
+`none` with empty evidence.
 
 ## Rule policy
 
@@ -219,11 +294,11 @@ ordered eligible list, selected rule, evidence, and terminal outcome.
 
 | ID | Eligibility and action |
 | --- | --- |
-| `R01_EXCLUDE_NON_BODY_OR_TOC` | Any item with `content_layer=furniture` or `toc_region=true` is never a boundary; set role `excluded`, including unparseable TOC items. |
+| `R01_EXCLUDE_NON_BODY_OR_TOC` | Any item with `content_layer=furniture`, `toc_region=true`, or `raw_parent_ref=#/pictures/<n>` without a verified raw `caption` role is never a boundary; set role `excluded`, including unparseable TOC items and every picture-owned non-caption text item. A verified picture-owned caption is ineligible for R01 and R02-R07 and reaches R08 as non-heading `content`. |
 | `R02_DEMOTE_BULLET_HEADING` | For a bullet-prefixed raw section header with no exact outline or TOC anchor, scan on the same page until the next raw heading at the same or shallower raw level or page end. If the segment contains at least one `list_item` whose left edge is at least 18 PDF points farther right, set role `content`; otherwise return terminal ambiguity. |
 | `R03_APPLY_EXACT_OUTLINE_ANCHOR` | A unique exact normalized outline title on the same physical page promotes or retains a body item as `heading`. Follow the unique parent chain to its topmost outline ancestor; this is the selected source root. Effective level is `min(6, raw_outline_depth - selected_source_root_depth + 1)`. A missing parent link, multiple matches, or non-unique parent chain is terminal ambiguity. |
 | `R04_APPLY_EXACT_TOC_ANCHOR` | A unique `exact` TOC reconciliation promotes or retains its body target as `heading` at reconciled depth, unless R03 already applied. |
-| `R05_APPLY_NUMBERING_REGIME` | A body raw heading matching a non-bullet grammar receives level `active_root_level + grammar_depth - 1`. Raw list items and bullet matches are ineligible. Upper-alpha and upper-Roman markers have grammar depth 3 only inside an article regime and are otherwise ineligible. Compare the proposed level with the proposed grammar level of the nearest earlier same-regime raw heading matching an eligible non-bullet grammar; a forward jump greater than one is terminal ambiguity. With no predecessor, only a root-level proposal is allowed. |
+| `R05_APPLY_NUMBERING_REGIME` | A body raw heading matching a non-bullet grammar receives an absolute level calibrated only from immutable raw evidence. Find the nearest earlier same-regime eligible numbered feature with a unique exact outline or exact TOC anchor; its offset is `supported_absolute_level - anchor_grammar_depth`, and the proposal is `offset + current_grammar_depth`. When no such immutable anchor exists, use `active_root_level + grammar_depth - 1`. No corrected decision can feed calibration. Raw list items and bullet matches are ineligible. Upper-alpha and upper-Roman markers have grammar depth 3 only inside an article regime and are otherwise ineligible. Compare the proposed level with the proposed grammar level of the nearest earlier same-regime raw heading matching an eligible non-bullet grammar; a forward jump greater than one is terminal ambiguity. With no predecessor, only a root-level proposal is allowed. |
 | `R06_FLAG_STRUCTURAL_AMBIGUITY` | A raw `text` item matching the structural-sibling pattern is recorded as `content` with terminal ambiguity; it is not automatically promoted because the persisted producer lacks a second independent style signal. Exact outline or TOC anchors in R03/R04 are the only plain-text promotion paths. |
 | `R07_TRANSFER_LOCAL_HEADING_LEVEL` | An unsupported heading is an unnumbered raw `section_header` whose raw level is outside 1–6 or jumps by more than one from the evidence-derived level of the nearest earlier supported heading. A supported heading has a unique exact outline anchor, exact TOC reconciliation, or eligible non-bullet numbering level. The maximal cluster is every unsupported unnumbered raw heading after that supported heading and before the next supported heading, with `max(left_pt)-min(left_pt) <= 1`. Require at least two cluster items. Transfer later supported level `L` only when the earlier supported level is `L-1` and every cluster item's left edge is within 1 point of the later supported heading. Otherwise return ambiguity. |
 | `R08_DEFAULT_PRESERVE` | Map a body raw `section_header` with integer level 1–6 to `heading`; map every other body raw role to `content`; map furniture to `excluded`. Heading keeps its raw level; `content` and `excluded` have null corrected level. A later hierarchy-continuity failure remains fatal. |
@@ -270,11 +345,16 @@ predicate.
 
 Only body items with corrected role `heading` are hierarchy nodes. Construction
 uses an open-heading stack per regime. Before a node at level `L`, pop while the
-top level is greater than or equal to `L`; the remaining top must be level
-`L-1` and becomes the parent. A node at the regime root level requires an empty
-stack and becomes a root. Any other empty stack or level gap is fatal. Then push
-the node. This prevents attachment across a closed subtree. A parent outside
-the regime, cycle, duplicate key, or non-monotone edge is fatal.
+top level is greater than or equal to `L`; the nearest remaining open heading
+has the greatest still-open lower level and becomes the parent even when one or
+more intermediate levels are absent. With no lower heading open, the node is a
+root at its preserved level. Then push the node. A sparse edge records
+`missing_intermediate_level_count = child_level - parent_level - 1`; a sparse
+root records `child_level - regime_root_level`. Each positive count emits a
+deterministic `RAW_HEADING_DEPTH_UNSUPPORTED` warning. Counts and gap sizes are
+review signals, never acceptance gates, and corrected/source levels are not
+renumbered to close a gap. A parent outside the regime, cycle, duplicate key,
+or non-monotone edge remains fatal.
 
 Direct membership is exact after a regime's first root: each `content` item
 belongs to the current stack top. Content before that first root is recorded
@@ -291,9 +371,10 @@ rule, ordered evidence, and source anchor. Warnings do not repair data.
 Fatal invariant codes are frozen as `INPUT_COMPLETION_INVALID`,
 `INPUT_INVENTORY_MISMATCH`, `SOURCE_CHECKSUM_MISMATCH`,
 `STABLE_KEY_COLLISION`, `UNKNOWN_REFERENCE`, `READING_ORDER_CYCLE`,
+`PICTURE_CAPTION_RELATION_MISMATCH`,
 `TOC_REGION_UNTERMINATED`, `DECISION_COVERAGE_MISMATCH`,
-`CORRECTED_LEVEL_INVALID`, `HIERARCHY_CYCLE`, `HIERARCHY_LEVEL_SKIP`,
-`HIERARCHY_ORDER_INVALID`, `MEMBERSHIP_NOT_INVERTIBLE`,
+`CORRECTED_LEVEL_INVALID`, `HIERARCHY_CYCLE`, `HIERARCHY_ORDER_INVALID`,
+`MEMBERSHIP_NOT_INVERTIBLE`,
 `PUBLICATION_COLLISION`, and `REPEAT_BUILD_MISMATCH`. Warning and ambiguity
 codes are `TOC_ROW_UNPARSEABLE`, `TOC_TARGET_MISSING`,
 `TOC_TARGET_AMBIGUOUS`, `TOC_PAGE_CONFLICT`, `TOC_LEVEL_CONFLICT`,
@@ -344,6 +425,19 @@ code and policy digests are frozen, the reviewer annotates source-only renders
 before seeing corrected output. Those annotations are checksum-sealed, then the
 overlay runs once. No post-review tuning is allowed.
 
+Preparation is a source-only command and may verify inputs, compute candidate
+identity, traverse provenance-bearing producer text, and render the source PDF;
+it may not invoke semantic correction, decisions, hierarchy construction, or a
+fresh overlay build. It renders the manifest pages in their exact declared
+order with pinned pypdfium2 at scale `2.0` (144 DPI), saves RGB PNG without an
+alpha channel as `source-p{physical_page:05d}.png`, and writes an adjacent
+`render_manifest.json`. The manifest records candidate/source/held-out
+identity, pypdfium2 and PNG-encoder versions, scale, DPI, pixel mode, alpha,
+format and encoding settings, and each page's ordered path, dimensions, and
+byte SHA-256. Preparation writes the incomplete, no-clobber
+`held_out_annotation_template.json`; null annotation choices make the template
+deliberately invalid as a final annotation bundle.
+
 `review.schema.json` freezes the annotation unit as every provenance-bearing
 text item on each selected page. `eligible_item_keys` is the complete
 reading-order list for that page and must equal the annotation-key set exactly.
@@ -355,6 +449,16 @@ comparison root as `held_out_annotations.json` before corrected output is
 shown. Its checksum is the immutable input to `held_out_evaluation.json`.
 Any source-ambiguous annotation makes evaluation inconclusive; otherwise any
 nonzero error count rejects and all-zero counts pass.
+
+Sealing accepts only that candidate's completed template. It validates the
+review schema, exact manifest page order, source/manifest/policy/code identity,
+every render path and byte checksum, and the complete stable-key list
+recomputed from the verified producer traversal in global reading order. It
+writes `held_out_annotations.json` and `held_out_annotations.seal.json` with
+no-clobber semantics. The compact seal records candidate identity, annotation
+file SHA-256, RFC 8785 annotation-bundle SHA-256, and the render-manifest path
+and SHA-256. The normal correction command must reverify this seal before
+reserving a workspace or starting any fresh semantic build.
 
 The checked-in comparator joins annotations to decisions by stable key.
 Corrected `heading` is the predicted boundary; its level comes from the
@@ -396,10 +500,16 @@ availability or a repeated ambiguity pattern affecting the strict navigation
 hierarchy and requiring a new policy.
 
 The overlay reports total and per-stage wall time, peak RSS, input bytes, and
-artifact bytes. “Cheap relative to producer rebuild” means that both median
-fresh overlay wall time over three runs and persisted overlay bytes are less
-than the corresponding frozen producer build wall time and inventoried
-producer bytes. Peak RSS is reported in bytes but is not compared or gated
+artifact bytes. Persisted overlay bytes are the exact byte-size sum of all 15
+final candidate files: the 13 inventory-managed payload files plus
+`artifact_inventory.json` and `completion_record.json`. The metric is solved as
+a deterministic fixed point because its own serialized value affects those
+bytes. The accompanying artifact-byte ratio is a six-decimal reporting value;
+the gate compares the exact integer candidate and producer byte counts, not the
+rounded ratio. “Cheap relative to producer rebuild” means that both median fresh
+overlay wall time over three runs and persisted overlay bytes are less than the
+corresponding frozen producer build wall time and inventoried producer bytes.
+Peak RSS is reported in bytes but is not compared or gated
 because the frozen producer completion did not seal a comparable observation.
 Failure of either comparable measure blocks acceptance pending an explicit
 follow-up decision; Task 03E.2 may not invent a different post-hoc threshold.

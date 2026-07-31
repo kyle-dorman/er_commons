@@ -101,11 +101,17 @@ def valid_deep_hierarchy_bundle() -> dict[str, Any]:
             {"parent_key": root_key, "child_key": level_two_key},
             {"parent_key": level_two_key, "child_key": level_three_key},
         ],
-        "direct_membership": [],
+        "direct_membership": [
+            {
+                "item_key": bundle["features"][5]["stable_item_key"],
+                "heading_key": level_three_key,
+            }
+        ],
         "unassigned_content": [],
     }
     bundle["summary"]["heading_count"] = 3
-    bundle["summary"]["content_count"] = 0
+    bundle["summary"]["content_count"] = 1
+    _refresh_rule_counts(bundle)
     return bundle
 
 
@@ -124,7 +130,24 @@ def valid_multiple_roots_bundle() -> dict[str, Any]:
         feature["stable_item_key"] for feature in bundle["features"][:3]
     ]
     bundle["hierarchy"]["edges"] = []
+    _refresh_rule_counts(bundle)
     return bundle
+
+
+def _refresh_rule_counts(bundle: dict[str, Any]) -> None:
+    """Refresh derived per-rule summary counts after a valid fixture edit."""
+    selected = {rule_id: 0 for rule_id in bundle["summary"]["selected_rule_counts"]}
+    eligible_not_selected = {
+        rule_id: 0 for rule_id in bundle["summary"]["eligible_not_selected_rule_counts"]
+    }
+    for decision in bundle["decisions"]:
+        selected_rule_id = decision["selected_rule_id"]
+        selected[selected_rule_id] += 1
+        for eligible_rule_id in decision["eligible_rule_ids"]:
+            if eligible_rule_id != selected_rule_id:
+                eligible_not_selected[eligible_rule_id] += 1
+    bundle["summary"]["selected_rule_counts"] = selected
+    bundle["summary"]["eligible_not_selected_rule_counts"] = eligible_not_selected
 
 
 def semantic_mutation_cases() -> list[tuple[str, dict[str, Any]]]:
@@ -149,6 +172,16 @@ def semantic_mutation_cases() -> list[tuple[str, dict[str, Any]]]:
     wrong_summary = copy.deepcopy(VALID_BUNDLE)
     wrong_summary["summary"]["heading_count"] = 99
     add("wrong_summary", wrong_summary)
+
+    wrong_selected_rule_counts = copy.deepcopy(VALID_BUNDLE)
+    wrong_selected_rule_counts["summary"]["selected_rule_counts"]["R08_DEFAULT_PRESERVE"] += 1
+    add("wrong_selected_rule_counts", wrong_selected_rule_counts)
+
+    wrong_eligible_not_selected_counts = copy.deepcopy(VALID_BUNDLE)
+    wrong_eligible_not_selected_counts["summary"]["eligible_not_selected_rule_counts"][
+        "R08_DEFAULT_PRESERVE"
+    ] -= 1
+    add("wrong_eligible_not_selected_counts", wrong_eligible_not_selected_counts)
 
     missing_toc = copy.deepcopy(VALID_BUNDLE)
     missing_toc["toc_entries"] = []
@@ -196,13 +229,19 @@ def semantic_mutation_cases() -> list[tuple[str, dict[str, Any]]]:
 
     wrong_r05_evidence = copy.deepcopy(VALID_BUNDLE)
     wrong_r05_evidence["decisions"][0]["selected_rule_id"] = "R05_APPLY_NUMBERING_REGIME"
-    wrong_r05_evidence["decisions"][0]["eligible_rule_ids"] = ["R05_APPLY_NUMBERING_REGIME"]
+    wrong_r05_evidence["decisions"][0]["eligible_rule_ids"] = [
+        "R05_APPLY_NUMBERING_REGIME",
+        "R08_DEFAULT_PRESERVE",
+    ]
     wrong_r05_evidence["decisions"][0]["evidence"]["numbering_kind"] = "article"
     add("wrong_r05_evidence", wrong_r05_evidence)
 
     wrong_r04_target = copy.deepcopy(VALID_BUNDLE)
     wrong_r04_target["decisions"][0]["selected_rule_id"] = "R04_APPLY_EXACT_TOC_ANCHOR"
-    wrong_r04_target["decisions"][0]["eligible_rule_ids"] = ["R04_APPLY_EXACT_TOC_ANCHOR"]
+    wrong_r04_target["decisions"][0]["eligible_rule_ids"] = [
+        "R04_APPLY_EXACT_TOC_ANCHOR",
+        "R08_DEFAULT_PRESERVE",
+    ]
     wrong_r04_target["decisions"][0]["evidence"]["toc_entry_id"] = "toc-ffffffffffffffff"
     add("wrong_r04_target", wrong_r04_target)
 
@@ -230,7 +269,10 @@ def semantic_mutation_cases() -> list[tuple[str, dict[str, Any]]]:
     toc_feature["outline_level"] = 1
     toc_decision = toc_item_escapes_r01["decisions"][3]
     toc_decision["selected_rule_id"] = "R03_APPLY_EXACT_OUTLINE_ANCHOR"
-    toc_decision["eligible_rule_ids"] = ["R03_APPLY_EXACT_OUTLINE_ANCHOR"]
+    toc_decision["eligible_rule_ids"] = [
+        "R03_APPLY_EXACT_OUTLINE_ANCHOR",
+        "R08_DEFAULT_PRESERVE",
+    ]
     toc_decision["corrected_role"] = "heading"
     toc_decision["corrected_level"] = 1
     toc_decision["evidence"]["outline_level"] = 1
@@ -242,6 +284,41 @@ def semantic_mutation_cases() -> list[tuple[str, dict[str, Any]]]:
     furniture_item_escapes_r01 = copy.deepcopy(VALID_BUNDLE)
     furniture_item_escapes_r01["features"][2]["content_layer"] = "furniture"
     add("furniture_item_escapes_r01", furniture_item_escapes_r01)
+
+    picture_descendant_escapes_r01 = copy.deepcopy(VALID_BUNDLE)
+    picture_decision = picture_descendant_escapes_r01["decisions"][4]
+    picture_decision["selected_rule_id"] = "R08_DEFAULT_PRESERVE"
+    picture_decision["eligible_rule_ids"] = ["R08_DEFAULT_PRESERVE"]
+    picture_decision["corrected_role"] = "content"
+    picture_decision["outcome"] = "unchanged"
+    add("picture_descendant_escapes_r01", picture_descendant_escapes_r01)
+
+    picture_caption_selects_r01 = copy.deepcopy(VALID_BUNDLE)
+    caption_decision = picture_caption_selects_r01["decisions"][5]
+    caption_decision["selected_rule_id"] = "R01_EXCLUDE_NON_BODY_OR_TOC"
+    caption_decision["eligible_rule_ids"] = [
+        "R01_EXCLUDE_NON_BODY_OR_TOC",
+        "R08_DEFAULT_PRESERVE",
+    ]
+    caption_decision["corrected_role"] = "excluded"
+    caption_decision["outcome"] = "applied"
+    add("picture_caption_selects_r01", picture_caption_selects_r01)
+
+    picture_caption_promoted = copy.deepcopy(VALID_BUNDLE)
+    caption_feature = picture_caption_promoted["features"][5]
+    caption_feature["outline_state"] = "unique_exact"
+    caption_feature["outline_level"] = 2
+    caption_decision = picture_caption_promoted["decisions"][5]
+    caption_decision["selected_rule_id"] = "R03_APPLY_EXACT_OUTLINE_ANCHOR"
+    caption_decision["eligible_rule_ids"] = [
+        "R03_APPLY_EXACT_OUTLINE_ANCHOR",
+        "R08_DEFAULT_PRESERVE",
+    ]
+    caption_decision["corrected_role"] = "heading"
+    caption_decision["corrected_level"] = 2
+    caption_decision["outcome"] = "applied"
+    caption_decision["evidence"]["outline_level"] = 2
+    add("picture_caption_promoted", picture_caption_promoted)
 
     overlapping_siblings = copy.deepcopy(VALID_BUNDLE)
     child = copy.deepcopy(overlapping_siblings["regimes"][0])

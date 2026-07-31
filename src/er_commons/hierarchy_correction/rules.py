@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from er_commons.hierarchy_correction.bundle import CorrectionBundleView, JsonRecord
 from er_commons.hierarchy_correction.checks import require
 from er_commons.hierarchy_correction.constants import ANCHOR_RULES
+from er_commons.hierarchy_correction.level_evidence import calibrated_numbering_levels
 
 
 @dataclass(frozen=True)
@@ -17,15 +18,22 @@ class RuleContext:
     view: CorrectionBundleView
     exact_toc_targets: frozenset[str]
     exact_reconciliations_by_toc: dict[str, JsonRecord]
+    numbering_levels_by_key: dict[str, int]
 
 
 RuleValidator = Callable[[JsonRecord, JsonRecord, RuleContext], None]
 
 
 def _validate_r01(feature: JsonRecord, decision: JsonRecord, _: RuleContext) -> None:
-    """R01 excludes furniture and visible-TOC source items."""
+    """R01 excludes furniture, TOC items, and non-caption picture text."""
     key = decision["stable_item_key"]
-    must_exclude = feature["content_layer"] == "furniture" or feature["toc_region"]
+    picture_owned = feature["raw_parent_ref"].startswith("#/pictures/")
+    picture_caption = picture_owned and feature["raw_role"] == "caption"
+    must_exclude = (
+        feature["content_layer"] == "furniture"
+        or feature["toc_region"]
+        or (picture_owned and not picture_caption)
+    )
     require(must_exclude, f"R01 selected for body item: {key}")
     require(decision["corrected_role"] == "excluded", f"R01 role differs: {key}")
 
@@ -83,8 +91,7 @@ def _validate_r05(feature: JsonRecord, decision: JsonRecord, context: RuleContex
         f"R05 depth differs: {key}",
     )
     require(decision["corrected_role"] == "heading", f"R05 role differs: {key}")
-    root_level = context.view.regimes_by_id[feature["regime_id"]]["root_level"]
-    expected_level = root_level + evidence["numbering_depth"] - 1
+    expected_level = context.numbering_levels_by_key[key]
     require(decision["corrected_level"] == expected_level, f"R05 level differs: {key}")
 
 
@@ -103,7 +110,15 @@ def _validate_r07(feature: JsonRecord, decision: JsonRecord, context: RuleContex
     transferred_level = decision["evidence"]["transferred_level"]
     _require_no_higher_anchor(feature, key, context)
     require(feature["raw_role"] == "section_header", f"R07 raw role differs: {key}")
-    require(transferred_level is not None, f"R07 transfer absent: {key}")
+    if transferred_level is None:
+        require(
+            decision["evidence"]["conflict_codes"] == ["LOCAL_LEVEL_TRANSFER_CONFLICT"],
+            f"R07 transfer conflict differs: {key}",
+        )
+        require(decision["outcome"] == "ambiguous", f"R07 conflict outcome differs: {key}")
+        require(decision["corrected_role"] == "content", f"R07 conflict role differs: {key}")
+        require(decision["corrected_level"] is None, f"R07 conflict level differs: {key}")
+        return
     require(decision["corrected_role"] == "heading", f"R07 role differs: {key}")
     require(decision["corrected_level"] == transferred_level, f"R07 level differs: {key}")
 
@@ -152,12 +167,30 @@ def selected_rules_follow_policy(view: CorrectionBundleView) -> None:
         view=view,
         exact_toc_targets=frozenset(item["target_key"] for item in exact_by_toc.values()),
         exact_reconciliations_by_toc=exact_by_toc,
+        numbering_levels_by_key=_calibrated_numbering_levels(view),
     )
     for decision in view.decisions:
         key = decision["stable_item_key"]
         feature = view.features_by_key[key]
         selected_rule = decision["selected_rule_id"]
         RULE_VALIDATORS[selected_rule](feature, decision, context)
+
+
+def _calibrated_numbering_levels(view: CorrectionBundleView) -> dict[str, int]:
+    """Derive R05 levels from the shared immutable level-evidence policy."""
+    exact_targets = {
+        item["target_key"]: (toc_id, view.toc_entries_by_id[toc_id]["depth"])
+        for toc_id, item in view.exact_reconciliations_by_toc.items()
+    }
+    article_regimes = {
+        item["regime_id"] for item in view.features if item["numbering_kind"] == "article"
+    }
+    return calibrated_numbering_levels(
+        view.features,
+        exact_targets,
+        view.regimes_by_id,
+        article_regimes,
+    )
 
 
 def exact_toc_targets_use_an_anchor_rule(view: CorrectionBundleView) -> None:

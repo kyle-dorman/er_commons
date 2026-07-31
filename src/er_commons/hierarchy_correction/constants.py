@@ -11,9 +11,10 @@ RULE_ORDER = (
     "R08_DEFAULT_PRESERVE",
 )
 
-REQUIRED_ARTIFACT_PATHS = {
+MANAGED_PAYLOAD_PATHS = (
     "records/identity.json",
     "records/input_inventory.json",
+    "records/environment.json",
     "artifacts/item_features.jsonl",
     "artifacts/visible_toc_entries.jsonl",
     "artifacts/toc_reconciliation.jsonl",
@@ -24,7 +25,30 @@ REQUIRED_ARTIFACT_PATHS = {
     "artifacts/warnings.jsonl",
     "records/summary.json",
     "records/metrics.json",
-}
+)
+
+REQUIRED_ARTIFACT_PATHS = frozenset(MANAGED_PAYLOAD_PATHS)
+
+FATAL_CODES = frozenset(
+    {
+        "INPUT_COMPLETION_INVALID",
+        "INPUT_INVENTORY_MISMATCH",
+        "SOURCE_CHECKSUM_MISMATCH",
+        "STABLE_KEY_COLLISION",
+        "UNKNOWN_REFERENCE",
+        "READING_ORDER_CYCLE",
+        "PICTURE_CAPTION_RELATION_MISMATCH",
+        "TOC_REGION_UNTERMINATED",
+        "DECISION_COVERAGE_MISMATCH",
+        "CORRECTED_LEVEL_INVALID",
+        "HIERARCHY_CYCLE",
+        "HIERARCHY_ORDER_INVALID",
+        "MEMBERSHIP_NOT_INVERTIBLE",
+        "PUBLICATION_COLLISION",
+        "QUALITY_GATE_REJECTED",
+        "REPEAT_BUILD_MISMATCH",
+    }
+)
 
 ANCHOR_RULES = {
     "R03_APPLY_EXACT_OUTLINE_ANCHOR",

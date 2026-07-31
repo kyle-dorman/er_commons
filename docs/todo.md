@@ -5,11 +5,14 @@
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
 Most recently completed: [Task
-03E.1](../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md). It
-froze the deterministic correction contract, executable schemas, fixtures,
-held-out review protocol, and human-oriented cross-record validator. The known
-unanchored page-2000 heading remains a non-blocking R06 `content` ambiguity by
-user decision; no correction implementation has run.
+03E.2b](../tasks/sprint2/03e2b_rewrite_hierarchy_correction.md). It replaced the
+03E.2/03E.2a machine-oriented MVP with responsibility-owned semantic,
+review, quality, and orchestration modules. The complete 6,931-item semantic
+payload is byte-identical to the frozen post-03E.2a reference, the offline
+candidate aggregate validates, all 326 repository tests pass, and the final
+human-maintainability review accepted the implementation. Tasks 03E.2 and
+03E.2a remain historical behavioral references rather than finished product
+code.
 
 Previously completed: [Task
 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
@@ -107,11 +110,9 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Current active task: **none**. [Task
-03E.1](../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md)
-completed the deterministic contract, fixtures, and human-oriented
-cross-record validator. The known unanchored page-2000 heading remains a
-non-blocking ambiguity by user decision; no correction implementation has run.
+No implementation task is active. Task 03E.3 remains provisional and inactive
+until its contract is revised against the accepted Task 03E.2b outcome and the
+user explicitly activates it.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -119,11 +120,11 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. After separate approval, revise and execute [Task
-   03E.2](../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md)
-   to implement and evaluate the completed deterministic, no-LLM correction
-   contract.
-2. If Task 03E.2 is accepted, revise and execute [Task
+1. Revise the provisional [Task
+   03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md) contract
+   against the accepted Task 03E.2b outcome, then activate it only with user
+   approval.
+2. After activation, execute [Task
    03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md), [Task
    03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md), [Task
    03E.5](../tasks/sprint2/03e5_pilot_cross_references.md), [Task

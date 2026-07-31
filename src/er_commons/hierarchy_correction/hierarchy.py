@@ -7,6 +7,7 @@ from dataclasses import dataclass
 
 from er_commons.hierarchy_correction.bundle import CorrectionBundleView
 from er_commons.hierarchy_correction.checks import require, require_unique
+from er_commons.hierarchy_correction.scope_lifecycle import NumberingScopeLifecycle
 
 
 @dataclass(frozen=True)
@@ -25,6 +26,7 @@ class ExpectedHierarchy:
     edges: tuple[tuple[str, str], ...]
     direct_membership: tuple[tuple[str, str], ...]
     unassigned_content: tuple[str, ...]
+    sparse_warnings: tuple[tuple[str, str], ...]
 
 
 def hierarchy_matches_decisions(view: CorrectionBundleView) -> None:
@@ -62,6 +64,15 @@ def hierarchy_matches_decisions(view: CorrectionBundleView) -> None:
     }
     represented_headings = set(roots) | {child for _, child in edges}
     require(represented_headings == heading_keys, "hierarchy heading coverage differs")
+    actual_sparse_warnings = tuple(
+        (item["stable_item_key"], item["detail"])
+        for item in view.bundle["warnings"]
+        if item["code"] == "RAW_HEADING_DEPTH_UNSUPPORTED"
+    )
+    require(
+        actual_sparse_warnings == expected.sparse_warnings,
+        "sparse hierarchy warnings differ",
+    )
 
 
 def derive_expected_hierarchy(view: CorrectionBundleView) -> ExpectedHierarchy:
@@ -70,16 +81,24 @@ def derive_expected_hierarchy(view: CorrectionBundleView) -> ExpectedHierarchy:
     edges: list[tuple[str, str]] = []
     membership: list[tuple[str, str]] = []
     unassigned: list[str] = []
+    sparse_warnings: list[tuple[str, str]] = []
     stacks: defaultdict[str, list[OpenHeading]] = defaultdict(list)
+    lifecycle = NumberingScopeLifecycle.from_regimes(view.regimes)
 
     for feature in view.features:
         key = feature["stable_item_key"]
+        for event in lifecycle.before_item(key):
+            stacks[event.enclosing_regime_id].clear()
         decision = view.decisions_by_key[key]
         stack = stacks[feature["regime_id"]]
         role = decision["corrected_role"]
 
         if role == "heading":
-            _append_heading(view, feature["regime_id"], key, decision["corrected_level"], stack)
+            warning = _append_heading(
+                view, feature["regime_id"], key, decision["corrected_level"], stack
+            )
+            if warning is not None:
+                sparse_warnings.append((key, warning))
             heading = stack[-1]
             if len(stack) == 1:
                 roots.append(heading.stable_item_key)
@@ -96,6 +115,7 @@ def derive_expected_hierarchy(view: CorrectionBundleView) -> ExpectedHierarchy:
         edges=tuple(edges),
         direct_membership=tuple(membership),
         unassigned_content=tuple(unassigned),
+        sparse_warnings=tuple(sparse_warnings),
     )
 
 
@@ -105,17 +125,28 @@ def _append_heading(
     key: str,
     level: int,
     stack: list[OpenHeading],
-) -> None:
-    """Close completed branches and append one continuity-checked heading."""
+) -> str | None:
+    """Close completed branches, attach to the nearest lower level, and warn on gaps."""
     while stack and stack[-1].level >= level:
         stack.pop()
 
     root_level = view.regimes_by_id[regime_id]["root_level"]
-    if level == root_level:
-        require(not stack, f"regime root has open parent: {key}")
+    warning: str | None = None
+    if not stack:
+        missing = level - root_level
+        if missing > 0:
+            warning = (
+                "sparse hierarchy root: "
+                f"regime_root_level={root_level}, child_level={level}, "
+                f"missing_intermediate_level_count = {missing}"
+            )
     else:
-        require(
-            bool(stack) and stack[-1].level == level - 1,
-            f"heading level skip: {key}",
-        )
+        missing = level - stack[-1].level - 1
+        if missing > 0:
+            warning = (
+                "sparse hierarchy edge: "
+                f"parent_level={stack[-1].level}, child_level={level}, "
+                f"missing_intermediate_level_count = {missing}"
+            )
     stack.append(OpenHeading(level=level, stable_item_key=key))
+    return warning

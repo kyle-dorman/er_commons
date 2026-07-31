@@ -6,7 +6,7 @@ import math
 
 from er_commons.hierarchy_correction.bundle import CorrectionBundleView, JsonRecord
 from er_commons.hierarchy_correction.checks import require, require_sorted, require_unique
-from er_commons.hierarchy_correction.constants import REQUIRED_ARTIFACT_PATHS
+from er_commons.hierarchy_correction.constants import MANAGED_PAYLOAD_PATHS, RULE_ORDER
 from er_commons.hierarchy_correction.digests import canonical_json_sha256
 
 
@@ -18,6 +18,23 @@ def diagnostics_and_summary_match_decisions(view: CorrectionBundleView) -> None:
     require(summary["candidate_id"] == identity["candidate_id"], "summary candidate differs")
     require(summary["feature_count"] == len(view.features), "summary feature count differs")
     require(summary["decision_count"] == len(view.decisions), "summary decision count differs")
+
+    selected_counts = {rule_id: 0 for rule_id in RULE_ORDER}
+    eligible_not_selected_counts = {rule_id: 0 for rule_id in RULE_ORDER}
+    for decision in view.decisions:
+        selected_rule_id = decision["selected_rule_id"]
+        selected_counts[selected_rule_id] += 1
+        for eligible_rule_id in decision["eligible_rule_ids"]:
+            if eligible_rule_id != selected_rule_id:
+                eligible_not_selected_counts[eligible_rule_id] += 1
+    require(
+        summary["selected_rule_counts"] == selected_counts,
+        "summary selected rule counts differ",
+    )
+    require(
+        summary["eligible_not_selected_rule_counts"] == eligible_not_selected_counts,
+        "summary eligible-not-selected rule counts differ",
+    )
 
     for role in ("heading", "content", "excluded"):
         actual_count = sum(item["corrected_role"] == role for item in view.decisions)
@@ -61,13 +78,14 @@ def metrics_are_internally_consistent(view: CorrectionBundleView) -> None:
         "wall-time ratio differs",
     )
     require(
-        math.isclose(
-            metrics["artifact_bytes_ratio"],
-            metrics["artifact_bytes"] / metrics["producer_bytes"],
-        ),
+        metrics["artifact_bytes_ratio"]
+        == round(metrics["artifact_bytes"] / metrics["producer_bytes"], 6),
         "artifact-byte ratio differs",
     )
-    expected_cheapness = metrics["wall_time_ratio"] < 1 and metrics["artifact_bytes_ratio"] < 1
+    expected_cheapness = (
+        metrics["median_fresh_wall_time_seconds"] < metrics["producer_build_wall_time_seconds"]
+        and metrics["artifact_bytes"] < metrics["producer_bytes"]
+    )
     require(
         metrics["cheap_relative_to_producer"] == expected_cheapness,
         "cheapness disposition differs",
@@ -87,7 +105,7 @@ def completion_seals_required_artifacts(view: CorrectionBundleView) -> None:
 
     paths = [item["path"] for item in inventory["files"]]
     require_unique(paths, "duplicate artifact inventory path")
-    require(set(paths) == REQUIRED_ARTIFACT_PATHS, "artifact inventory paths differ")
+    require(paths == list(MANAGED_PAYLOAD_PATHS), "artifact inventory paths differ")
     require(
         completion["artifact_inventory_sha256"] == canonical_json_sha256(inventory),
         "artifact inventory seal differs",

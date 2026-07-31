@@ -134,8 +134,23 @@ cross-record validator after a reference-equivalence and maintainability gate.
 The unanchored page-2000 heading remains a non-blocking ambiguity by user
 decision. [Task
 03E.2](../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md)
-remains provisional and inactive pending explicit approval; Tasks 03E.3 through
-03H are renumbered downstream contracts.
+completed implementation and evaluation, but its frozen quality gate rejected
+publication: four development fixtures failed and held-out review found two
+false table boundaries plus four wrong level/parent results. Outline,
+numbering, controls, preservation, repeatability, and resource gates passed.
+That candidate remains historically rejected; the task is closed as MVP
+reference evidence and was superseded for production ownership by Task 03E.2b.
+Tasks 03E.3 through 03H remain provisional downstream contracts.
+[Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
+user-authorized follow-up for the single material Appendix E defect. Its
+general nested-regime exit reset passed synthetic and real-source regressions
+without rewriting the rejected evaluation or activating Task 03E.3.
+[Task 03E.2b](../tasks/sprint2/03e2b_rewrite_hierarchy_correction.md) completed
+the human-ownership rewrite of the 03E.2/03E.2a MVP. Its responsibility-owned
+semantic, review, quality, and application modules reproduce the complete
+post-03E.2a semantic payload byte-for-byte and passed the explicit
+human-maintainability review. The MVP remains reference evidence, not the
+production implementation. Task 03E.3 remains provisional and inactive.
 
 ## Document roles
 

@@ -43,14 +43,33 @@ def decision_headers_and_evidence_are_consistent(view: CorrectionBundleView) -> 
             f"rule precedence differs: {key}",
         )
         require(
+            eligible_rules[-1] == "R08_DEFAULT_PRESERVE",
+            f"R08 eligibility absent: {key}",
+        )
+        require(
             decision["selected_rule_id"] == eligible_rules[0],
             f"selected rule differs: {key}",
         )
-        must_select_r01 = feature["content_layer"] == "furniture" or feature["toc_region"]
+        picture_owned = feature["raw_parent_ref"].startswith("#/pictures/")
+        picture_caption = picture_owned and feature["raw_role"] == "caption"
+        must_select_r01 = (
+            feature["content_layer"] == "furniture"
+            or feature["toc_region"]
+            or (picture_owned and not picture_caption)
+        )
         require(
             (decision["selected_rule_id"] == "R01_EXCLUDE_NON_BODY_OR_TOC") == must_select_r01,
             f"R01 eligibility differs: {key}",
         )
+        if picture_caption:
+            require(
+                decision["selected_rule_id"] == "R08_DEFAULT_PRESERVE",
+                f"picture caption rule differs: {key}",
+            )
+            require(
+                decision["corrected_role"] == "content",
+                f"picture caption role differs: {key}",
+            )
 
         evidence = decision["evidence"]
         require(

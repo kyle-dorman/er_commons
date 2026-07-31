@@ -142,3 +142,20 @@ recomputes both frozen 159-artifact Task 03E comparisons and requires exact
 report equality, plus focused failure-path tests. This evaluator does not
 correct headings or use a learned component; deterministic correction remains
 the separate Task 03E.1 and Task 03E.2 boundary.
+
+Task 03E.2b replaces the correction MVP with a human-owned functional core and
+application shell while preserving its complete semantic payload. The short
+semantic runner sequences source observation, visible-TOC analysis, numbering
+scope construction, ordered rule evaluation, and hierarchy projection. TOC
+region detection, row parsing, reconciliation, level evidence, rule context,
+individual rule applications, and scope lifecycle each have one named owner.
+
+Candidate orchestration separately owns preflight, three-process repeat
+evidence, candidate records, preservation, quality disposition, and atomic
+publication. Held-out preparation, annotation sealing, and evaluation are
+distinct modules so an exposed evaluation cannot be silently regenerated.
+Quality configuration, frozen-evidence verification, report disposition, and
+pass assembly are also separate; a rejected report set is retained as an
+explicit `QUALITY_GATE_REJECTED` attempt rather than failing through a
+pass-only validation model. The explicit code inventory binds all runtime
+modules into candidate identity and tests fail when a new module is omitted.
