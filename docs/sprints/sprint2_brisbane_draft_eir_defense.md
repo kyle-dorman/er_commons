@@ -529,10 +529,9 @@ of its evaluator. Task 03E.1 completed the deterministic correction contract;
 Task 03E.2 implemented the first full correction candidate attempt and rejected
 it; Task 03E.2a fixed its nested-regime exit defect; and Task 03E.2b accepted the
 human-owned implementation by exact post-03E.2a semantic equivalence. Task
-03E.2d is active by explicit user decision to accept the remaining known flaws
-for Appendix P and publish the full correction candidate under a distinct
-bounded-acceptance record. Tasks 03E.3 through 03H remain provisional and must
-be revised from each accepted predecessor. The numbers
+03E.2d published the complete human-owned Appendix P correction under a
+distinct bounded-acceptance record. Tasks 03E.3 through 03H remain provisional
+and must be revised from each accepted predecessor. The numbers
 below are routing labels, not a promise that the sprint will contain only these
 tasks. Split a stage further whenever its contract is too large or new evidence
 creates a distinct decision or validation boundary.
@@ -623,11 +622,12 @@ creates a distinct decision or validation boundary.
    evaluation. Task 03E.2b replaced the MVP with a human-owned implementation
    and reproduced the complete post-03E.2a semantic payload byte-for-byte. The
    unanchored page-2000 heading remains a non-blocking ambiguity by user
-   decision. Task 03E.2d is now active by explicit user approval to accept the
-   known remaining flaws for Appendix P, execute the full correction, and
-   publish the immutable candidate under a distinct
-   `accepted_with_known_limitations` authorization. Tasks 03E.3 through 03H
-   remain provisional downstream contracts.
+   decision. Task 03E.2d published the complete human-owned Appendix P
+   correction as candidate
+   `hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1`
+   under a distinct `accepted_with_known_limitations` authorization without
+   changing the historical rejection. Tasks 03E.3 through 03H remain
+   provisional downstream contracts.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

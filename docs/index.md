@@ -152,12 +152,13 @@ post-03E.2a semantic payload byte-for-byte and passed the explicit
 human-maintainability review. The MVP remains reference evidence, not the
 production implementation. [Task
 03E.2d](../tasks/sprint2/03e2d_accept_and_publish_hierarchy_correction.md) is
-active by explicit user decision. It accepts the known-flawed post-03E.2a
-semantics for the bounded Appendix P vertical slice and will publish the full
-human-owned correction candidate under a separate
-`accepted_with_known_limitations` authorization without changing the historical
-rejection. Task 03E.3 remains provisional and inactive pending the accepted
-03E.2d outcome.
+complete. It published the full human-owned Appendix P correction candidate
+`hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1`
+under a separate, candidate-bound `accepted_with_known_limitations`
+authorization while preserving the historical rejection. Task 03E.3 remains
+provisional and inactive, but is now the next task. Its contract must be
+revised against the exact Task 03E.2d handoff and explicitly activated before
+implementation.
 
 ## Document roles
 

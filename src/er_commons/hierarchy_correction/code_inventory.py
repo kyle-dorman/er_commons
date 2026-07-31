@@ -9,6 +9,7 @@ OWNED_CODE_RELATIVE_PATHS = (
     "src/er_commons/cli.py",
     "src/er_commons/hierarchy_correction/__init__.py",
     "src/er_commons/hierarchy_correction/application.py",
+    "src/er_commons/hierarchy_correction/bounded_acceptance.py",
     "src/er_commons/hierarchy_correction/bundle.py",
     "src/er_commons/hierarchy_correction/candidate_identity.py",
     "src/er_commons/hierarchy_correction/candidate_publication.py",

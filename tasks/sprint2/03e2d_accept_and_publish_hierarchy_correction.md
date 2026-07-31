@@ -1,6 +1,6 @@
 # Task 03E.2d: Accept and Publish the Appendix P Hierarchy Correction
 
-Status: **active as of 2026-07-31 by explicit user approval**.
+Status: **completed on 2026-07-31 with known limitations**.
 
 ## Abstract
 
@@ -228,3 +228,76 @@ The user explicitly accepted the known-flawed post-Task 03E.2a semantics on
 Task 03E.2d as the sole implementation task. Activation authorizes the bounded
 acceptance and task work; it does not claim that a candidate has already been
 published or that any validation has passed.
+
+## Outcome
+
+Task 03E.2d published and checksum-reused the complete human-owned Appendix P
+hierarchy-correction candidate under a separately verified
+`accepted_with_known_limitations` authorization. The original Task 03E.2
+development and held-out rejection, source annotations, failed attempt, and
+all producer, canonical, and rewrite evidence remain byte-identical to their
+pre-run fingerprints. The strict quality gate did not pass and was not
+relabeled.
+
+The immutable handoff is:
+
+```text
+candidate_id:
+  hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1
+completion:
+  pipelines/brisbane_baylands/task_03e2_hierarchy_correction/
+    hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1/
+    records/completion_record.json
+bounded acceptance:
+  pipelines/brisbane_baylands/task_03e2_hierarchy_review/
+    hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1/
+    bounded_acceptance.json
+bounded acceptance SHA-256:
+  5335737128fcbac2b1f2d41c42712af0534e2d15141ccf1150c37ffbf70f328c
+```
+
+The accepted payload SHA-256 is exactly
+`c3036210f5698a295ca799ee25d1850a080f0a5d211bef303b94900882cb4db8`.
+It contains 6,931 features and decisions, 140 visible-TOC entries and
+reconciliations, two regimes, 12 roots, 234 edges, 4,571 direct memberships,
+two unassigned content items, 17 ambiguities, and 148 warnings. Three fresh
+processes produced that same semantic digest. The completed 15-file candidate
+passed checksum inventory, JSON Schema, human-owned cross-record validation,
+independent hierarchy reconstruction, producer preservation, Task 03D.1
+preservation, and completion-last publication. A second normal CLI invocation
+returned the same completion path with unchanged candidate and authorization
+tree fingerprints.
+
+The checked-in policy freezes seven limitation categories, the exact semantic
+digest and counts, the historical rejection and annotation seal, the Task
+03E.2a reference, and Task 03E.2b equivalence evidence. Tests fail closed for
+changed candidate or semantic identity, status, scope, limitation inventory,
+evidence digest, no-clobber authorization, and publication failure; the
+simulated failed publication retained an attempt record without a completion
+record. The original strict-pass verifier and its focused regressions remain
+unchanged.
+
+The learning result is that evidence and disposition are separate records. A
+measured rejection can remain immutable while an authorized human accepts its
+exact behavior for a narrower use. This follows the accountability pattern in
+the [NIST Risk Management Framework authorize
+step](https://csrc.nist.gov/Projects/risk-management/about-rmf/authorize-step):
+retain the assessment package, make an explicit acceptance decision, and keep
+the decision's terms visible. Weakening the original thresholds would have
+erased which gate failed; the separate authorization instead content-binds the
+candidate identity, source and producer, correction policy and implementation,
+frozen reject evidence, exact semantic payload, limitation inventory, and
+Appendix P-only scope.
+
+Publication therefore is not silent promotion and did not create a fourth
+semantic representation. The existing correction-v1 payload remains the
+hierarchy-evidence layer; `bounded_acceptance.json` is external control
+evidence. Appendix P acceptance is not proof for all 35 model-corpus documents:
+Task 03G must test this hypothesis on heterogeneous document structures before
+Task 03H.
+
+`make fix`, `make check`, and `git diff --check` pass with clean Ruff, clean
+mypy, and 332 tests. Task 03E.3 now has exact immutable completion and
+authorization inputs. The user accepted this Task 03E.2d outcome and identified
+Task 03E.3 as next. Task 03E.3 remains provisional and inactive until its
+contract is revised against this handoff and explicitly activated.

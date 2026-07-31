@@ -8,6 +8,12 @@ import uuid
 from pathlib import Path
 from typing import Any
 
+from er_commons.hierarchy_correction.bounded_acceptance import (
+    VerifiedBoundedAcceptance,
+    VerifiedBoundedAcceptancePolicy,
+    assemble_bounded_acceptance,
+    verify_bounded_acceptance,
+)
 from er_commons.hierarchy_correction.candidate_identity import build_environment_record
 from er_commons.hierarchy_correction.candidate_publication import (
     CandidateWorkspace,
@@ -65,20 +71,13 @@ def run_hierarchy_correction(data_root: Path, config_path: Path) -> Path:
 
 
 def _reuse_candidate(run: CorrectionRunContext) -> Path:
-    """Verify the external quality pass and every completed candidate byte."""
-    quality_pass = verify_quality_gate_pass(
-        pass_path=run.quality_gate_pass_path,
-        config_path=run.quality_gate_config_path,
-        candidate_root=run.final_root,
-        candidate_id=run.candidate_id,
-        project_root=run.project_root,
-        data_root=run.data_root,
-    )
+    """Verify one external authorization and every completed candidate byte."""
+    authorization = _existing_authorization(run, run.final_root)
     return reuse_completed_candidate(
         run.final_root,
         run.candidate_id,
         run.schema_path,
-        quality_pass,
+        authorization,
     )
 
 
@@ -111,7 +110,7 @@ def _build_evaluate_and_publish(new: NewCandidateContext) -> Path:
         _write_staged_candidate(run, workspace, repeats)
 
         stage = RunStage.QUALITY_GATE
-        quality_pass = _quality_pass(
+        authorization = _publication_authorization(
             new,
             workspace,
             repeats,
@@ -119,7 +118,7 @@ def _build_evaluate_and_publish(new: NewCandidateContext) -> Path:
         )
 
         stage = RunStage.PUBLICATION
-        completion = publish_workspace(workspace, quality_pass)
+        completion = publish_workspace(workspace, authorization)
         LOGGER.info("Published hierarchy candidate %s", run.candidate_id)
         return completion
     except Exception as error:
@@ -185,6 +184,8 @@ def _quality_pass(
             project_root=run.project_root,
             data_root=run.data_root,
         )
+    if new.annotation_seal is None:
+        raise ValueError("strict quality evaluation requires candidate-local annotations")
     return produce_quality_gate_pass(
         data_root=run.data_root,
         project_root=run.project_root,
@@ -197,6 +198,67 @@ def _quality_pass(
         preservation_before=new.preservation_before,
         preservation_after=preservation_after,
     )
+
+
+def _publication_authorization(
+    new: NewCandidateContext,
+    workspace: CandidateWorkspace,
+    repeats: RepeatBuildResult,
+    preservation_after: tuple[ManagedArtifactSnapshot, ManagedArtifactSnapshot],
+) -> VerifiedQualityGatePass | VerifiedBoundedAcceptance:
+    """Prefer an existing strict pass; otherwise issue the bounded decision."""
+    run = new.run
+    if run.config.publication_authorization == "strict_quality_gate":
+        return _quality_pass(new, workspace, repeats, preservation_after)
+    policy = _bounded_policy(run)
+    if run.bounded_acceptance_path.exists():
+        return verify_bounded_acceptance(
+            path=run.bounded_acceptance_path,
+            policy=policy,
+            candidate_root=workspace.staging_root,
+            candidate_id=run.candidate_id,
+            data_root=run.data_root,
+        )
+    return assemble_bounded_acceptance(
+        path=run.bounded_acceptance_path,
+        policy=policy,
+        candidate_root=workspace.staging_root,
+        candidate_id=run.candidate_id,
+        data_root=run.data_root,
+    )
+
+
+def _existing_authorization(
+    run: CorrectionRunContext,
+    candidate_root: Path,
+) -> VerifiedQualityGatePass | VerifiedBoundedAcceptance:
+    """Verify exactly one already-issued strict or bounded authorization."""
+    if run.config.publication_authorization == "strict_quality_gate":
+        return verify_quality_gate_pass(
+            pass_path=run.quality_gate_pass_path,
+            config_path=run.quality_gate_config_path,
+            candidate_root=candidate_root,
+            candidate_id=run.candidate_id,
+            project_root=run.project_root,
+            data_root=run.data_root,
+        )
+    policy = _bounded_policy(run)
+    if run.bounded_acceptance_path.exists():
+        return verify_bounded_acceptance(
+            path=run.bounded_acceptance_path,
+            policy=policy,
+            candidate_root=candidate_root,
+            candidate_id=run.candidate_id,
+            data_root=run.data_root,
+        )
+    raise ValueError("completed candidate has no verified publication authorization")
+
+
+def _bounded_policy(run: CorrectionRunContext) -> VerifiedBoundedAcceptancePolicy:
+    """Return the verified bounded policy selected by checked configuration."""
+    if run.bounded_acceptance_policy is None:
+        raise ValueError("bounded publication selected without a verified policy")
+    return run.bounded_acceptance_policy
 
 
 def _retain_failure(

@@ -37,6 +37,7 @@ class HierarchyCorrectionConfig(StrictConfigModel):
     schema_version: Literal["1.0.0"]
     policy_version: Literal["1.0.0"]
     pipeline_id: Literal["brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1"]
+    publication_authorization: Literal["strict_quality_gate", "bounded_acceptance"]
     source_release_version: Literal["brisbane_baylands_2025_deir_sources_v1"]
     source_manifest_relative_path: Path
     source: CorrectionSource

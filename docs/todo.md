@@ -5,23 +5,19 @@
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
 Most recently completed: [Task
-03E.2b](../tasks/sprint2/03e2b_rewrite_hierarchy_correction.md). It replaced the
-03E.2/03E.2a machine-oriented MVP with responsibility-owned semantic,
-review, quality, and orchestration modules. The complete 6,931-item semantic
-payload is byte-identical to the frozen post-03E.2a reference, the offline
-candidate aggregate validates, all 326 repository tests pass, and the final
-human-maintainability review accepted the implementation. Tasks 03E.2 and
-03E.2a remain historical behavioral references rather than finished product
-code.
+03E.2d](../tasks/sprint2/03e2d_accept_and_publish_hierarchy_correction.md). It
+published the full 222-page human-owned correction candidate
+`hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1`.
+The complete payload is byte-identical to the frozen post-03E.2a semantics and
+is authorized by a separate, candidate-bound
+`accepted_with_known_limitations` record. The historical Task 03E.2 quality
+rejection remains unchanged, and this Appendix P decision is evidence to test
+in Task 03G rather than corpus-wide proof.
 
-Active: [Task
-03E.2d](../tasks/sprint2/03e2d_accept_and_publish_hierarchy_correction.md).
-By explicit user decision, it accepts the known-flawed post-03E.2a semantics
-for the bounded Appendix P vertical slice and will run the human-owned 03E.2b
-implementation over all 222 pages, publish a complete immutable correction
-candidate, and record `accepted_with_known_limitations` without rewriting the
-historical Task 03E.2 rejection. This acceptance is Appendix P evidence to test
-in Task 03G, not corpus-wide proof.
+Active implementation: none. [Task
+03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md) is next. It
+remains provisional and inactive until its contract is revised against the
+exact immutable Task 03E.2d handoff and the user explicitly activates it.
 
 Previously completed: [Task
 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
@@ -119,9 +115,8 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Task 03E.2d is the only active implementation task. Task 03E.3 remains
-provisional and inactive until 03E.2d publishes and verifies the accepted
-hierarchy candidate, its contract is revised against that outcome, and the user
+Task 03E.2d is complete. Task 03E.3 is next and remains provisional and
+inactive until its contract is revised against that exact handoff and the user
 explicitly activates it.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
@@ -130,25 +125,22 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Execute active [Task
-   03E.2d](../tasks/sprint2/03e2d_accept_and_publish_hierarchy_correction.md)
-   and review its published candidate and bounded-acceptance evidence.
-2. Revise the provisional [Task
+1. Revise the provisional [Task
    03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md) contract
    against the accepted Task 03E.2d outcome, then activate it only with user
    approval.
-3. After activation, execute [Task
+2. After activation, execute [Task
    03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md), [Task
    03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md), [Task
    03E.5](../tasks/sprint2/03e5_pilot_cross_references.md), [Task
    03F](../tasks/sprint2/03f_make_extraction_restartable.md), [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) one at a time.
-4. Independently review usability and freeze the accepted extraction release
+3. Independently review usability and freeze the accepted extraction release
    in Task 04.
-5. Continue through the separately identified curator-only response inventory,
+4. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
-6. Freeze human evaluation before BM25 retrieval, target generation, and judge
+5. Freeze human evaluation before BM25 retrieval, target generation, and judge
    calibration; finish with the primary test and oracle diagnostics.
 
 Sprint 2 scope, decisions, and provisional sequencing live in

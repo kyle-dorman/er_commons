@@ -10,3 +10,7 @@ work and task files for detailed execution context.
 - [003: Deterministic Docling hierarchy correction](003_deterministic_hierarchy_correction.md)
   — maintained-default rejection, immutable raw evidence, visible-TOC
   reconciliation, deterministic correction, and no-LLM runtime boundary.
+- [004: Accept the Appendix P hierarchy with known
+  limitations](004_accept_appendix_p_hierarchy_with_known_limitations.md) —
+  preserve the strict Task 03E.2 rejection while content-binding a separate,
+  Appendix P-only publication authorization and Task 03G hypothesis.

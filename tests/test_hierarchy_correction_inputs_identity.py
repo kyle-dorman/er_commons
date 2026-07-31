@@ -36,6 +36,7 @@ def _config(**updates: object) -> HierarchyCorrectionConfig:
         "schema_version": "1.0.0",
         "policy_version": "1.0.0",
         "pipeline_id": "brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1",
+        "publication_authorization": "bounded_acceptance",
         "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
         "source_manifest_relative_path": "release/records/source_manifest.json",
         "source": {

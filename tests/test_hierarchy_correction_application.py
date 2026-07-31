@@ -14,9 +14,11 @@ from typer.testing import CliRunner
 
 import er_commons.cli as cli_module
 import er_commons.hierarchy_correction.application as application
+import er_commons.hierarchy_correction.preflight as preflight
 import er_commons.hierarchy_correction.repeat_builds as repeat_builds
 import er_commons.hierarchy_correction.single_build as single_build
 from er_commons.cli import app
+from er_commons.hierarchy_correction.bounded_acceptance import VerifiedBoundedAcceptance
 from er_commons.hierarchy_correction.code_inventory import owned_code_paths
 from er_commons.hierarchy_correction.configuration import load_hierarchy_correction_config
 from er_commons.hierarchy_correction.failures import (
@@ -273,6 +275,7 @@ def _patch_application_dependencies(
     builds: tuple[dict[str, Any], dict[str, Any], dict[str, Any]],
 ) -> None:
     config, config_sha256 = load_hierarchy_correction_config(CONFIG_PATH)
+    strict_config = config.model_copy(update={"publication_authorization": "strict_quality_gate"})
     fixture = _fixture()
     inputs = SimpleNamespace(
         producer_run_root=tmp_path / "producer",
@@ -285,11 +288,14 @@ def _patch_application_dependencies(
     quality_config = SimpleNamespace(
         task03d1_reference=SimpleNamespace(extraction_id="fixture-reference")
     )
+    quality_gate_pass_path = tmp_path / "review" / candidate_id / "quality_gate_pass.json"
+    quality_gate_pass_path.parent.mkdir(parents=True, exist_ok=True)
+    quality_gate_pass_path.write_text("{}\n")
     run = SimpleNamespace(
         data_root=tmp_path,
         project_root=ROOT,
         config_path=CONFIG_PATH,
-        config=config,
+        config=strict_config,
         inputs=inputs,
         schema_path=ROOT / config.schema_relative_path,
         identity=fixture["identity"],
@@ -298,7 +304,7 @@ def _patch_application_dependencies(
         final_root=task_root / candidate_id,
         quality_gate_config_path=tmp_path / "quality-gate.json",
         quality_gate_config=quality_config,
-        quality_gate_pass_path=tmp_path / "review" / candidate_id / "quality_gate_pass.json",
+        quality_gate_pass_path=quality_gate_pass_path,
         producer_before=snapshot,
     )
     new_candidate = SimpleNamespace(
@@ -366,6 +372,63 @@ def test_application_publishes_after_repeat_gate_and_then_reuses(
     assert metrics["stage_wall_time_seconds"]["features"] == 1.1
     assert metrics["peak_rss_bytes"] == 1002
     assert not list((candidate_root.parent / "attempts").glob("*"))
+
+
+def test_strict_mode_is_independent_of_bounded_policy(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    builds = (_build_record(0), _build_record(1), _build_record(2))
+    _patch_application_dependencies(monkeypatch, tmp_path, builds)
+    run = application.prepare_run(tmp_path, CONFIG_PATH)
+    run.quality_gate_pass_path.unlink()
+    monkeypatch.setattr(
+        application,
+        "assemble_bounded_acceptance",
+        lambda **_kwargs: (_ for _ in ()).throw(AssertionError("bounded assembly called")),
+    )
+    monkeypatch.setattr(
+        application,
+        "verify_bounded_acceptance",
+        lambda **_kwargs: (_ for _ in ()).throw(AssertionError("bounded verifier called")),
+    )
+
+    completion = application.run_hierarchy_correction(tmp_path, CONFIG_PATH)
+    reused = application.run_hierarchy_correction(tmp_path, CONFIG_PATH)
+
+    assert completion == reused
+
+
+def test_strict_preflight_skips_bounded_policy_evidence(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config = load_hierarchy_correction_config(CONFIG_PATH)[0].model_copy(
+        update={"publication_authorization": "strict_quality_gate"}
+    )
+    inputs = SimpleNamespace(producer_run_root=tmp_path / "producer")
+    monkeypatch.setattr(preflight, "load_hierarchy_correction_config", lambda _path: (config, "a"))
+    monkeypatch.setattr(preflight, "load_hierarchy_correction_inputs", lambda *_args: inputs)
+    monkeypatch.setattr(preflight, "snapshot_verified_producer", lambda *_args: SimpleNamespace())
+    monkeypatch.setattr(
+        preflight,
+        "build_candidate_identity",
+        lambda **_kwargs: {"candidate_id": "hcorv1-" + "a" * 64},
+    )
+    monkeypatch.setattr(
+        preflight,
+        "load_quality_gate_config",
+        lambda _path: (SimpleNamespace(), "b"),
+    )
+    monkeypatch.setattr(
+        preflight,
+        "verify_bounded_acceptance_policy",
+        lambda *_args: (_ for _ in ()).throw(AssertionError("bounded preflight called")),
+    )
+
+    run = preflight.prepare_run(tmp_path, CONFIG_PATH)
+
+    assert run.bounded_acceptance_policy is None
 
 
 def test_application_requires_annotation_seal_before_any_semantic_build(
@@ -456,12 +519,52 @@ def test_post_completion_publish_failure_becomes_stable_failed_attempt(
     assert not list(attempts[0].parents[1].rglob("completion_record.json"))
 
 
+def test_bounded_authorization_publish_failure_preserves_attempt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    builds = (_build_record(0), _build_record(1), _build_record(2))
+    _patch_application_dependencies(monkeypatch, tmp_path, builds)
+    run = application.prepare_run(tmp_path, CONFIG_PATH)
+    run.quality_gate_pass_path.unlink()
+    run.config = load_hierarchy_correction_config(CONFIG_PATH)[0]
+    run.bounded_acceptance_policy = SimpleNamespace(status="verified")
+    run.bounded_acceptance_path = tmp_path / "review" / run.candidate_id / "bounded_acceptance.json"
+
+    def authorize(**kwargs: Any) -> VerifiedBoundedAcceptance:
+        candidate_root = kwargs["candidate_root"]
+        return VerifiedBoundedAcceptance(
+            path=run.bounded_acceptance_path,
+            candidate_id=run.candidate_id,
+            candidate_semantic_sha256=candidate_semantic_sha256(candidate_root),
+            frozen_semantic_sha256="f" * 64,
+        )
+
+    monkeypatch.setattr(application, "assemble_bounded_acceptance", authorize)
+    monkeypatch.setattr(
+        application,
+        "publish_workspace",
+        lambda _workspace, _authorization: (_ for _ in ()).throw(
+            ValueError("PUBLICATION_COLLISION: bounded fixture failure")
+        ),
+    )
+
+    with pytest.raises(ValueError, match="PUBLICATION_COLLISION"):
+        application.run_hierarchy_correction(tmp_path, CONFIG_PATH)
+
+    attempts = list(tmp_path.rglob("attempts/*/records/attempt_record.json"))
+    assert len(attempts) == 1
+    assert json.loads(attempts[0].read_text())["fatal_code"] == "PUBLICATION_COLLISION"
+    assert not list(attempts[0].parents[1].rglob("completion_record.json"))
+
+
 def test_quality_rejection_becomes_named_stable_attempt(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     builds = (_build_record(0), _build_record(1), _build_record(2))
     _patch_application_dependencies(monkeypatch, tmp_path, builds)
+    application.prepare_run(tmp_path, CONFIG_PATH).quality_gate_pass_path.unlink()
     monkeypatch.setattr(
         application,
         "produce_quality_gate_pass",

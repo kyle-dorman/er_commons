@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_id": "brisbane_baylands_2025_deir_task03e2d_bounded_acceptance_v1",
+  "status": "accepted_with_known_limitations",
+  "scope": {
+    "source_id": "deir_appendix_p",
+    "physical_page_count": 222,
+    "authorized_uses": [
+      "task_03e3_semantic_contract_input",
+      "task_03e4_semantic_materialization_input",
+      "task_03g_representative_pilot_hypothesis"
+    ],
+    "corpus_wide_acceptance": false
+  },
+  "limitations": [
+    "historical_development_and_held_out_quality_rejection",
+    "two_observed_false_table_boundaries",
+    "frozen_r04_r05_attribution_disagreements",
+    "existing_ssf_district_level_disagreement",
+    "page_2000_r06_content_ambiguity",
+    "remaining_payload_ambiguities_and_warnings",
+    "task_03e2a_has_no_new_held_out_evaluation"
+  ],
+  "expected_semantic_sha256": "c3036210f5698a295ca799ee25d1850a080f0a5d211bef303b94900882cb4db8",
+  "expected_counts": {
+    "features": 6931,
+    "toc_entries": 140,
+    "reconciliations": 140,
+    "regimes": 2,
+    "decisions": 6931,
+    "roots": 12,
+    "edges": 234,
+    "direct_membership": 4571,
+    "unassigned_content": 2,
+    "ambiguities": 17,
+    "warnings": 148
+  },
+  "evidence": {
+    "historical_held_out_seal": {
+      "path": "pipelines/brisbane_baylands/task_03e2_hierarchy_review/hcorv1-97ffded53a26803052be6a6b6451d2f38587a604923c41b6f2402185105c2c1a/held_out_annotations.seal.json",
+      "sha256": "ae69f47904ba0b270081f3502927f276e9138ba2b4927cffd103ae36b9b3ac15"
+    },
+    "historical_quality_report_manifest": {
+      "path": "pipelines/brisbane_baylands/task_03e2_hierarchy_review/hcorv1-97ffded53a26803052be6a6b6451d2f38587a604923c41b6f2402185105c2c1a/reports/quality_report_manifest.json",
+      "sha256": "e13dd0fc14a1f1f7586e6ce97d4f3122e684ffd209876b240d4bd61b4a7f561b"
+    },
+    "historical_failed_attempt": {
+      "path": "pipelines/brisbane_baylands/task_03e2_hierarchy_correction/attempts/hcorv1-97ffded53a26803052be6a6b6451d2f38587a604923c41b6f2402185105c2c1a.a98953dfcb8e40278e65d0bc7fa397f5/records/attempt_record.json",
+      "sha256": "973f82075b3e1655ca0f0ce77a798f6cd3946706510d3f2c50071e23329f5d68"
+    },
+    "post_03e2a_reference_manifest": {
+      "path": "pipelines/brisbane_baylands/task_03e2b_human_rewrite_review/mvp-hcorv1-6d526e412efda997604046caf686091d9bac1ae773951181724511da75984948/reference_manifest.json",
+      "sha256": "cb1cb89d3f59b9bbd52bf378ae428918223f4914eeda1768360d8bddf8a8adf2"
+    },
+    "post_03e2a_reference_semantic": {
+      "path": "pipelines/brisbane_baylands/task_03e2b_human_rewrite_review/mvp-hcorv1-6d526e412efda997604046caf686091d9bac1ae773951181724511da75984948/reference_semantic.json",
+      "sha256": "c3036210f5698a295ca799ee25d1850a080f0a5d211bef303b94900882cb4db8"
+    },
+    "task_03e2b_equivalence_report": {
+      "path": "pipelines/brisbane_baylands/task_03e2b_human_rewrite_review/cmpv1-81976bf341f4c6a2033f45a4ead1f6752db566df38d58ff0b4842e7ac0a27a93/equivalence_report.json",
+      "sha256": "ec393edde0c2593e5e7d30bfc55ee1647b60b8a434343772999d22b81009f175"
+    },
+    "task_03e2b_reference_semantic": {
+      "path": "pipelines/brisbane_baylands/task_03e2b_human_rewrite_review/cmpv1-81976bf341f4c6a2033f45a4ead1f6752db566df38d58ff0b4842e7ac0a27a93/reference_semantic.json",
+      "sha256": "c3036210f5698a295ca799ee25d1850a080f0a5d211bef303b94900882cb4db8"
+    },
+    "task_03e2b_rewritten_semantic": {
+      "path": "pipelines/brisbane_baylands/task_03e2b_human_rewrite_review/cmpv1-81976bf341f4c6a2033f45a4ead1f6752db566df38d58ff0b4842e7ac0a27a93/rewritten_semantic.json",
+      "sha256": "c3036210f5698a295ca799ee25d1850a080f0a5d211bef303b94900882cb4db8"
+    },
+    "task_03e2b_offline_candidate_report": {
+      "path": "pipelines/brisbane_baylands/task_03e2b_human_rewrite_review/cmpv1-81976bf341f4c6a2033f45a4ead1f6752db566df38d58ff0b4842e7ac0a27a93/offline_candidate_report.json",
+      "sha256": "ee1f41466c7f0a48d0adba7d5149e7713d822044742c04407ff106e6d58278c8"
+    }
+  }
+}

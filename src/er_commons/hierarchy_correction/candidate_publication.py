@@ -6,6 +6,7 @@ import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Protocol
 
 from er_commons.hierarchy_correction.candidate_records import (
     JSONL_PATHS,
@@ -24,6 +25,18 @@ from er_commons.hierarchy_correction.quality_gate import (
     VerifiedQualityGatePass,
     candidate_semantic_sha256,
 )
+
+
+class VerifiedPublicationAuthorization(Protocol):
+    """Common opaque binding exposed by strict and bounded verifiers."""
+
+    @property
+    def candidate_id(self) -> str:
+        """Return the exact candidate identity authorized for publication."""
+
+    @property
+    def candidate_semantic_sha256(self) -> str:
+        """Return the exact semantic-file digest authorized for publication."""
 
 
 @dataclass(frozen=True)
@@ -114,19 +127,21 @@ def retain_failed_attempt(
 
 def publish_workspace(
     workspace: CandidateWorkspace,
-    quality_gate_pass: VerifiedQualityGatePass,
+    authorization: VerifiedPublicationAuthorization,
 ) -> Path:
     """Publish only a completed staging tree with verified external acceptance."""
     completion = workspace.staging_root / "records/completion_record.json"
     if not completion.is_file():
         raise ValueError("candidate staging tree has no completion record")
     candidate_id = workspace.final_root.name
-    if quality_gate_pass.candidate_id != candidate_id:
-        raise ValueError("quality-gate pass candidate differs from publication")
-    if quality_gate_pass.candidate_semantic_sha256 != candidate_semantic_sha256(
-        workspace.staging_root
-    ):
-        raise ValueError("quality-gate semantic differs from publication")
+    if authorization.candidate_id != candidate_id:
+        if isinstance(authorization, VerifiedQualityGatePass):
+            raise ValueError("quality-gate pass candidate differs from publication")
+        raise ValueError("bounded acceptance candidate differs from publication")
+    if authorization.candidate_semantic_sha256 != candidate_semantic_sha256(workspace.staging_root):
+        if isinstance(authorization, VerifiedQualityGatePass):
+            raise ValueError("quality-gate semantic differs from publication")
+        raise ValueError("bounded acceptance semantic differs from publication")
     if workspace.final_root.exists():
         raise FileExistsError(f"candidate destination already exists: {workspace.final_root}")
     workspace.staging_root.rename(workspace.final_root)
@@ -196,13 +211,17 @@ def reuse_completed_candidate(
     root: Path,
     candidate_id: str,
     schema_path: Path,
-    quality_gate_pass: VerifiedQualityGatePass,
+    authorization: VerifiedPublicationAuthorization,
 ) -> Path:
     """Reuse only after candidate checksums and external acceptance verify."""
-    if quality_gate_pass.candidate_id != candidate_id:
-        raise ValueError("quality-gate pass candidate differs from reuse")
-    if quality_gate_pass.candidate_semantic_sha256 != candidate_semantic_sha256(root):
-        raise ValueError("quality-gate semantic differs from reuse")
+    if authorization.candidate_id != candidate_id:
+        if isinstance(authorization, VerifiedQualityGatePass):
+            raise ValueError("quality-gate pass candidate differs from reuse")
+        raise ValueError("bounded acceptance candidate differs from reuse")
+    if authorization.candidate_semantic_sha256 != candidate_semantic_sha256(root):
+        if isinstance(authorization, VerifiedQualityGatePass):
+            raise ValueError("quality-gate semantic differs from reuse")
+        raise ValueError("bounded acceptance semantic differs from reuse")
     return verify_completed_candidate(root, candidate_id, schema_path)
 
 
