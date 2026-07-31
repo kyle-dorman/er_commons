@@ -100,6 +100,13 @@ resolved-package evidence for diagnosis without creating a second semantic
 identity surface. Source-only held-out annotations and their evaluation remain
 external review evidence, not producer or canonical records.
 
+Task 03E.2d publishes under these existing roots rather than creating another
+hierarchy data layer. Its candidate-bound `bounded_acceptance.json` lives beside
+the external review evidence, binds the exact correction semantic digest and
+known limitation inventory, and authorizes publication without changing the
+historical Task 03E.2 reject reports. The completed candidate continues to use
+the existing correction v1 artifact layout and completion-last contract.
+
 ## Git policy
 
 Track in Git:

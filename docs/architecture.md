@@ -140,8 +140,10 @@ behavior. The accepted producer identity and bytes therefore remain unchanged
 when evaluator code changes. Acceptance is instead grounded in a test that
 recomputes both frozen 159-artifact Task 03E comparisons and requires exact
 report equality, plus focused failure-path tests. This evaluator does not
-correct headings or use a learned component; deterministic correction remains
-the separate Task 03E.1 and Task 03E.2 boundary.
+correct headings or use a learned component. Task 03E.1 owns correction policy,
+Task 03E.2 records the historical implementation and rejected evaluation, Task
+03E.2b owns the human implementation, and Task 03E.2d owns bounded acceptance
+and publication.
 
 Task 03E.2b replaces the correction MVP with a human-owned functional core and
 application shell while preserving its complete semantic payload. The short
@@ -159,3 +161,47 @@ pass assembly are also separate; a rejected report set is retained as an
 explicit `QUALITY_GATE_REJECTED` attempt rather than failing through a
 pass-only validation model. The explicit code inventory binds all runtime
 modules into candidate identity and tests fail when a new module is omitted.
+
+Task 03E.2d owns the separate policy decision and publication boundary for the
+complete Appendix P correction candidate. It retains the strict Task 03E.2
+quality rejection unchanged and adds a candidate-bound
+`accepted_with_known_limitations` authorization that names the accepted
+limitations and verifies the exact post-03E.2a semantic digest reproduced by
+Task 03E.2b. Publication may consume either a verified strict quality pass or
+this independently verified bounded authorization; neither path can impersonate
+the other. The correction payload remains the existing v1 hierarchy-evidence
+layer, not a new semantic schema or canonical representation.
+
+## Appendix P dataflow
+
+After the source freeze, the current design is a branch-and-join flow with
+three persisted representations of document content. Identities, inventories,
+completion records, acceptance evidence, and review reports are additional
+control artifacts rather than content representations.
+
+```text
+Task 02 sealed PDF and manifest
+  -> Task 03C.1 accepted baseline producer -> Task 03D.1 core canonical --+
+  -> Task 03E hierarchy-enabled producer -> Task 03E.2d correction -------+
+                                                                           |
+                                                    Task 03E.4 semantic canonical
+```
+
+The two producer candidates occupy the same parser-evidence layer: Task 03C.1
+is the accepted baseline for core content, and Task 03E changes only declared
+hierarchy surfaces under an independent preservation comparison. Producer
+evidence preserves parser-owned Docling output, clean table artifacts, figures,
+assets, routing, and lineage. The correction evidence is a replaceable sidecar
+over hierarchy-enabled producer item identities; it owns correction features,
+TOC reconciliation, rule decisions, corrected levels and roles, hierarchy,
+ambiguities, and warnings. The canonical representation is the project-owned
+consumer interface. Task 03D.1 is its core-only candidate, and Task 03E.4 will
+join it with the accepted correction evidence to issue the next candidate with
+semantic sections, page-label resolution, and aliases.
+
+Task 03E.3 is only the specification gate for that join and creates no data
+layer. Task 03E.4 should reference detailed Task 03E.2d evidence rather than
+copying it, extend existing canonical page and section concepts where possible,
+and persist only the semantic facts downstream consumers need. Cross-reference
+mentions remain a later enrichment because aliases describe possible targets,
+whereas mentions are source spans that point toward those targets.

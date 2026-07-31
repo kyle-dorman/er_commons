@@ -150,7 +150,14 @@ the human-ownership rewrite of the 03E.2/03E.2a MVP. Its responsibility-owned
 semantic, review, quality, and application modules reproduce the complete
 post-03E.2a semantic payload byte-for-byte and passed the explicit
 human-maintainability review. The MVP remains reference evidence, not the
-production implementation. Task 03E.3 remains provisional and inactive.
+production implementation. [Task
+03E.2d](../tasks/sprint2/03e2d_accept_and_publish_hierarchy_correction.md) is
+active by explicit user decision. It accepts the known-flawed post-03E.2a
+semantics for the bounded Appendix P vertical slice and will publish the full
+human-owned correction candidate under a separate
+`accepted_with_known_limitations` authorization without changing the historical
+rejection. Task 03E.3 remains provisional and inactive pending the accepted
+03E.2d outcome.
 
 ## Document roles
 

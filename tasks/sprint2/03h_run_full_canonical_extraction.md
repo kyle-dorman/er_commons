@@ -24,7 +24,8 @@ independently validated before benchmark use.
 - user-approved Task 03G configuration, corpus identity, and capacity settings
 - the sealed Task 02 manifest filtered to its 35 ordered, checksum-pinned
   `model_corpus` records
-- production commands and contracts accepted in Tasks 03C.1–03F
+- production commands and contracts accepted in Tasks 03C.1 and 03D.1, the
+  Task 03E.2d correction acceptance, and Tasks 03E.3–03F
 - accepted pilot evidence and `/Volumes/x10pro/er_commons` capacity
 
 ## Outputs
@@ -90,9 +91,9 @@ Write a short run plan immediately before execution. Confirm:
 8. Task 04 machine-record and review-cache handoff; and
 9. retention and isolation of failed or rejected versions.
 
-Do not change accepted parser, hierarchy, schema, or resolution policy during
-the run. A material new failure mode stops the candidate for an explicit Task
-03G or earlier-task revision.
+Do not change accepted parser, Task 03E.2d hierarchy, schema, or resolution
+policy during the run. A material new failure mode stops the candidate for an
+explicit Task 03G or owning earlier-task revision.
 
 ## Review pass
 

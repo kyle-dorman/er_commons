@@ -525,10 +525,14 @@ model drafts, reviewed evidence summary, or reviewed reference defense.
 
 Sprint 2 is current. Task 03E is completed and rejected as the sole hierarchy
 policy. Task 03E.0 completed the behavior-preserving maintainability rewrite
-of its evaluator. Task 03E.1 completed the deterministic correction contract,
-and Task 03E.2 is active after revision against that accepted outcome. Tasks
-03E.3 through 03H remain provisional and must be revised from each accepted
-predecessor. The numbers
+of its evaluator. Task 03E.1 completed the deterministic correction contract;
+Task 03E.2 implemented the first full correction candidate attempt and rejected
+it; Task 03E.2a fixed its nested-regime exit defect; and Task 03E.2b accepted the
+human-owned implementation by exact post-03E.2a semantic equivalence. Task
+03E.2d is active by explicit user decision to accept the remaining known flaws
+for Appendix P and publish the full correction candidate under a distinct
+bounded-acceptance record. Tasks 03E.3 through 03H remain provisional and must
+be revised from each accepted predecessor. The numbers
 below are routing labels, not a promise that the sprint will contain only these
 tasks. Split a stage further whenever its contract is too large or new evidence
 creates a distinct decision or validation boundary.
@@ -566,13 +570,22 @@ creates a distinct decision or validation boundary.
    - [Task 03E.2](../../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md):
      implement and evaluate the deterministic correction overlay without
      mutating or rerunning Docling;
+   - [Task 03E.2a](../../tasks/sprint2/03e2a_fix_nested_regime_exit.md):
+     fix the general nested-regime exit stack defect without rewriting the
+     exposed held-out evaluation;
+   - [Task 03E.2b](../../tasks/sprint2/03e2b_rewrite_hierarchy_correction.md):
+     replace the correction MVP with a human-owned implementation under exact
+     semantic equivalence;
+   - [Task 03E.2d](../../tasks/sprint2/03e2d_accept_and_publish_hierarchy_correction.md):
+     explicitly accept the known post-03E.2a limitations for Appendix P, run
+     the full human-owned correction, and publish its immutable candidate;
    - [Task 03E.3](../../tasks/sprint2/03e3_define_semantic_structure_contract.md):
      define semantic sections, ordered membership, printed-label observations
      and resolutions, aliases, evidence, ambiguity, and correspondence without
      producing a live candidate;
    - [Task 03E.4](../../tasks/sprint2/03e4_materialize_semantic_structure.md):
-     map the accepted corrected hierarchy into a new immutable Appendix P
-     canonical candidate with thin, deterministic glue;
+     map the Task 03E.2d-accepted corrected hierarchy into a new immutable
+     Appendix P canonical candidate with thin, deterministic glue;
    - [Task 03E.5](../../tasks/sprint2/03e5_pilot_cross_references.md):
      extract exact reference mentions and pilot within-document resolution,
      leaving other-document references for the corpus pass;
@@ -602,11 +615,19 @@ creates a distinct decision or validation boundary.
    human-owned implementation and exactly reproduced both frozen 159-artifact
    comparisons. Task 03E.1 completed the deterministic correction contract,
    fixtures, and human-oriented cross-record validator after reference
-   equivalence and maintainability review. The unanchored page-2000 heading
-   remains a non-blocking ambiguity by user decision. Task 03E.2 is active,
-   but implementation awaits the requested user check-in and no correction run
-   has occurred. Tasks 03E.3 through 03H remain provisional downstream
-   contracts.
+   equivalence and maintainability review. Task 03E.2 implemented the complete
+   correction and preserved its failed candidate after the frozen quality gate
+   rejected four development cases, two held-out false table boundaries, and
+   four held-out wrong level/parent results. Task 03E.2a then fixed the one
+   material Appendix E nested-regime exit defect without rerunning the held-out
+   evaluation. Task 03E.2b replaced the MVP with a human-owned implementation
+   and reproduced the complete post-03E.2a semantic payload byte-for-byte. The
+   unanchored page-2000 heading remains a non-blocking ambiguity by user
+   decision. Task 03E.2d is now active by explicit user approval to accept the
+   known remaining flaws for Appendix P, execute the full correction, and
+   publish the immutable candidate under a distinct
+   `accepted_with_known_limitations` authorization. Tasks 03E.3 through 03H
+   remain provisional downstream contracts.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

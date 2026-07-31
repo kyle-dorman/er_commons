@@ -6,13 +6,14 @@ outcome before activation.
 ## Abstract
 
 Implement the accepted semantic-structure contract as thin project-owned glue
-over the accepted Task 03E.2 corrected hierarchy. Publish a new immutable
+over the Task 03E.2d-accepted corrected hierarchy. Publish a new immutable
 Appendix P canonical candidate containing semantic sections,
 printed-page-label evidence and resolved values, deterministic target aliases,
 and exact correspondence to the Task 03D.1 core records.
 
-Visible TOCs and the PDF outline carry accepted Task 03E.2 reconciliation
-evidence and support validation and aliases. They do not authorize new
+Visible TOCs and the PDF outline carry Task 03E.2d-accepted reconciliation
+evidence and support validation and aliases. The accompanying bounded-
+acceptance record remains visible provenance. These inputs do not authorize new
 materialization-local hierarchy inference.
 
 ## Goal
@@ -23,8 +24,8 @@ ordering, warning, and lineage semantics remain unchanged.
 
 ## Inputs
 
-- accepted Task 03E.2 corrected hierarchy, raw correspondence, completion, and
-  comparison artifacts
+- accepted Task 03E.2d corrected hierarchy, raw correspondence, completion,
+  bounded-acceptance, and comparison artifacts
 - accepted Task 03E.3 specification, schemas, fixtures, identity, and
   equivalence policy
 - immutable Task 03D.1 candidate
@@ -40,8 +41,10 @@ ordering, warning, and lineage semantics remain unchanged.
 - a package-backed command and checked-in Appendix P configuration
 - a new immutable non-release canonical candidate under the existing canonical
   candidate lifecycle
-- semantic section, membership, hierarchy-evidence, page-label, and alias
-  outputs exactly as accepted in Task 03E.3
+- semantic section, membership, compact hierarchy-provenance references,
+  page-label, and alias outputs exactly as accepted in Task 03E.3; detailed
+  correction features, TOC reconciliation, regimes, decisions, ambiguities,
+  and warnings remain in Task 03E.2d evidence
 - old-to-new canonical correspondence and independent Task 03D.1 preservation
   report
 - manifest, inventory, summary, warnings/errors, and completion-last record
@@ -73,7 +76,8 @@ The outcome must explain:
 Before implementation, write the short stage plan naming:
 
 1. module and public command boundaries;
-2. verified Task 03E and Task 03D.1 inputs;
+2. verified Task 03E.2d correction candidate/evidence and Task 03D.1 canonical
+   inputs;
 3. candidate identity inputs and artifact paths;
 4. hierarchy, label, alias, correspondence, and warning construction stages;
 5. exact allowed-difference normalization;
@@ -84,7 +88,8 @@ Before implementation, write the short stage plan naming:
 ## Review pass
 
 - **Correction boundary:** hierarchy roles and levels come from the accepted
-  Task 03E.2 artifact; this task does not rerun or reinterpret correction rules.
+  Task 03E.2d artifact; this task does not rerun or reinterpret correction
+  rules or hide its accepted limitations.
 - **Preservation:** every undeclared Task 03D.1 value remains equivalent.
 - **Order and containment:** roots, semantic sections, pages, and mixed content
   have exact forward/inverse relationships.
@@ -125,8 +130,8 @@ git diff --check
 
 - The candidate is reproducible, schema-valid, checksum-verified, and
   completion-last published without changing completed inputs.
-- The accepted Task 03E.2 hierarchy is mapped without changing its correction
-  policy.
+- The Task 03E.2d-accepted hierarchy is mapped without changing its correction
+  policy or bounded-acceptance provenance.
 - Every undeclared Task 03D.1 semantic has exact verified correspondence.
 - Roots, sections, content membership, page labels, aliases, evidence, and
   ambiguity satisfy the Task 03E.3 contract.
@@ -137,7 +142,7 @@ git diff --check
 ## Non-goals
 
 - rerunning or retuning Docling
-- changing or bypassing accepted Task 03E.2 hierarchy correction
+- changing or bypassing Task 03E.2d-accepted hierarchy correction
 - cross-reference mentions, resolution candidates, or corpus graph edges
 - processing another complete document
 - corpus batching, retrieval, usability review, or LLM work

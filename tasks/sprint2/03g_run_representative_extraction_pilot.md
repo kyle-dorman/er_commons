@@ -22,14 +22,15 @@ rather than accumulating document-specific patches.
 
 ## Inputs
 
-- accepted Tasks 03A–03F
+- accepted Tasks 03A–03D.1, the Task 03E.2d correction candidate and bounded-
+  acceptance record, and accepted Tasks 03E.3–03F
 - the frozen corpus extraction identity and two-stage batch command
 - the sealed model-corpus source manifest
 - a reviewed pilot selection spanning structurally distinct reports and
   appendices, including a very large document and known source warnings
 - Task 03A parser observations, including known heading false-positive and
   false-negative controls
-- the accepted Task 03E.2 corrected-hierarchy evidence and Task 03E.3
+- the Task 03E.2d-accepted corrected-hierarchy evidence and Task 03E.3
   semantic-structure contract
 
 ## Outputs
@@ -70,8 +71,9 @@ The sample must cover, where available:
 
 The outcome must explain:
 
-- **Appendix P acceptance is necessary, not corpus-wide proof.** The accepted
-  Task 03E.2 result is a hypothesis to test against heterogeneous structure.
+- **Appendix P acceptance is necessary, not corpus-wide proof.** The bounded
+  Task 03E.2d acceptance is a hypothesis to test against heterogeneous
+  structure.
 - **Hierarchy and label failures have mechanisms.** Measure heading
   promotions/misses, incorrect nesting, table-of-contents rows promoted as
   starts, furniture promoted as body sections, label conflicts, and alias
@@ -106,11 +108,12 @@ Before running the pilot, freeze:
 10. the evidence needed to freeze Task 03H settings; and
 11. retention rules for rejected extraction versions and disposable cache.
 
-Systematic correction-policy failure returns to Task 03E.1, correction
-implementation failure to Task 03E.2, semantic-contract failure to Task 03E.3,
-materialization failure to Task 03E.4, reference-policy failure to Task 03E.5,
-and batch-state failure to Task 03F. Do not add pilot-local heuristics that
-bypass the owning contract.
+Systematic correction-policy failure returns to Task 03E.1 or a new bounded
+correction-policy task, correction implementation failure to Task 03E.2b,
+invalid acceptance or publication evidence to Task 03E.2d, semantic-contract
+failure to Task 03E.3, materialization failure to Task 03E.4, reference-policy
+failure to Task 03E.5, and batch-state failure to Task 03F. Do not add
+pilot-local heuristics that bypass the owning contract.
 
 ## Review pass
 

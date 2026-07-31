@@ -1,17 +1,21 @@
 # Task 03E.3: Define the Semantic-Structure Contract
 
-Status: **provisional**. Revise this contract from the accepted Task 03E.2
+Status: **provisional**. Revise this contract from the accepted Task 03E.2d
 outcome and activate it only after explicit user approval. It changes tracked
 contracts, schemas, fixtures, and validators but does not publish a live
 canonical candidate.
 
 ## Abstract
 
-Translate the accepted Task 03E.2 corrected hierarchy into a project-owned
+Translate the Task 03E.2d-accepted corrected hierarchy into a project-owned
 contract for semantic sections, ordered membership, printed-page-label
 evidence, resolved page labels, and deterministic target aliases. Decide which
 evidence belongs in canonical records and which belongs in checksummed
 supporting observations before implementation.
+
+This task is a specification gate, not a fourth persisted data layer. Extend
+the existing canonical section and page concepts where sufficient; do not copy
+the complete correction evidence into parallel canonical record families.
 
 Keep the accepted Task 03D.1 candidate as immutable core-content reference
 evidence. Define a new candidate identity and an exact allowed-difference gate
@@ -25,8 +29,10 @@ mapping and validation glue around accepted corrected-hierarchy output.
 
 ## Inputs
 
-- accepted Task 03E.2 corrected-hierarchy candidate, completion, comparison,
-  reconciliation, decision, ambiguity, and review artifacts
+- accepted Task 03E.2d corrected-hierarchy candidate, completion, bounded-
+  acceptance, comparison, reconciliation, decision, ambiguity, and review
+  artifacts; Task 03E.2b owns its implementation and Task 03E.2d owns its
+  explicit acceptance with known limitations
 - immutable raw Task 03E producer hierarchy and correction correspondence
 - completed Task 03B canonical contract and executable schemas
 - accepted Task 03D.1 canonical candidate and its 57-path equivalence evidence
@@ -45,7 +51,9 @@ mapping and validation glue around accepted corrected-hierarchy output.
     the resolved nullable page value;
   - deterministic document, appendix, section, table, figure, and printed-page
     target aliases; and
-  - old-candidate to new-candidate semantic correspondence
+  - old-candidate to new-candidate semantic correspondence, defaulting to a
+    checksummed comparison/report artifact rather than a canonical record family
+    unless a demonstrated runtime consumer requires it
 - explicit decisions identifying canonical fields, canonical observations, and
   checksummed support artifacts
 - revised ID, ordering, serialization, status, manifest, and completion rules
@@ -54,6 +62,10 @@ mapping and validation glue around accepted corrected-hierarchy output.
   headings, TOC rows, furniture, embedded numbering resets, explicit and absent
   `/PageLabels`, visible-only labels, conflicts, aliases, and ambiguity
 - an exact Task 03D.1-to-03E.4 preservation/equivalence specification
+- an explicit no-duplication decision keeping detailed features, TOC rows,
+  reconciliations, regimes, rule decisions, ambiguities, and warnings in the
+  checksum-pinned Task 03E.2d evidence unless a demonstrated canonical consumer
+  requires a compact field or observation
 
 ## Research / learning checkpoint
 
@@ -65,9 +77,10 @@ duplicating the accepted producer document.
 The outcome must explain:
 
 - **Raw, corrected, and canonical hierarchy have different owners.** Docling
-  supplies immutable observations, Task 03E.2 supplies accepted corrected roles
-  and levels, and this contract owns stable canonical records, provenance,
-  invariants, and downstream isolation.
+  supplies immutable observations, Task 03E.2b implements corrected roles and
+  levels, Task 03E.2d accepts and publishes them with known limitations, and
+  this contract owns stable canonical records, provenance, invariants, and
+  downstream isolation.
 - **Physical pages and printed labels are separate identities.** Distinguish
   internal indices, one-based PDF pages, explicit PDF `/PageLabels`, synthesized
   library defaults, and visible printed labels.
@@ -86,7 +99,8 @@ Freeze before implementation:
 
 1. exact persisted shapes for hierarchy, label, alias, and evidence data;
 2. whether each shape is a canonical record family, record field, observation,
-   or checksummed support artifact;
+   or checksummed support artifact, defaulting to referenced Task 03E.2d
+   evidence rather than duplication;
 3. schema compatibility and versioning decision;
 4. semantic-section start, end, parent, path, level, and direct-membership rules;
 5. retained synthetic body/furniture roots and body-only semantic induction by
@@ -105,8 +119,9 @@ Freeze before implementation:
 
 - **Schema sufficiency:** every promised output is representable without hidden
   side files or unvalidated extra properties.
-- **Correction boundary:** the contract maps the accepted Task 03E.2 corrected
-  hierarchy without changing its rules or hiding its raw Docling evidence.
+- **Correction boundary:** the contract maps the Task 03E.2d-accepted corrected
+  hierarchy without changing its rules, hiding its raw Docling evidence, or
+  erasing its bounded-acceptance limitations.
 - **Order:** ordered children exactly invert parent/section links in canonical
   mixed-content order.
 - **Identity:** no completed candidate is rewritten and cross-version
@@ -141,6 +156,8 @@ git diff --check
   ordering, evidence, or publication policy.
 - The contract retains the synthetic roots while replacing flat body
   membership with accepted semantic sections.
+- The contract creates no persisted intermediate semantic dataset and does not
+  duplicate detailed Task 03E.2d correction evidence in canonical records.
 - Printed labels never replace physical PDF identity.
 - Aliases identify canonical potential targets but contain no extracted
   mentions or mention-derived candidates, and no TOC row is itself an alias
@@ -151,7 +168,7 @@ git diff --check
 ## Non-goals
 
 - running Docling or publishing a live canonical candidate
-- changing accepted Task 03E.2 correction behavior
+- changing Task 03E.2d-accepted correction behavior or its limitation record
 - cross-reference mention extraction or target resolution
 - corpus identity, batching, or cross-document resolution
 - Task 04 usability judgments

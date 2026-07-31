@@ -25,6 +25,8 @@ response content, or retrieval-specific graph construction.
 ## Inputs
 
 - accepted Task 03E.4 semantic candidate and completion artifacts
+- Task 03E.4 provenance showing that hierarchy acceptance originates in the
+  Task 03E.2d bounded-acceptance record
 - semantic section, printed-page, document, appendix, table, and figure aliases
 - canonical block, table, figure, page, and section anchors
 - checksum-pinned source and raw producer lineage
@@ -56,6 +58,8 @@ The outcome must explain:
 
 - **Aliases and mentions are separate data.** Task 03E.4 defines potential
   targets; this task locates source spans that may refer to them.
+- **Hierarchy acceptance remains upstream.** This task inherits Task 03E.2d's
+  bounded acceptance through Task 03E.4 and does not reinterpret it.
 - **Candidate generation is not confident resolution.** Zero, one, or several
   candidates remain visible with deterministic evidence.
 - **Cross-document resolution is two-pass.** Other-document targets do not
