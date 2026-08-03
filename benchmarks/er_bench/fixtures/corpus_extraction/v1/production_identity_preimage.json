@@ -3,8 +3,8 @@
   "schema_version": "er_commons.corpus_extraction_identity.v1",
   "fixture_status": "identity_recipe",
   "execution_status": "not_executed",
-  "extraction_id": "exv1-1a2870343c43e5b00d3b3b377eb6419561ccc3cfb749dbf1e098e4daaf1571fc",
-  "identity_sha256": "1a2870343c43e5b00d3b3b377eb6419561ccc3cfb749dbf1e098e4daaf1571fc",
+  "extraction_id": "exv1-bedd4c50a9614a74a6406d60148a08c44579f0b504bc3568042499f578c0cf7f",
+  "identity_sha256": "bedd4c50a9614a74a6406d60148a08c44579f0b504bc3568042499f578c0cf7f",
   "preimage": {
     "schema_version": "er_commons.corpus_extraction_identity_preimage.v1",
     "extraction_version_name": "brisbane_baylands_model_corpus_v1",
@@ -37,27 +37,82 @@
     },
     "producer_contract": {
       "version": "task03c-v2-plus-task03e-v1",
-      "artifacts": [{"path": "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json", "sha256": "183c49cf8c23110f33ee706ac12cab1c0586d93eb74a36cee574ef9f2d4e26da"}],
+      "artifacts": [
+        {"path": "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json", "sha256": "183c49cf8c23110f33ee706ac12cab1c0586d93eb74a36cee574ef9f2d4e26da"},
+        {"path": "configs/brisbane_baylands_2025_deir_task03e_appendix_p_v1.json", "sha256": "27a64894ba4e9ebf5c0c7cf995eebfc197e1a162fc11874bb235c40b4584f1fb"}
+      ],
       "owned_code": [{"path": "src/er_commons/document_extraction/complete_document.py", "sha256": "82bd973fa45842a52a51961e7660465a834b43379902588cf3b070a12b74810b"}]
     },
     "canonical_contract": {
       "version": "canonical-v1-semantic-v2-cross-reference-v3",
-      "artifacts": [{"path": "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json", "sha256": "0b0ab9dc2004b5cf781d96df9eed961045aaab577d18f1ead21ac0fd6efdf6ed"}],
-      "owned_code": [{"path": "src/er_commons/canonical_extraction/materialize.py", "sha256": "c41019ed8b3b6168ed1accf4516a7ce8deb8e19c84aa86ed7eba9c5524b764b8"}]
+      "artifacts": [
+        {"path": "configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json", "sha256": "9b37b41ddebe9b362f44930fc5fd41ed96edcd39eacba4631d98b4602740b287"},
+        {"path": "configs/brisbane_baylands_2025_deir_task03e4_semantic_v1.json", "sha256": "b92d486e9f55bfea99897c617df0e3f8f66f17f9897edad7b3f3969e1916d7a7"},
+        {"path": "benchmarks/er_bench/schemas/canonical_extraction/v1/records.schema.json", "sha256": "964504342b817cb4d7106ef08ac1b05da9df07ee00bcce32b65778e0301d72ba"},
+        {"path": "benchmarks/er_bench/schemas/canonical_extraction/v2/semantic_structure.schema.json", "sha256": "44aaf27f703920dac39408dbc9a9d736f746867ba1641fba223eed9d179feca9"},
+        {"path": "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json", "sha256": "0b0ab9dc2004b5cf781d96df9eed961045aaab577d18f1ead21ac0fd6efdf6ed"}
+      ],
+      "owned_code": [
+        {"path": "src/er_commons/canonical_extraction/candidate.py", "sha256": "56a184bd3f2e9779f67a7db8b2207a329369925b28d7852279235cf38b10cb54"},
+        {"path": "src/er_commons/canonical_extraction/config.py", "sha256": "fa2c58ffeb63d5501555fd46394072b3976d481c7d266864c16578a29d5e9842"},
+        {"path": "src/er_commons/canonical_extraction/materialize.py", "sha256": "24e338d272299a0eca7a807546d84a90cb43df9b4366ede6b1bab7782e57113d"},
+        {"path": "src/er_commons/canonical_extraction/support_records.py", "sha256": "cdaf26c0371bbb464f310edb32b8cbed7de12b3fc7473213061ebd5a25f481ad"},
+        {"path": "src/er_commons/semantic_materialization/config.py", "sha256": "d6106694da8647ef0cc3e0e8f515cd5d78ce2ce54a7e865a8a5d287e4ee2a6d2"},
+        {"path": "src/er_commons/semantic_materialization/construction.py", "sha256": "945028ae1ae1298ca5b9d80e6bf3022c7b97b9c398152276f9b575ae478fe744"},
+        {"path": "src/er_commons/semantic_materialization/identity.py", "sha256": "f7def03e66fcf2efb0119337391c2c401eb29a5df45c99dd10098aabbadd459a"},
+        {"path": "src/er_commons/semantic_materialization/inputs.py", "sha256": "5ca1575195d0b6fbfa2f829b259605fce4ff95f698a8660ddbde18c5ecdac47e"},
+        {"path": "src/er_commons/semantic_materialization/lifecycle.py", "sha256": "7251cfdbe5d5cebd2a5a24c44efdf6032b7b55988341d4b713a4b42835324ca6"},
+        {"path": "src/er_commons/semantic_materialization/producer_evidence.py", "sha256": "d900c8c3ee90937ed01253b3a6691321e0e7e3e8a81b1892ca769f835f7f74c8"},
+        {"path": "src/er_commons/semantic_materialization/reference.py", "sha256": "86497d9f1b1abacff4d040a5309275c545ca72405553a7625fd5447af2651a9b"},
+        {"path": "src/er_commons/semantic_materialization/runtime.py", "sha256": "ff74a4dfd1ffafaf38256b1b59c64bb93e5ac7402cfc5e6c0aa53ccf8fbfc519"},
+        {"path": "src/er_commons/semantic_materialization/sealing.py", "sha256": "5b0c9a073fc7fd670b58e3a9ea0737101754bcba29924923c6497ec60f299dbe"},
+        {"path": "src/er_commons/semantic_materialization/support.py", "sha256": "698811756cc5216d66a3c98f37aefa9ab54e873726eb47d6a3da6372820a8fac"},
+        {"path": "src/er_commons/semantic_materialization/workflow.py", "sha256": "b70b00f5ad04383d04692458867c350168023775af0ba69e99c62813f65c7786"},
+        {"path": "src/er_commons/semantic_structure/policies/control.py", "sha256": "8ce3c8c201a5eb4c0de73b4f1fcdb1fb1e0430614d6df30819bf1093ed43bf5c"}
+      ]
     },
     "hierarchy_contract": {
       "version": "hierarchy-correction-v1-document-disposition-required",
-      "artifacts": [{"path": "docs/specs/hierarchy_correction_v1.md", "sha256": "d60fc442d7d820a0c053242a30016d695c687c22cbd0711305daf7df704023be"}],
-      "owned_code": [{"path": "src/er_commons/hierarchy_correction/application.py", "sha256": "6816f7ee3b15855336aa0073561dcd41ae616072fb9494e2570017a57f3d0d22"}]
+      "artifacts": [
+        {"path": "docs/specs/hierarchy_correction_v1.md", "sha256": "d60fc442d7d820a0c053242a30016d695c687c22cbd0711305daf7df704023be"},
+        {"path": "configs/brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1.json", "sha256": "dcc85fba4a7b3b6a678c4b1409e6cea9096adf1139964baf1a669fa8db69dcfe"},
+        {"path": "configs/brisbane_baylands_2025_deir_task03e2_quality_gate_v1.json", "sha256": "fbc1374a3926d4f06497147bd77348f61a0bfc3333c3110d9c231299e98e1a7e"}
+      ],
+      "owned_code": [
+        {"path": "src/er_commons/hierarchy_correction/application.py", "sha256": "332373031bdbdfa693afed6b05e6e8510ab3704f2f4db2c4655310ee1bb5c2f8"},
+        {"path": "src/er_commons/hierarchy_correction/configuration.py", "sha256": "00ea0be6e5531cbcb2b812460844088625bd1a49bc3e956c1367719799614f0f"},
+        {"path": "src/er_commons/hierarchy_correction/evaluation.py", "sha256": "2561de137a8fc358743c20896be87a1bb453069710fe4d4d7b9b8b82ae8c28d5"},
+        {"path": "src/er_commons/hierarchy_correction/preflight.py", "sha256": "ddd60bd4501e46c21d1b300b2b37089b231e258f30250d75fea36b7fccbdfd46"},
+        {"path": "src/er_commons/hierarchy_correction/quality_acceptance.py", "sha256": "07a044b36023e6306680eab74e9ae63182c746af4eafe002952e038e4ececb32"},
+        {"path": "src/er_commons/hierarchy_correction/quality_config.py", "sha256": "c31e2658855f2ea3198b2ddee9e9c408efadf6a621d73114df8e5e2c762e9afb"},
+        {"path": "src/er_commons/hierarchy_correction/quality_evaluation.py", "sha256": "e3bcb55b14e6d8403f88aa5ea7d4d7a77e6ac617ecd81fe4c0e4ebef2de23dde"},
+        {"path": "src/er_commons/hierarchy_correction/quality_evidence.py", "sha256": "386ad3b120347327f11d810b918d4403afcce8c8b7a3fa087fd997e187bc6682"},
+        {"path": "src/er_commons/hierarchy_correction/quality_workflow.py", "sha256": "a268e2221734e07a23e066437e234de88455ba2917a828dd46d02e0362340ef8"},
+        {"path": "src/er_commons/hierarchy_correction/review_preparation.py", "sha256": "196c6c82eb282b7fd593817a54829ebf36b098b06191c981b8f424f8dcf8a664"}
+      ]
     },
     "cross_reference_contract": {
       "version": "task03e5-pattern-policy-v2-zero-figure-aliases",
-      "artifacts": [{"path": "docs/specs/cross_references_v3.md", "sha256": "ff563123b33bc2e7271204603fba8f7c199918ac24455ab1fff71a314aaa51c6"}],
-      "owned_code": [{"path": "src/er_commons/cross_reference_enrichment/policy.py", "sha256": "6274f42c4117b811dc757225701f72970171f5ffd604c7630b7b3a9a53c70099"}]
+      "artifacts": [
+        {"path": "docs/specs/cross_references_v3.md", "sha256": "ff563123b33bc2e7271204603fba8f7c199918ac24455ab1fff71a314aaa51c6"},
+        {"path": "docs/specs/semantic_structure_v2.md", "sha256": "a0b5b1195e24b9d8017a4aa9f04f395b6bf87a45575674434cb2e2b9c68ec30b"},
+        {"path": "configs/brisbane_baylands_2025_deir_task03e5_cross_references_human_v2.json", "sha256": "99ec1f887827875b88d822ee923d8aab18ec3ff44cfeb9cd6b0253133a117f60"}
+      ],
+      "owned_code": [
+        {"path": "src/er_commons/cross_reference_enrichment/config.py", "sha256": "d6bb706ec7007679a263951b5f3bb33417e893887e474bab5557d734384d842a"},
+        {"path": "src/er_commons/cross_reference_enrichment/construction.py", "sha256": "c36b0a1527feb485e6ff8294ec52a621b83213c6febaf441146e4e8506d3991a"},
+        {"path": "src/er_commons/cross_reference_enrichment/identity.py", "sha256": "aaaacb44f9995f88b6a20aa54ebf6e88baeb43c87ede668668b580a3d9e4b349"},
+        {"path": "src/er_commons/cross_reference_enrichment/indexing.py", "sha256": "50750a6c82a2945e3e616416e19184e7aef137d4479d84a094f48711f7d4389e"},
+        {"path": "src/er_commons/cross_reference_enrichment/policy.py", "sha256": "6274f42c4117b811dc757225701f72970171f5ffd604c7630b7b3a9a53c70099"},
+        {"path": "src/er_commons/cross_reference_enrichment/workflow.py", "sha256": "dd6e811c74bc38aa9294b7fd5400afd2339e7ea6c8297e1c7188f967169edfdb"}
+      ]
     },
     "corpus_workflow_contract": {
       "version": "restartable-corpus-extraction-v1",
-      "artifacts": [{"path": "docs/specs/restartable_corpus_extraction_v1.md", "sha256": "ee2f1af70a4e2bd72805c5ca69ea77a4ed61ae400096e84f954ee1f7533a4ab4"}],
+      "artifacts": [
+        {"path": "docs/specs/restartable_corpus_extraction_v1.md", "sha256": "3068084384a0d32e91726ee1a6163b2545f1e88404bd429decb72d3588bc2a33"},
+        {"path": "benchmarks/er_bench/schemas/corpus_extraction/v1/records.schema.json", "sha256": "9ed88d8bbdefcf21244839fca26e2869ad2319a79c61a1a8451ab9e7617d3e70"}
+      ],
       "owned_code": [
         {"path": "src/er_commons/corpus_extraction_contract/__init__.py", "sha256": "b80e621f9c0916f7201c0b1949193dd4db74714fd27e0bafe9a3322fc0e272ab"},
         {"path": "src/er_commons/corpus_extraction_contract/accounting.py", "sha256": "2a596cc6ed19d9533ca3c9e562dc338be584587794afc05c8474a537cd1ee40d"},
@@ -69,7 +124,29 @@
         {"path": "src/er_commons/corpus_extraction_contract/lifecycle.py", "sha256": "45bf04bab92d8ce9a3c459a00c2fc40e912f5cbf22c874a4a4b4bd5e6f2c2ec5"},
         {"path": "src/er_commons/corpus_extraction_contract/model.py", "sha256": "a4b27ecd21b361293df85219df85b547138d0774cefbec7761700198a09e2429"},
         {"path": "src/er_commons/corpus_extraction_contract/resolution.py", "sha256": "19231e4e3841f5ffaa075dd5313ab630c43dcd393a4282c3d390dfef6b1b3d55"},
-        {"path": "src/er_commons/corpus_extraction_contract/validation.py", "sha256": "37330cf950ccb26dd2be55e0c34552af6f7f45b3f3bea9095e3a61bc36eb409e"}
+        {"path": "src/er_commons/corpus_extraction_contract/validation.py", "sha256": "37330cf950ccb26dd2be55e0c34552af6f7f45b3f3bea9095e3a61bc36eb409e"},
+        {"path": "src/er_commons/corpus_extraction/__init__.py", "sha256": "f53948bc14c550d6d49ec2461619634b4e8f2c8cc1f6d9b8ff5b390f5304ab45"},
+        {"path": "src/er_commons/corpus_extraction/attempts.py", "sha256": "572951262fca91e6351a65a2b91a351b614ac2efc9df12021f063d92c483df13"},
+        {"path": "src/er_commons/corpus_extraction/candidates.py", "sha256": "18ec69575283fb886a91ca4a40017df440d4ff1e9c14fd217f64e9c55c28b578"},
+        {"path": "src/er_commons/corpus_extraction/config.py", "sha256": "cb435c65a0cd6d1e9787da09c9c95cde544e5e4861b8d6b1d20618263520b752"},
+        {"path": "src/er_commons/corpus_extraction/content_owners.py", "sha256": "5a9e925d25ee9288b2aa00c0f1acd1d13a7339f24080303cede2bdce45fd3171"},
+        {"path": "src/er_commons/corpus_extraction/hooks.py", "sha256": "934a00dc7ec541f4382448416c30c1fb2549cd648b9ee5de7c65cf7a815baef7"},
+        {"path": "src/er_commons/corpus_extraction/identity.py", "sha256": "d92ede773532be9db47783ebfced4b77bae4918ba88764154631f3239ba717da"},
+        {"path": "src/er_commons/corpus_extraction/lifecycle.py", "sha256": "895808253ee7653230805ed6edce19f0a0f62b1909a0464bdfd98480ce2e4ad0"},
+        {"path": "src/er_commons/corpus_extraction/observability.py", "sha256": "8ea81a9515236ce0d6611503fa2f4d9b368b32c56d17de9e1e3f4cec44842b25"},
+        {"path": "src/er_commons/corpus_extraction/owner_inputs.py", "sha256": "1e3854681fb74d65fae2bfbfa574bfb2fe2742e47b2f851733cf88893905c626"},
+        {"path": "src/er_commons/corpus_extraction/owner_observations.py", "sha256": "8d18f590f14f5451398ddf603b19e41707d05ca8efb81fcf6ae829f79c59f4ac"},
+        {"path": "src/er_commons/corpus_extraction/owner_validation.py", "sha256": "8aacc938bf97cc8757e09295eb0b7dd8fb9ada656551d5b3b6eeac517788e584"},
+        {"path": "src/er_commons/corpus_extraction/preflight.py", "sha256": "00622bba2ba4df0ea071e79281507e2e32d9f58b023b20d4a9ad6b86a1d46a93"},
+        {"path": "src/er_commons/corpus_extraction/preservation.py", "sha256": "c1905dec551e19800a26d232cc2932fa430613530be5ad8c3233d990c4e12e3c"},
+        {"path": "src/er_commons/corpus_extraction/process.py", "sha256": "ae1f523c46742e6798e5b1877fe8038aee0b1d61e7e2cdb193417ddfa7aeebd4"},
+        {"path": "src/er_commons/corpus_extraction/publication.py", "sha256": "2ffd63c2d9ac7a2d5133757e03b6f6295352136f5377b7cb1a9ad1d5b19b8c9f"},
+        {"path": "src/er_commons/corpus_extraction/records.py", "sha256": "7d7cfef338c5b191e8fbe61b6107cedff84414c9373342b95a851a9e0d55cd2a"},
+        {"path": "src/er_commons/corpus_extraction/sources.py", "sha256": "c46049b389dcb8b23cdfa16c5f8d6870e024071b3ddeee0ad7c9a042d1d7499c"},
+        {"path": "src/er_commons/corpus_extraction/storage.py", "sha256": "59921f86c12df9c6c02ec529385464cfcc672a9b0d079cf8a1a192df105f768d"},
+        {"path": "src/er_commons/corpus_extraction/worker.py", "sha256": "adc33809f88578f64b249fc9ae7f46aa7e13cc1d58eb01c73430d77d848ff3b8"},
+        {"path": "src/er_commons/corpus_extraction/workflow.py", "sha256": "58f3987d2f4da232228c91e92be9d5adda21a1f10fb8caef0757007d1f7a8add"},
+        {"path": "src/er_commons/cli.py", "sha256": "64524c20f64a12cda43865a8e7f229cbff0393d993634fcc55d57516c9977af7"}
       ]
     }
   }

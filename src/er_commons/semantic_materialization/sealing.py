@@ -16,7 +16,7 @@ from er_commons.canonical_extraction.publication import (
     write_jsonl,
 )
 from er_commons.semantic_materialization.baseline import BASELINE_COLLECTION_PATHS
-from er_commons.semantic_materialization.config import APPENDIX_P_SCOPE
+from er_commons.semantic_materialization.config import SemanticExpectations
 from er_commons.semantic_materialization.construction import SemanticBuild
 from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 from er_commons.semantic_materialization.support import (
@@ -64,6 +64,8 @@ class SemanticSealingInputs:
     hierarchy_producer_run_id: str
     control: JsonObject
     inherited_warnings: list[str]
+    expectations: SemanticExpectations
+    source_semantic_disposition: str
 
 
 def validate_serialize_and_seal(
@@ -79,13 +81,19 @@ def validate_serialize_and_seal(
         identity=inputs.identity,
         baseline_root=inputs.baseline_root,
         inherited_warnings=inputs.inherited_warnings,
+        source_semantic_disposition=inputs.source_semantic_disposition,
         record_files=record_files,
         support_files=support_files,
     )
     write_json(root / "records" / "manifest.json", manifest)
     write_json(
         root / "records" / "canonicalization_summary.json",
-        _summary(build, inputs.identity, inputs.inherited_warnings),
+        _summary(
+            build,
+            inputs.identity,
+            inputs.inherited_warnings,
+            inputs.source_semantic_disposition,
+        ),
     )
     inventory_path = write_inventory(root)
     write_json(
@@ -93,8 +101,8 @@ def validate_serialize_and_seal(
         {
             "schema_version": "er_commons.canonical_extraction_completion.v2",
             "extraction_id": inputs.identity["extraction_id"],
-            "status": "complete_with_warnings",
-            "source_semantic_disposition": "accepted_with_known_limitations",
+            "status": "complete_with_warnings" if inputs.inherited_warnings else "complete",
+            "source_semantic_disposition": inputs.source_semantic_disposition,
             "artifact_inventory_sha256": sha256_file(inventory_path),
             "support_files_verified": True,
             "undeclared_difference_count": 0,
@@ -126,10 +134,12 @@ def _validate_semantic_contract(
     validate_semantic_contract(bundle, bridge_evidence=build.bridge_evidence)
     _require_count(
         "page-label outcomes",
-        APPENDIX_P_SCOPE.page_count,
+        inputs.control["physical_page_count"],
         len(build.page_label_observations),
     )
-    _require_count("sections", APPENDIX_P_SCOPE.section_count, len(build.collections["sections"]))
+    _require_count(
+        "sections", inputs.expectations.section_count, len(build.collections["sections"])
+    )
 
 
 def _write_record_families(root: Path, build: SemanticBuild) -> list[JsonObject]:
@@ -190,14 +200,15 @@ def _manifest(
     inherited_warnings: list[str],
     record_files: list[JsonObject],
     support_files: list[JsonObject],
+    source_semantic_disposition: str,
 ) -> JsonObject:
     baseline_manifest = json.loads((baseline_root / "records" / "manifest.json").read_bytes())
     return {
         "schema_version": "er_commons.canonical_extraction_manifest.v2",
         "extraction_id": identity["extraction_id"],
         "identity_sha256": identity["identity_sha256"],
-        "source_semantic_disposition": "accepted_with_known_limitations",
-        "canonicalization_status": "complete_with_warnings",
+        "source_semantic_disposition": source_semantic_disposition,
+        "canonicalization_status": ("complete_with_warnings" if inherited_warnings else "complete"),
         "canonicalization_warnings": inherited_warnings,
         "canonicalization_errors": [],
         "source_release_version": baseline_manifest["source_release_version"],
@@ -212,7 +223,12 @@ def _manifest(
     }
 
 
-def _summary(build: SemanticBuild, identity: JsonObject, warnings: list[str]) -> JsonObject:
+def _summary(
+    build: SemanticBuild,
+    identity: JsonObject,
+    warnings: list[str],
+    source_semantic_disposition: str,
+) -> JsonObject:
     return {
         "schema_version": "er_commons.semantic_materialization_summary.v2",
         "candidate_id": identity["extraction_id"],
@@ -224,7 +240,7 @@ def _summary(build: SemanticBuild, identity: JsonObject, warnings: list[str]) ->
             "clean_table_cells": sum(len(item["cells"]) for item in build.collections["tables"]),
             "bridge_entries": len(build.bridge_entries),
         },
-        "source_semantic_disposition": "accepted_with_known_limitations",
+        "source_semantic_disposition": source_semantic_disposition,
         "undeclared_difference_count": 0,
         "warnings": warnings,
         "errors": [],

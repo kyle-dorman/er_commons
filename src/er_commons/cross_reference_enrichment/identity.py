@@ -50,15 +50,16 @@ def build_candidate_identity(context: RuntimeContext) -> JsonObject:
     }
     identity: JsonObject = {
         "schema_version": "er_commons.extraction_identity.v3",
-        "extraction_version_name": "appendix_p_cross_references_human_v3_policy_v2",
+        "extraction_version_name": context.config.candidate_version_name,
         "upstream_candidate_id": context.config.upstream_candidate_id,
-        "behavioral_reference": {
+        "cross_reference_contract": extension,
+    }
+    if context.config.comparison_profile == "policy_correction":
+        identity["behavioral_reference"] = {
             "candidate_id": context.config.reference_candidate_id,
             "completion_sha256": context.config.reference_completion_sha256,
             "inventory_sha256": context.config.reference_inventory_sha256,
-        },
-        "cross_reference_contract": extension,
-    }
+        }
     digest = extraction_identity_sha256(identity)
     identity["extraction_id"] = f"exv1-{digest}"
     identity["identity_sha256"] = digest

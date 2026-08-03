@@ -92,6 +92,40 @@ def build_semantic_candidate_identity(
     code_paths = tuple(owned_paths)
     if not code_paths:
         raise ValueError("semantic identity must bind at least one owned code path")
+    producer_inputs: JsonObject = {
+        "baseline": {
+            "producer_run_id": inputs.baseline_producer.run_id,
+            "completion": inputs.baseline_producer.completion_ref.as_dict(),
+            "inventory": inputs.baseline_producer.inventory_ref.as_dict(),
+        },
+        "hierarchy": {
+            "producer_run_id": inputs.hierarchy_producer.run_id,
+            "completion": inputs.hierarchy_producer.completion_ref.as_dict(),
+            "inventory": inputs.hierarchy_producer.inventory_ref.as_dict(),
+        },
+        "comparison": (
+            inputs.producer_comparison_ref.as_dict()
+            if inputs.producer_comparison_ref is not None
+            else None
+        ),
+    }
+    hierarchy_correction: JsonObject = {
+        "candidate_id": config.hierarchy_candidate_id,
+        "completion": inputs.hierarchy_completion_ref.as_dict(),
+        "inventory": inputs.hierarchy_inventory_ref.as_dict(),
+    }
+    if config.control_profile == "task03e2d_bounded":
+        assert inputs.bounded_acceptance_ref is not None
+        hierarchy_correction.update(
+            {
+                "semantic_file_set_sha256": EXPECTED_SEMANTIC_FILE_SET_DIGEST,
+                "aggregate_semantic_sha256": EXPECTED_AGGREGATE_DIGEST,
+                "bounded_control": inputs.control_provenance,
+                "bounded_acceptance": inputs.bounded_acceptance_ref.as_dict(),
+            }
+        )
+    else:
+        hierarchy_correction["strict_control"] = inputs.control_provenance
     identity: JsonObject = {
         "schema_version": "er_commons.extraction_identity.v2",
         "extraction_version_name": config.candidate_version_name,
@@ -108,28 +142,8 @@ def build_semantic_candidate_identity(
             "completion": inputs.baseline_completion_ref.as_dict(),
             "inventory": inputs.baseline_inventory_ref.as_dict(),
         },
-        "producer_inputs": {
-            "baseline": {
-                "producer_run_id": inputs.baseline_producer.run_id,
-                "completion": inputs.baseline_producer.completion_ref.as_dict(),
-                "inventory": inputs.baseline_producer.inventory_ref.as_dict(),
-            },
-            "hierarchy": {
-                "producer_run_id": inputs.hierarchy_producer.run_id,
-                "completion": inputs.hierarchy_producer.completion_ref.as_dict(),
-                "inventory": inputs.hierarchy_producer.inventory_ref.as_dict(),
-            },
-            "comparison": inputs.producer_comparison_ref.as_dict(),
-        },
-        "hierarchy_correction": {
-            "candidate_id": config.hierarchy_candidate_id,
-            "completion": inputs.hierarchy_completion_ref.as_dict(),
-            "inventory": inputs.hierarchy_inventory_ref.as_dict(),
-            "semantic_file_set_sha256": EXPECTED_SEMANTIC_FILE_SET_DIGEST,
-            "aggregate_semantic_sha256": EXPECTED_AGGREGATE_DIGEST,
-            "bounded_control": inputs.control_provenance,
-            "bounded_acceptance": inputs.bounded_acceptance_ref.as_dict(),
-        },
+        "producer_inputs": producer_inputs,
+        "hierarchy_correction": hierarchy_correction,
         "semantic_contract": {
             "policy_version": config.semantic_policy_version,
             "specification": {

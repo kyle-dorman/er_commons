@@ -32,20 +32,22 @@ class CanonicalizationConfig(StrictConfigModel):
     """Reviewed identity and artifact paths for the one-document pilot."""
 
     schema_version: Literal["1.0.0"]
-    canonicalization_policy_version: Literal["task03d-v1"]
-    mapping_policy_version: Literal["task03d-appendix-p-mapping-v1"]
-    candidate_version_name: Literal["appendix_p_core_candidate_v1"]
+    canonicalization_policy_version: str = Field(min_length=1)
+    mapping_policy_version: str = Field(min_length=1)
+    mapping_policy_relative_path: Path = Path("docs/specs/task03d_appendix_p_mapping_v1.md")
+    candidate_version_name: str = Field(min_length=1)
     candidate_scope: Literal["document_scoped_non_release"]
-    source_release_version: Literal["brisbane_baylands_2025_deir_sources_v1"]
+    acceptance_profile: Literal["appendix_p_task03d_v1", "generic_complete_document"] = (
+        "appendix_p_task03d_v1"
+    )
+    source_release_version: str = Field(min_length=1)
     source_manifest_relative_path: Path
     ordered_materialization_scope: tuple[MaterializedDocument, ...] = Field(
         min_length=1,
         max_length=1,
     )
     producer_artifact_relative_root: Path
-    producer_run_id: Literal[
-        "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0"
-    ]
+    producer_run_id: str = Field(pattern=r"^prv1-[0-9a-f]{64}$")
     artifact_relative_root: Path
 
     @property
@@ -63,22 +65,23 @@ class CanonicalizationConfig(StrictConfigModel):
         """Keep paths contained and freeze the approved Appendix P selection."""
         for path in (
             self.source_manifest_relative_path,
+            self.mapping_policy_relative_path,
             self.producer_artifact_relative_root,
             self.artifact_relative_root,
         ):
             if path.is_absolute() or ".." in path.parts:
                 raise ValueError("canonicalization paths must be contained relative paths")
 
-        selected = self.ordered_materialization_scope[0]
-        expected = (
-            selected.source_id == APPENDIX_P_SOURCE_ID
-            and selected.source_sha256 == APPENDIX_P_SOURCE_SHA256
-            and selected.pdf_page_count == APPENDIX_P_PAGE_COUNT
-        )
-        if not expected:
-            raise ValueError("Task 03D materialization scope must be the approved Appendix P")
-        if self.producer_run_id != ACCEPTED_PRODUCER_RUN_ID:
-            raise ValueError("Task 03D must consume the accepted Task 03C.1 producer run")
+        if self.acceptance_profile == "appendix_p_task03d_v1":
+            selected = self.ordered_materialization_scope[0]
+            expected = (
+                selected.source_id == APPENDIX_P_SOURCE_ID
+                and selected.source_sha256 == APPENDIX_P_SOURCE_SHA256
+                and selected.pdf_page_count == APPENDIX_P_PAGE_COUNT
+                and self.producer_run_id == ACCEPTED_PRODUCER_RUN_ID
+            )
+            if not expected:
+                raise ValueError("materialization scope differs from approved Appendix P")
         return self
 
 

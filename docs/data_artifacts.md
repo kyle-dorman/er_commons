@@ -142,6 +142,15 @@ support/cross_reference_summary.json
 support/cross_reference_preservation.json
 ```
 
+Task 03F.2's no-PDF preservation evidence is external under
+`pipelines/brisbane_baylands/task_03f_corpus_extraction/offline_preservation/`
+and keyed by production extraction identity. The report for
+`exv1-bedd4c50a9614a74a6406d60148a08c44579f0b504bc3568042499f578c0cf7f`
+binds the run-spec checksum and both inventory checksums, and records the exact
+record, asset, support, warning/policy, and managed-file comparison. It is
+control evidence only; it does not represent a source-PDF execution or a new
+document candidate.
+
 The target index is document-scoped stage-one evidence, not Task 03F's later
 corpus index. The preservation support must prove that all 323 accepted aliases
 and targets are bidirectionally namespace-remapped while retaining upstream IDs

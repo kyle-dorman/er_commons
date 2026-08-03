@@ -139,6 +139,7 @@ def _conversion_observations(
     context: MaterializationContext,
     inputs: CanonicalizationInputs,
     assets: AssetCatalog,
+    page_count: int,
 ) -> tuple[tuple[JsonRecord, ...], str]:
     """Project the complete producer conversion as one canonical observation."""
     conversion_id = make_record_id(
@@ -157,7 +158,7 @@ def _conversion_observations(
                 "id": conversion_id,
                 "document_id": context.document_id,
                 "first_physical_page": 1,
-                "last_physical_page": 222,
+                "last_physical_page": page_count,
                 "status": observation.status,
                 "pipeline_class": producer_runtime["pipeline_class"],
                 "backend_class": producer_runtime["backend_class"],
@@ -268,6 +269,7 @@ def build_support_records(
         context=context,
         inputs=inputs,
         assets=assets,
+        page_count=config.ordered_materialization_scope[0].pdf_page_count,
     )
     documents, pages = _document_and_pages(
         context=context,

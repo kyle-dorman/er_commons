@@ -41,6 +41,8 @@ def reuse_completed_candidate(
 ) -> tuple[Path, Path]:
     """Checksum-verify an existing candidate, review cache, and comparison report."""
     completion = verify_completed_semantic_candidate(locations.candidate_root, candidate_id)
+    if getattr(context.config, "reference_profile", "frozen_equivalence") == ("independent_build"):
+        return completion, completion
     review = build_semantic_review_cache(
         review_root=locations.candidate_review_root,
         source_pdf=context.source_pdf,
@@ -79,22 +81,31 @@ def build_compare_and_publish(
                 root=workspace.staging_root,
             )
         _require_byte_identical(first.staging_root, second.staging_root, candidate_id)
-        review = build_semantic_review_cache(
-            review_root=locations.candidate_review_root,
-            source_pdf=context.source_pdf,
-            candidate_root=first.staging_root,
-            review_pages=context.config.review_pages,
-        )
-        _compare_and_record(
-            context=context,
-            locations=locations,
-            candidate_root=first.staging_root,
-            candidate_review_root=locations.candidate_review_root,
-            candidate_id=candidate_id,
-        )
+        if getattr(context.config, "reference_profile", "frozen_equivalence") == (
+            "frozen_equivalence"
+        ):
+            review = build_semantic_review_cache(
+                review_root=locations.candidate_review_root,
+                source_pdf=context.source_pdf,
+                candidate_root=first.staging_root,
+                review_pages=context.config.review_pages,
+            )
+            _compare_and_record(
+                context=context,
+                locations=locations,
+                candidate_root=first.staging_root,
+                candidate_review_root=locations.candidate_review_root,
+                candidate_id=candidate_id,
+            )
+        else:
+            review = first.staging_root / "records/completion_record.json"
         shutil.rmtree(second.staging_root)
         completion = publish_workspace(first)
         verify_completed_semantic_candidate(locations.candidate_root, candidate_id)
+        if getattr(context.config, "reference_profile", "frozen_equivalence") == (
+            "independent_build"
+        ):
+            review = completion
         return completion, review
     except Exception:
         for workspace in reserved_workspaces:
@@ -118,6 +129,7 @@ def _write_candidate_workspace(
         baseline_candidate_id=context.config.baseline_candidate_id,
         candidate_id=candidate_id,
         control=context.inputs.control_provenance,
+        expectations=context.config.expectations,
     )
     validate_serialize_and_seal(
         root=root,
@@ -132,6 +144,12 @@ def _write_candidate_workspace(
             hierarchy_producer_run_id=context.config.hierarchy_producer_run_id,
             control=context.inputs.control_provenance,
             inherited_warnings=inherited_warnings(context.inputs),
+            expectations=context.config.expectations,
+            source_semantic_disposition=(
+                "strict_quality_gate"
+                if context.config.control_profile == "strict_quality_gate"
+                else "accepted_with_known_limitations"
+            ),
         ),
     )
     return build
@@ -157,6 +175,8 @@ def _compare_and_record(
     candidate_id: str,
 ) -> Path:
     """Write no-clobber comparison evidence and stop on any semantic mismatch."""
+    if context.config.mvp_reference_candidate_id is None:
+        raise ValueError("frozen equivalence lacks a reference candidate")
     comparison = compare_reference_candidate(
         reference_root=locations.reference_root,
         candidate_root=candidate_root,

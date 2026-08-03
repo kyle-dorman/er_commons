@@ -51,6 +51,16 @@ def test_documents_group_exposes_review_and_complete_producer_commands() -> None
     assert DEFAULT_COMPLETE_DOCUMENT_SPEC.name.endswith("appendix_p_v2.json")
 
 
+def test_restartable_document_command_requires_explicit_spec_and_source() -> None:
+    """Stage one cannot silently select Appendix P or any other document."""
+    result = CliRunner().invoke(app, ["extraction", "run-document", "--help"])
+
+    assert result.exit_code == 0
+    assert "--run-spec" in result.output
+    assert "--source-id" in result.output
+    assert "required" in result.output
+
+
 def test_canonicalize_group_exposes_document_scoped_materialization() -> None:
     """Canonical records have a distinct package-backed command boundary."""
     result = CliRunner().invoke(app, ["canonicalize", "--help"])

@@ -188,8 +188,11 @@ umbrella. [Task
 03F.1](../tasks/sprint2/03f1_define_restartable_extraction_contract.md) is
 complete with its read-only inventory and Gate B two-stage corpus contract
 explicitly accepted. [Task
-03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md) is the
-active task. Task 03F.3, 03G, and 03H remain provisional and inactive.
+03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md) is
+complete. Its human-owned replacement preserved the behavioral MVP and exact
+offline Appendix P evidence, then passed the separate maintainability gate.
+Task 03F.3, 03G, and 03H remain provisional and inactive pending explicit
+review and approval.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

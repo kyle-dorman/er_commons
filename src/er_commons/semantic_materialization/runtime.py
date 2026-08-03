@@ -79,6 +79,7 @@ def load_runtime_context(*, data_root: Path, config_path: Path) -> RuntimeContex
         hierarchy_producer_run_id=config.hierarchy_producer_run_id,
         source_id=config.source.source_id,
         page_count=config.source.physical_page_count,
+        expectations=config.expectations,
     )
     return RuntimeContext(
         data_root=data_root,
@@ -93,17 +94,20 @@ def load_runtime_context(*, data_root: Path, config_path: Path) -> RuntimeContex
 
 def candidate_locations(context: RuntimeContext, candidate_id: str) -> CandidateLocations:
     """Return every location needed to compare and publish one candidate ID."""
-    review_root = assert_contained(
-        context.data_root, context.config.review_cache_relative_root.as_posix()
+    review_relative = context.config.review_cache_relative_root or (
+        context.config.artifact_relative_root / ".review_disabled"
     )
+    comparison_relative = context.config.rewrite_review_relative_root or (
+        context.config.artifact_relative_root / ".comparison_disabled"
+    )
+    review_root = assert_contained(context.data_root, review_relative.as_posix())
+    reference_id = context.config.mvp_reference_candidate_id or candidate_id
     return CandidateLocations(
         candidate_root=context.task_root / candidate_id,
         candidate_review_root=review_root / candidate_id,
-        reference_root=context.task_root / context.config.mvp_reference_candidate_id,
-        reference_review_root=review_root / context.config.mvp_reference_candidate_id,
-        comparison_root=assert_contained(
-            context.data_root, context.config.rewrite_review_relative_root.as_posix()
-        ),
+        reference_root=context.task_root / reference_id,
+        reference_review_root=review_root / reference_id,
+        comparison_root=assert_contained(context.data_root, comparison_relative.as_posix()),
     )
 
 
@@ -112,12 +116,16 @@ def inherited_warnings(inputs: SemanticMaterializationInputs) -> list[str]:
     manifest = json.loads(
         (inputs.baseline_candidate_root / "records" / "manifest.json").read_bytes()
     )
-    return [
-        *manifest["canonicalization_warnings"],
-        "source semantic disposition: accepted_with_known_limitations",
-        "hierarchy correction ambiguities and warnings remain in checksum-pinned "
-        "Task 03E.2d evidence",
-    ]
+    warnings = list(manifest["canonicalization_warnings"])
+    if inputs.control_provenance.get("control_kind") != "strict_quality_gate":
+        warnings.extend(
+            [
+                "source semantic disposition: accepted_with_known_limitations",
+                "hierarchy correction ambiguities and warnings remain in checksum-pinned "
+                "Task 03E.2d evidence",
+            ]
+        )
+    return warnings
 
 
 def owned_runtime_paths(config_path: Path) -> tuple[Path, ...]:

@@ -12,7 +12,10 @@ from er_commons.canonical_extraction.provenance import descendant_text_pointers
 from er_commons.canonical_extraction.tables import load_producer_table_bundle
 from er_commons.document_extraction.hierarchy.document import DocumentIndex
 from er_commons.semantic_materialization.bridge import BridgeItem, build_cross_producer_bridge
-from er_commons.semantic_materialization.config import APPENDIX_P_SCOPE
+from er_commons.semantic_materialization.config import (
+    HISTORICAL_EXPECTATIONS,
+    SemanticExpectations,
+)
 from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 from er_commons.semantic_structure.policies.bridge import BridgeSourceEvidence
 
@@ -115,6 +118,7 @@ def build_bridge_construction(
     block_id_by_key: dict[str, str],
     baseline_producer_run_id: str,
     hierarchy_producer_run_id: str,
+    expected_coverage: SemanticExpectations = HISTORICAL_EXPECTATIONS,
 ) -> BridgeConstruction:
     """Build bridge rows from producer pointers, never candidate self-evidence."""
     relevant_keys = hierarchy_relevant_keys(evidence.hierarchy, collections["blocks"])
@@ -157,7 +161,7 @@ def build_bridge_construction(
             value == "canonical_figure_suppressed_descendant" for value in dispositions.values()
         ),
     )
-    _assert_accepted_bridge_coverage(coverage)
+    _assert_accepted_bridge_coverage(coverage, expected_coverage)
     return BridgeConstruction(entries, bridge_evidence, coverage)
 
 
@@ -245,12 +249,14 @@ def replacement_dispositions(
     return dispositions
 
 
-def _assert_accepted_bridge_coverage(coverage: BridgeCoverage) -> None:
+def _assert_accepted_bridge_coverage(
+    coverage: BridgeCoverage, expected_counts: SemanticExpectations
+) -> None:
     expected = BridgeCoverage(
-        APPENDIX_P_SCOPE.bridge_entry_count,
-        APPENDIX_P_SCOPE.canonical_block_count,
-        APPENDIX_P_SCOPE.table_replacement_count,
-        APPENDIX_P_SCOPE.figure_suppression_count,
+        expected_counts.bridge_entry_count,
+        expected_counts.canonical_block_count,
+        expected_counts.table_replacement_count,
+        expected_counts.figure_suppression_count,
     )
     if coverage != expected:
         raise SemanticMaterializationInvariantError(
@@ -258,5 +264,5 @@ def _assert_accepted_bridge_coverage(coverage: BridgeCoverage) -> None:
             invariant="accepted Task 03E.3 bridge coverage",
             expected=expected,
             observed=coverage,
-            subject="Appendix P producer evidence",
+            subject="configured producer evidence",
         )

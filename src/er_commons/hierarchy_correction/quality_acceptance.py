@@ -85,7 +85,7 @@ class QualityGatePass(StrictModel):
 
     record_type: Literal["hierarchy_quality_gate_pass"]
     schema_version: Literal["1.0.0"]
-    quality_gate_id: Literal["brisbane_baylands_2025_deir_task03e2_quality_gate_v1"]
+    quality_gate_id: str = Field(min_length=1)
     quality_gate_config_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     candidate_id: str = Field(pattern=r"^hcorv1-[0-9a-f]{64}$")
     candidate_semantic_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")

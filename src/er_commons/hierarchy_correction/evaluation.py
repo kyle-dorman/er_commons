@@ -18,14 +18,16 @@ REVIEWED_CHANGE_RULES = frozenset(
 NON_BULLET_NUMBERING_KINDS = frozenset({"decimal", "article", "upper_alpha", "upper_roman"})
 
 
-def load_development_cases(path: Path) -> tuple[JsonRecord, ...]:
-    """Load the frozen eight-case bundle without weakening its identity fields."""
+def load_development_cases(path: Path, *, expected_count: int | None = 8) -> tuple[JsonRecord, ...]:
+    """Load one checksum-bound case bundle with caller-declared cardinality."""
     payload = json.loads(path.read_bytes())
     if not isinstance(payload, dict) or not isinstance(payload.get("cases"), list):
         raise ValueError("development-case file must contain a cases array")
     cases = tuple(payload["cases"])
-    if len(cases) != 8:
-        raise ValueError(f"expected exactly eight development cases, found {len(cases)}")
+    if expected_count is not None and len(cases) != expected_count:
+        raise ValueError(f"expected exactly {expected_count} development cases, found {len(cases)}")
+    if not cases:
+        raise ValueError("development cases must not be empty")
     keys = [case["stable_item_key"] for case in cases]
     if len(set(keys)) != len(keys):
         raise ValueError("development cases contain duplicate stable keys")

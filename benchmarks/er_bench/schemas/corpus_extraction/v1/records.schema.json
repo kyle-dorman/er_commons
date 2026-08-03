@@ -111,6 +111,59 @@
         "completion_last": {"const": true}
       }
     },
+    "document_attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "transaction_id", "source_id", "attempt", "disposition", "failure_class", "message", "state_event_paths", "completion_path"],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_attempt.v1"},
+        "transaction_id": {"type": "string", "pattern": "^txv1-[0-9a-f]{64}$"},
+        "source_id": {"$ref": "#/$defs/source_id"},
+        "attempt": {"type": "integer", "minimum": 1},
+        "disposition": {"enum": ["complete", "complete_with_warnings", "failed_retryable", "failed_terminal", "cancelled"]},
+        "failure_class": {"type": ["string", "null"]},
+        "message": {"type": ["string", "null"]},
+        "state_event_paths": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "completion_path": {"type": ["string", "null"]}
+      }
+    },
+    "document_resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "transaction_id", "policy", "enforcement"],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_resources.v1"},
+        "transaction_id": {"type": "string", "pattern": "^txv1-[0-9a-f]{64}$"},
+        "policy": {"type": "object"},
+        "enforcement": {"const": "declared"}
+      }
+    },
+    "document_resource_enforcement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "transaction_id", "enforcement"],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_resource_enforcement.v1"},
+        "transaction_id": {"type": "string", "pattern": "^txv1-[0-9a-f]{64}$"},
+        "enforcement": {"const": "validated_before_content_owners"}
+      }
+    },
+    "document_observability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "transaction_id", "wall_seconds", "peak_rss_bytes", "output_bytes", "stage_timings"],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_observability.v1"},
+        "transaction_id": {"type": "string", "pattern": "^txv1-[0-9a-f]{64}$"},
+        "wall_seconds": {"type": "number", "minimum": 0},
+        "peak_rss_bytes": {"type": ["integer", "null"], "minimum": 0},
+        "output_bytes": {"type": "integer", "minimum": 0},
+        "stage_timings": {
+          "type": "object",
+          "additionalProperties": {"type": "number", "minimum": 0}
+        }
+      }
+    },
     "accounting_row": {
       "type": "object",
       "additionalProperties": false,

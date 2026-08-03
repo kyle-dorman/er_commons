@@ -5,8 +5,9 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Literal
 
-from er_commons.cross_reference_enrichment.storage import sha256_file
+from er_commons.cross_reference_enrichment.storage import read_jsonl, sha256_file
 
 
 @dataclass(frozen=True)
@@ -16,15 +17,39 @@ class CrossReferenceEnrichmentConfig:
     upstream_candidate_id: str
     upstream_completion_sha256: str
     upstream_inventory_sha256: str
-    reference_candidate_id: str
-    reference_completion_sha256: str
-    reference_inventory_sha256: str
+    source_id: str
+    candidate_version_name: str
+    comparison_profile: Literal["policy_correction", "independent_build"]
+    reference_candidate_id: str | None
+    reference_completion_sha256: str | None
+    reference_inventory_sha256: str | None
     artifact_relative_root: Path
     source_manifest_relative_path: Path
     source_manifest_sha256: str
     specification_relative_path: Path
     schema_relative_path: Path
     comparison_relative_root: Path
+
+    def __post_init__(self) -> None:
+        """Reject incomplete comparison authority and escaping artifact paths."""
+        paths = (
+            self.artifact_relative_root,
+            self.source_manifest_relative_path,
+            self.specification_relative_path,
+            self.schema_relative_path,
+            self.comparison_relative_root,
+        )
+        if any(path.is_absolute() or ".." in path.parts for path in paths):
+            raise ValueError("cross-reference paths must be contained relative paths")
+        references = (
+            self.reference_candidate_id,
+            self.reference_completion_sha256,
+            self.reference_inventory_sha256,
+        )
+        if self.comparison_profile == "policy_correction" and any(
+            value is None for value in references
+        ):
+            raise ValueError("policy correction requires a sealed reference candidate")
 
     @classmethod
     def load(cls, path: Path) -> CrossReferenceEnrichmentConfig:
@@ -34,9 +59,12 @@ class CrossReferenceEnrichmentConfig:
             upstream_candidate_id=value["upstream_candidate_id"],
             upstream_completion_sha256=value["upstream_completion_sha256"],
             upstream_inventory_sha256=value["upstream_inventory_sha256"],
-            reference_candidate_id=value["reference_candidate_id"],
-            reference_completion_sha256=value["reference_completion_sha256"],
-            reference_inventory_sha256=value["reference_inventory_sha256"],
+            source_id=value["source_id"],
+            candidate_version_name=value["candidate_version_name"],
+            comparison_profile=value["comparison_profile"],
+            reference_candidate_id=value.get("reference_candidate_id"),
+            reference_completion_sha256=value.get("reference_completion_sha256"),
+            reference_inventory_sha256=value.get("reference_inventory_sha256"),
             artifact_relative_root=Path(value["artifact_relative_root"]),
             source_manifest_relative_path=Path(value["source_manifest_relative_path"]),
             source_manifest_sha256=value["source_manifest_sha256"],
@@ -56,7 +84,7 @@ class RuntimeContext:
     config: CrossReferenceEnrichmentConfig
     task_root: Path
     upstream_root: Path
-    reference_root: Path
+    reference_root: Path | None
     source_manifest_path: Path
     comparison_root: Path
 
@@ -68,17 +96,31 @@ class RuntimeContext:
         config = CrossReferenceEnrichmentConfig.load(resolved_config)
         task_root = data_root / config.artifact_relative_root
         upstream_root = task_root / config.upstream_candidate_id
-        reference_root = task_root / config.reference_candidate_id
+        reference_root = (
+            task_root / config.reference_candidate_id
+            if config.reference_candidate_id is not None
+            else None
+        )
         _verify_candidate_input(
             upstream_root,
             completion_sha256=config.upstream_completion_sha256,
             inventory_sha256=config.upstream_inventory_sha256,
         )
-        _verify_candidate_input(
-            reference_root,
-            completion_sha256=config.reference_completion_sha256,
-            inventory_sha256=config.reference_inventory_sha256,
-        )
+        documents = read_jsonl(upstream_root / "canonical/documents.jsonl")
+        if len(documents) != 1 or documents[0].get("source_id") != config.source_id:
+            raise ValueError("cross-reference upstream source differs from config")
+        if config.comparison_profile == "policy_correction":
+            if (
+                reference_root is None
+                or config.reference_completion_sha256 is None
+                or config.reference_inventory_sha256 is None
+            ):
+                raise ValueError("policy correction requires a sealed reference candidate")
+            _verify_candidate_input(
+                reference_root,
+                completion_sha256=config.reference_completion_sha256,
+                inventory_sha256=config.reference_inventory_sha256,
+            )
         source_manifest_path = data_root / config.source_manifest_relative_path
         if sha256_file(source_manifest_path) != config.source_manifest_sha256:
             raise ValueError("sealed model-corpus source manifest checksum differs")

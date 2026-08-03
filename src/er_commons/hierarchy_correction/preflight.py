@@ -35,12 +35,6 @@ from er_commons.hierarchy_correction.review import (
 )
 
 JsonRecord = dict[str, Any]
-QUALITY_GATE_CONFIG_RELATIVE_PATH = Path(
-    "configs/brisbane_baylands_2025_deir_task03e2_quality_gate_v1.json"
-)
-BOUNDED_ACCEPTANCE_CONFIG_RELATIVE_PATH = Path(
-    "configs/brisbane_baylands_2025_deir_task03e2d_bounded_acceptance_v1.json"
-)
 
 
 @dataclass(frozen=True)
@@ -93,13 +87,20 @@ def prepare_run(data_root: Path, config_path: Path) -> CorrectionRunContext:
     )
     candidate_id = identity["candidate_id"]
     task_root = data_root / config.artifact_relative_root
-    quality_gate_config_path = project_root / QUALITY_GATE_CONFIG_RELATIVE_PATH
+    quality_gate_config_path = project_root / config.quality_gate_config_relative_path
     quality_gate_config, _digest = load_quality_gate_config(quality_gate_config_path)
+    if (
+        config.publication_authorization == "strict_quality_gate"
+        and config.source.source_id != "deir_appendix_p"
+        and quality_gate_config.quality_profile != "generic_document"
+    ):
+        raise ValueError("non-Appendix strict correction requires generic quality evidence")
     review_root = data_root / config.review_artifact_relative_root / candidate_id
     bounded_policy = None
     if config.publication_authorization == "bounded_acceptance":
+        assert config.bounded_acceptance_config_relative_path is not None
         bounded_policy = verify_bounded_acceptance_policy(
-            project_root / BOUNDED_ACCEPTANCE_CONFIG_RELATIVE_PATH,
+            project_root / config.bounded_acceptance_config_relative_path,
             data_root,
         )
     return CorrectionRunContext(

@@ -24,7 +24,7 @@ class StrictConfigModel(BaseModel):
 class CorrectionSource(StrictConfigModel):
     """The sole checksum-pinned source allowed by the v1 correction task."""
 
-    source_id: Literal["deir_appendix_p"]
+    source_id: str = Field(pattern=r"^[a-z0-9][a-z0-9_]*$")
     official_title: str = Field(min_length=1)
     expected_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     expected_byte_size: int = Field(gt=0)
@@ -36,19 +36,23 @@ class HierarchyCorrectionConfig(StrictConfigModel):
 
     schema_version: Literal["1.0.0"]
     policy_version: Literal["1.0.0"]
-    pipeline_id: Literal["brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1"]
+    pipeline_id: str = Field(min_length=1)
     publication_authorization: Literal["strict_quality_gate", "bounded_acceptance"]
-    source_release_version: Literal["brisbane_baylands_2025_deir_sources_v1"]
+    source_release_version: str = Field(min_length=1)
     source_manifest_relative_path: Path
     source: CorrectionSource
     producer_artifact_relative_root: Path
-    producer_run_id: Literal[
-        "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1"
-    ]
+    producer_run_id: str = Field(pattern=r"^prv1-[0-9a-f]{64}$")
     artifact_relative_root: Path
     review_artifact_relative_root: Path
     policy_relative_path: Path
     schema_relative_path: Path
+    quality_gate_config_relative_path: Path = Path(
+        "configs/brisbane_baylands_2025_deir_task03e2_quality_gate_v1.json"
+    )
+    bounded_acceptance_config_relative_path: Path | None = Path(
+        "configs/brisbane_baylands_2025_deir_task03e2d_bounded_acceptance_v1.json"
+    )
 
     @property
     def source_manifest_path(self) -> Path:
@@ -65,19 +69,22 @@ class HierarchyCorrectionConfig(StrictConfigModel):
             self.review_artifact_relative_root,
             self.policy_relative_path,
             self.schema_relative_path,
+            self.quality_gate_config_relative_path,
         ):
             if path.is_absolute() or ".." in path.parts:
                 raise ValueError("hierarchy-correction paths must be contained relative paths")
-        source = self.source
-        if (
-            source.source_id != APPENDIX_P_SOURCE_ID
-            or source.expected_sha256 != APPENDIX_P_SOURCE_SHA256
-            or source.expected_byte_size != APPENDIX_P_SOURCE_BYTES
-            or source.expected_pdf_page_count != APPENDIX_P_PAGE_COUNT
+        bounded = self.bounded_acceptance_config_relative_path
+        if bounded is not None and (bounded.is_absolute() or ".." in bounded.parts):
+            raise ValueError("bounded-acceptance config path must be contained")
+        if self.publication_authorization == "bounded_acceptance" and bounded is None:
+            raise ValueError("bounded publication requires an acceptance config")
+        if self.publication_authorization == "bounded_acceptance" and (
+            self.source.source_id != APPENDIX_P_SOURCE_ID
+            or self.source.expected_sha256 != APPENDIX_P_SOURCE_SHA256
+            or self.source.expected_byte_size != APPENDIX_P_SOURCE_BYTES
+            or self.source.expected_pdf_page_count != APPENDIX_P_PAGE_COUNT
         ):
-            raise ValueError("Task 03E.2 source must be the approved Appendix P")
-        if self.producer_run_id != ACCEPTED_PRODUCER_RUN_ID:
-            raise ValueError("Task 03E.2 must consume the accepted Task 03E producer")
+            raise ValueError("bounded acceptance is limited to the approved Appendix P")
         return self
 
 

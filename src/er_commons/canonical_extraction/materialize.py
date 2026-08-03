@@ -14,11 +14,7 @@ from er_commons.canonical_extraction.config import (
     CanonicalizationConfig,
     load_canonicalization_config,
 )
-from er_commons.canonical_extraction.constants import (
-    MAPPING_POLICY_PATH,
-    PROJECT_ROOT,
-    SCHEMA_PATH,
-)
+from er_commons.canonical_extraction.constants import MAPPING_POLICY_PATH, PROJECT_ROOT, SCHEMA_PATH
 from er_commons.canonical_extraction.content_records import build_content_records
 from er_commons.canonical_extraction.context import build_materialization_context
 from er_commons.canonical_extraction.inputs import (
@@ -38,7 +34,7 @@ from er_commons.canonical_extraction.tables import (
 from er_commons.source_freeze import assert_contained
 
 
-def _owned_paths(config_path: Path) -> tuple[Path, ...]:
+def _owned_paths(config_path: Path, mapping_policy_path: Path) -> tuple[Path, ...]:
     """Return every source/config byte bound into candidate identity."""
     module_root = Path(__file__).parent
     return tuple(sorted(module_root.rglob("*.py"))) + (
@@ -46,7 +42,7 @@ def _owned_paths(config_path: Path) -> tuple[Path, ...]:
         PROJECT_ROOT / "pyproject.toml",
         PROJECT_ROOT / "uv.lock",
         SCHEMA_PATH,
-        MAPPING_POLICY_PATH,
+        mapping_policy_path,
         config_path.resolve(),
     )
 
@@ -117,13 +113,19 @@ def run_document_canonicalization(data_root: Path, config_path: Path) -> Path:
     """Publish or checksum-verify the deterministic Appendix P core candidate."""
     config, _config_sha256 = load_canonicalization_config(config_path)
     inputs = load_canonicalization_inputs(data_root, config)
+    mapping_policy_relative = getattr(config, "mapping_policy_relative_path", None)
+    mapping_policy_path = (
+        PROJECT_ROOT / mapping_policy_relative
+        if mapping_policy_relative is not None
+        else MAPPING_POLICY_PATH
+    )
     identity = build_candidate_identity(
         project_root=PROJECT_ROOT,
         config=config,
         inputs=inputs,
         schema_path=SCHEMA_PATH,
-        mapping_policy_path=MAPPING_POLICY_PATH,
-        owned_paths=_owned_paths(config_path),
+        mapping_policy_path=mapping_policy_path,
+        owned_paths=_owned_paths(config_path, mapping_policy_path),
     )
     candidate_id = identity["extraction_id"]
     task_root = assert_contained(

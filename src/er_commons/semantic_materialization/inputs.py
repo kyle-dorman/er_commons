@@ -10,6 +10,9 @@ from typing import Any
 from er_commons.canonical_extraction.publication import verify_completed_candidate
 from er_commons.document_extraction.producer_artifacts import verify_completed_run
 from er_commons.document_extraction.producer_records import CompletionRecord
+from er_commons.hierarchy_correction.candidate_publication import (
+    verify_completed_candidate as verify_hierarchy_candidate,
+)
 from er_commons.semantic_materialization.config import SemanticMaterializationConfig
 from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 from er_commons.semantic_structure.constants import EXPECTED_PRODUCER_COMPARISON_SHA256
@@ -54,8 +57,8 @@ class SemanticMaterializationInputs:
     hierarchy_candidate_root: Path
     hierarchy_completion_ref: ArtifactReference
     hierarchy_inventory_ref: ArtifactReference
-    bounded_acceptance_ref: ArtifactReference
-    producer_comparison_ref: ArtifactReference
+    bounded_acceptance_ref: ArtifactReference | None
+    producer_comparison_ref: ArtifactReference | None
     control_provenance: JsonObject
     source_manifest_ref: ArtifactReference
 
@@ -224,24 +227,55 @@ def load_semantic_materialization_inputs(
     hierarchy_root = assert_contained(
         data_root, config.hierarchy_candidate_relative_root.as_posix()
     )
-    acceptance_path = assert_contained(
-        data_root, config.bounded_acceptance_relative_path.as_posix()
-    )
-    control = verify_task03e2d_control(hierarchy_root, acceptance_path)
-
-    comparison_path = assert_contained(
-        data_root, config.producer_comparison_relative_path.as_posix()
-    )
-    comparison_ref = _data_ref(data_root, comparison_path)
-    _require_input_value(
-        invariant="producer comparison checksum matches the Task 03E.4 contract",
-        expected=EXPECTED_PRODUCER_COMPARISON_SHA256,
-        observed=comparison_ref.sha256,
-        subject=comparison_ref.path,
-    )
-
     hierarchy_completion_path = hierarchy_root / "records" / "completion_record.json"
     hierarchy_inventory_path = hierarchy_root / "records" / "artifact_inventory.json"
+    acceptance_ref = None
+    comparison_ref = None
+    if config.control_profile == "task03e2d_bounded":
+        assert config.bounded_acceptance_relative_path is not None
+        assert config.producer_comparison_relative_path is not None
+        acceptance_path = assert_contained(
+            data_root, config.bounded_acceptance_relative_path.as_posix()
+        )
+        control = verify_task03e2d_control(hierarchy_root, acceptance_path)
+        acceptance_ref = _data_ref(data_root, acceptance_path)
+        comparison_path = assert_contained(
+            data_root, config.producer_comparison_relative_path.as_posix()
+        )
+        comparison_ref = _data_ref(data_root, comparison_path)
+        _require_input_value(
+            invariant="producer comparison checksum matches the bounded control",
+            expected=EXPECTED_PRODUCER_COMPARISON_SHA256,
+            observed=comparison_ref.sha256,
+            subject=comparison_ref.path,
+        )
+    else:
+        verify_hierarchy_candidate(
+            hierarchy_root,
+            config.hierarchy_candidate_id,
+            project_root / config.hierarchy_schema_relative_path,
+        )
+        completion = _load_json_object(hierarchy_completion_path)
+        identity = _load_json_object(hierarchy_root / "records/identity.json")
+        identity_source = identity.get("source")
+        if not isinstance(identity_source, dict):
+            identity_source = identity.get("preimage", {}).get("source", {})
+        _require_input_value(
+            invariant="strict hierarchy candidate source matches semantic config",
+            expected=config.source.source_id,
+            observed=identity_source.get("source_id"),
+            subject=config.hierarchy_candidate_id,
+        )
+        control = {
+            "control_kind": "strict_quality_gate",
+            "candidate_id": config.hierarchy_candidate_id,
+            "completion_status": completion["status"],
+            "artifact_inventory_sha256": completion["artifact_inventory_sha256"],
+            "quality_gate_completion_sha256": sha256_file(hierarchy_completion_path),
+            "source_id": config.source.source_id,
+            "physical_page_count": config.source.physical_page_count,
+            "corpus_wide_acceptance": False,
+        }
     return SemanticMaterializationInputs(
         baseline_candidate_root=baseline_root,
         baseline_completion=baseline_completion,
@@ -252,7 +286,7 @@ def load_semantic_materialization_inputs(
         hierarchy_candidate_root=hierarchy_root,
         hierarchy_completion_ref=_data_ref(data_root, hierarchy_completion_path),
         hierarchy_inventory_ref=_data_ref(data_root, hierarchy_inventory_path),
-        bounded_acceptance_ref=_data_ref(data_root, acceptance_path),
+        bounded_acceptance_ref=acceptance_ref,
         producer_comparison_ref=comparison_ref,
         control_provenance=control,
         source_manifest_ref=source_manifest_ref,

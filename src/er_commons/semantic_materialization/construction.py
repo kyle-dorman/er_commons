@@ -16,6 +16,10 @@ from er_commons.semantic_materialization.baseline import (
     remap_candidate_namespace,
     restore_placed_content_families_in_place,
 )
+from er_commons.semantic_materialization.config import (
+    HISTORICAL_EXPECTATIONS,
+    SemanticExpectations,
+)
 from er_commons.semantic_materialization.page_labels import build_page_label_observations
 from er_commons.semantic_materialization.producer_evidence import (
     ProducerEvidence,
@@ -44,6 +48,7 @@ class SemanticConstructionInputs:
     hierarchy_producer_run_id: str
     source_id: str
     page_count: int
+    expectations: SemanticExpectations = HISTORICAL_EXPECTATIONS
 
 
 @dataclass(frozen=True)
@@ -88,6 +93,7 @@ def build_semantic_records(inputs: SemanticConstructionInputs) -> SemanticBuild:
         block_id_by_key=block_id_by_key,
         baseline_producer_run_id=inputs.baseline_producer_run_id,
         hierarchy_producer_run_id=inputs.hierarchy_producer_run_id,
+        expected_coverage=inputs.expectations,
     )
     page_labels = build_page_label_observations(
         page_count=inputs.page_count,

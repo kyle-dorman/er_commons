@@ -15,13 +15,14 @@ def verify_config_evidence(
     data_root: Path,
 ) -> None:
     """Verify tracked inputs and accepted Task 03E and 03D.1 terminal records."""
-    tracked = (
+    tracked = [
         config.development_cases,
         config.fixture_manifest,
         config.held_out_manifest,
         config.review_schema,
-        config.task03e_evaluation_config,
-    )
+    ]
+    if config.task03e_evaluation_config is not None:
+        tracked.append(config.task03e_evaluation_config)
     for evidence in tracked:
         path = project_root / evidence.path
         if hashlib.sha256(path.read_bytes()).hexdigest() != evidence.sha256:
@@ -36,12 +37,14 @@ def verify_config_evidence(
         != config.expected_numbering_relation_count
     ):
         raise ValueError("quality-gate fixture-manifest 29/21 counts differ")
-    _verify_control_scope(config, project_root)
-    _verify_task03e_evidence(config, data_root, development_evidence)
+    if config.quality_profile == "appendix_p_task03e2":
+        _verify_control_scope(config, project_root)
+        _verify_task03e_evidence(config, data_root, development_evidence)
     _verify_task03d1_evidence(config, data_root)
 
 
 def _verify_control_scope(config: QualityGateConfig, project_root: Path) -> None:
+    assert config.task03e_evaluation_config is not None
     evaluation = json.loads((project_root / config.task03e_evaluation_config.path).read_bytes())
     actual_controls = tuple(
         (item["first_page"], item["last_page"], item["purpose"])
@@ -65,6 +68,7 @@ def _verify_task03e_evidence(
     development_evidence: dict[str, object],
 ) -> None:
     reference = config.task03e_review_reference
+    assert reference is not None
     root = data_root / reference.artifact_relative_root / reference.comparison_id
     reports = (
         ("producer_comparison_report.json", reference.producer_comparison_report_sha256),

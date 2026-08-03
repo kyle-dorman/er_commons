@@ -17,5 +17,7 @@
   "artifact_relative_root": "pipelines/brisbane_baylands/task_03e2_hierarchy_correction",
   "review_artifact_relative_root": "pipelines/brisbane_baylands/task_03e2_hierarchy_review",
   "policy_relative_path": "docs/specs/hierarchy_correction_v1.md",
-  "schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json"
+  "schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
+  "quality_gate_config_relative_path": "configs/brisbane_baylands_2025_deir_task03e2_quality_gate_v1.json",
+  "bounded_acceptance_config_relative_path": "configs/brisbane_baylands_2025_deir_task03e2d_bounded_acceptance_v1.json"
 }

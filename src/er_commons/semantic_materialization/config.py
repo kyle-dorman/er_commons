@@ -1,9 +1,8 @@
-"""Strict Task 03E.4 configuration and frozen Appendix P selections."""
+"""Strict configuration for historical and generalized semantic materialization."""
 
 from __future__ import annotations
 
 import hashlib
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
@@ -16,11 +15,11 @@ SOURCE_ID = "deir_appendix_p"
 SOURCE_SHA256 = "2dfceac46931a946bc343d52b09104b7b58ed8831bc4f49a03f0b8655e4e6ea1"
 
 
-@dataclass(frozen=True)
-class AppendixPScope:
-    """Frozen Appendix P counts and review sample accepted by Task 03E.4."""
+class SemanticExpectations(BaseModel):
+    """Per-document reviewed counts; values live in config, not runtime literals."""
 
-    page_count: int
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
     section_count: int
     bridge_entry_count: int
     canonical_block_count: int
@@ -29,11 +28,9 @@ class AppendixPScope:
     mapped_block_count: int
     table_replacement_count: int
     figure_suppression_count: int
-    review_pages: tuple[int, ...]
 
 
-APPENDIX_P_SCOPE = AppendixPScope(
-    page_count=222,
+HISTORICAL_EXPECTATIONS = SemanticExpectations(
     section_count=248,
     bridge_entry_count=5_340,
     canonical_block_count=3_024,
@@ -42,7 +39,6 @@ APPENDIX_P_SCOPE = AppendixPScope(
     mapped_block_count=2_255,
     table_replacement_count=2_314,
     figure_suppression_count=2,
-    review_pages=(2, 4, 8, 73, 82, 96, 105, 112, 166, 220),
 )
 
 
@@ -55,69 +51,80 @@ class StrictConfigModel(BaseModel):
 class SemanticSource(StrictConfigModel):
     """The sole source authorized for Task 03E.4."""
 
-    source_id: Literal["deir_appendix_p"]
-    source_sha256: Literal["2dfceac46931a946bc343d52b09104b7b58ed8831bc4f49a03f0b8655e4e6ea1"]
-    physical_page_count: Literal[222]
+    source_id: str = Field(pattern=r"^[a-z0-9][a-z0-9_]*$")
+    source_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    physical_page_count: int = Field(gt=0)
 
 
 class SemanticMaterializationConfig(StrictConfigModel):
     """Content-bound paths and identities for the Appendix P semantic join."""
 
     schema_version: Literal["1.0.0"]
-    semantic_policy_version: Literal["task03e4-v1"]
-    candidate_version_name: Literal["appendix_p_semantic_candidate_v2"]
+    semantic_policy_version: str = Field(min_length=1)
+    candidate_version_name: str = Field(min_length=1)
     candidate_scope: Literal["document_scoped_non_release"]
+    control_profile: Literal["task03e2d_bounded", "strict_quality_gate"] = "task03e2d_bounded"
+    reference_profile: Literal["frozen_equivalence", "independent_build"] = "frozen_equivalence"
     source: SemanticSource
     source_manifest_relative_path: Path
     baseline_candidate_relative_root: Path
-    baseline_candidate_id: Literal[
-        "exv1-2ea82d10c3459d4a4249b875c0ec1cbe594bc81a1c1b541f2fe85554b6854b28"
-    ]
+    baseline_candidate_id: str = Field(pattern=r"^exv1-[0-9a-f]{64}$")
     baseline_producer_relative_root: Path
-    baseline_producer_run_id: Literal[
-        "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0"
-    ]
+    baseline_producer_run_id: str = Field(pattern=r"^prv1-[0-9a-f]{64}$")
     hierarchy_producer_relative_root: Path
-    hierarchy_producer_run_id: Literal[
-        "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1"
-    ]
+    hierarchy_producer_run_id: str = Field(pattern=r"^prv1-[0-9a-f]{64}$")
     hierarchy_candidate_relative_root: Path
-    hierarchy_candidate_id: Literal[
-        "hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1"
-    ]
-    bounded_acceptance_relative_path: Path
-    producer_comparison_relative_path: Path
+    hierarchy_candidate_id: str = Field(pattern=r"^hcorv1-[0-9a-f]{64}$")
+    hierarchy_schema_relative_path: Path = Path(
+        "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json"
+    )
+    bounded_acceptance_relative_path: Path | None = None
+    producer_comparison_relative_path: Path | None = None
     semantic_spec_relative_path: Path
     semantic_schema_relative_path: Path
     artifact_relative_root: Path
-    mvp_reference_candidate_id: Literal[
-        "exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf"
-    ]
-    review_cache_relative_root: Path
-    rewrite_review_relative_root: Path
-    review_pages: tuple[int, ...] = Field(min_length=10, max_length=10)
+    mvp_reference_candidate_id: str | None = Field(default=None, pattern=r"^exv1-[0-9a-f]{64}$")
+    review_cache_relative_root: Path | None = None
+    rewrite_review_relative_root: Path | None = None
+    review_pages: tuple[int, ...] = ()
+    expectations: SemanticExpectations = HISTORICAL_EXPECTATIONS
 
     @model_validator(mode="after")
     def validate_frozen_scope(self) -> SemanticMaterializationConfig:
         """Keep every configured path contained and the review sample exact."""
-        paths = (
-            self.source_manifest_relative_path,
-            self.baseline_candidate_relative_root,
-            self.baseline_producer_relative_root,
-            self.hierarchy_producer_relative_root,
-            self.hierarchy_candidate_relative_root,
-            self.bounded_acceptance_relative_path,
-            self.producer_comparison_relative_path,
-            self.semantic_spec_relative_path,
-            self.semantic_schema_relative_path,
-            self.artifact_relative_root,
-            self.review_cache_relative_root,
-            self.rewrite_review_relative_root,
+        paths = tuple(
+            path
+            for path in (
+                self.source_manifest_relative_path,
+                self.baseline_candidate_relative_root,
+                self.baseline_producer_relative_root,
+                self.hierarchy_producer_relative_root,
+                self.hierarchy_candidate_relative_root,
+                self.hierarchy_schema_relative_path,
+                self.bounded_acceptance_relative_path,
+                self.producer_comparison_relative_path,
+                self.semantic_spec_relative_path,
+                self.semantic_schema_relative_path,
+                self.artifact_relative_root,
+                self.review_cache_relative_root,
+                self.rewrite_review_relative_root,
+            )
+            if path is not None
         )
         if any(path.is_absolute() or ".." in path.parts for path in paths):
             raise ValueError("Task 03E.4 paths must be contained relative paths")
-        if self.review_pages != APPENDIX_P_SCOPE.review_pages:
-            raise ValueError("Task 03E.4 review pages differ from the frozen sample")
+        if self.control_profile == "task03e2d_bounded" and (
+            self.bounded_acceptance_relative_path is None
+            or self.producer_comparison_relative_path is None
+        ):
+            raise ValueError("bounded semantic control requires acceptance and comparison")
+        if self.reference_profile == "frozen_equivalence" and (
+            self.mvp_reference_candidate_id is None
+            or self.review_cache_relative_root is None
+            or self.rewrite_review_relative_root is None
+            or not self.review_pages
+        ):
+            raise ValueError("frozen semantic equivalence requires reference and review inputs")
         return self
 
 

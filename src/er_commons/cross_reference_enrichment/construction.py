@@ -70,17 +70,19 @@ class CrossReferenceCandidateBuilder:
         candidate_id: str,
         policy: MentionPolicy,
         corpus_catalog: CorpusDocumentCatalog,
+        source_id: str,
     ) -> None:
         self._source = source
         self._candidate_id = candidate_id
         self._policy = policy
         self._catalog = corpus_catalog
+        self._source_id = source_id
         self._remapper = NamespaceRemapper(upstream_candidate_id, candidate_id)
 
     def build(self) -> CandidateBuild:
         """Build the target index, remapped graph, mentions, and support in order."""
         upstream = self._source.record_files
-        target_index = TargetIndexBuilder(self._remapper).build(
+        target_index = TargetIndexBuilder(self._remapper, self._source_id).build(
             upstream_aliases=upstream[TARGET_ALIAS_PATH],
             upstream_blocks=upstream["canonical/blocks.jsonl"],
             upstream_tables=upstream["canonical/tables.jsonl"],
@@ -180,7 +182,7 @@ class CrossReferenceCandidateBuilder:
         return {
             "schema_version": "er_commons.canonical_extraction.v3",
             "extraction_id": self._candidate_id,
-            "id": (f"{self._candidate_id}/cross-reference/deir_appendix_p/xref{sequence:06d}"),
+            "id": (f"{self._candidate_id}/cross-reference/{self._source_id}/xref{sequence:06d}"),
             "document_id": source_block["document_id"],
             "sequence": sequence,
             "source_record_id": source_block["id"],

@@ -39,7 +39,11 @@ def run_cross_reference_enrichment(data_root: Path, config_path: Path) -> tuple[
     candidate_root = context.task_root / candidate_id
     if candidate_root.exists():
         completion = verify_completed_candidate(candidate_root, candidate_id)
-        comparison = _compare_and_record(context, candidate_root, candidate_id)
+        comparison = (
+            _compare_and_record(context, candidate_root, candidate_id)
+            if context.config.comparison_profile == "policy_correction"
+            else completion
+        )
         return completion, comparison
     return _build_compare_and_publish(context, identity)
 
@@ -60,6 +64,7 @@ def _build_compare_and_publish(context: RuntimeContext, identity: JsonObject) ->
                 candidate_id=candidate_id,
                 policy=policy,
                 corpus_catalog=catalog,
+                source_id=context.config.source_id,
             ).build()
             validate_candidate_build(
                 build=build,
@@ -76,10 +81,16 @@ def _build_compare_and_publish(context: RuntimeContext, identity: JsonObject) ->
             )
         if _file_bytes(workspaces[0].staging_root) != _file_bytes(workspaces[1].staging_root):
             raise ValueError("fresh human-owned candidate builds differ")
-        comparison = _compare_and_record(context, workspaces[0].staging_root, candidate_id)
+        comparison = (
+            _compare_and_record(context, workspaces[0].staging_root, candidate_id)
+            if context.config.comparison_profile == "policy_correction"
+            else workspaces[0].staging_root / "records/completion_record.json"
+        )
         shutil.rmtree(workspaces[1].staging_root)
         completion = publish_workspace(workspaces[0])
         verify_completed_candidate(context.task_root / candidate_id, candidate_id)
+        if context.config.comparison_profile != "policy_correction":
+            comparison = completion
         return completion, comparison
     except Exception:
         for workspace in workspaces:
@@ -89,6 +100,8 @@ def _build_compare_and_publish(context: RuntimeContext, identity: JsonObject) ->
 
 
 def _compare_and_record(context: RuntimeContext, candidate_root: Path, candidate_id: str) -> Path:
+    if context.reference_root is None or context.config.reference_candidate_id is None:
+        raise ValueError("policy correction comparison lacks a reference candidate")
     result = compare_policy_correction(
         reference_root=context.reference_root,
         candidate_root=candidate_root,

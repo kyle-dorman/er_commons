@@ -8,6 +8,7 @@ from typing import Annotated
 import typer
 
 from er_commons.canonical_extraction import run_document_canonicalization
+from er_commons.corpus_extraction import run_document as run_restartable_document
 from er_commons.corpus_extraction_contract import validate_fixture_directory
 from er_commons.cross_reference_enrichment import run_cross_reference_enrichment
 from er_commons.document_extraction import (
@@ -291,6 +292,36 @@ def validate_extraction_contract(
     """Validate the offline Task 03F.1 contract fixtures without source data."""
     validate_fixture_directory(schema.resolve(), fixtures.resolve())
     typer.echo("restartable_extraction_contract=valid")
+
+
+@extraction_app.command("run-document")
+def run_extraction_document(
+    run_spec: Annotated[
+        Path,
+        typer.Option(
+            "--run-spec",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Explicit restartable document-stage run specification.",
+        ),
+    ],
+    source_id: Annotated[
+        str,
+        typer.Option(
+            "--source-id",
+            help="Manifest source ID; no document is selected by default.",
+        ),
+    ],
+) -> None:
+    """Run or checksum-reuse one complete manifest-selected document."""
+    completion = run_restartable_document(
+        load_settings().data_root,
+        run_spec,
+        source_id,
+    )
+    typer.echo(f"document_completion={completion}")
 
 
 @hierarchy_app.command("correct-document")

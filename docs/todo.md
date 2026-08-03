@@ -147,12 +147,15 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Tasks 03E.2d through 03E.5 are complete. Task 03F has been revised into a
-three-part umbrella. [Task
+Tasks 03E.2d through 03E.5 are complete. Task 03F is a three-part umbrella.
+[Task
 03F.1](../tasks/sprint2/03f1_define_restartable_extraction_contract.md) is
 complete with its Gate A inventory and Gate B contract explicitly accepted.
 [Task 03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md) is
-active; Task 03F.3 remains provisional.
+complete. Its human-owned replacement preserves the accepted restartable
+behavior and exact offline Appendix P evidence and passes the separate
+maintainability gate. Task 03F.3 remains provisional pending explicit review
+and approval.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -160,12 +163,10 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Execute active [Task
-   03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md) from
-   the accepted Task 03F.1 identity, lifecycle, accounting, artifact, and
-   bounded-validation contract. Preserve the accepted Task 03E.5 candidate
-   offline, and do not run a real-source smoke without separate approval. Keep
-   Task 03F.3, [Task
+1. Review and revise provisional Task 03F.3 against the accepted human-owned
+   [Task 03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md)
+   outcome, then activate it only with explicit authorization. Do not run a
+   real-source smoke without separate approval. Keep Task 03F.3, [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional;
    revise and activate each only after the preceding outcome is accepted.

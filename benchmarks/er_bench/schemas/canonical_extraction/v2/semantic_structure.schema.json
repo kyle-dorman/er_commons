@@ -154,7 +154,7 @@
       },
       "additionalProperties": false
     },
-    "control_provenance": {
+    "bounded_control_provenance": {
       "type": "object",
       "required": [
         "candidate_id", "completion_status", "artifact_inventory_sha256", "semantic_file_set_sha256",
@@ -182,6 +182,31 @@
         "producer_comparison_sha256": {"const": "33574f6b15dc128a7bf58d6e2ab1a35c867ce1df493fe317a46bed1b8e8bf364"}
       },
       "additionalProperties": false
+    },
+    "strict_control_provenance": {
+      "type": "object",
+      "required": [
+        "control_kind", "candidate_id", "completion_status", "artifact_inventory_sha256",
+        "quality_gate_completion_sha256", "source_id", "physical_page_count",
+        "corpus_wide_acceptance"
+      ],
+      "properties": {
+        "control_kind": {"const": "strict_quality_gate"},
+        "candidate_id": {"type": "string", "pattern": "^hcorv1-[0-9a-f]{64}$"},
+        "completion_status": {"enum": ["complete", "complete_with_ambiguities"]},
+        "artifact_inventory_sha256": {"$ref": "#/$defs/sha256"},
+        "quality_gate_completion_sha256": {"$ref": "#/$defs/sha256"},
+        "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+        "physical_page_count": {"type": "integer", "minimum": 1},
+        "corpus_wide_acceptance": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "control_provenance": {
+      "oneOf": [
+        {"$ref": "#/$defs/bounded_control_provenance"},
+        {"$ref": "#/$defs/strict_control_provenance"}
+      ]
     },
     "correspondence_report": {
       "type": "object",
@@ -240,7 +265,7 @@
       "required": ["schema_version", "source_semantic_disposition", "page_label_observation_count", "target_alias_count", "support_files"],
       "properties": {
         "schema_version": {"const": "er_commons.canonical_extraction_manifest.v2"},
-        "source_semantic_disposition": {"const": "accepted_with_known_limitations"},
+        "source_semantic_disposition": {"enum": ["accepted_with_known_limitations", "strict_quality_gate"]},
         "page_label_observation_count": {"type": "integer", "minimum": 1},
         "target_alias_count": {"type": "integer", "minimum": 0},
         "support_files": {"type": "array", "items": {"$ref": "#/$defs/support_file"}, "minItems": 4, "maxItems": 4}
@@ -254,7 +279,7 @@
         "schema_version": {"const": "er_commons.canonical_extraction_completion.v2"},
         "extraction_id": {"$ref": "#/$defs/candidate_id"},
         "status": {"enum": ["complete", "complete_with_warnings"]},
-        "source_semantic_disposition": {"const": "accepted_with_known_limitations"},
+        "source_semantic_disposition": {"enum": ["accepted_with_known_limitations", "strict_quality_gate"]},
         "artifact_inventory_sha256": {"$ref": "#/$defs/sha256"},
         "support_files_verified": {"const": true},
         "undeclared_difference_count": {"const": 0}

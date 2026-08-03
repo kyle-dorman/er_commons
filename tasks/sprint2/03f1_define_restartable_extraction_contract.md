@@ -1,8 +1,9 @@
 # Task 03F.1: Define the Restartable Corpus Extraction Contract
 
 Status: **complete as of 2026-08-03**. The user approved the read-only Gate A
-inventory and the checked-in Gate B contract. Task 03F.2 is now active. This
-task did not implement extraction, delete runtime code, or run source PDFs.
+inventory and the checked-in Gate B contract. Task 03F.2 subsequently
+completed. This task did not implement extraction, delete runtime code, or run
+source PDFs.
 
 ## Abstract
 

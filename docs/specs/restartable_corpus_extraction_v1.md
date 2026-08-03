@@ -238,8 +238,9 @@ by inference threads requires an explicit bound.
 Docling `convert_all(..., raises_on_error=False)` may be used as an in-process
 iterator, but it is not a checkpoint system. Current Docling document
 concurrency is experimental; page and stage batches affect memory and throughput.
-`document_timeout` is cooperative at page-batch boundaries, not a hard kill.
-A hard deadline therefore requires one-document process isolation. Profiling is
+`document_timeout` is cooperative at pipeline control checkpoints, at latest
+between batches, and cannot preempt an in-flight native or model call. It is
+not a hard kill. A hard deadline therefore requires one-document process isolation. Profiling is
 enabled for corpus evidence, but timings and host measurements remain
 non-identity observability records.
 
@@ -257,7 +258,7 @@ Maintained sources consulted 2026-08-03:
 
 ## Commands
 
-Gate B implements only offline fixture validation:
+Task 03F.1 implements offline fixture validation:
 
 ```bash
 er-commons extraction validate-contract \
@@ -266,7 +267,8 @@ er-commons extraction validate-contract \
 make validate-extraction-contract
 ```
 
-Future runtime commands have required paths and no Appendix P default:
+Task 03F.2 adds the document command with required paths and no Appendix P
+default. Later runtime commands remain reserved for Task 03F.3:
 
 ```bash
 er-commons extraction run-document --run-spec PATH --source-id SOURCE_ID

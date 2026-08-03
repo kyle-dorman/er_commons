@@ -73,8 +73,9 @@ class NamespaceRemapper:
 class TargetIndexBuilder:
     """Preserve accepted aliases and add only verified table-label aliases."""
 
-    def __init__(self, remapper: NamespaceRemapper) -> None:
+    def __init__(self, remapper: NamespaceRemapper, source_id: str | None = None) -> None:
         self._remapper = remapper
+        self._source_id = source_id
 
     def build(
         self,
@@ -84,6 +85,8 @@ class TargetIndexBuilder:
         upstream_tables: list[JsonObject],
     ) -> TargetIndex:
         """Construct the full index in two explicit evidence phases."""
+        if self._source_id is None:
+            self._source_id = _source_id_from_records(upstream_blocks, upstream_tables)
         aliases, entries = self._preserve_upstream_aliases(upstream_aliases)
         derived_aliases, derived_entries = self._verified_table_aliases(
             upstream_blocks=upstream_blocks,
@@ -165,7 +168,9 @@ class TargetIndexBuilder:
     ) -> tuple[JsonObject, TargetIndexEntry]:
         raw_label = block["canonical_text"].strip()
         lookup_key = raw_label.casefold()
-        alias_id = f"{self._remapper.candidate_id}/target-alias/deir_appendix_p/alias{sequence:06d}"
+        alias_id = (
+            f"{self._remapper.candidate_id}/target-alias/{self._source_id}/alias{sequence:06d}"
+        )
         local_target_id = self._remapper.record_id(table["id"])
         local_block_id = self._remapper.record_id(block["id"])
         local_page_id = self._remapper.record_id(page_id)
@@ -212,6 +217,22 @@ def _records_by_page(records: list[JsonObject]) -> dict[str, list[JsonObject]]:
         for region in record["regions"]:
             by_page[region["page_id"]].append(record)
     return by_page
+
+
+def _source_id_from_records(blocks: list[JsonObject], tables: list[JsonObject]) -> str:
+    """Recover the verified source namespace for legacy direct builder callers."""
+    records = tables or blocks
+    if not records:
+        return "unresolved_source"
+    document_id = records[0].get("document_id")
+    marker = "/document/"
+    if not isinstance(document_id, str) or marker not in document_id:
+        raise ValueError("target-index records do not expose a source document namespace")
+    suffix = document_id.split(marker, 1)[1]
+    source_id = suffix.split("/", 1)[0]
+    if not source_id:
+        raise ValueError("target-index source namespace is empty")
+    return source_id
 
 
 def _eligible_table_labels_by_page(

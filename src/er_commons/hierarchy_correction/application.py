@@ -193,6 +193,7 @@ def _quality_pass(
         quality_config_path=run.quality_gate_config_path,
         candidate_root=workspace.staging_root,
         candidate_id=run.candidate_id,
+        source_id=run.config.source.source_id,
         annotation_seal=new.annotation_seal,
         repeat_comparison_path=repeats.comparison_path,
         preservation_before=new.preservation_before,

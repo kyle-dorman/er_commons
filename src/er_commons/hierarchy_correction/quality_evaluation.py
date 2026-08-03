@@ -165,6 +165,18 @@ def combine_development_report(
     )
 
 
+def evaluate_document_development_cases(
+    *,
+    source_id: str,
+    development_cases: tuple[JsonRecord, ...],
+    decisions: tuple[JsonRecord, ...],
+) -> JsonRecord:
+    """Evaluate an arbitrary nonempty case bundle for exactly one selected document."""
+    if {item.get("source_id") for item in development_cases} != {source_id}:
+        raise ValueError("generic development cases differ from the selected source")
+    return evaluate_expected_cases(cases=development_cases, decisions=decisions)
+
+
 def build_combined_review_inventory(
     surfaces: tuple[EvaluationSurface, ...],
 ) -> JsonRecord:

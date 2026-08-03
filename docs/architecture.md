@@ -311,7 +311,35 @@ uses plain files and bounded local processes rather than a scheduler service,
 database queue, or workflow engine.
 
 `er_commons.corpus_extraction_contract` is an offline validator only. Task
-03F.2 will implement the manifest-driven document transaction, and Task 03F.3
-will implement accounting, corpus indexing, and resolution. Until those tasks
-are separately accepted, `extraction validate-contract` is the only Task 03F
-command implemented by this contract gate.
+03F.2 implements the manifest-driven document transaction in
+`er_commons.corpus_extraction`. Its strict run specification maps source IDs to
+reviewed content-owner configs and separate hierarchy dispositions; the CLI
+still requires `--run-spec` and `--source-id`, so no source is selected by a
+runtime literal or default. The shell derives `scopev1-`, `txv1-`, and
+`docv1-` identities, writes append-only attempt events, runs one document in a
+child process, imports the verified final content candidate, and publishes a
+completion-last checksum-closed document candidate. Attempt and observability
+records remain outside the immutable candidate, and exact reuse rejects
+partial, stale, conflicting, missing, or extra files. Task 03F.3 will implement
+accounting, corpus indexing, and resolution; its commands remain unavailable.
+
+The stage-one implementation is organized around human ownership boundaries:
+
+```text
+workflow
+  -> preflight -> candidate reuse
+  -> attempt session -> isolated content owners
+  -> publication or retained failure
+```
+
+`workflow.py` is only the application sequence. `preflight.py` selects and
+validates one document run; `attempts.py` owns numbering and interruption
+recovery; `candidates.py` owns identity and reuse; and `publication.py` owns
+the success/failure boundary. `content_owners.py` is similarly only the six
+content-stage sequence. Its configuration and source checks, completion and
+hierarchy authorization checks, and warning/status observations live in
+`owner_inputs.py`, `owner_validation.py`, and `owner_observations.py`.
+Operational limits and records live in `observability.py`; child-process
+mechanics stay in `process.py`. Public `WorkflowHooks` expose only the two
+durability crash windows needed by tests, without making private orchestration
+details part of the test contract.

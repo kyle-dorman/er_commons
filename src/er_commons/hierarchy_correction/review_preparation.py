@@ -20,14 +20,9 @@ from er_commons.hierarchy_correction.code_inventory import owned_code_paths
 from er_commons.hierarchy_correction.configuration import load_hierarchy_correction_config
 from er_commons.hierarchy_correction.features import traverse_provenance_text
 from er_commons.hierarchy_correction.inputs import load_hierarchy_correction_inputs
+from er_commons.hierarchy_correction.quality_config import load_quality_gate_config
 
 JsonRecord = dict[str, Any]
-HELD_OUT_MANIFEST_RELATIVE_PATH = Path(
-    "benchmarks/er_bench/fixtures/hierarchy_correction/v1/held_out_manifest.json"
-)
-REVIEW_SCHEMA_RELATIVE_PATH = Path(
-    "benchmarks/er_bench/schemas/hierarchy_correction/v1/review.schema.json"
-)
 RENDER_SCALE = 2.0
 RENDER_DPI = 144
 
@@ -72,6 +67,9 @@ def _load_held_out_context(*, data_root: Path, config_path: Path) -> HeldOutRevi
     """Verify source inputs and compute identity without building semantic output."""
     project_root = Path(__file__).resolve().parents[3]
     config, config_sha256 = load_hierarchy_correction_config(config_path)
+    quality_config, _quality_digest = load_quality_gate_config(
+        project_root / config.quality_gate_config_relative_path
+    )
     inputs = load_hierarchy_correction_inputs(data_root, config)
     identity = build_candidate_identity(
         config=config,
@@ -82,7 +80,7 @@ def _load_held_out_context(*, data_root: Path, config_path: Path) -> HeldOutRevi
         project_root=project_root,
         owned_code_paths=owned_code_paths(project_root),
     )
-    manifest_path = project_root / HELD_OUT_MANIFEST_RELATIVE_PATH
+    manifest_path = project_root / quality_config.held_out_manifest.path
     manifest = _load_json_object(manifest_path)
     if (
         manifest.get("source_id") != config.source.source_id
@@ -111,7 +109,7 @@ def _load_held_out_context(*, data_root: Path, config_path: Path) -> HeldOutRevi
         held_out_manifest_sha256=_sha256_file(manifest_path),
         selected_pages=selected_pages,
         eligible_keys_by_page={page: tuple(keys_by_page[page]) for page in selected_pages},
-        review_schema_path=project_root / REVIEW_SCHEMA_RELATIVE_PATH,
+        review_schema_path=project_root / quality_config.review_schema.path,
     )
 
 

@@ -77,6 +77,7 @@ def build_summary(
     table_bundle: ProducerTableBundle,
     report: MaterializationReport,
     candidate_id: str,
+    config: CanonicalizationConfig | None = None,
 ) -> JsonRecord:
     """Build the Task 03D accounting summary once from named projections."""
     mapped_regions = sum(bool(mapping.clean_table_ids) for mapping in table_bundle.region_mappings)
@@ -119,7 +120,8 @@ def build_summary(
         "producer_warnings": list(inputs.producer_summary_record.warnings),
         "errors": [],
     }
-    validate_appendix_p_acceptance(summary)
+    if config is None or config.acceptance_profile == "appendix_p_task03d_v1":
+        validate_appendix_p_acceptance(summary)
     return summary
 
 
@@ -260,6 +262,7 @@ def write_validate_and_seal_candidate(
         table_bundle=table_bundle,
         report=report,
         candidate_id=identity["extraction_id"],
+        config=config,
     )
     summary["validation"] = {
         "schema_valid": True,

@@ -538,8 +538,9 @@ pattern-policy-v2 candidate
 `exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`.
 Task 03F is decomposed into three bounded subtasks. Task 03F.1 is complete with
 its read-only coupling/deletion inventory and Gate B contract explicitly
-accepted. Task 03F.2 is active; Task 03F.3 and 03G–03H remain provisional and
-must be revised from each accepted predecessor. The
+accepted. Task 03F.2 is complete with an accepted behavioral MVP, exact offline
+Appendix P preservation, and a human-owned replacement; Task 03F.3 and
+03G–03H remain provisional and must be revised from each accepted predecessor. The
 numbers below are routing labels, not a promise that the sprint will contain
 only these tasks. Split a stage further whenever its contract is too large or
 new evidence creates a distinct decision or validation boundary.
@@ -658,7 +659,9 @@ new evidence creates a distinct decision or validation boundary.
    structural reference exclusions, and two accepted source-authored appendix
    inconsistencies. Task 03F is now a three-part umbrella: Task 03F.1 is
    complete with its read-only inventory and Gate B corpus contract explicitly
-   accepted, while Task 03F.2 is active and Task 03F.3, 03G, and 03H remain
+   accepted, while Task 03F.2 is complete after its behavioral MVP was retained
+   as reference evidence and its replacement passed the maintainability gate.
+   Task 03F.3, 03G, and 03H remain
    provisional downstream contracts. Real-source Task 03F
    engineering smoke, if separately approved, must process all pages of no more
    than two predeclared small PDFs; first-N-page runs cannot claim document

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from er_commons.hierarchy_correction.candidate_publication import verify_completed_candidate
+from er_commons.hierarchy_correction.configuration import APPENDIX_P_SOURCE_ID
 from er_commons.hierarchy_correction.evaluation import (
     evaluate_frozen_outline_numbering_gates,
     load_development_cases,
@@ -20,6 +21,7 @@ from er_commons.hierarchy_correction.quality_evaluation import (
     build_repeat_resource_report,
     combine_development_report,
     evaluate_control_cases,
+    evaluate_document_development_cases,
     load_fixed_control_artifacts,
     write_named_quality_reports,
 )
@@ -47,6 +49,7 @@ def produce_quality_gate_pass(
     quality_config_path: Path,
     candidate_root: Path,
     candidate_id: str,
+    source_id: str = APPENDIX_P_SOURCE_ID,
     annotation_seal: HeldOutAnnotationSeal,
     repeat_comparison_path: Path,
     preservation_before: tuple[ManagedArtifactSnapshot, ...],
@@ -56,43 +59,76 @@ def produce_quality_gate_pass(
     verify_completed_candidate(candidate_root, candidate_id, correction_schema_path)
     candidate = _load_candidate(candidate_root)
     quality_config, _config_sha256 = load_quality_gate_config(quality_config_path)
-    evaluation_config_path = project_root / quality_config.task03e_evaluation_config.path
-    specification, control_artifacts = load_fixed_control_artifacts(
-        evaluation_config_path=evaluation_config_path,
-        control_ranges_root=fixed_control_ranges_root(quality_config, data_root),
+    historical_profile = (
+        getattr(quality_config, "quality_profile", "appendix_p_task03e2") == "appendix_p_task03e2"
     )
-    controls = build_control_projection(control_artifacts)
-    development_cases = load_development_cases(project_root / quality_config.development_cases.path)
-    appendix_surface = EvaluationSurface(
-        name="deir_appendix_p",
-        source_id="deir_appendix_p",
+    controls = build_control_projection(())
+    development_path = project_root / quality_config.development_cases.path
+    development_cases = (
+        load_development_cases(development_path)
+        if historical_profile
+        else load_development_cases(development_path, expected_count=None)
+    )
+    document_surface = EvaluationSurface(
+        name=source_id,
+        source_id=source_id,
         features=tuple(candidate["features"]),
         regimes=tuple(candidate["regimes"]),
         decisions=tuple(candidate["decisions"]),
     )
-    annotations = _load_json_object(annotation_seal.annotations_path)
-    report_set = QualityReportSet(
-        development=combine_development_report(
+    if historical_profile:
+        assert quality_config.task03e_evaluation_config is not None
+        specification, control_artifacts = load_fixed_control_artifacts(
+            evaluation_config_path=(project_root / quality_config.task03e_evaluation_config.path),
+            control_ranges_root=fixed_control_ranges_root(quality_config, data_root),
+        )
+        controls = build_control_projection(control_artifacts)
+        review_pages = frozenset(
+            item.physical_page for item in specification.appendix_p_review_pages
+        )
+        development_report = combine_development_report(
             development_cases=development_cases,
-            appendix_decisions=appendix_surface.decisions,
+            appendix_decisions=document_surface.decisions,
             control_projection=controls,
-        ),
-        outline_numbering_29_21=evaluate_frozen_outline_numbering_gates(
-            review_pages=frozenset(
-                item.physical_page for item in specification.appendix_p_review_pages
-            ),
-            features=appendix_surface.features,
-            decisions=appendix_surface.decisions,
-            regimes=appendix_surface.regimes,
-            expected_outline_count=quality_config.expected_exact_outline_anchor_count,
-            expected_numbering_relation_count=quality_config.expected_numbering_relation_count,
-        ),
-        controls=evaluate_control_cases(
+        )
+        controls_report = evaluate_control_cases(
             development_cases=development_cases,
             projection=controls,
+        )
+    else:
+        review_pages = frozenset(quality_config.document_review_pages)
+        development_report = evaluate_document_development_cases(
+            source_id=source_id,
+            development_cases=development_cases,
+            decisions=document_surface.decisions,
+        )
+        controls_report = {
+            "status": "pass",
+            "profile": "document_local_only",
+            "case_count": 0,
+            "detail": "cross-document historical controls are not part of this profile",
+        }
+    annotations = _load_json_object(annotation_seal.annotations_path)
+    report_set = QualityReportSet(
+        development=development_report,
+        outline_numbering_29_21=evaluate_frozen_outline_numbering_gates(
+            review_pages=review_pages,
+            features=document_surface.features,
+            decisions=document_surface.decisions,
+            regimes=document_surface.regimes,
+            expected_outline_count=quality_config.expected_exact_outline_anchor_count,
+            expected_outline_r03_count=getattr(quality_config, "expected_outline_r03_count", 28),
+            expected_outline_toc_override_count=(
+                getattr(quality_config, "expected_outline_toc_override_count", 1)
+            ),
+            expected_numbered_heading_count=(
+                getattr(quality_config, "expected_numbered_heading_count", 23)
+            ),
+            expected_numbering_relation_count=quality_config.expected_numbering_relation_count,
         ),
+        controls=controls_report,
         held_out=build_held_out_evaluation(annotations, candidate),
-        review_inventory=build_combined_review_inventory((appendix_surface, *controls.surfaces)),
+        review_inventory=build_combined_review_inventory((document_surface, *controls.surfaces)),
         preservation=build_preservation_report(
             before=preservation_before,
             after=preservation_after,

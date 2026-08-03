@@ -8,7 +8,10 @@ from typing import Any
 
 from er_commons.semantic_materialization.baseline import load_baseline_candidate
 from er_commons.semantic_materialization.comparison import compare_baseline_collections
-from er_commons.semantic_materialization.config import APPENDIX_P_SCOPE
+from er_commons.semantic_materialization.config import (
+    HISTORICAL_EXPECTATIONS,
+    SemanticExpectations,
+)
 from er_commons.semantic_materialization.construction import SemanticBuild
 from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 
@@ -70,6 +73,7 @@ def build_candidate_support(
     baseline_candidate_id: str,
     candidate_id: str,
     control: JsonObject,
+    expectations: SemanticExpectations = HISTORICAL_EXPECTATIONS,
 ) -> CandidateSupport:
     """Build preservation, bridge, correspondence, and control evidence."""
     baseline = load_baseline_candidate(baseline_root)
@@ -98,7 +102,7 @@ def build_candidate_support(
         )
     }
     payloads = {
-        "cross_producer_bridge": _bridge_payload(build, control),
+        "cross_producer_bridge": _bridge_payload(build, control, expectations),
         "candidate_correspondence": correspondence,
         "baseline_preservation": {
             "schema_version": "er_commons.baseline_preservation.v2",
@@ -107,7 +111,11 @@ def build_candidate_support(
         "bounded_control_verification": {
             "schema_version": "er_commons.bounded_control_verification.v2",
             "status": "verified",
-            "source_semantic_disposition": "accepted_with_known_limitations",
+            "source_semantic_disposition": (
+                "strict_quality_gate"
+                if control.get("control_kind") == "strict_quality_gate"
+                else "accepted_with_known_limitations"
+            ),
             "control_provenance": control,
         },
     }
@@ -143,7 +151,9 @@ def _compact_content(build: SemanticBuild) -> list[JsonObject]:
     return sorted(records, key=lambda item: order[item["id"]])
 
 
-def _bridge_payload(build: SemanticBuild, control: JsonObject) -> JsonObject:
+def _bridge_payload(
+    build: SemanticBuild, control: JsonObject, expectations: SemanticExpectations
+) -> JsonObject:
     table_replacements = sum(
         item["disposition"] == "canonical_table_replacement_descendant"
         for item in build.bridge_entries
@@ -155,9 +165,9 @@ def _bridge_payload(build: SemanticBuild, control: JsonObject) -> JsonObject:
     return {
         "schema_version": "2.0.0",
         "producer_comparison_sha256": control["producer_comparison_sha256"],
-        "heading_count": APPENDIX_P_SCOPE.heading_count,
-        "direct_membership_count": APPENDIX_P_SCOPE.direct_membership_count,
-        "mapped_block_count": APPENDIX_P_SCOPE.mapped_block_count,
+        "heading_count": expectations.heading_count,
+        "direct_membership_count": expectations.direct_membership_count,
+        "mapped_block_count": expectations.mapped_block_count,
         "table_replacement_count": table_replacements,
         "figure_suppression_count": figure_suppressions,
         "entries": build.bridge_entries,

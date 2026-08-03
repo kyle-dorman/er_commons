@@ -30,9 +30,11 @@ def run_semantic_materialization(data_root: Path, config_path: Path) -> tuple[Pa
     candidate_id = identity["extraction_id"]
     _require_new_candidate_id(context, candidate_id)
     locations = candidate_locations(context, candidate_id)
-    verify_completed_semantic_candidate(
-        locations.reference_root, context.config.mvp_reference_candidate_id
-    )
+    if getattr(context.config, "reference_profile", "frozen_equivalence") == ("frozen_equivalence"):
+        assert context.config.mvp_reference_candidate_id is not None
+        verify_completed_semantic_candidate(
+            locations.reference_root, context.config.mvp_reference_candidate_id
+        )
     if locations.candidate_root.exists():
         return reuse_completed_candidate(
             context=context, locations=locations, candidate_id=candidate_id
@@ -54,6 +56,7 @@ def _candidate_identity(context: RuntimeContext) -> dict[str, Any]:
         baseline_candidate_id=context.config.baseline_candidate_id,
         candidate_id=PLACEHOLDER_ID,
         control=context.inputs.control_provenance,
+        expectations=context.config.expectations,
     )
     return build_semantic_candidate_identity(
         project_root=context.project_root,
