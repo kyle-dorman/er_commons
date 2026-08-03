@@ -182,7 +182,13 @@ sections are structurally excluded, and explicit external/statutory section
 qualifiers cannot fall through to local numeric lookup. The user accepted two
 visually confirmed source-authored appendix-link inconsistencies as bounded
 first-pass noise; no document-specific correction is applied. Task 03E.5 is
-accepted. Tasks 03F through 03H remain provisional and inactive.
+accepted. [Task
+03F](../tasks/sprint2/03f_make_extraction_restartable.md) is now a three-part
+umbrella. Active [Task
+03F.1](../tasks/sprint2/03f1_define_restartable_extraction_contract.md) begins
+with a read-only Appendix-P-coupling and deletion inventory, then freezes the
+two-stage corpus contract only after explicit review. Tasks 03F.2–03F.3, 03G,
+and 03H remain provisional and inactive.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

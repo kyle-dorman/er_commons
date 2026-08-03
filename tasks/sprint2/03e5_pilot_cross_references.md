@@ -1,7 +1,7 @@
 # Task 03E.5: Pilot Canonical Cross-References
 
-Status: **complete and accepted as of 2026-08-03**. Task 03F remains a separate,
-inactive boundary.
+Status: **complete and accepted as of 2026-08-03**. Task 03F remains a separate
+boundary; its Task 03F.1 contract is now active without reopening this task.
 The corrected, human-owned Task 03E.4 candidate was the immutable input. Gate A
 was approved with a precision-first direction, and Gate B was explicitly
 approved before production implementation. Schema-v3 MVP reference candidate
@@ -435,8 +435,8 @@ The accepted candidate therefore retains the reviewed behavior: 300 mentions,
 aliases, zero figure aliases, and seven unresolved figure mentions. Two fresh
 builds were byte-identical, and checksum reuse passed. `make fix`, `make check`,
 and `git diff --check` passed with strict mypy and 435 tests. This task did not
-scan or resolve the other 34 model-corpus PDFs. Task 03F remains provisional
-and requires explicit user review and activation.
+scan or resolve the other 34 model-corpus PDFs. At this rewrite checkpoint,
+Task 03F remained provisional and required later review and activation.
 
 ## Pattern-policy v2 correction outcome
 

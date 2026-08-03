@@ -533,11 +533,12 @@ human-owned implementation by exact post-03E.2a semantic equivalence. Task
 distinct bounded-acceptance record. Task 03E.3 is complete with a human-owned
 schema-major v2 contract and validator. Task 03E.4 is complete with a visually
 approved MVP reference and a human-owned replacement that passed independent
-candidate/review equivalence. Task 03E.5 is active and ready to begin with a
-read-only Gate A mention-inventory proposal. It must stop for user review before
-the checked-in Gate B schema/fixture contract, then stop again before production
-implementation. Tasks 03F through 03H remain provisional and must be revised
-from each accepted predecessor. The
+candidate/review equivalence. Task 03E.5 is complete with accepted
+pattern-policy-v2 candidate
+`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`.
+Task 03F is decomposed into three bounded subtasks. Task 03F.1 is active at its
+read-only coupling/deletion inventory gate; Tasks 03F.2–03F.3 and 03G–03H
+remain provisional and must be revised from each accepted predecessor. The
 numbers below are routing labels, not a promise that the sprint will contain
 only these tasks. Split a stage further whenever its contract is too large or
 new evidence creates a distinct decision or validation boundary.
@@ -597,6 +598,15 @@ new evidence creates a distinct decision or validation boundary.
    - [Task 03F](../../tasks/sprint2/03f_make_extraction_restartable.md): add
      restartable per-document stage one, a sealed corpus target/alias index,
      and an immutable cross-document-resolution pass;
+   - [Task 03F.1](../../tasks/sprint2/03f1_define_restartable_extraction_contract.md):
+     inventory Appendix-P coupling and freeze the corpus identity, state,
+     artifact, cache, failure, index, resolution, and validation contract;
+   - [Task 03F.2](../../tasks/sprint2/03f2_generalize_restartable_document_stage.md):
+     generalize and simplify stage one, deleting obsolete Appendix-P-only or
+     duplicate runtime code where the approved inventory permits;
+   - [Task 03F.3](../../tasks/sprint2/03f3_implement_corpus_resolution_workflow.md):
+     add scope-exact accounting, target-index sealing, and immutable
+     cross-document resolution;
    - [Task 03G](../../tasks/sprint2/03g_run_representative_extraction_pilot.md):
      test the full two-stage workflow and corrected hierarchy across
      heterogeneous document regimes, rehearse human review, and freeze or
@@ -640,11 +650,18 @@ new evidence creates a distinct decision or validation boundary.
    visual review, then replaced its machine-oriented MVP with human-owned
    candidate
    `exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
-   under a zero-mismatch candidate/review equivalence report. Task 03E.5 is now
-   active and ready to begin with its read-only Gate A mention-inventory
-   proposal, followed by separate user approvals for the checked-in Gate B
-   schema/fixture contract and production implementation. Tasks 03F through 03H
-   remain provisional downstream contracts.
+   under a zero-mismatch candidate/review equivalence report. Task 03E.5 then
+   accepted pattern-policy-v2 candidate
+   `exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
+   with 292 mentions, exact table-target evidence, zero derived figure aliases,
+   structural reference exclusions, and two accepted source-authored appendix
+   inconsistencies. Task 03F is now a three-part umbrella: Task 03F.1 is active
+   only for its read-only coupling/deletion inventory, while Tasks 03F.2–03F.3,
+   03G, and 03H remain provisional downstream contracts. Real-source Task 03F
+   engineering smoke, if separately approved, must process all pages of no more
+   than two predeclared small PDFs; first-N-page runs cannot claim document
+   completion. Task 03G owns representative heterogeneous execution, and Task
+   03H alone owns all-35-source execution and terminal accounting.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

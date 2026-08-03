@@ -1,181 +1,134 @@
 # Task 03F: Make Two-Stage Corpus Extraction Restartable
 
-Status: **provisional**. Revise this contract from the accepted Task 03E.2d and
-Tasks 03E.3–03E.5 outcomes before activating it.
+Status: **decomposed and active through Task 03F.1 as of 2026-08-03**. This
+umbrella closes only after Tasks 03F.1–03F.3 are separately accepted. Task 03G
+and Task 03H remain provisional.
 
 ## Abstract
 
-Extend the accepted single-document producer, semantic-structure materializer,
-and cross-reference pilot into a manifest-driven, resource-bounded workflow for
-the 35 checksum-pinned model-corpus PDFs. Make each document's first-stage
-extraction an independent transaction. After every source reaches an explicit
-terminal state, seal a corpus target/alias index and run an immutable second
-pass that resolves cross-document reference mentions. Add fault isolation,
-cache validation, atomic publication, bounded concurrency, retry
-classification, and separate machine records for document completion,
-all-source accounting, and candidate handoff. Test the workflow on fixtures and
-approved pilot inputs; do not run the full corpus.
+Turn the accepted Appendix P producer, semantic-structure, and cross-reference
+pipeline into a narrow, manifest-driven two-stage corpus workflow. Stage one
+treats each complete PDF as an isolated, restartable transaction. Stage two
+seals a target/alias index over an explicitly bounded run scope and appends
+cross-document resolution records without modifying stage-one candidates.
 
-## Goal
+Task 03F builds and tests the capability; it does not execute the 35-document
+corpus. Task 03G owns the representative full-document pilot, and Task 03H owns
+the full run and its 35-source terminal accounting.
 
-Make a long, heterogeneous local extraction job safe to stop, inspect, resume,
-and verify while preserving the distinction between per-document production,
-corpus-wide cross-reference resolution, producer handoff, and Task 04's later
-acceptance freeze.
+## Accepted handoff
 
-## Inputs
+The production cross-reference input is the accepted Task 03E.5
+pattern-policy-v2 candidate
+`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`,
+not the behavioral MVP or original human rewrite. It contains 292 mentions:
+256 resolved, 35 unresolved, and one ambiguous. It preserves all 323 Task
+03E.4 aliases, adds 11 verified table aliases, and adds zero figure aliases.
 
-- accepted Tasks 03C.1 and 03D.1, the Task 03E.2d correction candidate and
-  bounded-acceptance record, and accepted Tasks 03E.3–03E.5 implementations and
-  contracts
-- the sealed Task 02 source manifest filtered to 35 `model_corpus` records
-- per-document conversion, canonicalization, semantic-structure, label, alias,
-  mention, and within-document-resolution commands
-- Docling's maintained
-  [batch conversion](https://docling-project.github.io/docling/_generated/examples/batch_convert/),
-  conversion-status, timeout, batching, profiling, and accelerator APIs
-- local machine and external-volume capacity observations
+The frozen downstream policy includes:
 
-## Outputs
+- structural exclusion of complete reference sections and author-year
+  bibliography entries;
+- qualifier classification before local numeric-section lookup;
+- exact target-side table evidence plus the five-physical-page mention window;
+- zero derived figure aliases and an OCR-free first pass;
+- checksum-bound corpus membership for named-EIR classification; and
+- literal preservation of the two accepted source-authored appendix-link
+  inconsistencies without document-specific correction.
 
-- a package-backed corpus extraction command driven only by the sealed manifest
-  and a frozen corpus configuration
-- one corpus-scoped `extraction_id`, deterministically derived from the ordered
-  35-source scope plus parser, model, configuration, canonical-schema,
-  semantic-structure, resolution-policy, and code identities
-- distinct producer-run and per-document transaction/completion identities
-- an explicit per-document stage-one state machine and progress record
-- atomic stage-one publication of hierarchy, printed-label evidence and
-  resolution, aliases, reference mentions, and within-document resolutions
-- a sealed, checksummed corpus target/alias index built only after all sources
-  have explicit terminal states
-- an immutable second pass that publishes cross-document resolution records
-  without modifying stage-one document candidates
-- stage-specific cache keys, retry classes, bounded resource controls, and
-  relative persisted paths
-- separate machine records for:
-  - each document's terminal state;
-  - all-source accounting;
-  - target-index completion;
-  - cross-document-resolution completion; and
-  - producer candidate handoff
-- tests for resume, stale cache, partial output, retry, no-clobber,
-  target-index invalidation, second-pass immutability, and accounting behavior
+Task 03F may generalize the mechanism but may not weaken this behavior, mutate
+the accepted candidate, add figure linking, or broaden Appendix P's bounded
+hierarchy acceptance into a corpus-wide quality claim.
 
-## Research / learning checkpoint
+## Execution boundary
 
-Profile the actual stage boundaries and resource shape rather than treating the
-workflow as homogeneous "seconds per page." The outcome must explain:
+Task 03F implementation validation uses synthetic multi-document fixtures and
+may use an explicitly approved engineering smoke over no more than two
+predeclared small `model_corpus` PDFs. Any real-source smoke processes every
+page of each selected PDF. A first-N-page source run is not a completed
+stage-one transaction and may be used only as an explicitly incomplete
+diagnostic, never as restartability, hierarchy, alias, or corpus-index evidence.
 
-- **The document is the stage-one transaction and fault-isolation unit.**
-  Arbitrary partial-page publication creates ambiguous hierarchy, labels, and
-  provenance.
-- **Cross-document resolution is a corpus operation.** A reference target may
-  not exist until every document has either published stage one or recorded an
-  explicit terminal failure.
-- **The second pass is append-only.** Corpus resolution records may point to
-  immutable per-document candidates but may not rewrite them.
-- **Cache correctness is stage- and lineage-based.** Source checksum and every
-  semantic contract that can change an output belong in the appropriate key.
-- **Restartability requires verification before skipping.** Directory
-  existence, filenames, and modification times are not completion evidence.
-- **Failure accounting and acceptance are different.** A failed source can be
-  fully accounted for without being a successful extraction. All-source
-  accounting, producer handoff, and Task 04 acceptance must have distinct
-  records.
-- **Document costs are heavy-tailed.** Report distributions and outliers for
-  conversion, table work, serialization, and the corpus passes.
-- **Page renders are review cache.** They are regenerable and excluded from
-  canonical identity and producer-completeness claims.
+The smoke is not a representative pilot and cannot freeze production
+configuration. Task 03G selects the heterogeneous full-document pilot. Task
+03H alone consumes all 35 sources and requires every source to reach an
+explicit terminal state.
 
-## Plan / spec requirement
+## Subtasks
 
-Freeze a two-stage batch plan before implementation. It must define:
+1. [Task 03F.1](03f1_define_restartable_extraction_contract.md) — active:
+   inventory current Appendix-P coupling and freeze the corpus identity, state,
+   artifact, cache, failure, index, resolution, and bounded-validation contract.
+2. [Task 03F.2](03f2_generalize_restartable_document_stage.md) — provisional:
+   generalize and simplify the complete-document stage, remove obsolete or
+   duplicate Appendix-P-only runtime code where evidence permits, and implement
+   atomic restartable stage-one execution without running a new source corpus.
+3. [Task 03F.3](03f3_implement_corpus_resolution_workflow.md) — provisional:
+   implement scoped accounting, target-index sealing, immutable cross-document
+   resolution, invalidation, and the optional approved two-document engineering
+   smoke.
 
-1. the complete `extraction_id` inputs and permitted subordinate identities;
-2. stage-one document states, temporary/final paths, cache keys, and atomic
-   publication;
-3. terminal success and failure states and exact all-source accounting;
-4. target/alias index inputs, sealing, validation, and invalidation;
-5. cross-document-resolution inputs, unresolved reason codes, output paths,
-   and the no-mutation invariant;
-6. separate completion and handoff records, none of which claim Task 04
-   acceptance;
-7. failure categories, retry bounds, timeout, cancellation, and interruption
-   behavior;
-8. concurrency, page-batch, thread, device, queue, memory, and storage limits;
-9. structured progress, timing, resource, warning, and error logs;
-10. requested review-cache generation and cleanup; and
-11. exact Make/CLI commands for bounded pilots and the later full run.
+Only the named subtask is active. Revise each provisional contract from the
+accepted prior outcome before implementation.
 
-Use narrow project glue around maintained package APIs. Do not introduce a
-general workflow engine, service queue, or database scheduler for this local
-35-document job.
+## Shared requirements
 
-## Review pass
-
-- **Identity:** one corpus identity governs all accepted stages without
-  conflating producer runs or transactions.
-- **State correctness:** every transition and completion claim has a
-  mechanically verifiable artifact basis.
-- **Stage isolation:** second-pass resolution cannot mutate or silently replace
-  stage-one candidates.
-- **Failure containment:** one failed appendix cannot corrupt or erase completed
-  documents or disappear from corpus accounting.
-- **Resource safety:** concurrency and queues are bounded from measured
-  evidence.
-- **Operational simplicity:** the workflow remains understandable from code,
-  manifests, and logs without an orchestration service.
-
-## Validation
-
-- Run multi-document tests on tiny fixtures or approved bounded inputs.
-- Simulate interruption before and after stage-one atomic publication.
-- Verify matching complete outputs are checked and reused.
-- Verify stale, checksum-mismatched, partial, and conflicting outputs stop or
-  enter the specified recoverable state.
-- Verify the target index cannot seal before all sources reach terminal states.
-- Verify any changed stage-one candidate invalidates the target index and
-  second-pass result.
-- Verify second-pass publication leaves stage-one bytes and checksums unchanged.
-- Verify missing or failed targets produce explicit unresolved reason codes.
-- Verify exact all-source accounting can complete while candidate handoff
-  remains blocked under the frozen policy.
-- Verify page-render cache is unnecessary for canonical validation or
+- The sealed Task 02 manifest remains the sole source of the ordered
+  35-document production scope and checksums.
+- One corpus `extraction_id` binds that production scope and every semantic
+  input that can change output; bounded test or smoke runs have subordinate
+  run-scope identities and cannot impersonate the production run.
+- A complete PDF is the stage-one publication and fault-isolation unit.
+- Cache reuse requires validation of identities, managed files, checksums, and
+  completion records before skipping work.
+- Target-index and second-pass publication are append-only relative to stage
+  one and are invalidated by any changed stage-one candidate.
+- Document completion, run-scope accounting, target-index completion,
+  resolution completion, candidate handoff, and Task 04 acceptance are
+  distinct records.
+- Concurrency, queues, memory, threads, device use, timeouts, retries, storage,
+  and cancellation behavior are explicit and bounded.
+- Page renders are regenerable review cache outside canonical identity and
   completeness.
-- Run:
+- Use narrow project glue around maintained packages; do not introduce a
+  workflow engine, scheduler service, or database queue.
 
-```bash
-make fix
-make check
-git diff --check
-```
+## Removal and generalization policy
 
-## Acceptance criteria
+Task 03F.2 must replace Appendix-P constants and CLI assumptions with
+manifest-selected, contract-bound document inputs where those components are
+part of the production path. Before deletion, inventory callers, tests,
+identity inputs, and immutable-artifact verification needs.
 
-- The workflow consumes exactly the 35 ordered manifest records and checksums
-  under one declared corpus extraction identity.
-- Per-document stage-one work is isolated, restartable, and atomically
-  published.
-- The sealed target index and immutable resolution pass are reproducible and
-  independently restartable.
-- Cache reuse depends on verified stage inputs and identities.
-- Every source reaches an explicit terminal state; no failure is silently
-  omitted or represented as success.
-- Document terminal state, all-source accounting, candidate handoff, and the
-  later Task 04 freeze remain distinct.
-- Retry, timeout, concurrency, and memory controls are explicit and bounded.
-- The implementation remains narrow and package-backed.
+Delete obsolete facades, duplicate orchestration, hard-coded defaults, and
+superseded behavioral-reference implementations when they have no accepted
+runtime or verification owner and their required behavior is covered by the
+human-owned implementation and tests. Do not retain compatibility aliases for
+unproven callers. Do not rewrite immutable external candidates; Git history
+and their checksummed artifacts preserve historical evidence.
+
+## Umbrella acceptance criteria
+
+- Tasks 03F.1–03F.3 are separately accepted under their own validation gates.
+- The runtime consumes manifest-selected complete documents without
+  Appendix-P-only production constraints.
+- The accepted Appendix P semantic and cross-reference behavior remains exact
+  under the declared identity normalization.
+- Per-document stage one is isolated, atomic, restartable, and verifiable.
+- Scoped target-index and second-pass results are reproducible, independently
+  restartable, and cannot mutate stage one.
+- Production 35-source identity is distinct from fixture, engineering-smoke,
+  Task 03G pilot, and Task 03H execution state.
 - No full-corpus conversion begins.
-- The outcome requests user review before Task 03G.
+- The outcome requests explicit user approval before Task 03G activation.
 
 ## Non-goals
 
-- the representative pilot or full 35-document run
-- accepting or freezing the corpus for benchmark use
+- representative-pilot selection or execution
+- full 35-document extraction or terminal accounting
+- corpus acceptance or Task 04 usability decisions
+- automatic parser or hierarchy repair
+- corpus-wide acceptance of Appendix P's bounded hierarchy policy
+- OCR or figure-link support
 - distributed or cloud orchestration
-- automatic repair of deterministic parser or hierarchy failures
-- reopening or silently broadening Task 03E.2d's hierarchy acceptance
-- final human usability decisions
-- page renders as release artifacts
 - retrieval, generation, or evaluation
