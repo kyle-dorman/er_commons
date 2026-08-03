@@ -1,0 +1,230 @@
+{
+  "schema_version": "er_commons.cross_reference_fixture_inventory.v3",
+  "split": "development",
+  "pattern_version": "cross_reference_patterns_v1",
+  "source_candidate_id": "exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b",
+  "cases": [
+    {
+      "name": "mixed_figure_and_appendix",
+      "source": {
+        "block_sequence": 250,
+        "canonical_text": "Included herein is a Senate Bill (SB) 610-compliant water supply assessment (WSA) for the proposed Baylands Specific Plan (\"Specific Plan \" ; Figure 1). The Specific Plan site is comprised of approximately 642 acres located between U.S. Highway 101 and Bayshore Boulevard in the eastern part of the City of Brisbane (City), California. Per the project description provided by The Baylands Development Company (Project Proponent; Baylands Development Company, 2024a , 2025), the Specific Plan includes the removal of existing structures on the project site and the construction of 2,200 single-family residential (SFR) and multi-family residential (MFR) dwelling units; a hotel with 800 rooms; approximately 3,100,000 square feet (sq ft) of commercial space for office, retail, and food service; and approximately 3,400,000 sq ft of research and development (R&D) facilities . The Specific Plan also includes 5,938,770 sq ft of irrigated landscaping and 5,211,522 sq ft of unirrigated open space. Additionally, the Specific Plan includes the construction of the Baylands Water Recycling Facility , a wastewater treatment plant that would supply non-potable water to both the Specific Plan and other California Water Service (Cal Water) customers. A detailed site plan for the Specific Plan is included in Appendix A .",
+        "text_sha256": "15db87c77c61b1b9948c3aeab4ba2fe8d4d45bacd407a9daf190aa3d42116851",
+        "content_layer": "body",
+        "is_toc_row": false,
+        "block_type": "paragraph"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "figure",
+          "raw_text": "Figure 1",
+          "source_charspan": [142, 150],
+          "lookup_key": "figure 1",
+          "candidate_count": 0,
+          "resolution_status": "unresolved",
+          "unresolved_reason": "accepted_target_type_unavailable",
+          "target_types": [],
+          "evidence_kinds": []
+        },
+        {
+          "mention_class": "appendix",
+          "raw_text": "Appendix A",
+          "source_charspan": [1304, 1314],
+          "lookup_key": "appendix a",
+          "candidate_count": 1,
+          "resolution_status": "resolved",
+          "unresolved_reason": null,
+          "target_types": ["section"],
+          "evidence_kinds": ["accepted_alias_exact"]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "repeated_section_development_half",
+      "source": {
+        "block_sequence": 255,
+        "canonical_text": "2. Other Planned Developments: This includes all planned developments within the SSF District's current service area boundaries for which a WSA has been completed by Cal Water; some of this growth may have been accounted for in the SSF District's 2020 UWMP (see Section 5.3).",
+        "text_sha256": "fad8e5d6f9a0f349f67395dc7d9fdea67af677586fd8ec8c6f715f2f18601276",
+        "content_layer": "body",
+        "is_toc_row": false,
+        "block_type": "list_item"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "section",
+          "raw_text": "Section 5.3",
+          "source_charspan": [262, 273],
+          "lookup_key": "5.3",
+          "candidate_count": 1,
+          "resolution_status": "resolved",
+          "unresolved_reason": null,
+          "target_types": ["section"],
+          "evidence_kinds": ["section_numeric_prefix"]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "two_appendices_in_one_sentence",
+      "source": {
+        "block_sequence": 261,
+        "canonical_text": "For the purposes of this WSA, the \"SSF District\" refers to both the existing SSF District service area and the proposed expanded water service area in the City of Brisbane unless stated otherwise. Maps of the existing and proposed land uses for the Specific Plan site are included in Appendix B and Appendix A, respectively .",
+        "text_sha256": "609e16ab0d9bf5fa64a0e0603ac91f0e16355e0f63fef7360c4c73d55227cdba",
+        "content_layer": "body",
+        "is_toc_row": false,
+        "block_type": "paragraph"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "appendix",
+          "raw_text": "Appendix B",
+          "source_charspan": [284, 294],
+          "lookup_key": "appendix b",
+          "candidate_count": 1,
+          "resolution_status": "resolved",
+          "unresolved_reason": null,
+          "target_types": ["section"],
+          "evidence_kinds": ["accepted_alias_exact"]
+        },
+        {
+          "mention_class": "appendix",
+          "raw_text": "Appendix A",
+          "source_charspan": [299, 309],
+          "lookup_key": "appendix a",
+          "candidate_count": 1,
+          "resolution_status": "resolved",
+          "unresolved_reason": null,
+          "target_types": ["section"],
+          "evidence_kinds": ["accepted_alias_exact"]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "multiple_sections_and_herein_context",
+      "source": {
+        "block_sequence": 279,
+        "canonical_text": "Scenario 1 (Implementation of the Bay-Delta Plan Amendment): With the implementation of the Bay-Delta Plan Amendment, the three Peninsula Districts have sufficient water supply to meet all expected future water demands in normal years. Since the Specific Plan's estimated water demands indicate that it will be subject to Cal Water's Development Offset Program (see Section 2.4) , the Specific Plan will not result in a net increase in demands for the SSF District. In dry years, the SSF District will implement its Water Shortage Contingency Plan (WSCP) and apply the appropriate water demand reduction actions in order to ensure demand is met. Regardless of whether the Specific Plan is constructed, as described in Section 6.2.1 herein, with implementation of the Bay-Delta Plan Amendment, the three Peninsula Districts are projecting supply shortfalls of up to 44% during single dry years and up to 53% during multiple dry years in 2045 and will require significant demand reductions or the development of additional water supply sources. Cal Water is working independently and with the other BAWSCA agencies to identify mitigation measures to improve the reliability of regional and local water supplies and to meet its customers' water needs. If conditions for large drought cutbacks to the RWS supplies exist, the SSF District will need to implement additional demand reduction actions, invoke strict restrictions on potable water use, and accelerate efforts to develop additional supplies of water to ensure that its supplies remain sufficient to serve all users, including those of the Specific Plan .",
+        "text_sha256": "ee08d0e0657906f6043f254f058fd04fb1c401cc928c12f3d96ef87665c46b6d",
+        "content_layer": "body",
+        "is_toc_row": false,
+        "block_type": "paragraph"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "section",
+          "raw_text": "Section 2.4",
+          "source_charspan": [366, 377],
+          "lookup_key": "2.4",
+          "candidate_count": 1,
+          "resolution_status": "resolved",
+          "unresolved_reason": null,
+          "target_types": ["section"],
+          "evidence_kinds": ["section_numeric_prefix"]
+        },
+        {
+          "mention_class": "section",
+          "raw_text": "Section 6.2.1",
+          "source_charspan": [718, 731],
+          "lookup_key": "6.2.1",
+          "candidate_count": 1,
+          "resolution_status": "resolved",
+          "unresolved_reason": null,
+          "target_types": ["section"],
+          "evidence_kinds": ["section_numeric_prefix"]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "table_body_mention_with_verified_target_alias",
+      "source": {
+        "block_sequence": 335,
+        "canonical_text": "The Project Proponent intends to complete construction of the water recycling facility in Phase 1. However, for purposes of this WSA, it is conservatively assumed that the water recycling facility will not be operational until Phase 2. Phase 2 is east of the Caltrain Railroad and is expected to be completed by 2042 . The commercial land uses and associated landscaping will be fully completed as part of Phase 2 (Baylands Development Company, 2024a, 2024b, 2024c). Table 1 shows the anticipated buildout schedule for the Specific Plan .",
+        "text_sha256": "2243d2ead6a63f88334622be515a8252070fdcb4ff0115782adf72d505b16a76",
+        "content_layer": "body",
+        "is_toc_row": false,
+        "block_type": "paragraph",
+        "source_physical_page": 21
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "table",
+          "raw_text": "Table 1",
+          "source_charspan": [467, 474],
+          "lookup_key": "table 1",
+          "candidate_count": 1,
+          "resolution_status": "resolved",
+          "unresolved_reason": null,
+          "target_types": ["table"],
+          "evidence_kinds": ["verified_same_page_table_label"],
+          "target_page_distances": [1]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "statutory_sections_are_diagnostics_only",
+      "source": {
+        "block_sequence": 287,
+        "canonical_text": "(a) Any city or county that determines that a project, as defined in Section 10912, is subject to the California Environmental Quality Act (Division 13 (commencing with Section 21000) of the Public Resources Code) under Section 21080 of the Public Resources Code shall comply with this part.",
+        "text_sha256": "5eef811b95f989eaeb248a080717baf4547fdaeaa94905f1a9c60aab8015233a",
+        "content_layer": "body",
+        "is_toc_row": false,
+        "block_type": "paragraph"
+      },
+      "expected_mentions": [],
+      "expected_diagnostics": [
+        {"raw_text": "Section 10912", "source_charspan": [69, 82], "diagnostic_class": "statutory"},
+        {"raw_text": "Section 21000", "source_charspan": [169, 182], "diagnostic_class": "statutory"},
+        {"raw_text": "Section 21080", "source_charspan": [220, 233], "diagnostic_class": "statutory"}
+      ]
+    },
+    {
+      "name": "visible_toc_table_is_ineligible",
+      "source": {
+        "block_sequence": 218,
+        "canonical_text": "Table 1 Specific Plan Buildout Phasing Schedule",
+        "text_sha256": "fae75dd9b6d99bd3f3624be93f6898c175d414c83b8cf169279b84109087d815",
+        "content_layer": "body",
+        "is_toc_row": true,
+        "block_type": "list_item"
+      },
+      "expected_mentions": [],
+      "expected_diagnostics": [
+        {"raw_text": "Table 1", "source_charspan": [0, 7], "diagnostic_class": "ineligible_source"}
+      ]
+    },
+    {
+      "name": "standalone_table_label_is_target_evidence_not_mention",
+      "source": {
+        "block_sequence": 337,
+        "canonical_text": "Table 1",
+        "text_sha256": "ec9ba494b1c224c79726a1001cfd35d0e06041db4cff5061dd59f91a8dbc7522",
+        "content_layer": "body",
+        "is_toc_row": false,
+        "block_type": "paragraph"
+      },
+      "expected_mentions": [],
+      "expected_diagnostics": [
+        {"raw_text": "Table 1", "source_charspan": [0, 7], "diagnostic_class": "standalone_target_label"}
+      ]
+    },
+    {
+      "name": "misclassified_page_furniture_is_excluded",
+      "source": {
+        "block_sequence": 363,
+        "canonical_text": "Page 19 of 99",
+        "text_sha256": "1f0cf22bbffef827d079cdc0d9c2d9f5637a85bc78022fa9260ff79437238907",
+        "content_layer": "body",
+        "is_toc_row": false,
+        "block_type": "paragraph"
+      },
+      "expected_mentions": [],
+      "expected_diagnostics": [
+        {"raw_text": "Page 19 of 99", "source_charspan": [0, 13], "diagnostic_class": "page_furniture"}
+      ]
+    }
+  ]
+}

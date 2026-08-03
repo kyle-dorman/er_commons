@@ -13,6 +13,13 @@ scope, replace a numbered task, or record a completed experiment.
   measured integration need proves that thin task-specific glue is insufficient.
 - Consider richer workflow orchestration only after simple commands and
   manifests demonstrate a real restart, scheduling, or dependency bottleneck.
+- After the OCR-free Task 03E.5 first pass, measure the cost of deliberately
+  unresolved figure mentions before selecting a figure-linking design. Review
+  mention counts, representative failures such as Appendix P Figures 1 and 4,
+  and downstream retrieval or context-injection errors that required visual
+  evidence. Only then consider constrained OCR or another exact image-label
+  method with page, document, target, and checksum evidence; proximity alone
+  must not create a link.
 - After the first vertical slice, consider adding lightweight diagnostic
   metadata to benchmark cases. Candidate fields include support topology
   (`single`, `fan_out`, `chain`, or `mixed`), reasoning operation, evidence

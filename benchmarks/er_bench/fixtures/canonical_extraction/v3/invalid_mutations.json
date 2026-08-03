@@ -1,0 +1,15 @@
+[
+  {"name": "resolved_requires_one_candidate", "kind": "schema", "path": ["cross_references", 0, "candidates"], "value": []},
+  {"name": "unresolved_requires_reason", "kind": "schema", "path": ["cross_references", 2, "unresolved_reason"], "value": null},
+  {"name": "derived_alias_must_target_table", "kind": "schema", "path": ["cross_references", 1, "candidates", 0, "target_type"], "value": "figure"},
+  {"name": "proximity_is_not_evidence", "kind": "schema", "path": ["cross_references", 1, "candidates", 0, "evidence", 0, "kind"], "value": "same_page_proximity"},
+  {"name": "table_page_distance_is_bounded", "kind": "schema", "path": ["cross_references", 1, "candidates", 0, "page_distance"], "value": 6},
+  {"name": "wrong_span_endpoint", "kind": "contract", "path": ["cross_references", 0, "source_charspan"], "value": [4, 14]},
+  {"name": "raw_text_must_equal_source_slice", "kind": "contract", "path": ["cross_references", 0, "raw_text"], "value": "Section 5.2"},
+  {"name": "regions_are_complete_inherited_evidence", "kind": "contract", "path": ["cross_references", 0, "regions"], "value": []},
+  {"name": "raw_links_are_complete_inherited_evidence", "kind": "contract", "path": ["cross_references", 0, "raw_links"], "value": []},
+  {"name": "mention_order_is_deterministic", "kind": "contract", "path": ["cross_references", 0, "sequence"], "value": 2},
+  {"name": "figure_cannot_use_table_candidate", "kind": "contract", "path": ["cross_references", 2, "candidates"], "copy_from": ["cross_references", 1, "candidates"]},
+  {"name": "candidate_must_match_target_index", "kind": "contract", "path": ["cross_references", 0, "candidates", 0, "target_record_id"], "value": "exv1-1111111111111111111111111111111111111111111111111111111111111111/section/deir_fixture/sec999999"},
+  {"name": "support_roles_are_exact", "kind": "contract", "path": ["support_files", 0, "role"], "value": "cross_reference_summary"}
+]

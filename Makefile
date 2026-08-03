@@ -7,7 +7,7 @@ export ER_COMMONS_DATA_ROOT
 .PHONY: help bootstrap sync check-env data-dirs about paths freeze-brisbane-sources \
 	verify-brisbane-sources run-document-review run-table-review run-table-first-600 \
 	run-complete-document run-hierarchy-evaluation run-canonical-document \
-	run-semantic-document \
+	run-semantic-document run-cross-references \
 	format format-check lint lint-fix type test check fix
 
 help:
@@ -22,6 +22,7 @@ help:
 	@echo "  make run-hierarchy-evaluation Run the Task 03E repeated producer gate"
 	@echo "  make run-canonical-document   Materialize or verify the Task 03D candidate"
 	@echo "  make run-semantic-document    Materialize Appendix P semantic structure"
+	@echo "  make run-cross-references     Materialize Appendix P cross-references"
 	@echo "  make run-table-review         Run or resume the ten-page table review"
 	@echo "  make run-table-first-600      Run or resume the first-600-page table validation"
 	@echo "  make fix         Apply lint and formatting fixes"
@@ -69,6 +70,9 @@ run-canonical-document: check-env
 
 run-semantic-document: check-env
 	uv run er-commons canonicalize run-semantic-document
+
+run-cross-references: check-env
+	uv run er-commons canonicalize run-cross-references
 
 run-table-review: check-env
 	uv run er-commons tables run-review

@@ -152,11 +152,37 @@ remains immutable reference evidence. The human-owned replacement
 `exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
 has zero candidate and review mismatches under its independent equivalence gate,
 retains the exact ten-page review pixels, and is accepted as the immutable
-handoff to active, start-ready [Task
-03E.5](../tasks/sprint2/03e5_pilot_cross_references.md). Task 03E.5 begins with a
-read-only Gate A inventory proposal and must stop for user review before the
-checked-in Gate B schema/fixture contract; production code remains behind a
-second explicit review. Tasks 03F through 03H remain provisional.
+handoff to completed [Task
+03E.5](../tasks/sprint2/03e5_pilot_cross_references.md). Its read-only Gate A
+inventory and checked-in Gate B contract were explicitly approved before
+production. Behavioral MVP candidate
+`exv1-e3e81078dfb21b3d0718cd935004077e163dffc180bbc3d80f4a54391caa67f6`
+remains immutable reference evidence. The first human-owned candidate
+`exv1-4a65944e4ce99a445953ea2904ca0e0c4b20fdd5412e9b89e7b6dac0254cc464`
+matched it across all 19 semantic paths but is now immutable
+correction-baseline evidence after a user audit found five false resolved
+section links. Accepted pattern-policy-v2 candidate
+`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
+uses this
+precision-first policy:
+target-side table labels may support a table alias only under a strict
+same-page/single-table rule. Table mentions consider exact verified targets
+only within five physical pages, with multiple targets left ambiguous and
+qualified external-reference forms unresolved. Distance never creates target
+evidence. Figure
+mentions remain unresolved because current v3 authorizes zero derived figure
+aliases. The user selected an OCR-free first pass that skips figure linking and
+retains unresolved counts for impact evaluation. It contains 292 mentions, 256
+resolved records, 35 unresolved records, one ambiguous `Section 4`, 11 verified
+table aliases, and zero figure aliases. Any future OCR or figure-link support
+requires a separately reviewed contract revision. The accepted implementation
+uses explicit policy/domain types and a generic named-EIR grammar backed by the
+sealed corpus catalog rather than fixture-specific document text. Reference
+sections are structurally excluded, and explicit external/statutory section
+qualifiers cannot fall through to local numeric lookup. The user accepted two
+visually confirmed source-authored appendix-link inconsistencies as bounded
+first-pass noise; no document-specific correction is applied. Task 03E.5 is
+accepted. Tasks 03F through 03H remain provisional and inactive.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

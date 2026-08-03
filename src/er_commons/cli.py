@@ -8,6 +8,7 @@ from typing import Annotated
 import typer
 
 from er_commons.canonical_extraction import run_document_canonicalization
+from er_commons.cross_reference_enrichment import run_cross_reference_enrichment
 from er_commons.document_extraction import (
     run_complete_document_producer,
     run_document_extraction,
@@ -55,6 +56,9 @@ DEFAULT_CANONICALIZATION_SPEC = Path(
 )
 DEFAULT_SEMANTIC_MATERIALIZATION_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03e4_semantic_v1.json"
+)
+DEFAULT_CROSS_REFERENCE_SPEC = Path(
+    "configs/brisbane_baylands_2025_deir_task03e5_cross_references_human_v2.json"
 )
 DEFAULT_HIERARCHY_CORRECTION_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1.json"
@@ -235,6 +239,27 @@ def run_semantic_document(
     )
     typer.echo(f"semantic_completion={completion_path}")
     typer.echo(f"semantic_review_manifest={review_manifest}")
+
+
+@canonicalize_app.command("run-cross-references")
+def run_cross_references(
+    config: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Reviewed Appendix P cross-reference configuration.",
+        ),
+    ] = DEFAULT_CROSS_REFERENCE_SPEC,
+) -> None:
+    """Publish or checksum-verify the Task 03E.5 schema-v3 candidate."""
+    completion_path, comparison_path = run_cross_reference_enrichment(
+        load_settings().data_root, config
+    )
+    typer.echo(f"cross_reference_completion={completion_path}")
+    typer.echo(f"cross_reference_comparison={comparison_path}")
 
 
 @hierarchy_app.command("correct-document")

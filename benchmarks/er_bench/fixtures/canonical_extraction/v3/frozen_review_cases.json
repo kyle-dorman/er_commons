@@ -1,0 +1,181 @@
+{
+  "schema_version": "er_commons.cross_reference_fixture_inventory.v3",
+  "split": "frozen_review",
+  "pattern_version": "cross_reference_patterns_v1",
+  "source_candidate_id": "exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b",
+  "cases": [
+    {
+      "name": "repeated_section_frozen_half",
+      "source": {
+        "block_sequence": 260,
+        "canonical_text": "6. Other Planned Developments: This includes all planned developments located in the City's and SFPUC's current service area boundaries that will be transferred into Cal Water's SSF District service area boundary upon full buildout of the Specific Plan (see Section 5.3). For the purposes of the WSA, it is conservatively assumed that these customers will be served by Cal Water starting in 2025.",
+        "text_sha256": "de7c7332db9520fd5de40e2dd9bbd9b52e17b3eb994dde6d124beb2e3f74f1a0",
+        "content_layer": "body",
+        "is_toc_row": false,
+        "block_type": "list_item"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "section", "raw_text": "Section 5.3", "source_charspan": [258, 269],
+          "lookup_key": "5.3", "candidate_count": 1, "resolution_status": "resolved",
+          "unresolved_reason": null, "target_types": ["section"], "evidence_kinds": ["section_numeric_prefix"]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "deep_section_number",
+      "source": {
+        "block_sequence": 274,
+        "canonical_text": "Since 2019, SFPUC has participated in negotiations with the State and other stakeholders to reach a compromise wherein a voluntary agreement could be adopted as an alternative or substitute for the Bay-Delta Plan Amendment that would minimize the impacts to the RWS. On 1 March 2019, SFPUC submitted a proposed voluntary agreement (Proposed Voluntary Agreement) to the State at the instruction of the SWRCB. On 9 November 2022, SFPUC signed a non-binding MOU with State representatives outlining conceptual deal points for a Tuolumne River Voluntary Agreement, described in further detail in Section 6.1.1.2. As of the date of this WSA, the MOU remains in effect, while the Proposed Voluntary Agreement is currently undergoing review and evaluation by the SWRCB (SFPUC, 2023b; BAWSCA, 2024b) .",
+        "text_sha256": "cb8c9deaee1d3fb46c959b28f1f883b33ec856a67046aecce81976c2d4ccadad",
+        "content_layer": "body", "is_toc_row": false, "block_type": "paragraph"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "section", "raw_text": "Section 6.1.1.2", "source_charspan": [592, 607],
+          "lookup_key": "6.1.1.2", "candidate_count": 1, "resolution_status": "resolved",
+          "unresolved_reason": null, "target_types": ["section"], "evidence_kinds": ["section_numeric_prefix"]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "herein_is_context_not_span",
+      "source": {
+        "block_sequence": 280,
+        "canonical_text": "Scenario 2 (Without Implementation of the Bay-Delta Plan Amendment or the Proposed Voluntary Agreement): Without the implementation of the Bay-Delta Plan Amendment, the three Peninsula Districts have sufficient water supply to meet all expected future water demands in normal years, single dry years, and most multiple dry years. Since the Specific Plan's estimated water demands indicate that it will be subject to Cal Water's Development Offset Program, the Specific Plan will not result in a net increase in demands for the SSF District. As discussed in Section 6.2.2 herein, it is anticipated that the three Peninsula Districts will face supply shortfalls of 15% during the fourth and fifth years of a multiple dry year scenario in 2045, during which the SSF District will implement its WSCP to curtail demands and ensure that its supplies remain sufficient to serve all users, including those of the Specific Plan.",
+        "text_sha256": "e8de97bffe7788627f26ca61f0800c4f788a454b7a2818c84f538270d173df11",
+        "content_layer": "body", "is_toc_row": false, "block_type": "paragraph"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "section", "raw_text": "Section 6.2.2", "source_charspan": [557, 570],
+          "lookup_key": "6.2.2", "candidate_count": 1, "resolution_status": "resolved",
+          "unresolved_reason": null, "target_types": ["section"], "evidence_kinds": ["section_numeric_prefix"]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "named_external_document_outside_corpus",
+      "source": {
+        "block_sequence": 405,
+        "canonical_text": "The Specific Plan includes approximately 2,998,000 sq ft of office space (Baylands Development Company, 2024a, 2024c) . The water use factor for office space use is 0.055 GPD/sq ft according to the Draft EIR for the Genentech Campus Master Plan Update (Genentech, 2019) . Based on the demand factor identified above, the total estimated conference space use for the Specific Plan by full buildout is estimated to be 185 AFY.",
+        "text_sha256": "5251a72c551517a8c961cb837a062cda721a9a82aea37a243b4f5ed5a1fd5b9f",
+        "content_layer": "body", "is_toc_row": false, "block_type": "paragraph"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "document", "raw_text": "Draft EIR for the Genentech Campus Master Plan Update",
+          "source_charspan": [198, 251], "lookup_key": "draft eir for the genentech campus master plan update",
+          "candidate_count": 0, "resolution_status": "unresolved",
+          "unresolved_reason": "external_document_outside_corpus", "target_types": [], "evidence_kinds": []
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "figure_remains_unresolved_without_target_evidence",
+      "source": {
+        "block_sequence": 320,
+        "canonical_text": "The Specific Plan site is comprised of approximately 642 acres in the City of Brisbane, California (Baylands Development Company, 2025). The site is bordered on the west by Bayshore Boulevard, on the north by a residential neighborhood, and on the east by Highway 101 and the San Francisco Bay. The southern border of the site is the intersection of the Caltrain Railroad and Highway 101 (Figure 1) .",
+        "text_sha256": "b86162224e510af5ecd0af0ed6c626a56c99c026d6cef0fd9b595df5cc2e4408",
+        "content_layer": "body", "is_toc_row": false, "block_type": "paragraph"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "figure", "raw_text": "Figure 1", "source_charspan": [389, 397],
+          "lookup_key": "figure 1", "candidate_count": 0, "resolution_status": "unresolved",
+          "unresolved_reason": "accepted_target_type_unavailable", "target_types": [], "evidence_kinds": []
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "table_generalizes_through_verified_target_alias",
+      "source": {
+        "block_sequence": 575,
+        "canonical_text": "Projected water demands for the SSF District are documented in the SSF District 2020 UWMP and presented in Table 5 in five-year increments. It should be noted that the projected demands for the SSF District have decreased by 527 AFY relative to those reported in the SSF District 2020 UWMP because the Southline Specific Plan Project, which had previously been included in the demand projections for the SSF District, is now expected to comply with the Development Offset Program and will therefore not result in a net increase in demands. Taking into account historical water use, expected population increase and other growth, climatic variability, and other assumptions, the 2020 UWMP estimates that water demand within the SSF District will increase to 7,896 AFY by 2045, an increase of approximately 20% over the 2019-2023 average.",
+        "text_sha256": "cd0f45067085e1c5f52f11f4f7d68a75fc0310d5d1e455cff740ccc2cdfb0dcd",
+        "content_layer": "body", "is_toc_row": false, "block_type": "paragraph",
+        "source_physical_page": 34
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "table", "raw_text": "Table 5", "source_charspan": [107, 114],
+          "lookup_key": "table 5", "candidate_count": 1, "resolution_status": "resolved",
+          "unresolved_reason": null, "target_types": ["table"], "evidence_kinds": ["verified_same_page_table_label"],
+          "target_page_distances": [5]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "qualified_external_table_reference_stays_unresolved",
+      "source": {
+        "block_sequence": 894,
+        "canonical_text": "Historical groundwater pumping as reported on Table 1 in Reference 1 for Cal Water SSF District, Daly City, San Bruno and San Francisco Municipal and Irrigation.",
+        "text_sha256": "a7fd8ad2381b33aad3e5ca76cfb7d9a9efe57b8faa6d91bcb9acc984781b61fd",
+        "content_layer": "body", "is_toc_row": false, "block_type": "paragraph",
+        "source_physical_page": 64
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "table", "raw_text": "Table 1", "source_charspan": [46, 53],
+          "lookup_key": "table 1", "candidate_count": 0, "resolution_status": "unresolved",
+          "unresolved_reason": "qualified_external_table_reference", "target_types": [],
+          "evidence_kinds": [], "target_page_distances": []
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "appendix_generalization",
+      "source": {
+        "block_sequence": 736,
+        "canonical_text": "On 2 June 2021, the SFPUC released a memorandum which outlines numerous options the SFPUC is pursuing to improve the supply reliability projected in its 2020 UWMP and meet its LOS Goals . This memorandum is included as Appendix E . Furthermore, the SFPUC's Water Supply Improvement Program (WSIP) and its AWS Plan articulate the SFPUC's goals and objectives to improve the delivery reliability of the RWS, including water supply reliability.",
+        "text_sha256": "63c8a009933ac902c081468f5cef7a60ee7d554a83db1dfd665a1bfe5b9d06d6",
+        "content_layer": "body", "is_toc_row": false, "block_type": "paragraph"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "appendix", "raw_text": "Appendix E", "source_charspan": [219, 229],
+          "lookup_key": "appendix e", "candidate_count": 1, "resolution_status": "resolved",
+          "unresolved_reason": null, "target_types": ["section"], "evidence_kinds": ["accepted_alias_exact"]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "true_section_ambiguity",
+      "source": {
+        "block_sequence": 1537,
+        "canonical_text": "As described in Section 4, the net water demand of the Specific Plan (1,149 AFY at buildout) has been conservatively estimated based on best available data and sources. However, due to implementation of Cal Water's Development Offset Program, the Specific Plan is not expected to result in a net increase in water demands to Cal Water's SSF District.16",
+        "text_sha256": "56f80aa22972d1fb89b2d0acfd575dc384fe98515594350554a4aebc9270f45e",
+        "content_layer": "body", "is_toc_row": false, "block_type": "paragraph"
+      },
+      "expected_mentions": [
+        {
+          "mention_class": "section", "raw_text": "Section 4", "source_charspan": [16, 25],
+          "lookup_key": "4", "candidate_count": 2, "resolution_status": "ambiguous",
+          "unresolved_reason": null, "target_types": ["section", "section"], "evidence_kinds": ["section_numeric_prefix", "section_numeric_prefix"]
+        }
+      ],
+      "expected_diagnostics": []
+    },
+    {
+      "name": "bibliography_document_title_is_not_a_mention",
+      "source": {
+        "block_sequence": 1594,
+        "canonical_text": "Genentech, 2019. Genentech Campus Master Plan Update Draft Environmental Impact Report , Prepared by Lamphier-Gregory, dated October 2019.",
+        "text_sha256": "ecb6a3f541aca9a840575ff1c5a85f7d3813e03e694c996fa351f8d90beda4e3",
+        "content_layer": "body", "is_toc_row": false, "block_type": "list_item"
+      },
+      "expected_mentions": [],
+      "expected_diagnostics": [
+        {"raw_text": "Genentech Campus Master Plan Update Draft Environmental Impact Report", "source_charspan": [17, 86], "diagnostic_class": "bibliography"}
+      ]
+    }
+  ]
+}

@@ -1,9 +1,29 @@
 # Task 03E.5: Pilot Canonical Cross-References
 
-Status: **active and ready to start as of 2026-08-03**. The corrected,
-human-owned Task 03E.4 candidate is accepted as this task's immutable input.
-No Task 03E.5 implementation, dependency installation, or generated artifact
-has started; the first action is the read-only Gate A inventory proposal below.
+Status: **complete and accepted as of 2026-08-03**. Task 03F remains a separate,
+inactive boundary.
+The corrected, human-owned Task 03E.4 candidate was the immutable input. Gate A
+was approved with a precision-first direction, and Gate B was explicitly
+approved before production implementation. Schema-v3 MVP reference candidate
+`exv1-e3e81078dfb21b3d0718cd935004077e163dffc180bbc3d80f4a54391caa67f6`
+passed the behavioral gate but is not accepted as the production
+implementation. The user rejected its machine-oriented code and
+fixture-specific named-document constant. The separate human-owned rewrite has
+passed its original equivalence and maintainability gates, then failed the
+user's resolved-link audit on external-section and bibliography false
+positives. It remains immutable correction-baseline evidence. Pattern-policy
+v2 corrected those failures and passed a bounded correction audit,
+reproducibility, checksum reuse, and the full project check. The accepted
+candidate is
+`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`.
+No external parsing dependency or full-corpus scan was added.
+The user chose an OCR-free first pass: detect figure mentions but skip figure
+linking entirely, retain their unresolved disposition, and evaluate the impact
+before designing a later figure-linking stage.
+Table mentions use a strict five-physical-page window over independently
+verified exact-number table targets. This resolves the page-21 `Table 1`
+mention to page 22 while leaving qualified external forms such as `Table 1 in
+Reference 1` unresolved.
 
 ## Abstract
 
@@ -75,7 +95,8 @@ response content, or retrieval-specific graph construction.
   completion-last lifecycle; it remaps the accepted Task 03E.4 namespace and
   adds cross-reference records, their support evidence, and terminal records
   while semantically preserving all 323 accepted aliases after identity
-  normalization
+  normalization; it may add only independently verified v3-derived table
+  aliases under the frozen Gate B rule
 - deterministic mention, within-document resolution, and unresolved-reference
   summaries under the candidate-owned support roles
   `cross_reference_target_index`, `cross_reference_summary`, and
@@ -114,9 +135,9 @@ The outcome must explain:
   does not rewrite the sealed per-document record.
 - **Structural keys are target-side evidence.** A mention such as `Section
   5.3` may match the exact numeric prefix of an accepted section alias, but
-  mention text may not invent or relabel a target. Table and figure aliases
-  require separately specified target-side evidence before those mentions can
-  resolve.
+  mention text may not invent or relabel a target. Table aliases require the
+  separately specified target-side evidence before those mentions can resolve;
+  current v3 authorizes no derived figure aliases.
 - **Cross-document resolution is two-pass.** Other-document targets do not
   exist until Task 03F completes per-document semantic stage one and seals a
   corpus target index.
@@ -128,7 +149,7 @@ The outcome must explain:
 
 Use two explicit approval stops before production implementation.
 
-**Gate A — read-only inventory proposal.** Before changing repository files or
+**Gate A — read-only inventory proposal (approved 2026-08-03).** Before changing repository files or
 adding code or dependencies, scan only eligible canonical body-block text in
 the accepted Appendix P candidate. Eligible source records are exactly records
 from `canonical/blocks.jsonl` with `content_layer == "body"`,
@@ -151,11 +172,12 @@ proposal must include, at minimum:
   `Section 21000`, and `Section 21080` plus non-body text must not become
   confident internal links.
 
-**Gate B — checked-in contract fixtures.** Only after Gate A approval, write
+**Gate B — checked-in contract fixtures (approved 2026-08-03).** Only after Gate A approval, write
 the supported-grammar specification, executable v3 schema, small checked-in
 fixture inventory, development/frozen-review split, and negative mutations.
 Run their focused validation and stop again for explicit user review. Gate B
-may add specification, schema, fixture, and validation-test files, but it may
+may add specification, schema, fixture, responsibility-owned contract
+validation, and validation-test files, but it may
 not add production mention detection, candidate generation, materialization,
 publication code, an external dependency, or a generated Task 03E.5 candidate.
 
@@ -169,9 +191,15 @@ Freeze before implementation:
 1. supported mention classes, source-record eligibility, overlap precedence,
    boundary handling, and exact half-open source-span rules;
 2. target types and lookup behavior for exact aliases, section-number prefixes,
-   appendix letters, and printed pages; table/figure mentions are detected but
-   remain unresolved because Task 03E.4 contains no accepted table/figure
-   aliases, and mention text cannot create target aliases;
+   appendix letters, and printed pages; mention text cannot create target
+   aliases. A table alias may be added only from an exact standalone numbered
+   label on the same physical page as exactly one canonical table, with no
+   conflicting label. Eligible table mentions consider only exact verified
+   targets at physical-page distance zero through five; multiple targets remain
+   ambiguous, and qualified `in/from/of Reference N` forms remain unresolved.
+   Current v3 authorizes zero derived figure aliases;
+   explicit caption links or independently verified TOC-to-printed-page
+   alignment may be considered only by a future reviewed contract revision;
 3. deterministic normalization and collision handling;
 4. the exact rule `0 candidates -> unresolved`, `1 -> resolved`, and `>1 ->
    ambiguous`; use `deferred_cross_document` only when the literal target is
@@ -185,15 +213,16 @@ Freeze before implementation:
 7. schema-major-v3, identity, code-inventory, support, no-clobber reuse,
    completion-last publication, and failed-attempt consequences;
 8. exact permitted differences from Task 03E.4: identity/schema,
-   cross-reference records, the three named cross-reference support roles
-   serialized as `support/cross_reference_target_index.json`,
+   cross-reference records, the bounded verified-table-alias extension, the
+   three named cross-reference support roles serialized as
+   `support/cross_reference_target_index.json`,
    `support/cross_reference_summary.json`, and
    `support/cross_reference_preservation.json`, and terminal checksums only;
 9. corpus target-index and second-pass handoff; and
 10. unsupported forms and warning/failure policy, including legal/statutory and
     bibliography-like citations that are not canonical document references.
 
-Do not add production extraction or materialization code until Gate B passes
+Production extraction and materialization began only after Gate B passed
 explicit user review. Keep mention detection, target-index
 construction, candidate generation, validation, comparison, identity, and
 publication as distinct responsibility owners; do not place the stage in one
@@ -202,13 +231,14 @@ monolithic parser or application function.
 The schema-major-v3 stage-one mention ID is candidate-scoped and stable within
 the immutable candidate. Every candidate entry uses v3-remapped local
 `alias_record_id` and `target_record_id` values so the v3 graph remains
-referentially closed. Separate `upstream_alias_record_id` and
-`upstream_target_record_id` evidence fields preserve the exact accepted Task
-03E.4 IDs. The v3 local target set must equal the namespace-remapped image of
-the accepted Task 03E.4 alias-target set, and the correspondence support must
-verify both directions. Task 03F may publish a separate result referencing the
-mention ID and corpus-index identity, but may not rewrite the local candidate
-list or status.
+referentially closed. Separate upstream alias and target evidence fields
+preserve the exact accepted Task 03E.4 IDs. All 323 upstream aliases and their
+targets must have exact bidirectional correspondence. A v3-derived table alias
+has no upstream alias ID but must retain the exact upstream table target ID and
+the frozen target-side label/page evidence. Current v3 authorizes no figure
+alias extension; future support requires a separate contract revision and
+review. Task 03F may publish a separate result referencing the mention ID and
+corpus-index identity, but may not rewrite the local candidate list or status.
 
 Character offsets are Python Unicode-code-point offsets into the source
 block's `canonical_text`, expressed as a half-open `[start, end)` interval.
@@ -251,11 +281,14 @@ cross-reference records or graph edges.
 - Require `canonical_text[start:end] == raw_text` for every mention and preserve
   the complete source block and raw lineage unchanged.
 - Verify candidates target only accepted canonical target types.
-- Verify every candidate cites a v3-local alias record and target plus their
-  exact accepted Task 03E.4 upstream IDs.
-- Verify every v3 local alias and target ID has exact bidirectional
-  correspondence to its upstream Task 03E.4 ID and no canonical edge points
-  outside the v3 candidate namespace.
+- Verify every candidate cites a v3-local alias record and target. Preserved
+  aliases carry exact Task 03E.4 upstream alias and target IDs; a verified
+  table alias carries a null upstream alias ID plus the exact upstream table
+  target ID and independent label/page evidence.
+- Verify every preserved v3 alias and target ID has exact bidirectional
+  correspondence to Task 03E.4. Verify every derived table alias has no
+  upstream alias, has an exact upstream table target, and satisfies the frozen
+  target-side evidence rule. No canonical edge may leave the v3 namespace.
 - Report full-document mention counts by supported class, resolution status,
   unresolved reason, and source eligibility; a zero count for a supported
   class is an unsupported outcome unless the frozen inventory predicted it.
@@ -313,3 +346,135 @@ git diff --check
 - Task 03F orchestration, corpus-index publication, or restartability work
 - manual forced resolution or document-specific exception tables
 - corpus-wide precision, recall, or generalization claims
+
+## Gate B review checkpoint
+
+Gate B added only:
+
+- `docs/specs/cross_references_v3.md`;
+- `benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json`;
+- the development, frozen-review, valid-contract, and negative-mutation
+  fixtures under `benchmarks/er_bench/fixtures/canonical_extraction/v3/`;
+- the contract-only validator under
+  `src/er_commons/cross_reference_contract/`; and
+- `tests/test_cross_reference_contract.py`.
+
+The checked-in contract is deliberately asymmetric. Exact target-side table
+labels can create a table alias only under the same-page/single-table rule;
+the resulting exact-number targets are eligible for a mention only within a
+five-physical-page window. Distance filters verified targets and never creates
+one; multiple distinct in-window targets remain ambiguous, while qualified
+external-reference forms remain unresolved. Appendix P figure records include decorative and
+split images and almost all lack caption links. By explicit user decision, the
+OCR-free first pass skips figure linking altogether: current v3 authorizes zero
+derived figure aliases, keeps figure mentions visible but unresolved, and
+reports their counts so the impact can be evaluated. The focused Gate B
+contract suite keeps canonical v1/v2 strict. The user explicitly approved this
+checkpoint before the production package and candidate were built.
+
+## Behavioral MVP outcome
+
+The responsibility-separated implementation lives under
+`er_commons.cross_reference_materialization`. Detection, target indexing,
+resolution, construction, validation, identity, publication, and workflow each
+have named owners. Python's standard-library regular expressions were
+sufficient for the frozen grammar, so no runtime dependency was added.
+
+The completed candidate
+`exv1-e3e81078dfb21b3d0718cd935004077e163dffc180bbc3d80f4a54391caa67f6`
+contains 300 exact-span mentions over 2,246 eligible body blocks: 227 section,
+20 appendix, 45 table, 7 figure, and 1 named-document mention. The two lexical
+`page` hits were deed-recordation citations and were correctly routed to
+diagnostics rather than canonical records. Local status is 261 resolved, 38
+unresolved, and 1 ambiguous. The sole
+ambiguous record is the frozen `Section 4` collision. All seven figure mentions
+remain explicitly unresolved under the approved OCR-free policy.
+
+The candidate preserves all 323 accepted Task 03E.4 aliases and their targets,
+adds 11 independently verified table aliases, and adds zero figure aliases.
+The page-21 `Table 1` resolves to the page-22 table at distance 1, and the
+page-34 `Table 5` resolves to the page-39 table at the maximum accepted distance
+of 5. Qualified external-reference table forms remain unresolved. The three
+candidate-owned support roles record the target index, aggregate outcomes, and
+zero-undeclared-difference preservation result.
+
+Two fresh MVP builds were byte-identical. Completion-last publication, checksum
+reuse, and retained-failure behavior passed. The MVP is immutable behavioral
+reference evidence, not the accepted production implementation.
+
+## Human-owned rewrite outcome
+
+The accepted implementation lives under `er_commons.cross_reference_enrichment`.
+It replaces fixture-shaped procedural code with named domain concepts:
+`MentionPolicy`, `MentionRule`, `BlockExclusion`, `DetectedMention`,
+`TargetIndex`, `TargetIndexBuilder`, `MentionResolver`, `Resolution`,
+`CandidateSource`, and `CrossReferenceCandidateBuilder`. Detection, policy,
+catalog classification, indexing, resolution, construction, validation,
+comparison, identity, storage, publication, and workflow have separate public
+owners. The workflow is a short orchestration shell over those responsibilities.
+
+Named environmental documents now use the bounded grammatical forms
+`Draft EIR for <title>` and `Final EIR for <title>`. The detector contains no
+Genentech or other fixture-specific document constant. A new unseen-title test
+passes, and deferred-versus-external disposition is driven by target-side keys
+derived from the checksum-bound sealed model-corpus manifest. Mention text does
+not invent corpus membership.
+
+Human-owned candidate
+`exv1-4a65944e4ce99a445953ea2904ca0e0c4b20fdd5412e9b89e7b6dac0254cc464`
+exactly matches the sealed MVP across all 19 canonical record and
+cross-reference support paths after normalizing only candidate-derived IDs and
+the corresponding target-index checksum pointer. Comparison
+`cmpv1-e8c14b267c556a7609cde4275223e7210ee0bd699b53c4daac29e18988f93d65`
+has zero mismatches. The first comparison attempt correctly stopped on a
+numeric-prefix parsing difference and retained both failed builds without
+completion records; the readable helper was corrected before publication.
+
+The accepted candidate therefore retains the reviewed behavior: 300 mentions,
+261 resolved, 38 unresolved, one ambiguous `Section 4`, 11 verified table
+aliases, zero figure aliases, and seven unresolved figure mentions. Two fresh
+builds were byte-identical, and checksum reuse passed. `make fix`, `make check`,
+and `git diff --check` passed with strict mypy and 435 tests. This task did not
+scan or resolve the other 34 model-corpus PDFs. Task 03F remains provisional
+and requires explicit user review and activation.
+
+## Pattern-policy v2 correction outcome
+
+The user audit found five incorrect resolved section links: two bibliography
+occurrences, two references qualified by another named document, and one
+low-numbered statutory reference. The same correction pass found three
+already-unresolved mentions qualified by the separate Project Operating
+Agreement. Pattern-policy v2 makes source scope and qualifier semantics
+explicit:
+
+- sections headed `References`, `Bibliography`, or `Works Cited`, plus all
+  descendants, are excluded through accepted `section_id` relationships;
+- author-year citation-only blocks outside those sections are excluded without
+  requiring a publication-type keyword;
+- `of this Agreement` remains eligible for local resolution;
+- named external agreements, plans, reports, assessments, EIRs, and UWMPs are
+  external-section diagnostics; and
+- `of the Act` and `of the Code` are statutory diagnostics regardless of the
+  number of digits in the section key.
+
+Corrected candidate
+`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
+contains 292 mentions: 256 resolved, 35 unresolved, and one ambiguous. It
+retains all 45 table mentions and the unchanged five-page policy. Independent
+correction comparison
+`cmpv1-78eca6da7a13a0202d9dfe673902e5b1579b077eaca7a887917c16ad061cd74c`
+proves 17 preserved paths exact, eight policy-explained removals, zero added
+mentions, zero changed shared mentions, and zero unexplained removals. Two
+fresh builds were byte-identical, checksum reuse passed, and failed prepublish
+audit attempts were retained without completion records. `make fix`, `make
+check`, and `git diff --check` pass with strict mypy and 439 tests.
+
+The final review found two literal appendix links whose surrounding prose does
+not match the named appendix contents. Visual inspection confirmed that both
+letters are printed in the source PDF, so they are source-authored
+cross-reference noise rather than extraction mistakes. By explicit user
+decision, Task 03E.5 retains literal source fidelity and does not add
+document-specific B-to-C or D-to-E corrections. This bounded noise is accepted
+for the first pass and must be handled by downstream retrieval/query-time model
+reasoning if encountered. It does not authorize a general semantic override
+layer or weaken the structural and qualifier exclusions above.

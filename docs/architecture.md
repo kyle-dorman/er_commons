@@ -213,16 +213,48 @@ semantic facts downstream consumers need. Cross-reference
 mentions remain a later enrichment because aliases describe possible targets,
 whereas mentions are source spans that point toward those targets.
 
-Active Task 03E.5 begins with a read-only inventory and a separately approved
-schema/fixture gate before production code. Its planned schema-major-v3
-candidate will remap the complete Task 03E.4 namespace, keep canonical edges
-closed over v3-local alias and target IDs, and retain the exact Task 03E.4 IDs
-only as correspondence evidence. Document-scoped mention candidates and local
-resolution remain immutable stage-one records. Task 03F may append a separate
-corpus-resolution result against stable mention IDs; it may not rewrite the v3
-candidate. `deferred_cross_document` is reserved for targets identifiable in
-the sealed model corpus, while named documents outside that corpus remain
-terminal external unresolved records.
+Completed Task 03E.5 passed separate inventory, schema/fixture, behavioral, and
+human-maintainability gates. Schema-major-v3 MVP candidate
+`exv1-e3e81078dfb21b3d0718cd935004077e163dffc180bbc3d80f4a54391caa67f6`
+is immutable reference evidence. Initial human-owned candidate
+`exv1-4a65944e4ce99a445953ea2904ca0e0c4b20fdd5412e9b89e7b6dac0254cc464`
+matches all 19 semantic paths exactly but is correction-baseline evidence.
+Accepted pattern-policy-v2 candidate
+`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
+structurally excludes reference sections and classifies explicit section
+qualifiers before local numeric lookup. It
+remaps the complete Task 03E.4 namespace, keeps
+canonical edges closed over v3-local alias and target IDs, and retains exact
+Task 03E.4 IDs as correspondence evidence. It may extend the preserved alias
+inventory only for a numbered table label proven by an exact standalone label
+on the same page as exactly one canonical table. An exact-number table mention
+considers those verified targets only at physical-page distance zero through
+five; multiple targets remain ambiguous and qualified external-reference forms
+remain unresolved. Distance never creates a target. Figures remain unresolved without an explicit caption link
+or independently verified TOC-to-printed-page alignment to one non-decorative
+figure; current v3 authorizes zero derived figure aliases, and such support
+would require a separately reviewed contract revision. It materialized 292
+mentions and 11 verified table aliases while preserving all 323 upstream
+aliases. Document-scoped mention
+candidates and local resolution remain immutable stage-one records. Task 03F
+may append a separate corpus-resolution
+result against stable mention IDs; it may not rewrite the v3 candidate.
+`deferred_cross_document` is reserved for targets identifiable in the sealed
+model corpus, while named documents outside that corpus remain terminal
+external unresolved records.
+
+The executable implementation lives under `cross_reference_enrichment`.
+Policy, detection, corpus catalog, target indexing, resolution, construction,
+validation, comparison, identity, storage, publication, and workflow are
+separate owners. Named environmental documents use a bounded grammatical rule;
+corpus membership comes only from the checksum-bound sealed source manifest.
+The earlier `cross_reference_materialization` package remains behavioral MVP
+reference code and is not the downstream production owner.
+
+Literal source references remain literal even when surrounding prose appears
+inconsistent with the named target. Task 03E.5 intentionally does not carry
+document-specific appendix-letter corrections; two visually confirmed source
+errors are accepted bounded noise for downstream query-time reasoning.
 
 Task 03E.3 defines that join as canonical-extraction schema major v2 while
 leaving strict v1 and the Task 03D.1 candidate immutable. V2 extends sections,

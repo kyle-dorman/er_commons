@@ -4,7 +4,7 @@
 
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
-Most recently completed: [Task
+Previously completed: [Task
 03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md). Its
 checksum-verified semantic v2 MVP candidate
 `exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf`
@@ -19,14 +19,37 @@ project check. The final user-authorized maintainability pass corrected
 support-preimage reproducibility and tightened the equivalence, source-
 verification, reporting, lifecycle, ownership, and test boundaries.
 
-Active implementation: [Task
-03E.5](../tasks/sprint2/03e5_pilot_cross_references.md) is ready to start from
-the accepted final Task 03E.4 candidate. Its first action is Gate A: a bounded,
-read-only Appendix P mention-inventory proposal followed by an explicit user
-review stop. Only later approval authorizes checked-in Gate B specification,
-schema, fixture, and negative-mutation changes; production code remains behind
-a second explicit review. No Task 03E.5 repository change, parser code,
-dependency, or generated artifact has started.
+Most recently completed: [Task
+03E.5](../tasks/sprint2/03e5_pilot_cross_references.md). Gate A and Gate B were
+explicitly approved before the behavioral MVP. Reference candidate
+`exv1-e3e81078dfb21b3d0718cd935004077e163dffc180bbc3d80f4a54391caa67f6`
+preserves all 323 upstream aliases, adds 11 verified table aliases, and
+materializes 300 exact-span mentions.
+Exact target-side table labels may support a table alias under a
+same-page/single-table rule. Table mentions then consider exact verified targets
+only within five physical pages; multiple targets remain ambiguous and
+qualified external-reference forms remain unresolved. Proximity alone cannot
+create a target. Current v3
+authorizes zero derived figure aliases. By user decision, the OCR-free first
+pass detects but does not link figure mentions and reports seven unresolved
+figure mentions for later impact evaluation. The original human rewrite had
+261 resolved, 38 unresolved, and one ambiguous record, but a user audit found
+five incorrect resolved section links. Pattern-policy v2 now excludes complete
+reference sections structurally, rejects author-year bibliography entries,
+retains `of this Agreement`, and routes named external-section and low-numbered
+statutory qualifiers to diagnostics. Its corrected candidate has 256 resolved,
+35 unresolved, and one ambiguous record. Any future OCR or figure-linking
+support requires a separately reviewed contract revision. No external parsing
+dependency or full-corpus scan was added. Accepted corrected candidate
+`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
+has eight policy-explained removals, zero additions, zero changed shared
+mentions, and 17 exactly preserved paths relative to the prior human rewrite.
+Its generic named-EIR rule,
+typed policy/domain model, checksum-bound corpus catalog, responsibility-owned
+modules, dual-build reproducibility, and checksum reuse passed the separate
+human-maintainability gate. The user accepted two source-authored appendix-link
+inconsistencies as bounded first-pass noise to handle at query time rather than
+through document-specific extraction exceptions. Task 03E.5 is closed.
 
 Previously completed: [Task
 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
@@ -124,8 +147,8 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Tasks 03E.2d through 03E.4 are complete. Task 03E.5 is active and start-ready;
-its implementation has not begun.
+Tasks 03E.2d through 03E.5 are complete. Task 03F remains provisional pending
+explicit user review and activation.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -133,11 +156,12 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Execute active [Task
-   03E.5](../tasks/sprint2/03e5_pilot_cross_references.md) beginning with its
-   read-only Gate A inventory proposal, then stop for user review before Gate B
-   schema/fixture work. Keep [Task
-   03F](../tasks/sprint2/03f_make_extraction_restartable.md), [Task
+1. Preserve completed and accepted [Task
+   03E.5](../tasks/sprint2/03e5_pilot_cross_references.md), including its MVP
+   reference evidence, human-owned implementation, policy correction, and
+   accepted source-authored noise boundary. Only explicit approval may revise
+   and activate [Task
+   03F](../tasks/sprint2/03f_make_extraction_restartable.md). Keep [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional;
    revise and activate each only after the preceding outcome is accepted.

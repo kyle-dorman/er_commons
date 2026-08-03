@@ -121,9 +121,18 @@ artifact mutates the reference. The immutable Task 03D.1 and Task 03E.2d roots
 remain external inputs. The exact ten-page renders and overlays live separately
 under the disposable review cache keyed by candidate ID.
 
-Task 03E.5 will publish a schema-major-v3 document candidate under the same
-canonical-record root only after its two specification approval gates and
-production validation pass. In addition to remapped canonical records and
+Task 03E.5's schema-major-v3 behavioral MVP candidate
+`exv1-e3e81078dfb21b3d0718cd935004077e163dffc180bbc3d80f4a54391caa67f6`
+remains immutable reference evidence. Initial human-owned candidate
+`exv1-4a65944e4ce99a445953ea2904ca0e0c4b20fdd5412e9b89e7b6dac0254cc464`
+is immutable correction-baseline evidence under the same canonical-record
+root. Accepted corrected candidate
+`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
+is also published there. Its bounded correction report is under
+`pipelines/brisbane_baylands/task_03e5_policy_correction_review/`; the original
+zero-mismatch rewrite report remains under
+`pipelines/brisbane_baylands/task_03e5_human_rewrite_review/`. In addition to
+remapped canonical records and
 terminal artifacts, its managed file set will include these candidate-owned
 support roles:
 
@@ -134,11 +143,19 @@ support/cross_reference_preservation.json
 ```
 
 The target index is document-scoped stage-one evidence, not Task 03F's later
-corpus index. The preservation support must prove that v3-local alias and target
-IDs are the namespace-remapped image of the accepted Task 03E.4 records while
-retaining upstream IDs only as correspondence evidence. Publication remains
-atomic, no-clobber, and completion-last; matching reuse requires verification
-of identity, managed files, checksums, support roles, and completion. Failed
+corpus index. The preservation support must prove that all 323 accepted aliases
+and targets are bidirectionally namespace-remapped while retaining upstream IDs
+as correspondence evidence. A separately counted table-alias extension is
+permitted only from an exact standalone numbered label on the same page as
+exactly one canonical table; it retains the upstream table target ID and has no
+upstream alias ID. Mention candidates use only exact-number table targets within
+five physical pages, record the page distance, retain multiple distinct targets
+as ambiguous, and reject qualified external-reference forms. Current v3
+authorizes zero derived figure aliases; any
+future exact-caption or independently verified TOC/page support requires a
+separately reviewed contract revision. Publication remains atomic,
+no-clobber, and completion-last; matching reuse requires verification of
+identity, managed files, checksums, support roles, and completion. Failed
 attempts remain inspectable without a completion record. Task 03F's separate
 corpus-resolution artifacts may reference stable v3 mention IDs but may not
 mutate any completed document candidate.
