@@ -160,6 +160,33 @@ attempts remain inspectable without a completion record. Task 03F's separate
 corpus-resolution artifacts may reference stable v3 mention IDs but may not
 mutate any completed document candidate.
 
+Task 03F's restartable corpus workflow will use this relative layout:
+
+```text
+pipelines/brisbane_baylands/task_03f_corpus_extraction/<extraction_id>/
+  documents/<source_id>/<document_candidate_id>/
+  scopes/<run_scope_id>/
+    accounting/<accounting_id>/
+    target_indexes/<target_index_id>/
+    resolutions/<resolution_id>/
+    handoffs/<handoff_id>/
+  attempts/<transaction_or_stage_id>/
+```
+
+Each final document, accounting, index, resolution, and handoff directory is
+no-clobber, checksum-inventoried, completion-last, and atomically published.
+Attempt directories retain diagnostics but cannot contain or impersonate a
+valid completion. Scope records reference immutable document candidates rather
+than copying or rewriting them. Review renders remain under the existing
+disposable `review_cache` and outside semantic identity.
+
+The stage-two corpus index lives below
+`scopes/<run_scope_id>/target_indexes/`; it is not the Task 03E.5
+document-local `support/cross_reference_target_index.json`. Corpus resolution
+records similarly append references to stable stage-one mention IDs and must
+prove that every stage-one managed-file inventory is byte-identical before and
+after resolution.
+
 ## Git policy
 
 Track in Git:

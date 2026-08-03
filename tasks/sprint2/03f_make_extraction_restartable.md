@@ -1,8 +1,9 @@
 # Task 03F: Make Two-Stage Corpus Extraction Restartable
 
-Status: **decomposed and active through Task 03F.1 as of 2026-08-03**. This
-umbrella closes only after Tasks 03F.1–03F.3 are separately accepted. Task 03G
-and Task 03H remain provisional.
+Status: **decomposed; Task 03F.2 active as of 2026-08-03**. Task 03F.1 is
+complete with its Gate A inventory and Gate B contract explicitly accepted.
+This umbrella closes only after Tasks 03F.1–03F.3 are separately accepted. Task
+03F.3, Task 03G, and Task 03H remain provisional.
 
 ## Abstract
 
@@ -56,10 +57,10 @@ explicit terminal state.
 
 ## Subtasks
 
-1. [Task 03F.1](03f1_define_restartable_extraction_contract.md) — active:
-   inventory current Appendix-P coupling and freeze the corpus identity, state,
-   artifact, cache, failure, index, resolution, and bounded-validation contract.
-2. [Task 03F.2](03f2_generalize_restartable_document_stage.md) — provisional:
+1. [Task 03F.1](03f1_define_restartable_extraction_contract.md) — complete:
+   the corpus identity, state, artifact, cache, failure, index, resolution, and
+   bounded-validation contract is accepted.
+2. [Task 03F.2](03f2_generalize_restartable_document_stage.md) — active:
    generalize and simplify the complete-document stage, remove obsolete or
    duplicate Appendix-P-only runtime code where evidence permits, and implement
    atomic restartable stage-one execution without running a new source corpus.

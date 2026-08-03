@@ -272,3 +272,46 @@ verifies sealed external evidence, and `normalization` owns the alias text
 rule. Bridge validation requires an independently constructed producer-evidence
 index, so persisted bridge rows cannot authenticate their own pointers or
 unmapped dispositions.
+
+## Restartable corpus workflow
+
+Task 03F composes the accepted document pipeline through the checked
+[restartable corpus extraction contract](specs/restartable_corpus_extraction_v1.md).
+The new application shell owns source/scope resolution, corpus identity,
+document state sequencing, completion/reuse verification, exact-scope
+accounting, sealed corpus-index construction, immutable second-pass resolution,
+resource policy, observability, and handoff publication. Existing producer,
+canonical, hierarchy, semantic, and document-local cross-reference packages
+retain their content-policy responsibilities; the shell does not duplicate or
+absorb them.
+
+```text
+sealed source manifest
+  -> scope resolver
+     -> [one complete-document transaction per source]
+        -> exact terminal accounting
+           -> sealed corpus target index
+              -> immutable cross-document resolutions
+                 -> candidate handoff
+```
+
+Document candidates contain canonical content. State events, inventories,
+completion records, accounting, index seals, resolution completion, and handoff
+are control/provenance artifacts. Page batches and stage queues are execution
+details, never publication units. A complete document publishes by atomic
+rename after completion-last sealing; a failed attempt remains inspectable
+without a completion marker.
+
+The production `extraction_id` binds the exact ordered 35-source manifest scope
+and every output-affecting parser, model, policy, schema, configuration, and
+owned-code input. Fixture, smoke, pilot, transaction, document-candidate, index,
+resolution, and handoff identities have separate typed namespaces. Operational
+controls remain subordinate unless they can alter output bytes. The workflow
+uses plain files and bounded local processes rather than a scheduler service,
+database queue, or workflow engine.
+
+`er_commons.corpus_extraction_contract` is an offline validator only. Task
+03F.2 will implement the manifest-driven document transaction, and Task 03F.3
+will implement accounting, corpus indexing, and resolution. Until those tasks
+are separately accepted, `extraction validate-contract` is the only Task 03F
+command implemented by this contract gate.

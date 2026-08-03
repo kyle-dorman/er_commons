@@ -1,0 +1,76 @@
+{
+  "record_type": "production_identity",
+  "schema_version": "er_commons.corpus_extraction_identity.v1",
+  "fixture_status": "identity_recipe",
+  "execution_status": "not_executed",
+  "extraction_id": "exv1-1a2870343c43e5b00d3b3b377eb6419561ccc3cfb749dbf1e098e4daaf1571fc",
+  "identity_sha256": "1a2870343c43e5b00d3b3b377eb6419561ccc3cfb749dbf1e098e4daaf1571fc",
+  "preimage": {
+    "schema_version": "er_commons.corpus_extraction_identity_preimage.v1",
+    "extraction_version_name": "brisbane_baylands_model_corpus_v1",
+    "production_scope": {
+      "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+      "source_manifest": {
+        "path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+        "sha256": "fede3e4af815378b77a7f7f54c863ef095328da789859d4f4b25a524f3408f38"
+      },
+      "release_completion": {
+        "path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/completion_record.json",
+        "sha256": "d1175d6bf54d2c557293cb7bb0e1191250a9b5db2aef5c9e563ebe01e58767a6"
+      },
+      "ordered_source_ids": [
+        "deir_main", "deir_appendix_a", "deir_appendix_b", "deir_appendix_c",
+        "deir_appendix_d", "deir_appendix_e", "deir_appendix_f1",
+        "deir_appendix_f2", "deir_appendix_g1", "deir_appendix_g2",
+        "deir_appendix_g3", "deir_appendix_h", "deir_appendix_i",
+        "deir_appendix_j", "deir_appendix_k1_part_1_of_4",
+        "deir_appendix_k1_part_2_of_4", "deir_appendix_k1_part_3_of_4",
+        "deir_appendix_k1_part_4_of_4", "deir_appendix_k2_part_1_of_5",
+        "deir_appendix_k2_part_2_of_5", "deir_appendix_k2_part_3_of_5",
+        "deir_appendix_k2_part_4_of_5", "deir_appendix_k2_part_5_of_5",
+        "deir_appendix_k3", "deir_appendix_k4", "deir_appendix_k5",
+        "deir_appendix_k6", "deir_appendix_l", "deir_appendix_m1",
+        "deir_appendix_m2", "deir_appendix_m3", "deir_appendix_n1",
+        "deir_appendix_n2", "deir_appendix_o", "deir_appendix_p"
+      ],
+      "ordered_source_records_sha256": "a1028e3f7da542b572ec5de7f6724900b43f90ad48f671c200d9ef0777b8706e"
+    },
+    "producer_contract": {
+      "version": "task03c-v2-plus-task03e-v1",
+      "artifacts": [{"path": "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json", "sha256": "183c49cf8c23110f33ee706ac12cab1c0586d93eb74a36cee574ef9f2d4e26da"}],
+      "owned_code": [{"path": "src/er_commons/document_extraction/complete_document.py", "sha256": "82bd973fa45842a52a51961e7660465a834b43379902588cf3b070a12b74810b"}]
+    },
+    "canonical_contract": {
+      "version": "canonical-v1-semantic-v2-cross-reference-v3",
+      "artifacts": [{"path": "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json", "sha256": "0b0ab9dc2004b5cf781d96df9eed961045aaab577d18f1ead21ac0fd6efdf6ed"}],
+      "owned_code": [{"path": "src/er_commons/canonical_extraction/materialize.py", "sha256": "c41019ed8b3b6168ed1accf4516a7ce8deb8e19c84aa86ed7eba9c5524b764b8"}]
+    },
+    "hierarchy_contract": {
+      "version": "hierarchy-correction-v1-document-disposition-required",
+      "artifacts": [{"path": "docs/specs/hierarchy_correction_v1.md", "sha256": "d60fc442d7d820a0c053242a30016d695c687c22cbd0711305daf7df704023be"}],
+      "owned_code": [{"path": "src/er_commons/hierarchy_correction/application.py", "sha256": "6816f7ee3b15855336aa0073561dcd41ae616072fb9494e2570017a57f3d0d22"}]
+    },
+    "cross_reference_contract": {
+      "version": "task03e5-pattern-policy-v2-zero-figure-aliases",
+      "artifacts": [{"path": "docs/specs/cross_references_v3.md", "sha256": "ff563123b33bc2e7271204603fba8f7c199918ac24455ab1fff71a314aaa51c6"}],
+      "owned_code": [{"path": "src/er_commons/cross_reference_enrichment/policy.py", "sha256": "6274f42c4117b811dc757225701f72970171f5ffd604c7630b7b3a9a53c70099"}]
+    },
+    "corpus_workflow_contract": {
+      "version": "restartable-corpus-extraction-v1",
+      "artifacts": [{"path": "docs/specs/restartable_corpus_extraction_v1.md", "sha256": "ee2f1af70a4e2bd72805c5ca69ea77a4ed61ae400096e84f954ee1f7533a4ab4"}],
+      "owned_code": [
+        {"path": "src/er_commons/corpus_extraction_contract/__init__.py", "sha256": "b80e621f9c0916f7201c0b1949193dd4db74714fd27e0bafe9a3322fc0e272ab"},
+        {"path": "src/er_commons/corpus_extraction_contract/accounting.py", "sha256": "2a596cc6ed19d9533ca3c9e562dc338be584587794afc05c8474a537cd1ee40d"},
+        {"path": "src/er_commons/corpus_extraction_contract/checks.py", "sha256": "ea9791e920867fc7a49c0a72b8555f2cc081d649fb3d96cd0bdec65ced46e04f"},
+        {"path": "src/er_commons/corpus_extraction_contract/errors.py", "sha256": "1058017a7cf2a9b54e1bc41a01609da558ed967dc10027c066e7b0708fac2e07"},
+        {"path": "src/er_commons/corpus_extraction_contract/fixture_validation.py", "sha256": "a203a2bfe0e37a96458047ad8a99d4bf78f688e9eb5f6fae8e403906d1a6f01b"},
+        {"path": "src/er_commons/corpus_extraction_contract/identity.py", "sha256": "3a46ffd17201161e9696b1f551cd0d25000084fdc18d529041f51052dda94df0"},
+        {"path": "src/er_commons/corpus_extraction_contract/indexing.py", "sha256": "fe79170a213cdbb441c54bcacac018a5e66a5ad1c2715c8dcd74d2193022bfe7"},
+        {"path": "src/er_commons/corpus_extraction_contract/lifecycle.py", "sha256": "45bf04bab92d8ce9a3c459a00c2fc40e912f5cbf22c874a4a4b4bd5e6f2c2ec5"},
+        {"path": "src/er_commons/corpus_extraction_contract/model.py", "sha256": "a4b27ecd21b361293df85219df85b547138d0774cefbec7761700198a09e2429"},
+        {"path": "src/er_commons/corpus_extraction_contract/resolution.py", "sha256": "19231e4e3841f5ffaa075dd5313ab630c43dcd393a4282c3d390dfef6b1b3d55"},
+        {"path": "src/er_commons/corpus_extraction_contract/validation.py", "sha256": "37330cf950ccb26dd2be55e0c34552af6f7f45b3f3bea9095e3a61bc36eb409e"}
+      ]
+    }
+  }
+}

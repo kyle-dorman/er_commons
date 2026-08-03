@@ -1,7 +1,8 @@
 # Task 03F.1: Define the Restartable Corpus Extraction Contract
 
-Status: **active as of 2026-08-03**. Begin with Gate A only. Do not implement,
-delete runtime code, or run source PDFs before the required approvals.
+Status: **complete as of 2026-08-03**. The user approved the read-only Gate A
+inventory and the checked-in Gate B contract. Task 03F.2 is now active. This
+task did not implement extraction, delete runtime code, or run source PDFs.
 
 ## Abstract
 
@@ -75,6 +76,52 @@ cross-reference commands. Report:
 Stop for explicit user approval before writing the specification, schemas,
 fixtures, architecture/data-artifact changes, or provisional implementation
 contracts. Gate A does not authorize code deletion or a PDF run.
+
+### Gate A outcome — approved 2026-08-03
+
+The producer configuration and source resolver already accept one complete,
+manifest-selected `model_corpus` document. Downstream production paths do not:
+core canonicalization freezes the Appendix P source identity, checksum, 222-page
+count, producer run, mapping name, and acceptance counts; hierarchy correction
+freezes the same source plus its accepted hierarchy producer and bounded
+authorization; semantic materialization freezes both producer runs, the
+correction and baseline candidates, record counts, review pages, and output
+roots; and cross-reference enrichment pins one upstream/reference pair while
+using the sealed corpus catalog only to classify deferred document mentions.
+CLI defaults and Make descriptions silently select the Appendix P configs.
+
+The accepted reusable policy is whole-document transaction scope,
+manifest/checksum verification, content-bound identity, schema validation,
+no-clobber staging, completion-last publication, checksum-verified reuse,
+retained failure evidence, byte-identical repeat builds where already required,
+and immutable Task 03E.5 local mention records. Appendix P literals, counts,
+review samples, mapping/version names, candidate IDs, output-root assumptions,
+and bounded hierarchy acceptance are pilot scaffolding rather than corpus-wide
+policy.
+
+`cross_reference_enrichment` is the live production owner. The earlier
+`cross_reference_materialization` package has no live CLI or downstream runtime
+caller and is eligible for deletion only after the checked-in contract defines
+and Task 03F.2 passes exact preservation, caller, identity, and artifact proofs.
+The remaining producer, canonical, hierarchy, semantic, and evaluation modules
+retain live runtime, validation, or historical-evidence responsibilities and
+are not approved for deletion by this inventory.
+
+Stage one needs stable source-resolution, baseline producer, hierarchy producer,
+hierarchy-disposition, core canonical, semantic join, document-local
+cross-reference, identity, validation, and publication interfaces. Missing
+contracts include durable states and retry classes, corpus-scope accounting,
+target-index eligibility/collisions/sealing, immutable second-pass resolution,
+failed or missing-target dispositions, resource and cancellation limits, and
+separate document/accounting/index/resolution/candidate handoffs.
+
+The approved file-level direction is: keep the manifest resolver, accepted
+stage builders and validators, hierarchy policy engine, Task 03E.5 policy, and
+publication primitives; generalize Appendix P constants, count gates, configs,
+identity preimages, record-ID assumptions, paths, orchestration, and CLI/Make
+interfaces; and delete only the historical cross-reference MVP plus proven
+superseded entrypoints after Task 03F.2 satisfies the contract. No deletion is
+authorized by Gate B.
 
 ## Gate B — checked-in contract
 
@@ -175,3 +222,50 @@ git diff --check
 - executing or accounting for the full 35-source corpus
 - changing hierarchy, mention, table, or figure-linking policy
 - accepting Appendix P's correction behavior corpus-wide
+
+## Accepted Gate B outcome
+
+The checked-in candidate contract is
+`docs/specs/restartable_corpus_extraction_v1.md`. It freezes the production
+identity recipe, typed subordinate identities, whole-document state machine,
+publication/reuse/failure behavior, exact scope accounting, sealed corpus index,
+immutable second pass, handoff separation, cache invalidation, resource policy,
+observability, command boundaries, and deletion proof. The production identity
+fixture binds the exact manifest checksum, ordered 35 source IDs, and ordered
+source-record digest while declaring `execution_status: not_executed`.
+
+The Draft 2020-12 schema and synthetic fixtures live under
+`benchmarks/er_bench/{schemas,fixtures}/corpus_extraction/v1/`. The
+responsibility-owned `er_commons.corpus_extraction_contract` validator enforces
+identity derivation and current artifact checksums, legal transitions,
+full-document completion, scope closure, index eligibility/order/sealing,
+resolution coverage and stage-one immutability, and handoff ordering. The
+offline command is `make validate-extraction-contract`; future run commands
+require explicit run specifications and have no Appendix P default.
+
+Architecture and data-artifact documentation now distinguish canonical content
+from state/accounting/index/resolution/handoff controls and distinguish Task
+03E.5 document-local target support from Task 03F's sealed corpus target index.
+Tasks 03F.2 and 03F.3 were authored as full provisional contracts grounded in
+this v1 specification; this accepted outcome activates Task 03F.2 only.
+
+Maintained Docling documentation establishes that `PARTIAL_SUCCESS` may be
+returned without an exception and `document_timeout` is cooperative at page-
+batch boundaries. The contract therefore requires explicit `SUCCESS` plus
+project validation and uses a one-document process boundary for a hard deadline.
+
+The Gate B validator was then rewritten around small, responsibility-owned
+modules for identity, lifecycle, accounting, indexing, resolution, and fixture
+validation. Named evidence objects replace implicit tuple/dictionary handoffs,
+errors carry stable codes plus the failing subject, and tests exercise the
+public fixture path instead of duplicating its mutation machinery. The review
+also closed two contract gaps: retryable attempts can now lead to a later
+successful transaction, and completions, terminal transactions, eligible
+index sources, and resolution candidates must join exactly.
+
+Validation passed `make validate-extraction-contract`, 27 focused contract
+tests, `git diff --check`, and the full `make check` suite with 466 tests. No
+source PDF or pipeline artifact ran, no runtime extraction behavior changed,
+and no historical code was deleted. The user explicitly approved this Gate B
+outcome on 2026-08-03, completing Task 03F.1 and activating revised Task 03F.2
+only.

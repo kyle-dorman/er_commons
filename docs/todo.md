@@ -150,7 +150,9 @@ candidate. [Task
 Tasks 03E.2d through 03E.5 are complete. Task 03F has been revised into a
 three-part umbrella. [Task
 03F.1](../tasks/sprint2/03f1_define_restartable_extraction_contract.md) is
-active at its read-only Gate A; Tasks 03F.2 and 03F.3 remain provisional.
+complete with its Gate A inventory and Gate B contract explicitly accepted.
+[Task 03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md) is
+active; Task 03F.3 remains provisional.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -158,15 +160,12 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Preserve completed and accepted [Task
-   03E.5](../tasks/sprint2/03e5_pilot_cross_references.md), including its MVP
-   reference evidence, human-owned implementation, policy correction, and
-   accepted source-authored noise boundary. Execute only read-only Gate A of
-   active [Task
-   03F.1](../tasks/sprint2/03f1_define_restartable_extraction_contract.md):
-   inventory Appendix-P coupling, live callers, identity responsibilities, and
-   keep/generalize/delete candidates, then stop for explicit approval before
-   writing the contract or implementation. Keep Tasks 03F.2–03F.3, [Task
+1. Execute active [Task
+   03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md) from
+   the accepted Task 03F.1 identity, lifecycle, accounting, artifact, and
+   bounded-validation contract. Preserve the accepted Task 03E.5 candidate
+   offline, and do not run a real-source smoke without separate approval. Keep
+   Task 03F.3, [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional;
    revise and activate each only after the preceding outcome is accepted.

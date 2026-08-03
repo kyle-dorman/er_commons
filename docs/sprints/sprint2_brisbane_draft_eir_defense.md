@@ -536,9 +536,10 @@ approved MVP reference and a human-owned replacement that passed independent
 candidate/review equivalence. Task 03E.5 is complete with accepted
 pattern-policy-v2 candidate
 `exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`.
-Task 03F is decomposed into three bounded subtasks. Task 03F.1 is active at its
-read-only coupling/deletion inventory gate; Tasks 03F.2–03F.3 and 03G–03H
-remain provisional and must be revised from each accepted predecessor. The
+Task 03F is decomposed into three bounded subtasks. Task 03F.1 is complete with
+its read-only coupling/deletion inventory and Gate B contract explicitly
+accepted. Task 03F.2 is active; Task 03F.3 and 03G–03H remain provisional and
+must be revised from each accepted predecessor. The
 numbers below are routing labels, not a promise that the sprint will contain
 only these tasks. Split a stage further whenever its contract is too large or
 new evidence creates a distinct decision or validation boundary.
@@ -655,9 +656,10 @@ new evidence creates a distinct decision or validation boundary.
    `exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
    with 292 mentions, exact table-target evidence, zero derived figure aliases,
    structural reference exclusions, and two accepted source-authored appendix
-   inconsistencies. Task 03F is now a three-part umbrella: Task 03F.1 is active
-   only for its read-only coupling/deletion inventory, while Tasks 03F.2–03F.3,
-   03G, and 03H remain provisional downstream contracts. Real-source Task 03F
+   inconsistencies. Task 03F is now a three-part umbrella: Task 03F.1 is
+   complete with its read-only inventory and Gate B corpus contract explicitly
+   accepted, while Task 03F.2 is active and Task 03F.3, 03G, and 03H remain
+   provisional downstream contracts. Real-source Task 03F
    engineering smoke, if separately approved, must process all pages of no more
    than two predeclared small PDFs; first-N-page runs cannot claim document
    completion. Task 03G owns representative heterogeneous execution, and Task

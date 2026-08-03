@@ -8,6 +8,7 @@ from typing import Annotated
 import typer
 
 from er_commons.canonical_extraction import run_document_canonicalization
+from er_commons.corpus_extraction_contract import validate_fixture_directory
 from er_commons.cross_reference_enrichment import run_cross_reference_enrichment
 from er_commons.document_extraction import (
     run_complete_document_producer,
@@ -35,11 +36,13 @@ canonicalize_app = typer.Typer(
     help="Materialize project-owned canonical records from verified producer artifacts."
 )
 hierarchy_app = typer.Typer(help="Build deterministic hierarchy-correction overlays.")
+extraction_app = typer.Typer(help="Validate and run explicit corpus-extraction scopes.")
 app.add_typer(sources_app, name="sources")
 app.add_typer(documents_app, name="documents")
 app.add_typer(tables_app, name="tables")
 app.add_typer(canonicalize_app, name="canonicalize")
 app.add_typer(hierarchy_app, name="hierarchy")
+app.add_typer(extraction_app, name="extraction")
 
 DEFAULT_BRISBANE_SOURCE_SPEC = Path("configs/brisbane_baylands_2025_deir_sources_v1.json")
 DEFAULT_DOCUMENT_REVIEW_SPEC = Path(
@@ -260,6 +263,34 @@ def run_cross_references(
     )
     typer.echo(f"cross_reference_completion={completion_path}")
     typer.echo(f"cross_reference_comparison={comparison_path}")
+
+
+@extraction_app.command("validate-contract")
+def validate_extraction_contract(
+    schema: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Restartable corpus-extraction JSON Schema.",
+        ),
+    ],
+    fixtures: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=False,
+            dir_okay=True,
+            readable=True,
+            help="Directory containing the positive and negative contract fixtures.",
+        ),
+    ],
+) -> None:
+    """Validate the offline Task 03F.1 contract fixtures without source data."""
+    validate_fixture_directory(schema.resolve(), fixtures.resolve())
+    typer.echo("restartable_extraction_contract=valid")
 
 
 @hierarchy_app.command("correct-document")

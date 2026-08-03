@@ -1,0 +1,176 @@
+{
+  "schema_version": "er_commons.corpus_extraction_contract_fixture.v1",
+  "fixture_scope": "synthetic_multi_document",
+  "production_extraction_id": "exv1-1111111111111111111111111111111111111111111111111111111111111111",
+  "resource_policy": {
+    "document_concurrency": 1,
+    "page_batch_size": 4,
+    "cpu_threads_per_document": 4,
+    "device": "cpu",
+    "docling_timeout_seconds": 900,
+    "outer_process_deadline_seconds": 1200,
+    "retry_limit": 1
+  },
+  "state_events": [
+    {
+      "record_type": "document_state_event",
+      "schema_version": "er_commons.document_state_event.v1",
+      "transaction_id": "txv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "source_id": "fixture_alpha",
+      "attempt": 1,
+      "sequence": 1,
+      "from_state": null,
+      "to_state": "selected",
+      "raw_docling_status": "PENDING"
+    },
+    {
+      "record_type": "document_state_event",
+      "schema_version": "er_commons.document_state_event.v1",
+      "transaction_id": "txv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "source_id": "fixture_alpha",
+      "attempt": 1,
+      "sequence": 2,
+      "from_state": "selected",
+      "to_state": "running",
+      "raw_docling_status": "STARTED"
+    },
+    {
+      "record_type": "document_state_event",
+      "schema_version": "er_commons.document_state_event.v1",
+      "transaction_id": "txv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "source_id": "fixture_alpha",
+      "attempt": 1,
+      "sequence": 3,
+      "from_state": "running",
+      "to_state": "complete",
+      "raw_docling_status": "SUCCESS"
+    },
+    {
+      "record_type": "document_state_event",
+      "schema_version": "er_commons.document_state_event.v1",
+      "transaction_id": "txv1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "source_id": "fixture_beta",
+      "attempt": 1,
+      "sequence": 1,
+      "from_state": null,
+      "to_state": "selected",
+      "raw_docling_status": "PENDING"
+    },
+    {
+      "record_type": "document_state_event",
+      "schema_version": "er_commons.document_state_event.v1",
+      "transaction_id": "txv1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "source_id": "fixture_beta",
+      "attempt": 1,
+      "sequence": 2,
+      "from_state": "selected",
+      "to_state": "running",
+      "raw_docling_status": "STARTED"
+    },
+    {
+      "record_type": "document_state_event",
+      "schema_version": "er_commons.document_state_event.v1",
+      "transaction_id": "txv1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "source_id": "fixture_beta",
+      "attempt": 1,
+      "sequence": 3,
+      "from_state": "running",
+      "to_state": "failed_terminal",
+      "raw_docling_status": "FAILURE"
+    }
+  ],
+  "document_completions": [
+    {
+      "record_type": "document_completion",
+      "schema_version": "er_commons.document_completion.v1",
+      "transaction_id": "txv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "source": {
+        "source_id": "fixture_alpha",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pdf_page_count": 3
+      },
+      "scope_kind": "full_document",
+      "processed_pages": [1, 2, 3],
+      "raw_docling_status": "SUCCESS",
+      "candidate_id": "docv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "candidate_inventory": {
+        "path": "documents/fixture_alpha/docv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/records/artifact_inventory.json",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "completion_last": true
+    }
+  ],
+  "accounting": {
+    "record_type": "scope_accounting",
+    "schema_version": "er_commons.scope_accounting.v1",
+    "scope_id": "scopev1-1111111111111111111111111111111111111111111111111111111111111111",
+    "scope_kind": "fixture",
+    "production_extraction_id": "exv1-1111111111111111111111111111111111111111111111111111111111111111",
+    "ordered_sources": [
+      {"source_id": "fixture_alpha", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "pdf_page_count": 3},
+      {"source_id": "fixture_beta", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "pdf_page_count": 2}
+    ],
+    "rows": [
+      {"source_id": "fixture_alpha", "terminal_state": "complete", "transaction_id": "txv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_id": "docv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+      {"source_id": "fixture_beta", "terminal_state": "failed_terminal", "transaction_id": "txv1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "candidate_id": null}
+    ],
+    "counts": {"total": 2, "complete": 1, "complete_with_warnings": 0, "failed_terminal": 1},
+    "status": "complete"
+  },
+  "target_index": {
+    "record_type": "target_index_completion",
+    "schema_version": "er_commons.target_index_completion.v1",
+    "index_id": "idxv1-1111111111111111111111111111111111111111111111111111111111111111",
+    "eligible_candidate_ids": ["docv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+    "unavailable_source_ids": ["fixture_beta"],
+    "entries": [
+      {"alias_id": "alias-alpha-1", "lookup_key": "appendix beta", "target_type": "document", "source_id": "fixture_alpha", "source_ordinal": 1, "target_id": "target-alpha-document"},
+      {"alias_id": "alias-alpha-2", "lookup_key": "section 2", "target_type": "section", "source_id": "fixture_alpha", "source_ordinal": 1, "target_id": "target-alpha-section-2"}
+    ],
+    "entries_sha256": "b161f35226bfcc9747dcb8919156775cd96771bac4abbd7d95ee661fb7a496df",
+    "status": "complete"
+  },
+  "resolution_completion": {
+    "record_type": "resolution_completion",
+    "schema_version": "er_commons.resolution_completion.v1",
+    "resolution_id": "resv1-1111111111111111111111111111111111111111111111111111111111111111",
+    "index_id": "idxv1-1111111111111111111111111111111111111111111111111111111111111111",
+    "eligible_mention_ids": ["mention-alpha-1", "mention-alpha-2"],
+    "resolutions": [
+      {
+        "mention_id": "mention-alpha-1",
+        "source_candidate_id": "docv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_inventory_before": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "source_inventory_after": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "lookup_key": "section 2",
+        "candidate_target_ids": ["target-alpha-section-2"],
+        "status": "resolved",
+        "unresolved_reason": null
+      },
+      {
+        "mention_id": "mention-alpha-2",
+        "source_candidate_id": "docv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_inventory_before": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "source_inventory_after": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "lookup_key": "appendix beta",
+        "candidate_target_ids": [],
+        "status": "unresolved",
+        "unresolved_reason": "target_source_failed"
+      }
+    ],
+    "counts": {"total": 2, "resolved": 1, "ambiguous": 0, "unresolved": 1},
+    "status": "complete"
+  },
+  "handoff": {
+    "record_type": "candidate_handoff",
+    "schema_version": "er_commons.candidate_handoff.v1",
+    "handoff_id": "handoffv1-1111111111111111111111111111111111111111111111111111111111111111",
+    "scope_id": "scopev1-1111111111111111111111111111111111111111111111111111111111111111",
+    "index_id": "idxv1-1111111111111111111111111111111111111111111111111111111111111111",
+    "resolution_id": "resv1-1111111111111111111111111111111111111111111111111111111111111111",
+    "blocking_policy": "terminal_failures_allowed",
+    "status": "ready",
+    "task04_status": "not_evaluated"
+  },
+  "task04_freezes": []
+}
