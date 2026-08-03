@@ -154,7 +154,9 @@ has zero candidate and review mismatches under its independent equivalence gate,
 retains the exact ten-page review pixels, and is accepted as the immutable
 handoff to active, start-ready [Task
 03E.5](../tasks/sprint2/03e5_pilot_cross_references.md). Task 03E.5 begins with a
-bounded inventory/specification gate; Tasks 03F through 03H remain provisional.
+read-only Gate A inventory proposal and must stop for user review before the
+checked-in Gate B schema/fixture contract; production code remains behind a
+second explicit review. Tasks 03F through 03H remain provisional.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

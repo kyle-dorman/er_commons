@@ -533,10 +533,11 @@ human-owned implementation by exact post-03E.2a semantic equivalence. Task
 distinct bounded-acceptance record. Task 03E.3 is complete with a human-owned
 schema-major v2 contract and validator. Task 03E.4 is complete with a visually
 approved MVP reference and a human-owned replacement that passed independent
-candidate/review equivalence. Task 03E.5 is active and ready to begin with its
-bounded inventory/schema/fixture gate; its implementation has not begun. Tasks
-03F through 03H remain provisional and must be revised from each accepted
-predecessor. The
+candidate/review equivalence. Task 03E.5 is active and ready to begin with a
+read-only Gate A mention-inventory proposal. It must stop for user review before
+the checked-in Gate B schema/fixture contract, then stop again before production
+implementation. Tasks 03F through 03H remain provisional and must be revised
+from each accepted predecessor. The
 numbers below are routing labels, not a promise that the sprint will contain
 only these tasks. Split a stage further whenever its contract is too large or
 new evidence creates a distinct decision or validation boundary.
@@ -640,9 +641,10 @@ new evidence creates a distinct decision or validation boundary.
    candidate
    `exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
    under a zero-mismatch candidate/review equivalence report. Task 03E.5 is now
-   active and ready to begin with its bounded mention inventory and
-   schema/fixture specification gate. Tasks 03F through 03H remain provisional
-   downstream contracts.
+   active and ready to begin with its read-only Gate A mention-inventory
+   proposal, followed by separate user approvals for the checked-in Gate B
+   schema/fixture contract and production implementation. Tasks 03F through 03H
+   remain provisional downstream contracts.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

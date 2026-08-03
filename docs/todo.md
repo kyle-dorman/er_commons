@@ -21,9 +21,12 @@ verification, reporting, lifecycle, ownership, and test boundaries.
 
 Active implementation: [Task
 03E.5](../tasks/sprint2/03e5_pilot_cross_references.md) is ready to start from
-the accepted final Task 03E.4 candidate. Its first action is a bounded,
-read-only Appendix P mention inventory and schema/fixture specification gate;
-no parser code, dependency, or generated Task 03E.5 artifact has started.
+the accepted final Task 03E.4 candidate. Its first action is Gate A: a bounded,
+read-only Appendix P mention-inventory proposal followed by an explicit user
+review stop. Only later approval authorizes checked-in Gate B specification,
+schema, fixture, and negative-mutation changes; production code remains behind
+a second explicit review. No Task 03E.5 repository change, parser code,
+dependency, or generated artifact has started.
 
 Previously completed: [Task
 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
@@ -132,7 +135,8 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 1. Execute active [Task
    03E.5](../tasks/sprint2/03e5_pilot_cross_references.md) beginning with its
-   bounded inventory/specification gate. Keep [Task
+   read-only Gate A inventory proposal, then stop for user review before Gate B
+   schema/fixture work. Keep [Task
    03F](../tasks/sprint2/03f_make_extraction_restartable.md), [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional;

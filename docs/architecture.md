@@ -213,6 +213,17 @@ semantic facts downstream consumers need. Cross-reference
 mentions remain a later enrichment because aliases describe possible targets,
 whereas mentions are source spans that point toward those targets.
 
+Active Task 03E.5 begins with a read-only inventory and a separately approved
+schema/fixture gate before production code. Its planned schema-major-v3
+candidate will remap the complete Task 03E.4 namespace, keep canonical edges
+closed over v3-local alias and target IDs, and retain the exact Task 03E.4 IDs
+only as correspondence evidence. Document-scoped mention candidates and local
+resolution remain immutable stage-one records. Task 03F may append a separate
+corpus-resolution result against stable mention IDs; it may not rewrite the v3
+candidate. `deferred_cross_document` is reserved for targets identifiable in
+the sealed model corpus, while named documents outside that corpus remain
+terminal external unresolved records.
+
 Task 03E.3 defines that join as canonical-extraction schema major v2 while
 leaving strict v1 and the Task 03D.1 candidate immutable. V2 extends sections,
 adds one page-label observation per physical page and one target-alias record

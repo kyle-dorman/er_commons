@@ -3,8 +3,7 @@
 Status: **active and ready to start as of 2026-08-03**. The corrected,
 human-owned Task 03E.4 candidate is accepted as this task's immutable input.
 No Task 03E.5 implementation, dependency installation, or generated artifact
-has started; the first action is the bounded inventory and specification gate
-below.
+has started; the first action is the read-only Gate A inventory proposal below.
 
 ## Abstract
 
@@ -49,8 +48,11 @@ response content, or retrieval-specific graph construction.
 - all 323 accepted Task 03E.4 target aliases: document, semantic-section,
   appendix, and resolved printed-page aliases; the accepted candidate contains
   no materialized table or figure aliases
-- canonical block, table, figure, page, and section anchors
+- canonical document, block, table, figure, page, and section anchors
 - checksum-pinned source and raw producer lineage
+- the sealed Task 02 source manifest and its exact ordered 35-document
+  `model_corpus` scope, used only to distinguish corpus-deferred documents from
+  named external documents that Task 03F cannot resolve
 - immutable canonical-extraction v1 cross-reference shape and semantic v2
   schema, whose executable contract intentionally requires
   `cross_references == []`; Task 03E.5 must define a new schema-major contract
@@ -66,14 +68,18 @@ response content, or retrieval-specific graph construction.
   cross-record validation for literal mentions, half-open exact character
   spans, ordered candidates, evidence, unresolved reasons, and deferred
   cross-document resolution; v1 and v2 remain strict and immutable
-- package-backed extraction/resolution code with tiny fixtures
+- a narrow project-package extraction/resolution implementation with tiny
+  fixtures; add an external parsing dependency only if the frozen inventory
+  demonstrates a material fit
 - a new immutable Appendix P canonical candidate under the existing
   completion-last lifecycle; it remaps the accepted Task 03E.4 namespace and
   adds cross-reference records, their support evidence, and terminal records
   while semantically preserving all 323 accepted aliases after identity
   normalization
 - deterministic mention, within-document resolution, and unresolved-reference
-  summaries
+  summaries under the candidate-owned support roles
+  `cross_reference_target_index`, `cross_reference_summary`, and
+  `cross_reference_preservation`
 - independent preservation evidence against Task 03E.4
 - a sealed candidate-owned target index and exact alias/index handoff to Task
   03F; it is document-scoped evidence, not the later corpus index
@@ -118,13 +124,20 @@ The outcome must explain:
   comment/response relationships, Task 06 owns a curator traversal view, and
   Task 07 owns reviewed case-clustering edges.
 
-## Bounded first action
+## Bounded first action and approval stops
 
-Before adding code or dependencies, scan only canonical body-block text in the
-accepted Appendix P candidate and freeze a small checked-in fixture inventory.
-Exclude furniture, visible-TOC rows, headings used only as targets, table-cell
-text, figure-image content, and raw producer text from the first pilot source
-surface. The inventory must include, at minimum:
+Use two explicit approval stops before production implementation.
+
+**Gate A — read-only inventory proposal.** Before changing repository files or
+adding code or dependencies, scan only eligible canonical body-block text in
+the accepted Appendix P candidate. Eligible source records are exactly records
+from `canonical/blocks.jsonl` with `content_layer == "body"`,
+`is_toc_row == false`, and `block_type` in `caption`, `footnote`, `list_item`,
+or `paragraph`. Exclude furniture, visible-TOC rows, headings, table-cell text,
+figure-image content, and raw producer text. Report the observed forms, exact
+text checksums, proposed half-open spans, negative controls, and proposed
+development/frozen-review split, then stop for explicit user approval. The
+proposal must include, at minimum:
 
 - block 250: `Figure 1` and `Appendix A` in one source record;
 - blocks 255 and 260: repeated `Section 5.3` mentions;
@@ -132,14 +145,22 @@ surface. The inventory must include, at minimum:
 - block 274: the deep section mention `Section 6.1.1.2`;
 - blocks 279–280: multiple section mentions and `herein` context;
 - block 335: `Table 1` body usage;
-- block 405: a named external Draft EIR document reference; and
-- block 287 plus page-furniture/TOC controls: statutory `Section 10912` and
-  non-body text must not become confident internal links.
+- block 405: a named external Draft EIR document reference outside the sealed
+  35-document Task 03F corpus; and
+- block 287 plus page-furniture/TOC controls: statutory `Section 10912`,
+  `Section 21000`, and `Section 21080` plus non-body text must not become
+  confident internal links.
 
-Record exact canonical text checksums and half-open character spans. Split the
-fixtures into development and frozen review cases before pattern tuning. This
-inventory is evidence for the specification, not permission to run the full
-corpus.
+**Gate B — checked-in contract fixtures.** Only after Gate A approval, write
+the supported-grammar specification, executable v3 schema, small checked-in
+fixture inventory, development/frozen-review split, and negative mutations.
+Run their focused validation and stop again for explicit user review. Gate B
+may add specification, schema, fixture, and validation-test files, but it may
+not add production mention detection, candidate generation, materialization,
+publication code, an external dependency, or a generated Task 03E.5 candidate.
+
+Only explicit approval of Gate B authorizes production implementation. Neither
+gate authorizes a full-corpus scan.
 
 ## Plan / spec requirement
 
@@ -153,8 +174,10 @@ Freeze before implementation:
    aliases, and mention text cannot create target aliases;
 3. deterministic normalization and collision handling;
 4. the exact rule `0 candidates -> unresolved`, `1 -> resolved`, and `>1 ->
-   ambiguous`; use the `deferred_cross_document` unresolved reason only when
-   the literal mention identifies a target document outside Appendix P;
+   ambiguous`; use `deferred_cross_document` only when the literal target is
+   identifiable in the sealed 35-document Task 02 model-corpus scope, and use
+   `external_document_outside_corpus` when the named document is outside that
+   scope;
 5. source record, literal matched text, half-open character span, inherited
    region, raw-lineage, pattern version, lookup key, candidate, and evidence
    fields;
@@ -162,24 +185,30 @@ Freeze before implementation:
 7. schema-major-v3, identity, code-inventory, support, no-clobber reuse,
    completion-last publication, and failed-attempt consequences;
 8. exact permitted differences from Task 03E.4: identity/schema,
-   cross-reference records, cross-reference support, and terminal checksums
-   only;
+   cross-reference records, the three named cross-reference support roles
+   serialized as `support/cross_reference_target_index.json`,
+   `support/cross_reference_summary.json`, and
+   `support/cross_reference_preservation.json`, and terminal checksums only;
 9. corpus target-index and second-pass handoff; and
 10. unsupported forms and warning/failure policy, including legal/statutory and
     bibliography-like citations that are not canonical document references.
 
-Do not implement until the specification, executable schema, fixtures, and
-negative mutations pass review. Keep mention detection, target-index
+Do not add production extraction or materialization code until Gate B passes
+explicit user review. Keep mention detection, target-index
 construction, candidate generation, validation, comparison, identity, and
 publication as distinct responsibility owners; do not place the stage in one
 monolithic parser or application function.
 
 The schema-major-v3 stage-one mention ID is candidate-scoped and stable within
-the immutable candidate. Every candidate embeds the accepted Task 03E.4 alias
-record ID, target ID and type, lookup key, and match method; target IDs are
-restricted to the exact accepted alias-target set. Task 03F may publish a
-separate result referencing the mention ID and corpus-index identity, but may
-not rewrite the local candidate list or status.
+the immutable candidate. Every candidate entry uses v3-remapped local
+`alias_record_id` and `target_record_id` values so the v3 graph remains
+referentially closed. Separate `upstream_alias_record_id` and
+`upstream_target_record_id` evidence fields preserve the exact accepted Task
+03E.4 IDs. The v3 local target set must equal the namespace-remapped image of
+the accepted Task 03E.4 alias-target set, and the correspondence support must
+verify both directions. Task 03F may publish a separate result referencing the
+mention ID and corpus-index identity, but may not rewrite the local candidate
+list or status.
 
 Character offsets are Python Unicode-code-point offsets into the source
 block's `canonical_text`, expressed as a half-open `[start, end)` interval.
@@ -189,9 +218,13 @@ source block regions and raw links without synthesizing new provenance.
 
 Freeze a closed unresolved-reason vocabulary containing at least
 `no_local_alias`, `deferred_cross_document`,
-`accepted_target_type_unavailable`, `malformed_supported_form`, and
-`unsupported_reference_class`. Unsupported text remains visible in diagnostic
-counts and never becomes a confident edge.
+`external_document_outside_corpus`, `accepted_target_type_unavailable`, and
+`malformed_supported_form`, with exact precedence when more than one could
+apply. Emit a canonical unresolved record only for text accepted by the frozen
+supported grammar, including a grammar-defined malformed form. Legal,
+statutory, bibliographic, or other unsupported reference classes produce
+diagnostic counts and fixture evidence only; they do not produce canonical
+cross-reference records or graph edges.
 
 ## Review pass
 
@@ -218,7 +251,11 @@ counts and never becomes a confident edge.
 - Require `canonical_text[start:end] == raw_text` for every mention and preserve
   the complete source block and raw lineage unchanged.
 - Verify candidates target only accepted canonical target types.
-- Verify every candidate cites an accepted alias record and its exact target.
+- Verify every candidate cites a v3-local alias record and target plus their
+  exact accepted Task 03E.4 upstream IDs.
+- Verify every v3 local alias and target ID has exact bidirectional
+  correspondence to its upstream Task 03E.4 ID and no canonical edge points
+  outside the v3 candidate namespace.
 - Report full-document mention counts by supported class, resolution status,
   unresolved reason, and source eligibility; a zero count for a supported
   class is an unsupported outcome unless the frozen inventory predicted it.
@@ -245,10 +282,13 @@ git diff --check
 - Supported mentions have exact text, spans, provenance, candidates, and
   deterministic evidence.
 - The pilot consumes only eligible canonical body blocks from the accepted
-  Appendix P candidate and records unsupported surfaces explicitly.
+  Appendix P candidate and diagnoses unsupported surfaces explicitly without
+  creating canonical records for them.
 - Resolution state agrees mechanically with the candidate set.
 - Other-document references remain explicit for Task 03F rather than being
-  dropped or guessed.
+  dropped or guessed when their target document is within the sealed corpus;
+  named documents outside that corpus remain explicit terminal unresolved
+  records and are not promised to Task 03F as resolvable work.
 - The canonical cross-reference output is sufficient to build a sealed corpus
   second pass without mutating completed per-document stage-one artifacts.
 - Task 06 can later consume canonical edges without owning extraction or

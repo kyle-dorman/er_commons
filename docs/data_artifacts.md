@@ -121,6 +121,28 @@ artifact mutates the reference. The immutable Task 03D.1 and Task 03E.2d roots
 remain external inputs. The exact ten-page renders and overlays live separately
 under the disposable review cache keyed by candidate ID.
 
+Task 03E.5 will publish a schema-major-v3 document candidate under the same
+canonical-record root only after its two specification approval gates and
+production validation pass. In addition to remapped canonical records and
+terminal artifacts, its managed file set will include these candidate-owned
+support roles:
+
+```text
+support/cross_reference_target_index.json
+support/cross_reference_summary.json
+support/cross_reference_preservation.json
+```
+
+The target index is document-scoped stage-one evidence, not Task 03F's later
+corpus index. The preservation support must prove that v3-local alias and target
+IDs are the namespace-remapped image of the accepted Task 03E.4 records while
+retaining upstream IDs only as correspondence evidence. Publication remains
+atomic, no-clobber, and completion-last; matching reuse requires verification
+of identity, managed files, checksums, support roles, and completion. Failed
+attempts remain inspectable without a completion record. Task 03F's separate
+corpus-resolution artifacts may reference stable v3 mention IDs but may not
+mutate any completed document candidate.
+
 ## Git policy
 
 Track in Git:
