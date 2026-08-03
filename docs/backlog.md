@@ -13,6 +13,19 @@ scope, replace a numbered task, or record a completed experiment.
   measured integration need proves that thin task-specific glue is insufficient.
 - Consider richer workflow orchestration only after simple commands and
   manifests demonstrate a real restart, scheduling, or dependency bottleneck.
+- RL environments for environmental-review agents: investigate whether an
+  `er_bench` task could become a clean, reproducible agent-training environment
+  without changing the benchmark's frozen evaluation contract. Prime
+  Intellect's [agentic-RL environment write-up](https://www.primeintellect.ai/blog/scaling-agentic-rl)
+  suggests several useful questions: can task data and native scoring semantics
+  remain independent of the agent harness and sandbox runtime; can private
+  evidence, reference answers, judge prompts, or other grading material be
+  withheld until isolated scoring; and can every task pass both a gold-success
+  check and a no-op-failure check? Also examine reward false negatives, where a
+  substantively correct but unanticipated answer fails an overly specific
+  grader. The possible project use is intentionally unresolved; revisit only
+  after the first benchmark and evaluation loop make a concrete environment,
+  reward, or training need visible.
 - After the OCR-free Task 03E.5 first pass, measure the cost of deliberately
   unresolved figure mentions before selecting a figure-linking design. Review
   mention counts, representative failures such as Appendix P Figures 1 and 4,
