@@ -5,19 +5,25 @@
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
 Most recently completed: [Task
-03E.3](../tasks/sprint2/03e3_define_semantic_structure_contract.md). Its schema-
-major v2 contract now has a responsibility-owned, human-readable validator for
-sections, page labels, aliases, exact producer bridge evidence, control
-provenance, and candidate correspondence. Independent maintainability and
-refactor-safety reviews passed, as did the 40 focused tests and 372-test project
-suite. It published no candidate.
+03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md). Its
+checksum-verified semantic v2 MVP candidate
+`exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf`
+has zero undeclared Task 03D.1 differences, all four support roles, 222
+page-label outcomes, 323 target aliases, byte-identical fresh builds, valid
+reuse, and a user-approved exact ten-page visual review. By explicit user
+direction it remains immutable reference evidence. Its human-owned replacement
+`exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
+passed the independent candidate/review equivalence gate with zero mismatches,
+dual-build reproducibility, checksum reuse, failure retention, and a 400-test
+project check. The final user-authorized maintainability pass corrected
+support-preimage reproducibility and tightened the equivalence, source-
+verification, reporting, lifecycle, ownership, and test boundaries.
 
 Active implementation: [Task
-03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md). By explicit user
-decision, its contract is active after revision from the accepted Task 03E.3
-outcome. The next action is to implement and validate the schema-major v2
-Appendix P semantic candidate, including the exact ten-page visual review
-sample, without activating Task 03E.5.
+03E.5](../tasks/sprint2/03e5_pilot_cross_references.md) is ready to start from
+the accepted final Task 03E.4 candidate. Its first action is a bounded,
+read-only Appendix P mention inventory and schema/fixture specification gate;
+no parser code, dependency, or generated Task 03E.5 artifact has started.
 
 Previously completed: [Task
 03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
@@ -115,8 +121,8 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Tasks 03E.2d and 03E.3 are complete. Task 03E.4 is the only active
-implementation task.
+Tasks 03E.2d through 03E.4 are complete. Task 03E.5 is active and start-ready;
+its implementation has not begun.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -125,15 +131,12 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 ## Open queue
 
 1. Execute active [Task
-   03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md), review its
-   semantic candidate and ten-page visual sample, and request user acceptance
-   before activating [Task
-   03E.5](../tasks/sprint2/03e5_pilot_cross_references.md), [Task
+   03E.5](../tasks/sprint2/03e5_pilot_cross_references.md) beginning with its
+   bounded inventory/specification gate. Keep [Task
    03F](../tasks/sprint2/03f_make_extraction_restartable.md), [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) one at a time,
-   revising and activating each later provisional contract only after the
-   preceding outcome is accepted.
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional;
+   revise and activate each only after the preceding outcome is accepted.
 2. Independently review usability and freeze the accepted extraction release
    in Task 04.
 3. Continue through the separately identified curator-only response inventory,

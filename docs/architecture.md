@@ -195,14 +195,21 @@ assets, routing, and lineage. The correction evidence is a replaceable sidecar
 over hierarchy-enabled producer item identities; it owns correction features,
 TOC reconciliation, rule decisions, corrected levels and roles, hierarchy,
 ambiguities, and warnings. The canonical representation is the project-owned
-consumer interface. Task 03D.1 is its core-only candidate, and Task 03E.4 will
-join it with the accepted correction evidence to issue the next candidate with
-semantic sections, page-label resolution, and aliases.
+consumer interface. Task 03D.1 is its core-only candidate, and the Task 03E.4
+MVP joins it with accepted correction evidence in immutable reference candidate
+`exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf`,
+which adds semantic sections, page-label resolution, and aliases. Its
+human-owned replacement candidate
+`exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
+reproduces every candidate-owned semantic record and review derivative under a
+narrow identity-derived normalization. The `workflow` shell sequences verified
+runtime paths, identity/reuse, lifecycle, and publication; construction,
+producer evidence, support, sealing, and comparison retain separate owners.
 
 Task 03E.3 is only the specification gate for that join and creates no data
-layer. Task 03E.4 should reference detailed Task 03E.2d evidence rather than
-copying it, extend existing canonical page and section concepts where possible,
-and persist only the semantic facts downstream consumers need. Cross-reference
+layer. Task 03E.4 references detailed Task 03E.2d evidence rather than copying
+it, extends existing canonical page and section concepts, and persists only the
+semantic facts downstream consumers need. Cross-reference
 mentions remain a later enrichment because aliases describe possible targets,
 whereas mentions are source spans that point toward those targets.
 

@@ -531,9 +531,12 @@ it; Task 03E.2a fixed its nested-regime exit defect; and Task 03E.2b accepted th
 human-owned implementation by exact post-03E.2a semantic equivalence. Task
 03E.2d published the complete human-owned Appendix P correction under a
 distinct bounded-acceptance record. Task 03E.3 is complete with a human-owned
-schema-major v2 contract and validator. Task 03E.4 is active by explicit user
-decision after revision from that accepted outcome. Tasks 03E.5 through 03H
-remain provisional and must be revised from each accepted predecessor. The
+schema-major v2 contract and validator. Task 03E.4 is complete with a visually
+approved MVP reference and a human-owned replacement that passed independent
+candidate/review equivalence. Task 03E.5 is active and ready to begin with its
+bounded inventory/schema/fixture gate; its implementation has not begun. Tasks
+03F through 03H remain provisional and must be revised from each accepted
+predecessor. The
 numbers below are routing labels, not a promise that the sprint will contain
 only these tasks. Split a stage further whenever its contract is too large or
 new evidence creates a distinct decision or validation boundary.
@@ -630,9 +633,15 @@ new evidence creates a distinct decision or validation boundary.
    under a distinct `accepted_with_known_limitations` authorization without
    changing the historical rejection. Task 03E.3 has been revised against that
    exact handoff and is complete after its human-ownership rewrite. It has not
-   published a candidate. Task 03E.4 is active by explicit user decision to
-   materialize the schema-major v2 Appendix P semantic candidate and perform
-   the exact ten-page visual review. Tasks 03E.5 through 03H remain provisional
+   published a candidate. Task 03E.4 published visual-MVP reference candidate
+   `exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf`
+   with zero undeclared baseline differences and passed the exact ten-page
+   visual review, then replaced its machine-oriented MVP with human-owned
+   candidate
+   `exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
+   under a zero-mismatch candidate/review equivalence report. Task 03E.5 is now
+   active and ready to begin with its bounded mention inventory and
+   schema/fixture specification gate. Tasks 03F through 03H remain provisional
    downstream contracts.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform

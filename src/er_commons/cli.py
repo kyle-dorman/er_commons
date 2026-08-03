@@ -18,6 +18,7 @@ from er_commons.hierarchy_correction import (
     run_hierarchy_correction,
     seal_held_out_annotations,
 )
+from er_commons.semantic_materialization import run_semantic_materialization
 from er_commons.settings import ProjectSettings, load_settings
 from er_commons.source_freeze import freeze_release, verify_release
 from er_commons.table_extraction import run_table_extraction
@@ -51,6 +52,9 @@ DEFAULT_HIERARCHY_EVALUATION_SPEC = Path(
 )
 DEFAULT_CANONICALIZATION_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json"
+)
+DEFAULT_SEMANTIC_MATERIALIZATION_SPEC = Path(
+    "configs/brisbane_baylands_2025_deir_task03e4_semantic_v1.json"
 )
 DEFAULT_HIERARCHY_CORRECTION_SPEC = Path(
     "configs/brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1.json"
@@ -209,6 +213,28 @@ def run_canonical_document(
         config,
     )
     typer.echo(f"canonicalization_completion={completion_path}")
+
+
+@canonicalize_app.command("run-semantic-document")
+def run_semantic_document(
+    config: Annotated[
+        Path,
+        typer.Option(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Reviewed Appendix P semantic-materialization configuration.",
+        ),
+    ] = DEFAULT_SEMANTIC_MATERIALIZATION_SPEC,
+) -> None:
+    """Publish or checksum-verify the Task 03E.4 semantic candidate."""
+    completion_path, review_manifest = run_semantic_materialization(
+        load_settings().data_root,
+        config,
+    )
+    typer.echo(f"semantic_completion={completion_path}")
+    typer.echo(f"semantic_review_manifest={review_manifest}")
 
 
 @hierarchy_app.command("correct-document")

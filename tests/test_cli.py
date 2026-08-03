@@ -6,6 +6,7 @@ from typer.testing import CliRunner
 from er_commons.cli import (
     DEFAULT_CANONICALIZATION_SPEC,
     DEFAULT_COMPLETE_DOCUMENT_SPEC,
+    DEFAULT_SEMANTIC_MATERIALIZATION_SPEC,
     app,
 )
 from er_commons.settings import ProjectSettings
@@ -56,4 +57,6 @@ def test_canonicalize_group_exposes_document_scoped_materialization() -> None:
 
     assert result.exit_code == 0
     assert "run-document" in result.output
+    assert "run-semantic-document" in result.output
     assert DEFAULT_CANONICALIZATION_SPEC.name.endswith("task03d_appendix_p_v1.json")
+    assert DEFAULT_SEMANTIC_MATERIALIZATION_SPEC.name.endswith("task03e4_semantic_v1.json")

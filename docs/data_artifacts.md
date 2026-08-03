@@ -107,12 +107,19 @@ known limitation inventory, and authorizes publication without changing the
 historical Task 03E.2 reject reports. The completed candidate continues to use
 the existing correction v1 artifact layout and completion-last contract.
 
-Task 03E.4 will publish its semantic canonical candidate under the existing
-Task 03D canonical-record root with a new content-derived candidate ID. Its
-inventory must include the cross-producer bridge, Task 03D.1-to-v2
-correspondence/preservation report, and compact bounded-control verification as
-support files. They are control evidence, not canonical record families. The
-immutable Task 03D.1 and Task 03E.2d roots remain external inputs.
+Task 03E.4's behavioral MVP/reference candidate is
+`exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf`
+under the existing Task 03D canonical-record root. Its inventory includes the
+cross-producer bridge, Task 03D.1-to-v2 correspondence and preservation
+reports, and compact bounded-control verification as support files. They are
+control evidence, not canonical record families. The completed human-owned
+replacement is
+`exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`;
+its no-clobber comparison report lives under
+`pipelines/brisbane_baylands/task_03e4_human_rewrite_review/`. Neither rewrite
+artifact mutates the reference. The immutable Task 03D.1 and Task 03E.2d roots
+remain external inputs. The exact ten-page renders and overlays live separately
+under the disposable review cache keyed by candidate ID.
 
 ## Git policy
 

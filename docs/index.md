@@ -145,11 +145,16 @@ schema major v2, exact bridge and preservation contracts, 222-page label
 outcomes, target-only aliases, and bounded-control propagation now have a
 responsibility-owned validator that passed independent maintainability and
 refactor-safety review. [Task
-03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md) is active by
-explicit user decision after revision from that accepted outcome. It will
-materialize the schema-major v2 Appendix P semantic candidate and exact
-ten-page visual review sample. Tasks 03E.5 through 03H remain provisional
-downstream contracts.
+03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md) is complete. Its
+visually approved behavioral MVP candidate
+`exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf`
+remains immutable reference evidence. The human-owned replacement
+`exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
+has zero candidate and review mismatches under its independent equivalence gate,
+retains the exact ten-page review pixels, and is accepted as the immutable
+handoff to active, start-ready [Task
+03E.5](../tasks/sprint2/03e5_pilot_cross_references.md). Task 03E.5 begins with a
+bounded inventory/specification gate; Tasks 03F through 03H remain provisional.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions
@@ -167,8 +172,8 @@ under a separate, candidate-bound `accepted_with_known_limitations`
 authorization while preserving the historical rejection. Task 03E.3's
 behavioral MVP satisfies the exact handoff, including both semantic digest
 roles, the cross-producer bridge, mixed-content coverage, page-label provenance,
-and bounded-acceptance requirements. Its human-owned validator is complete and
-is the accepted validation authority for active Task 03E.4.
+and bounded-acceptance requirements. Its human-owned validator is the accepted
+validation authority used by completed Task 03E.4.
 
 ## Document roles
 
