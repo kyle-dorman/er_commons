@@ -199,14 +199,18 @@ replacement passed exact fixed-evidence artifact equivalence and substantive
 maintainability gates; the unused MVP package, equivalence test, and retained
 identity copy were then removed. Its final non-executed production identity is
 `exv1-3cbbe57424f72ca8800456b23c887e1b2b65693917a8b33ac40791f3630852ea`.
-Provisional [Task
-03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md) owns the
-broader destructive POC cleanup and production-boundary work. Its revised
-contract preserves declared Task 03G–04 capabilities without requiring schema
-migration or historical-candidate replayability. It requires explicit
-activation before Gate A and separate approval before Gate B. The optional
-real-source smoke is waived in favor of a separately contracted Task 03G
-variant; 03G and 03H remain inactive.
+[Task 03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md)
+completed its explicitly activated read-only Gate A inventory and now has one
+integrated Gate B prepared for explicit activation. The inventory names
+callers, active invariants, artifacts, identity effects, fixed no-PDF
+comparisons, and Task 03G–04 capability owners before any deletion. Most proof
+scaffolding can be removed after invariant transfer. By user direction, Gate B
+will revise hierarchy repeat-derived metrics to represent one honest production
+build, preserve Appendix P's source-scoped limitations, and remove the mandatory
+three-run proof branch. It will validate internally by stage and return one
+combined cleanup result rather than request routine approval between small
+steps. Gate B, the production-identity refresh, every PDF run, and Tasks 03G/03H
+remain inactive.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

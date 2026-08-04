@@ -167,13 +167,18 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Explicitly activate provisional [Task
-   03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md) when ready.
-   Its reviewed contract owns the read-only removal/invariant/future-capability
-   inventory and, only after separate Gate B approval, destructive POC proof-
-   scaffolding cleanup and production-boundary work. No schema migration or
-   historical-candidate replayability is required. Do not begin Gate A or Gate
-   B without their respective explicit approvals.
+1. Review [Task
+   03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md) Gate A.
+   Its read-only caller, invariant, artifact, identity, verification, and
+   future-capability inventory is complete. Most proof scaffolding can move to
+   an approved destructive Gate B after active invariants are transferred.
+   By user direction, Gate B is prepared as one integrated cleanup effort, not
+   a chain of separately approved small tasks. It will revise hierarchy metrics
+   for one honest production build, preserve Appendix P's source-scoped
+   limitations, transfer active invariants, remove obsolete proof surfaces,
+   validate internally by stage, and return one combined result for review.
+   Gate B, all code/schema changes and identity refreshes, and every PDF run
+   remain inactive pending explicit activation.
 2. After Task 03F.4 is accepted, review and revise [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) so it owns a
    bounded variant of the skipped Task 03F engineering smoke before the
