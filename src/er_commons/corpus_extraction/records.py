@@ -4,7 +4,17 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+STAGE_COMPLETION_ROLES = (
+    "baseline_producer",
+    "hierarchy_producer",
+    "canonical",
+    "hierarchy_correction",
+    "semantic",
+    "cross_references",
+)
+STAGE_COMPLETION_ROLE_SET = frozenset(STAGE_COMPLETION_ROLES)
 
 
 class StrictRecord(BaseModel):
@@ -68,6 +78,13 @@ class DocumentIdentityRecord(StrictRecord):
     stage_completions: dict[str, ArtifactRef]
     terminal_state: Literal["complete", "complete_with_warnings"]
 
+    @model_validator(mode="after")
+    def require_all_content_owners(self) -> DocumentIdentityRecord:
+        """Require the exact six stage-one completion roles."""
+        if set(self.stage_completions) != STAGE_COMPLETION_ROLE_SET:
+            raise ValueError("document identity must seal exactly six content owners")
+        return self
+
 
 class DocumentCompletion(StrictRecord):
     """Completion-last record matching the accepted v1 schema shape."""
@@ -98,6 +115,15 @@ class PipelineResult(StrictRecord):
     stage_completions: dict[str, ArtifactRef]
     stage_timings: dict[str, float]
     resource_enforcement: Literal["validated_before_content_owners"]
+
+    @model_validator(mode="after")
+    def require_complete_owner_handoff(self) -> PipelineResult:
+        """Reject partial or expanded owner handoffs at the process boundary."""
+        if set(self.stage_completions) != STAGE_COMPLETION_ROLE_SET:
+            raise ValueError("pipeline result must contain exactly six stage completions")
+        if set(self.stage_timings) != STAGE_COMPLETION_ROLE_SET:
+            raise ValueError("pipeline result must contain exactly six stage timings")
+        return self
 
 
 class AttemptRecord(StrictRecord):

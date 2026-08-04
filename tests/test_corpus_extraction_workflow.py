@@ -11,6 +11,7 @@ from corpus_extraction_test_support import _result, _workspace
 
 from er_commons.corpus_extraction.hooks import WorkflowHooks
 from er_commons.corpus_extraction.process import ProcessOutcome
+from er_commons.corpus_extraction.records import STAGE_COMPLETION_ROLES
 from er_commons.corpus_extraction.workflow import run_document
 
 
@@ -31,6 +32,7 @@ def test_success_publishes_complete_candidate_then_exactly_reuses(tmp_path: Path
     assert payload["raw_docling_status"] == "SUCCESS"
     assert payload["processed_pages"] == [1, 2]
     assert (completion.parents[1] / "content" / "records.jsonl").is_file()
+    assert not (completion.parent / "preservation_report.json").exists()
 
 
 def test_reuse_is_invalidated_by_current_run_spec_controls(tmp_path: Path) -> None:
@@ -211,6 +213,55 @@ def test_final_canonical_document_must_join_selected_source(tmp_path: Path) -> N
         )
 
 
+def test_publication_rejects_partial_stage_completion_handoff(tmp_path: Path) -> None:
+    data_root, spec_path = _workspace(tmp_path)
+    result = _result(tmp_path, "alpha")
+    partial = result.model_copy(
+        update={
+            "stage_completions": {"cross_references": result.stage_completions["cross_references"]}
+        }
+    )
+
+    with pytest.raises(ValueError, match="exact six stage completions"):
+        run_document(
+            data_root,
+            spec_path,
+            "alpha",
+            executor=lambda *args: ProcessOutcome(partial, False, 0, ""),
+        )
+
+
+def test_publication_binds_final_root_to_cross_reference_completion(tmp_path: Path) -> None:
+    data_root, spec_path = _workspace(tmp_path)
+    result = _result(tmp_path, "alpha")
+    unrelated = data_root / "unrelated"
+    unrelated.mkdir()
+    (unrelated / "canonical").mkdir()
+    source = json.loads(
+        (Path(result.final_candidate_root) / "canonical/documents.jsonl").read_text()
+    )
+    (unrelated / "canonical/documents.jsonl").write_text(json.dumps(source) + "\n")
+    mismatched = result.model_copy(update={"final_candidate_root": str(unrelated)})
+
+    with pytest.raises(ValueError, match="cross-reference completion"):
+        run_document(
+            data_root,
+            spec_path,
+            "alpha",
+            executor=lambda *args: ProcessOutcome(mismatched, False, 0, ""),
+        )
+
+
+def test_pipeline_result_requires_all_stage_timings(tmp_path: Path) -> None:
+    _workspace(tmp_path)
+    result = _result(tmp_path, "alpha")
+    payload = result.model_dump(mode="json")
+    payload["stage_timings"] = {STAGE_COMPLETION_ROLES[0]: 0.1}
+
+    with pytest.raises(ValueError, match="exactly six stage timings"):
+        type(result).model_validate(payload)
+
+
 def test_publication_crash_window_is_reconciled_on_reuse(tmp_path: Path) -> None:
     data_root, spec_path = _workspace(tmp_path)
 
@@ -293,16 +344,3 @@ def test_failure_terminal_event_reconstructs_missing_attempt_record(tmp_path: Pa
     assert json.loads((attempt / "attempt_record.json").read_text())["disposition"] == (
         "failed_terminal"
     )
-
-
-def test_configured_offline_preservation_gate_is_persisted(tmp_path: Path) -> None:
-    data_root, spec_path = _workspace(tmp_path, preserve=True)
-    completion = run_document(
-        data_root,
-        spec_path,
-        "alpha",
-        executor=lambda *args: ProcessOutcome(_result(tmp_path, "alpha"), False, 0, ""),
-    )
-    report = json.loads((completion.parent / "preservation_report.json").read_text())
-    assert report["status"] == "exact"
-    assert report["mismatches"] == []

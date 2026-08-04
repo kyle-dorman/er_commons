@@ -49,7 +49,7 @@ def _config(**updates: object) -> HierarchyCorrectionConfig:
         "producer_artifact_relative_root": "pipelines/task03e",
         "producer_run_id": ACCEPTED_PRODUCER_RUN_ID,
         "artifact_relative_root": "pipelines/task03e2",
-        "review_artifact_relative_root": "pipelines/task03e2_review",
+        "bounded_acceptance_artifact_relative_root": "pipelines/task03e2_review",
         "policy_relative_path": "docs/specs/hierarchy_correction_v1.md",
         "schema_relative_path": (
             "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json"
@@ -84,8 +84,8 @@ def test_config_rejects_unreviewed_fields_paths_and_source_changes() -> None:
         _config(unreviewed=True)
     with pytest.raises(ValueError, match="contained relative paths"):
         _config(artifact_relative_root="../escape")
-    with pytest.raises(ValueError, match="contained relative paths"):
-        _config(review_artifact_relative_root="../escape")
+    with pytest.raises(ValueError, match="artifact path must be contained"):
+        _config(bounded_acceptance_artifact_relative_root="../escape")
     changed_source = _config().source.model_dump(mode="json")
     changed_source["expected_pdf_page_count"] = 221
     with pytest.raises(ValueError, match="approved Appendix P"):

@@ -199,17 +199,23 @@ replacement passed exact fixed-evidence artifact equivalence and substantive
 maintainability gates; the unused MVP package, equivalence test, and retained
 identity copy were then removed. Its final non-executed production identity is
 `exv1-3cbbe57424f72ca8800456b23c887e1b2b65693917a8b33ac40791f3630852ea`.
-[Task 03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md)
-completed its explicitly activated read-only Gate A inventory and now has one
-integrated Gate B prepared for explicit activation. The inventory names
-callers, active invariants, artifacts, identity effects, fixed no-PDF
-comparisons, and Task 03G–04 capability owners before any deletion. Most proof
-scaffolding can be removed after invariant transfer. By user direction, Gate B
-will revise hierarchy repeat-derived metrics to represent one honest production
-build, preserve Appendix P's source-scoped limitations, and remove the mandatory
-three-run proof branch. It will validate internally by stage and return one
-combined cleanup result rather than request routine approval between small
-steps. Gate B, the production-identity refresh, every PDF run, and Tasks 03G/03H
+[Task 03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md) is
+complete and accepted after its read-only Gate A, integrated Gate B cleanup,
+and pre-close maintainability pass.
+The maintained stages build once, validate active invariants, and publish or
+verify reuse; hierarchy records one honest build while Appendix P's bounded
+authorization remains source-specific. Corpus v1, reference/rewrite/repeat/
+quality/review proof paths, completed-task commands, and their proof-only
+schemas/configs/tests were removed after invariant transfer. Candidate-neutral
+comparison/requested-render utilities and read-only handoff validation preserve
+the declared Task 03G--04 capabilities. Fail-fast lineage validation now
+rejects stale inter-stage pins before attempt allocation or PDF work. After
+candidate-neutral review, the user approved the exact Appendix P hierarchy
+rebind. The pre-close maintainability pass refreshed hierarchy candidate
+`hcorv1-30385014...1ad42`, semantic candidate `exv1-89a57777...8f6c4`, and
+cross-reference candidate `exv1-1da64e08...21509`. Production identity
+`exv1-1bd71e02...c1fcc4` completed all 222 Appendix P pages through sealed
+stage reuse as `docv1-532b14da...8df40`; checksum reuse was verified. Tasks 03G/03H
 remain inactive.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its

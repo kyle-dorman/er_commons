@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-import re
 from collections import defaultdict
 from collections.abc import Collection, Mapping
 
 from er_commons.cross_reference_enrichment.indexing import TargetIndex
+from er_commons.cross_reference_enrichment.policy import is_qualified_external_table_reference
 from er_commons.cross_reference_enrichment.types import (
     DetectedMention,
     JsonObject,
@@ -57,7 +57,7 @@ class MentionResolver:
         """Return ordered local candidates or one explicit unresolved reason."""
         if mention.kind is MentionKind.FIGURE:
             return Resolution((), UnresolvedReason.TARGET_TYPE_UNAVAILABLE)
-        if mention.kind is MentionKind.TABLE and _qualified_external_table(
+        if mention.kind is MentionKind.TABLE and is_qualified_external_table_reference(
             source_text[mention.span.end :]
         ):
             return Resolution((), UnresolvedReason.QUALIFIED_EXTERNAL_TABLE)
@@ -162,7 +162,3 @@ def _candidate_evidence_kind(entry: TargetIndexEntry) -> str:
 def _numeric_lookup(value: str) -> bool:
     first = value[:1]
     return bool(first and first in "0123456789")
-
-
-def _qualified_external_table(suffix: str) -> bool:
-    return re.match(r"^\s+(?:in|from|of)\s+Reference\s+[1-9][0-9]*\b", suffix) is not None

@@ -148,7 +148,7 @@ def validate_production_identity(
     _require_closed_fields(preimage, PRODUCTION_PREIMAGE_FIELDS, code="identity_preimage")
     if preimage["schema_version"] != "er_commons.corpus_extraction_identity_preimage.v1_1":
         fail("identity_preimage", "production identity uses the wrong v1.1 preimage schema")
-    if preimage["contract_revision"] != "task_03f3_gate_b":
+    if preimage["contract_revision"] != "task_03f4_gate_b":
         fail("identity_preimage", "production identity uses the wrong contract revision")
     if preimage["extraction_version_name"] != "brisbane_baylands_model_corpus_v1":
         fail("identity_preimage", "production identity uses an unexpected extraction version")

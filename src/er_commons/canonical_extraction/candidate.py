@@ -5,7 +5,6 @@ from __future__ import annotations
 import copy
 import json
 from pathlib import Path
-from typing import Any
 
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 from referencing import Registry
@@ -13,7 +12,6 @@ from referencing.jsonschema import DRAFT202012
 
 from er_commons.canonical_extraction.config import CanonicalizationConfig
 from er_commons.canonical_extraction.constants import SCHEMA_PATH
-from er_commons.canonical_extraction.errors import ContractError
 from er_commons.canonical_extraction.identifiers import make_record_id
 from er_commons.canonical_extraction.inputs import CanonicalizationInputs
 from er_commons.canonical_extraction.layout import RECORD_COLLECTIONS
@@ -77,7 +75,6 @@ def build_summary(
     table_bundle: ProducerTableBundle,
     report: MaterializationReport,
     candidate_id: str,
-    config: CanonicalizationConfig | None = None,
 ) -> JsonRecord:
     """Build the Task 03D accounting summary once from named projections."""
     mapped_regions = sum(bool(mapping.clean_table_ids) for mapping in table_bundle.region_mappings)
@@ -120,53 +117,7 @@ def build_summary(
         "producer_warnings": list(inputs.producer_summary_record.warnings),
         "errors": [],
     }
-    if config is None or config.acceptance_profile == "appendix_p_task03d_v1":
-        validate_appendix_p_acceptance(summary)
     return summary
-
-
-def _require_equal(*, invariant: str, actual: Any, expected: Any) -> None:
-    """Raise one diagnostic error for a named Appendix P invariant."""
-    if actual != expected:
-        raise ContractError(
-            f"Appendix P invariant failed: {invariant}; expected={expected!r}, actual={actual!r}"
-        )
-
-
-def validate_appendix_p_acceptance(summary: JsonRecord) -> None:
-    """Enforce the reviewed Task 03D counts with actionable failures."""
-    expected_counts = {
-        "pages": 222,
-        "routing_observations": 222,
-        "table_stage_observations": 34,
-        "tables": 19,
-        "table_families": 19,
-        "figures": 27,
-        "images": 27,
-    }
-    for record_family, expected in expected_counts.items():
-        _require_equal(
-            invariant=f"{record_family} count",
-            actual=summary["counts"][record_family],
-            expected=expected,
-        )
-    expected_facts = {
-        "clean table cell count": (summary["clean_table_cell_count"], 3669),
-        "mapped table region count": (summary["mapped_table_region_count"], 19),
-        "zero-table region count": (summary["zero_table_region_count"], 15),
-        "document-index descendant text count": (
-            summary["document_index_descendant_text_count"],
-            663,
-        ),
-        "producer furniture count": (summary["furniture"]["producer_item_count"], 522),
-        "emitted furniture count": (summary["furniture"]["emitted_count"], 521),
-        "picture-owned furniture suppression count": (
-            summary["furniture"]["suppressed_picture_descendant_count"],
-            1,
-        ),
-    }
-    for invariant, (actual, expected) in expected_facts.items():
-        _require_equal(invariant=invariant, actual=actual, expected=expected)
 
 
 def write_record_files(root: Path, records: CanonicalRecordSet) -> list[JsonRecord]:
@@ -262,7 +213,6 @@ def write_validate_and_seal_candidate(
         table_bundle=table_bundle,
         report=report,
         candidate_id=identity["extraction_id"],
-        config=config,
     )
     summary["validation"] = {
         "schema_valid": True,

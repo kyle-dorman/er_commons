@@ -1,191 +1,171 @@
-"""Offline verification tests for the immutable Task 03E.2d handoff."""
+"""Offline verification tests for configured bounded hierarchy handoffs."""
 
 from __future__ import annotations
 
-import copy
 import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
-import rfc8785
 
-from er_commons.semantic_structure import SemanticContractError, verify_task03e2d_control
-from er_commons.semantic_structure import handoff as handoff_module
-from er_commons.semantic_structure.constants import (
-    EXPECTED_AGGREGATE_DIGEST,
-    EXPECTED_AUTHORIZATION_ID,
-    EXPECTED_AUTHORIZED_USES,
-    EXPECTED_CANDIDATE_ID,
-    EXPECTED_LIMITATIONS,
-    EXPECTED_SEMANTIC_COUNTS,
-    EXPECTED_SEMANTIC_FILE_SET_DIGEST,
-)
-from er_commons.semantic_structure.policies import control as control_policy
+from er_commons.semantic_structure import SemanticContractError, handoff
+
+CANDIDATE_ID = "hcorv1-" + "a" * 64
+BASELINE_PRODUCER_ID = "prv1-" + "b" * 64
+HIERARCHY_PRODUCER_ID = "prv1-" + "c" * 64
+SEMANTIC_FILE_DIGEST = "d" * 64
+AGGREGATE_DIGEST = "e" * 64
+COUNTS = {
+    "features": 2,
+    "toc_entries": 1,
+    "reconciliations": 1,
+    "regimes": 1,
+    "decisions": 2,
+    "roots": 1,
+    "edges": 0,
+    "direct_membership": 1,
+    "unassigned_content": 0,
+    "ambiguities": 0,
+    "warnings": 1,
+}
 
 
 @dataclass(frozen=True)
 class HandoffFixture:
-    """Paths and bytes needed to mutate one synthetic sealed handoff."""
-
     candidate_root: Path
     acceptance_path: Path
-    managed_path: Path
-    inventory_path: Path
-    completion_path: Path
+    policy_path: Path
     comparison_path: Path
+    schema_path: Path
 
 
-def _stable_json_bytes(value: object) -> bytes:
-    """Serialize test evidence in the project's stable file representation."""
-    return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode()
+def _write_json(path: Path, value: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n")
 
 
-def _build_handoff(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> HandoffFixture:
-    """Create a tiny sealed tree and bind the verifier to its exact digests."""
-    data_root = tmp_path / "data"
-    candidate_root = (
-        data_root
-        / "pipelines/brisbane_baylands/task_03e2_hierarchy_correction"
-        / EXPECTED_CANDIDATE_ID
-    )
-    records_root = candidate_root / "records"
-    managed_path = candidate_root / "artifacts/example.json"
-    records_root.mkdir(parents=True)
-    managed_path.parent.mkdir(parents=True)
-    managed_bytes = b'{"example":true}\n'
-    managed_path.write_bytes(managed_bytes)
-
-    inventory = {
-        "files": [
-            {
-                "path": "artifacts/example.json",
-                "byte_size": len(managed_bytes),
-                "sha256": hashlib.sha256(managed_bytes).hexdigest(),
-            }
-        ]
-    }
-    inventory_digest = hashlib.sha256(rfc8785.dumps(inventory)).hexdigest()
-    inventory_path = records_root / "artifact_inventory.json"
-    inventory_path.write_bytes(_stable_json_bytes(inventory))
-
+def _fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> HandoffFixture:
+    candidate_root = tmp_path / "data/pipelines/hierarchy" / CANDIDATE_ID
     completion = {
-        "artifact_inventory_sha256": inventory_digest,
-        "candidate_id": EXPECTED_CANDIDATE_ID,
+        "artifact_inventory_sha256": "f" * 64,
+        "candidate_id": CANDIDATE_ID,
         "status": "complete_with_ambiguities",
     }
-    completion_path = records_root / "completion_record.json"
-    completion_path.write_bytes(_stable_json_bytes(completion))
-
-    acceptance = {
-        "authorization_id": EXPECTED_AUTHORIZATION_ID,
-        "candidate": {
-            "candidate_semantic_sha256": EXPECTED_SEMANTIC_FILE_SET_DIGEST,
-            "frozen_semantic_sha256": EXPECTED_AGGREGATE_DIGEST,
-            "counts": EXPECTED_SEMANTIC_COUNTS,
+    _write_json(candidate_root / handoff.COMPLETION_RELATIVE_PATH, completion)
+    acceptance_path = tmp_path / "data/review" / CANDIDATE_ID / "bounded_acceptance.json"
+    _write_json(
+        acceptance_path,
+        {
+            "authorization_id": "fixture_authorization",
+            "candidate": {"counts": COUNTS},
+            "limitations": ["known limitation"],
+            "scope": {
+                "authorized_uses": ["semantic_input"],
+                "corpus_wide_acceptance": False,
+                "physical_page_count": 2,
+                "source_id": "fixture_source",
+            },
+            "status": "accepted_with_known_limitations",
         },
-        "limitations": list(EXPECTED_LIMITATIONS),
-        "scope": {
-            "authorized_uses": list(EXPECTED_AUTHORIZED_USES),
-            "corpus_wide_acceptance": False,
-            "physical_page_count": 222,
-            "source_id": "deir_appendix_p",
-        },
-        "status": "accepted_with_known_limitations",
-    }
-    acceptance_path = tmp_path / "bounded_acceptance.json"
-    acceptance_bytes = _stable_json_bytes(acceptance)
-    acceptance_path.write_bytes(acceptance_bytes)
-    acceptance_digest = hashlib.sha256(acceptance_bytes).hexdigest()
-
-    comparison_path = data_root / handoff_module.PRODUCER_COMPARISON_RELATIVE_PATH
-    comparison_path.parent.mkdir(parents=True)
-    comparison_bytes = b'{"status":"pass"}\n'
-    comparison_path.write_bytes(comparison_bytes)
-    comparison_digest = hashlib.sha256(comparison_bytes).hexdigest()
-
-    monkeypatch.setattr(handoff_module, "EXPECTED_INVENTORY_DIGEST", inventory_digest)
-    monkeypatch.setattr(handoff_module, "EXPECTED_ACCEPTANCE_SHA256", acceptance_digest)
-    monkeypatch.setattr(
-        handoff_module,
-        "EXPECTED_PRODUCER_COMPARISON_SHA256",
-        comparison_digest,
     )
-    expected_control = copy.deepcopy(control_policy.EXPECTED_CONTROL_FIELDS)
-    expected_control["artifact_inventory_sha256"] = inventory_digest
-    expected_control["bounded_acceptance_sha256"] = acceptance_digest
-    expected_control["producer_comparison_sha256"] = comparison_digest
-    monkeypatch.setattr(control_policy, "EXPECTED_CONTROL_FIELDS", expected_control)
-
+    comparison_path = tmp_path / "data/review/comparison.json"
+    _write_json(
+        comparison_path,
+        {
+            "machine_status": "pass",
+            "proofs": [
+                {
+                    "role": "baseline",
+                    "refreshed_producer_run_id": BASELINE_PRODUCER_ID,
+                    "equivalent": True,
+                },
+                {
+                    "role": "hierarchy",
+                    "refreshed_producer_run_id": HIERARCHY_PRODUCER_ID,
+                    "equivalent": True,
+                },
+            ],
+        },
+    )
+    policy_path = tmp_path / "project/policy.json"
+    schema_path = tmp_path / "project/schema.json"
+    monkeypatch.setattr(handoff, "verify_hierarchy_candidate", lambda *_args: Path("completion"))
+    monkeypatch.setattr(handoff, "verify_bounded_acceptance_policy", lambda *_args: object())
+    monkeypatch.setattr(
+        handoff,
+        "verify_bounded_acceptance",
+        lambda **_kwargs: SimpleNamespace(
+            candidate_semantic_sha256=SEMANTIC_FILE_DIGEST,
+            frozen_semantic_sha256=AGGREGATE_DIGEST,
+        ),
+    )
     return HandoffFixture(
         candidate_root=candidate_root,
         acceptance_path=acceptance_path,
-        managed_path=managed_path,
-        inventory_path=inventory_path,
-        completion_path=completion_path,
+        policy_path=policy_path,
         comparison_path=comparison_path,
+        schema_path=schema_path,
     )
 
 
-def test_verified_handoff_returns_compact_control_record(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch,
+def _verify(tmp_path: Path, fixture: HandoffFixture) -> dict[str, object]:
+    return handoff.verify_task03e2d_control(
+        data_root=tmp_path / "data",
+        candidate_root=fixture.candidate_root,
+        candidate_id=CANDIDATE_ID,
+        hierarchy_schema_path=fixture.schema_path,
+        acceptance_path=fixture.acceptance_path,
+        acceptance_policy_path=fixture.policy_path,
+        producer_comparison_path=fixture.comparison_path,
+        baseline_producer_run_id=BASELINE_PRODUCER_ID,
+        hierarchy_producer_run_id=HIERARCHY_PRODUCER_ID,
+    )
+
+
+def test_handoff_derives_control_from_verified_configured_evidence(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    fixture = _build_handoff(tmp_path, monkeypatch)
-    control = verify_task03e2d_control(fixture.candidate_root, fixture.acceptance_path)
-    assert control["candidate_id"] == EXPECTED_CANDIDATE_ID
-    assert control["acceptance_status"] == "accepted_with_known_limitations"
-    assert control["physical_page_count"] == 222
+    fixture = _fixture(tmp_path, monkeypatch)
+
+    control = _verify(tmp_path, fixture)
+
+    assert control["candidate_id"] == CANDIDATE_ID
+    assert control["semantic_file_set_sha256"] == SEMANTIC_FILE_DIGEST
+    assert control["aggregate_semantic_sha256"] == AGGREGATE_DIGEST
+    assert control["semantic_counts"] == COUNTS
+    assert (
+        control["bounded_acceptance_sha256"]
+        == hashlib.sha256(fixture.acceptance_path.read_bytes()).hexdigest()
+    )
+    assert (
+        control["producer_comparison_sha256"]
+        == hashlib.sha256(fixture.comparison_path.read_bytes()).hexdigest()
+    )
 
 
-def test_handoff_rejects_changed_managed_bytes(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch,
+def test_handoff_rejects_comparison_for_different_producer(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    fixture = _build_handoff(tmp_path, monkeypatch)
-    fixture.managed_path.write_bytes(b'{"example":null}\n')
-    with pytest.raises(SemanticContractError, match="byte size differs|checksum differs"):
-        verify_task03e2d_control(fixture.candidate_root, fixture.acceptance_path)
+    fixture = _fixture(tmp_path, monkeypatch)
+    comparison = json.loads(fixture.comparison_path.read_bytes())
+    comparison["proofs"][0]["refreshed_producer_run_id"] = "prv1-" + "0" * 64
+    _write_json(fixture.comparison_path, comparison)
+
+    with pytest.raises(SemanticContractError, match="configured lineage: baseline"):
+        _verify(tmp_path, fixture)
 
 
-def test_handoff_rejects_unrecorded_files(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch,
+def test_handoff_translates_hierarchy_verifier_failure(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    fixture = _build_handoff(tmp_path, monkeypatch)
-    (fixture.candidate_root / ".DS_Store").write_bytes(b"unexpected")
-    with pytest.raises(SemanticContractError, match="managed file set differs"):
-        verify_task03e2d_control(fixture.candidate_root, fixture.acceptance_path)
+    fixture = _fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(
+        handoff,
+        "verify_hierarchy_candidate",
+        lambda *_args: (_ for _ in ()).throw(ValueError("candidate checksum differs")),
+    )
 
-
-def test_handoff_rejects_changed_completion(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    fixture = _build_handoff(tmp_path, monkeypatch)
-    completion = json.loads(fixture.completion_path.read_bytes())
-    completion["unexpected"] = True
-    fixture.completion_path.write_bytes(_stable_json_bytes(completion))
-    with pytest.raises(SemanticContractError, match="completion differs"):
-        verify_task03e2d_control(fixture.candidate_root, fixture.acceptance_path)
-
-
-def test_handoff_rejects_changed_acceptance(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    fixture = _build_handoff(tmp_path, monkeypatch)
-    fixture.acceptance_path.write_bytes(b'{"status":"changed"}\n')
-    with pytest.raises(SemanticContractError, match="bounded-acceptance bytes differ"):
-        verify_task03e2d_control(fixture.candidate_root, fixture.acceptance_path)
-
-
-def test_handoff_rejects_changed_producer_comparison(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    fixture = _build_handoff(tmp_path, monkeypatch)
-    fixture.comparison_path.write_bytes(b'{"status":"changed"}\n')
-    with pytest.raises(SemanticContractError, match="producer comparison bytes differ"):
-        verify_task03e2d_control(fixture.candidate_root, fixture.acceptance_path)
+    with pytest.raises(SemanticContractError, match="candidate checksum differs"):
+        _verify(tmp_path, fixture)

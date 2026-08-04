@@ -31,7 +31,6 @@ from typing import Any
 import pypdfium2 as pdfium  # type: ignore[import-untyped]
 
 from er_commons.source_freeze import sha256_file, write_json_atomic
-from er_commons.table_extraction.comparison import compare_pipeline_outputs
 from er_commons.table_extraction.families import assign_families
 from er_commons.table_extraction.models import load_config
 from er_commons.table_extraction.page import extract_page
@@ -245,23 +244,6 @@ def run_table_extraction(
     write_jsonl(root / "family_assignments.jsonl", assignments)
     write_json_atomic(root / "table_families.json", {"families": families})
 
-    comparison_path = None
-    comparison = None
-    if config.comparison_relative_root is not None:
-        baseline_root = (data_root / config.comparison_relative_root).resolve()
-        comparison = compare_pipeline_outputs(
-            baseline_root,
-            root,
-            baseline_pages_only=config.comparison_scope == "baseline_pages",
-        )
-        comparison_name = (
-            "comparison_to_review_sample.json"
-            if config.comparison_scope == "baseline_pages"
-            else "comparison_to_task03a12.json"
-        )
-        comparison_path = root / comparison_name
-        write_json_atomic(comparison_path, comparison)
-
     zero_table_pages = [
         int(page["physical_pdf_page"]) for page in page_results if page["table_count"] == 0
     ]
@@ -301,9 +283,6 @@ def run_table_extraction(
         "reused_page_count_this_invocation": reused_page_count,
         "page_wall_seconds_sum": sum(float(page["wall_seconds"]) for page in page_results),
         "pipeline_wall_seconds": time.perf_counter() - started,
-        "comparison_exact_semantic_match": (
-            comparison["exact_semantic_match"] if comparison is not None else None
-        ),
         "first_600_pages_ran": config.validation_scope == "first_600",
         "review_status": (
             "component_complete"
@@ -363,11 +342,6 @@ def run_table_extraction(
             "tables": "tables.jsonl",
             "family_assignments": "family_assignments.jsonl",
             "table_families": "table_families.json",
-            "comparison": (
-                comparison_path.relative_to(root).as_posix()
-                if comparison_path is not None
-                else None
-            ),
             "environment": "environment.json",
             "artifact_inventory": "artifact_inventory.json",
         },

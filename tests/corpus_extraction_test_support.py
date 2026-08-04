@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from er_commons.corpus_extraction.records import ArtifactRef, PipelineResult
+from er_commons.corpus_extraction.records import STAGE_COMPLETION_ROLES, ArtifactRef, PipelineResult
 from er_commons.source_freeze import sha256_file, write_json_atomic
 
 
@@ -42,9 +42,7 @@ def _source_record(root: Path, source_id: str, pages: int = 2) -> dict[str, Any]
     }
 
 
-def _workspace(
-    tmp_path: Path, *, retry_limit: int = 0, preserve: bool = False
-) -> tuple[Path, Path]:
+def _workspace(tmp_path: Path, *, retry_limit: int = 0) -> tuple[Path, Path]:
     data_root = tmp_path / "data"
     records = data_root / "release" / "records"
     records.mkdir(parents=True)
@@ -106,19 +104,18 @@ def _workspace(
                 {
                     "source_id": "alpha",
                     "configs": configs,
-                    "offline_reference_candidate": "owner-alpha" if preserve else None,
                 },
                 {"source_id": "beta", "configs": configs},
             ],
             "hierarchy_dispositions": [
-                {"source_id": "alpha", "authority": "strict_quality_gate"},
-                {"source_id": "beta", "authority": "strict_quality_gate"},
+                {"source_id": "alpha", "authority": "machine_validation"},
+                {"source_id": "beta", "authority": "machine_validation"},
             ],
             "resource_policy": {
                 "document_concurrency": 1,
                 "page_batch_size": 4,
                 "stage_batch_size": 4,
-                "queue_capacity": 8,
+                "queue_capacity": 100,
                 "cpu_threads_per_document": 4,
                 "device": "cpu",
                 "memory_estimate_bytes": 1_000_000,
@@ -164,11 +161,12 @@ def _result(
         warnings=[],
         final_candidate_root=str(candidate),
         stage_completions={
-            "cross_references": ArtifactRef(
+            role: ArtifactRef(
                 path=completion.relative_to(data_root).as_posix(),
                 sha256=sha256_file(completion),
             )
+            for role in STAGE_COMPLETION_ROLES
         },
-        stage_timings={"cross_references": 0.01},
+        stage_timings={role: 0.01 for role in STAGE_COMPLETION_ROLES},
         resource_enforcement="validated_before_content_owners",
     )

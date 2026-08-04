@@ -68,22 +68,13 @@ class DocumentOwnerSelection(StrictModel):
 
     source_id: str = Field(pattern=r"^[a-z0-9][a-z0-9_]*$")
     configs: ContentOwnerConfigs
-    offline_reference_candidate: Path | None = None
-
-    @model_validator(mode="after")
-    def validate_reference(self) -> DocumentOwnerSelection:
-        """Keep an optional no-PDF preservation oracle below the data root."""
-        path = self.offline_reference_candidate
-        if path is not None and (path.is_absolute() or ".." in path.parts):
-            raise ValueError("offline reference candidate path must be contained")
-        return self
 
 
 class HierarchyDisposition(StrictModel):
     """Document-specific authority; Appendix P acceptance cannot propagate."""
 
     source_id: str = Field(pattern=r"^[a-z0-9][a-z0-9_]*$")
-    authority: Literal["strict_quality_gate", "bounded_acceptance"]
+    authority: Literal["machine_validation", "bounded_acceptance"]
     authorization_relative_path: Path | None = None
 
     @model_validator(mode="after")
@@ -92,8 +83,8 @@ class HierarchyDisposition(StrictModel):
         path = self.authorization_relative_path
         if self.authority == "bounded_acceptance" and path is None:
             raise ValueError("bounded hierarchy acceptance requires authorization evidence")
-        if self.authority == "strict_quality_gate" and path is not None:
-            raise ValueError("strict hierarchy authority cannot cite bounded acceptance")
+        if self.authority == "machine_validation" and path is not None:
+            raise ValueError("machine hierarchy authority cannot cite bounded acceptance")
         if path is not None and (path.is_absolute() or ".." in path.parts):
             raise ValueError("hierarchy authorization path must be contained")
         return self
@@ -148,13 +139,6 @@ class RunSpec(StrictModel):
         matches = [item.configs for item in self.document_owners if item.source_id == source_id]
         if len(matches) != 1:
             raise ValueError(f"run spec lacks one content-owner selection: {source_id}")
-        return matches[0]
-
-    def document_owner(self, source_id: str) -> DocumentOwnerSelection:
-        """Return the complete data-driven owner selection for one source."""
-        matches = [item for item in self.document_owners if item.source_id == source_id]
-        if len(matches) != 1:
-            raise ValueError(f"run spec lacks one document-owner selection: {source_id}")
         return matches[0]
 
 

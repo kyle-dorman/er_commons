@@ -11,6 +11,7 @@ from corpus_resolution_test_support import write_cross_reference_inputs, write_s
 
 from er_commons.corpus_extraction.process import ProcessOutcome
 from er_commons.corpus_extraction.workflow import run_document
+from er_commons.corpus_resolution.handoff_validation import validate_handoff
 from er_commons.corpus_resolution.publication import StageHooks
 from er_commons.corpus_resolution.workflow import ScopeHooks, run_scope
 
@@ -95,6 +96,26 @@ def test_publication_after_rename_is_reconciled_without_clobber(tmp_path: Path) 
     assert json.loads(completion.read_bytes())["status"] == "ready"
     bundle = json.loads((completion.parents[3] / "contract_bundle.json").read_bytes())
     assert bundle["resolution_completion"]["resolutions"][0]["status"] == "resolved"
+    verified = validate_handoff(
+        data_root=data_root,
+        extraction_root=data_root / "pipelines/test/task_03f",
+        scope_id=completion.parents[3].name,
+        schema_path=Path("benchmarks/er_bench/schemas/corpus_extraction/v1_1/records.schema.json"),
+    )
+    assert verified.status == "ready"
+    assert verified.verified_document_count == 2
+    assert verified.task04_status == "not_evaluated"
+
+    (data_root / "owner-alpha/records/completion_record.json").write_text('{"status":"changed"}\n')
+    with pytest.raises(ValueError, match="upstream seal differs"):
+        validate_handoff(
+            data_root=data_root,
+            extraction_root=data_root / "pipelines/test/task_03f",
+            scope_id=completion.parents[3].name,
+            schema_path=Path(
+                "benchmarks/er_bench/schemas/corpus_extraction/v1_1/records.schema.json"
+            ),
+        )
 
 
 def test_interrupted_staging_is_cancelled_before_retry(tmp_path: Path) -> None:

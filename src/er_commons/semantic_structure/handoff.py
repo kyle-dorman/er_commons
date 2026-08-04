@@ -1,4 +1,4 @@
-"""Verification of the immutable hierarchy input accepted by Task 03E.2d."""
+"""Verification of one configured hierarchy candidate and its bounded control."""
 
 from __future__ import annotations
 
@@ -6,16 +6,14 @@ import hashlib
 import json
 from pathlib import Path
 
-import rfc8785
-
-from er_commons.semantic_structure.bundle import JsonObject
-from er_commons.semantic_structure.constants import (
-    EXPECTED_ACCEPTANCE_SHA256,
-    EXPECTED_CANDIDATE_ID,
-    EXPECTED_INVENTORY_DIGEST,
-    EXPECTED_PRODUCER_COMPARISON_SHA256,
-    PRODUCER_COMPARISON_RELATIVE_PATH,
+from er_commons.hierarchy_correction.bounded_acceptance import (
+    verify_bounded_acceptance,
+    verify_bounded_acceptance_policy,
 )
+from er_commons.hierarchy_correction.candidate_publication import (
+    verify_completed_candidate as verify_hierarchy_candidate,
+)
+from er_commons.semantic_structure.bundle import JsonObject
 from er_commons.semantic_structure.errors import SemanticContractError
 from er_commons.semantic_structure.policies.control import validate_control_provenance
 
@@ -23,147 +21,104 @@ COMPLETION_RELATIVE_PATH = Path("records/completion_record.json")
 INVENTORY_RELATIVE_PATH = Path("records/artifact_inventory.json")
 
 
-def verify_task03e2d_control(candidate_root: Path, acceptance_path: Path) -> JsonObject:
-    """Verify the sealed candidate, bounded authorization, and producer bridge evidence."""
+def verify_task03e2d_control(
+    *,
+    data_root: Path,
+    candidate_root: Path,
+    candidate_id: str,
+    hierarchy_schema_path: Path,
+    acceptance_path: Path,
+    acceptance_policy_path: Path,
+    producer_comparison_path: Path,
+    baseline_producer_run_id: str,
+    hierarchy_producer_run_id: str,
+) -> JsonObject:
+    """Compose maintained hierarchy verifiers and project their checked evidence."""
+    try:
+        verify_hierarchy_candidate(candidate_root, candidate_id, hierarchy_schema_path)
+        policy = verify_bounded_acceptance_policy(acceptance_policy_path, data_root)
+        verified = verify_bounded_acceptance(
+            path=acceptance_path,
+            policy=policy,
+            candidate_root=candidate_root,
+            candidate_id=candidate_id,
+            data_root=data_root,
+        )
+    except (OSError, ValueError) as error:
+        raise SemanticContractError(f"hierarchy bounded handoff is invalid: {error}") from error
+
     completion = _load_json_object(candidate_root / COMPLETION_RELATIVE_PATH)
-    inventory = _load_json_object(candidate_root / INVENTORY_RELATIVE_PATH)
-    acceptance = _load_verified_acceptance(acceptance_path)
-
-    _verify_completion(completion)
-    managed_files = _verify_inventory(inventory)
-    _verify_managed_files(candidate_root, managed_files)
-    _verify_producer_comparison(candidate_root)
-
-    control = _build_control_record(completion, acceptance)
+    acceptance = _load_json_object(acceptance_path)
+    comparison_sha256 = _verify_producer_comparison(
+        producer_comparison_path,
+        baseline_producer_run_id=baseline_producer_run_id,
+        hierarchy_producer_run_id=hierarchy_producer_run_id,
+    )
+    control = _build_control_record(
+        completion=completion,
+        acceptance=acceptance,
+        acceptance_sha256=hashlib.sha256(acceptance_path.read_bytes()).hexdigest(),
+        semantic_file_set_sha256=verified.candidate_semantic_sha256,
+        aggregate_semantic_sha256=verified.frozen_semantic_sha256,
+        producer_comparison_sha256=comparison_sha256,
+    )
     validate_control_provenance(control)
     return control
 
 
-def _verify_completion(completion: JsonObject) -> None:
-    """Require the exact completion-last record of the accepted candidate."""
-    expected = {
-        "artifact_inventory_sha256": EXPECTED_INVENTORY_DIGEST,
-        "candidate_id": EXPECTED_CANDIDATE_ID,
-        "status": "complete_with_ambiguities",
-    }
-    if completion != expected:
-        changed = sorted(
-            key
-            for key in set(completion) | set(expected)
-            if completion.get(key) != expected.get(key)
-        )
-        raise SemanticContractError(f"hierarchy correction completion differs: {changed}")
-
-
-def _verify_inventory(inventory: JsonObject) -> dict[str, JsonObject]:
-    """Verify the canonical inventory digest and index its managed files."""
-    actual_digest = hashlib.sha256(rfc8785.dumps(inventory)).hexdigest()
-    if actual_digest != EXPECTED_INVENTORY_DIGEST:
-        raise SemanticContractError(
-            "hierarchy artifact inventory digest differs: "
-            f"expected {EXPECTED_INVENTORY_DIGEST}, got {actual_digest}"
-        )
-
-    files = inventory.get("files")
-    if not isinstance(files, list):
-        raise SemanticContractError("hierarchy artifact inventory has no file list")
-    managed = {item["path"]: item for item in files}
-    if len(managed) != len(files):
-        raise SemanticContractError("hierarchy artifact inventory contains duplicate paths")
-    return managed
-
-
-def _verify_managed_files(candidate_root: Path, managed: dict[str, JsonObject]) -> None:
-    """Verify every managed byte and reject unrecorded files."""
-    for relative_path, expected in managed.items():
-        path = candidate_root / relative_path
-        raw = _read_required_bytes(path)
-        _verify_file_bytes(path, raw, expected)
-
-    actual_paths = {
-        path.relative_to(candidate_root).as_posix()
-        for path in candidate_root.rglob("*")
-        if path.is_file()
-    }
-    expected_paths = set(managed) | {
-        INVENTORY_RELATIVE_PATH.as_posix(),
-        COMPLETION_RELATIVE_PATH.as_posix(),
-    }
-    if actual_paths != expected_paths:
-        missing = sorted(expected_paths - actual_paths)
-        extra = sorted(actual_paths - expected_paths)
-        raise SemanticContractError(
-            f"hierarchy managed file set differs: missing={missing}, extra={extra}"
-        )
-
-
-def _verify_file_bytes(path: Path, raw: bytes, expected: JsonObject) -> None:
-    """Check one inventory entry's exact length and SHA-256."""
-    if len(raw) != expected["byte_size"]:
-        raise SemanticContractError(
-            f"hierarchy artifact byte size differs: {path} "
-            f"expected {expected['byte_size']}, got {len(raw)}"
-        )
-    actual_digest = hashlib.sha256(raw).hexdigest()
-    if actual_digest != expected["sha256"]:
-        raise SemanticContractError(
-            f"hierarchy artifact checksum differs: {path} "
-            f"expected {expected['sha256']}, got {actual_digest}"
-        )
-
-
-def _load_verified_acceptance(path: Path) -> JsonObject:
-    """Load the bounded authorization only after its exact bytes verify."""
+def _verify_producer_comparison(
+    path: Path,
+    *,
+    baseline_producer_run_id: str,
+    hierarchy_producer_run_id: str,
+) -> str:
+    """Require a machine-pass comparison for the two configured producer IDs."""
     raw = _read_required_bytes(path)
-    actual_digest = hashlib.sha256(raw).hexdigest()
-    if actual_digest != EXPECTED_ACCEPTANCE_SHA256:
+    value = _json_object(raw, path)
+    if value.get("machine_status") != "pass":
+        raise SemanticContractError("producer comparison is not a machine pass")
+    proofs = value.get("proofs")
+    if not isinstance(proofs, list) or not all(isinstance(item, dict) for item in proofs):
+        raise SemanticContractError("producer comparison proofs are not JSON objects")
+    by_role = {item.get("role"): item for item in proofs}
+    if set(by_role) != {"baseline", "hierarchy"} or len(proofs) != 2:
+        raise SemanticContractError("producer comparison roles differ")
+    expected_ids = {
+        "baseline": baseline_producer_run_id,
+        "hierarchy": hierarchy_producer_run_id,
+    }
+    changed = [
+        role
+        for role, expected_id in expected_ids.items()
+        if by_role[role].get("refreshed_producer_run_id") != expected_id
+        or by_role[role].get("equivalent") is not True
+    ]
+    if changed:
         raise SemanticContractError(
-            "bounded-acceptance bytes differ: "
-            f"expected {EXPECTED_ACCEPTANCE_SHA256}, got {actual_digest}"
+            "producer comparison does not verify configured lineage: " + ", ".join(changed)
         )
-    value = json.loads(raw)
-    if not isinstance(value, dict):
-        raise SemanticContractError(f"expected JSON object: {path}")
-    return value
+    return hashlib.sha256(raw).hexdigest()
 
 
-def _verify_producer_comparison(candidate_root: Path) -> None:
-    """Verify the machine-pass evidence connecting the two producer runs."""
-    data_root = _data_root_from_candidate(candidate_root)
-    comparison_path = data_root / PRODUCER_COMPARISON_RELATIVE_PATH
-    raw = _read_required_bytes(comparison_path)
-    actual_digest = hashlib.sha256(raw).hexdigest()
-    if actual_digest != EXPECTED_PRODUCER_COMPARISON_SHA256:
-        raise SemanticContractError(
-            "producer comparison bytes differ: "
-            f"expected {EXPECTED_PRODUCER_COMPARISON_SHA256}, got {actual_digest}"
-        )
-
-
-def _data_root_from_candidate(candidate_root: Path) -> Path:
-    """Recover the configured artifact root from a task-scoped candidate path."""
-    pipelines_root = next(
-        (parent for parent in candidate_root.parents if parent.name == "pipelines"),
-        None,
-    )
-    if pipelines_root is None:
-        raise SemanticContractError(
-            f"hierarchy candidate is not below a pipelines root: {candidate_root}"
-        )
-    return pipelines_root.parent
-
-
-def _build_control_record(completion: JsonObject, acceptance: JsonObject) -> JsonObject:
+def _build_control_record(
+    *,
+    completion: JsonObject,
+    acceptance: JsonObject,
+    acceptance_sha256: str,
+    semantic_file_set_sha256: str,
+    aggregate_semantic_sha256: str,
+    producer_comparison_sha256: str,
+) -> JsonObject:
     """Project verified external evidence into the compact downstream record."""
-    candidate = acceptance["candidate"]
-    scope = acceptance["scope"]
+    candidate = _required_object(acceptance, "candidate")
+    scope = _required_object(acceptance, "scope")
     return {
         "candidate_id": completion["candidate_id"],
         "completion_status": completion["status"],
         "artifact_inventory_sha256": completion["artifact_inventory_sha256"],
-        "semantic_file_set_sha256": candidate["candidate_semantic_sha256"],
-        "aggregate_semantic_sha256": candidate["frozen_semantic_sha256"],
-        "bounded_acceptance_sha256": EXPECTED_ACCEPTANCE_SHA256,
+        "semantic_file_set_sha256": semantic_file_set_sha256,
+        "aggregate_semantic_sha256": aggregate_semantic_sha256,
+        "bounded_acceptance_sha256": acceptance_sha256,
         "authorization_id": acceptance["authorization_id"],
         "acceptance_status": acceptance["status"],
         "source_id": scope["source_id"],
@@ -172,21 +127,32 @@ def _build_control_record(completion: JsonObject, acceptance: JsonObject) -> Jso
         "authorized_uses": scope["authorized_uses"],
         "limitations": acceptance["limitations"],
         "semantic_counts": candidate["counts"],
-        "producer_comparison_sha256": EXPECTED_PRODUCER_COMPARISON_SHA256,
+        "producer_comparison_sha256": producer_comparison_sha256,
     }
 
 
+def _required_object(value: JsonObject, key: str) -> JsonObject:
+    selected = value.get(key)
+    if not isinstance(selected, dict):
+        raise SemanticContractError(f"bounded acceptance has no {key} object")
+    return selected
+
+
 def _load_json_object(path: Path) -> JsonObject:
-    """Load one required JSON object with a useful path in the error."""
-    raw = _read_required_bytes(path)
-    value = json.loads(raw)
+    return _json_object(_read_required_bytes(path), path)
+
+
+def _json_object(raw: bytes, path: Path) -> JsonObject:
+    try:
+        value = json.loads(raw)
+    except json.JSONDecodeError as error:
+        raise SemanticContractError(f"invalid JSON evidence at {path}: {error.msg}") from error
     if not isinstance(value, dict):
         raise SemanticContractError(f"expected JSON object: {path}")
     return value
 
 
 def _read_required_bytes(path: Path) -> bytes:
-    """Read a required file while translating absence into a contract error."""
     try:
         return path.read_bytes()
     except FileNotFoundError as error:

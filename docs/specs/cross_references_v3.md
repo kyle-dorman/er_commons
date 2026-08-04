@@ -3,7 +3,8 @@
 Status: **accepted Task 03E.5 production contract**. Gate B was explicitly
 approved on 2026-08-03 before production implementation began. The accepted
 human-owned implementation is `er_commons.cross_reference_enrichment`; the
-earlier `cross_reference_materialization` package is behavioral reference code.
+earlier behavioral-reference package was removed by Task 03F.4 after every
+active invariant moved into the maintained validator.
 
 ## Boundary and ownership
 
@@ -245,14 +246,12 @@ bibliography negative controls. Production tuning after opening frozen-review
 expectations is forbidden; a mismatch changes the disposition or requires a
 new versioned fixture set.
 
-Gate B validated only the original specification, schema, fixtures, and
-negative mutations. The behavioral MVP remains under
-`er_commons.cross_reference_materialization`. The accepted human-owned
-implementation is under `er_commons.cross_reference_enrichment`. Pattern
-policy v2 is a post-production precision correction: it retains the v1 fixture
-inventory, adds regression tests for the discovered false positives, and uses
-an independent correction audit rather than claiming exact equivalence to the
-known-flawed v1 behavior.
+The completed Task 03E.5 gate validated the original specification, schema,
+fixtures, and negative mutations. The maintained implementation is
+`er_commons.cross_reference_enrichment`; Task 03F.4 removed the behavioral MVP
+and correction-audit executable paths after transferring their active rules.
+Pattern policy v2 remains the accepted precision policy and its regressions are
+owned directly by the active validator tests.
 
 ## Package decision
 

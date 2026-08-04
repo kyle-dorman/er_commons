@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -32,9 +33,11 @@ from er_commons.hierarchy_correction.constants import (
     FATAL_CODES,
     MANAGED_PAYLOAD_PATHS,
 )
+from er_commons.hierarchy_correction.digests import canonical_json_sha256
 from er_commons.hierarchy_correction.errors import HierarchyCorrectionContractError
-from er_commons.hierarchy_correction.quality_gate import (
-    VerifiedQualityGatePass,
+from er_commons.hierarchy_correction.publication_authorization import (
+    SEMANTIC_PATHS,
+    VerifiedMachinePublication,
     candidate_semantic_sha256,
 )
 
@@ -67,7 +70,7 @@ def _payload(bundle: dict[str, Any] | None = None) -> CandidatePayload:
 def _measurements() -> CandidateMeasurements:
     fixture = _fixture_bundle()["metrics"]
     return CandidateMeasurements(
-        fresh_wall_time_seconds=tuple(fixture["fresh_wall_time_seconds"]),
+        build_wall_time_seconds=fixture["build_wall_time_seconds"],
         stage_wall_time_seconds=fixture["stage_wall_time_seconds"],
         peak_rss_bytes=fixture["peak_rss_bytes"],
         input_bytes=fixture["input_bytes"],
@@ -76,11 +79,31 @@ def _measurements() -> CandidateMeasurements:
     )
 
 
-def _gate(workspace: Any) -> VerifiedQualityGatePass:
-    return VerifiedQualityGatePass(
-        path=workspace.staging_root / "external-quality-pass.json",
+def _gate(workspace: Any) -> VerifiedMachinePublication:
+    return VerifiedMachinePublication(
         candidate_id=workspace.final_root.name,
         candidate_semantic_sha256=candidate_semantic_sha256(workspace.staging_root),
+    )
+
+
+def test_candidate_semantic_digest_preserves_accepted_checksum_contract(
+    tmp_path: Path,
+) -> None:
+    candidate = tmp_path / "candidate"
+    records = []
+    for index, relative in enumerate(SEMANTIC_PATHS, start=1):
+        path = candidate / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(f"semantic-{index}\n".encode())
+        records.append(
+            {
+                "path": relative,
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            }
+        )
+
+    assert candidate_semantic_sha256(candidate) == canonical_json_sha256(
+        {"semantic_files": records}
     )
 
 
@@ -94,7 +117,7 @@ def test_summary_and_metrics_are_derived_from_owned_records() -> None:
     )
 
     assert summary == _fixture_bundle()["summary"]
-    assert metrics["median_fresh_wall_time_seconds"] == 1.1
+    assert metrics["build_wall_time_seconds"] == 1.1
     assert metrics["artifact_bytes_ratio"] == 0.01
     assert metrics["cheap_relative_to_producer"] is True
 
@@ -132,7 +155,7 @@ def test_terminal_records_do_not_oscillate_on_ratio_serialization() -> None:
         if path != "records/metrics.json"
     }
     measurements = CandidateMeasurements(
-        fresh_wall_time_seconds=(4.3, 4.4, 4.3),
+        build_wall_time_seconds=4.3,
         stage_wall_time_seconds={},
         peak_rss_bytes=1,
         input_bytes=1,
@@ -260,7 +283,7 @@ def test_failed_attempt_is_retained_without_completion(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="no completion"):
         publish_workspace(
             workspace,
-            VerifiedQualityGatePass(Path("pass.json"), candidate_id, "a" * 64),
+            VerifiedMachinePublication(candidate_id, "a" * 64),
         )
 
 
@@ -313,7 +336,7 @@ def test_reuse_rejects_changed_or_unmanaged_bytes(tmp_path: Path) -> None:
     feature_path = workspace.final_root / "artifacts/item_features.jsonl"
     feature_path.write_bytes(feature_path.read_bytes() + b" ")
 
-    with pytest.raises(ValueError, match="quality-gate semantic differs"):
+    with pytest.raises(ValueError, match="authorization semantic differs"):
         reuse_completed_candidate(
             workspace.final_root,
             candidate_id,

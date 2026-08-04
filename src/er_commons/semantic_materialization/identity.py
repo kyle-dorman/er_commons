@@ -15,10 +15,6 @@ from er_commons.canonical_extraction.candidate_identity import owned_code_digest
 from er_commons.canonical_extraction.identity import extraction_identity_sha256
 from er_commons.semantic_materialization.config import SemanticMaterializationConfig
 from er_commons.semantic_materialization.inputs import SemanticMaterializationInputs
-from er_commons.semantic_structure.constants import (
-    EXPECTED_AGGREGATE_DIGEST,
-    EXPECTED_SEMANTIC_FILE_SET_DIGEST,
-)
 from er_commons.source_freeze import sha256_file
 
 JsonObject = dict[str, Any]
@@ -118,8 +114,8 @@ def build_semantic_candidate_identity(
         assert inputs.bounded_acceptance_ref is not None
         hierarchy_correction.update(
             {
-                "semantic_file_set_sha256": EXPECTED_SEMANTIC_FILE_SET_DIGEST,
-                "aggregate_semantic_sha256": EXPECTED_AGGREGATE_DIGEST,
+                "semantic_file_set_sha256": inputs.control_provenance["semantic_file_set_sha256"],
+                "aggregate_semantic_sha256": inputs.control_provenance["aggregate_semantic_sha256"],
                 "bounded_control": inputs.control_provenance,
                 "bounded_acceptance": inputs.bounded_acceptance_ref.as_dict(),
             }

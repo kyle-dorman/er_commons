@@ -2,16 +2,11 @@
 
 from __future__ import annotations
 
-import shutil
 import uuid
 from pathlib import Path
 
 from er_commons.canonical_extraction.publication import publish_workspace, reserve_workspace
 from er_commons.cross_reference_enrichment.catalog import CorpusDocumentCatalog
-from er_commons.cross_reference_enrichment.comparison import (
-    compare_policy_correction,
-    write_comparison_report,
-)
 from er_commons.cross_reference_enrichment.config import RuntimeContext
 from er_commons.cross_reference_enrichment.construction import (
     CandidateSource,
@@ -23,6 +18,7 @@ from er_commons.cross_reference_enrichment.publication import (
     CandidateWriter,
     preserve_failed_attempt,
     verify_completed_candidate,
+    write_failed_build_snapshot,
 )
 from er_commons.cross_reference_enrichment.types import JsonObject
 from er_commons.cross_reference_enrichment.validation import (
@@ -31,93 +27,58 @@ from er_commons.cross_reference_enrichment.validation import (
 )
 
 
-def run_cross_reference_enrichment(data_root: Path, config_path: Path) -> tuple[Path, Path]:
-    """Verify → identify/reuse → build twice → compare → publish atomically."""
+def run_cross_reference_enrichment(data_root: Path, config_path: Path) -> Path:
+    """Verify inputs, reuse, or build, validate, and publish once."""
     context = RuntimeContext.load(data_root, config_path)
     identity = build_candidate_identity(context)
     candidate_id = identity["extraction_id"]
     candidate_root = context.task_root / candidate_id
     if candidate_root.exists():
-        completion = verify_completed_candidate(candidate_root, candidate_id)
-        comparison = (
-            _compare_and_record(context, candidate_root, candidate_id)
-            if context.config.comparison_profile == "policy_correction"
-            else completion
-        )
-        return completion, comparison
-    return _build_compare_and_publish(context, identity)
+        return verify_completed_candidate(candidate_root, candidate_id)
+    return _build_validate_and_publish(context, identity)
 
 
-def _build_compare_and_publish(context: RuntimeContext, identity: JsonObject) -> tuple[Path, Path]:
+def _build_validate_and_publish(context: RuntimeContext, identity: JsonObject) -> Path:
     candidate_id = str(identity["extraction_id"])
     upstream = CandidateSource.load(context.upstream_root)
     catalog = CorpusDocumentCatalog.from_source_manifest(context.source_manifest_path)
     policy = default_mention_policy()
-    workspaces = []
+    workspace = None
+    build = None
     try:
-        for _ in range(2):
-            workspace = reserve_workspace(context.task_root, candidate_id, uuid.uuid4().hex)
-            workspaces.append(workspace)
-            build = CrossReferenceCandidateBuilder(
-                source=upstream,
-                upstream_candidate_id=context.config.upstream_candidate_id,
-                candidate_id=candidate_id,
-                policy=policy,
-                corpus_catalog=catalog,
-                source_id=context.config.source_id,
-            ).build()
-            validate_candidate_build(
-                build=build,
-                upstream_root=context.upstream_root,
-                upstream_candidate_id=context.config.upstream_candidate_id,
-                candidate_id=candidate_id,
-                schema_path=context.project_root / context.config.schema_relative_path,
-                identity_extension=identity["cross_reference_contract"],
-            )
-            CandidateWriter(upstream).write(workspace.staging_root, build, identity)
-            validate_serialized_terminal_records(
-                workspace.staging_root,
-                context.project_root / context.config.schema_relative_path,
-            )
-        if _file_bytes(workspaces[0].staging_root) != _file_bytes(workspaces[1].staging_root):
-            raise ValueError("fresh human-owned candidate builds differ")
-        comparison = (
-            _compare_and_record(context, workspaces[0].staging_root, candidate_id)
-            if context.config.comparison_profile == "policy_correction"
-            else workspaces[0].staging_root / "records/completion_record.json"
+        workspace = reserve_workspace(context.task_root, candidate_id, uuid.uuid4().hex)
+        build = CrossReferenceCandidateBuilder(
+            source=upstream,
+            upstream_candidate_id=context.config.upstream_candidate_id,
+            candidate_id=candidate_id,
+            policy=policy,
+            corpus_catalog=catalog,
+            source_id=context.config.source_id,
+        ).build()
+        validate_candidate_build(
+            build=build,
+            upstream_root=context.upstream_root,
+            upstream_candidate_id=context.config.upstream_candidate_id,
+            candidate_id=candidate_id,
+            schema_path=context.project_root / context.config.schema_relative_path,
+            identity_extension=identity["cross_reference_contract"],
         )
-        shutil.rmtree(workspaces[1].staging_root)
-        completion = publish_workspace(workspaces[0])
+        CandidateWriter(upstream).write(workspace.staging_root, build, identity)
+        validate_serialized_terminal_records(
+            workspace.staging_root,
+            context.project_root / context.config.schema_relative_path,
+        )
+        completion = publish_workspace(workspace)
         verify_completed_candidate(context.task_root / candidate_id, candidate_id)
-        if context.config.comparison_profile != "policy_correction":
-            comparison = completion
-        return completion, comparison
-    except Exception:
-        for workspace in workspaces:
-            if workspace.staging_root.exists():
-                preserve_failed_attempt(context.task_root, workspace.staging_root)
+        return completion
+    except Exception as error:
+        if workspace is not None and workspace.staging_root.exists():
+            if build is not None:
+                write_failed_build_snapshot(
+                    workspace.staging_root,
+                    build=build,
+                    identity=identity,
+                    error=error,
+                )
+            preserve_failed_attempt(context.task_root, workspace.staging_root)
         raise
-
-
-def _compare_and_record(context: RuntimeContext, candidate_root: Path, candidate_id: str) -> Path:
-    if context.reference_root is None or context.config.reference_candidate_id is None:
-        raise ValueError("policy correction comparison lacks a reference candidate")
-    result = compare_policy_correction(
-        reference_root=context.reference_root,
-        candidate_root=candidate_root,
-        reference_id=context.config.reference_candidate_id,
-        candidate_id=candidate_id,
-        policy=default_mention_policy(),
-    )
-    report = write_comparison_report(context.comparison_root, result)
-    if result.status != "policy_corrected":
-        raise ValueError(f"cross-reference correction audit failed: {report}")
-    return report
-
-
-def _file_bytes(root: Path) -> dict[str, bytes]:
-    return {
-        path.relative_to(root).as_posix(): path.read_bytes()
-        for path in sorted(root.rglob("*"))
-        if path.is_file()
-    }

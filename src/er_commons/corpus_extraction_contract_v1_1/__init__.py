@@ -1,6 +1,7 @@
 """Public validation boundary for restartable corpus extraction contract v1.1."""
 
 from er_commons.corpus_extraction_contract_v1_1.checks import verify_ref
+from er_commons.corpus_extraction_contract_v1_1.errors import CorpusExtractionContractError
 from er_commons.corpus_extraction_contract_v1_1.fixture_validation import (
     validate_fixture_directory,
 )
@@ -28,6 +29,7 @@ __all__ = [
     "INDEX_PREIMAGE_FIELDS",
     "RESOLUTION_PREIMAGE_FIELDS",
     "ArtifactReader",
+    "CorpusExtractionContractError",
     "DerivedIdentity",
     "JsonObject",
     "build_handoff_id",

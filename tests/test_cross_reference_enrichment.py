@@ -7,19 +7,23 @@ from pathlib import Path
 from typing import Any
 
 from er_commons.cross_reference_enrichment.catalog import CorpusDocumentCatalog
-from er_commons.cross_reference_enrichment.comparison import compare_to_behavioral_reference
+from er_commons.cross_reference_enrichment.construction import CandidateBuild
 from er_commons.cross_reference_enrichment.detection import MentionDetector
 from er_commons.cross_reference_enrichment.indexing import (
     NamespaceRemapper,
+    TargetIndex,
     TargetIndexBuilder,
 )
 from er_commons.cross_reference_enrichment.policy import default_mention_policy
-from er_commons.cross_reference_enrichment.publication import preserve_failed_attempt
+from er_commons.cross_reference_enrichment.publication import (
+    preserve_failed_attempt,
+    write_failed_build_snapshot,
+)
 from er_commons.cross_reference_enrichment.resolution import MentionResolver
 from er_commons.cross_reference_enrichment.source_scope import SourceScope
-from er_commons.cross_reference_enrichment.storage import write_json, write_jsonl
 from er_commons.cross_reference_enrichment.types import (
     MentionKind,
+    TargetIndexEntry,
     UnresolvedReason,
 )
 
@@ -213,6 +217,114 @@ def test_target_index_and_table_window_are_separate_responsibilities() -> None:
     assert resolution.candidates[0]["page_distance"] == 1
 
 
+def test_structural_section_lookup_resolves_through_index_entry_keys() -> None:
+    upstream = "exv1-" + "1" * 64
+    candidate = "exv1-" + "2" * 64
+    index = TargetIndexBuilder(NamespaceRemapper(upstream, candidate), "doc").build(
+        upstream_aliases=[
+            {
+                "id": f"{upstream}/target-alias/doc/alias000001",
+                "normalized_alias": "3.1 existing conditions",
+                "targets": [
+                    {
+                        "target_id": f"{upstream}/section/doc/sec000001",
+                        "target_type": "section",
+                    }
+                ],
+            }
+        ],
+        upstream_blocks=[],
+        upstream_tables=[],
+    )
+    source_page = f"{candidate}/page/doc/p000001"
+    mention = MentionDetector(default_mention_policy()).detect(
+        {
+            "canonical_text": "See Section 3.1.",
+            "content_layer": "body",
+            "is_toc_row": False,
+            "block_type": "paragraph",
+        }
+    )[0][0]
+    resolver = MentionResolver(
+        target_index=index,
+        page_numbers={source_page: 1},
+        target_document_order={},
+        target_index_sha256="0" * 64,
+        table_page_window=5,
+        corpus_document_keys=(),
+    )
+
+    result = resolver.resolve(mention, source_text="See Section 3.1.", source_page_id=source_page)
+
+    assert result.unresolved_reason is None
+    assert result.candidates[0]["target_record_id"].endswith("/section/doc/sec000001")
+
+
+def test_table_window_boundary_and_case_insensitive_external_qualification() -> None:
+    candidate = "exv1-" + "2" * 64
+    source_near = f"{candidate}/page/doc/p000001"
+    source_far = f"{candidate}/page/doc/p000012"
+    evidence_page = f"{candidate}/page/doc/p000006"
+    entry = TargetIndexEntry(
+        lookup_key="table 1",
+        target_type="table",
+        alias_origin="v3_verified_table_label",
+        alias_record_id=f"{candidate}/target-alias/doc/alias000001",
+        target_record_id=f"{candidate}/table/doc/tbl000001",
+        upstream_alias_record_id=None,
+        upstream_target_record_id="upstream-table",
+        evidence_kind="verified_same_page_table_label",
+        evidence_source_record_id=f"{candidate}/block/doc/blk000001",
+        evidence_page_id=evidence_page,
+    )
+    resolver = MentionResolver(
+        target_index=TargetIndex((), (entry,), 0),
+        page_numbers={source_near: 1, source_far: 12, evidence_page: 6},
+        target_document_order={},
+        target_index_sha256="0" * 64,
+        table_page_window=5,
+        corpus_document_keys=(),
+    )
+    detector = MentionDetector(default_mention_policy())
+    local_text = "See Table 1."
+    local = detector.detect(
+        {
+            "canonical_text": local_text,
+            "content_layer": "body",
+            "is_toc_row": False,
+            "block_type": "paragraph",
+        }
+    )[0][0]
+
+    boundary = resolver.resolve(local, source_text=local_text, source_page_id=source_near)
+    outside = resolver.resolve(local, source_text=local_text, source_page_id=source_far)
+    qualified_text = "See Table 1 from rEfErEnCe 2."
+    qualified = detector.detect(
+        {
+            "canonical_text": qualified_text,
+            "content_layer": "body",
+            "is_toc_row": False,
+            "block_type": "paragraph",
+        }
+    )[0][0]
+    external = resolver.resolve(qualified, source_text=qualified_text, source_page_id=source_near)
+    missing_text = "See Table 2."
+    missing = detector.detect(
+        {
+            "canonical_text": missing_text,
+            "content_layer": "body",
+            "is_toc_row": False,
+            "block_type": "paragraph",
+        }
+    )[0][0]
+    no_alias = resolver.resolve(missing, source_text=missing_text, source_page_id=source_near)
+
+    assert boundary.candidates[0]["page_distance"] == 5
+    assert outside.unresolved_reason is UnresolvedReason.OUTSIDE_TABLE_WINDOW
+    assert external.unresolved_reason is UnresolvedReason.QUALIFIED_EXTERNAL_TABLE
+    assert no_alias.unresolved_reason is UnresolvedReason.NO_LOCAL_ALIAS
+
+
 def test_document_disposition_uses_catalog_membership_not_literal_special_cases() -> None:
     detector = MentionDetector(default_mention_policy())
     text = "See the Draft EIR for the Harbor Resilience Master Plan (Agency, 2026)."
@@ -264,44 +376,27 @@ def test_corpus_catalog_derives_document_keys_from_sealed_titles(tmp_path: Path)
     assert "outside report" not in catalog.lookup_keys
 
 
-def test_comparison_normalizes_only_candidate_namespace(tmp_path: Path) -> None:
-    reference_id = "exv1-" + "1" * 64
-    candidate_id = "exv1-" + "2" * 64
-    reference = tmp_path / "reference"
-    candidate = tmp_path / "candidate"
-    record_path = "canonical/documents.jsonl"
-    write_json(
-        reference / "records/manifest.json",
-        {"record_files": [{"path": record_path}]},
-    )
-    reference_record = {"id": f"{reference_id}/document/doc", "title": "Example"}
-    candidate_record = {"id": f"{candidate_id}/document/doc", "title": "Example"}
-    write_jsonl(reference / record_path, [reference_record])
-    write_jsonl(candidate / record_path, [candidate_record])
-    for support_path in (
-        "support/cross_reference_target_index.json",
-        "support/cross_reference_summary.json",
-        "support/cross_reference_preservation.json",
-    ):
-        write_json(reference / support_path, {"candidate": reference_id})
-        write_json(candidate / support_path, {"candidate": candidate_id})
-
-    result = compare_to_behavioral_reference(
-        reference_root=reference,
-        candidate_root=candidate,
-        reference_id=reference_id,
-        candidate_id=candidate_id,
-    )
-    assert result.status == "equivalent"
-    assert result.mismatched_paths == ()
-
-
 def test_human_owned_failed_attempt_has_no_completion(tmp_path: Path) -> None:
     staging = tmp_path / ".tmp" / "candidate.token"
     completion = staging / "records/completion_record.json"
     completion.parent.mkdir(parents=True)
     completion.write_text("{}")
     (staging / "diagnostic.txt").write_text("inspectable failure")
+    write_failed_build_snapshot(
+        staging,
+        build=CandidateBuild(
+            preserved_record_files={},
+            target_aliases=[{"id": "bad-alias"}],
+            cross_references=[{"id": "bad-mention"}],
+            support={"cross_reference_summary": {"status": "rejected"}},
+        ),
+        identity={"extraction_id": "exv1-rejected"},
+        error=ValueError("candidate correspondence matches target index"),
+    )
     retained = preserve_failed_attempt(tmp_path, staging)
     assert (retained / "diagnostic.txt").read_text() == "inspectable failure"
     assert not (retained / "records/completion_record.json").exists()
+    context = json.loads((retained / "diagnostics/validation_build/context.json").read_text())
+    assert context["error_type"] == "ValueError"
+    assert context["error_message"] == "candidate correspondence matches target index"
+    assert (retained / "diagnostics/validation_build/cross_references.jsonl").is_file()

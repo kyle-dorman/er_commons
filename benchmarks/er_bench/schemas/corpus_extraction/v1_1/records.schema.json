@@ -101,7 +101,7 @@
             "schema_version": {
               "const": "er_commons.corpus_extraction_identity_preimage.v1_1"
             },
-            "contract_revision": {"const": "task_03f3_gate_b"},
+            "contract_revision": {"const": "task_03f4_gate_b"},
             "extraction_version_name": {"const": "brisbane_baylands_model_corpus_v1"},
             "production_scope": {
               "type": "object",
@@ -257,6 +257,50 @@
           "items": {"type": "string", "minLength": 1}
         },
         "completion_path": {"type": ["string", "null"]}
+      }
+    },
+    "document_resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "transaction_id", "policy", "enforcement"],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_resources.v1"},
+        "transaction_id": {"type": "string", "pattern": "^txv1-[0-9a-f]{64}$"},
+        "policy": {"type": "object"},
+        "enforcement": {"const": "declared"}
+      }
+    },
+    "document_resource_enforcement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "transaction_id", "enforcement"],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_resource_enforcement.v1"},
+        "transaction_id": {"type": "string", "pattern": "^txv1-[0-9a-f]{64}$"},
+        "enforcement": {"const": "validated_before_content_owners"}
+      }
+    },
+    "document_observability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "transaction_id",
+        "wall_seconds",
+        "peak_rss_bytes",
+        "output_bytes",
+        "stage_timings"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_observability.v1"},
+        "transaction_id": {"type": "string", "pattern": "^txv1-[0-9a-f]{64}$"},
+        "wall_seconds": {"type": "number", "minimum": 0},
+        "peak_rss_bytes": {"type": ["integer", "null"], "minimum": 0},
+        "output_bytes": {"type": "integer", "minimum": 0},
+        "stage_timings": {
+          "type": "object",
+          "additionalProperties": {"type": "number", "minimum": 0}
+        }
       }
     },
     "accounting_row": {

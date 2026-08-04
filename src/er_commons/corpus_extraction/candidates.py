@@ -36,7 +36,6 @@ class CandidateIdentity:
     terminal_state: SuccessDisposition
     hierarchy_disposition: dict[str, object]
     stage_completions: dict[str, dict[str, object]]
-    preservation: dict[str, object] | None
 
     def as_record(self, run: DocumentRun) -> DocumentIdentityRecord:
         """Return the exact v1 identity record written into a candidate."""
@@ -62,7 +61,6 @@ def build_candidate_identity(
     *,
     content_root: Path,
     result: PipelineResult,
-    preservation: dict[str, object] | None,
 ) -> CandidateIdentity:
     """Derive the document ID from content and all publication controls."""
     terminal_state: SuccessDisposition = "complete_with_warnings" if result.warnings else "complete"
@@ -75,7 +73,6 @@ def build_candidate_identity(
             "hierarchy_disposition": run.hierarchy_disposition,
             "run_spec_sha256": run.spec_sha256,
             "stage_completions": stage_completions,
-            "preservation": preservation,
             "terminal_state": terminal_state,
         }
     )
@@ -93,17 +90,14 @@ def build_candidate_identity(
         terminal_state=terminal_state,
         hierarchy_disposition=run.hierarchy_disposition,
         stage_completions=stage_completions,
-        preservation=preservation,
     )
 
 
 def write_candidate_identity(
     records_root: Path, identity: CandidateIdentity, run: DocumentRun
 ) -> None:
-    """Persist preservation evidence and the candidate identity preimage."""
+    """Persist the candidate identity after its managed content is complete."""
     records_root.mkdir()
-    if identity.preservation is not None:
-        write_json_atomic(records_root / "preservation_report.json", identity.preservation)
     write_json_atomic(
         records_root / "document_identity.json",
         identity.as_record(run).model_dump(mode="json"),
@@ -124,7 +118,7 @@ def find_reusable_candidate(run: DocumentRun) -> Path | None:
         verify_candidate(root, root.name, recorded_source)
         if not _matches_run(identity, run):
             continue
-        _verify_identity_and_upstreams(root, identity=identity, data_root=run.data_root)
+        verify_identity_and_upstreams(root, identity=identity, data_root=run.data_root)
         reconcile_published_attempt(root, identity)
         matches.append(root / "records" / "completion_record.json")
     if len(matches) > 1:
@@ -191,20 +185,15 @@ def _matches_run(identity: dict[str, object], run: DocumentRun) -> bool:
     )
 
 
-def _verify_identity_and_upstreams(
+def verify_identity_and_upstreams(
     root: Path, *, identity: dict[str, object], data_root: Path
 ) -> None:
     """Recompute the candidate ID and every content-owner completion seal."""
-    preservation_path = root / "records" / "preservation_report.json"
-    preservation = (
-        json.loads(preservation_path.read_text()) if preservation_path.is_file() else None
-    )
     control_digest = canonical_digest(
         {
             "hierarchy_disposition": identity.get("hierarchy_disposition"),
             "run_spec_sha256": identity.get("run_spec_sha256"),
             "stage_completions": identity.get("stage_completions"),
-            "preservation": preservation,
             "terminal_state": identity.get("terminal_state"),
         }
     )

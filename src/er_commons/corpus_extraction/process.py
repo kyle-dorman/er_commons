@@ -31,6 +31,7 @@ def run_isolated_document(
     source_id: str,
     attempt_root: Path,
     resources: ResourcePolicy,
+    preflight_digest: str | None = None,
 ) -> ProcessOutcome:
     """Run one child; terminate then kill if it exceeds the hard deadline."""
     result_path = attempt_root / "pipeline_result.json"
@@ -49,6 +50,8 @@ def run_isolated_document(
         "--result",
         str(result_path),
     ]
+    if preflight_digest is not None:
+        command.extend(["--preflight-sha256", preflight_digest])
     process = subprocess.Popen(
         command,
         stdout=subprocess.PIPE,

@@ -75,8 +75,6 @@ class TableExtractionConfig(BaseModel):
     table_id_prefix: str = Field(default="g3", pattern=r"^[a-z0-9_]+$")
     family_id_prefix: str = Field(default="g3_table", pattern=r"^[a-z0-9_]+$")
     routed_pages: list[RoutedPageConfig] = Field(default_factory=list)
-    comparison_relative_root: Path | None = None
-    comparison_scope: Literal["exact", "baseline_pages"] = "exact"
     retain_review_derivatives: bool = True
     execution: ExecutionConfig
     detection: DetectionConfig
@@ -103,13 +101,6 @@ class TableExtractionConfig(BaseModel):
             raise ValueError("physical pages must be unique")
         if self.artifact_relative_root.is_absolute():
             raise ValueError("artifact root must be relative to ER_COMMONS_DATA_ROOT")
-        if (
-            self.comparison_relative_root is not None
-            and self.comparison_relative_root.is_absolute()
-        ):
-            raise ValueError("comparison root must be relative to ER_COMMONS_DATA_ROOT")
-        if self.comparison_scope == "baseline_pages" and self.comparison_relative_root is None:
-            raise ValueError("baseline-pages comparison requires a comparison root")
         if self.validation_scope != "routed_pages" and self.routed_pages:
             raise ValueError("fixed validation scopes cannot include routed page requests")
         return self

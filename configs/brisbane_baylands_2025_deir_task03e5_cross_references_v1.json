@@ -1,8 +1,0 @@
-{
-  "upstream_candidate_id": "exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b",
-  "upstream_completion_sha256": "6746089db221ff933634c437d16a5ce53e049429df9b8c4d821cc9366e07aa49",
-  "upstream_inventory_sha256": "b7e00444914b1565558c364ecda248d9ada515d5f924466e470566ed466490f5",
-  "artifact_relative_root": "pipelines/brisbane_baylands/task_03d_canonical_records",
-  "specification_relative_path": "docs/specs/cross_references_v3.md",
-  "schema_relative_path": "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json"
-}

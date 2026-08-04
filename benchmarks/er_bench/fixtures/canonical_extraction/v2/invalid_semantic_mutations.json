@@ -5,7 +5,7 @@
   {"name": "alias_rejects_mention_text", "path": ["target_aliases", 0, "mention_text"], "value": "see section 1"},
   {"name": "alias_target_type_is_closed", "path": ["target_aliases", 0, "targets", 0, "target_type"], "value": "cross-reference"},
   {"name": "bridge_disposition_is_closed", "path": ["bridge_entries", 0, "disposition"], "value": "other"},
-  {"name": "control_digest_is_exact", "path": ["control_provenance", "bounded_acceptance_sha256"], "value": "0000000000000000000000000000000000000000000000000000000000000000"},
+  {"name": "control_digest_has_sha256_shape", "path": ["control_provenance", "bounded_acceptance_sha256"], "value": "not-a-sha256"},
   {"name": "mentions_are_absent", "path": ["cross_references"], "value": [{"mention": "forbidden"}]},
   {"name": "allowed_differences_are_closed", "path": ["correspondence_report", "allowed_difference_categories"], "value": ["anything"]}
 ]

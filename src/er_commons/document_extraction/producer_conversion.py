@@ -8,13 +8,13 @@ from pathlib import Path
 from typing import Any
 
 from er_commons.document_extraction.artifacts import result_errors
-from er_commons.document_extraction.pipeline import offline_docling_environment, run_log
 from er_commons.document_extraction.producer_artifacts import export_durable_result
 from er_commons.document_extraction.producer_records import (
     ConversionObservation,
     MachineStatus,
 )
 from er_commons.document_extraction.producer_services import ProducerServices
+from er_commons.document_extraction.runtime import offline_docling_environment, run_log
 from er_commons.document_extraction.sources import CompleteResolvedSource
 from er_commons.source_freeze import write_json_atomic
 

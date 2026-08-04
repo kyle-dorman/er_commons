@@ -1,4 +1,4 @@
-"""Strict configuration for the Task 03D Appendix P canonicalization pilot."""
+"""Strict document-scoped canonicalization configuration."""
 
 from __future__ import annotations
 
@@ -7,11 +7,6 @@ from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
-
-ACCEPTED_PRODUCER_RUN_ID = "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0"
-APPENDIX_P_SOURCE_ID = "deir_appendix_p"
-APPENDIX_P_SOURCE_SHA256 = "2dfceac46931a946bc343d52b09104b7b58ed8831bc4f49a03f0b8655e4e6ea1"
-APPENDIX_P_PAGE_COUNT = 222
 
 
 class StrictConfigModel(BaseModel):
@@ -37,9 +32,7 @@ class CanonicalizationConfig(StrictConfigModel):
     mapping_policy_relative_path: Path = Path("docs/specs/task03d_appendix_p_mapping_v1.md")
     candidate_version_name: str = Field(min_length=1)
     candidate_scope: Literal["document_scoped_non_release"]
-    acceptance_profile: Literal["appendix_p_task03d_v1", "generic_complete_document"] = (
-        "appendix_p_task03d_v1"
-    )
+    acceptance_profile: Literal["generic_complete_document"] = "generic_complete_document"
     source_release_version: str = Field(min_length=1)
     source_manifest_relative_path: Path
     ordered_materialization_scope: tuple[MaterializedDocument, ...] = Field(
@@ -62,7 +55,7 @@ class CanonicalizationConfig(StrictConfigModel):
 
     @model_validator(mode="after")
     def validate_task_scope(self) -> CanonicalizationConfig:
-        """Keep paths contained and freeze the approved Appendix P selection."""
+        """Keep every configured artifact path contained."""
         for path in (
             self.source_manifest_relative_path,
             self.mapping_policy_relative_path,
@@ -72,16 +65,6 @@ class CanonicalizationConfig(StrictConfigModel):
             if path.is_absolute() or ".." in path.parts:
                 raise ValueError("canonicalization paths must be contained relative paths")
 
-        if self.acceptance_profile == "appendix_p_task03d_v1":
-            selected = self.ordered_materialization_scope[0]
-            expected = (
-                selected.source_id == APPENDIX_P_SOURCE_ID
-                and selected.source_sha256 == APPENDIX_P_SOURCE_SHA256
-                and selected.pdf_page_count == APPENDIX_P_PAGE_COUNT
-                and self.producer_run_id == ACCEPTED_PRODUCER_RUN_ID
-            )
-            if not expected:
-                raise ValueError("materialization scope differs from approved Appendix P")
         return self
 
 

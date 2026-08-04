@@ -5,6 +5,15 @@ enrichment over one completed Docling producer run. It does not change, replace,
 or republish producer records, and it does not materialize canonical semantic
 sections.
 
+Task 03F.4 revised only the production measurement/publication boundary: a
+candidate now records one honest `build_wall_time_seconds` value and publishes
+after direct machine validation. The eight semantic record families and
+content policy are unchanged. Appendix P's bounded authorization remains
+separate source-specific provenance and explicitly denies corpus-wide
+acceptance. The repeat, quality, and held-out review sections below document
+the completed Task 03E proof history; they are no longer executable production
+branches.
+
 ## Boundary and inputs
 
 The overlay accepts only a checksum-verified producer completion and its

@@ -37,19 +37,16 @@ class HierarchyCorrectionConfig(StrictConfigModel):
     schema_version: Literal["1.0.0"]
     policy_version: Literal["1.0.0"]
     pipeline_id: str = Field(min_length=1)
-    publication_authorization: Literal["strict_quality_gate", "bounded_acceptance"]
+    publication_authorization: Literal["machine_validation", "bounded_acceptance"]
     source_release_version: str = Field(min_length=1)
     source_manifest_relative_path: Path
     source: CorrectionSource
     producer_artifact_relative_root: Path
     producer_run_id: str = Field(pattern=r"^prv1-[0-9a-f]{64}$")
     artifact_relative_root: Path
-    review_artifact_relative_root: Path
     policy_relative_path: Path
     schema_relative_path: Path
-    quality_gate_config_relative_path: Path = Path(
-        "configs/brisbane_baylands_2025_deir_task03e2_quality_gate_v1.json"
-    )
+    bounded_acceptance_artifact_relative_root: Path | None = None
     bounded_acceptance_config_relative_path: Path | None = Path(
         "configs/brisbane_baylands_2025_deir_task03e2d_bounded_acceptance_v1.json"
     )
@@ -66,10 +63,8 @@ class HierarchyCorrectionConfig(StrictConfigModel):
             self.source_manifest_relative_path,
             self.producer_artifact_relative_root,
             self.artifact_relative_root,
-            self.review_artifact_relative_root,
             self.policy_relative_path,
             self.schema_relative_path,
-            self.quality_gate_config_relative_path,
         ):
             if path.is_absolute() or ".." in path.parts:
                 raise ValueError("hierarchy-correction paths must be contained relative paths")
@@ -78,6 +73,17 @@ class HierarchyCorrectionConfig(StrictConfigModel):
             raise ValueError("bounded-acceptance config path must be contained")
         if self.publication_authorization == "bounded_acceptance" and bounded is None:
             raise ValueError("bounded publication requires an acceptance config")
+        acceptance_root = self.bounded_acceptance_artifact_relative_root
+        if acceptance_root is not None and (
+            acceptance_root.is_absolute() or ".." in acceptance_root.parts
+        ):
+            raise ValueError("bounded-acceptance artifact path must be contained")
+        if self.publication_authorization == "bounded_acceptance" and acceptance_root is None:
+            raise ValueError("bounded publication requires an acceptance artifact root")
+        if self.publication_authorization == "machine_validation" and (
+            bounded is not None or acceptance_root is not None
+        ):
+            raise ValueError("machine publication must not carry bounded-acceptance controls")
         if self.publication_authorization == "bounded_acceptance" and (
             self.source.source_id != APPENDIX_P_SOURCE_ID
             or self.source.expected_sha256 != APPENDIX_P_SOURCE_SHA256

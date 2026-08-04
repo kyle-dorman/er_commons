@@ -27,9 +27,6 @@ from er_commons.semantic_materialization.support import (
 from er_commons.semantic_structure import validate_semantic_contract
 
 JsonObject = dict[str, Any]
-SEMANTIC_SCHEMA_PATH = Path(
-    "benchmarks/er_bench/schemas/canonical_extraction/v2/semantic_structure.schema.json"
-)
 PAGE_LABEL_PATH = "observations/page_labels.jsonl"
 TARGET_ALIAS_PATH = "canonical/target_aliases.jsonl"
 RECORD_TYPES = {
@@ -66,6 +63,7 @@ class SemanticSealingInputs:
     inherited_warnings: list[str]
     expectations: SemanticExpectations
     source_semantic_disposition: str
+    semantic_schema_path: Path
 
 
 def validate_serialize_and_seal(
@@ -129,7 +127,7 @@ def _validate_semantic_contract(
         baseline_producer_run_id=inputs.baseline_producer_run_id,
         hierarchy_producer_run_id=inputs.hierarchy_producer_run_id,
     )
-    schema = json.loads((inputs.project_root / SEMANTIC_SCHEMA_PATH).read_bytes())
+    schema = json.loads(inputs.semantic_schema_path.read_bytes())
     Draft202012Validator(schema).validate(bundle)
     validate_semantic_contract(bundle, bridge_evidence=build.bridge_evidence)
     _require_count(

@@ -458,8 +458,8 @@ def test_mapped_bridge_targets_must_be_canonical_blocks() -> None:
 
 def test_control_and_correspondence_fail_closed() -> None:
     control = copy.deepcopy(BUNDLE)
-    control["control_provenance"]["semantic_file_set_sha256"] = "0" * 64
-    with pytest.raises(SemanticContractError, match="control binding"):
+    control["control_provenance"]["semantic_file_set_sha256"] = "0" * 63
+    with pytest.raises(SemanticContractError, match="semantic_file_set_sha256"):
         validate_semantic_contract(control)
 
     correspondence = copy.deepcopy(BUNDLE)

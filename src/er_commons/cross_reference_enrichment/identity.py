@@ -54,12 +54,6 @@ def build_candidate_identity(context: RuntimeContext) -> JsonObject:
         "upstream_candidate_id": context.config.upstream_candidate_id,
         "cross_reference_contract": extension,
     }
-    if context.config.comparison_profile == "policy_correction":
-        identity["behavioral_reference"] = {
-            "candidate_id": context.config.reference_candidate_id,
-            "completion_sha256": context.config.reference_completion_sha256,
-            "inventory_sha256": context.config.reference_inventory_sha256,
-        }
     digest = extraction_identity_sha256(identity)
     identity["extraction_id"] = f"exv1-{digest}"
     identity["identity_sha256"] = digest
@@ -71,12 +65,6 @@ def _owned_paths(context: RuntimeContext) -> tuple[Path, ...]:
     paths = [*package.glob("*.py")]
     paths.extend(
         [
-            context.project_root
-            / "src"
-            / "er_commons"
-            / "cross_reference_contract"
-            / "validation.py",
-            context.project_root / "src" / "er_commons" / "cross_reference_contract" / "errors.py",
             context.project_root / "src" / "er_commons" / "cli.py",
             context.project_root / "pyproject.toml",
             context.project_root / "uv.lock",

@@ -63,17 +63,15 @@ def diagnostics_and_summary_match_decisions(view: CorrectionBundleView) -> None:
 
 
 def metrics_are_internally_consistent(view: CorrectionBundleView) -> None:
-    """Recompute median, ratios, and the cheapness disposition."""
+    """Recompute one-build ratios and the cheapness disposition."""
     metrics = view.bundle["metrics"]
     candidate_id = view.bundle["identity"]["candidate_id"]
     require(metrics["candidate_id"] == candidate_id, "metrics candidate differs")
 
-    wall_times = sorted(metrics["fresh_wall_time_seconds"])
-    require(metrics["median_fresh_wall_time_seconds"] == wall_times[1], "metrics median differs")
     require(
         math.isclose(
             metrics["wall_time_ratio"],
-            metrics["median_fresh_wall_time_seconds"] / metrics["producer_build_wall_time_seconds"],
+            metrics["build_wall_time_seconds"] / metrics["producer_build_wall_time_seconds"],
         ),
         "wall-time ratio differs",
     )
@@ -83,7 +81,7 @@ def metrics_are_internally_consistent(view: CorrectionBundleView) -> None:
         "artifact-byte ratio differs",
     )
     expected_cheapness = (
-        metrics["median_fresh_wall_time_seconds"] < metrics["producer_build_wall_time_seconds"]
+        metrics["build_wall_time_seconds"] < metrics["producer_build_wall_time_seconds"]
         and metrics["artifact_bytes"] < metrics["producer_bytes"]
     )
     require(

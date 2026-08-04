@@ -17,11 +17,16 @@ from er_commons.semantic_materialization.publication import (
     preserve_failed_attempt,
     verify_completed_semantic_candidate,
 )
-from er_commons.semantic_materialization.review import _candidate_id
 from er_commons.semantic_materialization.support import SUPPORT_PATHS
 
 
-def _write_completed_candidate(root: Path, candidate_id: str) -> None:
+def _write_completed_candidate(
+    root: Path,
+    candidate_id: str,
+    *,
+    disposition: str = "accepted_with_known_limitations",
+    status: str = "complete_with_warnings",
+) -> None:
     """Write the smallest checksum-valid semantic candidate fixture."""
     support_files = []
     for role, relative in SUPPORT_PATHS.items():
@@ -36,7 +41,11 @@ def _write_completed_candidate(root: Path, candidate_id: str) -> None:
         )
     write_json(
         root / "records" / "manifest.json",
-        {"extraction_id": candidate_id, "support_files": support_files},
+        {
+            "extraction_id": candidate_id,
+            "source_semantic_disposition": disposition,
+            "support_files": support_files,
+        },
     )
     inventory_path = write_inventory(root)
     write_json(
@@ -44,8 +53,8 @@ def _write_completed_candidate(root: Path, candidate_id: str) -> None:
         {
             "schema_version": "er_commons.canonical_extraction_completion.v2",
             "extraction_id": candidate_id,
-            "status": "complete_with_warnings",
-            "source_semantic_disposition": "accepted_with_known_limitations",
+            "status": status,
+            "source_semantic_disposition": disposition,
             "artifact_inventory_sha256": sha256_file(inventory_path),
             "support_files_verified": True,
             "undeclared_difference_count": 0,
@@ -67,6 +76,20 @@ def test_completed_candidate_verifier_fails_closed_on_tamper(tmp_path: Path) -> 
     assert error.value.stage == "candidate reuse verification"
     assert error.value.invariant == "semantic candidate inventory matches the managed file set"
     assert error.value.subject.endswith("records/artifact_inventory.json")
+
+
+@pytest.mark.parametrize("status", ["complete", "complete_with_warnings"])
+def test_completed_candidate_verifier_supports_strict_control(tmp_path: Path, status: str) -> None:
+    """Strict hierarchy inputs may complete with or without inherited warnings."""
+    candidate_id = "exv1-" + "c" * 64
+    _write_completed_candidate(
+        tmp_path,
+        candidate_id,
+        disposition="strict_quality_gate",
+        status=status,
+    )
+
+    assert verify_completed_semantic_candidate(tmp_path, candidate_id).is_file()
 
 
 def test_failed_attempt_is_retained_without_completion(tmp_path: Path) -> None:
@@ -113,15 +136,3 @@ def test_malformed_terminal_record_has_structured_evidence(tmp_path: Path) -> No
     assert error.value.invariant == "candidate record contains valid JSON"
     assert error.value.expected == "valid JSON"
     assert error.value.subject == manifest_path.as_posix()
-
-
-def test_review_candidate_id_comes_from_identity_not_staging_name(tmp_path: Path) -> None:
-    """Disposable review provenance cannot inherit a temporary workspace suffix."""
-    candidate_id = "exv1-" + "c" * 64
-    staging = tmp_path / f"{candidate_id}.temporary-suffix"
-    write_json(
-        staging / "records" / "extraction_identity.json",
-        {"extraction_id": candidate_id},
-    )
-
-    assert _candidate_id(staging) == candidate_id

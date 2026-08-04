@@ -3,12 +3,7 @@
 import pytest
 from typer.testing import CliRunner
 
-from er_commons.cli import (
-    DEFAULT_CANONICALIZATION_SPEC,
-    DEFAULT_COMPLETE_DOCUMENT_SPEC,
-    DEFAULT_SEMANTIC_MATERIALIZATION_SPEC,
-    app,
-)
+from er_commons.cli import app
 from er_commons.settings import ProjectSettings
 
 
@@ -31,24 +26,17 @@ def test_paths_reports_expected_subdirectories(monkeypatch: pytest.MonkeyPatch) 
     assert "benchmark_artifacts=/tmp/er-commons-test/benchmarks/er_bench" in result.output
 
 
-def test_tables_group_exposes_only_retained_pipeline_runs() -> None:
-    """The CLI omits superseded exploratory table-pilot commands."""
-    result = CliRunner().invoke(app, ["tables", "--help"])
+def test_public_groups_expose_only_sources_and_maintained_extraction() -> None:
+    """Completed proof workflows do not remain as public command groups."""
+    result = CliRunner().invoke(app, ["--help"])
 
     assert result.exit_code == 0
-    assert "run-review" in result.output
-    assert "run-first-600" in result.output
-    assert "task03a1" not in result.output
-
-
-def test_documents_group_exposes_review_and_complete_producer_commands() -> None:
-    """Review and production policy remain distinct package-backed commands."""
-    result = CliRunner().invoke(app, ["documents", "--help"])
-
-    assert result.exit_code == 0
-    assert "run-review" in result.output
-    assert "run-complete" in result.output
-    assert DEFAULT_COMPLETE_DOCUMENT_SPEC.name.endswith("appendix_p_v2.json")
+    assert "sources" in result.output
+    assert "extraction" in result.output
+    assert "documents" not in result.output
+    assert "tables" not in result.output
+    assert "canonicalize" not in result.output
+    assert "hierarchy" not in result.output
 
 
 def test_restartable_document_command_requires_explicit_spec_and_source() -> None:
@@ -70,12 +58,11 @@ def test_corpus_scope_command_requires_explicit_scope_spec() -> None:
     assert "required" in result.output
 
 
-def test_canonicalize_group_exposes_document_scoped_materialization() -> None:
-    """Canonical records have a distinct package-backed command boundary."""
-    result = CliRunner().invoke(app, ["canonicalize", "--help"])
+def test_handoff_validation_is_read_only_and_explicit() -> None:
+    """Independent validation requires an exact root, scope, and schema."""
+    result = CliRunner().invoke(app, ["extraction", "validate-handoff", "--help"])
 
     assert result.exit_code == 0
-    assert "run-document" in result.output
-    assert "run-semantic-document" in result.output
-    assert DEFAULT_CANONICALIZATION_SPEC.name.endswith("task03d_appendix_p_v1.json")
-    assert DEFAULT_SEMANTIC_MATERIALIZATION_SPEC.name.endswith("task03e4_semantic_v1.json")
+    assert "--extraction-root" in result.output
+    assert "--scope-id" in result.output
+    assert "--schema" in result.output

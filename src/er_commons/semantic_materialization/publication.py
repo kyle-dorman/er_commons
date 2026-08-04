@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from er_commons.canonical_extraction.publication import build_inventory, sha256_file
+from er_commons.canonical_extraction.publication import build_inventory, sha256_file, write_json
 from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 from er_commons.semantic_materialization.support import SUPPORT_PATHS
 
@@ -77,8 +77,6 @@ def verify_completed_semantic_candidate(root: Path, candidate_id: str) -> Path:
     expected_completion = {
         "schema_version": "er_commons.canonical_extraction_completion.v2",
         "extraction_id": candidate_id,
-        "status": "complete_with_warnings",
-        "source_semantic_disposition": "accepted_with_known_limitations",
         "support_files_verified": True,
         "undeclared_difference_count": 0,
     }
@@ -89,6 +87,45 @@ def verify_completed_semantic_candidate(root: Path, candidate_id: str) -> Path:
             observed=completion.get(key),
             subject=completion_path.as_posix(),
         )
+    disposition = completion.get("source_semantic_disposition")
+    allowed_dispositions = {"accepted_with_known_limitations", "strict_quality_gate"}
+    if disposition not in allowed_dispositions:
+        raise SemanticMaterializationInvariantError(
+            stage="candidate reuse verification",
+            invariant="semantic completion has a supported source disposition",
+            expected=sorted(allowed_dispositions),
+            observed=disposition,
+            subject=completion_path.as_posix(),
+        )
+    status = completion.get("status")
+    allowed_statuses = {"complete", "complete_with_warnings"}
+    if status not in allowed_statuses:
+        raise SemanticMaterializationInvariantError(
+            stage="candidate reuse verification",
+            invariant="semantic completion has a terminal status",
+            expected=sorted(allowed_statuses),
+            observed=status,
+            subject=completion_path.as_posix(),
+        )
+    if disposition == "accepted_with_known_limitations":
+        _require_publication_value(
+            invariant="bounded semantic completion retains limitation warnings",
+            expected="complete_with_warnings",
+            observed=status,
+            subject=completion_path.as_posix(),
+        )
+    _require_publication_value(
+        invariant="semantic manifest candidate identity matches completion",
+        expected=candidate_id,
+        observed=manifest.get("extraction_id"),
+        subject=manifest_path.as_posix(),
+    )
+    _require_publication_value(
+        invariant="semantic manifest disposition matches completion",
+        expected=disposition,
+        observed=manifest.get("source_semantic_disposition"),
+        subject=manifest_path.as_posix(),
+    )
     _require_publication_value(
         invariant="semantic completion seals its inventory",
         expected=sha256_file(inventory_path),
@@ -146,11 +183,28 @@ def verify_completed_semantic_candidate(root: Path, candidate_id: str) -> Path:
     return completion_path
 
 
-def preserve_failed_attempt(task_root: Path, staging_root: Path) -> Path:
-    """Retain a failed build without a misleading completion marker."""
+def preserve_failed_attempt(
+    task_root: Path,
+    staging_root: Path,
+    *,
+    candidate_id: str | None = None,
+    error: Exception | None = None,
+) -> Path:
+    """Retain a failed build and optional structured diagnostic without completion."""
     failed = task_root / "attempts" / staging_root.name
     failed.parent.mkdir(parents=True, exist_ok=True)
+    (staging_root / "records" / "completion_record.json").unlink(missing_ok=True)
+    if error is not None:
+        write_json(
+            staging_root / "records" / "attempt_record.json",
+            {
+                "candidate_id": candidate_id,
+                "status": "failed",
+                "stage": "semantic_materialization",
+                "exception_type": type(error).__name__,
+                "detail": str(error) or type(error).__name__,
+            },
+        )
     if staging_root.exists():
         staging_root.rename(failed)
-    (failed / "records" / "completion_record.json").unlink(missing_ok=True)
     return failed

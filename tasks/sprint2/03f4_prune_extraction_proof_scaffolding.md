@@ -1,11 +1,10 @@
 # Task 03F.4: Prune Extraction Proof Scaffolding and Firm Boundaries
 
-Status: **Gate A complete — one integrated Gate B prepared and awaiting explicit
-activation**. The user activated Gate A on 2026-08-04, directed the hierarchy
-schema revision to remain inside this task, and requested one larger cleanup
-effort rather than separately approved small tasks. Gate B, every code/schema
-change, production-identity refresh, PDF run, and Task 03G activation remain
-inactive.
+Status: **Complete and accepted**. The user accepted the integrated Gate B and
+pre-close maintainability result on 2026-08-04. The corrected 222-page Appendix
+P transaction completed and checksum reuse verified after separately authorized
+lineage corrections and candidate-specific authorization rebinds. Task 03G
+remains inactive. Commit was separately authorized; push was not.
 
 ## Abstract
 
@@ -414,8 +413,169 @@ boundary, not a new task or authorization gate:
 8. run the complete validation suite, inspect the integrated diff, and return
    the finished Gate B result for one user review.
 
-Gate B is not active. This outcome stops for explicit approval before any
-implementation, including the hierarchy schema revision.
+Gate B was explicitly activated and completed as one integrated effort. The
+outcome below was returned for user review before acceptance or Task 03G
+revision and was later accepted after the pre-close maintainability pass.
+
+## Gate B outcome
+
+The maintained production path now has two public orchestration endpoints:
+`extraction run-document` and `extraction run-scope`. Document content stages
+construct once, run their active stage validators, and publish once or
+checksum-verify reuse. `extraction validate-handoff` independently verifies a
+published v1.1 scope and its successful document candidates without rebuilding.
+
+Active invariants were transferred before deletion. Corpus v1 error and digest
+primitives moved into v1.1, document preflight is v1.1-only, and final-candidate
+lineage/inventory/completion verification replaces the offline preservation
+report. Cross-reference eligibility, resolution consistency, namespace,
+target-type, table-window, external-qualification, same-page label-evidence,
+support, preservation, and zero-result rules now belong to the active
+enrichment validator, with upstream alias coverage derived from sealed input.
+
+Hierarchy correction now records one `build_wall_time_seconds` value and uses
+direct machine validation as the general publication authority. Appendix P's
+bounded authorization remains an independent, checksummed source/candidate/
+semantic-lineage join with `corpus_wide_acceptance: false`. Semantic and
+cross-reference stages each build once and no longer contain behavioral-
+reference, policy-correction, mandatory second-build, or automatic-render
+branches.
+
+Removed executable archaeology includes corpus v1, the old cross-reference
+contract and MVP materializer, canonical/hierarchy rewrite comparators,
+hierarchy repeat/quality/held-out review machinery, exploratory document flows,
+table comparison branches, automatic review paths, completed-task commands,
+proof-only configs/schemas/fixtures/tests, and offline preservation. Historical
+outcomes remain in completed task records; existing external artifacts were not
+migrated or rebound.
+
+Tasks 03G--04 retain candidate-neutral comparison and requested-render support
+through `extraction_review`, machine observations through the surviving content
+records, attempt/resource observations through corpus extraction, and read-only
+handoff validation through corpus resolution. Review manifests remain disposable
+and outside candidate identity and completeness.
+
+The initial Gate B production identity was
+`exv1-39318d511aac5fe99f6c329668d4386d0a6452acc0180b1a16bcc409dd8d9587`
+with `execution_status: not_executed`. It does not rebind a candidate or claim a
+PDF run, Task 03G/03H execution, Task 04 readiness, or usability acceptance.
+
+### Post-Gate B live-run review
+
+After the integrated result was returned for review, the user authorized one
+complete Appendix P attempt. That review found that Gate B had removed the only
+concrete document run spec while retaining a public command that requires one.
+A refreshed Appendix P run spec was added and passed production-identity,
+source, storage, and resource preflight.
+
+The live transaction then exposed a deeper lineage defect. Current producer
+code derives baseline producer
+`prv1-c444abe10edab88d92805dddcf57618175d35a17301980e9791c779ba868b4e8`
+and hierarchy producer
+`prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e`,
+while downstream configs still pin historical producer IDs. Current hierarchy
+code/config likewise derives
+`hcorv1-3171ff0ed1e9ee53b79e387811558c6cda2bf4a5016aca769a4de4361a7b6a7e`,
+but the source-scoped bounded evidence authorizes the historical candidate and
+a different correction-config checksum. The current orchestration checks these
+joins only after expensive owners run.
+
+The first document transaction was stopped and recovered through the workflow
+as `cancelled` with no document completion path. Its baseline producer had
+finished publication immediately before cancellation and verifies as
+`prv1-c444abe10edab88d92805dddcf57618175d35a17301980e9791c779ba868b4e8`.
+The separately run hierarchy producer subsequently verified as
+`prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e`,
+and refreshed canonical candidate
+`exv1-ec1e39edd9289787e6c3523d6f1030bbc720aee2bd45757fd9c9d16485810954`
+published from the new baseline seal.
+
+The correction also restored the accepted semantic-file digest algorithm;
+the historical candidate again verifies as `75a0e36c...dd3d2`. A fresh
+deterministic build against the new hierarchy producer derives candidate
+`hcorv1-c73d6bb800060269ccc1ecd57352e14943f53cf0d90085dc590442618d80cd88`
+and exactly matches accepted aggregate semantic digest `c3036210...4db8` and
+all accepted counts. Candidate-neutral review record
+`pipelines/brisbane_baylands/review_cache/hcorv1-c73d6bb800060269ccc1ecd57352e14943f53cf0d90085dc590442618d80cd88/hierarchy_authorization_review.json`
+has SHA-256 `936d1b5ac6719bb5d62d3cadcdf765321f1fe1f4557698350d8007bef6386323`,
+status `ready_for_user_review`, and `publication_authority: false`.
+
+The user separately approved that exact candidate-specific rebind. Candidate
+`hcorv1-c73d6bb800060269ccc1ecd57352e14943f53cf0d90085dc590442618d80cd88`
+then published under a new source-scoped bounded acceptance without expanding
+its authorized uses or setting `corpus_wide_acceptance`. A transitive producer
+lineage report proved both refreshed producer outputs equivalent to the pair
+used by the earlier accepted comparison, with runtime and identity fields
+explicitly excluded from the semantic comparison.
+
+The downstream refresh published semantic candidate
+`exv1-f83a030b8a03d1299aab36bd8b21d2a93e49c87c203a8e491b9edd62495e173b`
+and cross-reference candidate
+`exv1-6dc03aee38f32553eb5f1c52dd9c556e932744e2fd90a84ce4c1378e1b223247`.
+The latter exposed and corrected transferred validator assumptions that were
+incompatible with the accepted multi-target alias and table-window behavior.
+Final production identity
+`exv1-5874cac422760759b2f2f8757fff1f950b6e4da90d0878d64993d83633c5c7ac`
+is bound to the corrected code and contracts. The user-authorized Appendix P
+transaction completed all 222 pages as document candidate
+`docv1-c7160cdcaa44b4592b1c20a780738dc5a761e30c2d9dd631dd58c8a9fe188fb0`;
+a second invocation checksum-reused that completion in four seconds.
+
+### Pre-close maintainability pass
+
+The final code-quality review found and corrected responsibility, fail-closed,
+lineage, schema, diagnostics, validation-policy, and review-recipe weaknesses.
+Publication now requires exactly six stage seals and binds the final imported
+root to the contained cross-reference completion. Parent and child processes
+share a checksummed execution-preflight snapshot; config changes and all
+available producer, candidate, authorization, and downstream checksum joins are
+rejected before content owners begin. Stage-qualified start, completion, and
+failure events preserve useful timing and error context.
+
+Hierarchy publication no longer creates missing bounded authorization. Semantic
+handoff values now come from configured, checksummed evidence composed through
+the maintained hierarchy verifiers; the semantic code and schema no longer
+duplicate Appendix P candidate IDs, digests, paths, counts, or authorization
+values. Cross-reference construction and validation share one policy owner,
+reject exact duplicate index rows, preserve multi-target aliases, and retain
+failure context. Requested review manifests now identify an external renderer,
+checksummed inputs, and exact page/evidence mappings without claiming a renderer
+was executed.
+
+Because hierarchy candidate identity includes the changed owned code, current
+code/config derives
+`hcorv1-30385014eb61a4f8acb39f763e3f7a90b1ead92632db3d37b541b8d2f721ad42`
+rather than the authorized `hcorv1-c73d6bb8...cd88`. The new fail-fast lineage
+gate rejected that stale join before PDF work. The separately authorized
+candidate-specific review then matched the accepted semantic digest and every
+count exactly; only `candidate_id` and `code_bundle_sha256` changed. Review SHA
+`5fa5326f9f7b8d59a9a6038e74c101dd5022cc3be55848aac89aa19aa1a9ff97`
+remained non-authoritative. After the user's separate approval, bounded
+authorization SHA
+`37ffb6de52c80349ec833295830766cec55454ff252e34842623728f20ab9527`
+published without expanding scope or limitations.
+
+The refreshed semantic candidate is
+`exv1-89a577776954c2f181f873ce8b23cf92004fc14c607759253138d6a68178f6c4`;
+the refreshed cross-reference candidate is
+`exv1-1da64e0873d2215fba267fb4dfb792fbd419bc76cb80138407bf554f40021509`.
+Final non-executed production identity
+`exv1-1bd71e02e9f8da505d68bfb58b8dd8d4c1b47aabc8365417028d6daf60c1fcc4`
+binds the corrected implementation and contracts. All six document owners
+checksum-reused their sealed completions; the resulting 222-page candidate is
+`docv1-532b14da43a341a8785166d70613b796872c6bb55d1f12b2a78bb78ad668df40`,
+with completion SHA
+`ebb4697f92f7d0241159ca456feeeaf803ec76f7868fecaf7a404ddc1c64eb7e`.
+A second document invocation checksum-reused it in 0.98 seconds. No PDF ran.
+Final validation passed `make fix`, `make validate-extraction-contract`,
+`make check` with 396 tests, and `git diff --check`.
+
+Deletion was based on behavioral ownership rather than import reachability:
+executable history costs maintenance even when rarely called, while an import
+search alone cannot prove that publication, failure, or downstream-review
+invariants have a surviving owner. Repeatability is therefore a bounded pilot
+control for Task 03G instead of a semantic requirement imposed on every
+production candidate.
 
 ## Research / learning checkpoint
 

@@ -21,8 +21,7 @@ from er_commons.hierarchy_correction.candidate_records import (
 )
 from er_commons.hierarchy_correction.constants import MANAGED_PAYLOAD_PATHS
 from er_commons.hierarchy_correction.digests import canonical_json_sha256
-from er_commons.hierarchy_correction.quality_gate import (
-    VerifiedQualityGatePass,
+from er_commons.hierarchy_correction.publication_authorization import (
     candidate_semantic_sha256,
 )
 
@@ -135,13 +134,9 @@ def publish_workspace(
         raise ValueError("candidate staging tree has no completion record")
     candidate_id = workspace.final_root.name
     if authorization.candidate_id != candidate_id:
-        if isinstance(authorization, VerifiedQualityGatePass):
-            raise ValueError("quality-gate pass candidate differs from publication")
-        raise ValueError("bounded acceptance candidate differs from publication")
+        raise ValueError("publication authorization candidate differs")
     if authorization.candidate_semantic_sha256 != candidate_semantic_sha256(workspace.staging_root):
-        if isinstance(authorization, VerifiedQualityGatePass):
-            raise ValueError("quality-gate semantic differs from publication")
-        raise ValueError("bounded acceptance semantic differs from publication")
+        raise ValueError("publication authorization semantic differs")
     if workspace.final_root.exists():
         raise FileExistsError(f"candidate destination already exists: {workspace.final_root}")
     workspace.staging_root.rename(workspace.final_root)
@@ -215,13 +210,9 @@ def reuse_completed_candidate(
 ) -> Path:
     """Reuse only after candidate checksums and external acceptance verify."""
     if authorization.candidate_id != candidate_id:
-        if isinstance(authorization, VerifiedQualityGatePass):
-            raise ValueError("quality-gate pass candidate differs from reuse")
-        raise ValueError("bounded acceptance candidate differs from reuse")
+        raise ValueError("publication authorization candidate differs from reuse")
     if authorization.candidate_semantic_sha256 != candidate_semantic_sha256(root):
-        if isinstance(authorization, VerifiedQualityGatePass):
-            raise ValueError("quality-gate semantic differs from reuse")
-        raise ValueError("bounded acceptance semantic differs from reuse")
+        raise ValueError("publication authorization semantic differs from reuse")
     return verify_completed_candidate(root, candidate_id, schema_path)
 
 

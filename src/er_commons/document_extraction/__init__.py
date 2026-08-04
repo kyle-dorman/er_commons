@@ -1,15 +1,7 @@
-"""Native-PDF review extraction and complete-document production."""
+"""Maintained complete-document production boundary."""
 
 from er_commons.document_extraction.complete_document import (
     run_complete_document_producer,
 )
-from er_commons.document_extraction.hierarchy_runner import (
-    run_hierarchy_producer_evaluation,
-)
-from er_commons.document_extraction.pipeline import run_document_extraction
 
-__all__ = [
-    "run_complete_document_producer",
-    "run_document_extraction",
-    "run_hierarchy_producer_evaluation",
-]
+__all__ = ["run_complete_document_producer"]

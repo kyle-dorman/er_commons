@@ -13,11 +13,6 @@ from pydantic import ValidationError
 
 from er_commons.document_extraction.producer_records import CompletionRecord
 from er_commons.semantic_materialization.config import (
-    BASELINE_CANDIDATE_ID,
-    BASELINE_PRODUCER_RUN_ID,
-    HIERARCHY_PRODUCER_RUN_ID,
-    SOURCE_ID,
-    SOURCE_SHA256,
     SemanticMaterializationConfig,
     load_semantic_materialization_config,
 )
@@ -33,13 +28,15 @@ from er_commons.semantic_materialization.inputs import (
     VerifiedProducer,
     load_semantic_materialization_inputs,
 )
-from er_commons.semantic_structure.constants import (
-    EXPECTED_AGGREGATE_DIGEST,
-    EXPECTED_SEMANTIC_FILE_SET_DIGEST,
-)
 
 ROOT = Path(__file__).parents[1]
 CONFIG_PATH = ROOT / "configs" / "brisbane_baylands_2025_deir_task03e4_semantic_v1.json"
+CONFIG_VALUE = json.loads(CONFIG_PATH.read_text())
+BASELINE_CANDIDATE_ID = CONFIG_VALUE["baseline_candidate_id"]
+BASELINE_PRODUCER_RUN_ID = CONFIG_VALUE["baseline_producer_run_id"]
+HIERARCHY_PRODUCER_RUN_ID = CONFIG_VALUE["hierarchy_producer_run_id"]
+SOURCE_ID = CONFIG_VALUE["source"]["source_id"]
+SOURCE_SHA256 = CONFIG_VALUE["source"]["source_sha256"]
 
 
 def _write_json(path: Path, value: Any) -> None:
@@ -87,9 +84,8 @@ def _bridge(candidate_id: str) -> list[dict[str, Any]]:
     ]
 
 
-def test_checked_in_config_is_strict_and_freezes_review_sample() -> None:
+def test_checked_in_config_is_strict_and_freezes_production_inputs() -> None:
     config, digest = load_semantic_materialization_config(CONFIG_PATH)
-    assert config.review_pages == (2, 4, 8, 73, 82, 96, 105, 112, 166, 220)
     assert config.baseline_candidate_id == BASELINE_CANDIDATE_ID
     assert len(digest) == 64
 
@@ -97,6 +93,11 @@ def test_checked_in_config_is_strict_and_freezes_review_sample() -> None:
     invalid["artifact_relative_root"] = "../escape"
     with pytest.raises(ValidationError, match="contained relative paths"):
         SemanticMaterializationConfig.model_validate(invalid)
+
+    mismatched = json.loads(CONFIG_PATH.read_text())
+    mismatched["hierarchy_candidate_id"] = "hcorv1-" + "0" * 64
+    with pytest.raises(ValidationError, match="hierarchy candidate root"):
+        SemanticMaterializationConfig.model_validate(mismatched)
 
 
 def test_bridge_preimage_breaks_only_candidate_identity_cycle() -> None:
@@ -175,6 +176,8 @@ def test_input_loader_verifies_all_upstream_seals(
     hierarchy_root = data_root / config.hierarchy_candidate_relative_root
     _write_json(hierarchy_root / "records" / "completion_record.json", {})
     _write_json(hierarchy_root / "records" / "artifact_inventory.json", {})
+    assert config.bounded_acceptance_relative_path is not None
+    assert config.producer_comparison_relative_path is not None
     acceptance_path = data_root / config.bounded_acceptance_relative_path
     _write_json(acceptance_path, {"status": "accepted_with_known_limitations"})
     comparison_path = data_root / config.producer_comparison_relative_path
@@ -190,16 +193,15 @@ def test_input_loader_verifies_all_upstream_seals(
         "er_commons.semantic_materialization.inputs.verify_completed_run",
         lambda root, run_id: root / "records" / "completion_record.json",
     )
-    control = {"acceptance_status": "accepted_with_known_limitations"}
+    control = {
+        "candidate_id": config.hierarchy_candidate_id,
+        "acceptance_status": "accepted_with_known_limitations",
+        "producer_comparison_sha256": comparison_sha,
+    }
     monkeypatch.setattr(
         "er_commons.semantic_materialization.inputs.verify_task03e2d_control",
-        lambda root, path: control,
+        lambda **_kwargs: control,
     )
-    monkeypatch.setattr(
-        "er_commons.semantic_materialization.inputs.EXPECTED_PRODUCER_COMPARISON_SHA256",
-        comparison_sha,
-    )
-
     inputs = load_semantic_materialization_inputs(
         data_root=data_root,
         project_root=project_root,
@@ -208,6 +210,7 @@ def test_input_loader_verifies_all_upstream_seals(
     assert inputs.baseline_producer.run_id == BASELINE_PRODUCER_RUN_ID
     assert inputs.hierarchy_producer.run_id == HIERARCHY_PRODUCER_RUN_ID
     assert inputs.control_provenance is control
+    assert inputs.producer_comparison_ref is not None
     assert inputs.producer_comparison_ref.sha256 == comparison_sha
 
 
@@ -247,7 +250,11 @@ def test_identity_binds_every_normative_input(tmp_path: Path) -> None:
         hierarchy_inventory_ref=ArtifactReference("hierarchy/inventory.json", "b" * 64),
         bounded_acceptance_ref=ArtifactReference("acceptance.json", "c" * 64),
         producer_comparison_ref=ArtifactReference("comparison.json", "d" * 64),
-        control_provenance={"acceptance_status": "accepted_with_known_limitations"},
+        control_provenance={
+            "acceptance_status": "accepted_with_known_limitations",
+            "semantic_file_set_sha256": "e" * 64,
+            "aggregate_semantic_sha256": "f" * 64,
+        },
         source_manifest_ref=ArtifactReference("source_manifest.json", "3" * 64),
     )
     identity = build_semantic_candidate_identity(
@@ -264,8 +271,8 @@ def test_identity_binds_every_normative_input(tmp_path: Path) -> None:
     assert identity["baseline_canonical"]["inventory"]["sha256"] == "5" * 64
     assert identity["producer_inputs"]["comparison"]["sha256"] == "d" * 64
     correction = identity["hierarchy_correction"]
-    assert correction["semantic_file_set_sha256"] == EXPECTED_SEMANTIC_FILE_SET_DIGEST
-    assert correction["aggregate_semantic_sha256"] == EXPECTED_AGGREGATE_DIGEST
+    assert correction["semantic_file_set_sha256"] == "e" * 64
+    assert correction["aggregate_semantic_sha256"] == "f" * 64
     contract = identity["semantic_contract"]
     assert contract["bridge_preimage_sha256"] == normalized_bridge_preimage_sha256(
         _bridge("exv1-" + "f" * 64)

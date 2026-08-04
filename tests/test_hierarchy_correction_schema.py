@@ -10,8 +10,6 @@ from typing import Any
 import pytest
 from hierarchy_correction_support import (
     DEVELOPMENT_CASES,
-    FIXTURE_MANIFEST,
-    HELD_OUT_MANIFEST,
     INVALID_SCHEMA_MUTATIONS,
     RECORD_SCHEMA,
     VALID_BUNDLE,
@@ -145,31 +143,6 @@ def test_schema_rejects_invalid_mutation(mutation: dict[str, Any]) -> None:
         Draft202012Validator(RECORD_SCHEMA).validate(invalid)
 
 
-def test_fixture_manifest_separates_development_from_holdout() -> None:
-    """Keep reviewed development pages out of the blind review set."""
-    reviewed = set(HELD_OUT_MANIFEST["excluded_previously_reviewed_pages"])
-    selected = set(HELD_OUT_MANIFEST["unique_selected_pages"])
-    assert HELD_OUT_MANIFEST["status"] == "frozen_before_rule_implementation"
-    assert reviewed.isdisjoint(selected)
-    assert selected == {73, 82, 96, 105, 131, 155, 166, 220}
-    assert (
-        HELD_OUT_MANIFEST["selection"]["rank_key"]
-        == "sha256(source_sha256 + ':' + unpadded_decimal_physical_page)"
-    )
-    for stratum in HELD_OUT_MANIFEST["selection"]["strata"]:
-        for page, prefix in zip(
-            stratum["selected_pages"],
-            stratum.get("rank_prefixes", []),
-            strict=True,
-        ):
-            rank_input = f"{HELD_OUT_MANIFEST['source_sha256']}:{page}".encode()
-            assert hashlib.sha256(rank_input).hexdigest().startswith(prefix)
-    assert (
-        "no production rule may match literal document heading text"
-        in FIXTURE_MANIFEST["prohibitions"]
-    )
-
-
 def test_development_cases_are_stable_key_bound() -> None:
     """Recompute each reviewed case key from its frozen producer evidence."""
     for case in DEVELOPMENT_CASES["cases"]:
@@ -223,16 +196,3 @@ def test_development_evidence_supports_each_expected_rule() -> None:
         case["expected_level"] == case["evidence_context"]["numbering_depth"]
         for case in numbering_cases
     )
-
-
-def test_external_review_evidence_is_checksum_and_count_bound() -> None:
-    """Bind acceptance counts to the reports that established them."""
-    evidence = FIXTURE_MANIFEST["development_evidence"]
-    assert evidence["task_03e_comparison_report_sha256"] == (
-        "33574f6b15dc128a7bf58d6e2ab1a35c867ce1df493fe317a46bed1b8e8bf364"
-    )
-    assert evidence["task_03e_bounded_review_sha256"] == (
-        "7b7e2ecbcede6f9d0a628037e72939e3ab8daa9d0f951b39a6267a49e4de0865"
-    )
-    assert evidence["reviewed_exact_outline_anchor_count"] == 29
-    assert evidence["reviewed_numbering_relation_count"] == 21

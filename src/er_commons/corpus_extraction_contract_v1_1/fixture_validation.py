@@ -9,8 +9,8 @@ from typing import Any
 
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 
-from er_commons.corpus_extraction_contract.errors import CorpusExtractionContractError
 from er_commons.corpus_extraction_contract_v1_1.checks import fail
+from er_commons.corpus_extraction_contract_v1_1.errors import CorpusExtractionContractError
 from er_commons.corpus_extraction_contract_v1_1.identity import validate_production_identity
 from er_commons.corpus_extraction_contract_v1_1.model import JsonObject
 from er_commons.corpus_extraction_contract_v1_1.synthetic_fixture import build_valid_fixture

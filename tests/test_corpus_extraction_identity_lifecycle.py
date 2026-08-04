@@ -109,7 +109,7 @@ def test_event_writer_rejects_incoherent_raw_status(tmp_path: Path) -> None:
         writer.transition("selected", "SUCCESS")
 
 
-def test_state_and_completion_records_validate_against_accepted_v1_schema(
+def test_state_and_completion_records_validate_against_accepted_v1_1_schema(
     tmp_path: Path,
 ) -> None:
     data_root, spec_path = _workspace(tmp_path)
@@ -126,7 +126,7 @@ def test_state_and_completion_records_validate_against_accepted_v1_schema(
     observability = json.loads((attempt_root / "observability.json").read_text())
     completion = json.loads(completion_path.read_text())
     schema = json.loads(
-        Path("benchmarks/er_bench/schemas/corpus_extraction/v1/records.schema.json").read_text()
+        Path("benchmarks/er_bench/schemas/corpus_extraction/v1_1/records.schema.json").read_text()
     )
     for definition, value in (
         ("state_event", event),

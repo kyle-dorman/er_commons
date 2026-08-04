@@ -13,11 +13,10 @@
     "expected_pdf_page_count": 222
   },
   "producer_artifact_relative_root": "pipelines/brisbane_baylands/task_03c_single_document",
-  "producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+  "producer_run_id": "prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e",
   "artifact_relative_root": "pipelines/brisbane_baylands/task_03e2_hierarchy_correction",
-  "review_artifact_relative_root": "pipelines/brisbane_baylands/task_03e2_hierarchy_review",
+  "bounded_acceptance_artifact_relative_root": "pipelines/brisbane_baylands/task_03e2_hierarchy_review",
   "policy_relative_path": "docs/specs/hierarchy_correction_v1.md",
   "schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
-  "quality_gate_config_relative_path": "configs/brisbane_baylands_2025_deir_task03e2_quality_gate_v1.json",
   "bounded_acceptance_config_relative_path": "configs/brisbane_baylands_2025_deir_task03e2d_bounded_acceptance_v1.json"
 }

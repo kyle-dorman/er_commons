@@ -34,12 +34,9 @@ SCHEMA_PATH = (
     / "v1"
     / "records.schema.json"
 )
-REVIEW_CACHE_SCHEMA_PATH = SCHEMA_PATH.with_name("review_cache.schema.json")
 FIXTURE_ROOT = ROOT / "benchmarks" / "er_bench" / "fixtures" / "canonical_extraction" / "v1"
 SCHEMA = json.loads(SCHEMA_PATH.read_text())
-REVIEW_CACHE_SCHEMA = json.loads(REVIEW_CACHE_SCHEMA_PATH.read_text())
 BUNDLE = json.loads((FIXTURE_ROOT / "valid_bundle.json").read_text())
-REVIEW_CACHE_ENTRY = json.loads((FIXTURE_ROOT / "valid_review_cache_entry.json").read_text())
 INVALID_MUTATIONS = json.loads((FIXTURE_ROOT / "invalid_mutations.json").read_text())
 REGISTRY = Registry().with_resource(SCHEMA["$id"], DRAFT202012.create_resource(SCHEMA))
 VALIDATOR = Draft202012Validator(SCHEMA, registry=REGISTRY)
@@ -91,8 +88,6 @@ def test_schema_bundle_and_every_valid_record() -> None:
         BUNDLE["identity"]["canonical_contract"]["schema_bundle_sha256"]
         == hashlib.sha256(SCHEMA_PATH.read_bytes()).hexdigest()
     )
-    Draft202012Validator.check_schema(REVIEW_CACHE_SCHEMA)
-    Draft202012Validator(REVIEW_CACHE_SCHEMA).validate(REVIEW_CACHE_ENTRY)
 
 
 @pytest.mark.parametrize(
@@ -388,10 +383,3 @@ def test_task03d_producer_asset_roles_are_canonical() -> None:
         "table_family_assignments_jsonl",
         "table_families_json",
     } <= roles
-
-
-def test_review_cache_entries_are_explicitly_disposable() -> None:
-    disposable = copy.deepcopy(REVIEW_CACHE_ENTRY)
-    disposable["disposable"] = False
-    with pytest.raises(ValidationError):
-        Draft202012Validator(REVIEW_CACHE_SCHEMA).validate(disposable)

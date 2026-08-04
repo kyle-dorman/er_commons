@@ -159,7 +159,12 @@ executable-contract corrigendum. Its Gate B synthetic runtime served as a
 transient rewrite oracle. Task 03F.3 is complete after the human-owned
 replacement passed exact fixed-evidence artifact equivalence and substantive
 maintainability checks; the unused MVP package, equivalence test, and retained
-identity copy were then removed. Every real-source run remains inactive.
+identity copy were then removed. A later user-authorized Appendix P Task 03F.4
+attempt found stale inter-stage IDs and candidate-bound authorization evidence.
+After fail-fast lineage validation and candidate-neutral review, the user
+approved the exact candidate rebind. The refreshed hierarchy, semantic, and
+cross-reference chain now verifies, and the 222-page document transaction
+completed as `docv1-c7160cd...188fb0` with checksum reuse verified.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -167,19 +172,12 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Review [Task
-   03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md) Gate A.
-   Its read-only caller, invariant, artifact, identity, verification, and
-   future-capability inventory is complete. Most proof scaffolding can move to
-   an approved destructive Gate B after active invariants are transferred.
-   By user direction, Gate B is prepared as one integrated cleanup effort, not
-   a chain of separately approved small tasks. It will revise hierarchy metrics
-   for one honest production build, preserve Appendix P's source-scoped
-   limitations, transfer active invariants, remove obsolete proof surfaces,
-   validate internally by stage, and return one combined result for review.
-   Gate B, all code/schema changes and identity refreshes, and every PDF run
-   remain inactive pending explicit activation.
-2. After Task 03F.4 is accepted, review and revise [Task
+1. Task 03F.4 is complete and accepted. Fail-fast lineage validation now runs
+   before attempt allocation; refreshed production identity
+   `exv1-1bd71e02...c1fcc4` completed Appendix P as
+   `docv1-532b14da...8df40`. The hierarchy authorization remains bounded to
+   Appendix P. Task 03G/03H remain inactive.
+2. Review and revise [Task
    03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) so it owns a
    bounded variant of the skipped Task 03F engineering smoke before the
    representative pilot. Explicitly activate 03G only after its revised

@@ -8,7 +8,7 @@ from typing import Any, Never
 
 import rfc8785
 
-from er_commons.corpus_extraction_contract.errors import CorpusExtractionContractError
+from er_commons.corpus_extraction_contract_v1_1.errors import CorpusExtractionContractError
 from er_commons.corpus_extraction_contract_v1_1.model import ArtifactReader, JsonObject
 
 

@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 
-from er_commons.corpus_extraction_contract import CorpusExtractionContractError
+from er_commons.corpus_extraction_contract_v1_1 import CorpusExtractionContractError
 from er_commons.corpus_extraction_contract_v1_1.fixture_validation import (
     validate_fixture_directory,
 )

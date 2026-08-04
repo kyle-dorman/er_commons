@@ -8,10 +8,7 @@ from typing import Any
 
 from er_commons.semantic_materialization.baseline import load_baseline_candidate
 from er_commons.semantic_materialization.comparison import compare_baseline_collections
-from er_commons.semantic_materialization.config import (
-    HISTORICAL_EXPECTATIONS,
-    SemanticExpectations,
-)
+from er_commons.semantic_materialization.config import SemanticExpectations
 from er_commons.semantic_materialization.construction import SemanticBuild
 from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 
@@ -73,7 +70,7 @@ def build_candidate_support(
     baseline_candidate_id: str,
     candidate_id: str,
     control: JsonObject,
-    expectations: SemanticExpectations = HISTORICAL_EXPECTATIONS,
+    expectations: SemanticExpectations,
 ) -> CandidateSupport:
     """Build preservation, bridge, correspondence, and control evidence."""
     baseline = load_baseline_candidate(baseline_root)

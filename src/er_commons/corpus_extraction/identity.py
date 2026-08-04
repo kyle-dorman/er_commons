@@ -6,7 +6,7 @@ from typing import Any
 
 import rfc8785
 
-from er_commons.corpus_extraction_contract.checks import bytes_sha256
+from er_commons.corpus_extraction_contract_v1_1.checks import bytes_sha256
 
 
 def canonical_digest(value: Any) -> str:

@@ -12,10 +12,7 @@ from er_commons.canonical_extraction.provenance import descendant_text_pointers
 from er_commons.canonical_extraction.tables import load_producer_table_bundle
 from er_commons.document_extraction.hierarchy.document import DocumentIndex
 from er_commons.semantic_materialization.bridge import BridgeItem, build_cross_producer_bridge
-from er_commons.semantic_materialization.config import (
-    HISTORICAL_EXPECTATIONS,
-    SemanticExpectations,
-)
+from er_commons.semantic_materialization.config import SemanticExpectations
 from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 from er_commons.semantic_structure.policies.bridge import BridgeSourceEvidence
 
@@ -118,7 +115,7 @@ def build_bridge_construction(
     block_id_by_key: dict[str, str],
     baseline_producer_run_id: str,
     hierarchy_producer_run_id: str,
-    expected_coverage: SemanticExpectations = HISTORICAL_EXPECTATIONS,
+    expected_coverage: SemanticExpectations,
 ) -> BridgeConstruction:
     """Build bridge rows from producer pointers, never candidate self-evidence."""
     relevant_keys = hierarchy_relevant_keys(evidence.hierarchy, collections["blocks"])

@@ -14,10 +14,10 @@ from er_commons.corpus_extraction.candidates import (
 from er_commons.corpus_extraction.hooks import WorkflowHooks
 from er_commons.corpus_extraction.lifecycle import Disposition, classify_failure
 from er_commons.corpus_extraction.observability import record_observability
+from er_commons.corpus_extraction.owner_diagnostics import retained_stage_timings
 from er_commons.corpus_extraction.preflight import DocumentRun
-from er_commons.corpus_extraction.preservation import compare_imported_candidate
 from er_commons.corpus_extraction.process import ProcessOutcome
-from er_commons.corpus_extraction.records import PipelineResult
+from er_commons.corpus_extraction.records import STAGE_COMPLETION_ROLE_SET, PipelineResult
 from er_commons.corpus_extraction.storage import (
     candidate_output_bytes,
     import_content,
@@ -64,7 +64,7 @@ def retain_unexpected_failure(
         transaction_id=attempt.transaction_id,
         wall_seconds=attempt.wall_seconds(),
         output_bytes=candidate_output_bytes(attempt.root),
-        stage_timings={},
+        stage_timings=retained_stage_timings(attempt.root),
     )
     disposition: Disposition = (
         "failed_terminal"
@@ -103,7 +103,7 @@ def _retain_child_failure(
         transaction_id=attempt.transaction_id,
         wall_seconds=attempt.wall_seconds(),
         output_bytes=candidate_output_bytes(attempt.root),
-        stage_timings={},
+        stage_timings=retained_stage_timings(attempt.root),
     )
     disposition: Disposition = (
         "failed_terminal"
@@ -171,12 +171,10 @@ def _publish_success(
     _verify_pipeline_handoff(run.data_root, result, run)
     workspace = reserve_candidate_workspace(attempt.root, run.final_parent)
     content_root = import_content(Path(result.final_candidate_root), workspace.staging_root)
-    preservation = _offline_preservation(run, content_root)
     identity = build_candidate_identity(
         run,
         content_root=content_root,
         result=result,
-        preservation=preservation,
     )
     write_candidate_identity(workspace.staging_root / "records", identity, run)
     record_observability(
@@ -224,8 +222,9 @@ def _passes_publication_gate(result: PipelineResult, run: DocumentRun) -> bool:
 
 def _verify_pipeline_handoff(data_root: Path, result: PipelineResult, run: DocumentRun) -> None:
     """Verify owner completion seals and final canonical source identity."""
-    if not result.stage_completions:
-        raise ValueError("content-owner handoff has no stage completions")
+    if set(result.stage_completions) != STAGE_COMPLETION_ROLE_SET:
+        raise ValueError("content-owner handoff lacks the exact six stage completions")
+    resolved_completions: dict[str, Path] = {}
     for role, reference in result.stage_completions.items():
         path = (data_root / reference.path).resolve()
         if (
@@ -234,7 +233,24 @@ def _verify_pipeline_handoff(data_root: Path, result: PipelineResult, run: Docum
             or sha256_file(path) != reference.sha256
         ):
             raise ValueError(f"content-owner completion seal differs: {role}")
-    final_root = Path(result.final_candidate_root)
+        resolved_completions[role] = path
+    final_root = Path(result.final_candidate_root).resolve()
+    cross_reference_root = resolved_completions["cross_references"].parents[1]
+    allowed_relative = (
+        run.execution_preflight.final_artifact_relative_root
+        if run.execution_preflight is not None
+        else Path(".")
+    )
+    allowed_root = (data_root / allowed_relative).resolve()
+    if (
+        not final_root.is_relative_to(data_root.resolve())
+        or not final_root.is_relative_to(allowed_root)
+        or final_root != cross_reference_root
+    ):
+        raise ValueError(
+            "final content candidate does not match the contained cross-reference completion: "
+            f"final={final_root}, cross_reference={cross_reference_root}, allowed={allowed_root}"
+        )
     document_path = final_root / "canonical" / "documents.jsonl"
     if not document_path.is_file():
         raise FileNotFoundError(document_path)
@@ -254,21 +270,3 @@ def _verify_pipeline_handoff(data_root: Path, result: PipelineResult, run: Docum
             "final content candidate differs from selected source identity: "
             f"expected={expected}, observed={observed}, path={document_path}"
         )
-
-
-def _offline_preservation(
-    run: DocumentRun, imported_content_root: Path
-) -> dict[str, object] | None:
-    reference = run.spec.document_owner(run.source.source_id).offline_reference_candidate
-    if reference is None:
-        return None
-    report = compare_imported_candidate(
-        run.data_root / reference,
-        imported_content_root,
-    )
-    if report.status != "exact":
-        raise ValueError(f"offline preservation mismatch: {report.mismatches}")
-    return {
-        "schema_version": "er_commons.document_preservation.v1",
-        **report.__dict__,
-    }

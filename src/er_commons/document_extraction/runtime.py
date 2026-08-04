@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
+import logging
+import os
 import threading
+from collections.abc import Iterator
+from contextlib import contextmanager
 from importlib.metadata import version
 from pathlib import Path
 from typing import Any
@@ -21,6 +25,40 @@ PACKAGE_NAMES = (
     "pypdf",
     "torch",
 )
+
+
+@contextmanager
+def offline_docling_environment() -> Iterator[None]:
+    """Apply offline guards for one producer invocation and restore process state."""
+    names = ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE")
+    previous = {name: os.environ.get(name) for name in names}
+    os.environ.update({name: "1" for name in names})
+    try:
+        yield
+    finally:
+        for name, value in previous.items():
+            if value is None:
+                os.environ.pop(name, None)
+            else:
+                os.environ[name] = value
+
+
+@contextmanager
+def run_log(path: Path) -> Iterator[None]:
+    """Capture producer logs and always detach and close the temporary handler."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handler = logging.FileHandler(path)
+    handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s %(message)s"))
+    root_logger = logging.getLogger()
+    previous_level = root_logger.level
+    root_logger.addHandler(handler)
+    root_logger.setLevel(logging.INFO)
+    try:
+        yield
+    finally:
+        root_logger.removeHandler(handler)
+        root_logger.setLevel(previous_level)
+        handler.close()
 
 
 class ModelFile(BaseModel):

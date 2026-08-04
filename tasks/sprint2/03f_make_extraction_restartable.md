@@ -1,10 +1,8 @@
 # Task 03F: Make Two-Stage Corpus Extraction Restartable
 
-Status: **decomposed; Tasks 03F.1–03F.3 complete as of 2026-08-04**. Task
-03F.4 is provisional after contract review and requires explicit activation.
-It owns destructive proof-of-concept cleanup and production-boundary work
-before Task 03G. This umbrella closes only after Task 03F.4 is separately
-accepted. Task 03G and Task 03H remain provisional.
+Status: **Tasks 03F.1–03F.3 complete; Task 03F.4 Gate B implemented and awaiting
+review as of 2026-08-04**. This umbrella closes only after Task 03F.4 is
+separately accepted. Task 03G and Task 03H remain inactive and provisional.
 
 ## Abstract
 
@@ -67,10 +65,10 @@ all 35 sources and requires every source to reach an explicit terminal state.
    implemented scoped accounting, target-index sealing, immutable
    cross-document resolution, and invalidation without real-source execution;
    the optional engineering smoke was waived for a future Task 03G variant.
-4. [Task 03F.4](03f4_prune_extraction_proof_scaffolding.md) — provisional:
-   inventory future capability and active invariants, then destructively remove
-   obsolete POC schemas, validators, proof paths, and public surfaces after
-   separate Gate B approval while preserving the maintained Task 03G–04 path.
+4. [Task 03F.4](03f4_prune_extraction_proof_scaffolding.md) — Gate B implemented,
+   validated, and awaiting acceptance: active invariants moved to maintained
+   owners, obsolete POC surfaces were removed, and the current non-executed
+   production identity was refreshed without a PDF run.
 
 Only an explicitly activated subtask is active. Revise each provisional
 contract from the accepted prior outcome before implementation.

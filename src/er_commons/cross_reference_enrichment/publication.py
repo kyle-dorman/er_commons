@@ -203,6 +203,29 @@ def preserve_failed_attempt(task_root: Path, staging_root: Path) -> Path:
     return destination
 
 
+def write_failed_build_snapshot(
+    root: Path,
+    *,
+    build: CandidateBuild,
+    identity: JsonObject,
+    error: Exception,
+) -> None:
+    """Persist the rejected build and error context before retaining an attempt."""
+    diagnostic_root = root / "diagnostics" / "validation_build"
+    write_json(
+        diagnostic_root / "context.json",
+        {
+            "candidate_id": identity.get("extraction_id"),
+            "error_type": type(error).__name__,
+            "error_message": str(error),
+        },
+    )
+    write_jsonl(diagnostic_root / "target_aliases.jsonl", build.target_aliases)
+    write_jsonl(diagnostic_root / "cross_references.jsonl", build.cross_references)
+    for role, payload in build.support.items():
+        write_json(diagnostic_root / f"{role}.json", payload)
+
+
 def _records_for_path(build: CandidateBuild, path: str) -> list[JsonObject]:
     if path == TARGET_ALIAS_PATH:
         return build.target_aliases

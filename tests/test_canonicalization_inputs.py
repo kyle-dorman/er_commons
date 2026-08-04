@@ -10,9 +10,6 @@ import pytest
 
 import er_commons.canonical_extraction.inputs as input_module
 from er_commons.canonical_extraction.config import (
-    ACCEPTED_PRODUCER_RUN_ID,
-    APPENDIX_P_PAGE_COUNT,
-    APPENDIX_P_SOURCE_ID,
     CanonicalizationConfig,
     load_canonicalization_config,
 )
@@ -192,38 +189,15 @@ def test_checked_config_freezes_the_approved_non_release_scope() -> None:
     config, digest = load_canonicalization_config(CONFIG_PATH)
 
     assert len(digest) == 64
-    assert config.producer_run_id == ACCEPTED_PRODUCER_RUN_ID
     assert config.candidate_scope == "document_scoped_non_release"
-    assert config.ordered_materialization_scope[0].source_id == APPENDIX_P_SOURCE_ID
-    assert config.ordered_materialization_scope[0].pdf_page_count == APPENDIX_P_PAGE_COUNT
+    assert config.acceptance_profile == "generic_complete_document"
 
 
-@pytest.mark.parametrize(
-    ("field", "value", "message"),
-    [
-        ("artifact_relative_root", "../escape", "contained relative"),
-        (
-            "ordered_materialization_scope",
-            [
-                {
-                    "source_id": "deir_main",
-                    "source_sha256": "0" * 64,
-                    "pdf_page_count": 1,
-                }
-            ],
-            "approved Appendix P",
-        ),
-    ],
-)
-def test_config_rejects_path_escape_or_changed_scope(
-    field: str,
-    value: object,
-    message: str,
-) -> None:
+def test_config_rejects_path_escape() -> None:
     payload = json.loads(CONFIG_PATH.read_text())
-    payload[field] = value
+    payload["artifact_relative_root"] = "../escape"
 
-    with pytest.raises(ValueError, match=message):
+    with pytest.raises(ValueError, match="contained relative"):
         CanonicalizationConfig.model_validate(payload)
 
 
@@ -259,7 +233,7 @@ def test_input_loader_verifies_seals_then_loads_preserved_plain_data(
     assert verified == [(inputs.producer_run_root, config.producer_run_id)]
     assert isinstance(inputs.document, dict)
     assert isinstance(inputs.sealed_manifest, SourceManifest)
-    assert inputs.selected_source.source_id == APPENDIX_P_SOURCE_ID
+    assert inputs.selected_source.source_id == config.selected_source_id
     assert isinstance(inputs.producer_summary_record, ProducerSummary)
     assert isinstance(inputs.producer_completion_record, CompletionRecord)
     assert isinstance(inputs.conversion_observation_record, ConversionObservation)

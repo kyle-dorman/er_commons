@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -12,7 +11,6 @@ from er_commons.semantic_materialization.config import (
     load_semantic_materialization_config,
 )
 from er_commons.semantic_materialization.construction import SemanticConstructionInputs
-from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 from er_commons.semantic_materialization.inputs import (
     SemanticMaterializationInputs,
     load_semantic_materialization_inputs,
@@ -33,23 +31,12 @@ class RuntimeContext:
     inputs: SemanticMaterializationInputs
     construction_inputs: SemanticConstructionInputs
     task_root: Path
-    source_pdf: Path
+    semantic_schema_path: Path
 
     @property
     def project_root(self) -> Path:
         """Expose the checked-in root used by identity and schema validation."""
         return PROJECT_ROOT
-
-
-@dataclass(frozen=True)
-class CandidateLocations:
-    """The immutable reference and derived candidate paths for one run."""
-
-    candidate_root: Path
-    candidate_review_root: Path
-    reference_root: Path
-    reference_review_root: Path
-    comparison_root: Path
 
 
 def load_runtime_context(*, data_root: Path, config_path: Path) -> RuntimeContext:
@@ -88,26 +75,7 @@ def load_runtime_context(*, data_root: Path, config_path: Path) -> RuntimeContex
         inputs=inputs,
         construction_inputs=construction_inputs,
         task_root=assert_contained(data_root, config.artifact_relative_root.as_posix()),
-        source_pdf=_source_pdf(data_root, config),
-    )
-
-
-def candidate_locations(context: RuntimeContext, candidate_id: str) -> CandidateLocations:
-    """Return every location needed to compare and publish one candidate ID."""
-    review_relative = context.config.review_cache_relative_root or (
-        context.config.artifact_relative_root / ".review_disabled"
-    )
-    comparison_relative = context.config.rewrite_review_relative_root or (
-        context.config.artifact_relative_root / ".comparison_disabled"
-    )
-    review_root = assert_contained(context.data_root, review_relative.as_posix())
-    reference_id = context.config.mvp_reference_candidate_id or candidate_id
-    return CandidateLocations(
-        candidate_root=context.task_root / candidate_id,
-        candidate_review_root=review_root / candidate_id,
-        reference_root=context.task_root / reference_id,
-        reference_review_root=review_root / reference_id,
-        comparison_root=assert_contained(context.data_root, comparison_relative.as_posix()),
+        semantic_schema_path=PROJECT_ROOT / config.semantic_schema_relative_path,
     )
 
 
@@ -172,47 +140,3 @@ def _producer_document_root(
         / source_id
         / "producer"
     )
-
-
-def _source_pdf(data_root: Path, config: SemanticMaterializationConfig) -> Path:
-    manifest = json.loads((data_root / config.source_manifest_relative_path).read_bytes())
-    selected = [
-        item for item in manifest["sources"] if item["source_id"] == config.source.source_id
-    ]
-    if len(selected) != 1:
-        raise SemanticMaterializationInvariantError(
-            stage="review input",
-            invariant="source manifest selects one Appendix P PDF",
-            expected=1,
-            observed=len(selected),
-            subject=config.source_manifest_relative_path.as_posix(),
-        )
-    source_path = assert_contained(data_root, selected[0]["local_path"])
-    manifest_sha256 = selected[0]["sha256"]
-    if manifest_sha256 != config.source.source_sha256:
-        raise SemanticMaterializationInvariantError(
-            stage="review input",
-            invariant="source manifest checksum matches the frozen configuration",
-            expected=config.source.source_sha256,
-            observed=manifest_sha256,
-            subject=config.source_manifest_relative_path.as_posix(),
-        )
-    if source_path.stat().st_size != selected[0]["byte_size"]:
-        raise SemanticMaterializationInvariantError(
-            stage="review input",
-            invariant="source PDF byte size matches the source manifest",
-            expected=selected[0]["byte_size"],
-            observed=source_path.stat().st_size,
-            subject=source_path.as_posix(),
-        )
-    with source_path.open("rb") as source_stream:
-        actual_sha256 = hashlib.file_digest(source_stream, "sha256").hexdigest()
-    if actual_sha256 != manifest_sha256:
-        raise SemanticMaterializationInvariantError(
-            stage="review input",
-            invariant="source PDF checksum matches the source manifest and configuration",
-            expected=manifest_sha256,
-            observed=actual_sha256,
-            subject=source_path.as_posix(),
-        )
-    return source_path

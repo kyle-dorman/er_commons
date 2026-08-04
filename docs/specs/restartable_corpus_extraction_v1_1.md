@@ -31,6 +31,13 @@ is immutable reference evidence. The refreshed production identity binds this
 corrigendum and its executable validator. Existing `docv1-` candidates remain
 bound to their original `exv1-` identity and cannot be relabeled.
 
+Task 03F.4 made v1.1 the sole executable corpus contract, removed the v1
+package/schema/fixtures and offline preservation proof branch, and added
+read-only handoff validation over published scopes and successful document
+candidates. The checked production-identity fixture derives the current ID
+from this contract and retains `execution_status: not_executed`; older
+identities remain immutable historical evidence only.
+
 ## Standards and representation
 
 Identity preimages use [RFC 8785](https://www.rfc-editor.org/rfc/rfc8785.html)

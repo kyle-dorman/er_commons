@@ -544,14 +544,18 @@ complete with its validated v1.1 executable-contract corrigendum. Its synthetic
 Gate B implementation served as a transient behavioral oracle. Its human-owned
 replacement passed separate fixed-evidence equivalence and maintainability
 gates, after which the unused MVP package, equivalence test, and retained
-identity copy were removed. Task 03F.3 is closed. Provisional Task 03F.4 was
-revised after review and owns destructive POC proof-scaffolding cleanup and
-production-boundary work. It does not require schema migration or historical-
-candidate replayability, but must preserve declared Task 03G–04 execution,
-validation, observation, and review-cache capabilities. It requires explicit
-activation before Gate A and separate approval before Gate B. The optional
-real-source smoke is waived in favor of a future Task 03G variant; 03G–03H
-remain inactive. The
+identity copy were removed. Task 03F.3 is closed. Task 03F.4 is complete and
+accepted after transferring active invariants, removing obsolete POC proof
+surfaces, revising hierarchy metrics to one build, and refreshing the
+non-executed production identity. Candidate-neutral
+comparison, requested-render, machine-observation, and read-only validation
+capabilities remain for Tasks 03G--04. Gate B itself ran no PDF. A later
+user-authorized Appendix P attempt exposed stale lineage and candidate-bound
+authorization inputs. Fail-fast lineage validation now runs before attempt
+allocation. After candidate-neutral review, the user approved the exact
+Appendix P rebind; the refreshed hierarchy, semantic, cross-reference, and
+222-page document candidates now verify, including checksum reuse. Tasks
+03G--03H remain inactive. The
 numbers below are routing
 labels, not a promise
 that the sprint will contain only these tasks. Split a stage further whenever
@@ -622,6 +626,9 @@ validation boundary.
    - [Task 03F.3](../../tasks/sprint2/03f3_implement_corpus_resolution_workflow.md):
      add scope-exact accounting, target-index sealing, and immutable
      cross-document resolution;
+   - [Task 03F.4](../../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md):
+     transfer active invariants and remove obsolete proof scaffolding while
+     preserving the declared pilot, validation, observation, and review path;
    - [Task 03G](../../tasks/sprint2/03g_run_representative_extraction_pilot.md):
      test the full two-stage workflow and corrected hierarchy across
      heterogeneous document regimes, rehearse human review, and freeze or
@@ -678,11 +685,11 @@ validation boundary.
    Gate B behavior as a transient rewrite oracle. Its human-owned replacement
    passed exact fixed-evidence artifact equivalence, substantive maintainability
    checks, and the full repository gate; the unused rewrite scaffolding was then
-   removed, closing the task. Provisional Task 03F.4 was revised after contract
-   review and must be explicitly activated and completed before 03G so the
-   maintained extraction boundaries are firm. Its destructive POC cleanup does
-   not require schema migration or historical-candidate replayability, while
-   declared Task 03G–04 capabilities must survive or receive tested successors.
+   removed, closing the task. Task 03F.4 is complete, accepted, and validated,
+   with current extraction boundaries, transferred invariants, one-build
+   hierarchy metrics, candidate-neutral review/comparison, refreshed production
+   identity `exv1-1bd71e02...c1fcc4`, and completed Appendix P document
+   candidate `docv1-532b14da...8df40` accepted after combined review.
    By user decision, the separate Task 03F engineering smoke is skipped. Task 03G
    must contract a
    bounded variant before it owns

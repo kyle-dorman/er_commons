@@ -10,6 +10,18 @@ from er_commons.cross_reference_enrichment.types import MentionKind
 
 LookupKeyBuilder = Callable[[re.Match[str]], str]
 
+ELIGIBLE_BLOCK_TYPES = frozenset({"caption", "footnote", "list_item", "paragraph"})
+TABLE_PAGE_WINDOW = 5
+QUALIFIED_EXTERNAL_TABLE_PATTERN = re.compile(
+    r"^\s+(?:in|from|of)\s+reference\s+[1-9][0-9]*\b", re.IGNORECASE
+)
+TABLE_LABEL_PATTERN = re.compile(r"table [1-9][0-9]*(?:[.-][a-z0-9]+)*", re.IGNORECASE)
+
+
+def is_qualified_external_table_reference(suffix: str) -> bool:
+    """Recognize a table mention explicitly qualified to an external reference."""
+    return QUALIFIED_EXTERNAL_TABLE_PATTERN.match(suffix) is not None
+
 
 @dataclass(frozen=True)
 class MentionRule:
@@ -128,8 +140,8 @@ def default_mention_policy() -> MentionPolicy:
     )
     return MentionPolicy(
         pattern_version="cross_reference_patterns_v2",
-        eligible_block_types=frozenset({"caption", "footnote", "list_item", "paragraph"}),
+        eligible_block_types=ELIGIBLE_BLOCK_TYPES,
         mention_rules=rules,
         block_exclusions=exclusions,
-        table_page_window=5,
+        table_page_window=TABLE_PAGE_WINDOW,
     )

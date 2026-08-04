@@ -11,7 +11,6 @@ from corpus_extraction_test_support import _source_record, _workspace
 
 from er_commons.corpus_extraction import process as process_module
 from er_commons.corpus_extraction.config import ResourcePolicy, load_run_spec
-from er_commons.corpus_extraction.preservation import compare_imported_candidate
 from er_commons.corpus_extraction.records import SourceIdentity
 from er_commons.corpus_extraction.storage import (
     import_content,
@@ -118,26 +117,3 @@ def test_production_identity_inventory_covers_every_stage_one_runtime_module() -
     runtime = {path.as_posix() for path in Path("src/er_commons/corpus_extraction").glob("*.py")}
     assert runtime <= owned
     assert "src/er_commons/cli.py" in owned
-
-
-def test_offline_import_preserves_records_assets_support_warnings_and_policy(
-    tmp_path: Path,
-) -> None:
-    reference = tmp_path / "reference"
-    imported = tmp_path / "imported"
-    for root in (reference, imported):
-        for relative, payload in {
-            "records/content.jsonl": "record\n",
-            "assets/figure.png": "asset",
-            "support/bridge.json": "support",
-            "support/warning_policy.json": "warning-policy",
-        }.items():
-            path = root / relative
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(payload)
-
-    report = compare_imported_candidate(reference, imported)
-
-    assert report.status == "exact"
-    assert (report.record_count, report.asset_count, report.support_count) == (1, 1, 2)
-    assert report.warning_policy_count == 1

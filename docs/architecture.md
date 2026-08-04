@@ -275,6 +275,31 @@ unmapped dispositions.
 
 ## Restartable corpus workflow
 
+Task 03F.4 reduced the maintained extraction surface to two production
+orchestration commands: `extraction run-document` and `extraction run-scope`.
+Each document content owner now constructs once, runs its stage-local active
+validator, and publishes completion-last or checksum-verifies reuse. Historical
+candidate replay, mandatory repeat builds, rewrite comparisons, and automatic
+review rendering are not publication branches.
+
+The responsibility boundaries are now explicit:
+
+- content packages own construction and stage-local semantic validation;
+- their lifecycle modules own failure retention, no-clobber publication, and
+  verified reuse;
+- `corpus_extraction` owns document transaction orchestration and lineage;
+- `corpus_resolution` owns exact scope accounting, indexing, immutable
+  resolution, handoff publication, and read-only `validate-handoff`;
+- `extraction_review` owns candidate-neutral comparison and disposable,
+  checksummed requested-review manifests outside candidate identity; and
+- Tasks 03G/03H select bounded reruns, while Task 04 independently owns human
+  usability and disposition.
+
+Hierarchy publication records one honest build. Direct machine validation is
+the general publication authority; Appendix P's separately checksummed bounded
+authorization remains source- and candidate-specific and explicitly denies
+corpus-wide acceptance.
+
 Task 03F composes the accepted document pipeline through the checked
 [restartable corpus extraction contract](specs/restartable_corpus_extraction_v1.md).
 The new application shell owns source/scope resolution, corpus identity,

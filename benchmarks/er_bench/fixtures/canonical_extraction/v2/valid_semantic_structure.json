@@ -4080,14 +4080,14 @@
       ]
     }
   ],
-  "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
-  "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+  "baseline_producer_run_id": "prv1-c444abe10edab88d92805dddcf57618175d35a17301980e9791c779ba868b4e8",
+  "hierarchy_producer_run_id": "prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e",
   "bridge_entries": [
     {
       "stable_item_key": "0000000000000000000000000000000000000000000000000000000000000000",
-      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_producer_run_id": "prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e",
       "hierarchy_raw_pointer": "#/texts/0",
-      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_producer_run_id": "prv1-c444abe10edab88d92805dddcf57618175d35a17301980e9791c779ba868b4e8",
       "baseline_raw_pointer": "#/texts/0",
       "status": "mapped",
       "canonical_record_ids": [
@@ -4097,9 +4097,9 @@
     },
     {
       "stable_item_key": "1111111111111111111111111111111111111111111111111111111111111111",
-      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_producer_run_id": "prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e",
       "hierarchy_raw_pointer": "#/texts/1",
-      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_producer_run_id": "prv1-c444abe10edab88d92805dddcf57618175d35a17301980e9791c779ba868b4e8",
       "baseline_raw_pointer": "#/texts/1",
       "status": "mapped",
       "canonical_record_ids": [
@@ -4109,9 +4109,9 @@
     },
     {
       "stable_item_key": "3333333333333333333333333333333333333333333333333333333333333333",
-      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_producer_run_id": "prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e",
       "hierarchy_raw_pointer": "#/texts/3",
-      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_producer_run_id": "prv1-c444abe10edab88d92805dddcf57618175d35a17301980e9791c779ba868b4e8",
       "baseline_raw_pointer": "#/texts/3",
       "status": "mapped",
       "canonical_record_ids": [
@@ -4121,9 +4121,9 @@
     },
     {
       "stable_item_key": "4444444444444444444444444444444444444444444444444444444444444444",
-      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_producer_run_id": "prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e",
       "hierarchy_raw_pointer": "#/texts/4",
-      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_producer_run_id": "prv1-c444abe10edab88d92805dddcf57618175d35a17301980e9791c779ba868b4e8",
       "baseline_raw_pointer": "#/texts/4",
       "status": "mapped",
       "canonical_record_ids": [
@@ -4133,9 +4133,9 @@
     },
     {
       "stable_item_key": "6666666666666666666666666666666666666666666666666666666666666666",
-      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_producer_run_id": "prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e",
       "hierarchy_raw_pointer": "#/texts/6",
-      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_producer_run_id": "prv1-c444abe10edab88d92805dddcf57618175d35a17301980e9791c779ba868b4e8",
       "baseline_raw_pointer": "#/texts/6",
       "status": "mapped",
       "canonical_record_ids": [
@@ -4145,9 +4145,9 @@
     },
     {
       "stable_item_key": "7777777777777777777777777777777777777777777777777777777777777777",
-      "hierarchy_producer_run_id": "prv1-92170ee8b5f5d51ffa738749ee872d7c7e9e5e7dbcb16cf6150bcf33d10d68e1",
+      "hierarchy_producer_run_id": "prv1-6ea3003b68aa7893d23de618d81b4d24f8b449c8f8eeb5028eb382d9ca60671e",
       "hierarchy_raw_pointer": "#/texts/7",
-      "baseline_producer_run_id": "prv1-93dfb03242a3651b90ee5424f36b7f6c58b5ac814dd48e1495b6359cdc6e92e0",
+      "baseline_producer_run_id": "prv1-c444abe10edab88d92805dddcf57618175d35a17301980e9791c779ba868b4e8",
       "baseline_raw_pointer": "#/texts/7",
       "status": "mapped",
       "canonical_record_ids": [
@@ -4157,12 +4157,12 @@
     }
   ],
   "control_provenance": {
-    "candidate_id": "hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1",
+    "candidate_id": "hcorv1-c73d6bb800060269ccc1ecd57352e14943f53cf0d90085dc590442618d80cd88",
     "completion_status": "complete_with_ambiguities",
-    "artifact_inventory_sha256": "8242a22aab347b17964562081e3a4f1f38b2efec23480aed07b770c2ada35c3a",
+    "artifact_inventory_sha256": "29fbf688407a19474780f78613e8ee5ea7f9d0ff173a6d2ce0fd487addee1bdb",
     "semantic_file_set_sha256": "75a0e36c7e5814d5135763a09c7374643fdd5e0edafd30de360bb954345dd3d2",
     "aggregate_semantic_sha256": "c3036210f5698a295ca799ee25d1850a080f0a5d211bef303b94900882cb4db8",
-    "bounded_acceptance_sha256": "5335737128fcbac2b1f2d41c42712af0534e2d15141ccf1150c37ffbf70f328c",
+    "bounded_acceptance_sha256": "ea301a43e68c2e902122d40b5c25f569b3a7d30e1142ebf4ea84b96e04b5a921",
     "authorization_id": "brisbane_baylands_2025_deir_task03e2d_bounded_acceptance_v1",
     "acceptance_status": "accepted_with_known_limitations",
     "source_id": "deir_appendix_p",
@@ -4195,7 +4195,7 @@
       "ambiguities": 17,
       "warnings": 148
     },
-    "producer_comparison_sha256": "33574f6b15dc128a7bf58d6e2ab1a35c867ce1df493fe317a46bed1b8e8bf364"
+    "producer_comparison_sha256": "f2736c22bbd8dfcd3233c4b91bfbbc25d96ab0a899be7b4039da882ff1e9f080"
   },
   "correspondence_report": {
     "baseline_candidate_id": "exv1-2ea82d10c3459d4a4249b875c0ec1cbe594bc81a1c1b541f2fe85554b6854b28",

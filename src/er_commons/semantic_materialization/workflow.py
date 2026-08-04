@@ -9,39 +9,29 @@ from er_commons.semantic_materialization.construction import build_semantic_reco
 from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 from er_commons.semantic_materialization.identity import build_semantic_candidate_identity
 from er_commons.semantic_materialization.lifecycle import (
-    build_compare_and_publish,
+    build_validate_and_publish,
     reuse_completed_candidate,
 )
-from er_commons.semantic_materialization.publication import verify_completed_semantic_candidate
 from er_commons.semantic_materialization.runtime import (
     PLACEHOLDER_ID,
     RuntimeContext,
-    candidate_locations,
     load_runtime_context,
     owned_runtime_paths,
 )
 from er_commons.semantic_materialization.support import build_candidate_support
 
 
-def run_semantic_materialization(data_root: Path, config_path: Path) -> tuple[Path, Path]:
-    """Verify → identify/reuse → build twice → compare → review → publish."""
+def run_semantic_materialization(data_root: Path, config_path: Path) -> Path:
+    """Verify inputs, identify/reuse, or build, validate, and publish once."""
     context = load_runtime_context(data_root=data_root, config_path=config_path)
     identity = _candidate_identity(context)
     candidate_id = identity["extraction_id"]
     _require_new_candidate_id(context, candidate_id)
-    locations = candidate_locations(context, candidate_id)
-    if getattr(context.config, "reference_profile", "frozen_equivalence") == ("frozen_equivalence"):
-        assert context.config.mvp_reference_candidate_id is not None
-        verify_completed_semantic_candidate(
-            locations.reference_root, context.config.mvp_reference_candidate_id
-        )
-    if locations.candidate_root.exists():
-        return reuse_completed_candidate(
-            context=context, locations=locations, candidate_id=candidate_id
-        )
-    return build_compare_and_publish(
+    candidate_root = context.task_root / candidate_id
+    if candidate_root.exists():
+        return reuse_completed_candidate(context=context, candidate_id=candidate_id)
+    return build_validate_and_publish(
         context=context,
-        locations=locations,
         identity=identity,
         candidate_id=candidate_id,
     )

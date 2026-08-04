@@ -201,6 +201,20 @@ valid completion. Scope records reference immutable document candidates rather
 than copying or rewriting them. Review renders remain under the existing
 disposable `review_cache` and outside semantic identity.
 
+Task 03F.4 removed new-candidate proof artifacts such as rewrite-comparison
+reports, mandatory repeat evidence, automatic render outputs, and the document
+stage `preservation_report.json`. Existing external artifacts remain immutable
+historical evidence and are not rebound or migrated. Current managed files
+contain only content, active support/control records, identity, inventory,
+checksums, attempts, and completion artifacts required by maintained validators.
+
+Requested page, table, family, hierarchy, and region evidence is generated
+separately under `review_cache`. Its candidate-neutral request manifest records
+the exact sample and checksums generated files but does not participate in
+candidate identity, completeness, publication, acceptance, or Task 04 status.
+`extraction validate-handoff` verifies a published v1.1 handoff and successful
+document candidates read-only without rebuilding them.
+
 The stage-two corpus index lives below
 `scopes/<run_scope_id>/target_indexes/`; it is not the Task 03E.5
 document-local `support/cross_reference_target_index.json`. Corpus resolution

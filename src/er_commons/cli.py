@@ -1,4 +1,4 @@
-"""Typer-backed command-line interface for ER Commons."""
+"""Typer-backed command line for maintained ER Commons workflows."""
 
 from __future__ import annotations
 
@@ -7,73 +7,23 @@ from typing import Annotated
 
 import typer
 
-from er_commons.canonical_extraction import run_document_canonicalization
 from er_commons.corpus_extraction import run_document as run_restartable_document
-from er_commons.corpus_extraction_contract import validate_fixture_directory
+from er_commons.corpus_extraction_contract_v1_1 import validate_fixture_directory
 from er_commons.corpus_resolution import run_scope as run_corpus_scope
-from er_commons.cross_reference_enrichment import run_cross_reference_enrichment
-from er_commons.document_extraction import (
-    run_complete_document_producer,
-    run_document_extraction,
-    run_hierarchy_producer_evaluation,
-)
-from er_commons.hierarchy_correction import (
-    prepare_held_out_review,
-    run_hierarchy_correction,
-    seal_held_out_annotations,
-)
-from er_commons.semantic_materialization import run_semantic_materialization
+from er_commons.corpus_resolution import validate_handoff
 from er_commons.settings import ProjectSettings, load_settings
 from er_commons.source_freeze import freeze_release, verify_release
-from er_commons.table_extraction import run_table_extraction
 
 app = typer.Typer(
     help="Small, reproducible environmental-review data workflows.",
     no_args_is_help=True,
 )
 sources_app = typer.Typer(help="Acquire and verify immutable public source releases.")
-documents_app = typer.Typer(help="Extract native PDF structure into reviewable artifacts.")
-tables_app = typer.Typer(help="Extract native PDF tables into reviewable artifacts.")
-canonicalize_app = typer.Typer(
-    help="Materialize project-owned canonical records from verified producer artifacts."
-)
-hierarchy_app = typer.Typer(help="Build deterministic hierarchy-correction overlays.")
 extraction_app = typer.Typer(help="Validate and run explicit corpus-extraction scopes.")
 app.add_typer(sources_app, name="sources")
-app.add_typer(documents_app, name="documents")
-app.add_typer(tables_app, name="tables")
-app.add_typer(canonicalize_app, name="canonicalize")
-app.add_typer(hierarchy_app, name="hierarchy")
 app.add_typer(extraction_app, name="extraction")
 
 DEFAULT_BRISBANE_SOURCE_SPEC = Path("configs/brisbane_baylands_2025_deir_sources_v1.json")
-DEFAULT_DOCUMENT_REVIEW_SPEC = Path(
-    "configs/brisbane_baylands_2025_deir_task03a15_document_pipeline_v4.json"
-)
-DEFAULT_COMPLETE_DOCUMENT_SPEC = Path(
-    "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json"
-)
-DEFAULT_HIERARCHY_EVALUATION_SPEC = Path(
-    "configs/brisbane_baylands_2025_deir_task03e_hierarchy_evaluation_v1.json"
-)
-DEFAULT_CANONICALIZATION_SPEC = Path(
-    "configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json"
-)
-DEFAULT_SEMANTIC_MATERIALIZATION_SPEC = Path(
-    "configs/brisbane_baylands_2025_deir_task03e4_semantic_v1.json"
-)
-DEFAULT_CROSS_REFERENCE_SPEC = Path(
-    "configs/brisbane_baylands_2025_deir_task03e5_cross_references_human_v2.json"
-)
-DEFAULT_HIERARCHY_CORRECTION_SPEC = Path(
-    "configs/brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1.json"
-)
-DEFAULT_TABLE_REVIEW_SPEC = Path(
-    "configs/brisbane_baylands_2025_deir_task03a13_unified_table_pipeline_v1.json"
-)
-DEFAULT_TABLE_FIRST_600_SPEC = Path(
-    "configs/brisbane_baylands_2025_deir_task03a14_first_600_table_pipeline_v1.json"
-)
 
 
 def configured_paths(settings: ProjectSettings) -> dict[str, Path]:
@@ -143,130 +93,6 @@ def verify_sources(
     typer.echo(f"pages={manifest.aggregates['page_count']}")
 
 
-@documents_app.command("run-review")
-def run_document_review(
-    config: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Fixed ten-page document-extraction pipeline configuration.",
-        ),
-    ] = DEFAULT_DOCUMENT_REVIEW_SPEC,
-) -> None:
-    """Run the clean Task 03A parser and compare it with accepted JSON."""
-    manifest_path = run_document_extraction(load_settings().data_root, config)
-    typer.echo(f"pipeline_manifest={manifest_path}")
-
-
-@documents_app.command("run-complete")
-def run_complete_document(
-    config: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Manifest-selected complete-document producer configuration.",
-        ),
-    ] = DEFAULT_COMPLETE_DOCUMENT_SPEC,
-) -> None:
-    """Publish or checksum-verify one complete Task 03C producer run."""
-    completion_path = run_complete_document_producer(
-        load_settings().data_root,
-        config,
-    )
-    typer.echo(f"producer_completion={completion_path}")
-
-
-@documents_app.command("evaluate-hierarchy")
-def evaluate_document_hierarchy(
-    evaluation: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Frozen Task 03E hierarchy evaluation specification.",
-        ),
-    ] = DEFAULT_HIERARCHY_EVALUATION_SPEC,
-) -> None:
-    """Run the repeated Appendix P hierarchy producer gate."""
-    report_path = run_hierarchy_producer_evaluation(
-        load_settings().data_root,
-        evaluation,
-    )
-    typer.echo(f"hierarchy_producer_report={report_path}")
-
-
-@canonicalize_app.command("run-document")
-def run_canonical_document(
-    config: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Reviewed document-scoped canonicalization configuration.",
-        ),
-    ] = DEFAULT_CANONICALIZATION_SPEC,
-) -> None:
-    """Publish or checksum-verify the Task 03D Appendix P core candidate."""
-    completion_path = run_document_canonicalization(
-        load_settings().data_root,
-        config,
-    )
-    typer.echo(f"canonicalization_completion={completion_path}")
-
-
-@canonicalize_app.command("run-semantic-document")
-def run_semantic_document(
-    config: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Reviewed Appendix P semantic-materialization configuration.",
-        ),
-    ] = DEFAULT_SEMANTIC_MATERIALIZATION_SPEC,
-) -> None:
-    """Publish or checksum-verify the Task 03E.4 semantic candidate."""
-    completion_path, review_manifest = run_semantic_materialization(
-        load_settings().data_root,
-        config,
-    )
-    typer.echo(f"semantic_completion={completion_path}")
-    typer.echo(f"semantic_review_manifest={review_manifest}")
-
-
-@canonicalize_app.command("run-cross-references")
-def run_cross_references(
-    config: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Reviewed Appendix P cross-reference configuration.",
-        ),
-    ] = DEFAULT_CROSS_REFERENCE_SPEC,
-) -> None:
-    """Publish or checksum-verify the Task 03E.5 schema-v3 candidate."""
-    completion_path, comparison_path = run_cross_reference_enrichment(
-        load_settings().data_root, config
-    )
-    typer.echo(f"cross_reference_completion={completion_path}")
-    typer.echo(f"cross_reference_comparison={comparison_path}")
-
-
 @extraction_app.command("validate-contract")
 def validate_extraction_contract(
     schema: Annotated[
@@ -276,7 +102,7 @@ def validate_extraction_contract(
             file_okay=True,
             dir_okay=False,
             readable=True,
-            help="Restartable corpus-extraction JSON Schema.",
+            help="Restartable corpus-extraction v1.1 JSON Schema.",
         ),
     ],
     fixtures: Annotated[
@@ -286,11 +112,11 @@ def validate_extraction_contract(
             file_okay=False,
             dir_okay=True,
             readable=True,
-            help="Directory containing the positive and negative contract fixtures.",
+            help="Directory containing current contract fixtures.",
         ),
     ],
 ) -> None:
-    """Validate the offline Task 03F.1 contract fixtures without source data."""
+    """Validate the current offline corpus-extraction contract fixtures."""
     validate_fixture_directory(schema.resolve(), fixtures.resolve())
     typer.echo("restartable_extraction_contract=valid")
 
@@ -310,18 +136,11 @@ def run_extraction_document(
     ],
     source_id: Annotated[
         str,
-        typer.Option(
-            "--source-id",
-            help="Manifest source ID; no document is selected by default.",
-        ),
+        typer.Option("--source-id", help="Manifest source ID; no source is implicit."),
     ],
 ) -> None:
     """Run or checksum-reuse one complete manifest-selected document."""
-    completion = run_restartable_document(
-        load_settings().data_root,
-        run_spec,
-        source_id,
-    )
+    completion = run_restartable_document(load_settings().data_root, run_spec, source_id)
     typer.echo(f"document_completion={completion}")
 
 
@@ -344,114 +163,43 @@ def run_extraction_scope(
     typer.echo(f"handoff_completion={completion}")
 
 
-@hierarchy_app.command("correct-document")
-def correct_document_hierarchy(
-    config: Annotated[
+@extraction_app.command("validate-handoff")
+def validate_extraction_handoff(
+    extraction_root: Annotated[
         Path,
         typer.Option(
+            "--extraction-root",
             exists=True,
-            file_okay=True,
-            dir_okay=False,
+            file_okay=False,
+            dir_okay=True,
             readable=True,
-            help="Reviewed deterministic hierarchy-correction configuration.",
-        ),
-    ] = DEFAULT_HIERARCHY_CORRECTION_SPEC,
-) -> None:
-    """Publish or exactly reuse one Task 03E.2 correction candidate."""
-    completion_path = run_hierarchy_correction(load_settings().data_root, config)
-    typer.echo(f"hierarchy_correction_completion={completion_path}")
-
-
-@hierarchy_app.command("prepare-heldout")
-def prepare_hierarchy_heldout(
-    config: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Reviewed deterministic hierarchy-correction configuration.",
-        ),
-    ] = DEFAULT_HIERARCHY_CORRECTION_SPEC,
-) -> None:
-    """Prepare source-only held-out renders and an incomplete annotation template."""
-    template_path = prepare_held_out_review(
-        data_root=load_settings().data_root,
-        config_path=config,
-    )
-    typer.echo(f"held_out_template={template_path}")
-
-
-@hierarchy_app.command("seal-heldout")
-def seal_hierarchy_heldout(
-    completed_template: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Completed source-only held-out annotation template.",
+            help="Published Task 03F extraction root.",
         ),
     ],
-    config: Annotated[
+    scope_id: Annotated[str, typer.Option("--scope-id", help="Published scope ID.")],
+    schema: Annotated[
         Path,
         typer.Option(
+            "--schema",
             exists=True,
             file_okay=True,
             dir_okay=False,
             readable=True,
-            help="Reviewed deterministic hierarchy-correction configuration.",
+            help="Current corpus-extraction v1.1 schema.",
         ),
-    ] = DEFAULT_HIERARCHY_CORRECTION_SPEC,
+    ],
 ) -> None:
-    """Validate and checksum-seal completed held-out annotations."""
-    seal = seal_held_out_annotations(
-        data_root=load_settings().data_root,
-        config_path=config,
-        completed_template_path=completed_template,
+    """Verify one published handoff and its successful documents without rebuilding."""
+    result = validate_handoff(
+        extraction_root=extraction_root,
+        scope_id=scope_id,
+        schema_path=schema,
     )
-    typer.echo(f"held_out_annotations={seal.annotations_path}")
-    typer.echo(f"held_out_seal={seal.seal_path}")
-
-
-@tables_app.command("run-review")
-def run_table_review(
-    spec: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Reviewed ten-page table-extraction specification.",
-        ),
-    ] = DEFAULT_TABLE_REVIEW_SPEC,
-) -> None:
-    """Run or resume the fixed ten-page table-parser review."""
-    manifest_path = run_table_extraction(load_settings().data_root, spec)
-    typer.echo(f"pipeline_manifest={manifest_path}")
-
-
-@tables_app.command("run-first-600")
-def run_table_first_600(
-    spec: Annotated[
-        Path,
-        typer.Option(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            readable=True,
-            help="Reviewed first-600-page table-extraction specification.",
-        ),
-    ] = DEFAULT_TABLE_FIRST_600_SPEC,
-) -> None:
-    """Run or resume the parser on exactly physical PDF pages 1-600."""
-    manifest_path = run_table_extraction(load_settings().data_root, spec)
-    typer.echo(f"pipeline_manifest={manifest_path}")
+    typer.echo(f"handoff_id={result.handoff_id}")
+    typer.echo(f"documents={result.verified_document_count}")
+    typer.echo(f"task04_status={result.task04_status}")
 
 
 def main() -> None:
-    """Run the CLI defined by the current, intentionally small command surface."""
+    """Run the intentionally small maintained command surface."""
     app()

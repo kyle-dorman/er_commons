@@ -5,10 +5,8 @@ ENV_FILE := .env
 export ER_COMMONS_DATA_ROOT
 
 .PHONY: help bootstrap sync check-env data-dirs about paths freeze-brisbane-sources \
-	verify-brisbane-sources run-document-review run-table-review run-table-first-600 \
-	run-complete-document run-hierarchy-evaluation run-canonical-document \
-	run-semantic-document run-cross-references \
-	validate-extraction-contract run-extraction-scope \
+	verify-brisbane-sources validate-extraction-contract run-extraction-document \
+	run-extraction-scope \
 	format format-check lint lint-fix type test check fix
 
 help:
@@ -18,16 +16,10 @@ help:
 	@echo "  make paths       Show the configured external data/artifact paths"
 	@echo "  make freeze-brisbane-sources  Freeze the reviewed Brisbane source release"
 	@echo "  make verify-brisbane-sources  Verify the frozen release without network access"
-	@echo "  make run-document-review      Run the clean ten-page document parser"
-	@echo "  make run-complete-document    Run or verify the Task 03C Appendix P producer"
-	@echo "  make run-hierarchy-evaluation Run the Task 03E repeated producer gate"
-	@echo "  make run-canonical-document   Materialize or verify the Task 03D candidate"
-	@echo "  make run-semantic-document    Materialize Appendix P semantic structure"
-	@echo "  make run-cross-references     Materialize Appendix P cross-references"
-	@echo "  make validate-extraction-contract  Validate current Task 03F.3 Gate A fixtures"
+	@echo "  make validate-extraction-contract  Validate the current v1.1 contract fixtures"
+	@echo "  make run-extraction-document RUN_SPEC=PATH SOURCE_ID=ID  Run one document"
 	@echo "  make run-extraction-scope RUN_SPEC=PATH  Run or reuse one explicit corpus scope"
-	@echo "  make run-table-review         Run or resume the ten-page table review"
-	@echo "  make run-table-first-600      Run or resume the first-600-page table validation"
+	@echo "  er-commons extraction validate-handoff  Verify a published handoff read-only"
 	@echo "  make fix         Apply lint and formatting fixes"
 	@echo "  make check       Run formatting, linting, types, and tests"
 
@@ -59,36 +51,17 @@ verify-brisbane-sources: check-env
 	uv run er-commons sources verify \
 		--spec configs/brisbane_baylands_2025_deir_sources_v1.json
 
-run-document-review: check-env
-	uv run er-commons documents run-review
-
-run-complete-document: check-env
-	uv run er-commons documents run-complete
-
-run-hierarchy-evaluation: check-env
-	uv run er-commons documents evaluate-hierarchy
-
-run-canonical-document: check-env
-	uv run er-commons canonicalize run-document
-
-run-semantic-document: check-env
-	uv run er-commons canonicalize run-semantic-document
-
-run-cross-references: check-env
-	uv run er-commons canonicalize run-cross-references
-
 validate-extraction-contract:
 	uv run python -m er_commons.corpus_extraction_contract_v1_1
+
+run-extraction-document: check-env
+	@test -n "$(RUN_SPEC)" || (echo "RUN_SPEC=PATH is required"; exit 1)
+	@test -n "$(SOURCE_ID)" || (echo "SOURCE_ID=ID is required"; exit 1)
+	uv run er-commons extraction run-document --run-spec "$(RUN_SPEC)" --source-id "$(SOURCE_ID)"
 
 run-extraction-scope: check-env
 	@test -n "$(RUN_SPEC)" || (echo "RUN_SPEC=PATH is required"; exit 1)
 	uv run er-commons extraction run-scope --run-spec "$(RUN_SPEC)"
-
-run-table-review: check-env
-	uv run er-commons tables run-review
-
-run-table-first-600: check-env
-	uv run er-commons tables run-first-600
 
 format:
 	uv run ruff format .

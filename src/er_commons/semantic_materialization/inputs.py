@@ -15,7 +15,6 @@ from er_commons.hierarchy_correction.candidate_publication import (
 )
 from er_commons.semantic_materialization.config import SemanticMaterializationConfig
 from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
-from er_commons.semantic_structure.constants import EXPECTED_PRODUCER_COMPARISON_SHA256
 from er_commons.semantic_structure.handoff import verify_task03e2d_control
 from er_commons.source_freeze import assert_contained, sha256_file
 
@@ -227,25 +226,57 @@ def load_semantic_materialization_inputs(
     hierarchy_root = assert_contained(
         data_root, config.hierarchy_candidate_relative_root.as_posix()
     )
+    _require_input_value(
+        invariant="hierarchy candidate root matches the configured candidate ID",
+        expected=config.hierarchy_candidate_id,
+        observed=hierarchy_root.name,
+        subject=config.hierarchy_candidate_relative_root.as_posix(),
+    )
     hierarchy_completion_path = hierarchy_root / "records" / "completion_record.json"
     hierarchy_inventory_path = hierarchy_root / "records" / "artifact_inventory.json"
     acceptance_ref = None
     comparison_ref = None
     if config.control_profile == "task03e2d_bounded":
         assert config.bounded_acceptance_relative_path is not None
+        assert config.bounded_acceptance_policy_relative_path is not None
         assert config.producer_comparison_relative_path is not None
         acceptance_path = assert_contained(
             data_root, config.bounded_acceptance_relative_path.as_posix()
         )
-        control = verify_task03e2d_control(hierarchy_root, acceptance_path)
-        acceptance_ref = _data_ref(data_root, acceptance_path)
+        _require_input_value(
+            invariant="bounded-acceptance root matches the configured hierarchy candidate",
+            expected=config.hierarchy_candidate_id,
+            observed=acceptance_path.parent.name,
+            subject=config.bounded_acceptance_relative_path.as_posix(),
+        )
+        policy_path = assert_contained(
+            project_root, config.bounded_acceptance_policy_relative_path.as_posix()
+        )
         comparison_path = assert_contained(
             data_root, config.producer_comparison_relative_path.as_posix()
         )
+        control = verify_task03e2d_control(
+            data_root=data_root,
+            candidate_root=hierarchy_root,
+            candidate_id=config.hierarchy_candidate_id,
+            hierarchy_schema_path=project_root / config.hierarchy_schema_relative_path,
+            acceptance_path=acceptance_path,
+            acceptance_policy_path=policy_path,
+            producer_comparison_path=comparison_path,
+            baseline_producer_run_id=config.baseline_producer_run_id,
+            hierarchy_producer_run_id=config.hierarchy_producer_run_id,
+        )
+        _require_input_value(
+            invariant="bounded control names the configured hierarchy candidate",
+            expected=config.hierarchy_candidate_id,
+            observed=control.get("candidate_id"),
+            subject=config.hierarchy_candidate_id,
+        )
+        acceptance_ref = _data_ref(data_root, acceptance_path)
         comparison_ref = _data_ref(data_root, comparison_path)
         _require_input_value(
             invariant="producer comparison checksum matches the bounded control",
-            expected=EXPECTED_PRODUCER_COMPARISON_SHA256,
+            expected=control["producer_comparison_sha256"],
             observed=comparison_ref.sha256,
             subject=comparison_ref.path,
         )

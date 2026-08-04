@@ -27,7 +27,7 @@ from er_commons.hierarchy_correction.candidate_records import (
     stable_jsonl_bytes,
 )
 from er_commons.hierarchy_correction.digests import canonical_json_sha256
-from er_commons.hierarchy_correction.quality_gate import SEMANTIC_PATHS
+from er_commons.hierarchy_correction.publication_authorization import SEMANTIC_PATHS
 
 ROOT = Path(__file__).parents[1]
 CONFIG_PATH = ROOT / "configs/brisbane_baylands_2025_deir_task03e2d_bounded_acceptance_v1.json"

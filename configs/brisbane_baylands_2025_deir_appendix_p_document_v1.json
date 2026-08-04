@@ -1,0 +1,43 @@
+{
+  "schema_version": "er_commons.document_run_spec.v1",
+  "production_extraction_id": "exv1-1bd71e02e9f8da505d68bfb58b8dd8d4c1b47aabc8365417028d6daf60c1fcc4",
+  "production_identity_relative_path": "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/production_identity_preimage.json",
+  "scope_kind": "engineering_smoke",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03f_corpus_extraction",
+  "document_owners": [
+    {
+      "source_id": "deir_appendix_p",
+      "configs": {
+        "baseline_producer": "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json",
+        "hierarchy_producer": "configs/brisbane_baylands_2025_deir_task03e_appendix_p_v1.json",
+        "canonical": "configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json",
+        "hierarchy_correction": "configs/brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1.json",
+        "semantic": "configs/brisbane_baylands_2025_deir_task03e4_semantic_v1.json",
+        "cross_references": "configs/brisbane_baylands_2025_deir_task03e5_cross_references_human_v2.json"
+      }
+    }
+  ],
+  "hierarchy_dispositions": [
+    {
+      "source_id": "deir_appendix_p",
+      "authority": "bounded_acceptance",
+      "authorization_relative_path": "pipelines/brisbane_baylands/task_03e2_hierarchy_review/hcorv1-30385014eb61a4f8acb39f763e3f7a90b1ead92632db3d37b541b8d2f721ad42/bounded_acceptance.json"
+    }
+  ],
+  "resource_policy": {
+    "document_concurrency": 1,
+    "page_batch_size": 4,
+    "stage_batch_size": 4,
+    "queue_capacity": 100,
+    "cpu_threads_per_document": 4,
+    "device": "cpu",
+    "memory_estimate_bytes": 17179869184,
+    "storage_estimate_bytes": 107374182400,
+    "docling_timeout_seconds": null,
+    "outer_process_deadline_seconds": 86400,
+    "cancellation_grace_seconds": 15,
+    "retry_limit": 1
+  }
+}

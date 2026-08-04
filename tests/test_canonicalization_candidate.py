@@ -13,11 +13,9 @@ from er_commons.canonical_extraction import candidate
 from er_commons.canonical_extraction.candidate import (
     RECORD_PATHS,
     build_summary,
-    validate_appendix_p_acceptance,
     write_record_files,
     write_validate_and_seal_candidate,
 )
-from er_commons.canonical_extraction.errors import ContractError
 from er_commons.canonical_extraction.layout import RECORD_COLLECTIONS
 from er_commons.canonical_extraction.publication import verify_completed_candidate
 from er_commons.canonical_extraction.record_sets import (
@@ -63,52 +61,6 @@ def _records_from_bundle(bundle: dict[str, Any]) -> CanonicalRecordSet:
         conversion_observations=tuple(bundle["conversion_observations"]),
         raw_mappings=tuple(bundle["raw_mappings"]),
     )
-
-
-def _accepted_summary() -> dict[str, Any]:
-    return {
-        "counts": {
-            "pages": 222,
-            "routing_observations": 222,
-            "table_stage_observations": 34,
-            "tables": 19,
-            "table_families": 19,
-            "figures": 27,
-            "images": 27,
-        },
-        "clean_table_cell_count": 3669,
-        "mapped_table_region_count": 19,
-        "zero_table_region_count": 15,
-        "document_index_descendant_text_count": 663,
-        "furniture": {
-            "producer_item_count": 522,
-            "emitted_count": 521,
-            "suppressed_picture_descendant_count": 1,
-        },
-    }
-
-
-@pytest.mark.parametrize(
-    ("path", "value", "diagnostic"),
-    [
-        (("counts", "tables"), 18, "tables count; expected=19, actual=18"),
-        (
-            ("furniture", "emitted_count"),
-            520,
-            "emitted furniture count; expected=521, actual=520",
-        ),
-    ],
-)
-def test_acceptance_invariants_name_expected_and_actual(
-    path: tuple[str, str],
-    value: int,
-    diagnostic: str,
-) -> None:
-    summary = _accepted_summary()
-    summary[path[0]][path[1]] = value
-
-    with pytest.raises(ContractError, match=diagnostic):
-        validate_appendix_p_acceptance(summary)
 
 
 def test_record_collections_serialize_in_contract_order_with_exact_counts(

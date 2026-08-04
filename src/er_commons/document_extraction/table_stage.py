@@ -84,8 +84,6 @@ def build_complete_table_request(
         table_id_prefix=prefix,
         family_id_prefix=f"{prefix}_table",
         routed_pages=routed_pages,
-        comparison_relative_root=None,
-        comparison_scope="exact",
         retain_review_derivatives=retain_review_derivatives,
         execution=ExecutionConfig(maximum_workers=1),
         detection=detection,

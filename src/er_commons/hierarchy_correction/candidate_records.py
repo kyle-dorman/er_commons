@@ -55,9 +55,9 @@ class CandidatePayload:
 
 @dataclass(frozen=True)
 class CandidateMeasurements:
-    """Frozen resource observations used to construct the metrics record."""
+    """Resource observations from one production build."""
 
-    fresh_wall_time_seconds: tuple[float, float, float]
+    build_wall_time_seconds: float
     stage_wall_time_seconds: Mapping[str, float]
     peak_rss_bytes: int
     input_bytes: int
@@ -126,24 +126,25 @@ def build_metrics(
     """Build exact resource ratios for one prospective managed payload set."""
     if measurements.producer_build_wall_time_seconds <= 0 or measurements.producer_bytes <= 0:
         raise ValueError("producer comparison measurements must be positive")
-    wall_times = list(measurements.fresh_wall_time_seconds)
-    median = sorted(wall_times)[1]
+    if measurements.build_wall_time_seconds < 0:
+        raise ValueError("build wall time must be nonnegative")
     return {
         "candidate_id": candidate_id,
-        "fresh_wall_time_seconds": wall_times,
-        "median_fresh_wall_time_seconds": median,
+        "build_wall_time_seconds": measurements.build_wall_time_seconds,
         "stage_wall_time_seconds": dict(measurements.stage_wall_time_seconds),
         "peak_rss_bytes": measurements.peak_rss_bytes,
         "input_bytes": measurements.input_bytes,
         "artifact_bytes": artifact_bytes,
         "producer_build_wall_time_seconds": measurements.producer_build_wall_time_seconds,
         "producer_bytes": measurements.producer_bytes,
-        "wall_time_ratio": median / measurements.producer_build_wall_time_seconds,
+        "wall_time_ratio": (
+            measurements.build_wall_time_seconds / measurements.producer_build_wall_time_seconds
+        ),
         # Bound this reporting value because its serialized length contributes
         # to artifact_bytes. Exact integer bytes remain the acceptance input.
         "artifact_bytes_ratio": round(artifact_bytes / measurements.producer_bytes, 6),
         "cheap_relative_to_producer": (
-            median < measurements.producer_build_wall_time_seconds
+            measurements.build_wall_time_seconds < measurements.producer_build_wall_time_seconds
             and artifact_bytes < measurements.producer_bytes
         ),
     }

@@ -11,18 +11,16 @@ from er_commons.hierarchy_correction.constants import FATAL_CODES
 class RunStage(StrEnum):
     """Human-readable application stages that can leave attempt evidence."""
 
-    FRESH_BUILDS = "fresh_builds"
-    PRESERVATION = "preservation"
+    BUILD = "build"
     CANDIDATE_ASSEMBLY = "candidate_assembly"
-    QUALITY_GATE = "quality"
+    AUTHORIZATION = "authorization"
     PUBLICATION = "publication"
 
 
 _DEFAULT_CODE_BY_STAGE = {
-    RunStage.FRESH_BUILDS: "UNKNOWN_REFERENCE",
-    RunStage.PRESERVATION: "INPUT_INVENTORY_MISMATCH",
+    RunStage.BUILD: "UNKNOWN_REFERENCE",
     RunStage.CANDIDATE_ASSEMBLY: "UNKNOWN_REFERENCE",
-    RunStage.QUALITY_GATE: "UNKNOWN_REFERENCE",
+    RunStage.AUTHORIZATION: "UNKNOWN_REFERENCE",
     RunStage.PUBLICATION: "PUBLICATION_COLLISION",
 }
 
@@ -63,23 +61,6 @@ class CorrectionFailure(ValueError):
     def stage(self) -> str:
         """Expose the human lifecycle stage as its persisted string value."""
         return self.disposition.stage.value
-
-
-class QualityGateRejected(CorrectionFailure):
-    """Terminal quality rejection distinguished from gate infrastructure errors."""
-
-    def __init__(self, rejected_reports: tuple[str, ...]) -> None:
-        if not rejected_reports:
-            raise ValueError("quality rejection must name at least one report")
-        self.rejected_reports = rejected_reports
-        super().__init__(
-            FailureDisposition(
-                RunStage.QUALITY_GATE,
-                "QUALITY_GATE_REJECTED",
-                f"reports={','.join(rejected_reports)}",
-            )
-        )
-        self.args = (f"quality gate rejected reports: {', '.join(rejected_reports)}",)
 
 
 def explicit_failure(stage: RunStage, fatal_code: str, detail: str) -> CorrectionFailure:

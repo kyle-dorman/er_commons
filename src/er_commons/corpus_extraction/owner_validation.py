@@ -109,15 +109,15 @@ def validate_hierarchy_authorization(
     correction_id: str,
     correction_config_path: Path,
 ) -> None:
-    """Join strict or bounded hierarchy authority through semantic materialization."""
+    """Join machine or bounded hierarchy authority through semantic materialization."""
     authority = disposition.get("authority")
     if correction_config.get("publication_authorization") != authority:
         raise ValueError("hierarchy disposition differs from correction authorization")
     relative = disposition.get("authorization_relative_path")
     semantic_relative = semantic_config.get("bounded_acceptance_relative_path")
-    if authority == "strict_quality_gate":
+    if authority == "machine_validation":
         if relative is not None or semantic_relative is not None:
-            raise ValueError("strict hierarchy authority joins bounded evidence")
+            raise ValueError("machine hierarchy authority joins bounded evidence")
         return
     if not isinstance(relative, str) or semantic_relative != relative:
         raise ValueError("hierarchy authorization path differs across stage owners")

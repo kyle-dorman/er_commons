@@ -11,12 +11,12 @@ from typing import Any, Literal
 from pydantic import Field, model_validator
 
 from er_commons.hierarchy_correction.candidate_records import stable_json_bytes
+from er_commons.hierarchy_correction.configuration import StrictConfigModel
 from er_commons.hierarchy_correction.digests import canonical_json_sha256
-from er_commons.hierarchy_correction.quality_acceptance import (
+from er_commons.hierarchy_correction.publication_authorization import (
     SEMANTIC_PATHS,
     candidate_semantic_sha256,
 )
-from er_commons.hierarchy_correction.quality_config import StrictModel
 
 HISTORICAL_CANDIDATE_ID = "hcorv1-97ffded53a26803052be6a6b6451d2f38587a604923c41b6f2402185105c2c1a"
 LIMITATIONS = (
@@ -49,7 +49,7 @@ EXPECTED_COUNTS = {
 }
 
 
-class EvidenceBinding(StrictModel):
+class EvidenceBinding(StrictConfigModel):
     """One immutable external input to the bounded policy decision."""
 
     path: Path
@@ -63,7 +63,7 @@ class EvidenceBinding(StrictModel):
         return self
 
 
-class AcceptanceEvidence(StrictModel):
+class AcceptanceEvidence(StrictConfigModel):
     """Exact historical, corrected-MVP, and human-rewrite evidence set."""
 
     historical_held_out_seal: EvidenceBinding
@@ -77,7 +77,7 @@ class AcceptanceEvidence(StrictModel):
     task_03e2b_offline_candidate_report: EvidenceBinding
 
 
-class AcceptanceScope(StrictModel):
+class AcceptanceScope(StrictConfigModel):
     """The only downstream purposes authorized by the Appendix P decision."""
 
     source_id: Literal["deir_appendix_p"]
@@ -100,7 +100,7 @@ class AcceptanceScope(StrictModel):
         return self
 
 
-class SemanticCounts(StrictModel):
+class SemanticCounts(StrictConfigModel):
     """Frozen ordered payload counts reproduced by the human-owned code."""
 
     features: int = Field(ge=0)
@@ -116,7 +116,7 @@ class SemanticCounts(StrictModel):
     warnings: int = Field(ge=0)
 
 
-class BoundedAcceptanceConfig(StrictModel):
+class BoundedAcceptanceConfig(StrictConfigModel):
     """Checked-in policy for one explicit, known-limitation authorization."""
 
     schema_version: Literal["1.0.0"]
@@ -147,7 +147,7 @@ class BoundedAcceptanceConfig(StrictModel):
         return self
 
 
-class CandidateIdentityBinding(StrictModel):
+class CandidateIdentityBinding(StrictConfigModel):
     """The complete candidate-producing identity copied into authorization."""
 
     candidate_id: str = Field(pattern=r"^hcorv1-[0-9a-f]{64}$")
@@ -163,7 +163,7 @@ class CandidateIdentityBinding(StrictModel):
     code_bundle_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
-class CandidateBinding(StrictModel):
+class CandidateBinding(StrictConfigModel):
     """Exact candidate semantics and all identity inputs accepted by policy."""
 
     identity: CandidateIdentityBinding
@@ -173,7 +173,7 @@ class CandidateBinding(StrictModel):
     counts: SemanticCounts
 
 
-class BoundedAcceptance(StrictModel):
+class BoundedAcceptance(StrictConfigModel):
     """External publication authorization; not hierarchy semantic evidence."""
 
     record_type: Literal["hierarchy_bounded_acceptance"]
@@ -387,7 +387,7 @@ def verify_bounded_acceptance(
     if refreshed.sha256 != policy.sha256:
         raise ValueError("bounded-acceptance policy changed after preflight")
     if path.name != "bounded_acceptance.json" or path.parent.name != candidate_id:
-        raise ValueError("bounded-acceptance path differs from candidate review root")
+        raise ValueError("bounded-acceptance path differs from candidate authorization root")
     record = BoundedAcceptance.model_validate_json(path.read_bytes())
     if (
         record.authorization_id != policy.config.authorization_id

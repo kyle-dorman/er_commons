@@ -123,9 +123,8 @@ def build_single_semantic_candidate(
             "toc_reconciliation": toc_seconds,
             "rules": rule_seconds,
             "hierarchy": hierarchy_seconds,
-            # This fresh-process measurement covers deterministic semantic
-            # serialization. Final aggregate validation and completion sealing
-            # happen only after the three-process equality gate.
+            # This measurement covers deterministic semantic serialization;
+            # aggregate validation and completion sealing follow in application.
             "publication": publication_seconds,
         },
         peak_rss_bytes=_peak_rss_bytes(),

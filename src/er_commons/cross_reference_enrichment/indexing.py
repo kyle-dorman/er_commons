@@ -3,14 +3,12 @@
 from __future__ import annotations
 
 import copy
-import re
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any
 
+from er_commons.cross_reference_enrichment.policy import TABLE_LABEL_PATTERN
 from er_commons.cross_reference_enrichment.types import JsonObject, TargetIndexEntry
-
-TABLE_LABEL = re.compile(r"Table\s+[1-9][0-9]*(?:[.-][A-Za-z0-9]+)*")
 
 
 @dataclass(frozen=True)
@@ -245,7 +243,7 @@ def _eligible_table_labels_by_page(
             block.get("content_layer") == "body"
             and block.get("is_toc_row") is False
             and len(regions) == 1
-            and TABLE_LABEL.fullmatch(block.get("canonical_text", "").strip())
+            and TABLE_LABEL_PATTERN.fullmatch(block.get("canonical_text", "").strip())
         ):
             by_page[regions[0]["page_id"]].append(block)
     return by_page

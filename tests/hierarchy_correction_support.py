@@ -12,12 +12,9 @@ SCHEMA_ROOT = ROOT / "benchmarks/er_bench/schemas/hierarchy_correction/v1"
 FIXTURE_ROOT = ROOT / "benchmarks/er_bench/fixtures/hierarchy_correction/v1"
 
 RECORD_SCHEMA = json.loads((SCHEMA_ROOT / "records.schema.json").read_text())
-REVIEW_SCHEMA = json.loads((SCHEMA_ROOT / "review.schema.json").read_text())
 VALID_BUNDLE = json.loads((FIXTURE_ROOT / "valid_bundle.json").read_text())
 INVALID_SCHEMA_MUTATIONS = json.loads((FIXTURE_ROOT / "invalid_mutations.json").read_text())
-FIXTURE_MANIFEST = json.loads((FIXTURE_ROOT / "fixture_manifest.json").read_text())
 DEVELOPMENT_CASES = json.loads((FIXTURE_ROOT / "development_cases.json").read_text())
-HELD_OUT_MANIFEST = json.loads((FIXTURE_ROOT / "held_out_manifest.json").read_text())
 
 
 def apply_schema_mutation(
@@ -30,39 +27,6 @@ def apply_schema_mutation(
         target = target[path_part]
     target[mutation["path"][-1]] = mutation["value"]
     return bundle
-
-
-def valid_annotation_bundle() -> dict[str, Any]:
-    """Return one complete source-only annotation bundle."""
-    return {
-        "record_type": "held_out_annotations",
-        "schema_version": "1.0.0",
-        "source_id": "deir_appendix_p",
-        "source_sha256": VALID_BUNDLE["identity"]["source_sha256"],
-        "held_out_manifest_sha256": "2" * 64,
-        "policy_sha256": VALID_BUNDLE["identity"]["policy_sha256"],
-        "code_bundle_sha256": VALID_BUNDLE["identity"]["code_bundle_sha256"],
-        "created_before_corrected_output": True,
-        "post_review_tuning_allowed": False,
-        "pages": [
-            {
-                "physical_page": 73,
-                "source_render_sha256": "5" * 64,
-                "eligible_item_keys": ["3" * 64],
-                "annotations": [
-                    {
-                        "stable_item_key": "3" * 64,
-                        "expected_boundary": True,
-                        "expected_level": 1,
-                        "expected_parent_key": None,
-                        "expected_regime_action": "start",
-                        "source_ambiguous": False,
-                        "note": "",
-                    }
-                ],
-            }
-        ],
-    }
 
 
 def valid_deep_hierarchy_bundle() -> dict[str, Any]:
