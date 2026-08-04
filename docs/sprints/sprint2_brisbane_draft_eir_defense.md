@@ -544,10 +544,14 @@ complete with its validated v1.1 executable-contract corrigendum. Its synthetic
 Gate B implementation served as a transient behavioral oracle. Its human-owned
 replacement passed separate fixed-evidence equivalence and maintainability
 gates, after which the unused MVP package, equivalence test, and retained
-identity copy were removed. Task 03F.3 is closed. Provisional Task 03F.4 owns
-the broader proof-scaffolding cleanup and production-boundary work and requires
-review and explicit activation. The optional real-source smoke is waived in
-favor of a future Task 03G variant; 03G–03H remain inactive. The
+identity copy were removed. Task 03F.3 is closed. Provisional Task 03F.4 was
+revised after review and owns destructive POC proof-scaffolding cleanup and
+production-boundary work. It does not require schema migration or historical-
+candidate replayability, but must preserve declared Task 03G–04 execution,
+validation, observation, and review-cache capabilities. It requires explicit
+activation before Gate A and separate approval before Gate B. The optional
+real-source smoke is waived in favor of a future Task 03G variant; 03G–03H
+remain inactive. The
 numbers below are routing
 labels, not a promise
 that the sprint will contain only these tasks. Split a stage further whenever
@@ -674,9 +678,12 @@ validation boundary.
    Gate B behavior as a transient rewrite oracle. Its human-owned replacement
    passed exact fixed-evidence artifact equivalence, substantive maintainability
    checks, and the full repository gate; the unused rewrite scaffolding was then
-   removed, closing the task. Provisional Task 03F.4 must be reviewed and
-   completed before 03G so the maintained extraction boundaries are firm. By
-   user decision, the separate Task 03F engineering smoke is skipped. Task 03G
+   removed, closing the task. Provisional Task 03F.4 was revised after contract
+   review and must be explicitly activated and completed before 03G so the
+   maintained extraction boundaries are firm. Its destructive POC cleanup does
+   not require schema migration or historical-candidate replayability, while
+   declared Task 03G–04 capabilities must survive or receive tested successors.
+   By user decision, the separate Task 03F engineering smoke is skipped. Task 03G
    must contract a
    bounded variant before it owns
    representative heterogeneous execution, and Task

@@ -1,12 +1,10 @@
 # Task 03F: Make Two-Stage Corpus Extraction Restartable
 
-Status: **decomposed; Task 03F.2 complete as of 2026-08-03**. Task
-03F.1 is complete with its Gate A inventory and Gate B contract explicitly
-accepted. Task 03F.2 has an accepted behavioral MVP and a human-owned
-replacement that passed equivalence and maintainability gates without
-real-source execution. This umbrella closes only after Task 03F.3 is separately
-accepted.
-Task 03F.3, Task 03G, and Task 03H remain provisional.
+Status: **decomposed; Tasks 03F.1–03F.3 complete as of 2026-08-04**. Task
+03F.4 is provisional after contract review and requires explicit activation.
+It owns destructive proof-of-concept cleanup and production-boundary work
+before Task 03G. This umbrella closes only after Task 03F.4 is separately
+accepted. Task 03G and Task 03H remain provisional.
 
 ## Abstract
 
@@ -46,17 +44,15 @@ hierarchy acceptance into a corpus-wide quality claim.
 
 ## Execution boundary
 
-Task 03F implementation validation uses synthetic multi-document fixtures and
-may use an explicitly approved engineering smoke over no more than two
-predeclared small `model_corpus` PDFs. Any real-source smoke processes every
-page of each selected PDF. A first-N-page source run is not a completed
-stage-one transaction and may be used only as an explicitly incomplete
-diagnostic, never as restartability, hierarchy, alias, or corpus-index evidence.
+Task 03F implementation validation uses synthetic multi-document fixtures. The
+optional Task 03F engineering smoke was waived; Task 03G must separately
+contract any bounded full-document variant before running it. A first-N-page
+source run is not a completed stage-one transaction and may be used only as an
+explicitly incomplete diagnostic, never as restartability, hierarchy, alias,
+or corpus-index evidence.
 
-The smoke is not a representative pilot and cannot freeze production
-configuration. Task 03G selects the heterogeneous full-document pilot. Task
-03H alone consumes all 35 sources and requires every source to reach an
-explicit terminal state.
+Task 03G selects the heterogeneous full-document pilot. Task 03H alone consumes
+all 35 sources and requires every source to reach an explicit terminal state.
 
 ## Subtasks
 
@@ -67,13 +63,17 @@ explicit terminal state.
    preserve the accepted atomic restartable behavior while replacing the MVP
    with readable, responsibility-owned stage-one code; no historical code was
    deleted because the full deletion proof did not pass.
-3. [Task 03F.3](03f3_implement_corpus_resolution_workflow.md) — provisional:
-   implement scoped accounting, target-index sealing, immutable cross-document
-   resolution, invalidation, and the optional approved two-document engineering
-   smoke.
+3. [Task 03F.3](03f3_implement_corpus_resolution_workflow.md) — complete:
+   implemented scoped accounting, target-index sealing, immutable
+   cross-document resolution, and invalidation without real-source execution;
+   the optional engineering smoke was waived for a future Task 03G variant.
+4. [Task 03F.4](03f4_prune_extraction_proof_scaffolding.md) — provisional:
+   inventory future capability and active invariants, then destructively remove
+   obsolete POC schemas, validators, proof paths, and public surfaces after
+   separate Gate B approval while preserving the maintained Task 03G–04 path.
 
-Only the named subtask is active. Revise each provisional contract from the
-accepted prior outcome before implementation.
+Only an explicitly activated subtask is active. Revise each provisional
+contract from the accepted prior outcome before implementation.
 
 ## Shared requirements
 
@@ -99,21 +99,25 @@ accepted prior outcome before implementation.
 
 ## Removal and generalization policy
 
-Task 03F.2 must replace Appendix-P constants and CLI assumptions with
+Task 03F.2 replaced Appendix-P constants and CLI assumptions with
 manifest-selected, contract-bound document inputs where those components are
-part of the production path. Before deletion, inventory callers, tests,
-identity inputs, and immutable-artifact verification needs.
+part of the production path. Task 03F.4 inventories current callers, declared
+Task 03G–04 consumers, tests, identity inputs, active invariants, review-cache
+needs, and independent-validation needs before deletion.
 
 Delete obsolete facades, duplicate orchestration, hard-coded defaults, and
 superseded behavioral-reference implementations when they have no accepted
 runtime or verification owner and their required behavior is covered by the
 human-owned implementation and tests. Do not retain compatibility aliases for
-unproven callers. Do not rewrite immutable external candidates; Git history
-and their checksummed artifacts preserve historical evidence.
+unproven callers. This POC cleanup may remove superseded schemas, validators,
+fixtures, and executable replay support without migration or continued
+verification of historical candidates. It may not remove capabilities required
+by the maintained Task 03 path or declared Tasks 03G–04 without first naming and
+testing their successor.
 
 ## Umbrella acceptance criteria
 
-- Tasks 03F.1–03F.3 are separately accepted under their own validation gates.
+- Tasks 03F.1–03F.4 are separately accepted under their own validation gates.
 - The runtime consumes manifest-selected complete documents without
   Appendix-P-only production constraints.
 - The accepted Appendix P semantic and cross-reference behavior remains exact

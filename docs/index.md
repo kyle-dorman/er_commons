@@ -183,7 +183,7 @@ qualifiers cannot fall through to local numeric lookup. The user accepted two
 visually confirmed source-authored appendix-link inconsistencies as bounded
 first-pass noise; no document-specific correction is applied. Task 03E.5 is
 accepted. [Task
-03F](../tasks/sprint2/03f_make_extraction_restartable.md) is now a three-part
+03F](../tasks/sprint2/03f_make_extraction_restartable.md) is now a four-part
 umbrella. [Task
 03F.1](../tasks/sprint2/03f1_define_restartable_extraction_contract.md) is
 complete with its read-only inventory and Gate B two-stage corpus contract
@@ -201,10 +201,12 @@ identity copy were then removed. Its final non-executed production identity is
 `exv1-3cbbe57424f72ca8800456b23c887e1b2b65693917a8b33ac40791f3630852ea`.
 Provisional [Task
 03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md) owns the
-broader proof-scaffolding cleanup and production-boundary work. It requires
-review and explicit activation before implementation. The optional real-source
-smoke is waived in favor of a separately contracted Task 03G variant; 03G and
-03H remain inactive.
+broader destructive POC cleanup and production-boundary work. Its revised
+contract preserves declared Task 03G–04 capabilities without requiring schema
+migration or historical-candidate replayability. It requires explicit
+activation before Gate A and separate approval before Gate B. The optional
+real-source smoke is waived in favor of a separately contracted Task 03G
+variant; 03G and 03H remain inactive.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions
