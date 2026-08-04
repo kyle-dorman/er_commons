@@ -217,12 +217,17 @@ cross-reference candidate `exv1-1da64e08...21509`. Production identity
 `exv1-1bd71e02...c1fcc4` completed all 222 Appendix P pages through sealed
 stage reuse as `docv1-532b14da...8df40`; checksum reuse was verified. [Task
 03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) is now an open
-umbrella with two separately activated execution subtasks: provisional [Task
-03G.1](../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md) owns a fresh
-bounded-page diagnostic across all 35 model-corpus PDFs, and provisional [Task
+umbrella. [Task
+03G.1](../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md) is complete and
+accepted as an MVP diagnostic after all 342 requested pages completed, all 35
+sources were inspected, and its separate human-maintainability rewrite passed
+preservation and project validation. Provisional [Task
+03G.1a](../tasks/sprint2/03g1a_remediate_smoke_extraction_failures.md) owns the
+four selected warning, rotated-geometry, learned-fallback, and continuation
+improvements but is inactive. Provisional [Task
 03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md) owns a fresh
-three-document complete pilot after the smoke is accepted. Both execution
-subtasks remain inactive; Task 03H remains provisional.
+three-document complete pilot after the smoke and required remediation are
+accepted. Task 03G.2 remains inactive and Task 03H remains provisional.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

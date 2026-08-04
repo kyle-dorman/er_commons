@@ -178,24 +178,33 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    `docv1-532b14da...8df40`. The hierarchy authorization remains bounded to
    Appendix P.
 2. [Task 03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) is an
-   open umbrella. Review and explicitly activate provisional [Task
-   03G.1](../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md) before any PDF
-   run. It owns a fresh incomplete diagnostic over at most ten deterministic
-   pages from each of the 35 model-corpus PDFs; it cannot publish complete-
-   document or corpus candidates.
-3. After the smoke and any evidence-driven remediation are accepted, revise and
-   activate provisional [Task
+   open umbrella. [Task
+   03G.1](../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md) is complete
+   and accepted as an MVP diagnostic: all 342 requested pages across 35 sources
+   have terminal outcomes, all sources were inspected, and the separate
+   human-maintainability rewrite passed preservation and project validation. It
+   published no complete-document or corpus candidate.
+3. Provisional [Task
+   03G.1a](../tasks/sprint2/03g1a_remediate_smoke_extraction_failures.md) owns
+   the four user-selected improvements: warning scope/accounting, rotated-page
+   routing geometry, bounded learned fallback for credible zero-output table
+   regions, and cross-page continuation recovery. It is inactive; creating the
+   contract does not authorize implementation, model/PDF execution, identity
+   changes, a smoke rerun, acceptance, or commit. Review and explicitly
+   activate this task before implementation.
+4. After the smoke and required remediation are accepted, revise and activate
+   provisional [Task
    03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md). It owns fresh
    complete runs of the main report, Appendix D, and Appendix P plus one reuse
    check. Add Task 03G.x fixes only for failures that actually occur. Close Task
    03G only after the user accepts all outcomes and fixes. Keep [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional until
    that closure.
-4. Independently review usability and freeze the accepted extraction release
+5. Independently review usability and freeze the accepted extraction release
    in Task 04.
-5. Continue through the separately identified curator-only response inventory,
+6. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
-6. Freeze human evaluation before BM25 retrieval, target generation, and judge
+7. Freeze human evaluation before BM25 retrieval, target generation, and judge
    calibration; finish with the primary test and oracle diagnostics.
 
 Sprint 2 scope, decisions, and provisional sequencing live in

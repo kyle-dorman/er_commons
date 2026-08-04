@@ -215,6 +215,23 @@ candidate identity, completeness, publication, acceptance, or Task 04 status.
 `extraction validate-handoff` verifies a published v1.1 handoff and successful
 document candidates read-only without rebuilding them.
 
+Task 03G.1 adds a separate diagnostic-only namespace:
+
+```text
+pipelines/brisbane_baylands/task_03g1_model_corpus_smoke/<smokev1-id>/
+  attempts/<attempt-id>/
+```
+
+Its per-range parser records, page outcomes, routed table artifacts, resource
+observations, inventory, and `diagnostic_summary.json` are incomplete smoke
+evidence. They are not document candidates or stage-two artifacts and cannot
+contain a complete-document completion, accounting, target index, resolution,
+or handoff. The `smokev1-` identity binds the checked-in smoke spec, current
+production extraction identity, and smoke-owned code without rebinding an
+immutable `exv1-` candidate. Interrupted attempts remain inspectable; a later
+invocation allocates a new attempt, while an existing diagnostic-complete root
+is no-clobber.
+
 The stage-two corpus index lives below
 `scopes/<run_scope_id>/target_indexes/`; it is not the Task 03E.5
 document-local `support/cross_reference_target_index.json`. Corpus resolution

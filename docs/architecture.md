@@ -335,6 +335,24 @@ controls remain subordinate unless they can alter output bytes. The workflow
 uses plain files and bounded local processes rather than a scheduler service,
 database queue, or workflow engine.
 
+Task 03G.1's `python -m er_commons.smoke_extraction --spec PATH` is a
+deliberately separate diagnostic endpoint. It applies one deterministic
+front/middle/end page rule, runs at most three bounded Docling calls per source,
+reuses the maintained router and clean table stage, and writes only `smokev1-`
+evidence. It cannot be called by `run-document` or `run-scope`, does not weaken
+their complete-page gates, and cannot publish document, accounting, index,
+resolution, or handoff completion.
+
+The human-owned diagnostic package keeps `workflow.py` as the application
+shell. `services.py` names external and nondeterministic seams; `routing.py`
+adapts the maintained router; `source_processing.py` owns bounded conversion
+and page-state transitions; `reporting.py` owns source/run summaries and
+terminal invariants; `publication.py` owns identity evidence, attempts,
+inventory, and diagnostic-summary publication; and `records.py` names internal
+record shapes and forbidden publication roles. The checked-in smoke spec binds
+every runtime module. Diagnostic-only code changes therefore derive a new
+`smokev1-` identity without rebinding production candidates.
+
 `er_commons.corpus_extraction_contract` preserves the accepted v1 offline
 validator. `er_commons.corpus_extraction_contract_v1_1` owns the corrected
 cross-record gate for exact accounting, index, resolution, and handoff evidence.

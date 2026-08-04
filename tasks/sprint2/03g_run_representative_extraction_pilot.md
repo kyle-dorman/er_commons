@@ -1,9 +1,8 @@
 # Task 03G: Test Extraction Breadth and a Representative Full Pilot
 
-Status: **open umbrella; execution subtasks are inactive**. This contract was
-revised after accepted Task 03F.4 and the user's POC-scoped decisions. The
-revision does not authorize a PDF run. Activate Task 03G.1 separately before
-execution; keep Task 03G.2 provisional until the smoke outcome is accepted.
+Status: **open umbrella; Task 03G.1 is complete**. Provisional Task 03G.1a owns
+the four selected remediations but is not activated. Keep Task 03G.2
+provisional until the required remediation is accepted.
 
 ## Abstract
 
@@ -30,11 +29,15 @@ not add speculative failure exercises or per-document human acceptance systems.
    page diagnostic smoke across all 35 model-corpus sources. Partial-page
    artifacts are diagnostic evidence only and cannot impersonate a complete
    `docv1-` candidate, corpus index, resolution pass, or Task 04 handoff.
-2. [Task 03G.2](03g2_run_three_document_full_pilot.md): after the smoke is
-   accepted, run a fresh complete two-stage pilot over `deir_main`,
-   `deir_appendix_d`, and `deir_appendix_p`; then invoke it again to verify
-   checksum reuse.
-3. Add follow-up Task 03G.x contracts only for concrete failures or policy
+2. [Task 03G.1a](03g1a_remediate_smoke_extraction_failures.md): after Task
+   03G.1 closes, remediate the four selected warning, rotated-geometry,
+   zero-output table-region, and continuation failures behind separate review
+   and execution gates.
+3. [Task 03G.2](03g2_run_three_document_full_pilot.md): after the smoke and
+   required remediation are accepted, run a fresh complete two-stage pilot over
+   `deir_main`, `deir_appendix_d`, and `deir_appendix_p`; then invoke it again
+   to verify checksum reuse.
+4. Add further Task 03G.x contracts only for concrete failures or policy
    questions exposed by Tasks 03G.1 or 03G.2. Do not prebuild hypothetical
    recovery machinery.
 
