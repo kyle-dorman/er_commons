@@ -1,0 +1,16 @@
+{
+  "scope": "synthetic_multi_document",
+  "successful_dispositions": ["complete", "complete_with_warnings"],
+  "terminal_failure": true,
+  "successful_zero_mention_candidate": true,
+  "cross_target_collision": "ambiguous",
+  "prior_stage_attempts": ["failed_retryable", "cancelled"],
+  "excluded_stage_one_reason": "external_document_outside_corpus",
+  "corpus_unresolved_reasons": [
+    "target_source_failed",
+    "target_not_in_scope",
+    "target_unavailable"
+  ],
+  "strict_handoff_status": "blocked",
+  "execution_claim": false
+}

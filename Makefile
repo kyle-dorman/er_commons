@@ -8,7 +8,7 @@ export ER_COMMONS_DATA_ROOT
 	verify-brisbane-sources run-document-review run-table-review run-table-first-600 \
 	run-complete-document run-hierarchy-evaluation run-canonical-document \
 	run-semantic-document run-cross-references \
-	validate-extraction-contract \
+	validate-extraction-contract run-extraction-scope \
 	format format-check lint lint-fix type test check fix
 
 help:
@@ -24,7 +24,8 @@ help:
 	@echo "  make run-canonical-document   Materialize or verify the Task 03D candidate"
 	@echo "  make run-semantic-document    Materialize Appendix P semantic structure"
 	@echo "  make run-cross-references     Materialize Appendix P cross-references"
-	@echo "  make validate-extraction-contract  Validate Task 03F.1 offline fixtures"
+	@echo "  make validate-extraction-contract  Validate current Task 03F.3 Gate A fixtures"
+	@echo "  make run-extraction-scope RUN_SPEC=PATH  Run or reuse one explicit corpus scope"
 	@echo "  make run-table-review         Run or resume the ten-page table review"
 	@echo "  make run-table-first-600      Run or resume the first-600-page table validation"
 	@echo "  make fix         Apply lint and formatting fixes"
@@ -77,9 +78,11 @@ run-cross-references: check-env
 	uv run er-commons canonicalize run-cross-references
 
 validate-extraction-contract:
-	uv run er-commons extraction validate-contract \
-		--schema benchmarks/er_bench/schemas/corpus_extraction/v1/records.schema.json \
-		--fixtures benchmarks/er_bench/fixtures/corpus_extraction/v1
+	uv run python -m er_commons.corpus_extraction_contract_v1_1
+
+run-extraction-scope: check-env
+	@test -n "$(RUN_SPEC)" || (echo "RUN_SPEC=PATH is required"; exit 1)
+	uv run er-commons extraction run-scope --run-spec "$(RUN_SPEC)"
 
 run-table-review: check-env
 	uv run er-commons tables run-review

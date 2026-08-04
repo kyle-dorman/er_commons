@@ -147,15 +147,19 @@ candidate. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
 `brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
 
-Tasks 03E.2d through 03E.5 are complete. Task 03F is a three-part umbrella.
+Tasks 03E.2d through 03E.5 are complete. Task 03F is a four-part umbrella.
 [Task
 03F.1](../tasks/sprint2/03f1_define_restartable_extraction_contract.md) is
 complete with its Gate A inventory and Gate B contract explicitly accepted.
 [Task 03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md) is
 complete. Its human-owned replacement preserves the accepted restartable
 behavior and exact offline Appendix P evidence and passes the separate
-maintainability gate. Task 03F.3 remains provisional pending explicit review
-and approval.
+maintainability gate. Task 03F.3 Gate A is complete with a validated v1.1
+executable-contract corrigendum. Its Gate B synthetic runtime served as a
+transient rewrite oracle. Task 03F.3 is complete after the human-owned
+replacement passed exact fixed-evidence artifact equivalence and substantive
+maintainability checks; the unused MVP package, equivalence test, and retained
+identity copy were then removed. Every real-source run remains inactive.
 [Task
 03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
 behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
@@ -163,18 +167,23 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
 
 ## Open queue
 
-1. Review and revise provisional Task 03F.3 against the accepted human-owned
-   [Task 03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md)
-   outcome, then activate it only with explicit authorization. Do not run a
-   real-source smoke without separate approval. Keep Task 03F.3, [Task
-   03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md), and [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional;
-   revise and activate each only after the preceding outcome is accepted.
-2. Independently review usability and freeze the accepted extraction release
+1. Review provisional [Task
+   03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md). It owns
+   the read-only removal/invariant inventory and, only after separate Gate B
+   approval, the broader proof-scaffolding cleanup and production-boundary
+   work. Do not activate or implement it without explicit approval.
+2. After Task 03F.4 is accepted, review and revise [Task
+   03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) so it owns a
+   bounded variant of the skipped Task 03F engineering smoke before the
+   representative pilot. Explicitly activate 03G only after its revised
+   contract is accepted. Keep every PDF run inactive until that approval, and
+   keep [Task 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md)
+   provisional until the Task 03G outcome is accepted.
+3. Independently review usability and freeze the accepted extraction release
    in Task 04.
-3. Continue through the separately identified curator-only response inventory,
+4. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
-4. Freeze human evaluation before BM25 retrieval, target generation, and judge
+5. Freeze human evaluation before BM25 retrieval, target generation, and judge
    calibration; finish with the primary test and oracle diagnostics.
 
 Sprint 2 scope, decisions, and provisional sequencing live in

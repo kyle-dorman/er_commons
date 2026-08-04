@@ -61,7 +61,7 @@ def test_positive_fixtures_validate_without_mutation() -> None:
         FIXTURES.identity,
         expected_source_ids=FIXTURES.expected_source_ids,
         expected_scope=FIXTURES.production_scope_evidence,
-        project_root=ROOT,
+        project_root=None,
     )
 
     assert FIXTURES.bundle == original_bundle

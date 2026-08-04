@@ -1,0 +1,134 @@
+"""Synthetic end-to-end gates for Task 03F.3 stage-two runtime."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+from corpus_extraction_test_support import _result, _workspace
+from corpus_resolution_test_support import write_cross_reference_inputs, write_scope_spec
+
+from er_commons.corpus_extraction.process import ProcessOutcome
+from er_commons.corpus_extraction.workflow import run_document
+from er_commons.corpus_resolution.publication import StageHooks
+from er_commons.corpus_resolution.workflow import ScopeHooks, run_scope
+
+
+def test_run_scope_continues_terminal_failure_and_reuses_exact_outputs(tmp_path: Path) -> None:
+    data_root, document_spec = _workspace(tmp_path)
+    scope_spec = write_scope_spec(tmp_path, data_root)
+
+    def runner(root: Path, spec: Path, source_id: str) -> Path:
+        if source_id == "beta":
+
+            def fail(*_args: object) -> ProcessOutcome:
+                raise RuntimeError("synthetic terminal source failure")
+
+            return run_document(root, spec, source_id, executor=fail)
+        result = _result(tmp_path, "alpha")
+        write_cross_reference_inputs(Path(result.final_candidate_root), source_id)
+        return run_document(
+            root,
+            spec,
+            source_id,
+            executor=lambda *_args: ProcessOutcome(result, False, 0, ""),
+        )
+
+    first = run_scope(data_root, scope_spec, document_runner=runner)
+    first_bytes = first.read_bytes()
+    second = run_scope(data_root, scope_spec, document_runner=runner)
+
+    assert second == first
+    assert second.read_bytes() == first_bytes
+    handoff = json.loads(second.read_bytes())
+    assert handoff["status"] == "blocked"
+    assert handoff["task04_status"] == "not_evaluated"
+    bundle = json.loads((second.parents[3] / "contract_bundle.json").read_bytes())
+    assert bundle["accounting"]["counts"]["failed_terminal"] == 1
+    assert bundle["resolution_completion"]["counts"] == {
+        "total": 1,
+        "resolved": 0,
+        "ambiguous": 0,
+        "unresolved": 1,
+    }
+    assert (
+        bundle["resolution_completion"]["resolutions"][0]["unresolved_reason"]
+        == "target_source_failed"
+    )
+    assert (
+        bundle["resolution_completion"]["candidate_inventories_before"]
+        == bundle["resolution_completion"]["candidate_inventories_after"]
+    )
+
+
+def test_publication_after_rename_is_reconciled_without_clobber(tmp_path: Path) -> None:
+    data_root, document_spec = _workspace(tmp_path)
+    scope_spec = write_scope_spec(tmp_path, data_root)
+    raised = False
+
+    def runner(root: Path, spec: Path, source_id: str) -> Path:
+        result = _result(tmp_path, source_id, pages=2 if source_id == "alpha" else 3)
+        write_cross_reference_inputs(Path(result.final_candidate_root), source_id)
+        return run_document(
+            root,
+            spec,
+            source_id,
+            executor=lambda *_args: ProcessOutcome(result, False, 0, ""),
+        )
+
+    def interrupt(_path: Path) -> None:
+        nonlocal raised
+        if not raised:
+            raised = True
+            raise RuntimeError("synthetic post-publication interruption")
+
+    with pytest.raises(RuntimeError, match="post-publication"):
+        run_scope(
+            data_root,
+            scope_spec,
+            document_runner=runner,
+            hooks=ScopeHooks(target_index=StageHooks(after_publish=interrupt)),
+        )
+
+    completion = run_scope(data_root, scope_spec, document_runner=runner)
+    assert json.loads(completion.read_bytes())["status"] == "ready"
+    bundle = json.loads((completion.parents[3] / "contract_bundle.json").read_bytes())
+    assert bundle["resolution_completion"]["resolutions"][0]["status"] == "resolved"
+
+
+def test_interrupted_staging_is_cancelled_before_retry(tmp_path: Path) -> None:
+    data_root, document_spec = _workspace(tmp_path)
+    scope_spec = write_scope_spec(tmp_path, data_root)
+    raised = False
+
+    def runner(root: Path, spec: Path, source_id: str) -> Path:
+        result = _result(tmp_path, source_id, pages=2 if source_id == "alpha" else 3)
+        write_cross_reference_inputs(Path(result.final_candidate_root), source_id)
+        return run_document(
+            root,
+            spec,
+            source_id,
+            executor=lambda *_args: ProcessOutcome(result, False, 0, ""),
+        )
+
+    def interrupt(_path: Path) -> None:
+        nonlocal raised
+        if not raised:
+            raised = True
+            raise RuntimeError("synthetic pre-publication interruption")
+
+    with pytest.raises(RuntimeError, match="pre-publication"):
+        run_scope(
+            data_root,
+            scope_spec,
+            document_runner=runner,
+            hooks=ScopeHooks(accounting=StageHooks(before_publish=interrupt)),
+        )
+
+    completion = run_scope(data_root, scope_spec, document_runner=runner)
+    bundle = json.loads((completion.parents[3] / "contract_bundle.json").read_bytes())
+    accounting_attempts = [
+        row for row in bundle["corpus_stage_attempts"] if row["stage_type"] == "accounting"
+    ]
+    assert [row["disposition"] for row in accounting_attempts] == ["cancelled", "complete"]

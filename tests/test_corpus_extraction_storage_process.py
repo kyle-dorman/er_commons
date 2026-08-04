@@ -111,7 +111,7 @@ def test_run_spec_has_no_implicit_source_and_requires_document_authority(tmp_pat
 def test_production_identity_inventory_covers_every_stage_one_runtime_module() -> None:
     record = json.loads(
         Path(
-            "benchmarks/er_bench/fixtures/corpus_extraction/v1/production_identity_preimage.json"
+            "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/production_identity_preimage.json"
         ).read_text()
     )
     owned = {item["path"] for item in record["preimage"]["corpus_workflow_contract"]["owned_code"]}

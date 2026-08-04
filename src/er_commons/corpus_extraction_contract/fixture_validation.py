@@ -66,7 +66,9 @@ def validate_fixture_directory(schema_path: Path, fixture_root: Path) -> None:
         fixtures.identity,
         expected_source_ids=fixtures.expected_source_ids,
         expected_scope=fixtures.production_scope_evidence,
-        project_root=fixtures.project_root,
+        # v1 is immutable historical evidence after the versioned v1.1 successor.
+        # Its digest and scope remain valid; current checked bytes belong to v1.1.
+        project_root=None,
     )
     for mutation in fixtures.mutations:
         validate_declared_negative_mutation(fixtures, mutation)

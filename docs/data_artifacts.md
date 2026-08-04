@@ -175,12 +175,24 @@ Task 03F's restartable corpus workflow will use this relative layout:
 pipelines/brisbane_baylands/task_03f_corpus_extraction/<extraction_id>/
   documents/<source_id>/<document_candidate_id>/
   scopes/<run_scope_id>/
+    inputs/<checksum-named-input>.json
     accounting/<accounting_id>/
     target_indexes/<target_index_id>/
     resolutions/<resolution_id>/
     handoffs/<handoff_id>/
-  attempts/<transaction_or_stage_id>/
+    attempts/<stage>/<stage_id>/<attempt>/
+    contract_bundle.json
+  attempts/<document_transaction_id>/
 ```
+
+Task 03F.3 publishes these stage-two artifacts under synthetic tests and
+reconstructs `contract_bundle.json` for the same schema and cross-record gate
+used by the offline fixtures. Its maintained human-owned implementation passed
+byte-identical equivalence against the transient Gate B MVP on the fixed Task
+03F.2 evidence; the unused MVP code and dedicated equivalence test were then
+removed. No source-PDF execution is implied by the implementation or its tests;
+the optional smoke was waived and any variant belongs to a future activated
+Task 03G contract.
 
 Each final document, accounting, index, resolution, and handoff directory is
 no-clobber, checksum-inventoried, completion-last, and atomically published.

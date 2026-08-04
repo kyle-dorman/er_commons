@@ -10,7 +10,12 @@ from er_commons.corpus_extraction.config import RunSpec, load_run_spec
 from er_commons.corpus_extraction.identity import build_scope_id
 from er_commons.corpus_extraction.records import SourceIdentity
 from er_commons.corpus_extraction.sources import resolve_manifest_source
-from er_commons.corpus_extraction_contract import validate_production_identity
+from er_commons.corpus_extraction_contract import (
+    validate_production_identity as validate_production_identity_v1,
+)
+from er_commons.corpus_extraction_contract_v1_1 import (
+    validate_production_identity as validate_production_identity_v1_1,
+)
 from er_commons.source_freeze import assert_contained, sha256_file
 
 
@@ -75,11 +80,16 @@ def _verify_production_contract(spec: RunSpec, project_root: Path, data_root: Pa
             identity=identity,
             data_root=data_root,
         )
-    validate_production_identity(
+    validator = (
+        validate_production_identity_v1_1
+        if identity.get("schema_version") == "er_commons.corpus_extraction_identity.v1_1"
+        else validate_production_identity_v1
+    )
+    validator(
         identity,
         expected_source_ids=source_ids,
         expected_scope=scope_evidence,
-        project_root=project_root,
+        project_root=project_root if spec.scope_kind != "fixture" else None,
     )
     if identity.get("extraction_id") != spec.production_extraction_id:
         raise ValueError("run-spec production extraction ID differs from checked identity")

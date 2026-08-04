@@ -536,14 +536,23 @@ approved MVP reference and a human-owned replacement that passed independent
 candidate/review equivalence. Task 03E.5 is complete with accepted
 pattern-policy-v2 candidate
 `exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`.
-Task 03F is decomposed into three bounded subtasks. Task 03F.1 is complete with
+Task 03F is decomposed into four bounded subtasks. Task 03F.1 is complete with
 its read-only coupling/deletion inventory and Gate B contract explicitly
 accepted. Task 03F.2 is complete with an accepted behavioral MVP, exact offline
-Appendix P preservation, and a human-owned replacement; Task 03F.3 and
-03G–03H remain provisional and must be revised from each accepted predecessor. The
-numbers below are routing labels, not a promise that the sprint will contain
-only these tasks. Split a stage further whenever its contract is too large or
-new evidence creates a distinct decision or validation boundary.
+Appendix P preservation, and a human-owned replacement. Task 03F.3 Gate A is
+complete with its validated v1.1 executable-contract corrigendum. Its synthetic
+Gate B implementation served as a transient behavioral oracle. Its human-owned
+replacement passed separate fixed-evidence equivalence and maintainability
+gates, after which the unused MVP package, equivalence test, and retained
+identity copy were removed. Task 03F.3 is closed. Provisional Task 03F.4 owns
+the broader proof-scaffolding cleanup and production-boundary work and requires
+review and explicit activation. The optional real-source smoke is waived in
+favor of a future Task 03G variant; 03G–03H remain inactive. The
+numbers below are routing
+labels, not a promise
+that the sprint will contain only these tasks. Split a stage further whenever
+its contract is too large or new evidence creates a distinct decision or
+validation boundary.
 
 1. **Task 02 — Freeze sources and provenance.** Inventory, acquire, checksum,
    validate, and manifest the complete Draft EIR main report, all official
@@ -657,15 +666,20 @@ new evidence creates a distinct decision or validation boundary.
    `exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
    with 292 mentions, exact table-target evidence, zero derived figure aliases,
    structural reference exclusions, and two accepted source-authored appendix
-   inconsistencies. Task 03F is now a three-part umbrella: Task 03F.1 is
+   inconsistencies. Task 03F is now a four-part umbrella: Task 03F.1 is
    complete with its read-only inventory and Gate B corpus contract explicitly
    accepted, while Task 03F.2 is complete after its behavioral MVP was retained
    as reference evidence and its replacement passed the maintainability gate.
-   Task 03F.3, 03G, and 03H remain
-   provisional downstream contracts. Real-source Task 03F
-   engineering smoke, if separately approved, must process all pages of no more
-   than two predeclared small PDFs; first-N-page runs cannot claim document
-   completion. Task 03G owns representative heterogeneous execution, and Task
+   Task 03F.3 completed its contract-amendment Gate A and used its synthetic
+   Gate B behavior as a transient rewrite oracle. Its human-owned replacement
+   passed exact fixed-evidence artifact equivalence, substantive maintainability
+   checks, and the full repository gate; the unused rewrite scaffolding was then
+   removed, closing the task. Provisional Task 03F.4 must be reviewed and
+   completed before 03G so the maintained extraction boundaries are firm. By
+   user decision, the separate Task 03F engineering smoke is skipped. Task 03G
+   must contract a
+   bounded variant before it owns
+   representative heterogeneous execution, and Task
    03H alone owns all-35-source execution and terminal accounting.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform

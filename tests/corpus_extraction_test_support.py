@@ -89,7 +89,7 @@ def _workspace(
     }
     spec_path = tmp_path / "run_spec.json"
     production_identity_path = Path(
-        "benchmarks/er_bench/fixtures/corpus_extraction/v1/production_identity_preimage.json"
+        "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/production_identity_preimage.json"
     )
     production_id = json.loads(production_identity_path.read_text())["extraction_id"]
     write_json_atomic(

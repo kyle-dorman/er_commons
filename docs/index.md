@@ -191,8 +191,20 @@ explicitly accepted. [Task
 03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md) is
 complete. Its human-owned replacement preserved the behavioral MVP and exact
 offline Appendix P evidence, then passed the separate maintainability gate.
-Task 03F.3, 03G, and 03H remain provisional and inactive pending explicit
-review and approval.
+[Task 03F.3](../tasks/sprint2/03f3_implement_corpus_resolution_workflow.md)
+completed Gate A with the validated v1.1 executable-contract corrigendum and
+non-executed production identity. Its synthetic Gate B implementation served as
+a transient rewrite oracle. The task is complete after its human-owned
+replacement passed exact fixed-evidence artifact equivalence and substantive
+maintainability gates; the unused MVP package, equivalence test, and retained
+identity copy were then removed. Its final non-executed production identity is
+`exv1-3cbbe57424f72ca8800456b23c887e1b2b65693917a8b33ac40791f3630852ea`.
+Provisional [Task
+03F.4](../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md) owns the
+broader proof-scaffolding cleanup and production-boundary work. It requires
+review and explicit activation before implementation. The optional real-source
+smoke is waived in favor of a separately contracted Task 03G variant; 03G and
+03H remain inactive.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

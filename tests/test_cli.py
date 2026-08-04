@@ -61,6 +61,15 @@ def test_restartable_document_command_requires_explicit_spec_and_source() -> Non
     assert "required" in result.output
 
 
+def test_corpus_scope_command_requires_explicit_scope_spec() -> None:
+    """Stage two has no implicit source scope or production default."""
+    result = CliRunner().invoke(app, ["extraction", "run-scope", "--help"])
+
+    assert result.exit_code == 0
+    assert "--run-spec" in result.output
+    assert "required" in result.output
+
+
 def test_canonicalize_group_exposes_document_scoped_materialization() -> None:
     """Canonical records have a distinct package-backed command boundary."""
     result = CliRunner().invoke(app, ["canonicalize", "--help"])

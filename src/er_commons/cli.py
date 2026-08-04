@@ -10,6 +10,7 @@ import typer
 from er_commons.canonical_extraction import run_document_canonicalization
 from er_commons.corpus_extraction import run_document as run_restartable_document
 from er_commons.corpus_extraction_contract import validate_fixture_directory
+from er_commons.corpus_resolution import run_scope as run_corpus_scope
 from er_commons.cross_reference_enrichment import run_cross_reference_enrichment
 from er_commons.document_extraction import (
     run_complete_document_producer,
@@ -322,6 +323,25 @@ def run_extraction_document(
         source_id,
     )
     typer.echo(f"document_completion={completion}")
+
+
+@extraction_app.command("run-scope")
+def run_extraction_scope(
+    run_spec: Annotated[
+        Path,
+        typer.Option(
+            "--run-spec",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Explicit stage-two scope run specification.",
+        ),
+    ],
+) -> None:
+    """Run or checksum-reuse one manifest-ordered corpus scope."""
+    completion = run_corpus_scope(load_settings().data_root, run_spec)
+    typer.echo(f"handoff_completion={completion}")
 
 
 @hierarchy_app.command("correct-document")

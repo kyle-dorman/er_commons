@@ -310,7 +310,18 @@ controls remain subordinate unless they can alter output bytes. The workflow
 uses plain files and bounded local processes rather than a scheduler service,
 database queue, or workflow engine.
 
-`er_commons.corpus_extraction_contract` is an offline validator only. Task
+`er_commons.corpus_extraction_contract` preserves the accepted v1 offline
+validator. `er_commons.corpus_extraction_contract_v1_1` owns the corrected
+cross-record gate for exact accounting, index, resolution, and handoff evidence.
+Task 03F.3 used its accepted behavioral MVP transiently to prove exact
+equivalence of the maintained `er_commons.corpus_resolution` package, which
+uses typed stage builds,
+separate accounting/index/resolution/handoff builders, an attempt journal, an
+immutable input store, and a short application shell. After exact equivalence
+and maintainability passed, the unused MVP package and dedicated equivalence
+test were removed.
+Its separate `ScopeRunSpec` references the unchanged document run spec so
+stage-two policy cannot alter stage-one identity implicitly. Task
 03F.2 implements the manifest-driven document transaction in
 `er_commons.corpus_extraction`. Its strict run specification maps source IDs to
 reviewed content-owner configs and separate hierarchy dispositions; the CLI
@@ -320,8 +331,12 @@ runtime literal or default. The shell derives `scopev1-`, `txv1-`, and
 child process, imports the verified final content candidate, and publishes a
 completion-last checksum-closed document candidate. Attempt and observability
 records remain outside the immutable candidate, and exact reuse rejects
-partial, stale, conflicting, missing, or extra files. Task 03F.3 will implement
-accounting, corpus indexing, and resolution; its commands remain unavailable.
+partial, stale, conflicting, missing, or extra files. The stage-two shell
+continues after a verified terminal source failure, then publishes accounting,
+index, resolution, and handoff independently. Semantic builders do not own
+filesystem lifecycle; `StagePublisher` and its `AttemptJournal` own
+completion-last publication, reuse, and recovery. Its CLI requires an explicit
+`extraction run-scope --run-spec PATH`; no production source scope is implicit.
 
 The stage-one implementation is organized around human ownership boundaries:
 

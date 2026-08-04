@@ -1,0 +1,11 @@
+[
+  {"name":"artifact_refs_require_byte_size","kind":"schema","operation":"remove","path":["accounting","rows",0,"terminal_event_ref","byte_size"]},
+  {"name":"accounting_counts_recompute","kind":"contract","path":["accounting","counts","complete"],"value":1,"expected_error_code":"accounting_counts"},
+  {"name":"index_identity_is_derived","kind":"contract","path":["target_index","index_id"],"value":"idxv1-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","expected_error_code":"index_identity"},
+  {"name":"resolution_identity_is_derived","kind":"contract","path":["resolution_completion","resolution_id"],"value":"resv1-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","expected_error_code":"resolution_identity"},
+  {"name":"handoff_status_is_mechanical","kind":"contract","path":["handoff","status"],"value":"ready","expected_error_code":"handoff_policy"},
+  {"name":"task04_cannot_be_claimed","kind":"schema","path":["handoff","task04_status"],"value":"accepted"},
+  {"name":"interrupted_stage_cannot_publish","kind":"contract","path":["corpus_stage_attempts",1,"completion_ref"],"value":{"path":"corpus/index/completion_record.json","sha256":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","byte_size":1},"expected_error_code":"stage_attempts"},
+  {"name":"published_stage_requires_completion","kind":"contract","path":["corpus_stage_attempts",2,"completion_ref"],"value":null,"expected_error_code":"stage_attempts"},
+  {"name":"stale_handoff_prerequisite_fails_closed","kind":"contract","path":["handoff","index_completion_ref","sha256"],"value":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","expected_error_code":"artifact_digest"}
+]
