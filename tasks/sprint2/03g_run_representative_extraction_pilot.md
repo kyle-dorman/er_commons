@@ -1,182 +1,159 @@
-# Task 03G: Run the Representative Two-Stage Extraction Pilot
+# Task 03G: Test Extraction Breadth and a Representative Full Pilot
 
-Status: **provisional**. Revise this contract from the accepted Task 03F
-outcome before activating it.
+Status: **open umbrella; execution subtasks are inactive**. This contract was
+revised after accepted Task 03F.4 and the user's POC-scoped decisions. The
+revision does not authorize a PDF run. Activate Task 03G.1 separately before
+execution; keep Task 03G.2 provisional until the smoke outcome is accepted.
 
 ## Abstract
 
-Run the complete two-stage extraction workflow on a predeclared,
-heterogeneous subset of full Brisbane Draft EIR documents. Measure structural
-failure modes, runtime, memory, storage, restart behavior, and semantic
-reproducibility. Inspect hierarchy, printed labels, aliases, reference
-mentions, within- and cross-document resolutions, tables, assets, and requested
-review cache. Rehearse Task 04's human-usability review in a provisional
-namespace. This is the final configuration and workload gate before Task 03H.
+Test the maintained extraction path in two deliberately small steps. Task
+03G.1 runs a fresh diagnostic smoke over at most ten deterministic physical
+pages from each of the 35 model-corpus PDFs. Task 03G.2 then runs the real
+complete two-stage workflow from fresh inputs on three full documents: the main
+Draft EIR, Appendix D, and Appendix P. If either subtask exposes a material
+failure, add the smallest remediation subtask and rerun the affected check.
+Task 03G closes only after the user accepts the smoke, full pilot, and any
+required fixes. Task 03H remains provisional until then.
 
 ## Goal
 
-Demonstrate that the accepted deterministic Docling-backed corrected hierarchy
-and complete corpus workflow remain task-sufficient across representative
-document regimes, and that systematic failures return to their owning task
-rather than accumulating document-specific patches.
+Get broad, inexpensive evidence that every model-corpus PDF can enter the
+maintained parser path, then get complete-workflow evidence from a small varied
+pilot. This is POC validation, not a production reliability program: use
+simple deterministic checks, investigate failures that actually occur, and do
+not add speculative failure exercises or per-document human acceptance systems.
+
+## Subtasks
+
+1. [Task 03G.1](03g1_smoke_all_model_corpus_sources.md): run a fresh bounded-
+   page diagnostic smoke across all 35 model-corpus sources. Partial-page
+   artifacts are diagnostic evidence only and cannot impersonate a complete
+   `docv1-` candidate, corpus index, resolution pass, or Task 04 handoff.
+2. [Task 03G.2](03g2_run_three_document_full_pilot.md): after the smoke is
+   accepted, run a fresh complete two-stage pilot over `deir_main`,
+   `deir_appendix_d`, and `deir_appendix_p`; then invoke it again to verify
+   checksum reuse.
+3. Add follow-up Task 03G.x contracts only for concrete failures or policy
+   questions exposed by Tasks 03G.1 or 03G.2. Do not prebuild hypothetical
+   recovery machinery.
+
+## Accepted decisions
+
+- The smoke covers every `model_corpus` source with at most ten physical pages
+  chosen by one corpus-wide deterministic rule; it is not a truncated
+  complete-document extraction.
+- Smoke and pilot start fresh in new task-owned artifact namespaces. Historical
+  Appendix P candidates remain immutable evidence and are not reused as the
+  first pilot build.
+- The full pilot contains exactly three model-corpus documents: the complete
+  main report, Appendix D, and Appendix P. Final EIR Volume 4 and standalone
+  comment PDFs retain their curator-only and QA-only roles outside Task 03.
+- Every selected source runs the same automatic machine contracts. There is no
+  separate human validation or acceptance record per file. Appendix P's old
+  bounded authorization remains historical, source-specific evidence and does
+  not authorize the fresh pilot candidate.
+- Do not simulate a failure. If a real failure occurs, retain its ordinary
+  diagnostics, stop at the declared subtask boundary, and write a bounded
+  follow-up task.
+- Task 03G.2 proves one fresh build and one checksum-reuse invocation. It does
+  not require repeated isolated rebuilds or a production-grade reliability
+  study.
+- Requested visual evidence stops at a checksummed render request and recipe.
+  Task 03G does not have to generate or review the renders.
+- Task closure and permission to proceed are distinct. A well-documented
+  failed subtask may be complete as an experiment while Task 03G remains open
+  and Task 03H remains blocked.
 
 ## Inputs
 
-- accepted Tasks 03A–03D.1, the Task 03E.2d correction candidate and bounded-
-  acceptance record, and accepted Tasks 03E.3–03F
-- the frozen corpus extraction identity and two-stage batch command
-- the sealed model-corpus source manifest
-- a reviewed pilot selection spanning structurally distinct reports and
-  appendices, including a very large document and known source warnings
-- Task 03A parser observations, including known heading false-positive and
-  false-negative controls
-- the Task 03E.2d-accepted corrected-hierarchy evidence and Task 03E.3
-  semantic-structure contract
+- accepted Tasks 03A through 03F.4 and current production code;
+- production identity
+  `exv1-1bd71e02e9f8da505d68bfb58b8dd8d4c1b47aabc8365417028d6daf60c1fcc4`
+  as the current identity recipe, subject to the Task 03G.1/03G.2 audit of new
+  task-owned code and configuration;
+- the sealed ordered 35-source `model_corpus` manifest;
+- maintained `extraction run-document`, `extraction run-scope`, and
+  `extraction validate-handoff` interfaces;
+- candidate-neutral comparison and render-request support in
+  `er_commons.extraction_review`; and
+- existing attempt, timing, peak-memory, output-size, warning, and machine-
+  observation records.
 
 ## Outputs
 
-- a frozen full-document pilot specification selected before execution
-- completed external stage-one artifacts for every pilot source or explicit
-  terminal failure records
-- a sealed pilot target/alias index and immutable cross-document resolutions
-- per-stage runtime, peak-resource, and artifact-size observations
-- structural distributions and a failure taxonomy with preserved examples
-- a mini Task 04 review protocol and predeclared sample combining ordinary,
-  structural-stress, and anomaly-triggered pages
-- provisional pilot-only page, table, document, hierarchy, label, alias, and
-  cross-reference observations
-- repeated-run semantic and identity results from a fixed subset
-- tested interruption, resume, failure-accounting, and unresolved-reference
-  behavior
-- a reviewed production configuration and Task 04 review method, or a
-  documented stop requiring revision of the owning earlier task
-- a capacity estimate and safe Task 03H settings
+- accepted Task 03G.1 smoke evidence or a concrete remediation subtask;
+- accepted Task 03G.2 complete pilot evidence or a concrete remediation
+  subtask;
+- explicit identity/configuration handling for new smoke and pilot inputs,
+  without rebinding historical candidates;
+- one combined pilot-level structural and resource summary rather than 35
+  separate human validations;
+- a candidate-neutral render request and reproducible recipe only;
+- POC-sized Task 03H settings supported by the observed smoke and pilot; and
+- an explicit user decision to close Task 03G and revise Task 03H, or to keep
+  Task 03G open for another bounded fix.
 
 ## Research / learning checkpoint
 
-Design the pilot as an experiment with predeclared observables and stop rules.
-The sample must cover, where available:
+Use the maintained interfaces and accepted Task 03F.4 boundaries as the primary
+technical references. Preserve these explanations in the outcomes:
 
-- the main Draft EIR report;
-- a typical narrative appendix;
-- a table- or figure-heavy appendix;
-- a very large appendix and a document with Task 02 warnings;
-- Appendix K2 part 2 with `source_edition_override`;
-- documents with and without PDF outlines and visible tables of contents;
-- numbered and unnumbered headings;
-- embedded numbering or printed-page-label resets;
-- explicit PDF page-label metadata, if any, and absent-metadata or
-  visible-label-only regimes; and
-- a regime Task 03A identified as materially different.
-
-The outcome must explain:
-
-- **Appendix P acceptance is necessary, not corpus-wide proof.** The bounded
-  Task 03E.2d acceptance is a hypothesis to test against heterogeneous
-  structure.
-- **Hierarchy and label failures have mechanisms.** Measure heading
-  promotions/misses, incorrect nesting, table-of-contents rows promoted as
-  starts, furniture promoted as body sections, label conflicts, and alias
-  collisions separately.
-- **Cross-reference quality has two stages.** Report mention detection,
-  within-document resolution, cross-document resolution, ambiguity, and
-  unresolved reason codes independently.
-- **Parser-intrinsic correctness, task-conditioned sufficiency, and corpus
-  coverage are distinct.**
-- **Silent structural failure matters more than loud failure.** Plausible
-  hierarchy or labels can still misroute retrieval and citations.
-- **Reproducibility is empirical.** Repeat a fixed subset and compare semantic
-  records, IDs, geometry, assets, indexes, and resolution outputs.
-- **Review cache is not candidate completeness.** Page renders exist only for
-  selected human review and are regenerable.
-- **Pilot labels and Task 04 decisions have different authority.** Pilot review
-  tests the workflow but cannot prefill the accepted usability registry.
-
-## Plan / spec requirement
-
-Before running the pilot, freeze:
-
-1. selected documents and structural-regime rationale;
-2. stage-one, target-index, and second-pass observables;
-3. repeated-run subset and equality criteria;
-4. hierarchy, label, alias, and cross-reference anomaly rules;
-5. the mini Task 04 sample and requested render-cache recipe;
-6. review dimensions, reason codes, escalation rules, and timing measures;
-7. a simulated source failure and expected accounting/resolution behavior;
-8. runtime, memory, storage, review-burden, and failure stop thresholds;
-9. permitted configuration changes and required reruns;
-10. the evidence needed to freeze Task 03H settings; and
-11. retention rules for rejected extraction versions and disposable cache.
-
-Systematic correction-policy failure returns to Task 03E.1 or a new bounded
-correction-policy task, correction implementation failure to Task 03E.2b,
-invalid acceptance or publication evidence to Task 03E.2d, semantic-contract
-failure to Task 03E.3, materialization failure to Task 03E.4, reference-policy
-failure to Task 03E.5, and batch-state failure to Task 03F. Do not add
-pilot-local heuristics that bypass the owning contract.
+- Partial-page breadth testing answers whether varied PDFs enter the parser and
+  routing path; it does not prove complete-document publication.
+- A fresh complete pilot answers a different question from checksum reuse. The
+  first checks construction; the second checks safe restart/reuse.
+- Corpus-wide automatic invariants scale better than separate human acceptance
+  records. Human judgment is reserved for aggregate pilot sufficiency and
+  concrete anomalies.
+- A POC should expose real failure mechanisms without implementing recovery
+  cases that have not occurred.
 
 ## Review pass
 
-- **Sample adequacy:** the pilot spans structural mechanisms, not only convenient
-  file sizes.
-- **Identity:** all accepted artifacts share the corpus identity and only the
-  permitted subordinate transaction identities.
-- **Structural quality:** body/furniture roots, hierarchy, labels, aliases, and
-  reference outcomes are reviewed by type and downstream consequence.
-- **Two-stage integrity:** the target index is sealed from terminal stage-one
-  inputs and the second pass leaves them unchanged.
-- **Operational credibility:** resource tails and restart evidence support the
-  full run.
-- **Human-review boundary:** provisional records remain outside Task 04.
+- **Scope honesty:** smoke artifacts cannot claim complete-document or corpus
+  completion; the pilot uses the complete production path.
+- **Freshness:** first smoke and pilot invocations do not checksum-reuse old
+  Appendix P or Task 03F candidates.
+- **Identity:** new code/configuration is either included in the appropriate
+  identity or explicitly proven diagnostic and outside production identity.
+- **Scalability:** automatic validation is corpus-wide and aggregate; no
+  per-file human acceptance workflow is introduced.
+- **Task boundaries:** comments remain outside Task 03, Task 03G review remains
+  non-authoritative, and Task 03H alone owns all-35 complete extraction and
+  terminal accounting.
 
 ## Validation
 
-- Verify every pilot input against the source manifest.
-- Run the same two-stage entrypoint intended for Task 03H.
-- Validate schemas, references, coordinates, counts, assets, completion
-  records, identity, and warning propagation.
-- Repeat the fixed subset and compare declared semantic invariants.
-- Exercise stop/resume and one simulated document failure.
-- Confirm the simulated failure is accounted for and references to its missing
-  targets remain explicit and unresolved.
-- Review all predeclared hierarchy, label, alias, and cross-reference
-  observables plus every algorithmically flagged pilot outlier.
-- Generate renders only for the frozen review sample; verify their absence does
-  not invalidate the candidate.
-- Record review time by ordinary and risk-triggered strata.
-- Confirm rejected configurations cannot mix with the accepted identity.
-- Run:
+Each execution subtask owns its exact runtime checks. Across the umbrella:
 
 ```bash
+make validate-extraction-contract
 make check
 git diff --check
 ```
 
-## Acceptance criteria
+Task 03G.2 must also run the maintained read-only `extraction
+validate-handoff` command on its published pilot scope. No task may call a
+partial-page smoke artifact a valid complete-document handoff.
 
-- The pilot exercises the main report, representative appendices,
-  long-document behavior, known warnings, and the K2 provenance exception.
-- The accepted corrected hierarchy is good enough across the declared document
-  regimes under the frozen rubric; otherwise Task 03H does not proceed.
-- Visible tables of contents inform aliases/evidence without becoming false
-  body-section starts.
-- Printed-label regimes and conflicts remain explicit rather than collapsing
-  into physical page numbers.
-- Cross-document resolution uses the sealed target/alias index, and unresolved
-  outcomes carry deterministic reasons.
-- Semantic reruns preserve the declared identities and invariants.
-- Resource evidence supports explicit Task 03H settings.
-- The mini review demonstrates a credible Task 04 process without making
-  authoritative dispositions.
-- No unbounded or systemic failure remains; any such failure returns to its
-  owning task.
-- The outcome asks for explicit user approval before Task 03H.
+## Closure criteria
+
+- Task 03G.1 has an accepted outcome after any required smoke remediation.
+- Task 03G.2 has an accepted outcome after any required full-pilot remediation.
+- The first complete pilot build is fresh and its second invocation verifies
+  checksum reuse.
+- No known failure that the user considers material remains unresolved.
+- The user explicitly accepts the Task 03G outcome and authorizes revising Task
+  03H.
 
 ## Non-goals
 
-- converting all 35 model-corpus PDFs
-- corpus acceptance or final page usability decisions
-- OCR fallback, generative repair, or pilot-local hierarchy correction
-- benchmark case selection
-- retrieval, target generation, judging, or evaluation
-- claiming corpus-wide accuracy from the pilot
+- production-grade fault injection, chaos testing, or reliability engineering;
+- complete extraction or corpus accounting for all 35 PDFs;
+- separate human validation or acceptance records for every source;
+- generated review renders or authoritative Task 04 dispositions;
+- Final EIR response/comment extraction;
+- OCR fallback, generative repair, or document-specific silent correction;
+- benchmark case selection, retrieval, generation, judging, or evaluation; or
+- claiming corpus-wide accuracy from the smoke or three-document pilot.

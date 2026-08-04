@@ -554,8 +554,9 @@ user-authorized Appendix P attempt exposed stale lineage and candidate-bound
 authorization inputs. Fail-fast lineage validation now runs before attempt
 allocation. After candidate-neutral review, the user approved the exact
 Appendix P rebind; the refreshed hierarchy, semantic, cross-reference, and
-222-page document candidates now verify, including checksum reuse. Tasks
-03G--03H remain inactive. The
+222-page document candidates now verify, including checksum reuse. Task 03G is
+an open umbrella with inactive smoke and pilot subtasks; Task 03H remains
+provisional. The
 numbers below are routing
 labels, not a promise
 that the sprint will contain only these tasks. Split a stage further whenever
@@ -630,9 +631,16 @@ validation boundary.
      transfer active invariants and remove obsolete proof scaffolding while
      preserving the declared pilot, validation, observation, and review path;
    - [Task 03G](../../tasks/sprint2/03g_run_representative_extraction_pilot.md):
-     test the full two-stage workflow and corrected hierarchy across
-     heterogeneous document regimes, rehearse human review, and freeze or
-     reject the production configuration; and
+     coordinate a POC-sized breadth smoke, three-document full pilot, and only
+     the remediation subtasks justified by observed failures;
+   - [Task 03G.1](../../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md):
+     run a fresh incomplete diagnostic over at most ten deterministic pages
+     from each of the 35 model-corpus PDFs without claiming document or corpus
+     completion;
+   - [Task 03G.2](../../tasks/sprint2/03g2_run_three_document_full_pilot.md):
+     after accepted smoke evidence, run the complete two-stage workflow fresh
+     on the main report, Appendix D, and Appendix P, then verify checksum reuse;
+     and
    - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
      all 35 sources, preserve explicit terminal failures, and publish the
      candidate extraction and accounting handoff for Task 04.
@@ -690,11 +698,12 @@ validation boundary.
    hierarchy metrics, candidate-neutral review/comparison, refreshed production
    identity `exv1-1bd71e02...c1fcc4`, and completed Appendix P document
    candidate `docv1-532b14da...8df40` accepted after combined review.
-   By user decision, the separate Task 03F engineering smoke is skipped. Task 03G
-   must contract a
-   bounded variant before it owns
-   representative heterogeneous execution, and Task
-   03H alone owns all-35-source execution and terminal accounting.
+   By user decision, the separate Task 03F engineering smoke remains skipped.
+   Task 03G.1 instead owns a new incomplete POC diagnostic across bounded pages
+   from all 35 sources, and Task 03G.2 owns a fresh three-document complete
+   pilot. Neither can claim all-source completion. Task 03H alone owns all-35-
+   source complete execution and terminal accounting, and remains provisional
+   until Task 03G and any observed-failure remediation are accepted.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

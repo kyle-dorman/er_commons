@@ -1,7 +1,8 @@
 # Task 03H: Run and Validate the Full Canonical Extraction
 
-Status: **provisional**. Revise this contract from the accepted Task 03G
-outcome before activating it.
+Status: **provisional**. Revise this contract only after the Task 03G umbrella,
+including Tasks 03G.1, 03G.2, and any observed-failure remediation, is accepted
+and closed.
 
 ## Abstract
 
@@ -21,7 +22,8 @@ independently validated before benchmark use.
 
 ## Inputs
 
-- user-approved Task 03G configuration, corpus identity, and capacity settings
+- user-approved Task 03G umbrella outcome and Task 03G.2 configuration,
+  identity, and capacity settings
 - the sealed Task 02 manifest filtered to its 35 ordered, checksum-pinned
   `model_corpus` records
 - production commands and contracts accepted in Tasks 03C.1 and 03D.1, the
@@ -124,7 +126,8 @@ explicit Task 03G or owning earlier-task revision.
   outputs.
 - Verify cross-document resolution leaves stage-one checksums unchanged.
 - Recompute aggregate counts instead of trusting separately maintained totals.
-- Rerun the Task 03G fixed subset and compare frozen invariants.
+- Reinvoke the accepted Task 03G.2 pilot subset under the Task 03H contract and
+  verify the exact reuse or rebuild behavior frozen after Task 03G.
 - Verify human-review fields are absent and all Task 02 warnings propagate,
   including K2's `source_edition_override`.
 - Verify requested review renders are reproducible cache and excluded from

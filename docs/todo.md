@@ -176,19 +176,26 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    before attempt allocation; refreshed production identity
    `exv1-1bd71e02...c1fcc4` completed Appendix P as
    `docv1-532b14da...8df40`. The hierarchy authorization remains bounded to
-   Appendix P. Task 03G/03H remain inactive.
-2. Review and revise [Task
-   03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) so it owns a
-   bounded variant of the skipped Task 03F engineering smoke before the
-   representative pilot. Explicitly activate 03G only after its revised
-   contract is accepted. Keep every PDF run inactive until that approval, and
-   keep [Task 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md)
-   provisional until the Task 03G outcome is accepted.
-3. Independently review usability and freeze the accepted extraction release
+   Appendix P.
+2. [Task 03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) is an
+   open umbrella. Review and explicitly activate provisional [Task
+   03G.1](../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md) before any PDF
+   run. It owns a fresh incomplete diagnostic over at most ten deterministic
+   pages from each of the 35 model-corpus PDFs; it cannot publish complete-
+   document or corpus candidates.
+3. After the smoke and any evidence-driven remediation are accepted, revise and
+   activate provisional [Task
+   03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md). It owns fresh
+   complete runs of the main report, Appendix D, and Appendix P plus one reuse
+   check. Add Task 03G.x fixes only for failures that actually occur. Close Task
+   03G only after the user accepts all outcomes and fixes. Keep [Task
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional until
+   that closure.
+4. Independently review usability and freeze the accepted extraction release
    in Task 04.
-4. Continue through the separately identified curator-only response inventory,
+5. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
-5. Freeze human evaluation before BM25 retrieval, target generation, and judge
+6. Freeze human evaluation before BM25 retrieval, target generation, and judge
    calibration; finish with the primary test and oracle diagnostics.
 
 Sprint 2 scope, decisions, and provisional sequencing live in
