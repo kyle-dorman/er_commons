@@ -204,11 +204,18 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    `exv1-a0908c8f...5adee`. The user accepted the behavioral and
    human-maintainability outcome on 2026-08-05. No full smoke rerun or
    complete-document/corpus candidate was produced.
-4. Next, revise and separately activate provisional [Task
-   03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md). It owns fresh
-   complete runs of the main report, Appendix D, and Appendix P plus one reuse
-   check. Add Task 03G.x fixes only for failures that actually occur. Close Task
-   03G only after the user accepts all outcomes and fixes. Keep [Task
+4. Active no-PDF preparation: [Task
+   03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md). Implement the
+   fresh-lineage configuration boundary, then freeze 18 source/owner plans,
+   exact three-source document/scope specs, a pilot identity, corpus catalog,
+   shared policies, resources, freshness evidence, and a production-shaped
+   preflight. The main report, Appendix D, and Appendix P must all build from
+   fresh configuration and fresh downstream candidates; Appendix P's completed
+   Task 03F chain and bounded authorization are forbidden inputs. Stop and ask
+   for separate user approval before source verification or any PDF/model
+   command. After approval, run one fresh pilot and one reuse check. Add Task
+   03G.x fixes only for failures that actually occur. Close Task 03G only after
+   the user accepts all outcomes and fixes. Keep [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional until
    that closure.
 5. Independently review usability and freeze the accepted extraction release

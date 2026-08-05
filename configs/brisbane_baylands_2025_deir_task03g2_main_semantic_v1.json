@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "semantic_policy_version": "task03e4-v1",
+  "candidate_version_name": "deir_main_task03g2_semantic_candidate_v2",
+  "candidate_scope": "document_scoped_non_release",
+  "control_profile": "strict_quality_gate",
+  "source": {
+    "source_id": "deir_main",
+    "source_sha256": "0b81e84176c86205c07d9ae6b2a9994fcd45405e516546bcfc7ab9b1f88cf83f",
+    "physical_page_count": 2092
+  },
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "baseline_candidate_relative_root": "pipelines/brisbane_baylands/task_03g2_canonical_records/exv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "baseline_candidate_id": "exv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "baseline_producer_relative_root": "pipelines/brisbane_baylands/task_03g2_document_producers",
+  "baseline_producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "hierarchy_producer_relative_root": "pipelines/brisbane_baylands/task_03g2_document_producers",
+  "hierarchy_producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "hierarchy_candidate_relative_root": "pipelines/brisbane_baylands/task_03g2_hierarchy_correction/hcorv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "hierarchy_candidate_id": "hcorv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "hierarchy_schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
+  "semantic_spec_relative_path": "docs/specs/semantic_structure_v2.md",
+  "semantic_schema_relative_path": "benchmarks/er_bench/schemas/canonical_extraction/v2/semantic_structure.schema.json",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03g2_canonical_records"
+}

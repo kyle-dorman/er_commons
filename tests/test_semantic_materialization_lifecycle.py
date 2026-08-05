@@ -156,6 +156,43 @@ def test_semantic_validation_reads_the_configured_schema(
     assert seen == [{"configured": True}]
 
 
+def test_strict_quality_gate_records_observed_sections_without_reviewed_count(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Fresh machine validation must not require Appendix P's reviewed count."""
+    schema_path = tmp_path / "schema.json"
+    write_json(schema_path, {})
+    monkeypatch.setattr(
+        sealing,
+        "Draft202012Validator",
+        lambda _schema: SimpleNamespace(validate=lambda _bundle: None),
+    )
+    monkeypatch.setattr(sealing, "semantic_validation_bundle", lambda **_kwargs: {})
+    monkeypatch.setattr(sealing, "validate_semantic_contract", lambda *_args, **_kwargs: None)
+    build = SimpleNamespace(
+        collections={"pages": [], "sections": [{"id": "observed"}]},
+        page_label_observations=[],
+        bridge_evidence={},
+    )
+    inputs = SemanticSealingInputs(
+        project_root=tmp_path,
+        identity={},
+        baseline_root=tmp_path,
+        baseline_candidate_id="exv1-" + "b" * 64,
+        baseline_producer_run_id="prv1-baseline",
+        hierarchy_producer_run_id="prv1-hierarchy",
+        control={"physical_page_count": 0},
+        inherited_warnings=[],
+        expectations=None,
+        source_semantic_disposition="strict_quality_gate",
+        semantic_schema_path=schema_path,
+    )
+
+    sealing._validate_semantic_contract(  # type: ignore[arg-type]
+        build, SimpleNamespace(correspondence={}), inputs
+    )
+
+
 def _context(tmp_path: Path) -> RuntimeContext:
     task_root = tmp_path / "task"
     return cast(

@@ -1,8 +1,8 @@
 # Task 03G: Test Extraction Breadth and a Representative Full Pilot
 
-Status: **open umbrella; Task 03G.1 is complete**. Provisional Task 03G.1a owns
-the four selected remediations but is not activated. Keep Task 03G.2
-provisional until the required remediation is accepted.
+Status: **open umbrella; Tasks 03G.1 and 03G.1a are complete and accepted**.
+Task 03G.2 is active for no-PDF preparation only. Source verification and PDF
+processing require a separate user approval after preparation is reviewed.
 
 ## Abstract
 
@@ -71,10 +71,10 @@ not add speculative failure exercises or per-document human acceptance systems.
 ## Inputs
 
 - accepted Tasks 03A through 03F.4 and current production code;
-- production identity
-  `exv1-1bd71e02e9f8da505d68bfb58b8dd8d4c1b47aabc8365417028d6daf60c1fcc4`
-  as the current identity recipe, subject to the Task 03G.1/03G.2 audit of new
-  task-owned code and configuration;
+- the non-executed post-03G.1a production recipe
+  `exv1-a0908c8fad342acde9d195a4223391bef29884cea1711c66d611f13fa995adee`
+  as predecessor evidence only; Task 03G.2 must derive a new pilot recipe that
+  binds its three fresh source-specialized owner plans and downstream lineage;
 - the sealed ordered 35-source `model_corpus` manifest;
 - maintained `extraction run-document`, `extraction run-scope`, and
   `extraction validate-handoff` interfaces;

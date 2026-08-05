@@ -266,8 +266,37 @@ failure-path evidence because a model-adapter boundary error caused safe
 `model_failure` abstentions. The corrected, complete v7 run under
 `pipelines/brisbane_baylands/task_03g1a_remediation_v7/` is normative. It
 retains exact commands, refactor-preservation evidence, and the refreshed
-production identity reference, and has status
-`regression_complete_pending_user_acceptance`, not task closure.
+production identity reference. The user accepted and closed Task 03G.1a on
+2026-08-05; the immutable artifact's recorded pre-acceptance status is
+historical evidence rather than the current task status.
+
+Task 03G.2 owns completely fresh producer, document-content, and scope roots:
+
+```text
+pipelines/brisbane_baylands/task_03g2_document_producers/<prv1-id>/
+pipelines/brisbane_baylands/task_03g2_canonical_records/<exv1-id>/
+pipelines/brisbane_baylands/task_03g2_hierarchy_correction/<hcorv1-id>/
+pipelines/brisbane_baylands/task_03g2_representative_pilot/
+  documents/<source_id>/<docv1-id>/
+  scopes/<scopev1-id>/
+```
+
+The three selected sources are `deir_main`, `deir_appendix_d`, and
+`deir_appendix_p`. The first invocation may consume only their sealed Task 02
+source records, current reviewed policies/models/code, fresh checked-in owner
+plans, and checksum-sealed runtime lineage produced inside this task. It may
+not reference any historical Appendix P `prv1-`, canonical `exv1-`,
+`hcorv1-`, cross-reference `exv1-`, `docv1-`, or bounded-acceptance artifact.
+Semantic and cross-reference runtime lineage records are derived only after
+their fresh upstream candidates publish; they are managed control inputs and
+must be inventoried rather than hidden in mutable process state.
+
+The current authorization is preparation-only. No Task 03G.2 external root or
+candidate should be created until the fresh-lineage implementation and config
+schemas pass offline validation, and no source verification or PDF/model work
+may occur before separate user approval. Review requests remain under the
+existing candidate-neutral `review_cache/<candidate-id>/` root and do not enter
+candidate identity or completion.
 
 The stage-two corpus index lives below
 `scopes/<run_scope_id>/target_indexes/`; it is not the Task 03E.5

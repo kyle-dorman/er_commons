@@ -109,7 +109,12 @@ def _preserve_failed_attempt(task_root: Path, staging_root: Path) -> None:
         (failed_root / "records" / "completion_record.json").unlink(missing_ok=True)
 
 
-def run_document_canonicalization(data_root: Path, config_path: Path) -> Path:
+def run_document_canonicalization(
+    data_root: Path,
+    config_path: Path,
+    *,
+    config_identity_path: Path | None = None,
+) -> Path:
     """Publish or checksum-verify the deterministic Appendix P core candidate."""
     config, _config_sha256 = load_canonicalization_config(config_path)
     inputs = load_canonicalization_inputs(data_root, config)
@@ -125,7 +130,7 @@ def run_document_canonicalization(data_root: Path, config_path: Path) -> Path:
         inputs=inputs,
         schema_path=SCHEMA_PATH,
         mapping_policy_path=mapping_policy_path,
-        owned_paths=_owned_paths(config_path, mapping_policy_path),
+        owned_paths=_owned_paths(config_identity_path or config_path, mapping_policy_path),
     )
     candidate_id = identity["extraction_id"]
     task_root = assert_contained(

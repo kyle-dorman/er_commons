@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from er_commons.corpus_extraction_contract_v1_1.checks import (
     bytes_sha256,
@@ -68,7 +68,24 @@ PRODUCTION_CONTRACT_SECTIONS = (
     "cross_reference_contract",
     "corpus_workflow_contract",
 )
-PRODUCTION_SOURCE_COUNT = 35
+ProductionScopeKind = Literal[
+    "fixture",
+    "engineering_smoke",
+    "representative_pilot",
+    "production_full",
+]
+PRODUCTION_IDENTITY_PROFILES: dict[str, tuple[str, int, frozenset[ProductionScopeKind]]] = {
+    "task_03g1a_remediation_v1": (
+        "brisbane_baylands_model_corpus_v1",
+        35,
+        frozenset({"fixture", "engineering_smoke", "production_full"}),
+    ),
+    "task_03g2_representative_pilot_v1": (
+        "brisbane_baylands_representative_pilot_v1",
+        3,
+        frozenset({"fixture", "representative_pilot"}),
+    ),
+}
 
 
 def build_index_id(preimage: JsonObject) -> str:
@@ -131,6 +148,7 @@ def validate_production_identity(
     *,
     expected_source_ids: list[str] | None = None,
     expected_scope: JsonObject | None = None,
+    expected_scope_kind: ProductionScopeKind | None = None,
     project_root: Path | None = None,
 ) -> DerivedIdentity:
     """Verify the refreshed non-execution recipe and all checked references."""
@@ -148,10 +166,20 @@ def validate_production_identity(
     _require_closed_fields(preimage, PRODUCTION_PREIMAGE_FIELDS, code="identity_preimage")
     if preimage["schema_version"] != "er_commons.corpus_extraction_identity_preimage.v1_1":
         fail("identity_preimage", "production identity uses the wrong v1.1 preimage schema")
-    if preimage["contract_revision"] != "task_03g1a_remediation_v1":
-        fail("identity_preimage", "production identity uses the wrong contract revision")
-    if preimage["extraction_version_name"] != "brisbane_baylands_model_corpus_v1":
+    revision = preimage["contract_revision"]
+    if not isinstance(revision, str):
+        fail("identity_preimage", "production identity contract revision must be a string")
+    profile = PRODUCTION_IDENTITY_PROFILES.get(revision)
+    if profile is None:
+        fail("identity_preimage", "production identity uses an unsupported contract revision")
+    version_name, source_count, allowed_scope_kinds = profile
+    if preimage["extraction_version_name"] != version_name:
         fail("identity_preimage", "production identity uses an unexpected extraction version")
+    if expected_scope_kind is not None and expected_scope_kind not in allowed_scope_kinds:
+        fail(
+            "production_scope",
+            "production identity profile does not authorize the selected run scope kind",
+        )
     digest = canonical_sha256(preimage)
     extraction_id = f"exv1-{digest}"
     if record.get("identity_sha256") != digest or record.get("extraction_id") != extraction_id:
@@ -161,10 +189,14 @@ def validate_production_identity(
     source_ids = scope.get("ordered_source_ids")
     if (
         not isinstance(source_ids, list)
-        or len(source_ids) != PRODUCTION_SOURCE_COUNT
+        or not all(isinstance(source_id, str) for source_id in source_ids)
+        or len(source_ids) != source_count
         or len(set(source_ids)) != len(source_ids)
     ):
-        fail("production_scope", "production identity must contain 35 unique sources")
+        fail(
+            "production_scope",
+            f"production identity profile must contain {source_count} unique sources",
+        )
     if expected_source_ids is not None and source_ids != expected_source_ids:
         fail("production_scope", "production source order differs from sealed evidence")
     if expected_scope is not None:

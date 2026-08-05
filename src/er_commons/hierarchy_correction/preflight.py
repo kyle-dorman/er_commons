@@ -42,10 +42,20 @@ class CorrectionRunContext:
     bounded_acceptance_path: Path | None
 
 
-def prepare_run(data_root: Path, config_path: Path) -> CorrectionRunContext:
+def prepare_run(
+    data_root: Path,
+    config_path: Path,
+    *,
+    config_identity_path: Path | None = None,
+) -> CorrectionRunContext:
     """Verify candidate-producing inputs and derive all stable run paths."""
     project_root = Path(__file__).resolve().parents[3]
-    config, config_sha256 = load_hierarchy_correction_config(config_path)
+    config, effective_config_sha256 = load_hierarchy_correction_config(config_path)
+    config_sha256 = (
+        load_hierarchy_correction_config(config_identity_path)[1]
+        if config_identity_path is not None
+        else effective_config_sha256
+    )
     inputs = load_hierarchy_correction_inputs(data_root, config)
     schema_path = project_root / config.schema_relative_path
     identity = build_candidate_identity(

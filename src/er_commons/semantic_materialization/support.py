@@ -70,7 +70,7 @@ def build_candidate_support(
     baseline_candidate_id: str,
     candidate_id: str,
     control: JsonObject,
-    expectations: SemanticExpectations,
+    expectations: SemanticExpectations | None,
 ) -> CandidateSupport:
     """Build preservation, bridge, correspondence, and control evidence."""
     baseline = load_baseline_candidate(baseline_root)
@@ -99,7 +99,9 @@ def build_candidate_support(
         )
     }
     payloads = {
-        "cross_producer_bridge": _bridge_payload(build, control, expectations),
+        "cross_producer_bridge": _bridge_payload(
+            build, control, expectations or build.observed_expectations
+        ),
         "candidate_correspondence": correspondence,
         "baseline_preservation": {
             "schema_version": "er_commons.baseline_preservation.v2",

@@ -42,9 +42,22 @@ JsonRecord = dict[str, Any]
 LOGGER = logging.getLogger(__name__)
 
 
-def run_hierarchy_correction(data_root: Path, config_path: Path) -> Path:
+def run_hierarchy_correction(
+    data_root: Path,
+    config_path: Path,
+    *,
+    config_identity_path: Path | None = None,
+) -> Path:
     """Verify inputs, reuse an authorized candidate, or build and publish once."""
-    run = prepare_run(data_root, config_path)
+    run = (
+        prepare_run(data_root, config_path)
+        if config_identity_path is None
+        else prepare_run(
+            data_root,
+            config_path,
+            config_identity_path=config_identity_path,
+        )
+    )
     if run.final_root.exists():
         LOGGER.info("Reusing verified hierarchy candidate %s", run.candidate_id)
         return _reuse_candidate(run)

@@ -81,7 +81,7 @@ def _write_candidate_workspace(
         baseline_candidate_id=context.config.baseline_candidate_id,
         candidate_id=candidate_id,
         control=context.inputs.control_provenance,
-        expectations=context.config.expectations,
+        expectations=context.construction_inputs.expectations,
     )
     validate_serialize_and_seal(
         root=root,
@@ -96,7 +96,7 @@ def _write_candidate_workspace(
             hierarchy_producer_run_id=context.config.hierarchy_producer_run_id,
             control=context.inputs.control_provenance,
             inherited_warnings=inherited_warnings(context.inputs),
-            expectations=context.config.expectations,
+            expectations=context.construction_inputs.expectations,
             source_semantic_disposition=(
                 "strict_quality_gate"
                 if context.config.control_profile == "strict_quality_gate"

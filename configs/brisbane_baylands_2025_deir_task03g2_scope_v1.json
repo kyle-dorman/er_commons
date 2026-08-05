@@ -1,0 +1,14 @@
+{
+  "schema_version": "er_commons.scope_run_spec.v1",
+  "document_run_spec": "brisbane_baylands_2025_deir_task03g2_document_v1.json",
+  "source_ids": [
+    "deir_main",
+    "deir_appendix_d",
+    "deir_appendix_p"
+  ],
+  "corpus_catalog_relative_path": "pipelines/brisbane_baylands/task_03g2_representative_pilot/inputs/brisbane_baylands_2025_deir_task03g2_corpus_catalog_v1.json",
+  "blocking_policy": "all_sources_successful",
+  "target_policy_sha256": "637c1f73a45541a2f268f723494d5d9217b4fc4f9c101fb41527fa0fcefc9354",
+  "resolution_policy_sha256": "9882707fb512108c29515e76e3ac2e4e1c897abd4d071be37b95aef50d901b2d",
+  "ordering_policy_version": "corpus_target_order_v1"
+}

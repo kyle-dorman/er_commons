@@ -24,8 +24,8 @@ def build_candidate_identity(context: RuntimeContext) -> JsonObject:
         ),
         "schema": _artifact_ref(context.project_root, context.config.schema_relative_path),
         "config": {
-            "path": context.config_path.relative_to(context.project_root).as_posix(),
-            "sha256": sha256_file(context.config_path),
+            "path": context.config_identity_path.relative_to(context.project_root).as_posix(),
+            "sha256": sha256_file(context.config_identity_path),
         },
         "corpus_manifest": {
             "path": context.config.source_manifest_relative_path.as_posix(),
@@ -68,7 +68,7 @@ def _owned_paths(context: RuntimeContext) -> tuple[Path, ...]:
             context.project_root / "src" / "er_commons" / "cli.py",
             context.project_root / "pyproject.toml",
             context.project_root / "uv.lock",
-            context.config_path,
+            context.config_identity_path,
         ]
     )
     return tuple(sorted(path.resolve() for path in paths))

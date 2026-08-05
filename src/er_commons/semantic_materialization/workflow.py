@@ -21,9 +21,18 @@ from er_commons.semantic_materialization.runtime import (
 from er_commons.semantic_materialization.support import build_candidate_support
 
 
-def run_semantic_materialization(data_root: Path, config_path: Path) -> Path:
+def run_semantic_materialization(
+    data_root: Path,
+    config_path: Path,
+    *,
+    config_identity_path: Path | None = None,
+) -> Path:
     """Verify inputs, identify/reuse, or build, validate, and publish once."""
-    context = load_runtime_context(data_root=data_root, config_path=config_path)
+    context = load_runtime_context(
+        data_root=data_root,
+        config_path=config_path,
+        config_identity_path=config_identity_path,
+    )
     identity = _candidate_identity(context)
     candidate_id = identity["extraction_id"]
     _require_new_candidate_id(context, candidate_id)
@@ -46,16 +55,16 @@ def _candidate_identity(context: RuntimeContext) -> dict[str, Any]:
         baseline_candidate_id=context.config.baseline_candidate_id,
         candidate_id=PLACEHOLDER_ID,
         control=context.inputs.control_provenance,
-        expectations=context.config.expectations,
+        expectations=context.construction_inputs.expectations,
     )
     return build_semantic_candidate_identity(
         project_root=context.project_root,
-        config_path=context.config_path,
+        config_path=context.config_identity_path,
         config=context.config,
         inputs=context.inputs,
         bridge_entries=build.bridge_entries,
         support_preimages=support.payloads,
-        owned_paths=owned_runtime_paths(context.config_path),
+        owned_paths=owned_runtime_paths(context.config_identity_path),
     )
 
 

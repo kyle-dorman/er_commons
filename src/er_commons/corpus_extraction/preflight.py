@@ -14,6 +14,7 @@ from er_commons.corpus_extraction.sources import resolve_manifest_source
 from er_commons.corpus_extraction_contract_v1_1 import (
     validate_production_identity,
 )
+from er_commons.corpus_extraction_contract_v1_1.checks import canonical_sha256
 from er_commons.source_freeze import assert_contained, sha256_file
 
 
@@ -83,6 +84,7 @@ def _verify_production_contract(spec: RunSpec, project_root: Path, data_root: Pa
         identity,
         expected_source_ids=source_ids,
         expected_scope=scope_evidence,
+        expected_scope_kind=spec.scope_kind,
         project_root=project_root if spec.scope_kind != "fixture" else None,
     )
     if identity.get("extraction_id") != spec.production_extraction_id:
@@ -118,15 +120,34 @@ def _production_scope_evidence(
         raise ValueError("run spec differs from production source scope")
 
     manifest = json.loads(manifest_path.read_text())
-    source_ids = [
-        item["source_id"]
-        for item in manifest["sources"]
-        if item.get("source_role") == "model_corpus"
+    model_source_records = [
+        item for item in manifest["sources"] if item.get("source_role") == "model_corpus"
+    ]
+    model_source_ids = [item["source_id"] for item in model_source_records]
+    if spec.scope_kind == "representative_pilot":
+        source_ids = [owner.source_id for owner in spec.document_owners]
+        missing = [source_id for source_id in source_ids if source_id not in model_source_ids]
+        if missing:
+            raise ValueError(f"representative pilot selects non-model sources: {missing}")
+        positions = [model_source_ids.index(source_id) for source_id in source_ids]
+        if positions != sorted(positions):
+            raise ValueError("representative pilot sources differ from sealed manifest order")
+    else:
+        source_ids = model_source_ids
+    selected_source_ids = set(source_ids)
+    ordered_source_records = [
+        {
+            "source_id": item["source_id"],
+            "sha256": item["sha256"],
+            "pdf_page_count": item["pdf_page_count"],
+        }
+        for item in model_source_records
+        if item["source_id"] in selected_source_ids
     ]
     evidence = {
         "source_release_version": manifest["source_release_version"],
         "source_manifest_sha256": sha256_file(manifest_path),
         "release_completion_sha256": sha256_file(completion_path),
-        "ordered_source_records_sha256": scope["ordered_source_records_sha256"],
+        "ordered_source_records_sha256": canonical_sha256(ordered_source_records),
     }
     return source_ids, evidence

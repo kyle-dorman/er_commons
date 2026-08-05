@@ -1,0 +1,21 @@
+{
+  "schema_version": "er_commons.corpus_target_policy.v1",
+  "policy_version": "task03g2-corpus-target-policy-v1",
+  "eligible_candidates": "verified_successful_document_candidates",
+  "input_roles": [
+    "target_aliases",
+    "target_records"
+  ],
+  "deduplication_key": [
+    "alias_id",
+    "target_id"
+  ],
+  "collision_policy": "retain_cross_target_collisions",
+  "ordering": [
+    "normalized_lookup_key",
+    "target_type",
+    "manifest_source_ordinal",
+    "target_id",
+    "alias_id"
+  ]
+}

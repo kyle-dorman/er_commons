@@ -28,13 +28,22 @@ def validate_fixture_directory(schema_path: Path, fixture_root: Path) -> None:
 
     project_root = _find_project_root(schema_path)
     identity = _read_object(fixture_root / "production_identity_preimage.json")
-    scope_evidence = _read_object(fixture_root / "production_scope_evidence.json")
-    source_spec = _read_object(
-        project_root / "configs" / "brisbane_baylands_2025_deir_sources_v1.json"
+    preimage = identity["preimage"]
+    if not isinstance(preimage, dict):
+        fail("fixture_shape", "production identity preimage is not an object")
+    revision = preimage.get("contract_revision")
+    evidence_name = (
+        "task03g2_production_scope_evidence.json"
+        if revision == "task_03g2_representative_pilot_v1"
+        else "production_scope_evidence.json"
     )
-    expected_source_ids = [
-        source["source_id"] for source in source_spec["sources"] if source["role"] == "model_corpus"
-    ]
+    scope_evidence = _read_object(fixture_root / evidence_name)
+    production_scope = preimage.get("production_scope")
+    if not isinstance(production_scope, dict):
+        fail("fixture_shape", "production identity scope is not an object")
+    expected_source_ids = production_scope.get("ordered_source_ids")
+    if not isinstance(expected_source_ids, list):
+        fail("fixture_shape", "production identity source IDs are not a list")
     validator.validate(identity)
     validate_production_identity(
         identity,

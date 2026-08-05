@@ -327,13 +327,14 @@ details, never publication units. A complete document publishes by atomic
 rename after completion-last sealing; a failed attempt remains inspectable
 without a completion marker.
 
-The production `extraction_id` binds the exact ordered 35-source manifest scope
-and every output-affecting parser, model, policy, schema, configuration, and
-owned-code input. Fixture, smoke, pilot, transaction, document-candidate, index,
-resolution, and handoff identities have separate typed namespaces. Operational
-controls remain subordinate unless they can alter output bytes. The workflow
-uses plain files and bounded local processes rather than a scheduler service,
-database queue, or workflow engine.
+A production-full `extraction_id` binds the exact ordered 35-source manifest
+scope and every output-affecting parser, model, policy, schema, configuration,
+and owned-code input. A representative-pilot identity binds its exact ordered
+manifest subset and must not claim unconfigured sources. Fixture, smoke, pilot,
+transaction, document-candidate, index, resolution, and handoff identities have
+separate typed namespaces. Operational controls remain subordinate unless they
+can alter output bytes. The workflow uses plain files and bounded local
+processes rather than a scheduler service, database queue, or workflow engine.
 
 Task 03G.1's `python -m er_commons.smoke_extraction --spec PATH` is a
 deliberately separate diagnostic endpoint. It applies one deterministic
@@ -391,6 +392,25 @@ appearing as printed target text. Geometry, fallback, and continuation are
 producer behavior and therefore alter future `prv1-` and downstream `exv1-`
 identities. Smoke-only warning accounting alters a future `smokev1-`; no
 completed artifact is rebound.
+
+Task 03G.2 generalizes the six-owner orchestration for an honest fresh build.
+The checked-in owner plan separates reviewed static policy from runtime lineage
+that cannot exist before its upstream candidate publishes. Baseline and
+hierarchy producer identities are predicted without converting PDFs; canonical
+and hierarchy-correction plans bind those fresh producer IDs. After each new
+upstream publication, the workflow writes a checksum-sealed lineage input for
+semantic materialization and then cross-reference enrichment. Those derived
+inputs bind exact candidate IDs, completion records, and inventories and enter
+downstream identity. They are not user-authored guesses and may never be filled
+from the historical Appendix P chain.
+
+All three pilot hierarchy corrections use direct `machine_validation` and the
+semantic `strict_quality_gate`; Appendix P's bounded authorization remains a
+historical Task 03E/03F control. Semantic source counts are observations, not a
+portable acceptance policy copied from Appendix P. The pilot runs with
+document concurrency one in new Task 03G.2 roots. This architecture change is
+active for offline implementation and preflight only until the user separately
+authorizes source verification and PDF/model execution.
 
 `er_commons.corpus_extraction_contract` preserves the accepted v1 offline
 validator. `er_commons.corpus_extraction_contract_v1_1` owns the corrected

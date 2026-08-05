@@ -115,7 +115,7 @@ def build_bridge_construction(
     block_id_by_key: dict[str, str],
     baseline_producer_run_id: str,
     hierarchy_producer_run_id: str,
-    expected_coverage: SemanticExpectations,
+    expected_coverage: SemanticExpectations | None,
 ) -> BridgeConstruction:
     """Build bridge rows from producer pointers, never candidate self-evidence."""
     relevant_keys = hierarchy_relevant_keys(evidence.hierarchy, collections["blocks"])
@@ -158,7 +158,8 @@ def build_bridge_construction(
             value == "canonical_figure_suppressed_descendant" for value in dispositions.values()
         ),
     )
-    _assert_accepted_bridge_coverage(coverage, expected_coverage)
+    if expected_coverage is not None:
+        _assert_accepted_bridge_coverage(coverage, expected_coverage)
     return BridgeConstruction(entries, bridge_evidence, coverage)
 
 

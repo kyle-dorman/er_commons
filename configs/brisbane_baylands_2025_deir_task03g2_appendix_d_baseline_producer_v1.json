@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "producer_policy_version": "task03c-v2-task03g1a-v1",
+  "pipeline_id": "brisbane_baylands_2025_deir_task03g2_appendix_d_baseline_v1",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "source": {
+    "source_id": "deir_appendix_d",
+    "official_title": "Appendix D - Biological Resources Technical Report (PDF)",
+    "expected_sha256": "0e0d0dc3d5c9d75ca52ec698f3943da59e560e69dde8dfa4763c9afd6673e1c3",
+    "expected_byte_size": 62423471,
+    "expected_pdf_page_count": 356
+  },
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03g2_document_producers",
+  "model_inventory_relative_path": "pipelines/brisbane_baylands/task_03a_docling_native_pilot_v1/model_inventory.json",
+  "configuration_id": "docling_native_pypdfium2_heron_layout_tableformer_fallback_cpu",
+  "backend": "pypdfium2",
+  "device": "cpu",
+  "thread_count": 4,
+  "document_timeout_seconds": null,
+  "strict_table_dominant_thresholds": {
+    "minimum_text_width_fraction": 0.7,
+    "minimum_text_height_fraction": 0.75,
+    "minimum_partial_text_height_fraction": 0.35,
+    "minimum_nonempty_line_count": 80,
+    "minimum_nonspace_characters_per_square_point": 0.02,
+    "minimum_digit_fraction": 0.35
+  },
+  "numeric_table_bearing_thresholds": {
+    "minimum_text_width_fraction": 0.7,
+    "minimum_nonempty_line_count": 20,
+    "minimum_nonspace_characters_per_square_point": 0.005,
+    "minimum_digit_fraction": 0.5
+  },
+  "table_detection": {
+    "render_scale": 3.0,
+    "horizontal_kernel_pixels": 24,
+    "vertical_kernel_pixels": 12,
+    "minimum_region_width_pixels": 60,
+    "minimum_region_height_pixels": 18,
+    "minimum_intersections": 4,
+    "complex_page_minimum_regions": 2,
+    "maximum_network_ruling_coverage": 0.1,
+    "minimum_region_match_iou": 0.5
+  },
+  "table_cleanup": {
+    "footer_pattern": "(?P<sheet>\\d+\\.[A-Za-z0-9_]+)\\s+(?P<page>\\d+)\\s+of\\s+(?P<total>\\d+)",
+    "footer_counter_pattern": "\\b\\d+\\s+of\\s+\\d+\\b",
+    "leading_filename_pattern": "^[a-z0-9_]+_v[0-9]+$",
+    "maximum_header_rows": 8,
+    "minimum_numeric_cell_fraction_for_data_row": 0.5
+  },
+  "learned_table_fallback": {
+    "enabled": true,
+    "model_inventory_relative_path": "pipelines/brisbane_baylands/task_03a_docling_native_pilot_v1/model_inventory.json",
+    "expected_weights_sha256": "2a7d6c924b3cd12fb99a09280ca9c33a89c5d60b93253617d2e088c1a40374d9",
+    "expected_model_config_sha256": "984e122ceb8ccf84d84c9d2882f6f2302a44b4f1e577babd6289892c36f3cffd",
+    "render_scale": 2.0,
+    "cpu_threads": 8,
+    "minimum_rows": 2,
+    "minimum_columns": 2,
+    "minimum_native_text_coverage": 0.9,
+    "maximum_bbox_overshoot_pixels": 3.0
+  }
+}

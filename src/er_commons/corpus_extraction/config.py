@@ -67,6 +67,7 @@ class DocumentOwnerSelection(StrictModel):
     """Data-driven owner configurations for one manifest source."""
 
     source_id: str = Field(pattern=r"^[a-z0-9][a-z0-9_]*$")
+    lineage_mode: Literal["sealed_inputs", "fresh_build"] = "sealed_inputs"
     configs: ContentOwnerConfigs
 
 
@@ -139,6 +140,15 @@ class RunSpec(StrictModel):
         matches = [item.configs for item in self.document_owners if item.source_id == source_id]
         if len(matches) != 1:
             raise ValueError(f"run spec lacks one content-owner selection: {source_id}")
+        return matches[0]
+
+    def lineage_mode(self, source_id: str) -> Literal["sealed_inputs", "fresh_build"]:
+        """Return the explicit upstream-binding policy for one source."""
+        matches = [
+            item.lineage_mode for item in self.document_owners if item.source_id == source_id
+        ]
+        if len(matches) != 1:
+            raise ValueError(f"run spec lacks one lineage mode: {source_id}")
         return matches[0]
 
 

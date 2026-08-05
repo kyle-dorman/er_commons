@@ -1,0 +1,1284 @@
+{
+  "record_type": "production_identity",
+  "schema_version": "er_commons.corpus_extraction_identity.v1_1",
+  "fixture_status": "identity_recipe",
+  "execution_status": "not_executed",
+  "extraction_id": "exv1-a0908c8fad342acde9d195a4223391bef29884cea1711c66d611f13fa995adee",
+  "identity_sha256": "a0908c8fad342acde9d195a4223391bef29884cea1711c66d611f13fa995adee",
+  "preimage": {
+    "schema_version": "er_commons.corpus_extraction_identity_preimage.v1_1",
+    "extraction_version_name": "brisbane_baylands_model_corpus_v1",
+    "production_scope": {
+      "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+      "source_manifest": {
+        "path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+        "sha256": "fede3e4af815378b77a7f7f54c863ef095328da789859d4f4b25a524f3408f38",
+        "byte_size": 2649317
+      },
+      "release_completion": {
+        "path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/completion_record.json",
+        "sha256": "d1175d6bf54d2c557293cb7bb0e1191250a9b5db2aef5c9e563ebe01e58767a6",
+        "byte_size": 1336
+      },
+      "ordered_source_ids": [
+        "deir_main",
+        "deir_appendix_a",
+        "deir_appendix_b",
+        "deir_appendix_c",
+        "deir_appendix_d",
+        "deir_appendix_e",
+        "deir_appendix_f1",
+        "deir_appendix_f2",
+        "deir_appendix_g1",
+        "deir_appendix_g2",
+        "deir_appendix_g3",
+        "deir_appendix_h",
+        "deir_appendix_i",
+        "deir_appendix_j",
+        "deir_appendix_k1_part_1_of_4",
+        "deir_appendix_k1_part_2_of_4",
+        "deir_appendix_k1_part_3_of_4",
+        "deir_appendix_k1_part_4_of_4",
+        "deir_appendix_k2_part_1_of_5",
+        "deir_appendix_k2_part_2_of_5",
+        "deir_appendix_k2_part_3_of_5",
+        "deir_appendix_k2_part_4_of_5",
+        "deir_appendix_k2_part_5_of_5",
+        "deir_appendix_k3",
+        "deir_appendix_k4",
+        "deir_appendix_k5",
+        "deir_appendix_k6",
+        "deir_appendix_l",
+        "deir_appendix_m1",
+        "deir_appendix_m2",
+        "deir_appendix_m3",
+        "deir_appendix_n1",
+        "deir_appendix_n2",
+        "deir_appendix_o",
+        "deir_appendix_p"
+      ],
+      "ordered_source_records_sha256": "a1028e3f7da542b572ec5de7f6724900b43f90ad48f671c200d9ef0777b8706e"
+    },
+    "producer_contract": {
+      "version": "task03g1a-producer-v1",
+      "artifacts": [
+        {
+          "path": "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json",
+          "sha256": "0e552aee5170235d2236f18dac41cadf81c7ace28b2331c593cb7bce0e56d27c",
+          "byte_size": 2813
+        },
+        {
+          "path": "configs/brisbane_baylands_2025_deir_task03e_appendix_p_v1.json",
+          "sha256": "f8ba2c3fae9996bc40ac77691b4171f404d04ac628fd7913a08a98445196d9e0",
+          "byte_size": 3054
+        }
+      ],
+      "owned_code": [
+        {
+          "path": "src/er_commons/document_extraction/__init__.py",
+          "sha256": "e9f84b1fa4b96a6d5ee66bd1a5c7cb013a5893b2edda8c809e6547ccafcf5dd4",
+          "byte_size": 204
+        },
+        {
+          "path": "src/er_commons/document_extraction/artifacts.py",
+          "sha256": "20b21b42bf060bc4608d75e50cb7ab6f17aaf6719c2dfbe1fe408b14ad2e2178",
+          "byte_size": 4298
+        },
+        {
+          "path": "src/er_commons/document_extraction/complete_document.py",
+          "sha256": "82bd973fa45842a52a51961e7660465a834b43379902588cf3b070a12b74810b",
+          "byte_size": 10864
+        },
+        {
+          "path": "src/er_commons/document_extraction/config.py",
+          "sha256": "ee11e8f226e4868418da3105b2ba092924ec9749d4cea361d9ae6ee4e83e351c",
+          "byte_size": 5654
+        },
+        {
+          "path": "src/er_commons/document_extraction/hierarchy/__init__.py",
+          "sha256": "447146759d774929c24b823765a2a57aacb52f4c14cee0e05fc78a24e47ff535",
+          "byte_size": 81
+        },
+        {
+          "path": "src/er_commons/document_extraction/hierarchy/document.py",
+          "sha256": "d9e5e9d84099278bc11b3fe4b1adb8bd4f8afd2ea63988b99abaf0fe7ae67032",
+          "byte_size": 6868
+        },
+        {
+          "path": "src/er_commons/document_extraction/producer_artifacts.py",
+          "sha256": "729b43ed3bd383b0cd8c830442b0775b4700e6b2df13e617203415f6aaa8ee25",
+          "byte_size": 7195
+        },
+        {
+          "path": "src/er_commons/document_extraction/producer_config.py",
+          "sha256": "7e908b764394329ed2d0e6ca199c908f9f150164fbe6807a00a1a7f08264cd21",
+          "byte_size": 4525
+        },
+        {
+          "path": "src/er_commons/document_extraction/producer_conversion.py",
+          "sha256": "8d347c2eb6034d98a8af54f880261523192420dac8a3d23bfb7132494b4b1f1e",
+          "byte_size": 4848
+        },
+        {
+          "path": "src/er_commons/document_extraction/producer_identity.py",
+          "sha256": "81aa845ea19cd61681de69453782d10eeb849fc3626d10dd1efb612bbc82c4d2",
+          "byte_size": 6035
+        },
+        {
+          "path": "src/er_commons/document_extraction/producer_publication.py",
+          "sha256": "5fcde0ac15504f2f8e7df1573df78e0f12ef75e98a2ac54481f7fc694d57d992",
+          "byte_size": 5103
+        },
+        {
+          "path": "src/er_commons/document_extraction/producer_records.py",
+          "sha256": "2562b928524f6f5739ed107accaebae7362a62d5b97da8177694709ccb9230fe",
+          "byte_size": 6685
+        },
+        {
+          "path": "src/er_commons/document_extraction/producer_routing.py",
+          "sha256": "d81394d8b3d2eb71a272364fe8bd96e0d1e002a72e6130cc01277e97873f4da8",
+          "byte_size": 3224
+        },
+        {
+          "path": "src/er_commons/document_extraction/producer_services.py",
+          "sha256": "58fd1bec28c0596117465e4449591fe0e80f9b2bdcec37f759c9f8c53bf6181b",
+          "byte_size": 3004
+        },
+        {
+          "path": "src/er_commons/document_extraction/producer_tables.py",
+          "sha256": "18fb668cc3e94b564f5684d69b0f798b2d7601ba0dbc950f310ce952467e3549",
+          "byte_size": 14719
+        },
+        {
+          "path": "src/er_commons/document_extraction/routing.py",
+          "sha256": "b3b10b7dc20ab50c7133b3edf6043e5f223efd9bbd84edea4510f9047b310d36",
+          "byte_size": 8355
+        },
+        {
+          "path": "src/er_commons/document_extraction/routing_geometry.py",
+          "sha256": "a150b0b9993632fc1190d4355a8476697bea90fd2cbd097fa3c591f803c514e4",
+          "byte_size": 6963
+        },
+        {
+          "path": "src/er_commons/document_extraction/runtime.py",
+          "sha256": "8ce24bc1769afc888ed7281565544a04083e80216fb9d22e32eea7c1a74836dc",
+          "byte_size": 9870
+        },
+        {
+          "path": "src/er_commons/document_extraction/sources.py",
+          "sha256": "cac86f1f0ed59583438c7a7b45dab75cb1b67b1266b5f2eda64e14c2fe9a8fef",
+          "byte_size": 6233
+        },
+        {
+          "path": "src/er_commons/document_extraction/table_markers.py",
+          "sha256": "e2af1d13778c68f6f7a32073a301e34218f0277572e35da170bc7fe05d3de1e3",
+          "byte_size": 1877
+        },
+        {
+          "path": "src/er_commons/document_extraction/table_stage.py",
+          "sha256": "aa12983587663e0b23c92e22b33b510ebcb86d5206860d25ba5844552347a4f8",
+          "byte_size": 6032
+        },
+        {
+          "path": "src/er_commons/source_freeze.py",
+          "sha256": "c5ebd865586687c07ac34fefc2bd61e6541507a69e5ecdf19bdb74c7ee1bfa43",
+          "byte_size": 39136
+        },
+        {
+          "path": "src/er_commons/table_extraction/__init__.py",
+          "sha256": "251878fb6fec422930ee4b45f3257ac554a3c9af81094ff92a44c3b20040d8d7",
+          "byte_size": 164
+        },
+        {
+          "path": "src/er_commons/table_extraction/continuations.py",
+          "sha256": "f4e10e8e4d6c3eb067acf7eef5400b7261edfe2f7b6e540eaaf3ba601fa29fc8",
+          "byte_size": 10824
+        },
+        {
+          "path": "src/er_commons/table_extraction/families.py",
+          "sha256": "943936555dcb675032b0c0a13b3eea388550473216d5aa560f82d309bfc1a439",
+          "byte_size": 7485
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_fallback.py",
+          "sha256": "3c2bb6f7eccd83c530379b7bdc841b2b22c53e5ad68f9a1f350c793e4e047853",
+          "byte_size": 707
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_acceptance.py",
+          "sha256": "40527769f41008db63c00d99106a6860914b17ee95f3cd5354cd23c98778e62d",
+          "byte_size": 9892
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_cells.py",
+          "sha256": "eac6170a5203be3ccb76a9c0ae18b16726f452b7e0c522f44c8d34f1e7c09e30",
+          "byte_size": 7107
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_geometry.py",
+          "sha256": "13d6b4f89fc9080137dc13e1a832854e242363faacca87d36aa49023f3328641",
+          "byte_size": 1732
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_page.py",
+          "sha256": "7088b8c5379d4b75bd6a5d7276bad706d756d3b1fee9595a5851b468f78e1be0",
+          "byte_size": 2276
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_text.py",
+          "sha256": "4edafc60c19b24bb35ec6a304614b44b2301a87cbd08a1defabb65653f4f271c",
+          "byte_size": 10132
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_types.py",
+          "sha256": "00def2ba8276f76a1757072397e36f65a1870c8b8a2776df2bb1f79dc47a18c3",
+          "byte_size": 1716
+        },
+        {
+          "path": "src/er_commons/table_extraction/models.py",
+          "sha256": "82a5586df4d5782c0f8eb71c05cf030500eb79e0b120df1713af829df11acd88",
+          "byte_size": 6884
+        },
+        {
+          "path": "src/er_commons/table_extraction/otsl.py",
+          "sha256": "02b045ec3ac1eeb793e03f9bcbbe5c6951f36d2eceea1e258e888946f3b9092a",
+          "byte_size": 6299
+        },
+        {
+          "path": "src/er_commons/table_extraction/page.py",
+          "sha256": "13440fe78556f90334bb567fb81d36884fd36d21ce65d98b689a66e0ed8defac",
+          "byte_size": 28204
+        },
+        {
+          "path": "src/er_commons/table_extraction/pipeline.py",
+          "sha256": "c9a5f0dbbe289a4dd84090ee5347934bbc2c3eab9f3da7d27a0f48068c39573a",
+          "byte_size": 15754
+        },
+        {
+          "path": "src/er_commons/table_extraction/tableformer_fallback.py",
+          "sha256": "9a6fd04e25cdaf1ccdc9e83e51ef4489f47db38a537c89c6beb66e7b9136b8c5",
+          "byte_size": 12615
+        }
+      ]
+    },
+    "canonical_contract": {
+      "version": "canonical-v1-span-aware-semantic-v2-cross-reference-v3",
+      "artifacts": [
+        {
+          "path": "benchmarks/er_bench/schemas/canonical_extraction/v1/records.schema.json",
+          "sha256": "ed412f6d9b11684393dfb9433a0caa9068107effd0d12e71b016cafe14d97d7c",
+          "byte_size": 47452
+        },
+        {
+          "path": "benchmarks/er_bench/schemas/canonical_extraction/v2/semantic_structure.schema.json",
+          "sha256": "afa3d0a357f2bb0deb1002fd0b6aa42e494e4acf75ae64d44e10c73ec0e04da5",
+          "byte_size": 18491
+        },
+        {
+          "path": "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json",
+          "sha256": "0b0ab9dc2004b5cf781d96df9eed961045aaab577d18f1ead21ac0fd6efdf6ed",
+          "byte_size": 26829
+        },
+        {
+          "path": "configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json",
+          "sha256": "23b84203fce4b7b81b87245b669b6d07d7217bb3286d03b2b1bf3a235b07203e",
+          "byte_size": 1005
+        },
+        {
+          "path": "configs/brisbane_baylands_2025_deir_task03e4_semantic_v1.json",
+          "sha256": "301faa6f446038c78a0c0b4d069f66b2d5fc71f6f31b504ef510bbeda53a08a4",
+          "byte_size": 2679
+        }
+      ],
+      "owned_code": [
+        {
+          "path": "src/er_commons/canonical_extraction/__init__.py",
+          "sha256": "510b2e075c810e0a71e500e5b9dff5a05c0469b7ab1132e73663fca4d97d50ef",
+          "byte_size": 741
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/assets.py",
+          "sha256": "c5947b85c1b41f48f2611e5ee2b22c0ad183c89bb154735205f88aaae4955f8a",
+          "byte_size": 12985
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/bundle.py",
+          "sha256": "cb41524fe4896c5cb67a7097585a05f525866393601ff6e58674921cad712a37",
+          "byte_size": 5526
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/candidate.py",
+          "sha256": "1e3cebb55c93a8aa33b2d498cd2715a2ec38ec10a639338e6f3a00b8573fdc53",
+          "byte_size": 9314
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/candidate_identity.py",
+          "sha256": "6eaa116946fa2ae33bbdae29e7e0b949108f8a2ea5aba15953d06a293215fdfc",
+          "byte_size": 6247
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/config.py",
+          "sha256": "82461beb6de03b089ce2c14873d66e7852408308b89ab578d7c5ad3bf035c25e",
+          "byte_size": 2848
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/constants.py",
+          "sha256": "de355087dec2e348859b6069af468dadfc6f58bd78d340bc8eeb23b93e6fd797",
+          "byte_size": 705
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/content_records.py",
+          "sha256": "82f2269c09d0bebfdf77dd1a09cebb32a9d23a88de8a5272b22d48056e9d6d85",
+          "byte_size": 17126
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/context.py",
+          "sha256": "e7eb31b2d1da11ace977c4a948cff04ff53effe93646d046bb6847197763a654",
+          "byte_size": 13660
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/errors.py",
+          "sha256": "65325694df2868f3ee721ea990001326dea87640fe39ba1fbcdc58f8bb686a01",
+          "byte_size": 191
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/geometry.py",
+          "sha256": "ffe8c42faf7e8439e10d4dec42d73e4f5923f81b251eb12b943cb96ce69a6daf",
+          "byte_size": 742
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/identifiers.py",
+          "sha256": "8362cd7962d4f2f777fa7330711ba8998a683a51085ed486f2fc6d6e6478a5dd",
+          "byte_size": 3387
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/identity.py",
+          "sha256": "3eff5c4e541345bbc0520ec086b13c11df82f5b4dece05d0263ecce845163249",
+          "byte_size": 669
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/inputs.py",
+          "sha256": "10797e02be736267a76e8f6b363a733a9f3d179249d2cd360a5aab37bff410cc",
+          "byte_size": 6872
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/layout.py",
+          "sha256": "1bb8da6513ca5b68a6b7c166d79e842a36b566bfca93cd0ba6ec572555fb1067",
+          "byte_size": 1385
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/materialize.py",
+          "sha256": "24e338d272299a0eca7a807546d84a90cb43df9b4366ede6b1bab7782e57113d",
+          "byte_size": 5226
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/policies/__init__.py",
+          "sha256": "62630fcb6920e0fe5640a6b89ff20b6daeaf284814f33997bbf3db1b2c6e2a5f",
+          "byte_size": 66
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/policies/bundle.py",
+          "sha256": "dcc4882ce577358c0ac426b0a9c2463cbafe4b759166f7c821c90a10f6661b4e",
+          "byte_size": 8803
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/policies/content.py",
+          "sha256": "2d19b6af746d08ea0b1555edf9c5439ae7d275a57dffb11079770704ce2ba396",
+          "byte_size": 7771
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/policies/lineage.py",
+          "sha256": "9f72420c99900ac3a2ac604fefd0a1ca310a62d643b0cdcac75271f1b9d26a36",
+          "byte_size": 5322
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/provenance.py",
+          "sha256": "3124f927b57b1fa030eb0b57a1e864f73adb4997a51209d508a7d8c5df3c4e56",
+          "byte_size": 4350
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/publication.py",
+          "sha256": "7d091766468a083da031860dbb95c99a9c07e57f2dbe6677dc5dac9551e0161f",
+          "byte_size": 5315
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/record_sets.py",
+          "sha256": "dc521b91066404cf92ae5388f5d764766500e052c3039f134c2992cee36ec463",
+          "byte_size": 3953
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/support_records.py",
+          "sha256": "cdaf26c0371bbb464f310edb32b8cbed7de12b3fc7473213061ebd5a25f481ad",
+          "byte_size": 10919
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/tables.py",
+          "sha256": "ccb5331b9409ccb20f1cee4c645aa3d1400792f4bb9c8a19754ae0d6c49ff381",
+          "byte_size": 30385
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/traversal.py",
+          "sha256": "7a888f89a9b1a3f7b9761a126360e19920c7d7242dc761944732d5bf9973cced",
+          "byte_size": 9085
+        },
+        {
+          "path": "src/er_commons/canonical_extraction/validation.py",
+          "sha256": "b89a409752eecb1b4bd3e7d999433a75559c3c21d339c79b261fc2065df420e4",
+          "byte_size": 2842
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/__init__.py",
+          "sha256": "3c139fb3d9e4686d80d61474098a4f8a074e9dafcebff68bd3625c2c65faf58a",
+          "byte_size": 857
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/aliases.py",
+          "sha256": "a6f99c3371fe19cc95074e98b12d5b275c147525b98c433458d7b19820aeb75c",
+          "byte_size": 9904
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/baseline.py",
+          "sha256": "0ad81fc9d2aef10f29dcf737f2c871606ccb96a93455300af02cf7a4cd46f779",
+          "byte_size": 4757
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/bridge.py",
+          "sha256": "0d1b5e2bb180a34ed0ae27f545127dbbb28eaea41508e341a9f6ba81c8f49fad",
+          "byte_size": 3034
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/comparison.py",
+          "sha256": "eac499d7159a3689d5390a87c9bc73e066114d57300d7a9cc064a6f3d49325c5",
+          "byte_size": 3492
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/config.py",
+          "sha256": "66fd97e4fb9b16a22c2849ae14e229a6b8770ad6ced08105816de7a3fe4f1569",
+          "byte_size": 4872
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/construction.py",
+          "sha256": "c11f80655da6d0cafdcd125bb6786b38eea6bddf0124e04da6ab42a2124c2097",
+          "byte_size": 5357
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/errors.py",
+          "sha256": "a01d1b5bcff99e7840c58f13acb8cd8a6ee72ecb3bff0451b2626d739ee32222",
+          "byte_size": 705
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/identity.py",
+          "sha256": "2505221ec9cf4dae25a04d061e720e5defaca123a8e18026265612f4b611494e",
+          "byte_size": 7258
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/inputs.py",
+          "sha256": "4bcad63070c37114b1296bc5fbf4fc382aae2446459bcc0f415f31f2141b9774",
+          "byte_size": 13262
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/lifecycle.py",
+          "sha256": "34b9b5ea87bda38963216cb06d29692490827697f3dcaa693deb69e470910dc3",
+          "byte_size": 3957
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/page_labels.py",
+          "sha256": "5e7017edd1b5801bdbad11cea1054518fee36817968dd6a52b06c671f167a789",
+          "byte_size": 3395
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/producer_evidence.py",
+          "sha256": "48978d18f148eb1155b55ca33674394479183c69ef9c66e999f3362fdf72819d",
+          "byte_size": 10625
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/publication.py",
+          "sha256": "b5e0694b55b761bd1c77c98dca43d5e4a3050a14ac55652d81289138752a1455",
+          "byte_size": 8404
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/runtime.py",
+          "sha256": "e3b7b646b12bd8169f7dc65ed742846bfbd3ea9cf7abbe28e2bd4f649865e81e",
+          "byte_size": 5236
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/sealing.py",
+          "sha256": "181e1aebe1678aabc90b8944504493eecad78df32530d0890f066c508f418f37",
+          "byte_size": 9670
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/sections.py",
+          "sha256": "cda22a2677b1fe7109e0d8010a656b21bb86fd3d8a21e57fef02328ea031a874",
+          "byte_size": 9273
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/support.py",
+          "sha256": "c7019aac96e8adfd40f10e4b8c91624a99f37607b3f608eac12a437d5df5e3a9",
+          "byte_size": 6425
+        },
+        {
+          "path": "src/er_commons/semantic_materialization/workflow.py",
+          "sha256": "7eda47f281f18fd51bc9c241654141b4f6ce5dfa94b206f7bf938dee9e291cb3",
+          "byte_size": 2825
+        },
+        {
+          "path": "src/er_commons/semantic_structure/__init__.py",
+          "sha256": "afc08c9306e18dbb90980f0c10db83a0cdb256263ecc257989143f62a1fd74ad",
+          "byte_size": 596
+        },
+        {
+          "path": "src/er_commons/semantic_structure/bundle.py",
+          "sha256": "e410e78570be82dd2c539846319fcd69d3ad7d304de3f54540dfe9f49cf16173",
+          "byte_size": 2697
+        },
+        {
+          "path": "src/er_commons/semantic_structure/constants.py",
+          "sha256": "d1b10e9bd760ef668a5ea13f738722c77fa8d2d45a7a9f99e0be6be990bb4fa8",
+          "byte_size": 821
+        },
+        {
+          "path": "src/er_commons/semantic_structure/errors.py",
+          "sha256": "07da2a0842433d90a27206ab99184ee325d83b126cb3113e024af77819155723",
+          "byte_size": 172
+        },
+        {
+          "path": "src/er_commons/semantic_structure/handoff.py",
+          "sha256": "9ce836b3cc25b450ff836863b4163f9304280eb4c6b5b5943612f8424a18cae5",
+          "byte_size": 6151
+        },
+        {
+          "path": "src/er_commons/semantic_structure/normalization.py",
+          "sha256": "cf8e2fdb83f0027799da13347c4c9c9cb91592f064e8a8d13eae3f9f55dc6230",
+          "byte_size": 337
+        },
+        {
+          "path": "src/er_commons/semantic_structure/policies/__init__.py",
+          "sha256": "6ff7b6774e5ab6153a6c70e3db8ce32c98e8a01d20475e85964d52678848f0ec",
+          "byte_size": 74
+        },
+        {
+          "path": "src/er_commons/semantic_structure/policies/aliases.py",
+          "sha256": "6215b2ed5459faf2075382949b7beb1592980951466cff040a1bb6a9dda3a965",
+          "byte_size": 9203
+        },
+        {
+          "path": "src/er_commons/semantic_structure/policies/bridge.py",
+          "sha256": "039c48adfb74040b9fb69902a6eefb01e0a0174cd93c4389ff55e50edfa499b5",
+          "byte_size": 6837
+        },
+        {
+          "path": "src/er_commons/semantic_structure/policies/control.py",
+          "sha256": "66a631f6163552a30363b2728e5ac7c192f9b9074edc0dfbaa4dbf9fc8e7e8e3",
+          "byte_size": 4002
+        },
+        {
+          "path": "src/er_commons/semantic_structure/policies/correspondence.py",
+          "sha256": "caab3e389e5f97ebbd27ed22eccee50d15ab306e61905b75eb043acdad4c1005",
+          "byte_size": 920
+        },
+        {
+          "path": "src/er_commons/semantic_structure/policies/page_labels.py",
+          "sha256": "e23b10155e539c87f62d489ffaa499ca09e8dc5608fe6ff7b61cf5c2d34fd608",
+          "byte_size": 4990
+        },
+        {
+          "path": "src/er_commons/semantic_structure/policies/sections.py",
+          "sha256": "7dbb18c88ac774b30bce22186f244af4423040c2e38f90cf2f1e595579c1c37b",
+          "byte_size": 13373
+        },
+        {
+          "path": "src/er_commons/semantic_structure/validation.py",
+          "sha256": "8803b1f9ebf9a1a02cee870b96a4dc2edb03a0efbc93a84fc1516a7b8b84fcd7",
+          "byte_size": 1664
+        }
+      ]
+    },
+    "hierarchy_contract": {
+      "version": "hierarchy-correction-v1-document-disposition-required",
+      "artifacts": [
+        {
+          "path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
+          "sha256": "7c4d616f9b2fc68d1219d3c7a68fbc7159daacfa8b734e1f76697d582d178708",
+          "byte_size": 18937
+        },
+        {
+          "path": "configs/brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1.json",
+          "sha256": "07a3d42ed100ea52b2753efd5d6edaab83b87ea990700370b9deab5698f4fcc8",
+          "byte_size": 1362
+        },
+        {
+          "path": "docs/specs/hierarchy_correction_v1.md",
+          "sha256": "3f1e8f085d341ddc589c3d42a10a1766e92ced5425cfe304db95cd340ef65c54",
+          "byte_size": 35419
+        }
+      ],
+      "owned_code": [
+        {
+          "path": "src/er_commons/document_extraction/hierarchy/document.py",
+          "sha256": "d9e5e9d84099278bc11b3fe4b1adb8bd4f8afd2ea63988b99abaf0fe7ae67032",
+          "byte_size": 6868
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/__init__.py",
+          "sha256": "281a25d74fe86638e1a72e7cfc8af4811189d2e122f78aaa80237f8e6e239ba8",
+          "byte_size": 469
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/application.py",
+          "sha256": "04f2ec547327f65343e0670446bc46cac4fcd8ffd7d5cc1e137589b3b1de3df5",
+          "byte_size": 8711
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/bounded_acceptance.py",
+          "sha256": "2bf8ea95580a28d176b18cefeeba2375bb69187e771d6571c86d494f8d31a8e5",
+          "byte_size": 17506
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/bundle.py",
+          "sha256": "6c7ca03ca101603e560de16a275f26450305f97314cb9f4fdd110a15349949cd",
+          "byte_size": 3035
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/candidate_identity.py",
+          "sha256": "94f56757d572d360699fb9f62072d943df03516818fe3fb92207c7b85cd75f6d",
+          "byte_size": 3081
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/candidate_publication.py",
+          "sha256": "0949211de8477f9c01f28c629c4160abd5213d8c8ec6c3fdca816bbdb50774ad",
+          "byte_size": 10864
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/candidate_records.py",
+          "sha256": "5c0483b90d5081e009c8cd6176d2b1d336d4174ce38135da9902ba39ffd4b38e",
+          "byte_size": 11313
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/checks.py",
+          "sha256": "59805f16fb40b0619035a323a875014bc375b166077a2209db3bcc3e4b3c9027",
+          "byte_size": 890
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/code_inventory.py",
+          "sha256": "9857931ca32654389450cf877547600a8f3acb6a6bbad0e7d469b561fd5f0d26",
+          "byte_size": 3427
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/configuration.py",
+          "sha256": "390ffb42b87e25ffc0d3fc5174e623eacb141be6db81d12df97c6a3ef0f08830",
+          "byte_size": 4612
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/constants.py",
+          "sha256": "b633cad58d4669fd5559f3bcfbc865f14a29ae65391b5bf24a2b52ed7e210bff",
+          "byte_size": 1583
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/correction_policy.py",
+          "sha256": "0fa1a01c84280f6409feb984be16a42c7e5b3e5d043bccfd6acaa97e4ee4c095",
+          "byte_size": 1774
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/decision_builder.py",
+          "sha256": "0797aca35e5414a2403acb15a0945f9e395702c49d6940ac468cf9d4784f3f49",
+          "byte_size": 239
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/decisions.py",
+          "sha256": "bffd07960f75ab250281f607ad4115ab8bf73291514ef7d01144371583b3fdbc",
+          "byte_size": 4067
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/digests.py",
+          "sha256": "afc663990f434e40424fc34685202f512e997e17c38c90dbfc0eb75acfb0ff9b",
+          "byte_size": 332
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/errors.py",
+          "sha256": "c5db3b0c2f00cab8db666ffae31cbd6498f9a289eb25ab43691e5a681341379b",
+          "byte_size": 210
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/failures.py",
+          "sha256": "9b365c176944681e8969b2fa5c6822030339e8ce0222d3148a5a5b566b83a2c2",
+          "byte_size": 2589
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/features.py",
+          "sha256": "c021f931bcc53e87915a48886f2a688c2f4094bec4b67f544ed2792a003782c5",
+          "byte_size": 710
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/hierarchy.py",
+          "sha256": "1753a622f940642a99ec95fd657b0d1be65f2c48e52907c7e8352f36194aef0b",
+          "byte_size": 5558
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/hierarchy_builder.py",
+          "sha256": "8d46024827d8f92587f97d3f75ca7df40c5e4c463c2684edb41306a01d139c46",
+          "byte_size": 1045
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/hierarchy_projection.py",
+          "sha256": "c38466de63b88901c4c687425380b77f32d69717c230808c890a9533427790e0",
+          "byte_size": 4806
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/identity.py",
+          "sha256": "6636ca700f4d1d377e229acbeaa9f9622a12728ed8560996064a2ff21c3da94a",
+          "byte_size": 1232
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/inputs.py",
+          "sha256": "aa88298c361c5053a6c902579db7daad41966cde0068bfeccfc7e5fa79b5858d",
+          "byte_size": 5576
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/level_evidence.py",
+          "sha256": "aeb358bed74d903950433d07ec041fdc29e766486f437a4bff5f038545ba893e",
+          "byte_size": 5909
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/numbering_scopes.py",
+          "sha256": "76a0dce132087475f6cf327a6e44bd5a1f8a578c8c8a455dd86ba9154c85ab76",
+          "byte_size": 9140
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/pdf_observations.py",
+          "sha256": "fe2b79e56c3c9962e24470a32ddead8de780f042ed433e32914bca7c41f80c6c",
+          "byte_size": 5248
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/preflight.py",
+          "sha256": "23a1722e627bbd8816dd0b3e54525a8e4ae5097841c28d5f93d05db1b899f80f",
+          "byte_size": 3177
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/publication.py",
+          "sha256": "0c5682379472254ffe85b62d6996a79db7d8fe73fc11c1929e0d6f8e858e85be",
+          "byte_size": 5087
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/publication_authorization.py",
+          "sha256": "afc70f2a71f4d88f11ee1862856d295eab61ba73b32a1e41adc8def055b9e068",
+          "byte_size": 2013
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/regime_builder.py",
+          "sha256": "11e245f50e703cdc8119522d181adeba1109a998fda10adb01f897f4b29b2485",
+          "byte_size": 284
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/regimes.py",
+          "sha256": "8c39419e5a9ab3bb6ecd99a09ecd2e17e8e16d0fad3388c0bba943bf0a05d00a",
+          "byte_size": 7684
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/rule_applications.py",
+          "sha256": "f2ebbb47c4584b260e419c0bf095184d5e24e9190b569e155994fcd7548bdf85",
+          "byte_size": 7873
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/rule_context.py",
+          "sha256": "00b361a301abcffc8ac7da66d0ea19cb6ffae0f651021267e2a5f1b7675398a4",
+          "byte_size": 6796
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/rules.py",
+          "sha256": "cb387a0d5be604c70e9e583e9e7b1c839742eab83b123e025df3822487e8183d",
+          "byte_size": 9545
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/scope_lifecycle.py",
+          "sha256": "bf6568476d661430e25374b2e6b360eaa6f6a85680089cf75f785baaceba4f1f",
+          "byte_size": 1756
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/semantic_types.py",
+          "sha256": "17658fdb3b42b22665efd3c5255a8019ee35388adaa7d90b5285cf48665d2ffb",
+          "byte_size": 3371
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/single_build.py",
+          "sha256": "53ec4134e1838afa27e1be369a55e47c59f2eb9c5a0ffa1a07ddd759ee2cb75b",
+          "byte_size": 5664
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/source_features.py",
+          "sha256": "0ee9011a5cdc701c08f3293007aecce9306fef469bb14f9a49079ec65f01bc9c",
+          "byte_size": 16684
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/text_evidence.py",
+          "sha256": "0dcc6933be4d4136e7dbd34f875cfe48fe515558a26c32d7e3c345125c36c030",
+          "byte_size": 3799
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/toc.py",
+          "sha256": "1f37a8d4b2cbe22fd2443e248045b44f136035ac47f541adde4f8b98030c0ea6",
+          "byte_size": 10413
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/toc_analysis.py",
+          "sha256": "075253d8d56977e103a18b3fb3fe371c90940c7a7aa3e4d271dad9a0d477d697",
+          "byte_size": 2374
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/toc_builder.py",
+          "sha256": "34b8d60e63a3adcbe18ba8ecf8b911ed744de677b0aa381eaef171f8b36dd9d4",
+          "byte_size": 1144
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/toc_reconciliation.py",
+          "sha256": "16f64637fd17a07b5f124501a714dc03186515b28753532f354c69cfc5ab720e",
+          "byte_size": 13824
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/toc_regions.py",
+          "sha256": "43bdb03db9c482c270fc2acd0b03dbd79e0875b1039767959882ae1f955291b0",
+          "byte_size": 8433
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/toc_rows.py",
+          "sha256": "397f46f3f1af3abc8c9142e154cc8e8f89456c64c7713d96210c4da22950ccd3",
+          "byte_size": 9566
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/toc_text.py",
+          "sha256": "9f476a178770b18c31f1128d040c8df48db41985f4e72e191e02d1e4da06d5a6",
+          "byte_size": 1658
+        },
+        {
+          "path": "src/er_commons/hierarchy_correction/validation.py",
+          "sha256": "6798872b2b01eeddb3e8369e5476302b47723b53fb2f803f56b33f7640cf47e6",
+          "byte_size": 2577
+        }
+      ]
+    },
+    "cross_reference_contract": {
+      "version": "task03e5-pattern-policy-v2-zero-figure-aliases",
+      "artifacts": [
+        {
+          "path": "configs/brisbane_baylands_2025_deir_task03e5_cross_references_human_v2.json",
+          "sha256": "c0c26ceb550c1a4fa905750a3976ee500b9710a68d4d67ae2690328d2e6e473e",
+          "byte_size": 918
+        },
+        {
+          "path": "docs/specs/cross_references_v3.md",
+          "sha256": "a6562036119498f2160d44f013a19bc7f2042e8d87fd806995fcd5a4502082fe",
+          "byte_size": 13104
+        },
+        {
+          "path": "docs/specs/semantic_structure_v2.md",
+          "sha256": "a0b5b1195e24b9d8017a4aa9f04f395b6bf87a45575674434cb2e2b9c68ec30b",
+          "byte_size": 12569
+        }
+      ],
+      "owned_code": [
+        {
+          "path": "src/er_commons/cross_reference_enrichment/__init__.py",
+          "sha256": "c6c5f55d8714b642fa623418f9006fbe7b951cecac482ac5bb01cbdcad3d857b",
+          "byte_size": 194
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/catalog.py",
+          "sha256": "8f2ba6d2665f82b9997d202a234a1e6e763d7bfb7bb3054f1982c933f71f8394",
+          "byte_size": 1717
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/config.py",
+          "sha256": "e8669c0765df4c557128b7fd7270b27d0b45b83ca72a92d283d567e5c5bf54ec",
+          "byte_size": 4388
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/construction.py",
+          "sha256": "c36b0a1527feb485e6ff8294ec52a621b83213c6febaf441146e4e8506d3991a",
+          "byte_size": 9812
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/detection.py",
+          "sha256": "0223486037007ffdb6aeff726ef84ab15633cb3319eeb4377d35110c444653b4",
+          "byte_size": 5073
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/identity.py",
+          "sha256": "05eb12d1547011a5f7a94cb98987b2146d594d9f249f816778c7b9cf616d0a30",
+          "byte_size": 3381
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/indexing.py",
+          "sha256": "11d801ee0b14439f61f1361a30a1e3d701820308b11d1da7b243908d2ff9ce12",
+          "byte_size": 10410
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/policy.py",
+          "sha256": "77aad5942ef7f25d0da69b8803e73e0ba578f707d2c09f4a408785bfd1a13f0b",
+          "byte_size": 4962
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/publication.py",
+          "sha256": "061f67ad0d86b3b1f094118b1733f6b139e88884c821f1443d167540cfd5854a",
+          "byte_size": 9689
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/resolution.py",
+          "sha256": "be136023075ab0951dec8f05e7cc3a92626f4f58d289799a510c713c1ad49cd3",
+          "byte_size": 6541
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/source_scope.py",
+          "sha256": "6b00ee068a7d5fb8bb3187422efb2c0ec3989f61c325e2cd533ae0dbf7c08038",
+          "byte_size": 1999
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/storage.py",
+          "sha256": "d18483e09fdfdc90570af7e5b82c9ced0dfb45416f8d3027520dce0773bdc053",
+          "byte_size": 1847
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/types.py",
+          "sha256": "73a17f9f6935af749bef58cdd2003b71928869cc953fd8506422c6d6d818e1ad",
+          "byte_size": 4575
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/validation.py",
+          "sha256": "94c92be6b36a1701bf337e386874cfab8db908416d79d0940f8292e5af5214cf",
+          "byte_size": 19969
+        },
+        {
+          "path": "src/er_commons/cross_reference_enrichment/workflow.py",
+          "sha256": "033298bcc6d083f3b8bee2e233b7c133706009bc01adc7772f1e9713eb463b7f",
+          "byte_size": 3590
+        }
+      ]
+    },
+    "corpus_workflow_contract": {
+      "version": "restartable-corpus-extraction-v1_1-task03f3-maintained",
+      "artifacts": [
+        {
+          "path": "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/invalid_mutations.json",
+          "sha256": "3f839aa24c78eedf8a2768877ac064d37904bb74483b4a33bdd80c483cdeb51b",
+          "byte_size": 1718
+        },
+        {
+          "path": "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/positive_scenarios.json",
+          "sha256": "340b6ede075f76945fba963a2b639c16d22760ad3b3e684c6ba271f7d7c1d370",
+          "byte_size": 537
+        },
+        {
+          "path": "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/production_scope_evidence.json",
+          "sha256": "896315b2d58655af7bbf82354ee166aeede74d359db85e4d720e0c14b87ad2cc",
+          "byte_size": 371
+        },
+        {
+          "path": "benchmarks/er_bench/schemas/corpus_extraction/v1_1/records.schema.json",
+          "sha256": "2b2e8c37e42d38d15854d0488a51aeec94b7d4f4dc0a5b5d0a3c614aa187d9e1",
+          "byte_size": 40829
+        },
+        {
+          "path": "docs/specs/restartable_corpus_extraction_v1_1.md",
+          "sha256": "58a3450627c89fc202fdf7bc00ea19542ab4d971a00e43cde8dcaaec1782ff72",
+          "byte_size": 14990
+        }
+      ],
+      "owned_code": [
+        {
+          "path": "src/er_commons/cli.py",
+          "sha256": "c565971ed7d2e99e5fc369de43a0e6d2852137917ebafb73e760f3cdf214970e",
+          "byte_size": 6680
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/__init__.py",
+          "sha256": "f53948bc14c550d6d49ec2461619634b4e8f2c8cc1f6d9b8ff5b390f5304ab45",
+          "byte_size": 157
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/attempts.py",
+          "sha256": "572951262fca91e6351a65a2b91a351b614ac2efc9df12021f063d92c483df13",
+          "byte_size": 8228
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/candidates.py",
+          "sha256": "60c11230466e2fe7c6d78c13b8fd786f172b062c11fc7be08228fffb6e8aef4a",
+          "byte_size": 11353
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/config.py",
+          "sha256": "11e6599c1413deb485a711bf167f7d39280f7b5c505b9e3cc41d9334a44a1b09",
+          "byte_size": 6298
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/content_owners.py",
+          "sha256": "882c1524e07952805bd1e1d8b6726a40328d459fcca9cf263f3de6afb130df9d",
+          "byte_size": 5109
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/hooks.py",
+          "sha256": "934a00dc7ec541f4382448416c30c1fb2549cd648b9ee5de7c65cf7a815baef7",
+          "byte_size": 692
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/identity.py",
+          "sha256": "0ae614e6fae6dfb39679b0632eede42a5fc48d5a7707f2dafc3ed5829c3536a3",
+          "byte_size": 1987
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/lifecycle.py",
+          "sha256": "895808253ee7653230805ed6edce19f0a0f62b1909a0464bdfd98480ce2e4ad0",
+          "byte_size": 3637
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/lineage_preflight.py",
+          "sha256": "c2b4c9b778eb19debe30bc986ba64430e3a3558c822946543cb2c4b5102c71a0",
+          "byte_size": 6488
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/lineage_validation.py",
+          "sha256": "bc3d920c92ad97641f09b6016f807b0d8363288607b491597f2067fc80acca2c",
+          "byte_size": 12250
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/observability.py",
+          "sha256": "8ea81a9515236ce0d6611503fa2f4d9b368b32c56d17de9e1e3f4cec44842b25",
+          "byte_size": 1518
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/outcomes.py",
+          "sha256": "8f38c331d573ddaedbe1b112fc4aa93581e992193337938ae9ebe690845d41c3",
+          "byte_size": 6932
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/owner_diagnostics.py",
+          "sha256": "6b02f3a7d3331c393efa1d74b879a778d2bb41257ed58caa5a8b67adadace092",
+          "byte_size": 2716
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/owner_inputs.py",
+          "sha256": "1e3854681fb74d65fae2bfbfa574bfb2fe2742e47b2f851733cf88893905c626",
+          "byte_size": 5337
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/owner_observations.py",
+          "sha256": "8d18f590f14f5451398ddf603b19e41707d05ca8efb81fcf6ae829f79c59f4ac",
+          "byte_size": 3912
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/owner_validation.py",
+          "sha256": "5b316a8cb5208e43a46adc257799744e5a064592c50aca15443bb1e3c90e7b65",
+          "byte_size": 6744
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/preflight.py",
+          "sha256": "b9050e5dc1a2710d248e10c21393a0be1e9b1e9847fe4e009a5a1006b02e2b8b",
+          "byte_size": 5533
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/process.py",
+          "sha256": "0347c27dc24768b362facd3b4b3aead278300262e08dd0463933886b49d98117",
+          "byte_size": 2416
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/publication.py",
+          "sha256": "06a6ea9c515983e1c97aafbd4dbec27b20159808b865bd5a3e8d4a571ee7efd4",
+          "byte_size": 9617
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/records.py",
+          "sha256": "694f1f71a695e1b900e5d1b6403268c55583ce6f163976582ebeab6ff8c8a8fa",
+          "byte_size": 6020
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/sources.py",
+          "sha256": "c46049b389dcb8b23cdfa16c5f8d6870e024071b3ddeee0ad7c9a042d1d7499c",
+          "byte_size": 1494
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/storage.py",
+          "sha256": "59921f86c12df9c6c02ec529385464cfcc672a9b0d079cf8a1a192df105f768d",
+          "byte_size": 4967
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/worker.py",
+          "sha256": "a60babf2f2b15042b1b407117277439a330715fc284805245223c140110909df",
+          "byte_size": 2194
+        },
+        {
+          "path": "src/er_commons/corpus_extraction/workflow.py",
+          "sha256": "cadc3daeabd180a928da912a4a2ab8a81261f9438ef7852cbb9233bab0be5fe4",
+          "byte_size": 4524
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/__init__.py",
+          "sha256": "9607d74750c7ffba6b26660f1547661635732adfeaeaec3c8e8e0f5f1cae09dd",
+          "byte_size": 1388
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/__main__.py",
+          "sha256": "c32555786912fb12044cfb696d1abd09285a7b956204f4e87f2f552a44b0ef13",
+          "byte_size": 617
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/accounting.py",
+          "sha256": "b69a866e80b015306d494c6f3b897c5124d0f1125108d3b2ca9fbb3abea31216",
+          "byte_size": 16271
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/artifacts.py",
+          "sha256": "b9ae22c26c54fced44e76eb5a2df9a1fb8614c47c7bad01182a97aeffa0746f5",
+          "byte_size": 2286
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/checks.py",
+          "sha256": "c6e3fbd509ba072c2d57930202b24b9a67690dd2bf2adec005cfa4bf64932181",
+          "byte_size": 2018
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/errors.py",
+          "sha256": "88e26523ca029be3a80c727ccfd46856ddb5cdd3482db09684edb3cb154bdff4",
+          "byte_size": 552
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/fixture_validation.py",
+          "sha256": "fdcc62ab595620f55cd07eb0b61ed1f29500c95e66544319143deaf682f618f2",
+          "byte_size": 4024
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/handoff.py",
+          "sha256": "6fa945ea53ab5fb90e1b83deb8f1f1d5f4713e42a0f26b80f65a2ad92230e3ad",
+          "byte_size": 5744
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/identity.py",
+          "sha256": "95edcef5ad3058b74b4f4b69978fad8236856caf7e80032acc74f24b1f2a8e3c",
+          "byte_size": 9598
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/indexing.py",
+          "sha256": "1fe3c6cf2e494fa5d59d0f06598e5bfe9bf61a164b261ae3d219a4a4d0611393",
+          "byte_size": 8221
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/model.py",
+          "sha256": "639aa17219215c0aa256a052df0330cbd86b7ff6fff327cf059a85a7d8ba1ac5",
+          "byte_size": 893
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/publication.py",
+          "sha256": "a3571ab3a851421af8abdf4028e215bfc7bf8aa7b0df91e4edcd5febf1450287",
+          "byte_size": 3541
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/resolution.py",
+          "sha256": "106dd17555529ee4533f621e469feede3e62bd9c22c0a9221e60e3a4e3caa8eb",
+          "byte_size": 14175
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/synthetic_fixture.py",
+          "sha256": "9ff8d2ccc1c61e7924f3a0e85a4744fbcecf472662e1593ee7d5377c8d408a27",
+          "byte_size": 30608
+        },
+        {
+          "path": "src/er_commons/corpus_extraction_contract_v1_1/validation.py",
+          "sha256": "5000b29dae2b12b5b218b2e3e4d5dbbf37b369aa2bf1d9f5cf98e5c928618ccf",
+          "byte_size": 1106
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/__init__.py",
+          "sha256": "08aee5aec786e60d7156dd80de3cb869dbb2b317e4e56ed38b1298e463bd59e4",
+          "byte_size": 541
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/accounting.py",
+          "sha256": "0232b5064dfae7dbc7b7bc1e8c4b12a4b6ab5fc090453f5c4e831d93f54523f1",
+          "byte_size": 2873
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/attempts.py",
+          "sha256": "6d2fa62cd3a3ce5b6309ac475a2ffaae37838bc4799df062980cfd5c42367d72",
+          "byte_size": 6922
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/bundle.py",
+          "sha256": "d0893a4401406c553dd2400168afd1453e0474fffa72a8536dabfea1451b5970",
+          "byte_size": 5489
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/catalog.py",
+          "sha256": "a14d48094e3237012c8e02b087e8b4f266c5476e3fbed925650beedc2e2c36ad",
+          "byte_size": 2499
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/config.py",
+          "sha256": "2a8441ab72d778499dcf81de8896757b424f6c2fe6ed7aca163db8970ea21b33",
+          "byte_size": 1699
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/domain.py",
+          "sha256": "a40d53640e1c2acc2c762bdbfa1e8517e5df6d65d997effc41bc2d7310759072",
+          "byte_size": 2135
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/evidence.py",
+          "sha256": "3fae9e10dd5c5517797bebdfdfe53e351bf815735cba9f0b5898a6f2cc170a8f",
+          "byte_size": 2403
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/handoff.py",
+          "sha256": "5763736eafa5638bf29d4e99042c934d20714b6ae2bf0f7e96beaea98266140c",
+          "byte_size": 4899
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/handoff_validation.py",
+          "sha256": "018feae0816009c739711d41304b5db4b7e68d4a06f9695ec572088dbf61c2a5",
+          "byte_size": 6357
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/indexing.py",
+          "sha256": "b2f4a5ebfce1e16837da649fdd7d0154571b594e9f4213052ffe8594b4b2166b",
+          "byte_size": 8013
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/mentions.py",
+          "sha256": "9c737f93ecc26673160656788e20f025972f25a3d02c07f9e62857336f30c5b1",
+          "byte_size": 4312
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/pipeline.py",
+          "sha256": "9569e9c0a49b4a06fe1396561f730bd36bf881e3991433768b59336eecc77072",
+          "byte_size": 4381
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/preflight.py",
+          "sha256": "f78c0900a53f784b0bc9e15385bfdf8cd18c4521d54898345ca154fb48a8acea",
+          "byte_size": 2389
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/publication.py",
+          "sha256": "ef3baaa9e0d638a37e41a2777bd33e7828aa690cd89d031817426d8849ea24a8",
+          "byte_size": 4192
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/resolution.py",
+          "sha256": "e428d60b953049360149baf48c0369736cd4ff0f6e697cc3467decd263becde7",
+          "byte_size": 6157
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/resolver.py",
+          "sha256": "3466c3fb8c9415c81b11e33a946993d3b4f1c79485343f22c34522e754127930",
+          "byte_size": 5568
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/storage.py",
+          "sha256": "a17b0bc6b23696e0ecc6a3d25eff490cf4e0c6dab1904e853047dd7db5ef03fa",
+          "byte_size": 2677
+        },
+        {
+          "path": "src/er_commons/corpus_resolution/workflow.py",
+          "sha256": "36a787377a14f85074ef56373730c118713c828683c45f4dd9b1f9df7fc90201",
+          "byte_size": 1114
+        }
+      ]
+    },
+    "contract_revision": "task_03g1a_remediation_v1"
+  }
+}

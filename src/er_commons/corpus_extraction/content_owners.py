@@ -5,7 +5,6 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from er_commons.canonical_extraction import run_document_canonicalization
 from er_commons.corpus_extraction.config import HierarchyDisposition, RunSpec
 from er_commons.corpus_extraction.owner_diagnostics import run_owner_stage
 from er_commons.corpus_extraction.owner_inputs import OwnerConfigs, prepare_owner_configs
@@ -14,18 +13,13 @@ from er_commons.corpus_extraction.owner_observations import (
     producer_observations,
     producer_page_count,
 )
-from er_commons.corpus_extraction.owner_validation import (
-    OwnerCompletions,
-    validate_owner_lineage,
-)
+from er_commons.corpus_extraction.owner_sequence import OwnerSequence
+from er_commons.corpus_extraction.owner_validation import validate_owner_lineage
 from er_commons.corpus_extraction.records import ArtifactRef, PipelineResult
-from er_commons.cross_reference_enrichment import run_cross_reference_enrichment
-from er_commons.document_extraction import run_complete_document_producer
-from er_commons.hierarchy_correction import run_hierarchy_correction
-from er_commons.semantic_materialization import run_semantic_materialization
 from er_commons.source_freeze import sha256_file
 
 LOGGER = logging.getLogger(__name__)
+_timed = run_owner_stage
 
 
 def run_content_owners(
@@ -46,63 +40,16 @@ def run_content_owners(
         run_spec=run_spec,
         source_id=source_id,
     )
-    timings: dict[str, float] = {}
-    baseline = run_owner_stage(
-        "baseline_producer",
-        timings,
-        lambda: run_complete_document_producer(data_root, active_configs.baseline_producer),
-        diagnostics_root=diagnostics_root,
-        ordinal=1,
+    sequence = OwnerSequence(
         data_root=data_root,
-    )
-    hierarchy = run_owner_stage(
-        "hierarchy_producer",
-        timings,
-        lambda: run_complete_document_producer(data_root, active_configs.hierarchy_producer),
+        project_root=project_root,
+        source_id=source_id,
+        configs=active_configs,
         diagnostics_root=diagnostics_root,
-        ordinal=2,
-        data_root=data_root,
-    )
-    canonical = run_owner_stage(
-        "canonical",
-        timings,
-        lambda: run_document_canonicalization(data_root, active_configs.canonical),
-        diagnostics_root=diagnostics_root,
-        ordinal=3,
-        data_root=data_root,
-    )
-    correction = run_owner_stage(
-        "hierarchy_correction",
-        timings,
-        lambda: run_hierarchy_correction(data_root, active_configs.hierarchy_correction),
-        diagnostics_root=diagnostics_root,
-        ordinal=4,
-        data_root=data_root,
-    )
-    semantic = run_owner_stage(
-        "semantic",
-        timings,
-        lambda: run_semantic_materialization(data_root, active_configs.semantic),
-        diagnostics_root=diagnostics_root,
-        ordinal=5,
-        data_root=data_root,
-    )
-    cross_references = run_owner_stage(
-        "cross_references",
-        timings,
-        lambda: run_cross_reference_enrichment(data_root, active_configs.cross_references),
-        diagnostics_root=diagnostics_root,
-        ordinal=6,
-        data_root=data_root,
-    )
-    completions = OwnerCompletions(
-        baseline_producer=baseline,
-        hierarchy_producer=hierarchy,
-        canonical=canonical,
-        hierarchy_correction=correction,
-        semantic=semantic,
-        cross_references=cross_references,
-    )
+        fresh=run_spec.lineage_mode(source_id) == "fresh_build",
+    ).run()
+    completions = sequence.completions
+    active_configs = sequence.configs
     validate_owner_lineage(
         data_root=data_root,
         source_id=source_id,
@@ -110,14 +57,14 @@ def run_content_owners(
         configs=active_configs,
         completions=completions,
     )
-    raw_status, structured_errors = producer_observations(baseline)
+    raw_status, structured_errors = producer_observations(completions.baseline_producer)
     return PipelineResult(
         source_id=source_id,
         raw_docling_status=raw_status,
-        processed_pages=list(range(1, producer_page_count(baseline) + 1)),
+        processed_pages=list(range(1, producer_page_count(completions.baseline_producer) + 1)),
         structured_errors=structured_errors,
         warnings=collect_owner_warnings(completions),
-        final_candidate_root=str(cross_references.parents[1]),
+        final_candidate_root=str(completions.cross_references.parents[1]),
         stage_completions={
             role: ArtifactRef(
                 path=path.relative_to(data_root).as_posix(),
@@ -125,12 +72,9 @@ def run_content_owners(
             )
             for role, path in completions.as_dict().items()
         },
-        stage_timings=timings,
+        stage_timings=sequence.timings,
         resource_enforcement="validated_before_content_owners",
     )
-
-
-_timed = run_owner_stage
 
 
 def _require_bounded_authorization_input(

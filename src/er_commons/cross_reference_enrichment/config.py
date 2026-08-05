@@ -60,13 +60,20 @@ class RuntimeContext:
     project_root: Path
     data_root: Path
     config_path: Path
+    config_identity_path: Path
     config: CrossReferenceEnrichmentConfig
     task_root: Path
     upstream_root: Path
     source_manifest_path: Path
 
     @classmethod
-    def load(cls, data_root: Path, config_path: Path) -> RuntimeContext:
+    def load(
+        cls,
+        data_root: Path,
+        config_path: Path,
+        *,
+        config_identity_path: Path | None = None,
+    ) -> RuntimeContext:
         """Resolve configuration and verify the immutable upstream candidate."""
         project_root = Path(__file__).resolve().parents[3]
         resolved_config = config_path.resolve()
@@ -88,6 +95,7 @@ class RuntimeContext:
             project_root=project_root,
             data_root=data_root,
             config_path=resolved_config,
+            config_identity_path=(config_identity_path or resolved_config).resolve(),
             config=config,
             task_root=task_root,
             upstream_root=upstream_root,

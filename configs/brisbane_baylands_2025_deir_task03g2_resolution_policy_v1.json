@@ -1,0 +1,21 @@
+{
+  "schema_version": "er_commons.corpus_resolution_policy.v1",
+  "policy_version": "task03g2-corpus-resolution-policy-v1",
+  "eligible_resolution_status": "unresolved",
+  "eligible_unresolved_reason": "deferred_cross_document",
+  "target_type": "document",
+  "catalog_join": "normalized_lookup_key_to_intended_source_ids",
+  "match_fields": [
+    "lookup_key",
+    "target_type",
+    "intended_target_source_ids"
+  ],
+  "dispositions": {
+    "one_match": "resolved",
+    "multiple_matches": "ambiguous",
+    "successful_source_without_match": "target_unavailable",
+    "failed_source": "target_source_failed",
+    "source_outside_scope": "target_not_in_scope"
+  },
+  "stage_one_mutation": "forbidden"
+}

@@ -101,8 +101,18 @@
             "schema_version": {
               "const": "er_commons.corpus_extraction_identity_preimage.v1_1"
             },
-            "contract_revision": {"const": "task_03g1a_remediation_v1"},
-            "extraction_version_name": {"const": "brisbane_baylands_model_corpus_v1"},
+            "contract_revision": {
+              "enum": [
+                "task_03g1a_remediation_v1",
+                "task_03g2_representative_pilot_v1"
+              ]
+            },
+            "extraction_version_name": {
+              "enum": [
+                "brisbane_baylands_model_corpus_v1",
+                "brisbane_baylands_representative_pilot_v1"
+              ]
+            },
             "production_scope": {
               "type": "object",
               "additionalProperties": false,
@@ -121,7 +131,7 @@
                 "release_completion": {"$ref": "#/$defs/artifact_ref"},
                 "ordered_source_ids": {
                   "type": "array",
-                  "minItems": 35,
+                  "minItems": 3,
                   "maxItems": 35,
                   "uniqueItems": true,
                   "items": {"$ref": "#/$defs/source_id"}
@@ -134,7 +144,49 @@
             "hierarchy_contract": {"$ref": "#/$defs/contract_ref"},
             "cross_reference_contract": {"$ref": "#/$defs/contract_ref"},
             "corpus_workflow_contract": {"$ref": "#/$defs/contract_ref"}
-          }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "contract_revision": {"const": "task_03g1a_remediation_v1"}
+                }
+              },
+              "then": {
+                "properties": {
+                  "extraction_version_name": {
+                    "const": "brisbane_baylands_model_corpus_v1"
+                  },
+                  "production_scope": {
+                    "properties": {
+                      "ordered_source_ids": {"minItems": 35, "maxItems": 35}
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "contract_revision": {
+                    "const": "task_03g2_representative_pilot_v1"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "extraction_version_name": {
+                    "const": "brisbane_baylands_representative_pilot_v1"
+                  },
+                  "production_scope": {
+                    "properties": {
+                      "ordered_source_ids": {"minItems": 3, "maxItems": 3}
+                    }
+                  }
+                }
+              }
+            }
+          ]
         }
       }
     },

@@ -61,7 +61,7 @@ class SemanticSealingInputs:
     hierarchy_producer_run_id: str
     control: JsonObject
     inherited_warnings: list[str]
-    expectations: SemanticExpectations
+    expectations: SemanticExpectations | None
     source_semantic_disposition: str
     semantic_schema_path: Path
 
@@ -135,9 +135,10 @@ def _validate_semantic_contract(
         inputs.control["physical_page_count"],
         len(build.page_label_observations),
     )
-    _require_count(
-        "sections", inputs.expectations.section_count, len(build.collections["sections"])
-    )
+    if inputs.expectations is not None:
+        _require_count(
+            "sections", inputs.expectations.section_count, len(build.collections["sections"])
+        )
 
 
 def _write_record_families(root: Path, build: SemanticBuild) -> list[JsonObject]:

@@ -347,8 +347,9 @@ configuration paths, the G3 negative-control configuration, and validation
 commands; each configuration is the copied byte-level input to its table-stage
 run.
 
-The full 35-source smoke, Task 03G.2, acceptance/closure, and commit remain
-unexecuted and require their separate authorization boundaries.
+The full 35-source smoke rerun and Task 03G.2 remain unexecuted. The user
+accepted and closed Task 03G.1a on 2026-08-05; Task 03G.2 has its own separate
+preparation and PDF-execution authorization boundaries.
 
 ## Review pass
 
@@ -419,8 +420,8 @@ v5 remains behavioral-reference evidence and v6 remains retained safe-failure
 evidence. The accepted non-executed production recipe is
 `exv1-a0908c8fad342acde9d195a4223391bef29884cea1711c66d611f13fa995adee`.
 Task 03G.1a publishes no complete-document or corpus candidate and does not
-activate Task 03G.2. The next planning action is to review and activate the
-provisional Task 03G.2 contract separately.
+itself activate Task 03G.2. The user subsequently reviewed and activated Task
+03G.2 for its separate no-PDF preparation pass on 2026-08-05.
 
 ## Non-goals
 

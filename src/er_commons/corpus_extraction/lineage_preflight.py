@@ -8,6 +8,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from er_commons.corpus_extraction.config import RunSpec
+from er_commons.corpus_extraction.fresh_preflight import is_task03g2_root
 from er_commons.corpus_extraction.identity import canonical_digest
 from er_commons.corpus_extraction.lineage_validation import validate_lineage_bindings
 from er_commons.corpus_extraction.owner_inputs import OwnerConfigs, prepare_owner_configs
@@ -39,6 +40,7 @@ class ExecutionPreflight(SnapshotModel):
     )
     run_spec_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     source_id: str
+    lineage_mode: Literal["sealed_inputs", "fresh_build"]
     config_refs: dict[str, ArtifactRef]
     producer_lineage: ProducerLineage
     authorization_ref: ArtifactRef | None
@@ -77,6 +79,9 @@ def build_execution_preflight(
         source_id=source_id,
     )
     lineage = _derive_producer_lineage(data_root, configs)
+    lineage_mode = run_spec.lineage_mode(source_id)
+    if lineage_mode == "fresh_build" and not is_task03g2_root(run_spec.artifact_relative_root):
+        raise ValueError("fresh document artifact root must use the task_03g2 namespace")
     final_relative_root, authorization_ref = validate_lineage_bindings(
         configs=configs,
         source_id=source_id,
@@ -84,10 +89,12 @@ def build_execution_preflight(
         lineage=lineage,
         data_root=data_root,
         project_root=project_root,
+        lineage_mode=lineage_mode,
     )
     return ExecutionPreflight(
         run_spec_sha256=run_spec_sha256,
         source_id=source_id,
+        lineage_mode=lineage_mode,
         config_refs=_config_refs(configs, project_root),
         producer_lineage=lineage,
         authorization_ref=authorization_ref,
@@ -110,6 +117,8 @@ def verify_execution_preflight(
         raise ValueError("execution preflight snapshot checksum differs")
     if snapshot.run_spec_sha256 != run_spec_sha256 or snapshot.source_id != source_id:
         raise ValueError("execution preflight run spec or source differs")
+    if snapshot.lineage_mode != run_spec.lineage_mode(source_id):
+        raise ValueError("execution preflight lineage mode differs")
     configs = prepare_owner_configs(
         project_root=project_root,
         data_root=data_root,
@@ -134,6 +143,7 @@ def verify_execution_preflight(
         lineage=snapshot.producer_lineage,
         data_root=data_root,
         project_root=project_root,
+        lineage_mode=snapshot.lineage_mode,
     )
     if final_root != snapshot.final_artifact_relative_root:
         raise ValueError("final owner artifact root changed after parent preflight")

@@ -1,0 +1,75 @@
+{
+  "schema_version": "er_commons.document_run_spec.v1",
+  "production_extraction_id": "exv1-ed5fc78aa96a056ba0401899a3411ee676057616758aca30a6a3b8c06f35d72d",
+  "production_identity_relative_path": "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/production_identity_preimage.json",
+  "scope_kind": "representative_pilot",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03g2_representative_pilot",
+  "document_owners": [
+    {
+      "source_id": "deir_main",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "baseline_producer": "configs/brisbane_baylands_2025_deir_task03g2_main_baseline_producer_v1.json",
+        "hierarchy_producer": "configs/brisbane_baylands_2025_deir_task03g2_main_hierarchy_producer_v1.json",
+        "canonical": "configs/brisbane_baylands_2025_deir_task03g2_main_canonical_v1.json",
+        "hierarchy_correction": "configs/brisbane_baylands_2025_deir_task03g2_main_hierarchy_correction_v1.json",
+        "semantic": "configs/brisbane_baylands_2025_deir_task03g2_main_semantic_v1.json",
+        "cross_references": "configs/brisbane_baylands_2025_deir_task03g2_main_cross_references_v1.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_d",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "baseline_producer": "configs/brisbane_baylands_2025_deir_task03g2_appendix_d_baseline_producer_v1.json",
+        "hierarchy_producer": "configs/brisbane_baylands_2025_deir_task03g2_appendix_d_hierarchy_producer_v1.json",
+        "canonical": "configs/brisbane_baylands_2025_deir_task03g2_appendix_d_canonical_v1.json",
+        "hierarchy_correction": "configs/brisbane_baylands_2025_deir_task03g2_appendix_d_hierarchy_correction_v1.json",
+        "semantic": "configs/brisbane_baylands_2025_deir_task03g2_appendix_d_semantic_v1.json",
+        "cross_references": "configs/brisbane_baylands_2025_deir_task03g2_appendix_d_cross_references_v1.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_p",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "baseline_producer": "configs/brisbane_baylands_2025_deir_task03g2_appendix_p_baseline_producer_v1.json",
+        "hierarchy_producer": "configs/brisbane_baylands_2025_deir_task03g2_appendix_p_hierarchy_producer_v1.json",
+        "canonical": "configs/brisbane_baylands_2025_deir_task03g2_appendix_p_canonical_v1.json",
+        "hierarchy_correction": "configs/brisbane_baylands_2025_deir_task03g2_appendix_p_hierarchy_correction_v1.json",
+        "semantic": "configs/brisbane_baylands_2025_deir_task03g2_appendix_p_semantic_v1.json",
+        "cross_references": "configs/brisbane_baylands_2025_deir_task03g2_appendix_p_cross_references_v1.json"
+      }
+    }
+  ],
+  "hierarchy_dispositions": [
+    {
+      "source_id": "deir_main",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_d",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_p",
+      "authority": "machine_validation"
+    }
+  ],
+  "resource_policy": {
+    "document_concurrency": 1,
+    "page_batch_size": 4,
+    "stage_batch_size": 4,
+    "queue_capacity": 100,
+    "cpu_threads_per_document": 4,
+    "device": "cpu",
+    "memory_estimate_bytes": 17179869184,
+    "storage_estimate_bytes": 107374182400,
+    "docling_timeout_seconds": null,
+    "outer_process_deadline_seconds": 86400,
+    "cancellation_grace_seconds": 15,
+    "retry_limit": 1
+  }
+}

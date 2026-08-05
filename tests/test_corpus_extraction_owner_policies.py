@@ -11,6 +11,7 @@ from corpus_extraction_test_support import _workspace
 
 from er_commons.corpus_extraction.config import HierarchyDisposition, load_run_spec
 from er_commons.corpus_extraction.content_owners import _timed
+from er_commons.corpus_extraction.fresh_lineage import FreshLineageBinder
 from er_commons.corpus_extraction.lineage_preflight import (
     ProducerLineage,
     validate_lineage_bindings,
@@ -217,6 +218,92 @@ def test_lineage_preflight_compares_semantic_id_to_current_hierarchy_identity(
     ]
 
 
+def test_fresh_lineage_preflight_does_not_require_downstream_candidates(
+    tmp_path: Path,
+) -> None:
+    configs = _fresh_templates(tmp_path)
+    validate_lineage_bindings(
+        configs=configs,
+        source_id="deir_appendix_p",
+        disposition=HierarchyDisposition(
+            source_id="deir_appendix_p", authority="machine_validation"
+        ),
+        lineage=ProducerLineage(
+            baseline="prv1-" + "1" * 64,
+            hierarchy="prv1-" + "2" * 64,
+        ),
+        data_root=tmp_path / "data",
+        lineage_mode="fresh_build",
+    )
+
+
+def test_fresh_lineage_preflight_rejects_historical_pins_and_bounded_authority(
+    tmp_path: Path,
+) -> None:
+    configs = _fresh_templates(tmp_path)
+    semantic = json.loads(configs.semantic.read_text())
+    semantic["baseline_candidate_id"] = "exv1-" + "9" * 64
+    configs.semantic.write_text(json.dumps(semantic))
+    with pytest.raises(ValueError, match="machine hierarchy validation.*non-placeholder"):
+        validate_lineage_bindings(
+            configs=configs,
+            source_id="deir_appendix_p",
+            disposition=HierarchyDisposition(
+                source_id="deir_appendix_p",
+                authority="bounded_acceptance",
+                authorization_relative_path=Path("historical/authorization.json"),
+            ),
+            lineage=ProducerLineage(
+                baseline="prv1-" + "1" * 64,
+                hierarchy="prv1-" + "2" * 64,
+            ),
+            data_root=tmp_path / "data",
+            lineage_mode="fresh_build",
+        )
+
+
+def test_fresh_binder_persists_exact_effective_lineage(tmp_path: Path) -> None:
+    configs = _fresh_templates(tmp_path)
+    data_root = tmp_path / "data"
+    attempt = data_root / "pipelines/task_03g2_document/attempts/one"
+    binder = FreshLineageBinder(
+        data_root=data_root,
+        project_root=tmp_path,
+        source_id="deir_appendix_p",
+        templates=configs,
+        attempt_root=attempt,
+    )
+    binder.initial_configs()
+    baseline = _completion(data_root, "producer", "prv1-" + "1" * 64)
+    hierarchy = _completion(data_root, "producer", "prv1-" + "2" * 64)
+    canonical = _completion(data_root, "canonical", "exv1-" + "3" * 64)
+    correction = _completion(data_root, "correction", "hcorv1-" + "4" * 64)
+    semantic = _completion(data_root, "semantic", "exv1-" + "5" * 64)
+
+    canonical_config = binder.canonical_config(baseline)
+    binder.correction_config(hierarchy)
+    semantic_config = binder.semantic_config(
+        baseline_completion=baseline,
+        hierarchy_completion=hierarchy,
+        canonical_completion=canonical,
+        correction_completion=correction,
+    )
+    cross_config = binder.cross_reference_config(semantic)
+
+    assert json.loads(canonical_config.read_text())["producer_run_id"] == baseline.parents[1].name
+    assert json.loads(semantic_config.read_text())["hierarchy_candidate_id"] == (
+        correction.parents[1].name
+    )
+    assert json.loads(cross_config.read_text())["upstream_completion_sha256"] == sha256_file(
+        semantic
+    )
+    manifest = json.loads((attempt / "effective_owner_configs/binding_manifest.json").read_text())
+    assert set(manifest["bindings"]) == set(configs.as_dict())
+    assert manifest["bindings"]["semantic"]["upstreams"]["canonical"]["sha256"] == (
+        sha256_file(canonical)
+    )
+
+
 def _lineage_fixture(tmp_path: Path) -> tuple[OwnerConfigs, HierarchyDisposition]:
     baseline = "prv1-" + "0" * 64
     hierarchy = "prv1-" + "2" * 64
@@ -272,3 +359,83 @@ def _lineage_fixture(tmp_path: Path) -> tuple[OwnerConfigs, HierarchyDisposition
         authorization_relative_path=authorization,
     )
     return configs, disposition
+
+
+def _fresh_templates(tmp_path: Path) -> OwnerConfigs:
+    zero = "0" * 64
+    config_root = tmp_path / "configs"
+    config_root.mkdir()
+    source_root = Path(__file__).parents[1] / "configs"
+    source_files = {
+        "baseline_producer": "brisbane_baylands_2025_deir_task03c_appendix_p_v2.json",
+        "hierarchy_producer": "brisbane_baylands_2025_deir_task03e_appendix_p_v1.json",
+        "canonical": "brisbane_baylands_2025_deir_task03d_appendix_p_v1.json",
+        "hierarchy_correction": (
+            "brisbane_baylands_2025_deir_task03e2_hierarchy_correction_v1.json"
+        ),
+        "semantic": "brisbane_baylands_2025_deir_task03e4_semantic_v1.json",
+        "cross_references": ("brisbane_baylands_2025_deir_task03e5_cross_references_human_v2.json"),
+    }
+    values = {
+        role: json.loads((source_root / name).read_text()) for role, name in source_files.items()
+    }
+    producer_root = "pipelines/brisbane_baylands/task_03g2_owner_candidates/producers"
+    canonical_root = "pipelines/brisbane_baylands/task_03g2_owner_candidates/canonical"
+    correction_root = "pipelines/brisbane_baylands/task_03g2_owner_candidates/correction"
+    for role in ("baseline_producer", "hierarchy_producer"):
+        values[role]["artifact_relative_root"] = producer_root
+    values["canonical"].update(
+        producer_artifact_relative_root=producer_root,
+        producer_run_id="prv1-" + zero,
+        artifact_relative_root=canonical_root,
+    )
+    values["hierarchy_correction"].update(
+        publication_authorization="machine_validation",
+        producer_artifact_relative_root=producer_root,
+        producer_run_id="prv1-" + zero,
+        artifact_relative_root=correction_root,
+        bounded_acceptance_artifact_relative_root=None,
+        bounded_acceptance_config_relative_path=None,
+    )
+    values["semantic"].update(
+        control_profile="strict_quality_gate",
+        baseline_candidate_relative_root=canonical_root + "/exv1-" + zero,
+        baseline_candidate_id="exv1-" + zero,
+        baseline_producer_relative_root=producer_root,
+        baseline_producer_run_id="prv1-" + zero,
+        hierarchy_producer_relative_root=producer_root,
+        hierarchy_producer_run_id="prv1-" + zero,
+        hierarchy_candidate_relative_root=correction_root + "/hcorv1-" + zero,
+        hierarchy_candidate_id="hcorv1-" + zero,
+        bounded_acceptance_relative_path=None,
+        bounded_acceptance_policy_relative_path=None,
+        producer_comparison_relative_path=None,
+        artifact_relative_root=canonical_root,
+        expectations=None,
+    )
+    values["cross_references"].update(
+        upstream_candidate_id="exv1-" + zero,
+        upstream_completion_sha256=zero,
+        upstream_inventory_sha256=zero,
+        artifact_relative_root=canonical_root,
+    )
+    data_root = tmp_path / "data"
+    manifest_path = data_root / values["cross_references"]["source_manifest_relative_path"]
+    write_json_atomic(manifest_path, {"fixture": "sealed"})
+    values["cross_references"]["source_manifest_sha256"] = sha256_file(manifest_path)
+    paths = {}
+    for role, value in values.items():
+        path = config_root / f"{role}.json"
+        write_json_atomic(path, value)
+        paths[role] = path
+    return OwnerConfigs(**paths)
+
+
+def _completion(data_root: Path, family: str, candidate_id: str) -> Path:
+    root = (
+        data_root / "pipelines/brisbane_baylands/task_03g2_owner_candidates" / family / candidate_id
+    )
+    completion = root / "records/completion_record.json"
+    write_json_atomic(completion, {"candidate_id": candidate_id})
+    write_json_atomic(root / "records/artifact_inventory.json", {"files": []})
+    return completion

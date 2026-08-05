@@ -233,11 +233,15 @@ explicit abstentions after excluding only clipped top-edge text wholly outside
 the structural grid. The responsibility-owned implementation exactly preserves
 all 35 fallback decisions and all persisted continuation decisions in a fresh
 v7 bounded run. The new non-executed production recipe is
-`exv1-a0908c8f...5adee`. Provisional [Task
-03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md) owns a fresh
-three-document complete pilot after the accepted smoke and remediation. Task
-03G.2 remains inactive and is the next separate planning/activation boundary;
-Task 03H remains provisional.
+`exv1-a0908c8f...5adee`. [Task
+03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md) is active for
+no-PDF preparation only. The user selected fresh source-specialized
+configuration and a fresh downstream chain for the main report, Appendix D,
+and Appendix P; no historical Appendix P producer, candidate, or bounded
+authorization may enter the pilot. Preparation must first implement runtime-
+derived fresh lineage, freeze the exact three-source specs/identity/resources,
+and pass a production-shaped preflight. Source verification and PDF/model work
+remain behind a separate approval. Task 03H remains provisional.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

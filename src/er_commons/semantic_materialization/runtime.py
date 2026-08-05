@@ -27,6 +27,7 @@ class RuntimeContext:
 
     data_root: Path
     config_path: Path
+    config_identity_path: Path
     config: SemanticMaterializationConfig
     inputs: SemanticMaterializationInputs
     construction_inputs: SemanticConstructionInputs
@@ -39,7 +40,12 @@ class RuntimeContext:
         return PROJECT_ROOT
 
 
-def load_runtime_context(*, data_root: Path, config_path: Path) -> RuntimeContext:
+def load_runtime_context(
+    *,
+    data_root: Path,
+    config_path: Path,
+    config_identity_path: Path | None = None,
+) -> RuntimeContext:
     """Load configuration and verify sealed inputs before allocating a workspace."""
     config, _ = load_semantic_materialization_config(config_path)
     inputs = load_semantic_materialization_inputs(
@@ -66,11 +72,14 @@ def load_runtime_context(*, data_root: Path, config_path: Path) -> RuntimeContex
         hierarchy_producer_run_id=config.hierarchy_producer_run_id,
         source_id=config.source.source_id,
         page_count=config.source.physical_page_count,
-        expectations=config.expectations,
+        expectations=(
+            config.expectations if config.control_profile == "task03e2d_bounded" else None
+        ),
     )
     return RuntimeContext(
         data_root=data_root,
         config_path=config_path.resolve(),
+        config_identity_path=(config_identity_path or config_path).resolve(),
         config=config,
         inputs=inputs,
         construction_inputs=construction_inputs,

@@ -65,7 +65,7 @@ class SemanticMaterializationConfig(StrictConfigModel):
     semantic_spec_relative_path: Path
     semantic_schema_relative_path: Path
     artifact_relative_root: Path
-    expectations: SemanticExpectations
+    expectations: SemanticExpectations | None = None
 
     @model_validator(mode="after")
     def validate_frozen_scope(self) -> SemanticMaterializationConfig:
@@ -96,6 +96,8 @@ class SemanticMaterializationConfig(StrictConfigModel):
             or self.producer_comparison_relative_path is None
         ):
             raise ValueError("bounded semantic control requires policy, acceptance, and comparison")
+        if self.control_profile == "task03e2d_bounded" and self.expectations is None:
+            raise ValueError("bounded semantic control requires reviewed expectations")
         if self.hierarchy_candidate_relative_root.name != self.hierarchy_candidate_id:
             raise ValueError("hierarchy candidate root must end with its configured candidate ID")
         if (

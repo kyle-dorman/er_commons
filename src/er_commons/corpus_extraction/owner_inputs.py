@@ -58,7 +58,7 @@ def prepare_owner_configs(
 
 def verify_owner_resources(configs: OwnerConfigs, run_spec: RunSpec, *, data_root: Path) -> None:
     """Verify effective owner settings and current host admission capacity."""
-    _verify_effective_resources(configs, run_spec)
+    verify_owner_resource_contract(configs, run_spec)
     _verify_host_capacity(data_root, run_spec)
 
 
@@ -92,7 +92,7 @@ def _require_selected_source(path: Path, source_id: str) -> None:
         )
 
 
-def _verify_effective_resources(configs: OwnerConfigs, run_spec: RunSpec) -> None:
+def verify_owner_resource_contract(configs: OwnerConfigs, run_spec: RunSpec) -> None:
     """Join declared bounds to the effective producer settings."""
     policy = run_spec.resource_policy
     expected_batches = (4, 4, 100)

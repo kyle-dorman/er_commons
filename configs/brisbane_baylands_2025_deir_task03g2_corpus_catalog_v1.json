@@ -1,0 +1,44 @@
+{
+  "schema_version": "er_commons.corpus_catalog.v1",
+  "scope_name": "brisbane_baylands_task03g2_representative_pilot",
+  "documents": [
+    {
+      "source": {
+        "source_id": "deir_main",
+        "sha256": "0b81e84176c86205c07d9ae6b2a9994fcd45405e516546bcfc7ab9b1f88cf83f",
+        "byte_size": 65818524,
+        "pdf_page_count": 2092
+      },
+      "lookup_keys": [
+        "complete 2025 baylands specific plan deir",
+        "baylands specific plan draft eir",
+        "draft eir",
+        "deir"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_d",
+        "sha256": "0e0d0dc3d5c9d75ca52ec698f3943da59e560e69dde8dfa4763c9afd6673e1c3",
+        "byte_size": 62423471,
+        "pdf_page_count": 356
+      },
+      "lookup_keys": [
+        "appendix d",
+        "biological resources technical report"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_p",
+        "sha256": "2dfceac46931a946bc343d52b09104b7b58ed8831bc4f49a03f0b8655e4e6ea1",
+        "byte_size": 6528561,
+        "pdf_page_count": 222
+      },
+      "lookup_keys": [
+        "appendix p",
+        "water supply assessment"
+      ]
+    }
+  ]
+}

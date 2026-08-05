@@ -45,7 +45,7 @@ class SemanticConstructionInputs:
     hierarchy_producer_run_id: str
     source_id: str
     page_count: int
-    expectations: SemanticExpectations
+    expectations: SemanticExpectations | None
 
 
 @dataclass(frozen=True)
@@ -57,6 +57,7 @@ class SemanticBuild:
     target_aliases: list[JsonObject]
     bridge_entries: list[JsonObject]
     bridge_evidence: dict[str, BridgeSourceEvidence]
+    observed_expectations: SemanticExpectations
 
 
 def build_semantic_records(inputs: SemanticConstructionInputs) -> SemanticBuild:
@@ -115,12 +116,25 @@ def build_semantic_records(inputs: SemanticConstructionInputs) -> SemanticBuild:
         source_id=inputs.source_id,
     )
     collections["sections"] = sections
+    observed = SemanticExpectations(
+        section_count=len(sections),
+        bridge_entry_count=bridge.coverage.entry_count,
+        canonical_block_count=bridge.coverage.canonical_block_count,
+        heading_count=sum(item.get("corrected_role") == "heading" for item in evidence.decisions),
+        direct_membership_count=len(evidence.hierarchy["direct_membership"]),
+        mapped_block_count=sum(
+            item.get("semantic_placement") == "direct_body" for item in collections["blocks"]
+        ),
+        table_replacement_count=bridge.coverage.table_replacement_count,
+        figure_suppression_count=bridge.coverage.figure_suppression_count,
+    )
     return SemanticBuild(
         collections=collections,
         page_label_observations=page_labels,
         target_aliases=aliases,
         bridge_entries=bridge.entries,
         bridge_evidence=bridge.evidence,
+        observed_expectations=observed,
     )
 
 

@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 from er_commons.corpus_extraction.config import HierarchyDisposition
+from er_commons.corpus_extraction.fresh_preflight import validate_fresh_build_templates
 from er_commons.corpus_extraction.identity import canonical_digest
 from er_commons.corpus_extraction.owner_inputs import OwnerConfigs
 from er_commons.corpus_extraction.records import ArtifactRef
@@ -26,6 +27,7 @@ def validate_lineage_bindings(
     lineage: ProducerLineage,
     data_root: Path,
     project_root: Path | None = None,
+    lineage_mode: Literal["sealed_inputs", "fresh_build"] = "sealed_inputs",
 ) -> tuple[Path, ArtifactRef | None]:
     """Validate every derivable config and sealed-artifact lineage join."""
     root = project_root or Path(__file__).resolve().parents[3]
@@ -34,6 +36,13 @@ def validate_lineage_bindings(
     correction = _json(configs.hierarchy_correction)
     semantic = _json(configs.semantic)
     cross_reference = _json(configs.cross_references)
+    if lineage_mode == "fresh_build":
+        return validate_fresh_build_templates(
+            configs=configs,
+            source_id=source_id,
+            disposition=disposition,
+            data_root=data_root,
+        )
     mismatches = _producer_mismatches(canonical, correction, semantic, lineage)
     _validate_candidate_paths(semantic, mismatches)
     final_root = Path(".")

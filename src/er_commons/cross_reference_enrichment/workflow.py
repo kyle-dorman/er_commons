@@ -27,9 +27,18 @@ from er_commons.cross_reference_enrichment.validation import (
 )
 
 
-def run_cross_reference_enrichment(data_root: Path, config_path: Path) -> Path:
+def run_cross_reference_enrichment(
+    data_root: Path,
+    config_path: Path,
+    *,
+    config_identity_path: Path | None = None,
+) -> Path:
     """Verify inputs, reuse, or build, validate, and publish once."""
-    context = RuntimeContext.load(data_root, config_path)
+    context = RuntimeContext.load(
+        data_root,
+        config_path,
+        config_identity_path=config_identity_path,
+    )
     identity = build_candidate_identity(context)
     candidate_id = identity["extraction_id"]
     candidate_root = context.task_root / candidate_id
