@@ -27,7 +27,8 @@ class RangeDiagnostic:
     raw_status: str
     status: str
     errors: list[dict[str, Any]]
-    warnings: list[str]
+    source_manifest_warnings: list[str]
+    conversion_warnings: list[str]
     wall_seconds: float
     cpu_seconds: float
     peak_rss_bytes: int
@@ -62,7 +63,7 @@ def convert_range(
     status = map_conversion_status(
         raw_status,
         errors=errors,
-        warnings_out=[*source.warnings, *python_warnings],
+        warnings_out=python_warnings,
     )
     document_payload = result.document.export_to_dict()
     converted_pages = conversion_page_numbers(document_payload, result)
@@ -77,7 +78,7 @@ def convert_range(
         "status": status,
         "errors": errors,
         "captured_python_warnings": python_warnings,
-        "source_manifest_warnings": source.warnings,
+        "source_warning_evidence": "../../source_warnings.json",
         "wall_seconds": wall_seconds,
         "cpu_seconds": cpu_seconds,
         "peak_rss_bytes": memory.peak_rss_bytes,
@@ -98,7 +99,8 @@ def convert_range(
         raw_status=raw_status,
         status=status,
         errors=errors,
-        warnings=[*source.warnings, *python_warnings],
+        source_manifest_warnings=source.warnings,
+        conversion_warnings=python_warnings,
         wall_seconds=wall_seconds,
         cpu_seconds=cpu_seconds,
         peak_rss_bytes=memory.peak_rss_bytes,

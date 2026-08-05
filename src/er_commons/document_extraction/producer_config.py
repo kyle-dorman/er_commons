@@ -12,7 +12,11 @@ from er_commons.document_extraction.routing import (
     NumericTableThresholds,
     StrictTableThresholds,
 )
-from er_commons.table_extraction.models import CleanupConfig, DetectionConfig
+from er_commons.table_extraction.models import (
+    CleanupConfig,
+    DetectionConfig,
+    LearnedFallbackConfig,
+)
 
 
 class CompleteSource(BaseModel):
@@ -48,7 +52,13 @@ class ProducerConfig(BaseModel):
     """Closed Task 03C producer policy and accepted parser configuration."""
 
     schema_version: Literal["1.0.0"]
-    producer_policy_version: Literal["task03c-v1", "task03c-v2", "task03e-v1"]
+    producer_policy_version: Literal[
+        "task03c-v1",
+        "task03c-v2",
+        "task03e-v1",
+        "task03c-v2-task03g1a-v1",
+        "task03e-v1-task03g1a-v1",
+    ]
     pipeline_id: str
     source_release_version: str
     source_manifest_relative_path: Path
@@ -58,6 +68,8 @@ class ProducerConfig(BaseModel):
     configuration_id: Literal[
         "docling_native_pypdfium2_heron_layout_only_cpu",
         "docling_native_pypdfium2_heron_layout_heading_hierarchy_defaults_cpu",
+        "docling_native_pypdfium2_heron_layout_tableformer_fallback_cpu",
+        "docling_native_pypdfium2_heron_layout_heading_hierarchy_tableformer_fallback_cpu",
     ]
     backend: Literal["pypdfium2"]
     device: Literal["cpu"]
@@ -68,6 +80,7 @@ class ProducerConfig(BaseModel):
     numeric_table_bearing_thresholds: NumericTableThresholds
     table_detection: DetectionConfig
     table_cleanup: CleanupConfig
+    learned_table_fallback: LearnedFallbackConfig = Field(default_factory=LearnedFallbackConfig)
 
     @property
     def source_manifest_path(self) -> Path:
@@ -85,10 +98,15 @@ class ProducerConfig(BaseModel):
             if path.is_absolute() or ".." in path.parts:
                 raise ValueError("producer paths must be contained relative paths")
         hierarchy_enabled = self.heading_hierarchy_options is not None
-        hierarchy_policy = self.producer_policy_version == "task03e-v1"
-        hierarchy_identity = self.configuration_id.endswith("_heading_hierarchy_defaults_cpu")
-        if len({hierarchy_enabled, hierarchy_policy, hierarchy_identity}) != 1:
+        hierarchy_policy = self.producer_policy_version.startswith("task03e-v1")
+        hierarchy_identity = "heading_hierarchy" in self.configuration_id
+        if not (hierarchy_enabled == hierarchy_policy == hierarchy_identity):
             raise ValueError("producer hierarchy policy, options, and identity differ")
+        fallback_enabled = self.learned_table_fallback.enabled
+        fallback_policy = "task03g1a" in self.producer_policy_version
+        fallback_identity = "tableformer_fallback" in self.configuration_id
+        if not (fallback_enabled == fallback_policy == fallback_identity):
+            raise ValueError("producer fallback policy, configuration, and identity differ")
         return self
 
 

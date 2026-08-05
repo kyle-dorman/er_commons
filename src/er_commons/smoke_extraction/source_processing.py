@@ -12,6 +12,7 @@ from er_commons.smoke_extraction.conversion import RangeDiagnostic
 from er_commons.smoke_extraction.records import PageOutcome, RouteRecord, TableOutcome
 from er_commons.smoke_extraction.routing import route_page
 from er_commons.smoke_extraction.services import SmokeServices
+from er_commons.smoke_extraction.warnings import retain_source_warnings
 
 
 def contiguous_ranges(pages: list[int]) -> list[tuple[int, int]]:
@@ -110,13 +111,13 @@ def _record_converted_range(
         outcomes[page] = {
             "source_id": source.source_id,
             "physical_pdf_page": page,
-            "status": diagnostic.status,
-            "conversion": diagnostic.status,
+            "status": "complete",
+            "conversion": "complete",
             "conversion_range": range_root.relative_to(source_root).as_posix(),
             "routing": "complete",
             "route": route["route"],
             "table_stage": ("not_applicable" if route["route"] == "no_table_route" else "pending"),
-            "warnings": diagnostic.warnings,
+            "warnings": [],
             "errors": [],
         }
 
@@ -172,6 +173,7 @@ def process_source(
     outcomes: dict[int, PageOutcome] = {}
     routes: list[RouteRecord] = []
     producer_services = ProducerServices()
+    retain_source_warnings(source_root, source.source_id, source.warnings)
     for first_page, last_page in contiguous_ranges(pages):
         range_root = source_root / "conversion" / f"pages_{first_page:05d}_{last_page:05d}"
         try:

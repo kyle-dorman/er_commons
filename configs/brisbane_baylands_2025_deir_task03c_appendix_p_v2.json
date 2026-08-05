@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "producer_policy_version": "task03c-v2",
+  "producer_policy_version": "task03c-v2-task03g1a-v1",
   "pipeline_id": "brisbane_baylands_2025_deir_task03c_appendix_p_v2",
   "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
   "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
@@ -13,7 +13,7 @@
   },
   "artifact_relative_root": "pipelines/brisbane_baylands/task_03c_single_document",
   "model_inventory_relative_path": "pipelines/brisbane_baylands/task_03a_docling_native_pilot_v1/model_inventory.json",
-  "configuration_id": "docling_native_pypdfium2_heron_layout_only_cpu",
+  "configuration_id": "docling_native_pypdfium2_heron_layout_tableformer_fallback_cpu",
   "backend": "pypdfium2",
   "device": "cpu",
   "thread_count": 4,
@@ -21,6 +21,7 @@
   "strict_table_dominant_thresholds": {
     "minimum_text_width_fraction": 0.70,
     "minimum_text_height_fraction": 0.75,
+    "minimum_partial_text_height_fraction": 0.35,
     "minimum_nonempty_line_count": 80,
     "minimum_nonspace_characters_per_square_point": 0.02,
     "minimum_digit_fraction": 0.35
@@ -48,5 +49,17 @@
     "leading_filename_pattern": "^[a-z0-9_]+_v[0-9]+$",
     "maximum_header_rows": 8,
     "minimum_numeric_cell_fraction_for_data_row": 0.5
+  },
+  "learned_table_fallback": {
+    "enabled": true,
+    "model_inventory_relative_path": "pipelines/brisbane_baylands/task_03a_docling_native_pilot_v1/model_inventory.json",
+    "expected_weights_sha256": "2a7d6c924b3cd12fb99a09280ca9c33a89c5d60b93253617d2e088c1a40374d9",
+    "expected_model_config_sha256": "984e122ceb8ccf84d84c9d2882f6f2302a44b4f1e577babd6289892c36f3cffd",
+    "render_scale": 2.0,
+    "cpu_threads": 8,
+    "minimum_rows": 2,
+    "minimum_columns": 2,
+    "minimum_native_text_coverage": 0.9,
+    "maximum_bbox_overshoot_pixels": 3.0
   }
 }

@@ -18,18 +18,114 @@ from er_commons.canonical_extraction.errors import ContractError
 
 JsonObject = dict[str, Any]
 BoundingBox = tuple[float, float, float, float]
-TableParser = Literal["camelot_stream", "camelot_lattice", "camelot_network"]
-FamilyEvidence = Literal["footer_run", "exact_cleaned_header", "singleton"]
+TableParser = Literal[
+    "camelot_stream",
+    "camelot_lattice",
+    "camelot_network",
+    "tableformer_accurate",
+]
+FamilyEvidence = Literal[
+    "footer_run",
+    "exact_cleaned_header",
+    "cross_page_continuation",
+    "singleton",
+]
 
 
 @dataclass(frozen=True)
 class CleanTableCell:
-    """One cleaned and reindexed cell with unchanged producer geometry."""
+    """One cleaned logical cell with exact grid coverage and producer geometry."""
 
     row_index: int
     column_index: int
     text: str
     bbox_pdf_points_bottom_left: BoundingBox
+    end_row_offset_idx: int | None = None
+    end_column_offset_idx: int | None = None
+
+    @property
+    def row_end(self) -> int:
+        """Return the exclusive row end, defaulting legacy cells to span one."""
+        return self.end_row_offset_idx or self.row_index + 1
+
+    @property
+    def column_end(self) -> int:
+        """Return the exclusive column end, defaulting legacy cells to span one."""
+        return self.end_column_offset_idx or self.column_index + 1
+
+    def span_fields(self) -> JsonObject:
+        """Return the persisted exclusive offsets and redundant review spans."""
+        return {
+            "end_row_offset_idx": self.row_end,
+            "end_column_offset_idx": self.column_end,
+            "row_span": self.row_end - self.row_index,
+            "column_span": self.column_end - self.column_index,
+        }
+
+
+@dataclass(frozen=True)
+class GridExtent:
+    """One logical cell's exclusive raw-grid rectangle."""
+
+    start_row: int
+    end_row: int
+    start_column: int
+    end_column: int
+
+    @classmethod
+    def from_record(
+        cls,
+        cell: JsonObject,
+        *,
+        shape: tuple[int, int],
+        table_id: str,
+    ) -> GridExtent:
+        """Parse and bounds-check learned-cell offsets."""
+        values = [
+            cell.get("start_row_offset_idx"),
+            cell.get("end_row_offset_idx"),
+            cell.get("start_col_offset_idx"),
+            cell.get("end_col_offset_idx"),
+        ]
+        if not all(isinstance(value, int) and not isinstance(value, bool) for value in values):
+            raise ContractError(f"non-integer learned-cell offsets for {table_id}")
+        start_row, end_row, start_column, end_column = (int(cast(int, value)) for value in values)
+        row_count, column_count = shape
+        if not (
+            0 <= start_row < end_row <= row_count and 0 <= start_column < end_column <= column_count
+        ):
+            raise ContractError(f"learned cell is outside shape_raw for {table_id}")
+        return cls(start_row, end_row, start_column, end_column)
+
+    def positions(self) -> set[tuple[int, int]]:
+        """Expand the rectangle into covered grid positions."""
+        return {
+            (row, column)
+            for row in range(self.start_row, self.end_row)
+            for column in range(self.start_column, self.end_column)
+        }
+
+
+def _complete_grid(shape: tuple[int, int]) -> set[tuple[int, int]]:
+    """Return every position in a rectangular grid shape."""
+    row_count, column_count = shape
+    return {(row, column) for row in range(row_count) for column in range(column_count)}
+
+
+def _rectangular_extent(positions: set[tuple[int, int]]) -> GridExtent | None:
+    """Return the rectangle represented by positions, or None when fragmented."""
+    if not positions:
+        return None
+    rows = sorted({row for row, _column in positions})
+    columns = sorted({column for _row, column in positions})
+    expected = {
+        (row, column)
+        for row in range(rows[0], rows[-1] + 1)
+        for column in range(columns[0], columns[-1] + 1)
+    }
+    if positions != expected:
+        return None
+    return GridExtent(rows[0], rows[-1] + 1, columns[0], columns[-1] + 1)
 
 
 @dataclass(frozen=True)
@@ -165,28 +261,8 @@ def clean_table_cells(
     cleanup: JsonObject,
     table_id: str,
 ) -> tuple[CleanTableCell, ...]:
-    """Filter raw Camelot cells through cleanup evidence and reindex them."""
+    """Filter rectangular or span-aware producer cells through cleanup evidence."""
     raw_rows, raw_columns = shape_raw
-    positions: dict[tuple[int, int], JsonObject] = {}
-    for cell in raw_cells:
-        row = cell.get("row_index")
-        column = cell.get("column_index")
-        if (
-            not isinstance(row, int)
-            or isinstance(row, bool)
-            or not isinstance(column, int)
-            or isinstance(column, bool)
-        ):
-            raise ContractError(f"non-integer raw cell position for {table_id}")
-        position = (row, column)
-        if position in positions:
-            raise ContractError(f"duplicate raw cell position for {table_id}: {position}")
-        positions[position] = cell
-
-    expected_raw = {(row, column) for row in range(raw_rows) for column in range(raw_columns)}
-    if set(positions) != expected_raw:
-        raise ContractError(f"raw cells do not match shape_raw for {table_id}")
-
     removed_rows = set(
         _int_list(
             cleanup.get("removed_footer_row_indices"),
@@ -222,6 +298,34 @@ def clean_table_cells(
     if shape_clean != (len(retained_rows), len(retained_columns)):
         raise ContractError(f"cleanup indices differ from shape_clean for {table_id}")
 
+    if raw_cells and "start_row_offset_idx" in raw_cells[0]:
+        return _clean_logical_cells(
+            raw_cells,
+            shape_raw=shape_raw,
+            retained_rows=retained_rows,
+            retained_columns=retained_columns,
+            table_id=table_id,
+        )
+
+    positions: dict[tuple[int, int], JsonObject] = {}
+    for cell in raw_cells:
+        row = cell.get("row_index")
+        column = cell.get("column_index")
+        if (
+            not isinstance(row, int)
+            or isinstance(row, bool)
+            or not isinstance(column, int)
+            or isinstance(column, bool)
+        ):
+            raise ContractError(f"non-integer raw cell position for {table_id}")
+        position = (row, column)
+        if position in positions:
+            raise ContractError(f"duplicate raw cell position for {table_id}: {position}")
+        positions[position] = cell
+    expected_raw = {(row, column) for row in range(raw_rows) for column in range(raw_columns)}
+    if set(positions) != expected_raw:
+        raise ContractError(f"raw cells do not match shape_raw for {table_id}")
+
     cleaned: list[CleanTableCell] = []
     for clean_row, raw_row in enumerate(retained_rows):
         for clean_column, raw_column in enumerate(retained_columns):
@@ -233,6 +337,8 @@ def clean_table_cells(
                 CleanTableCell(
                     row_index=clean_row,
                     column_index=clean_column,
+                    end_row_offset_idx=clean_row + 1,
+                    end_column_offset_idx=clean_column + 1,
                     text=text,
                     bbox_pdf_points_bottom_left=_bbox(
                         cell.get("bbox_pdf_points_bottom_left"),
@@ -240,6 +346,61 @@ def clean_table_cells(
                     ),
                 )
             )
+    return tuple(cleaned)
+
+
+def _clean_logical_cells(
+    raw_cells: list[JsonObject],
+    *,
+    shape_raw: tuple[int, int],
+    retained_rows: list[int],
+    retained_columns: list[int],
+    table_id: str,
+) -> tuple[CleanTableCell, ...]:
+    """Project span-aware logical cells without inventing continuation cells."""
+    raw_coverage: set[tuple[int, int]] = set()
+    row_map = {raw: clean for clean, raw in enumerate(retained_rows)}
+    column_map = {raw: clean for clean, raw in enumerate(retained_columns)}
+    cleaned: list[CleanTableCell] = []
+    clean_coverage: set[tuple[int, int]] = set()
+    for cell in raw_cells:
+        raw_extent = GridExtent.from_record(cell, shape=shape_raw, table_id=table_id)
+        raw_positions = raw_extent.positions()
+        if raw_coverage & raw_positions:
+            raise ContractError(f"learned cells overlap for {table_id}")
+        raw_coverage |= raw_positions
+        retained_positions = {
+            (row_map[row], column_map[column])
+            for row, column in raw_positions
+            if row in row_map and column in column_map
+        }
+        if not retained_positions:
+            continue
+        clean_extent = _rectangular_extent(retained_positions)
+        if clean_extent is None or clean_coverage & retained_positions:
+            raise ContractError(f"cleanup fragments learned spans for {table_id}")
+        clean_coverage |= retained_positions
+        text = cell.get("text")
+        if not isinstance(text, str):
+            raise ContractError(f"non-string learned cell text for {table_id}")
+        cleaned.append(
+            CleanTableCell(
+                row_index=clean_extent.start_row,
+                column_index=clean_extent.start_column,
+                end_row_offset_idx=clean_extent.end_row,
+                end_column_offset_idx=clean_extent.end_column,
+                text=text,
+                bbox_pdf_points_bottom_left=_bbox(
+                    cell.get("bbox_pdf_points_bottom_left"),
+                    owner=f"{table_id} learned cell",
+                ),
+            )
+        )
+    if raw_coverage != _complete_grid(shape_raw):
+        raise ContractError(f"learned cells do not cover shape_raw for {table_id}")
+    clean_shape = (len(retained_rows), len(retained_columns))
+    if clean_coverage != _complete_grid(clean_shape):
+        raise ContractError(f"learned cells do not cover shape_clean for {table_id}")
     return tuple(cleaned)
 
 
@@ -255,12 +416,53 @@ def _validate_clean_csv(
     row_count, column_count = shape
     if len(rows) != row_count or any(len(row) != column_count for row in rows):
         raise ContractError(f"clean CSV differs from shape_clean for {table_id}")
-    expected = [
-        [cells[row * column_count + column].text for column in range(column_count)]
-        for row in range(row_count)
-    ]
+    expected = [["" for _column in range(column_count)] for _row in range(row_count)]
+    for cell in cells:
+        expected[cell.row_index][cell.column_index] = cell.text
     if rows != expected:
         raise ContractError(f"clean CSV text differs from cleaned cells for {table_id}")
+
+
+def _validate_continuation_family_evidence(
+    family_payload: JsonObject,
+    *,
+    family_by_id: dict[str, ProducerTableFamily],
+    assignment_by_table: dict[str, str],
+) -> None:
+    """Require accepted decisions to exactly explain continuation families."""
+    expected_family_ids = {
+        family.family_id
+        for family in family_by_id.values()
+        if "cross_page_continuation" in family.evidence
+    }
+    raw_decisions = family_payload.get("continuation_decisions", [])
+    if not isinstance(raw_decisions, list) or not all(
+        isinstance(decision, dict) for decision in raw_decisions
+    ):
+        raise ContractError("table_families.json has invalid continuation decisions")
+    accepted_family_ids: set[str] = set()
+    for decision in raw_decisions:
+        if decision.get("status") != "accepted":
+            continue
+        left_table = decision.get("left_table_id")
+        right_table = decision.get("right_table_id")
+        inherited = decision.get("inherited_header")
+        valid = (
+            isinstance(left_table, str)
+            and isinstance(right_table, str)
+            and assignment_by_table.get(left_table) is not None
+            and assignment_by_table.get(left_table) == assignment_by_table.get(right_table)
+            and isinstance(inherited, dict)
+            and inherited.get("origin") == "inherited"
+            and inherited.get("content_status") == "unresolved_no_printed_header_projection"
+            and inherited.get("source_table_id") == left_table
+        )
+        if not valid:
+            raise ContractError("invalid accepted continuation evidence")
+        assert isinstance(left_table, str)
+        accepted_family_ids.add(assignment_by_table[left_table])
+    if accepted_family_ids != expected_family_ids:
+        raise ContractError("continuation family evidence lacks accepted decisions")
 
 
 def _load_family_records(
@@ -285,7 +487,14 @@ def _load_family_records(
             or not all(isinstance(table_id, str) for table_id in table_ids)
             or not isinstance(evidence, list)
             or not all(
-                item in {"footer_run", "exact_cleaned_header", "singleton"} for item in evidence
+                item
+                in {
+                    "footer_run",
+                    "exact_cleaned_header",
+                    "cross_page_continuation",
+                    "singleton",
+                }
+                for item in evidence
             )
         ):
             raise ContractError("invalid table family record")
@@ -316,6 +525,11 @@ def _load_family_records(
     }
     if assignment_pairs != family_pairs:
         raise ContractError("family assignments differ from family definitions")
+    _validate_continuation_family_evidence(
+        family_payload,
+        family_by_id=family_by_id,
+        assignment_by_table=assignment_by_table,
+    )
     return tuple(family_by_id.values()), assignment_by_table
 
 
@@ -422,7 +636,13 @@ def _load_tables(
             or not isinstance(page_table_index, int)
             or isinstance(page_table_index, bool)
             or not isinstance(region_id, str)
-            or parser not in {"camelot_stream", "camelot_lattice", "camelot_network"}
+            or parser
+            not in {
+                "camelot_stream",
+                "camelot_lattice",
+                "camelot_network",
+                "tableformer_accurate",
+            }
         ):
             raise ContractError(f"table placement is invalid for {table_id}")
         tables.append(

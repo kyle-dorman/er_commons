@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from er_commons.document_extraction.routing import TableRoute
 
@@ -33,11 +33,26 @@ class LayoutTableObservation(ProducerRecord):
     bbox_pdf_points_bottom_left: list[float] = Field(min_length=4, max_length=4)
 
 
+class TableBoundaryMarker(ProducerRecord):
+    """One source marker above the first table on a routed page."""
+
+    raw_object_ref: str
+    provenance_index: int = Field(ge=0)
+    label: Literal["caption", "section_header"]
+    text: str
+    bbox_pdf_points_bottom_left: list[float] = Field(min_length=4, max_length=4)
+
+
 class PageRouteRecord(ProducerRecord):
     """One complete native-text and layout routing decision."""
 
     physical_pdf_page: int = Field(gt=0)
     page_size_pdf_points: list[float] = Field(min_length=2, max_length=2)
+    displayed_page_size_pdf_points: list[float] = Field(min_length=2, max_length=2)
+    source_page_bbox_pdf_points_bottom_left: list[float] = Field(min_length=4, max_length=4)
+    routing_page_bbox_pdf_points_bottom_left: list[float] = Field(min_length=4, max_length=4)
+    routing_coordinate_system: Literal["displayed_pdf_points_bottom_left"]
+    page_rotation_degrees: Literal[0, 90, 180, 270]
     native_character_count: int = Field(ge=0)
     nonspace_character_count: int = Field(ge=0)
     native_text_rectangle_count: int = Field(ge=0)
@@ -51,12 +66,39 @@ class PageRouteRecord(ProducerRecord):
     strict_checks: dict[str, bool]
     numeric_table_bearing: bool
     numeric_checks: dict[str, bool]
+    dense_partial_table: bool = False
+    dense_partial_checks: dict[str, bool] = Field(default_factory=dict)
     layout_table_region_count: int = Field(ge=0)
     layout_table_regions_pdf_points_bottom_left: list[list[float]]
     route: TableRoute
     source_id: str
     layout_table_observations: list[LayoutTableObservation]
+    boundary_markers_before_first_table: list[TableBoundaryMarker]
     status: Literal["complete"]
+
+    @model_validator(mode="before")
+    @classmethod
+    def fill_legacy_geometry_and_markers(cls, value: Any) -> Any:
+        """Load sealed pre-03G routes while new producers persist explicit geometry."""
+        if not isinstance(value, dict):
+            return value
+        record = dict(value)
+        page_size = record.get("page_size_pdf_points")
+        if isinstance(page_size, list) and len(page_size) == 2:
+            width, height = page_size
+            record.setdefault("displayed_page_size_pdf_points", list(page_size))
+            record.setdefault(
+                "source_page_bbox_pdf_points_bottom_left",
+                [0.0, 0.0, width, height],
+            )
+            record.setdefault(
+                "routing_page_bbox_pdf_points_bottom_left",
+                [0.0, 0.0, width, height],
+            )
+        record.setdefault("routing_coordinate_system", "displayed_pdf_points_bottom_left")
+        record.setdefault("page_rotation_degrees", 0)
+        record.setdefault("boundary_markers_before_first_table", [])
+        return record
 
 
 class ConversionObservation(ProducerRecord):

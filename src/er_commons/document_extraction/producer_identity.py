@@ -154,7 +154,8 @@ def build_producer_identity(
             {
                 "detection": config.table_detection.model_dump(mode="json"),
                 "cleanup": config.table_cleanup.model_dump(mode="json"),
-                "family_policy": "accepted-contiguous-footer-aware-v1",
+                "learned_fallback": config.learned_table_fallback.model_dump(mode="json"),
+                "family_policy": "footer-header-and-reviewed-continuation-v2",
                 "retain_review_derivatives": False,
             }
         ),

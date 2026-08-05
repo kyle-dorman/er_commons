@@ -12,6 +12,7 @@ from er_commons.document_extraction.routing import (
     page_features,
 )
 from er_commons.document_extraction.sources import CompleteResolvedSource
+from er_commons.document_extraction.table_markers import markers_before_first_table
 from er_commons.smoke_extraction.config import SmokeSpec
 from er_commons.smoke_extraction.records import RouteRecord
 
@@ -34,6 +35,9 @@ def maintained_route(
             spec.numeric_table_bearing_thresholds,
         ),
         "layout_table_observations": observations,
+        "boundary_markers_before_first_table": markers_before_first_table(
+            document_payload, physical_page, observations
+        ),
     }
 
 

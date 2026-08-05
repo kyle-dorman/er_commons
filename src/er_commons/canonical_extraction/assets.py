@@ -183,6 +183,11 @@ def _register_table_assets(
 ) -> dict[str, tuple[RawLink, ...]]:
     links_by_id: dict[str, tuple[RawLink, ...]] = {}
     for table in table_bundle.tables:
+        parser_producer = (
+            "tableformer_fallback"
+            if table.parser == "tableformer_accurate"
+            else "camelot_clean_pipeline"
+        )
         raw_table_path = tables_root / table.table_record_path
         raw_cells_path = tables_root / table.cells_path
         raw_csv_path = tables_root / table.raw_csv_path
@@ -192,21 +197,21 @@ def _register_table_assets(
             role="raw_table_json",
             path=raw_table_path,
             media_type="application/json",
-            producer="camelot_clean_pipeline",
+            producer=parser_producer,
         )
         raw_cells_asset = registry.external(
             key=f"{table.table_id}:raw_cells",
             role="raw_table_cells_json",
             path=raw_cells_path,
             media_type="application/json",
-            producer="camelot_clean_pipeline",
+            producer=parser_producer,
         )
         raw_csv_asset = registry.external(
             key=f"{table.table_id}:raw_csv",
             role="raw_table_csv",
             path=raw_csv_path,
             media_type="text/csv",
-            producer="camelot_clean_pipeline",
+            producer=parser_producer,
         )
         clean_csv_asset = registry.external(
             key=f"{table.table_id}:clean_csv",
@@ -219,6 +224,7 @@ def _register_table_assets(
             {
                 "row_index": cell.row_index,
                 "column_index": cell.column_index,
+                **(cell.span_fields() if table.parser == "tableformer_accurate" else {}),
                 "text": cell.text,
                 "bbox_pdf_points_bottom_left": list(cell.bbox_pdf_points_bottom_left),
             }
@@ -246,9 +252,9 @@ def _register_table_assets(
             media_type="application/json",
         )
         links_by_id[table.table_id] = (
-            raw_link("camelot_clean_pipeline", raw_table_asset, "/"),
-            raw_link("camelot_clean_pipeline", raw_cells_asset, "/"),
-            raw_link("camelot_clean_pipeline", raw_csv_asset, "/"),
+            raw_link(parser_producer, raw_table_asset, "/"),
+            raw_link(parser_producer, raw_cells_asset, "/"),
+            raw_link(parser_producer, raw_csv_asset, "/"),
             raw_link("project_cleanup", clean_csv_asset, "/"),
             raw_link("project_cleanup", clean_table_asset, "/"),
             raw_link("project_cleanup", clean_cells_asset, "/"),

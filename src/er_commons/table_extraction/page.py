@@ -24,6 +24,7 @@ import json
 import re
 import time
 import unicodedata
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
@@ -33,12 +34,26 @@ import numpy as np
 import pypdfium2 as pdfium  # type: ignore[import-untyped]
 from PIL import Image, ImageDraw
 
+from er_commons.table_extraction.learned_fallback import LearnedFallbackRunner
+from er_commons.table_extraction.learned_table_page import apply_learned_fallbacks
+
 NUMERIC_CELL = re.compile(
     r"^[\s$()<>+\-–—]*(?:\d[\d,]*(?:\.\d+)?|\.\d+)"
     r"(?:[eE][+\-]?\d+)?(?:\s*[%a-zA-Z/³².-]+)?[\s*†‡]*$"
 )
+MISSING_VALUE_CELL = re.compile(r"^(?:-|–|—|−)+$")
 COORDINATE_KEY = re.compile(r"\b\d{6}\.\d+_\d{7}\.\d+_?")
 ExplicitRoute = Literal["full_page_numeric", "layout_regions"]
+
+
+@dataclass(frozen=True)
+class CandidatePayload:
+    """Parser-neutral content needed to persist one logical table."""
+
+    metadata: dict[str, Any]
+    raw_rows: list[list[str]]
+    serialized_cells: list[dict[str, Any]]
+    columns_pdf_points: list[dict[str, float]]
 
 
 def sha256_file(path: Path) -> str:
@@ -48,6 +63,30 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _candidate_payload(candidate: dict[str, Any]) -> CandidatePayload:
+    """Adapt Camelot or TableFormer output without mutating the candidate."""
+    excluded = {"table", "raw_rows", "serialized_cells", "columns_pdf_points"}
+    metadata = {key: value for key, value in candidate.items() if key not in excluded}
+    if candidate["parser"] == "tableformer_accurate":
+        return CandidatePayload(
+            metadata=metadata,
+            raw_rows=[list(row) for row in candidate["raw_rows"]],
+            serialized_cells=list(candidate["serialized_cells"]),
+            columns_pdf_points=list(candidate["columns_pdf_points"]),
+        )
+    table = candidate.get("table")
+    if table is None:
+        raise ValueError("Camelot candidate is missing its parser table")
+    return CandidatePayload(
+        metadata=metadata,
+        raw_rows=table_rows(table),
+        serialized_cells=serialize_cells(table),
+        columns_pdf_points=[
+            {"left": float(left), "right": float(right)} for left, right in table.cols
+        ],
+    )
 
 
 def write_json(path: Path, payload: Any) -> None:
@@ -440,6 +479,38 @@ def header_matrix(rows: list[list[str]], cleanup: dict[str, Any]) -> list[list[s
     return header if any(cell for row in header for cell in row) else []
 
 
+def column_type_signatures(rows: list[list[str]]) -> list[dict[str, Any]]:
+    """Summarize text, numeric, explicit-missing, and empty column evidence."""
+    width = max((len(row) for row in rows), default=0)
+    signatures = []
+    type_order = ("text", "numeric", "missing", "empty")
+    for column in range(width):
+        counts = {kind: 0 for kind in type_order}
+        for row in rows:
+            value = row[column] if column < len(row) else ""
+            kind = (
+                "empty"
+                if not value
+                else "missing"
+                if MISSING_VALUE_CELL.fullmatch(value)
+                else "numeric"
+                if NUMERIC_CELL.fullmatch(value)
+                else "text"
+            )
+            counts[kind] += 1
+        total = len(rows)
+        dominant = max(type_order, key=lambda kind: (counts[kind], -type_order.index(kind)))
+        signatures.append(
+            {
+                "column_index": column,
+                "dominant_type": dominant,
+                "counts": counts,
+                "fractions": {kind: counts[kind] / total if total else 0.0 for kind in type_order},
+            }
+        )
+    return signatures
+
+
 def parse_footer(text: str, cleanup: dict[str, Any]) -> dict[str, Any] | None:
     """Return the final worksheet footer found in native page text."""
     pattern = re.compile(str(cleanup["footer_pattern"]), re.IGNORECASE)
@@ -491,6 +562,7 @@ def extract_page(
     layout_regions: list[list[float]] | None = None,
     table_id_prefix: str = "g3",
     retain_review_derivatives: bool = True,
+    learned_fallback_runner: LearnedFallbackRunner | None = None,
 ) -> dict[str, Any]:
     """Extract one page, optionally omitting reproducible review images."""
     result_path = output_dir / "result.json"
@@ -543,6 +615,18 @@ def extract_page(
             detection,
             include_network=False,
         )
+        if learned_fallback_runner is not None:
+            candidates.extend(
+                apply_learned_fallbacks(
+                    runner=learned_fallback_runner,
+                    pdf_path=pdf_path,
+                    page_number=page_number,
+                    page_size=(page_width, page_height),
+                    page_output_root=output_dir,
+                    parser_evidence=parser_evidence,
+                    layout_regions=routed_regions,
+                )
+            )
     elif route_mode is not None:
         raise ValueError(f"unsupported explicit table route: {route_mode}")
     elif complex_page:
@@ -567,38 +651,39 @@ def extract_page(
         "camelot_stream": (0, 140, 0),
         "camelot_lattice": (220, 0, 0),
         "camelot_network": (0, 80, 255),
+        "tableformer_accurate": (150, 60, 180),
     }
     scale = float(detection["render_scale"])
     for index, candidate in enumerate(candidates, start=1):
         table_id = f"{table_id_prefix}_p{page_number:05d}_t{index:03d}"
         table_dir = table_root / table_id
         table_dir.mkdir()
-        table = candidate.pop("table")
-        raw_rows = table_rows(table)
+        payload = _candidate_payload(candidate)
+        raw_rows = payload.raw_rows
         cleaned_rows, cleanup_record = clean_rows(raw_rows, cleanup)
         raw_csv = table_dir / "raw.csv"
         clean_csv = table_dir / "table.csv"
         cells_path = table_dir / "cells.json"
         write_csv(raw_csv, raw_rows)
         write_csv(clean_csv, cleaned_rows)
-        write_json(cells_path, serialize_cells(table))
+        write_json(cells_path, payload.serialized_cells)
         box = candidate["bbox_pdf_points_bottom_left"]
-        columns = [{"left": float(left), "right": float(right)} for left, right in table.cols]
         table_record = {
             "table_id": table_id,
             "physical_pdf_page": page_number,
             "page_table_index": index,
             "route": route,
-            **candidate,
+            **payload.metadata,
             "shape_raw": [len(raw_rows), max((len(row) for row in raw_rows), default=0)],
             "shape_clean": [
                 len(cleaned_rows),
                 max((len(row) for row in cleaned_rows), default=0),
             ],
             "page_size_pdf_points": [page_width, page_height],
-            "columns_pdf_points": columns,
+            "columns_pdf_points": payload.columns_pdf_points,
             "cleanup": cleanup_record,
             "header_matrix": header_matrix(cleaned_rows, cleanup),
+            "raw_column_type_signatures": column_type_signatures(raw_rows),
             "raw_csv": {
                 "path": raw_csv.relative_to(output_dir).as_posix(),
                 "sha256": sha256_file(raw_csv),

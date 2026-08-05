@@ -456,6 +456,10 @@
       "properties": {
         "row_index": {"type": "integer", "minimum": 0},
         "column_index": {"type": "integer", "minimum": 0},
+        "end_row_offset_idx": {"type": "integer", "minimum": 1},
+        "end_column_offset_idx": {"type": "integer", "minimum": 1},
+        "row_span": {"type": "integer", "minimum": 1},
+        "column_span": {"type": "integer", "minimum": 1},
         "producer_row_index": {"type": ["integer", "null"], "minimum": 0},
         "producer_column_index": {"type": ["integer", "null"], "minimum": 0},
         "producer_normalized_text": {"type": "string"},
@@ -498,7 +502,12 @@
             },
             "producer_table_id": {"type": "string", "minLength": 1},
             "parser": {
-              "enum": ["camelot_stream", "camelot_lattice", "camelot_network"]
+              "enum": [
+                "camelot_stream",
+                "camelot_lattice",
+                "camelot_network",
+                "tableformer_accurate"
+              ]
             },
             "shape": {
               "type": "array",
@@ -574,7 +583,12 @@
             "evidence": {
               "type": "array",
               "items": {
-                "enum": ["footer_run", "exact_cleaned_header", "singleton"]
+                "enum": [
+                  "footer_run",
+                  "exact_cleaned_header",
+                  "cross_page_continuation",
+                  "singleton"
+                ]
               },
               "minItems": 1,
               "uniqueItems": true

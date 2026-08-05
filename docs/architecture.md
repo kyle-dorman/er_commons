@@ -353,6 +353,45 @@ record shapes and forbidden publication roles. The checked-in smoke spec binds
 every runtime module. Diagnostic-only code changes therefore derive a new
 `smokev1-` identity without rebinding production candidates.
 
+Task 03G.1a keeps those diagnostic boundaries while repairing four maintained
+responsibilities. Warning provenance is explicitly source-, conversion-, or
+page-scoped before aggregation. Native-text routing transforms PDFium canvas
+rectangles into displayed bottom-left PDF coordinates before measuring
+coverage; an orientation-independent dense partial-sheet route may omit only
+the full-page height signal after meeting a separate minimum height and every
+other strict signal. Camelot remains primary, with checksum-pinned accurate
+TableFormer invoked only for an unmatched Heron region and required to retain
+its crop, native tokens, raw prediction, acceptance measurements, and an
+explicit accepted or abstained disposition. Cross-page continuation is an
+evidence relation over unchanged page tables; it never rewrites a page
+artifact or promotes proximity alone.
+
+The learned adapter is version-bound but separate from normal Docling
+conversion, whose table-structure option remains disabled. Its stable facade
+delegates OTSL topology, native-text ownership, logical-cell construction,
+acceptance policy, page integration, and verified model execution to separate
+typed modules. The facade is the caller contract; the implementation modules
+are independently testable and identity-bound. Accepted learned
+cells preserve logical row and column spans; rectangular CSV is a review
+projection, not the canonical topology. The structural grid comes from the
+original rectangular OTSL sequence and original predicted boxes. Native text
+is mapped through TableFormer's uncompressed `docling_responses`; the
+post-processed `num_rows` and `num_cols` counts are diagnostic matched-index
+counts and do not redefine OTSL dimensions. Predicted boxes may be clamped to
+the crop only within the explicit 3-pixel rounding tolerance. An unmatched
+native token is assigned only when its center is contained by exactly one
+structural cell; unmatched printed leading/header text forces an explicit
+abstention rather than publishing a headerless table. A top-edge-connected text
+line wholly above the structural grid is retained as crop-fringe evidence but
+excluded from table-cell coverage; this is geometric scope, not title-text
+classification. Continuation
+acceptance is passed to family assignment as one explicit evidence kind, and
+an inherited semantic header retains its source-table identity rather than
+appearing as printed target text. Geometry, fallback, and continuation are
+producer behavior and therefore alter future `prv1-` and downstream `exv1-`
+identities. Smoke-only warning accounting alters a future `smokev1-`; no
+completed artifact is rebound.
+
 `er_commons.corpus_extraction_contract` preserves the accepted v1 offline
 validator. `er_commons.corpus_extraction_contract_v1_1` owns the corrected
 cross-record gate for exact accounting, index, resolution, and handoff evidence.

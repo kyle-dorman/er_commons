@@ -103,16 +103,33 @@ def table_families_are_consistent(view: BundleView) -> None:
 
 
 def table_shapes_are_complete(view: BundleView) -> None:
-    """Require exactly one cell for every declared table position."""
+    """Require nonoverlapping logical cells to cover every declared grid position."""
     for table in view.bundle["tables"]:
         row_count, column_count = table["shape"]
-        positions = [(cell["row_index"], cell["column_index"]) for cell in table["cells"]]
-        if len(positions) != len(set(positions)):
-            raise ContractError(f"duplicate cell position in {table['id']}")
-        if len(positions) != row_count * column_count:
-            raise ContractError(f"cell count differs from declared shape in {table['id']}")
-        if any(row >= row_count or column >= column_count for row, column in positions):
-            raise ContractError(f"cell is outside declared shape in {table['id']}")
+        covered: set[tuple[int, int]] = set()
+        for cell in table["cells"]:
+            start_row = cell["row_index"]
+            start_column = cell["column_index"]
+            end_row = cell.get("end_row_offset_idx", start_row + 1)
+            end_column = cell.get("end_column_offset_idx", start_column + 1)
+            if not (
+                0 <= start_row < end_row <= row_count
+                and 0 <= start_column < end_column <= column_count
+                and cell.get("row_span", end_row - start_row) == end_row - start_row
+                and cell.get("column_span", end_column - start_column) == end_column - start_column
+            ):
+                raise ContractError(f"cell is outside declared shape in {table['id']}")
+            positions = {
+                (row, column)
+                for row in range(start_row, end_row)
+                for column in range(start_column, end_column)
+            }
+            if covered & positions:
+                raise ContractError(f"overlapping cell position in {table['id']}")
+            covered |= positions
+        expected = {(row, column) for row in range(row_count) for column in range(column_count)}
+        if covered != expected:
+            raise ContractError(f"cell count differs from declared shape coverage in {table['id']}")
 
 
 def table_stage_mappings_are_consistent(view: BundleView) -> None:

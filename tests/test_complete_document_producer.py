@@ -37,6 +37,11 @@ def _route_record() -> PageRouteRecord:
     return PageRouteRecord(
         physical_pdf_page=1,
         page_size_pdf_points=[612.0, 792.0],
+        displayed_page_size_pdf_points=[612.0, 792.0],
+        source_page_bbox_pdf_points_bottom_left=[0.0, 0.0, 612.0, 792.0],
+        routing_page_bbox_pdf_points_bottom_left=[0.0, 0.0, 612.0, 792.0],
+        routing_coordinate_system="displayed_pdf_points_bottom_left",
+        page_rotation_degrees=0,
         native_character_count=4,
         nonspace_character_count=4,
         native_text_rectangle_count=1,
@@ -66,6 +71,7 @@ def _route_record() -> PageRouteRecord:
         route="no_table_route",
         source_id="document",
         layout_table_observations=[],
+        boundary_markers_before_first_table=[],
         status="complete",
     )
 

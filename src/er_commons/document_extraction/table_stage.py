@@ -18,6 +18,7 @@ from er_commons.table_extraction.models import (
     CleanupConfig,
     DetectionConfig,
     ExecutionConfig,
+    LearnedFallbackConfig,
     RoutedPageConfig,
     TableExtractionConfig,
 )
@@ -42,6 +43,7 @@ def build_table_request(
         detection=document_config.table_detection,
         cleanup=document_config.table_cleanup,
         retain_review_derivatives=True,
+        learned_fallback=LearnedFallbackConfig(),
     )
 
 
@@ -55,6 +57,7 @@ def build_complete_table_request(
     detection: DetectionConfig,
     cleanup: CleanupConfig,
     retain_review_derivatives: bool,
+    learned_fallback: LearnedFallbackConfig | None = None,
 ) -> TableExtractionConfig:
     """Adapt positive routes to the accepted clean table-pipeline contract."""
     ordered = sorted(route_records, key=lambda item: int(item["physical_pdf_page"]))
@@ -67,6 +70,9 @@ def build_complete_table_request(
                 record["layout_table_regions_pdf_points_bottom_left"]
                 if record["route"] == "layout_regions"
                 else []
+            ),
+            boundary_markers_before_first_table=record.get(
+                "boundary_markers_before_first_table", []
             ),
         )
         for record in ordered
@@ -88,6 +94,7 @@ def build_complete_table_request(
         execution=ExecutionConfig(maximum_workers=1),
         detection=detection,
         cleanup=cleanup,
+        learned_fallback=learned_fallback or LearnedFallbackConfig(),
     )
 
 

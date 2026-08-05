@@ -118,6 +118,7 @@ def _tables(
             {
                 "row_index": cell.row_index,
                 "column_index": cell.column_index,
+                **(cell.span_fields() if table.parser == "tableformer_accurate" else {}),
                 "producer_row_index": cell.row_index,
                 "producer_column_index": table.cleanup.retained_column_indices[cell.column_index],
                 "producer_normalized_text": cell.text,

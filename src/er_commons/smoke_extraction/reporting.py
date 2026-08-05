@@ -15,6 +15,12 @@ from er_commons.smoke_extraction.records import (
     PageOutcome,
     SourceSummary,
 )
+from er_commons.smoke_extraction.warnings import (
+    count_warning_scopes,
+    parse_warning_scope_counts,
+    sum_warning_scopes,
+    warning_evidence_paths,
+)
 
 
 def write_jsonl(path: Path, records: list[PageOutcome]) -> None:
@@ -48,6 +54,7 @@ def build_source_summary(
 ) -> SourceSummary:
     """Aggregate one source from page outcomes and retained range observations."""
     observations = _range_observations(source_root)
+    warning_scope_counts = count_warning_scopes(source_root, observations, outcomes)
     routes = Counter(str(outcome["route"]) for outcome in outcomes if "route" in outcome)
     return {
         "source_id": source_id,
@@ -59,7 +66,9 @@ def build_source_summary(
         "logical_table_count": sum(
             int(outcome.get("tables", {}).get("table_count", 0)) for outcome in outcomes
         ),
-        "warning_count": sum(len(outcome["warnings"]) for outcome in outcomes),
+        "warning_count": warning_scope_counts["aggregate"],
+        "warning_scope_counts": warning_scope_counts,
+        "warning_evidence": warning_evidence_paths(source_root),
         "error_count": sum(len(outcome["errors"]) for outcome in outcomes),
         "conversion_wall_seconds": sum(
             float(observation["wall_seconds"]) for observation in observations
@@ -103,7 +112,7 @@ def build_run_summary(
     """Build the terminal aggregate from already validated source evidence."""
     routes = Counter(str(outcome["route"]) for outcome in outcomes if "route" in outcome)
     return {
-        "schema_version": "er_commons.task03g1_smoke_summary.v1",
+        "schema_version": "er_commons.task03g1_smoke_summary.v2",
         "smoke_id": run_id,
         "attempt_id": attempt_id,
         "scope_status": "diagnostic_complete",
@@ -117,7 +126,13 @@ def build_run_summary(
         "logical_table_count": sum(
             int(outcome.get("tables", {}).get("table_count", 0)) for outcome in outcomes
         ),
-        "warning_count": sum(len(outcome["warnings"]) for outcome in outcomes),
+        "warning_count": sum(int(summary["warning_count"]) for summary in source_summaries),
+        "warning_scope_counts": sum_warning_scopes(
+            [
+                parse_warning_scope_counts(summary["warning_scope_counts"])
+                for summary in source_summaries
+            ]
+        ),
         "error_count": sum(len(outcome["errors"]) for outcome in outcomes),
         "wall_seconds": wall_seconds,
         "observed_peak_rss_bytes": max(

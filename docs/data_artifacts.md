@@ -232,6 +232,43 @@ immutable `exv1-` candidate. Interrupted attempts remain inspectable; a later
 invocation allocates a new attempt, while an existing diagnostic-complete root
 is no-clobber.
 
+Task 03G.1a's bounded affected-page regression is separate from both the
+immutable Task 03G.1 smoke and production candidates:
+
+```text
+pipelines/brisbane_baylands/task_03g1a_remediation_v1/
+  regression_manifest.json
+  warning_scope.json
+  routing_geometry.json
+  learned_fallback[_vN]/<source_id>/pages/page_<NNNNN>/fallback/<region_id>/
+  continuation_decisions.json
+  report.json
+  artifact_inventory.json
+  completion.json
+```
+
+The checked-in regression manifest binds exact source checksums, pages,
+controls, and expected dispositions. Per-region learned evidence retains the
+trigger, checksum-bound model identity, native-token snapshot, normative crop,
+raw prediction, measurements, and acceptance or abstention decision. Accepted
+tables may also flow through ordinary page/table/family validation; abstained
+regions have no canonical table IDs. The aggregate report is candidate-neutral
+control evidence, publishes no document or corpus completion, is
+checksum-inventoried, and writes its completion record last. It cannot replace
+or mutate the `smokev1-`, `prv1-`, or `exv1-` roots it compares.
+The original report and finalization pointer were superseded after user review
+found that matched-column counts had been mistaken for OTSL grid dimensions.
+The behavioral MVP reevaluation lives under
+`pipelines/brisbane_baylands/task_03g1a_remediation_v5/`; v1 through v4 remain
+immutable diagnostic/development evidence and are never silently overwritten.
+The human-maintainability rewrite's first fresh v6 run is retained as explicit
+failure-path evidence because a model-adapter boundary error caused safe
+`model_failure` abstentions. The corrected, complete v7 run under
+`pipelines/brisbane_baylands/task_03g1a_remediation_v7/` is normative. It
+retains exact commands, refactor-preservation evidence, and the refreshed
+production identity reference, and has status
+`regression_complete_pending_user_acceptance`, not task closure.
+
 The stage-two corpus index lives below
 `scopes/<run_scope_id>/target_indexes/`; it is not the Task 03E.5
 document-local `support/cross_reference_target_index.json`. Corpus resolution

@@ -3,8 +3,8 @@
   "schema_version": "er_commons.corpus_extraction_identity.v1_1",
   "fixture_status": "identity_recipe",
   "execution_status": "not_executed",
-  "extraction_id": "exv1-1bd71e02e9f8da505d68bfb58b8dd8d4c1b47aabc8365417028d6daf60c1fcc4",
-  "identity_sha256": "1bd71e02e9f8da505d68bfb58b8dd8d4c1b47aabc8365417028d6daf60c1fcc4",
+  "extraction_id": "exv1-a0908c8fad342acde9d195a4223391bef29884cea1711c66d611f13fa995adee",
+  "identity_sha256": "a0908c8fad342acde9d195a4223391bef29884cea1711c66d611f13fa995adee",
   "preimage": {
     "schema_version": "er_commons.corpus_extraction_identity_preimage.v1_1",
     "extraction_version_name": "brisbane_baylands_model_corpus_v1",
@@ -60,17 +60,17 @@
       "ordered_source_records_sha256": "a1028e3f7da542b572ec5de7f6724900b43f90ad48f671c200d9ef0777b8706e"
     },
     "producer_contract": {
-      "version": "task03c-v2-plus-task03e-v1",
+      "version": "task03g1a-producer-v1",
       "artifacts": [
         {
           "path": "configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json",
-          "sha256": "183c49cf8c23110f33ee706ac12cab1c0586d93eb74a36cee574ef9f2d4e26da",
-          "byte_size": 2175
+          "sha256": "0e552aee5170235d2236f18dac41cadf81c7ace28b2331c593cb7bce0e56d27c",
+          "byte_size": 2813
         },
         {
           "path": "configs/brisbane_baylands_2025_deir_task03e_appendix_p_v1.json",
-          "sha256": "27a64894ba4e9ebf5c0c7cf995eebfc197e1a162fc11874bb235c40b4584f1fb",
-          "byte_size": 2420
+          "sha256": "f8ba2c3fae9996bc40ac77691b4171f404d04ac628fd7913a08a98445196d9e0",
+          "byte_size": 3054
         }
       ],
       "owned_code": [
@@ -111,8 +111,8 @@
         },
         {
           "path": "src/er_commons/document_extraction/producer_config.py",
-          "sha256": "79077e099917b6f3f2d9e1b741874032c41aa89e03e05e2c14c102eae4215813",
-          "byte_size": 3758
+          "sha256": "7e908b764394329ed2d0e6ca199c908f9f150164fbe6807a00a1a7f08264cd21",
+          "byte_size": 4525
         },
         {
           "path": "src/er_commons/document_extraction/producer_conversion.py",
@@ -121,8 +121,8 @@
         },
         {
           "path": "src/er_commons/document_extraction/producer_identity.py",
-          "sha256": "671509d6d9dd16efd221b0ce5f783ef89412fb4ba6be13b3d90366dc81a48a3e",
-          "byte_size": 5937
+          "sha256": "81aa845ea19cd61681de69453782d10eeb849fc3626d10dd1efb612bbc82c4d2",
+          "byte_size": 6035
         },
         {
           "path": "src/er_commons/document_extraction/producer_publication.py",
@@ -131,13 +131,13 @@
         },
         {
           "path": "src/er_commons/document_extraction/producer_records.py",
-          "sha256": "7632187e09d70cba46e4990728a1dc13eafd26157efacd790dd64abb5eee5a6a",
-          "byte_size": 4701
+          "sha256": "2562b928524f6f5739ed107accaebae7362a62d5b97da8177694709ccb9230fe",
+          "byte_size": 6685
         },
         {
           "path": "src/er_commons/document_extraction/producer_routing.py",
-          "sha256": "a431bfccace19829e0ec5e76183411e6c872c621e40485a54a5c8014f9f8bdb0",
-          "byte_size": 2962
+          "sha256": "d81394d8b3d2eb71a272364fe8bd96e0d1e002a72e6130cc01277e97873f4da8",
+          "byte_size": 3224
         },
         {
           "path": "src/er_commons/document_extraction/producer_services.py",
@@ -146,13 +146,18 @@
         },
         {
           "path": "src/er_commons/document_extraction/producer_tables.py",
-          "sha256": "a9da8b58700a14adc2831b3fcfe07c708e8cd2b1617de1a7f5c13b7b90f88e32",
-          "byte_size": 8870
+          "sha256": "18fb668cc3e94b564f5684d69b0f798b2d7601ba0dbc950f310ce952467e3549",
+          "byte_size": 14719
         },
         {
           "path": "src/er_commons/document_extraction/routing.py",
-          "sha256": "702d381e8c0129312caa6cdee7430932bf95235265184b9f054f80dba843beef",
-          "byte_size": 6464
+          "sha256": "b3b10b7dc20ab50c7133b3edf6043e5f223efd9bbd84edea4510f9047b310d36",
+          "byte_size": 8355
+        },
+        {
+          "path": "src/er_commons/document_extraction/routing_geometry.py",
+          "sha256": "a150b0b9993632fc1190d4355a8476697bea90fd2cbd097fa3c591f803c514e4",
+          "byte_size": 6963
         },
         {
           "path": "src/er_commons/document_extraction/runtime.py",
@@ -165,9 +170,14 @@
           "byte_size": 6233
         },
         {
+          "path": "src/er_commons/document_extraction/table_markers.py",
+          "sha256": "e2af1d13778c68f6f7a32073a301e34218f0277572e35da170bc7fe05d3de1e3",
+          "byte_size": 1877
+        },
+        {
           "path": "src/er_commons/document_extraction/table_stage.py",
-          "sha256": "532117f39789855be38213186722f85fc83961f1a25e87866ee2b86f798f58de",
-          "byte_size": 5693
+          "sha256": "aa12983587663e0b23c92e22b33b510ebcb86d5206860d25ba5844552347a4f8",
+          "byte_size": 6032
         },
         {
           "path": "src/er_commons/source_freeze.py",
@@ -180,34 +190,84 @@
           "byte_size": 164
         },
         {
+          "path": "src/er_commons/table_extraction/continuations.py",
+          "sha256": "f4e10e8e4d6c3eb067acf7eef5400b7261edfe2f7b6e540eaaf3ba601fa29fc8",
+          "byte_size": 10824
+        },
+        {
           "path": "src/er_commons/table_extraction/families.py",
-          "sha256": "dc5cbaf54c3bb5cdcc1ea35bf7ae9c3c679980d1accb9cb41c5e848ea52c7074",
-          "byte_size": 6684
+          "sha256": "943936555dcb675032b0c0a13b3eea388550473216d5aa560f82d309bfc1a439",
+          "byte_size": 7485
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_fallback.py",
+          "sha256": "3c2bb6f7eccd83c530379b7bdc841b2b22c53e5ad68f9a1f350c793e4e047853",
+          "byte_size": 707
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_acceptance.py",
+          "sha256": "40527769f41008db63c00d99106a6860914b17ee95f3cd5354cd23c98778e62d",
+          "byte_size": 9892
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_cells.py",
+          "sha256": "eac6170a5203be3ccb76a9c0ae18b16726f452b7e0c522f44c8d34f1e7c09e30",
+          "byte_size": 7107
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_geometry.py",
+          "sha256": "13d6b4f89fc9080137dc13e1a832854e242363faacca87d36aa49023f3328641",
+          "byte_size": 1732
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_page.py",
+          "sha256": "7088b8c5379d4b75bd6a5d7276bad706d756d3b1fee9595a5851b468f78e1be0",
+          "byte_size": 2276
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_text.py",
+          "sha256": "4edafc60c19b24bb35ec6a304614b44b2301a87cbd08a1defabb65653f4f271c",
+          "byte_size": 10132
+        },
+        {
+          "path": "src/er_commons/table_extraction/learned_table_types.py",
+          "sha256": "00def2ba8276f76a1757072397e36f65a1870c8b8a2776df2bb1f79dc47a18c3",
+          "byte_size": 1716
         },
         {
           "path": "src/er_commons/table_extraction/models.py",
-          "sha256": "b6354b6fed8e85ac0da83ec26bce57bf5717e6b4297fba718daa2bda138f727e",
-          "byte_size": 4817
+          "sha256": "82a5586df4d5782c0f8eb71c05cf030500eb79e0b120df1713af829df11acd88",
+          "byte_size": 6884
+        },
+        {
+          "path": "src/er_commons/table_extraction/otsl.py",
+          "sha256": "02b045ec3ac1eeb793e03f9bcbbe5c6951f36d2eceea1e258e888946f3b9092a",
+          "byte_size": 6299
         },
         {
           "path": "src/er_commons/table_extraction/page.py",
-          "sha256": "e8409c6b0deb998db69e494740ccc38fab5fc230e083d4630f5fb669c86eeb1a",
-          "byte_size": 24806
+          "sha256": "13440fe78556f90334bb567fb81d36884fd36d21ce65d98b689a66e0ed8defac",
+          "byte_size": 28204
         },
         {
           "path": "src/er_commons/table_extraction/pipeline.py",
-          "sha256": "b8a7bbc7573e1f5f46bc6c066cffe110abd970f09d9ff61708e8937f88c33d91",
-          "byte_size": 13463
+          "sha256": "c9a5f0dbbe289a4dd84090ee5347934bbc2c3eab9f3da7d27a0f48068c39573a",
+          "byte_size": 15754
+        },
+        {
+          "path": "src/er_commons/table_extraction/tableformer_fallback.py",
+          "sha256": "9a6fd04e25cdaf1ccdc9e83e51ef4489f47db38a537c89c6beb66e7b9136b8c5",
+          "byte_size": 12615
         }
       ]
     },
     "canonical_contract": {
-      "version": "canonical-v1-semantic-v2-cross-reference-v3",
+      "version": "canonical-v1-span-aware-semantic-v2-cross-reference-v3",
       "artifacts": [
         {
           "path": "benchmarks/er_bench/schemas/canonical_extraction/v1/records.schema.json",
-          "sha256": "964504342b817cb4d7106ef08ac1b05da9df07ee00bcce32b65778e0301d72ba",
-          "byte_size": 46985
+          "sha256": "ed412f6d9b11684393dfb9433a0caa9068107effd0d12e71b016cafe14d97d7c",
+          "byte_size": 47452
         },
         {
           "path": "benchmarks/er_bench/schemas/canonical_extraction/v2/semantic_structure.schema.json",
@@ -238,8 +298,8 @@
         },
         {
           "path": "src/er_commons/canonical_extraction/assets.py",
-          "sha256": "66c4140b5de46ff4368af7865912b879459cb80504aaaae10854db65e693a5b2",
-          "byte_size": 12780
+          "sha256": "c5947b85c1b41f48f2611e5ee2b22c0ad183c89bb154735205f88aaae4955f8a",
+          "byte_size": 12985
         },
         {
           "path": "src/er_commons/canonical_extraction/bundle.py",
@@ -268,8 +328,8 @@
         },
         {
           "path": "src/er_commons/canonical_extraction/content_records.py",
-          "sha256": "9e808486ffb69f6b54d191c08a06edd11c0852f48276d97b265dcbc59e87d00d",
-          "byte_size": 17036
+          "sha256": "82f2269c09d0bebfdf77dd1a09cebb32a9d23a88de8a5272b22d48056e9d6d85",
+          "byte_size": 17126
         },
         {
           "path": "src/er_commons/canonical_extraction/context.py",
@@ -323,8 +383,8 @@
         },
         {
           "path": "src/er_commons/canonical_extraction/policies/content.py",
-          "sha256": "9e13fe0812be3ab4bdc4dd606a189e6fcb00b888ad4d3b0104affa7f76ec90f9",
-          "byte_size": 6979
+          "sha256": "2d19b6af746d08ea0b1555edf9c5439ae7d275a57dffb11079770704ce2ba396",
+          "byte_size": 7771
         },
         {
           "path": "src/er_commons/canonical_extraction/policies/lineage.py",
@@ -353,8 +413,8 @@
         },
         {
           "path": "src/er_commons/canonical_extraction/tables.py",
-          "sha256": "3cd2fcc83e3c491698a73c13ba951ea5e74ef203465a710e0402c37c455b3856",
-          "byte_size": 21925
+          "sha256": "ccb5331b9409ccb20f1cee4c645aa3d1400792f4bb9c8a19754ae0d6c49ff381",
+          "byte_size": 30385
         },
         {
           "path": "src/er_commons/canonical_extraction/traversal.py",
@@ -912,8 +972,8 @@
         },
         {
           "path": "benchmarks/er_bench/schemas/corpus_extraction/v1_1/records.schema.json",
-          "sha256": "602b988e1ea8324ee29e788350ec570fa3bd33af8f30422f4d6949ff9a539a3b",
-          "byte_size": 40820
+          "sha256": "2b2e8c37e42d38d15854d0488a51aeec94b7d4f4dc0a5b5d0a3c614aa187d9e1",
+          "byte_size": 40829
         },
         {
           "path": "docs/specs/restartable_corpus_extraction_v1_1.md",
@@ -1089,8 +1149,8 @@
         },
         {
           "path": "src/er_commons/corpus_extraction_contract_v1_1/identity.py",
-          "sha256": "82e8e5d1f1404defaf7c55ef299705cd4349ad19f04b4641b1c8e11616658fed",
-          "byte_size": 9589
+          "sha256": "95edcef5ad3058b74b4f4b69978fad8236856caf7e80032acc74f24b1f2a8e3c",
+          "byte_size": 9598
         },
         {
           "path": "src/er_commons/corpus_extraction_contract_v1_1/indexing.py",
@@ -1219,6 +1279,6 @@
         }
       ]
     },
-    "contract_revision": "task_03f4_gate_b"
+    "contract_revision": "task_03g1a_remediation_v1"
   }
 }

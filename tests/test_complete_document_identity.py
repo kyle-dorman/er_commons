@@ -87,10 +87,11 @@ def test_tracked_config_selects_the_maintained_human_owned_producer() -> None:
         Path("configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json")
     )
 
-    assert v2.producer_policy_version == "task03c-v2"
+    assert v2.producer_policy_version == "task03c-v2-task03g1a-v1"
     assert v2.source.source_id == "deir_appendix_p"
     assert v2.source.expected_pdf_page_count == 222
     assert v2.document_timeout_seconds is None
+    assert v2.learned_table_fallback.enabled is True
 
     payload = v2.model_dump(mode="json")
     payload["artifact_relative_root"] = "../escape"
@@ -104,8 +105,9 @@ def test_hierarchy_producer_config_freezes_the_machine_policy() -> None:
         Path("configs/brisbane_baylands_2025_deir_task03e_appendix_p_v1.json")
     )
 
-    assert candidate.producer_policy_version == "task03e-v1"
+    assert candidate.producer_policy_version == "task03e-v1-task03g1a-v1"
     assert candidate.heading_hierarchy_options is not None
+    assert candidate.learned_table_fallback.enabled is True
 
     invalid = candidate.model_dump(mode="json")
     invalid["configuration_id"] = "docling_native_pypdfium2_heron_layout_only_cpu"

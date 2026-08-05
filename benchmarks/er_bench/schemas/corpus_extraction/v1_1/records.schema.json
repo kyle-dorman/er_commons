@@ -101,7 +101,7 @@
             "schema_version": {
               "const": "er_commons.corpus_extraction_identity_preimage.v1_1"
             },
-            "contract_revision": {"const": "task_03f4_gate_b"},
+            "contract_revision": {"const": "task_03g1a_remediation_v1"},
             "extraction_version_name": {"const": "brisbane_baylands_model_corpus_v1"},
             "production_scope": {
               "type": "object",

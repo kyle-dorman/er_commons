@@ -31,11 +31,48 @@ from typing import Any
 import pypdfium2 as pdfium  # type: ignore[import-untyped]
 
 from er_commons.source_freeze import sha256_file, write_json_atomic
+from er_commons.table_extraction.continuations import continuation_decisions
 from er_commons.table_extraction.families import assign_families
+from er_commons.table_extraction.learned_fallback import VerifiedTableFormerFallback
 from er_commons.table_extraction.models import load_config
 from er_commons.table_extraction.page import extract_page
 
 LOGGER = logging.getLogger(__name__)
+CONTINUATION_STATUSES = (
+    "accepted",
+    "rejected",
+    "ambiguous",
+    "not_evaluable_missing_table",
+)
+
+
+def _learned_fallback_counts(
+    page_results: list[dict[str, Any]],
+    tables: list[dict[str, Any]],
+) -> dict[str, int]:
+    """Summarize learned attempts separately from accepted parser tables."""
+    attempts = [
+        attempt
+        for page in page_results
+        for attempt in page["parser_evidence"].get("learned_fallback_attempts", [])
+    ]
+    return {
+        "tableformer_table_count": sum(
+            table["parser"] == "tableformer_accurate" for table in tables
+        ),
+        "learned_fallback_attempt_count": len(attempts),
+        "learned_fallback_abstention_count": sum(
+            attempt["status"] == "abstained" for attempt in attempts
+        ),
+    }
+
+
+def _continuation_counts(decisions: list[dict[str, Any]]) -> dict[str, int]:
+    """Return a closed count map including zero-count dispositions."""
+    return {
+        status: sum(decision["status"] == status for decision in decisions)
+        for status in CONTINUATION_STATUSES
+    }
 
 
 def source_path_from_manifest(
@@ -173,6 +210,12 @@ def run_table_extraction(
     finally:
         document.close()
 
+    fallback_runner = (
+        VerifiedTableFormerFallback(data_root=data_root, policy=config.learned_fallback)
+        if config.learned_fallback.enabled
+        else None
+    )
+
     page_results = []
     reused_page_count = 0
     routed_by_page = {item.physical_pdf_page: item for item in config.routed_pages}
@@ -193,6 +236,7 @@ def run_table_extraction(
             ),
             table_id_prefix=config.table_id_prefix,
             retain_review_derivatives=config.retain_review_derivatives,
+            learned_fallback_runner=fallback_runner,
         )
         page_results.append(result)
         LOGGER.info(
@@ -209,6 +253,7 @@ def run_table_extraction(
     page_records: list[dict[str, Any]] = []
     for page_result in page_results:
         page_number = int(page_result["physical_pdf_page"])
+        routed = routed_by_page.get(page_number)
         page_relative_root = Path("pages") / f"page_{page_number:05d}"
         tables.extend(
             prefix_table_paths(table, page_relative_root) for table in page_result["tables"]
@@ -223,6 +268,14 @@ def run_table_extraction(
             "footer_owner_table_id": page_result["footer_owner_table_id"],
             "result": (page_relative_root / "result.json").as_posix(),
             "wall_seconds": page_result["wall_seconds"],
+            "boundary_markers_before_first_table": (
+                [
+                    marker.model_dump(mode="json")
+                    for marker in routed.boundary_markers_before_first_table
+                ]
+                if routed is not None
+                else []
+            ),
         }
         if config.retain_review_derivatives:
             page_record["annotated"] = (page_relative_root / "annotated.png").as_posix()
@@ -230,10 +283,12 @@ def run_table_extraction(
     if len({table["table_id"] for table in tables}) != len(tables):
         raise ValueError("logical table IDs are not unique")
 
+    continuations = continuation_decisions(page_records, tables)
     assignments, families = assign_families(
         page_records,
         tables,
         family_id_prefix=config.family_id_prefix,
+        continuation_records=continuations,
     )
     if len(assignments) != len(tables) or len(
         {assignment["table_id"] for assignment in assignments}
@@ -242,7 +297,10 @@ def run_table_extraction(
     write_jsonl(root / "pages.jsonl", page_records)
     write_jsonl(root / "tables.jsonl", tables)
     write_jsonl(root / "family_assignments.jsonl", assignments)
-    write_json_atomic(root / "table_families.json", {"families": families})
+    write_json_atomic(
+        root / "table_families.json",
+        {"families": families, "continuation_decisions": continuations},
+    )
 
     zero_table_pages = [
         int(page["physical_pdf_page"]) for page in page_results if page["table_count"] == 0
@@ -275,7 +333,9 @@ def run_table_extraction(
         "stream_table_count": sum(table["parser"] == "camelot_stream" for table in tables),
         "lattice_table_count": sum(table["parser"] == "camelot_lattice" for table in tables),
         "network_table_count": sum(table["parser"] == "camelot_network" for table in tables),
+        **_learned_fallback_counts(page_results, tables),
         "family_count": len(families),
+        "continuation_decision_counts": _continuation_counts(continuations),
         "footer_owned_table_count": sum(assignment["footer_owned"] for assignment in assignments),
         "zero_table_pages": zero_table_pages,
         "unmatched_detected_regions": unmatched_detected_regions,
@@ -312,6 +372,9 @@ def run_table_extraction(
                 "vlm": False,
                 "llm_repair": False,
             },
+            "learned_fallback_model_identity": (
+                fallback_runner.model_identity if fallback_runner is not None else None
+            ),
         },
     )
 

@@ -18,6 +18,7 @@ from er_commons.document_extraction.routing import (
     page_features,
 )
 from er_commons.document_extraction.sources import CompleteResolvedSource
+from er_commons.document_extraction.table_markers import markers_before_first_table
 from er_commons.source_freeze import write_json_atomic
 
 ROUTES: tuple[TableRoute, ...] = (
@@ -48,6 +49,9 @@ def route_complete_document(
                     **decision,
                     "source_id": source.source_id,
                     "layout_table_observations": observations,
+                    "boundary_markers_before_first_table": markers_before_first_table(
+                        document_payload, page_number, observations
+                    ),
                     "status": "complete",
                 }
             )

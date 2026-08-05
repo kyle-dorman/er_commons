@@ -2,7 +2,10 @@
 
 Family evidence is intentionally ordered:
 
-    consecutive worksheet footer counters
+       accepted reviewed continuation
+                    |
+                    v
+       consecutive worksheet footer counters
                     |
                     v
           exact cleaned header match
@@ -73,11 +76,29 @@ def headers_match(left: dict[str, Any], right: dict[str, Any]) -> bool:
     )
 
 
+def _union_accepted_continuations(
+    groups: TableGroups,
+    decisions: list[dict[str, Any]],
+) -> None:
+    """Apply only explicit accepted continuation evidence before heuristics."""
+    for decision in decisions:
+        if decision.get("status") != "accepted":
+            continue
+        joined = groups.union(
+            str(decision["left_table_id"]),
+            str(decision["right_table_id"]),
+            "cross_page_continuation",
+        )
+        if not joined:
+            raise ValueError("accepted continuation would place two tables from one page together")
+
+
 def assign_families(
     page_records: list[dict[str, Any]],
     tables: list[dict[str, Any]],
     *,
     family_id_prefix: str = "g3_table",
+    continuation_records: list[dict[str, Any]] | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Assign every logical table once using footer evidence before headers."""
     page_by_table = {str(table["table_id"]): int(table["physical_pdf_page"]) for table in tables}
@@ -88,6 +109,8 @@ def assign_families(
         for page in page_records
         if page.get("footer_owner_table_id")
     }
+
+    _union_accepted_continuations(groups, continuation_records or [])
 
     ordered_pages = sorted(page_records, key=lambda item: item["physical_pdf_page"])
     for left_page, right_page in zip(ordered_pages, ordered_pages[1:], strict=False):

@@ -184,16 +184,27 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    have terminal outcomes, all sources were inspected, and the separate
    human-maintainability rewrite passed preservation and project validation. It
    published no complete-document or corpus candidate.
-3. Provisional [Task
+3. Completed and accepted [Task
    03G.1a](../tasks/sprint2/03g1a_remediate_smoke_extraction_failures.md) owns
    the four user-selected improvements: warning scope/accounting, rotated-page
    routing geometry, bounded learned fallback for credible zero-output table
-   regions, and cross-page continuation recovery. It is inactive; creating the
-   contract does not authorize implementation, model/PDF execution, identity
-   changes, a smoke rerun, acceptance, or commit. Review and explicitly
-   activate this task before implementation.
-4. After the smoke and required remediation are accepted, revise and activate
-   provisional [Task
+   regions, and cross-page continuation recovery. The user activated it as one
+   end-to-end remediation on 2026-08-04, including bounded affected-page
+   PDF/TableFormer validation. Behavioral implementation, the checksum-closed
+   bounded regression, the user-requested OTSL reevaluation, and the separate
+   human-maintainability rewrite are complete: warning scope
+   and routing controls pass, learned fallback recovered 14 of 17 positive
+   pages with 26 accepted regions, and the three original positive/one negative
+   continuation boundaries still match expectations. One newly evaluable K1
+   part 3 continuation also accepts; four K1 boundaries remain ambiguous and
+   one is not evaluable because its edge page has no accepted table. The fresh
+   v7 run exactly preserves all 35 fallback attempts and every persisted
+   continuation decision after the responsibility split.
+   The refreshed non-executed production recipe is
+   `exv1-a0908c8f...5adee`. The user accepted the behavioral and
+   human-maintainability outcome on 2026-08-05. No full smoke rerun or
+   complete-document/corpus candidate was produced.
+4. Next, revise and separately activate provisional [Task
    03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md). It owns fresh
    complete runs of the main report, Appendix D, and Appendix P plus one reuse
    check. Add Task 03G.x fixes only for failures that actually occur. Close Task

@@ -697,6 +697,7 @@
     "src/er_commons/smoke_extraction/routing.py",
     "src/er_commons/smoke_extraction/source_processing.py",
     "src/er_commons/smoke_extraction/reporting.py",
+    "src/er_commons/smoke_extraction/warnings.py",
     "src/er_commons/smoke_extraction/publication.py",
     "src/er_commons/smoke_extraction/workflow.py"
   ]

@@ -17,7 +17,7 @@ from er_commons.smoke_extraction.config import (
     selection_sha256,
 )
 from er_commons.smoke_extraction.conversion import RangeDiagnostic
-from er_commons.smoke_extraction.reporting import validate_terminal_run
+from er_commons.smoke_extraction.reporting import build_source_summary, validate_terminal_run
 from er_commons.smoke_extraction.selection import smoke_id, validate_manifest_metadata
 from er_commons.smoke_extraction.services import SmokeServices
 from er_commons.smoke_extraction.source_processing import contiguous_ranges, process_source
@@ -160,7 +160,8 @@ def test_smoke_retains_one_terminal_outcome_without_completion_artifacts(
             raw_status="success",
             status="complete",
             errors=[],
-            warnings=[],
+            source_manifest_warnings=source.warnings,
+            conversion_warnings=[],
             wall_seconds=1.0,
             cpu_seconds=1.0,
             peak_rss_bytes=1234,
@@ -272,6 +273,96 @@ def test_terminal_validation_rejects_production_publication_names(tmp_path: Path
         validate_terminal_run([outcome], 1, tmp_path)
 
 
+def test_warning_summary_counts_each_scope_once(tmp_path: Path) -> None:
+    """Source warnings deduplicate once while conversion and page evidence stays scoped."""
+    source_root = tmp_path / "source"
+    write_json_atomic(
+        source_root / "source_warnings.json",
+        {
+            "scope": "source_manifest",
+            "source_id": "source",
+            "raw_warnings": ["source a", "source a", "source b"],
+            "raw_count": 3,
+            "exact_unique_count": 2,
+        },
+    )
+    for index, conversion_warnings in enumerate((["range a", "range a"], ["range b"]), start=1):
+        write_json_atomic(
+            source_root / "conversion" / f"range_{index}" / "observation.json",
+            {
+                "source_warning_evidence": "../../source_warnings.json",
+                "captured_python_warnings": conversion_warnings,
+                "wall_seconds": 1.0,
+                "peak_rss_bytes": 10,
+            },
+        )
+    outcomes = [
+        {
+            "source_id": "source",
+            "physical_pdf_page": 1,
+            "status": "complete_with_warnings",
+            "conversion": "complete",
+            "routing": "complete",
+            "route": "no_table_route",
+            "table_stage": "not_applicable",
+            "warnings": ["page warning"],
+            "errors": [],
+        }
+    ]
+
+    summary = build_source_summary("source", outcomes, source_root, 2.0)
+
+    assert summary["warning_scope_counts"] == {
+        "source_manifest_raw": 3,
+        "source_manifest_unique": 2,
+        "conversion": 3,
+        "page": 1,
+        "aggregate": 6,
+    }
+    assert summary["warning_count"] == 6
+    assert summary["warning_evidence"] == [
+        "source_warnings.json",
+        "conversion/range_1/observation.json",
+        "conversion/range_2/observation.json",
+    ]
+
+
+def test_source_warnings_survive_when_every_conversion_fails(tmp_path: Path) -> None:
+    """Source-owned warning evidence does not depend on a successful conversion."""
+    spec, _digest = load_smoke_spec(SPEC_PATH)
+    source = CompleteResolvedSource(
+        source_id="deir_main",
+        source_path=tmp_path / "unused.pdf",
+        source_sha256="a" * 64,
+        source_byte_size=1,
+        source_page_count=2092,
+        warnings=["source a", "source a", "source b"],
+    )
+    services = SmokeServices(
+        convert=lambda *_args, **_kwargs: (_ for _ in ()).throw(RuntimeError("failed")),
+        route=lambda *_args, **_kwargs: {},
+        run_tables=lambda *_args, **_kwargs: {},
+    )
+    source_root = tmp_path / "source"
+
+    outcomes = process_source(
+        tmp_path,
+        "smoke-test",
+        source,
+        [1, 2, 3],
+        source_root,
+        object(),
+        spec,
+        services,
+    )
+    summary = build_source_summary("deir_main", outcomes, source_root, 1.0)
+
+    assert summary["warning_scope_counts"]["source_manifest_raw"] == 3
+    assert summary["warning_scope_counts"]["source_manifest_unique"] == 2
+    assert summary["warning_count"] == 2
+    assert summary["warning_evidence"] == ["source_warnings.json"]
+
+
 def _diagnostic(first: int, last: int, *, extra_page: int | None = None) -> RangeDiagnostic:
     pages = list(range(first, last + 1))
     if extra_page is not None:
@@ -282,7 +373,8 @@ def _diagnostic(first: int, last: int, *, extra_page: int | None = None) -> Rang
         raw_status="success",
         status="complete",
         errors=[],
-        warnings=[],
+        source_manifest_warnings=[],
+        conversion_warnings=[],
         wall_seconds=1.0,
         cpu_seconds=1.0,
         peak_rss_bytes=1234,

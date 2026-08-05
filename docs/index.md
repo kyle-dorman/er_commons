@@ -221,13 +221,23 @@ umbrella. [Task
 03G.1](../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md) is complete and
 accepted as an MVP diagnostic after all 342 requested pages completed, all 35
 sources were inspected, and its separate human-maintainability rewrite passed
-preservation and project validation. Provisional [Task
+preservation and project validation. Completed and accepted [Task
 03G.1a](../tasks/sprint2/03g1a_remediate_smoke_extraction_failures.md) owns the
 four selected warning, rotated-geometry, learned-fallback, and continuation
-improvements but is inactive. Provisional [Task
+improvements as one end-to-end remediation. Its implementation and bounded
+behavioral regression and separate human-maintainability rewrite passed user
+acceptance on 2026-08-05: after correcting both the
+compressed-column interpretation and missing-header acceptance gap, the
+learned path recovered 14 of 17 fixed pages with 26 accepted regions and nine
+explicit abstentions after excluding only clipped top-edge text wholly outside
+the structural grid. The responsibility-owned implementation exactly preserves
+all 35 fallback decisions and all persisted continuation decisions in a fresh
+v7 bounded run. The new non-executed production recipe is
+`exv1-a0908c8f...5adee`. Provisional [Task
 03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md) owns a fresh
-three-document complete pilot after the smoke and required remediation are
-accepted. Task 03G.2 remains inactive and Task 03H remains provisional.
+three-document complete pilot after the accepted smoke and remediation. Task
+03G.2 remains inactive and is the next separate planning/activation boundary;
+Task 03H remains provisional.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

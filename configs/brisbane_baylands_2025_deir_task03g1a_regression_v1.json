@@ -1,0 +1,122 @@
+{
+  "schema_version": "er_commons.task03g1a_regression.v1",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "baseline_smoke_id": "smokev1-c88449d823cebdc561216f5058acf9bbd60cec6fa67b2c78ccfe240d20ff597e",
+  "warning_scope": {
+    "source_id": "deir_appendix_k2_part_4_of_5",
+    "source_sha256": "9409162457003a2537cc60c75768ebb6c0de059088d7f88eed785fb6608098a4",
+    "expected_raw_source_warning_count": 6354,
+    "expected_unique_source_warning_count": 4110
+  },
+  "routing_geometry": {
+    "source_id": "deir_appendix_k2_part_5_of_5",
+    "source_sha256": "933b3ffae254ebca733b60598d940d9af90b0c7ac4d1526ba831feec3333c125",
+    "cases": [
+      {
+        "page": 2326,
+        "expected_rotation_degrees": 90,
+        "baseline_route": "no_table_route",
+        "expected_route": "full_page_numeric",
+        "expected_strict_table_dominant": true,
+        "expected_dense_partial_table": false
+      },
+      {
+        "page": 2327,
+        "expected_rotation_degrees": 90,
+        "baseline_route": "no_table_route",
+        "expected_route": "full_page_numeric",
+        "expected_strict_table_dominant": false,
+        "expected_dense_partial_table": true
+      },
+      {
+        "page": 1,
+        "expected_rotation_degrees": 0,
+        "baseline_route": "layout_regions",
+        "expected_route": "layout_regions",
+        "expected_strict_table_dominant": false,
+        "expected_dense_partial_table": false
+      },
+      {
+        "page": 2328,
+        "expected_rotation_degrees": 90,
+        "baseline_route": "no_table_route",
+        "expected_route": "no_table_route",
+        "expected_strict_table_dominant": false,
+        "expected_dense_partial_table": false
+      }
+    ]
+  },
+  "learned_fallback": {
+    "minimum_recovered_positive_pages": 9,
+    "positive_sources": [
+      {
+        "source_id": "deir_appendix_c",
+        "source_sha256": "41102148c33a4b56bc2ac88bd22acd998138e6bb7735a3c321784cccc686b974",
+        "pages": [42, 43, 45, 84, 85]
+      },
+      {
+        "source_id": "deir_appendix_l",
+        "source_sha256": "d850fae7db9df5d3e06263e37e1fdcf06810f94950957e3eb2028af38c7367bf",
+        "pages": [17]
+      },
+      {
+        "source_id": "deir_appendix_h",
+        "source_sha256": "72b649f0a4c9798952aa62b5c417b4fa4437c19267a4bec6c6fb3319fb0baea7",
+        "pages": [2571]
+      },
+      {
+        "source_id": "deir_appendix_k1_part_3_of_4",
+        "source_sha256": "21dd741bd7c0f90c17af440c4b10865154486a1560197a744750ed5bb18a8f93",
+        "pages": [1394, 1395, 1396, 1397, 2789]
+      },
+      {
+        "source_id": "deir_appendix_k1_part_4_of_4",
+        "source_sha256": "a2b80c03a69926271d8aa4f6d4ff63d90d4441b0741a395b75eac8dbf615f055",
+        "pages": [1278, 1279, 1280, 1281, 2557]
+      }
+    ],
+    "negative_controls": [
+      {
+        "source_id": "deir_appendix_g3",
+        "source_sha256": "2f06933b506dd55e30cc965422b7a3dd55fb9dc6b0416a8bed651864bc147e97",
+        "page": 1000,
+        "expected_disposition": "not_triggered_existing_camelot_table"
+      },
+      {
+        "evidence": "task_03a5_grouped_header_crops",
+        "pages": [29, 30, 31, 32],
+        "expected_disposition": "not_family_or_continuation_evidence"
+      }
+    ]
+  },
+  "continuations": [
+    {
+      "source_id": "deir_appendix_f2",
+      "source_sha256": "eb6fee2ba7648cee1b864924fb6be03596d904096d48572711533ca8d27e3ba1",
+      "left_page": 14,
+      "right_page": 15,
+      "expected_status": "accepted"
+    },
+    {
+      "source_id": "deir_appendix_g1",
+      "source_sha256": "e11835a7c6346c6780bfe26bee0037f4b6206b0a1573b3d480cb2b4170e79f7f",
+      "left_page": 1243,
+      "right_page": 1244,
+      "expected_status": "accepted"
+    },
+    {
+      "source_id": "deir_appendix_g1",
+      "source_sha256": "e11835a7c6346c6780bfe26bee0037f4b6206b0a1573b3d480cb2b4170e79f7f",
+      "left_page": 1244,
+      "right_page": 1245,
+      "expected_status": "rejected"
+    },
+    {
+      "source_id": "deir_appendix_g1",
+      "source_sha256": "e11835a7c6346c6780bfe26bee0037f4b6206b0a1573b3d480cb2b4170e79f7f",
+      "left_page": 1245,
+      "right_page": 1246,
+      "expected_status": "accepted"
+    }
+  ]
+}

@@ -41,12 +41,57 @@ class CleanupConfig(BaseModel):
     minimum_numeric_cell_fraction_for_data_row: float = Field(ge=0, le=1)
 
 
+class LearnedFallbackConfig(BaseModel):
+    """Checksum-bound accurate TableFormer policy for unmatched Heron regions."""
+
+    enabled: bool = False
+    model_inventory_relative_path: Path | None = None
+    expected_weights_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    expected_model_config_sha256: str | None = Field(
+        default=None,
+        pattern=r"^[0-9a-f]{64}$",
+    )
+    render_scale: float = Field(default=2.0, gt=0)
+    cpu_threads: int = Field(default=8, gt=0)
+    minimum_rows: int = Field(default=2, gt=0)
+    minimum_columns: int = Field(default=2, gt=0)
+    minimum_native_text_coverage: float = Field(default=0.9, ge=0, le=1)
+    maximum_bbox_overshoot_pixels: float = Field(default=3.0, ge=0, le=10)
+
+    @model_validator(mode="after")
+    def validate_enabled_model_identity(self) -> LearnedFallbackConfig:
+        """Require explicit immutable model identity whenever fallback is enabled."""
+        if self.enabled and (
+            self.model_inventory_relative_path is None
+            or self.expected_weights_sha256 is None
+            or self.expected_model_config_sha256 is None
+        ):
+            raise ValueError("enabled learned fallback requires exact model inventory and hashes")
+        if self.model_inventory_relative_path is not None and (
+            self.model_inventory_relative_path.is_absolute()
+            or ".." in self.model_inventory_relative_path.parts
+        ):
+            raise ValueError("learned fallback model inventory must be data-root relative")
+        return self
+
+
+class BoundaryMarkerConfig(BaseModel):
+    """Source marker that can block a cross-page continuation."""
+
+    raw_object_ref: str
+    provenance_index: int = Field(ge=0)
+    label: Literal["caption", "section_header"]
+    text: str
+    bbox_pdf_points_bottom_left: list[float] = Field(min_length=4, max_length=4)
+
+
 class RoutedPageConfig(BaseModel):
     """One upstream-selected page and the evidence needed by its parser route."""
 
     physical_pdf_page: int = Field(gt=0)
     route: Literal["full_page_numeric", "layout_regions"]
     layout_regions_pdf_points_bottom_left: list[list[float]] = Field(default_factory=list)
+    boundary_markers_before_first_table: list[BoundaryMarkerConfig] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def validate_route_evidence(self) -> RoutedPageConfig:
@@ -79,6 +124,7 @@ class TableExtractionConfig(BaseModel):
     execution: ExecutionConfig
     detection: DetectionConfig
     cleanup: CleanupConfig
+    learned_fallback: LearnedFallbackConfig = Field(default_factory=LearnedFallbackConfig)
 
     @model_validator(mode="after")
     def validate_review_scope(self) -> TableExtractionConfig:

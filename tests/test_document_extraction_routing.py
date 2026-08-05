@@ -60,3 +60,76 @@ def test_layout_table_region_is_the_general_fallback() -> None:
 def test_page_without_signal_or_layout_table_skips_table_parser() -> None:
     result = classify_page(_features(), [], STRICT, NUMERIC)
     assert result["route"] == "no_table_route"
+
+
+def test_dense_partial_page_routes_without_weakening_other_strict_signals() -> None:
+    result = classify_page(
+        _features(
+            page_rotation_degrees=90,
+            text_width_fraction=0.8,
+            text_height_fraction=0.4,
+            nonempty_line_count=90,
+            nonspace_characters_per_square_point=0.03,
+            digit_fraction=0.4,
+        ),
+        [],
+        STRICT,
+        NUMERIC,
+    )
+    assert result["route"] == "full_page_numeric"
+    assert result["dense_partial_table"] is True
+    assert result["strict_table_dominant"] is False
+
+
+def test_rotated_page_without_all_other_strict_signals_does_not_route() -> None:
+    result = classify_page(
+        _features(
+            page_rotation_degrees=90,
+            text_width_fraction=0.8,
+            text_height_fraction=0.4,
+            nonempty_line_count=90,
+            nonspace_characters_per_square_point=0.03,
+            digit_fraction=0.2,
+        ),
+        [],
+        STRICT,
+        NUMERIC,
+    )
+    assert result["route"] == "no_table_route"
+    assert result["dense_partial_table"] is False
+
+
+def test_unrotated_dense_partial_page_uses_the_same_policy() -> None:
+    result = classify_page(
+        _features(
+            page_rotation_degrees=0,
+            text_width_fraction=0.8,
+            text_height_fraction=0.4,
+            nonempty_line_count=90,
+            nonspace_characters_per_square_point=0.03,
+            digit_fraction=0.4,
+        ),
+        [],
+        STRICT,
+        NUMERIC,
+    )
+    assert result["route"] == "full_page_numeric"
+    assert result["dense_partial_table"] is True
+
+
+def test_too_short_dense_fragment_does_not_route() -> None:
+    result = classify_page(
+        _features(
+            page_rotation_degrees=90,
+            text_width_fraction=0.8,
+            text_height_fraction=0.2,
+            nonempty_line_count=90,
+            nonspace_characters_per_square_point=0.03,
+            digit_fraction=0.4,
+        ),
+        [],
+        STRICT,
+        NUMERIC,
+    )
+    assert result["route"] == "no_table_route"
+    assert result["dense_partial_table"] is False
