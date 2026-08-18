@@ -249,15 +249,21 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    invocation reused exact bytes without upstream or document attempts.
    The maintained execution reproduced the accepted report metrics and closed
    both Task 03G.2 and Task 03G.2f.
-   Historical Appendix P lineage remains forbidden. Close Task
-   03G only after the user accepts all outcomes and fixes. Keep [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional until
-   that closure.
-5. Independently review usability and freeze the accepted extraction release
+   Historical Appendix P lineage remains forbidden.
+5. Review and explicitly activate drafted [Task
+   03G.3](../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md).
+   It must inventory and freeze the exact semantic responsibility graph,
+   operation-oriented vocabulary, caller/artifact migration, and identity
+   consequences before implementation. It then owns the behavior-preserving
+   refactor and revision of provisional [Task
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md). No PDF/model run,
+   implementation, commit, or Task 03H activation is authorized by the drafted
+   contract. Close Task 03G only after Task 03G.3 is accepted.
+6. Independently review usability and freeze the accepted extraction release
    in Task 04.
-6. Continue through the separately identified curator-only response inventory,
+7. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
-7. Freeze human evaluation before BM25 retrieval, target generation, and judge
+8. Freeze human evaluation before BM25 retrieval, target generation, and judge
    calibration; finish with the primary test and oracle diagnostics.
 
 Sprint 2 scope, decisions, and provisional sequencing live in

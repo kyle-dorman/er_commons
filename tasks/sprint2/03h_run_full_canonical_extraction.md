@@ -2,10 +2,12 @@
 
 Status: **provisional; execution shape revised by user direction on
 2026-08-05**. Do not activate or execute this task until the Task 03G umbrella,
-including Tasks 03G.1, 03G.2, and any observed-failure remediation, is accepted
-and closed. Before activation, reconcile this provisional contract against the
-accepted Task 03G outcome and confirm that the independently sealed Docling
-restart boundary below is implemented and validated.
+including Tasks 03G.1, 03G.2, all observed-failure remediation, and the drafted
+[Task 03G.3](03g3_align_pipeline_responsibilities_and_names.md) architecture
+and naming refactor, is accepted and closed. Before activation, reconcile this
+provisional contract against the accepted Task 03G.3 responsibility graph and
+vocabulary, then confirm that the independently sealed Docling restart boundary
+below is implemented and validated.
 
 ## Abstract
 

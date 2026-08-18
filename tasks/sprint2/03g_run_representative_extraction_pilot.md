@@ -1,8 +1,9 @@
 # Task 03G: Test Extraction Breadth and a Representative Full Pilot
 
-Status: **open umbrella; Tasks 03G.1 and 03G.1a are complete and accepted**.
-Task 03G.2 is active for no-PDF preparation only. Source verification and PDF
-processing require a separate user approval after preparation is reviewed.
+Status: **open umbrella; Tasks 03G.1, 03G.1a, 03G.2, and Tasks 03G.2a through
+03G.2f are complete and accepted**. [Task
+03G.3](03g3_align_pipeline_responsibilities_and_names.md) is drafted but not
+activated. It must complete before this umbrella closes or Task 03H activates.
 
 ## Abstract
 
@@ -13,7 +14,8 @@ complete two-stage workflow from fresh inputs on three full documents: the main
 Draft EIR, Appendix D, and Appendix P. If either subtask exposes a material
 failure, add the smallest remediation subtask and rerun the affected check.
 Task 03G closes only after the user accepts the smoke, full pilot, and any
-required fixes. Task 03H remains provisional until then.
+required fixes, then accepts the Task 03G.3 architecture and naming closure.
+Task 03H remains provisional until then.
 
 ## Goal
 
@@ -37,9 +39,14 @@ not add speculative failure exercises or per-document human acceptance systems.
    required remediation are accepted, run a fresh complete two-stage pilot over
    `deir_main`, `deir_appendix_d`, and `deir_appendix_p`; then invoke it again
    to verify checksum reuse.
-4. Add further Task 03G.x contracts only for concrete failures or policy
-   questions exposed by Tasks 03G.1 or 03G.2. Do not prebuild hypothetical
-   recovery machinery.
+4. [Task 03G.3](03g3_align_pipeline_responsibilities_and_names.md): perform the
+   user-directed pre-production architecture closure by aligning maintained
+   code and vocabulary with explicit semantic responsibilities, preserving the
+   accepted pilot behavior, and revising provisional Task 03H to the accepted
+   names before activation.
+5. Add further Task 03G.x contracts only for concrete failures, policy
+   questions, or user-directed architecture work exposed by the accepted
+   subtasks. Do not prebuild hypothetical recovery machinery.
 
 ## Accepted decisions
 
@@ -88,6 +95,7 @@ not add speculative failure exercises or per-document human acceptance systems.
 - accepted Task 03G.1 smoke evidence or a concrete remediation subtask;
 - accepted Task 03G.2 complete pilot evidence or a concrete remediation
   subtask;
+- accepted Task 03G.3 architecture, vocabulary, and preservation evidence;
 - explicit identity/configuration handling for new smoke and pilot inputs,
   without rebinding historical candidates;
 - one combined pilot-level structural and resource summary rather than 35
@@ -144,6 +152,8 @@ partial-page smoke artifact a valid complete-document handoff.
 
 - Task 03G.1 has an accepted outcome after any required smoke remediation.
 - Task 03G.2 has an accepted outcome after any required full-pilot remediation.
+- Task 03G.3 has an accepted outcome and the provisional Task 03H contract uses
+  its accepted architecture and vocabulary.
 - The first complete pilot build is fresh and its second invocation verifies
   checksum reuse.
 - No known failure that the user considers material remains unresolved.

@@ -254,7 +254,7 @@ reuse. Completed [Task
 review-only page-label observation path and completed final aggregate
 reporting. Review then found that the sealed corpus resolver received zero
 eligible mentions even though the main report contains at least 8 references
-to Appendix D and 10 to Appendix P. Active [Task
+to Appendix D and 10 to Appendix P. Completed [Task
 03G.2f](../tasks/sprint2/03g2f_repair_cross_document_resolution.md) completed
 the
 shared source-family boundary and ran the approved ten-page exact-table policy
@@ -270,7 +270,13 @@ scope `scopev1-c52b...beb6a8`, resolved 18/18 eligible mentions, validated the
 ready handoff and report independently, proved exact reuse, and preserved all
 forbidden attempt inventories. Task 03G.2 and Task 03G.2f are closed. No
 historical Appendix P producer, candidate, or bounded authorization entered
-the replay. Task 03H remains provisional.
+the replay. Drafted [Task
+03G.3](../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md) now
+owns the user-directed pre-production refactor that will align maintained code
+boundaries and operation-oriented names with the semantic document/collection
+DAG. It is not activated and authorizes no implementation or PDF/model work.
+Task 03H remains provisional until Task 03G.3 is accepted and its contract is
+reconciled to the resulting vocabulary and architecture.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions
