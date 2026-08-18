@@ -63,7 +63,8 @@ The following v1 behavior is unchanged:
 - complete-PDF transaction scope, Docling `SUCCESS` publication gate, retained
   failures, completion-last atomic publication, checksum-closed reuse, and
   recovery;
-- immutable Task 03E.5 local mentions, aliases, targets, and outcomes; and
+- immutable local mention text, spans, source records, and local-first
+  outcomes; and
 - the distinction between machine handoff and Task 04 acceptance.
 
 Stage-two or handoff-only fields must not be added to Task 03F.2's
@@ -116,13 +117,20 @@ Accounting retains one manifest-ordered row per declared source. Each row adds
 the source ordinal, attempt number, exact terminal-event and attempt-record
 references, and the success or failure evidence required by its disposition.
 
-Successful `complete` or `complete_with_warnings` rows require:
+Successful `complete` or `complete_with_warnings` rows normally require:
 
 - a verified Task 03F.2 terminal event and `AttemptRecord` for the same source,
   transaction, attempt, and disposition;
 - a `docv1-` candidate;
 - exact `DocumentCompletion` and candidate-inventory references; and
 - `failure_class: null`.
+
+Task 03G.2f also permits a downstream-only replay row. It carries a sealed
+`replayv1-` record, null attempt/event fields, the prior document completion
+and inventory, exactly five reused upstream owner completions, and one
+replacement cross-reference completion. Its publication record must state
+`document_attempt_allocated: false`. This path cannot represent failure and
+does not enter document-attempt closure.
 
 A `failed_terminal` row requires:
 
@@ -161,6 +169,8 @@ ordered eligible-candidate payload SHA-256
 unavailable-source payload SHA-256
 serialized entry-stream SHA-256
 entry_count
+serialized document-target-stream SHA-256
+document_target_count
 ordering_policy_version
 target_policy_sha256
 managed-inventory SHA-256
@@ -170,7 +180,10 @@ The completion carries the exact artifact references whose verified bytes must
 produce those preimage digests. The preimage excludes `index_id`, completion
 bytes, attempt UUIDs, timestamps, host information, timings, logs, and
 publication location. All successful
-candidates appear even when contributing zero index entries. Entries are
+candidates appear even when contributing zero index entries. A separate
+source-indexed `document_targets.jsonl` stream is derived directly from each
+successful candidate's sealed `documents.jsonl` bytes. It is not derived from
+aliases, and its checksum and count enter `idxv1-`. Entries are
 serialized as JSONL and ordered by normalized lookup key, target type, manifest
 source ordinal, target ID, then alias ID. Duplicate evidence for one exact
 alias-target pair collapses; cross-target collisions remain explicit. The
@@ -187,20 +200,28 @@ The mention-input manifest contains one manifest-ordered candidate row for every
 successful candidate, including candidates with zero eligible mentions. Each
 row binds its document completion, candidate inventory before resolution, and
 exact `canonical/cross_references.jsonl` stream. Its eligible mentions include
-candidate-local sequence, stable mention ID, lookup key, target type, and the
-ordered intended target source IDs derived from the sealed corpus document
-catalog.
+candidate-local sequence, stable mention ID, original mention class, lookup
+key, explicit catalog evidence, target type, and the ordered intended target
+source IDs derived from the shared sealed source-family catalog.
 
 The validator independently reads every referenced stage-one stream and selects
 exactly records with `resolution_status: unresolved` and
 `unresolved_reason: deferred_cross_document`. It derives the intended target
-source IDs from separately sealed catalog evidence and compares the complete
+source IDs from the same sealed catalog evidence and compares the complete
 ordered manifest. Omitting a mention from both a declared ID list and output
 therefore fails. Records with `external_document_outside_corpus`, local
 resolutions, or any other local reason do not enter the second pass.
 
 Eligible mentions are ordered by source ordinal, candidate-local sequence, then
 stable mention ID.
+
+Resolution joins intended source IDs to the independently derived sealed
+document-target stream. Display-title or extracted-alias equality is not a
+second eligibility test. One intended successful source with one document
+target resolves; multiple intended sources or targets are ambiguous; a
+successful source without a document record is `target_unavailable`; and a
+failed or absent intended source is respectively `target_source_failed` or
+`target_not_in_scope`.
 
 ## Corpus resolution identity and dispositions
 

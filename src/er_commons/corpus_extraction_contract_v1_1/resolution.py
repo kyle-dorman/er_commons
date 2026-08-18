@@ -11,23 +11,22 @@ from er_commons.corpus_extraction_contract_v1_1.accounting import (
     unavailable_source_digest,
     validate_unavailable_sources,
 )
-from er_commons.corpus_extraction_contract_v1_1.artifacts import (
-    parse_json_object,
-    parse_jsonl,
-)
+from er_commons.corpus_extraction_contract_v1_1.artifacts import parse_jsonl
 from er_commons.corpus_extraction_contract_v1_1.checks import (
     canonical_sha256,
     fail,
     verify_ref,
 )
 from er_commons.corpus_extraction_contract_v1_1.identity import validate_resolution_id
+from er_commons.corpus_extraction_contract_v1_1.indexing import IndexEvidence
 from er_commons.corpus_extraction_contract_v1_1.model import ArtifactReader, JsonObject
+from er_commons.source_family_catalog import SourceFamilyCatalog, normalize_reference_alias
 
 
 def validate_resolution_completion(
     bundle: JsonObject,
     scope: ScopeEvidence,
-    targets_by_lookup: dict[str, tuple[JsonObject, ...]],
+    index_evidence: IndexEvidence,
     reader: ArtifactReader,
 ) -> None:
     """Derive exact eligibility, validate results, and prove stage-one immutability."""
@@ -40,7 +39,13 @@ def validate_resolution_completion(
     manifest = cast(JsonObject, completion["mention_input_manifest"])
     _require_ref_value(cast(JsonObject, completion["mention_input_manifest_ref"]), manifest, reader)
     catalog = _load_catalog(cast(JsonObject, manifest["corpus_catalog_ref"]), reader)
-    expected_mentions = _derive_manifest(index, manifest, catalog, reader)
+    expected_mentions = _derive_manifest(
+        index,
+        manifest,
+        catalog,
+        cast(str, manifest["corpus_catalog_ref"]["sha256"]),
+        reader,
+    )
 
     resolutions = cast(list[JsonObject], completion["resolutions"])
     serialized = parse_jsonl(
@@ -68,7 +73,7 @@ def validate_resolution_completion(
             unavailable,
             candidate_by_source,
             catalog,
-            targets_by_lookup,
+            index_evidence.document_targets,
             index,
             cast(JsonObject, manifest["corpus_catalog_ref"]),
         )
@@ -114,7 +119,8 @@ def validate_resolution_completion(
 def _derive_manifest(
     index: JsonObject,
     manifest: JsonObject,
-    catalog: dict[str, tuple[JsonObject, ...]],
+    catalog: SourceFamilyCatalog,
+    catalog_sha256: str,
     reader: ArtifactReader,
 ) -> list[JsonObject]:
     candidates = cast(list[JsonObject], manifest["candidates"])
@@ -146,20 +152,35 @@ def _derive_manifest(
                 or record.get("unresolved_reason") != "deferred_cross_document"
             ):
                 continue
-            if record.get("mention_class") != "document":
-                fail("mention_eligibility", "deferred mention is not a document mention")
+            if record.get("mention_class") not in {"appendix", "document"}:
+                fail("mention_eligibility", "deferred mention class is unsupported")
             lookup_key = cast(str, record["lookup_key"])
-            sources = catalog.get(lookup_key)
+            origin = catalog.by_source_id.get(cast(str, candidate["source_id"]))
+            if origin is None:
+                fail("mention_catalog", "deferred mention source is absent from catalog")
+            sources = tuple(
+                source
+                for source in catalog.alias_lookup.get(normalize_reference_alias(lookup_key), ())
+                if source.source_id != candidate["source_id"]
+                and source.family_root_source_id == origin.family_root_source_id
+            )
             if not sources:
                 fail("mention_catalog", "deferred mention lacks sealed corpus ownership")
+            evidence = record.get("cross_document_evidence")
+            intended = [source.source_id for source in sources]
+            if not isinstance(evidence, dict) or evidence.get("catalog_sha256") != catalog_sha256:
+                fail("mention_catalog", "deferred mention catalog evidence differs")
+            if evidence.get("intended_target_source_ids") != intended:
+                fail("mention_catalog", "deferred mention intended sources differ")
             derived.append(
                 {
                     "mention_id": record["id"],
                     "candidate_local_sequence": record["sequence"],
                     "document_id": record["document_id"],
-                    "mention_class": "document",
+                    "mention_class": record["mention_class"],
                     "lookup_key": lookup_key,
-                    "intended_target_source_ids": [source["source_id"] for source in sources],
+                    "cross_document_evidence": evidence,
+                    "intended_target_source_ids": intended,
                 }
             )
         derived.sort(key=lambda row: (row["candidate_local_sequence"], row["mention_id"]))
@@ -184,8 +205,8 @@ def _validate_resolution(
     scope: ScopeEvidence,
     unavailable: dict[str, JsonObject],
     candidate_by_source: dict[str, str],
-    catalog: dict[str, tuple[JsonObject, ...]],
-    targets_by_lookup: dict[str, tuple[JsonObject, ...]],
+    catalog: SourceFamilyCatalog,
+    document_targets: tuple[JsonObject, ...],
     index: JsonObject,
     corpus_catalog_ref: JsonObject,
 ) -> None:
@@ -196,7 +217,9 @@ def _validate_resolution(
             "mention_id": mention["mention_id"],
             "source_candidate_id": expected_source_candidate,
             "candidate_local_sequence": mention["candidate_local_sequence"],
+            "mention_class": mention["mention_class"],
             "lookup_key": mention["lookup_key"],
+            "cross_document_evidence": mention["cross_document_evidence"],
             "target_type": "document",
             "intended_target_source_ids": mention["intended_target_source_ids"],
         }.items()
@@ -212,21 +235,24 @@ def _validate_resolution(
         {
             "target_id": entry["target_id"],
             "target_source_id": entry["source_id"],
-            "target_type": entry["target_type"],
+            "target_type": "document",
         }
-        for entry in targets_by_lookup.get(cast(str, mention["lookup_key"]), ())
-        if entry["target_type"] == "document"
-        and entry["source_id"] in mention["intended_target_source_ids"]
+        for entry in document_targets
+        if entry["source_id"] in mention["intended_target_source_ids"]
     ]
     matching = list({item["target_id"]: item for item in matching}.values())
     if resolution["candidate_targets"] != matching:
         fail("resolution_target", "candidate targets differ from sealed index order")
     expected_status = (
-        "unresolved" if not matching else "resolved" if len(matching) == 1 else "ambiguous"
+        "ambiguous"
+        if len(mention["intended_target_source_ids"]) > 1 or len(matching) > 1
+        else "resolved"
+        if len(matching) == 1
+        else "unresolved"
     )
     if resolution["status"] != expected_status:
         fail("resolution_cardinality", "resolution status differs from candidate cardinality")
-    if matching:
+    if expected_status != "unresolved":
         if resolution["unresolved_reason"] is not None or resolution["reason_evidence"] is not None:
             fail("resolution_reason", "resolved result carries unresolved evidence")
     else:
@@ -248,7 +274,7 @@ def _unresolved_evidence(
     scope: ScopeEvidence,
     unavailable: dict[str, JsonObject],
     candidate_by_source: dict[str, str],
-    catalog: dict[str, tuple[JsonObject, ...]],
+    catalog: SourceFamilyCatalog,
     index: JsonObject,
     corpus_catalog_ref: JsonObject,
 ) -> tuple[str, JsonObject]:
@@ -261,7 +287,7 @@ def _unresolved_evidence(
             "target_source_id": source_id,
             "target_candidate_id": candidate_by_source[source_id],
             "index_id": index["index_id"],
-            "entries_sha256": index["entries_ref"]["sha256"],
+            "document_targets_sha256": index["document_targets_ref"]["sha256"],
         }
     failed = [source_id for source_id in intended if source_id in unavailable]
     if failed:
@@ -274,11 +300,8 @@ def _unresolved_evidence(
     in_scope = set(scope.sources)
     if all(source_id not in in_scope for source_id in intended):
         source_id = intended[0]
-        source = next(
-            item
-            for item in catalog[cast(str, mention["lookup_key"])]
-            if item["source_id"] == source_id
-        )
+        catalog_source = catalog.by_source_id[source_id].source
+        source = {key: catalog_source[key] for key in ("source_id", "sha256", "pdf_page_count")}
         return "target_not_in_scope", {
             "reason": "target_not_in_scope",
             "target_source": source,
@@ -288,22 +311,11 @@ def _unresolved_evidence(
     fail("resolution_reason", "no supported unresolved disposition applies")
 
 
-def _load_catalog(
-    reference: JsonObject, reader: ArtifactReader
-) -> dict[str, tuple[JsonObject, ...]]:
-    payload = parse_json_object(verify_ref(reference, reader), subject="corpus_catalog")
-    documents = payload.get("documents")
-    if not isinstance(documents, list):
-        fail("mention_catalog", "corpus catalog lacks document records")
-    result: dict[str, list[JsonObject]] = {}
-    for document in documents:
-        if not isinstance(document, dict) or not isinstance(document.get("source"), dict):
-            fail("mention_catalog", "corpus catalog document is invalid")
-        for key in document.get("lookup_keys", []):
-            if not isinstance(key, str):
-                fail("mention_catalog", "corpus lookup key is invalid")
-            result.setdefault(key, []).append(cast(JsonObject, document["source"]))
-    return {key: tuple(values) for key, values in result.items()}
+def _load_catalog(reference: JsonObject, reader: ArtifactReader) -> SourceFamilyCatalog:
+    try:
+        return SourceFamilyCatalog.from_bytes(verify_ref(reference, reader))
+    except (ValueError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        fail("mention_catalog", f"source-family catalog is invalid: {error}")
 
 
 def _counts(resolutions: list[JsonObject]) -> JsonObject:

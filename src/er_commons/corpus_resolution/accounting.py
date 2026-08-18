@@ -55,11 +55,13 @@ class AccountingBuilder:
         return {
             "source_id": item.source["source_id"],
             "source_ordinal": item.source_ordinal,
+            "evidence_kind": item.evidence_kind,
             "terminal_state": item.disposition,
             "transaction_id": item.transaction_id,
             "attempt": item.attempt,
             "terminal_event_ref": item.terminal_event_ref,
             "attempt_record_ref": item.attempt_record_ref,
+            "downstream_replay_ref": item.downstream_replay_ref,
             "candidate_id": item.candidate_id,
             "document_completion_ref": item.document_completion_ref,
             "candidate_inventory_ref": item.candidate_inventory_ref,

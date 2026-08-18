@@ -31,6 +31,10 @@ def build_candidate_identity(context: RuntimeContext) -> JsonObject:
             "path": context.config.source_manifest_relative_path.as_posix(),
             "sha256": context.config.source_manifest_sha256,
         },
+        "source_family_catalog": {
+            "path": context.source_family_catalog_path.relative_to(context.data_root).as_posix(),
+            "sha256": context.source_family_catalog_sha256,
+        },
         "owned_code_inventory": [
             {
                 "path": path.relative_to(context.project_root).as_posix(),
@@ -39,7 +43,9 @@ def build_candidate_identity(context: RuntimeContext) -> JsonObject:
             for path in owned_paths
         ],
         "owned_code_bundle_sha256": owned_code_digest(context.project_root, owned_paths),
-        "pattern_version": "cross_reference_patterns_v2",
+        "pattern_version": "cross_reference_patterns_v3",
+        "resolver_policy_version": "cross_document_resolution_v2",
+        "table_page_window": 10,
         "allowed_difference_categories": [
             "identity_and_schema",
             "cross_reference_records",
@@ -65,6 +71,7 @@ def _owned_paths(context: RuntimeContext) -> tuple[Path, ...]:
     paths = [*package.glob("*.py")]
     paths.extend(
         [
+            context.project_root / "src" / "er_commons" / "source_family_catalog.py",
             context.project_root / "src" / "er_commons" / "cli.py",
             context.project_root / "pyproject.toml",
             context.project_root / "uv.lock",

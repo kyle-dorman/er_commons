@@ -3,6 +3,7 @@
 from er_commons.hierarchy_correction.source_features import (
     TraversedText,
     build_feature_seeds,
+    document_index_text_pointers,
     extract_item_observations,
     traverse_provenance_text,
     unique_footer_labels,
@@ -21,6 +22,7 @@ __all__ = [
     "TraversedText",
     "align_parsed_line",
     "build_feature_seeds",
+    "document_index_text_pointers",
     "extract_item_observations",
     "normalize_text",
     "parse_numbering",

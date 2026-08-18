@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from decimal import ROUND_HALF_EVEN, Decimal
 from typing import Any, Literal, cast
 
-from er_commons.document_extraction.hierarchy.document import stable_text_key
+from er_commons.document_extraction.hierarchy.document import stable_text_keys
 from er_commons.hierarchy_correction.errors import HierarchyCorrectionContractError
 from er_commons.hierarchy_correction.semantic_types import ObservedItem
 from er_commons.hierarchy_correction.text_evidence import (
@@ -32,6 +32,43 @@ class TraversedText:
     parent_pointer: str
     content_layer: Literal["body", "furniture"]
     picture_caption: bool
+
+
+def document_index_text_pointers(document: JsonObject) -> frozenset[str]:
+    """Return every transitive text descendant of a document-index table."""
+    objects = _index_objects(document)
+    tables = document.get("tables")
+    if not isinstance(tables, list):
+        raise HierarchyCorrectionContractError("Docling tables collection is invalid")
+    descendants: set[str] = set()
+    active: set[str] = set()
+
+    def visit(pointer: str) -> None:
+        if pointer in active:
+            raise HierarchyCorrectionContractError(
+                f"Docling document-index descendant cycle: {pointer}"
+            )
+        item = objects.get(pointer)
+        if item is None:
+            raise HierarchyCorrectionContractError(
+                f"unknown Docling document-index reference: {pointer}"
+            )
+        if _pointer_collection(pointer) == "texts":
+            descendants.add(pointer)
+            return
+        active.add(pointer)
+        for child in _references(item.get("children", []), f"children: {pointer}"):
+            visit(child)
+        active.remove(pointer)
+
+    for index, item in enumerate(tables):
+        if not isinstance(item, dict):
+            raise HierarchyCorrectionContractError(f"invalid Docling table: #/tables/{index}")
+        if item.get("label") != "document_index":
+            continue
+        for child in _references(item.get("children", []), f"children: #/tables/{index}"):
+            visit(child)
+    return frozenset(descendants)
 
 
 def traverse_provenance_text(document: JsonObject) -> tuple[TraversedText, ...]:
@@ -106,7 +143,14 @@ def traverse_provenance_text(document: JsonObject) -> tuple[TraversedText, ...]:
     expected = sum(isinstance(item, dict) and bool(item.get("prov")) for item in text_items)
     if len(ordered) != expected:
         raise HierarchyCorrectionContractError("provenance-bearing text coverage differs")
-    keys = [stable_text_key(entry.item) for entry in ordered]
+    keys_by_pointer = dict(
+        zip(
+            (f"#/texts/{index}" for index in range(len(text_items))),
+            stable_text_keys(text_items),
+            strict=True,
+        )
+    )
+    keys = [keys_by_pointer[entry.pointer] for entry in ordered]
     if len(keys) != len(set(keys)):
         raise HierarchyCorrectionContractError("duplicate stable text key")
     return tuple(ordered)
@@ -129,8 +173,19 @@ def extract_item_observations(
             outline_by_target[(page, title)].append(observation)
 
     labels = printed_page_labels or unique_footer_labels(document)
+    traversed = traverse_provenance_text(document)
+    text_items = document.get("texts")
+    if not isinstance(text_items, list):
+        raise HierarchyCorrectionContractError("Docling texts collection is invalid")
+    keys_by_pointer = dict(
+        zip(
+            (f"#/texts/{index}" for index in range(len(text_items))),
+            stable_text_keys(text_items),
+            strict=True,
+        )
+    )
     features: list[ObservedItem] = []
-    for order, entry in enumerate(traverse_provenance_text(document)):
+    for order, entry in enumerate(traversed):
         item = entry.item
         provenance = item["prov"][0]
         if not isinstance(provenance, dict):
@@ -176,7 +231,7 @@ def extract_item_observations(
             cast(
                 ObservedItem,
                 {
-                    "stable_item_key": stable_text_key(item),
+                    "stable_item_key": keys_by_pointer[entry.pointer],
                     "raw_self_ref": entry.pointer,
                     "raw_parent_ref": entry.parent_pointer,
                     "text": text,

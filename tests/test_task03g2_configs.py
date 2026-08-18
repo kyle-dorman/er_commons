@@ -13,12 +13,12 @@ from er_commons.corpus_extraction.config import load_run_spec
 from er_commons.corpus_extraction.fresh_preflight import validate_fresh_build_templates
 from er_commons.corpus_extraction.owner_inputs import OwnerConfigs, _require_selected_source
 from er_commons.corpus_extraction_contract_v1_1.identity import validate_production_identity
-from er_commons.corpus_resolution.catalog import CorpusCatalog
 from er_commons.corpus_resolution.config import load_scope_run_spec
 from er_commons.cross_reference_enrichment.config import CrossReferenceEnrichmentConfig
 from er_commons.document_extraction.producer_config import load_producer_config
 from er_commons.hierarchy_correction.configuration import load_hierarchy_correction_config
 from er_commons.semantic_materialization.config import load_semantic_materialization_config
+from er_commons.source_family_catalog import SourceFamilyCatalog
 from er_commons.source_freeze import sha256_file
 
 ROOT = Path(__file__).parents[1]
@@ -78,6 +78,7 @@ def test_document_and_scope_specs_freeze_the_exact_fresh_pilot_shape() -> None:
     assert scope.source_ids == tuple(expected_ids)
     assert scope.document_run_spec.name == DOCUMENT_SPEC.name
     assert scope.blocking_policy == "all_sources_successful"
+    assert scope.document_evidence_mode == "downstream_replay_only"
     assert document.artifact_relative_root.as_posix().endswith("task_03g2_representative_pilot")
     resources = document.resource_policy
     assert resources.document_concurrency == 1
@@ -188,15 +189,15 @@ def test_fresh_template_preflight_accepts_each_source_without_downstream_candida
 
 def test_checked_in_catalog_is_a_valid_exact_three_source_scope_input(tmp_path: Path) -> None:
     scope, _ = load_scope_run_spec(SCOPE_SPEC)
-    checked_in = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03g2_corpus_catalog_v1.json"
+    checked_in = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03g2_source_family_catalog_v1.json"
     staged = tmp_path / scope.corpus_catalog_relative_path
     staged.parent.mkdir(parents=True)
     staged.write_bytes(checked_in.read_bytes())
 
-    catalog = CorpusCatalog.load(tmp_path, scope.corpus_catalog_relative_path)
+    catalog = SourceFamilyCatalog.load(staged)
     value = json.loads(catalog.raw_bytes)
 
-    assert [item["source"]["source_id"] for item in value["documents"]] == list(EXPECTED_SOURCES)
-    assert all(item["lookup_keys"] for item in value["documents"])
-    assert catalog.lookup["appendix d"][0]["source_id"] == "deir_appendix_d"
-    assert catalog.lookup["appendix p"][0]["source_id"] == "deir_appendix_p"
+    assert [item["source"]["source_id"] for item in value["sources"]] == list(EXPECTED_SOURCES)
+    assert all(item["reference_aliases"] for item in value["sources"])
+    assert catalog.alias_lookup["appendix d"][0].source_id == "deir_appendix_d"
+    assert catalog.alias_lookup["appendix p"][0].source_id == "deir_appendix_p"

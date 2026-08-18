@@ -40,11 +40,22 @@ def _document() -> dict[str, object]:
         "furniture": {"children": []},
         "groups": [],
         "texts": [
-            {"content_layer": "body", "children": []},
-            {"content_layer": "body", "children": []},
-            {"content_layer": "body", "children": []},
-            {"content_layer": "furniture", "children": []},
-            {"content_layer": "furniture", "children": []},
+            {
+                "content_layer": "furniture" if index >= 3 else "body",
+                "children": [],
+                "prov": [
+                    {
+                        "page_no": 1,
+                        "bbox": {
+                            "l": 10.0,
+                            "b": 10.0 + index,
+                            "r": 20.0,
+                            "t": 11.0 + index,
+                        },
+                    }
+                ],
+            }
+            for index in range(5)
         ],
         "tables": [
             {

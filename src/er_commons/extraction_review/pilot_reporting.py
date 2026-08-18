@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from er_commons.corpus_extraction_contract_v1_1.checks import canonical_sha256
 from er_commons.corpus_resolution.handoff_validation import validate_handoff
 from er_commons.corpus_resolution.storage import json_bytes, jsonl_bytes
 from er_commons.source_freeze import sha256_file, write_json_atomic
@@ -215,18 +216,16 @@ def _summarize_candidate(
 ) -> tuple[JsonObject, list[JsonObject]]:
     source_id = str(completion["source"]["source_id"])
     canonical = candidate_root / "content" / "canonical"
-    collections = {
-        name: _jsonl(canonical / f"{name}.jsonl")
-        for name in (
-            "pages",
-            "tables",
-            "table_families",
-            "sections",
-            "page_labels",
-            "target_aliases",
-            "cross_references",
-        )
+    collection_paths = {
+        "pages": canonical / "pages.jsonl",
+        "tables": canonical / "tables.jsonl",
+        "table_families": canonical / "table_families.jsonl",
+        "sections": canonical / "sections.jsonl",
+        "page_labels": candidate_root / "content/observations/page_labels.jsonl",
+        "target_aliases": canonical / "target_aliases.jsonl",
+        "cross_references": canonical / "cross_references.jsonl",
     }
+    collections = {name: _jsonl(path) for name, path in collection_paths.items()}
     identity = _json(candidate_root / "records" / "document_identity.json")
     producer_completion = _verified_reference(
         data_root, identity["stage_completions"]["baseline_producer"]
@@ -261,8 +260,7 @@ def _summarize_candidate(
         str(row["resolution_status"]) for row in collections["cross_references"]
     )
 
-    attempt_record = extraction_root / str(accounting_row["attempt_record_ref"]["path"])
-    observability = _json(attempt_record.parent / "observability.json")
+    observability = _candidate_observability(extraction_root, candidate_root, accounting_row)
     anomalies = [
         *producer_anomalies,
         *(
@@ -318,6 +316,25 @@ def _summarize_candidate(
         },
         anomalies,
     )
+
+
+def _candidate_observability(
+    extraction_root: Path, candidate_root: Path, accounting_row: JsonObject
+) -> JsonObject:
+    """Reuse the originating attempt metrics for a downstream-only replay."""
+    attempt_ref = accounting_row.get("attempt_record_ref")
+    if isinstance(attempt_ref, dict):
+        attempt_record = extraction_root / str(attempt_ref["path"])
+        return _json(attempt_record.parent / "observability.json")
+    replay = _json(candidate_root / "records/downstream_replay.json")
+    source_completion = _json(
+        extraction_root.parents[2] / str(replay["source_completion_ref"]["path"])
+    )
+    transaction_id = str(source_completion["transaction_id"])
+    matches = sorted((extraction_root / "attempts").glob(f"{transaction_id}.*"))
+    if len(matches) != 1:
+        raise ValueError("downstream replay lacks one originating attempt")
+    return _json(matches[0] / "observability.json")
 
 
 def _bounded_anomalies(candidates: list[JsonObject], policy: AnomalyPolicy) -> list[JsonObject]:
@@ -520,11 +537,13 @@ def _verified_owner_files(
 def _verified_owner_inventory(root: Path, *, completion: Path) -> JsonObject:
     completion_record = _json(completion)
     inventory_path = root / "records" / "artifact_inventory.json"
-    if not inventory_path.is_file() or sha256_file(inventory_path) != completion_record.get(
-        "artifact_inventory_sha256"
-    ):
+    if not inventory_path.is_file():
         raise ValueError(f"pilot report owner inventory differs: {root}")
-    return _json(inventory_path)
+    inventory = _json(inventory_path)
+    accepted_seals = {sha256_file(inventory_path), canonical_sha256(inventory)}
+    if completion_record.get("artifact_inventory_sha256") not in accepted_seals:
+        raise ValueError(f"pilot report owner inventory differs: {root}")
+    return inventory
 
 
 def _verified_inventory_path(root: Path, inventory: JsonObject, relative: str) -> Path:

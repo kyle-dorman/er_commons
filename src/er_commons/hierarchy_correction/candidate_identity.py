@@ -45,6 +45,7 @@ def build_candidate_identity(
     """Content-bind all normative v1 inputs and derive the hcorv1 ID."""
     payload: dict[str, Any] = {
         "producer_run_id": config.producer_run_id,
+        "source_id": config.source.source_id,
         "source_sha256": inputs.selected_source.source_sha256,
         "source_manifest_sha256": inputs.producer_completion.source_manifest_sha256,
         "producer_completion_sha256": inputs.input_inventory["producer_completion_sha256"],

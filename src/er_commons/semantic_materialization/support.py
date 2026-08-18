@@ -163,7 +163,7 @@ def _bridge_payload(
     )
     return {
         "schema_version": "2.0.0",
-        "producer_comparison_sha256": control["producer_comparison_sha256"],
+        "producer_comparison_sha256": control.get("producer_comparison_sha256"),
         "heading_count": expectations.heading_count,
         "direct_membership_count": expectations.direct_membership_count,
         "mapped_block_count": expectations.mapped_block_count,

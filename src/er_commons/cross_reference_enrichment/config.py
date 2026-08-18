@@ -21,16 +21,23 @@ class CrossReferenceEnrichmentConfig:
     artifact_relative_root: Path
     source_manifest_relative_path: Path
     source_manifest_sha256: str
+    source_family_catalog_relative_path: Path | None
+    source_family_catalog_sha256: str | None
     specification_relative_path: Path
     schema_relative_path: Path
 
     def __post_init__(self) -> None:
         """Reject artifact paths that escape their configured roots."""
-        paths = (
-            self.artifact_relative_root,
-            self.source_manifest_relative_path,
-            self.specification_relative_path,
-            self.schema_relative_path,
+        paths = tuple(
+            path
+            for path in (
+                self.artifact_relative_root,
+                self.source_manifest_relative_path,
+                self.source_family_catalog_relative_path,
+                self.specification_relative_path,
+                self.schema_relative_path,
+            )
+            if path is not None
         )
         if any(path.is_absolute() or ".." in path.parts for path in paths):
             raise ValueError("cross-reference paths must be contained relative paths")
@@ -48,6 +55,12 @@ class CrossReferenceEnrichmentConfig:
             artifact_relative_root=Path(value["artifact_relative_root"]),
             source_manifest_relative_path=Path(value["source_manifest_relative_path"]),
             source_manifest_sha256=value["source_manifest_sha256"],
+            source_family_catalog_relative_path=(
+                Path(value["source_family_catalog_relative_path"])
+                if value.get("source_family_catalog_relative_path") is not None
+                else None
+            ),
+            source_family_catalog_sha256=value.get("source_family_catalog_sha256"),
             specification_relative_path=Path(value["specification_relative_path"]),
             schema_relative_path=Path(value["schema_relative_path"]),
         )
@@ -65,6 +78,8 @@ class RuntimeContext:
     task_root: Path
     upstream_root: Path
     source_manifest_path: Path
+    source_family_catalog_path: Path
+    source_family_catalog_sha256: str
 
     @classmethod
     def load(
@@ -91,6 +106,14 @@ class RuntimeContext:
         source_manifest_path = data_root / config.source_manifest_relative_path
         if sha256_file(source_manifest_path) != config.source_manifest_sha256:
             raise ValueError("sealed model-corpus source manifest checksum differs")
+        if (
+            config.source_family_catalog_relative_path is None
+            or config.source_family_catalog_sha256 is None
+        ):
+            raise ValueError("cross-reference execution requires a sealed source-family catalog")
+        source_family_catalog_path = data_root / config.source_family_catalog_relative_path
+        if sha256_file(source_family_catalog_path) != config.source_family_catalog_sha256:
+            raise ValueError("sealed source-family catalog checksum differs")
         return cls(
             project_root=project_root,
             data_root=data_root,
@@ -100,6 +123,8 @@ class RuntimeContext:
             task_root=task_root,
             upstream_root=upstream_root,
             source_manifest_path=source_manifest_path,
+            source_family_catalog_path=source_family_catalog_path,
+            source_family_catalog_sha256=config.source_family_catalog_sha256,
         )
 
 

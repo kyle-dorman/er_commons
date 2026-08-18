@@ -89,6 +89,16 @@ def test_picture_owned_caption_remains_r08_content() -> None:
     assert caption_decision["corrected_role"] == "content"
 
 
+def test_picture_owned_caption_ignores_an_incidental_outline_title_match() -> None:
+    """Keep caption ownership authoritative over same-text PDF outline entries."""
+    bundle = copy.deepcopy(VALID_BUNDLE)
+    caption_feature = bundle["features"][5]
+    caption_feature["outline_state"] = "unique_exact"
+    caption_feature["outline_level"] = 2
+
+    validate_hierarchy_correction_bundle(bundle)
+
+
 def test_picture_owned_caption_cannot_be_promoted_by_an_anchor() -> None:
     """Reject outline evidence that would turn a picture caption into a heading."""
     bundle = copy.deepcopy(VALID_BUNDLE)

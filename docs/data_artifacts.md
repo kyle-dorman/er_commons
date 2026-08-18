@@ -158,7 +158,7 @@ as correspondence evidence. A separately counted table-alias extension is
 permitted only from an exact standalone numbered label on the same page as
 exactly one canonical table; it retains the upstream table target ID and has no
 upstream alias ID. Mention candidates use only exact-number table targets within
-five physical pages, record the page distance, retain multiple distinct targets
+ten physical pages, record the page distance, retain multiple distinct targets
 as ambiguous, and reject qualified external-reference forms. Current v3
 authorizes zero derived figure aliases; any
 future exact-caption or independently verified TOC/page support requires a

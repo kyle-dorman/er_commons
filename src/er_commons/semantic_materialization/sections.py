@@ -28,6 +28,7 @@ def build_semantic_sections(
     decisions: list[JsonObject],
     hierarchy: JsonObject,
     evidence_ref: JsonObject,
+    replacement_keys: set[str] | frozenset[str] = frozenset(),
 ) -> tuple[list[JsonObject], list[JsonObject]]:
     """Return semantic sections and copied content with exact direct membership.
 
@@ -49,6 +50,7 @@ def build_semantic_sections(
         feature["stable_item_key"]
         for feature in features
         if decision_by_key[feature["stable_item_key"]]["corrected_role"] == "heading"
+        and feature["stable_item_key"] not in replacement_keys
     ]
     missing_headings = [key for key in heading_keys if key not in content_by_key]
     if missing_headings:
@@ -66,7 +68,7 @@ def build_semantic_sections(
             "synthetic_furniture_root",
         ),
     ]
-    parent_by_key = _parent_index(hierarchy, heading_keys)
+    parent_by_key = _parent_index(hierarchy, heading_keys, replacement_keys)
     nodes: dict[str, _SectionNode] = {}
     for sequence, key in enumerate(
         sorted(heading_keys, key=lambda item: order_by_id[content_by_key[item]["id"]]),
@@ -100,7 +102,7 @@ def build_semantic_sections(
         node.record["parent_section_id"] = parent_id
         node.record["section_path_ids"] = _section_path(key, nodes, parent_by_key, body_root_id)
 
-    member_owner = _membership_index(hierarchy)
+    member_owner = _membership_index(hierarchy, set(heading_keys), replacement_keys)
     unassigned = set(hierarchy.get("unassigned_content", []))
     for item in copied:
         layer = item["content_layer"]
@@ -114,7 +116,12 @@ def build_semantic_sections(
         elif key in unassigned:
             _place(item, body_root_id, "pre_root")
         elif key in member_owner:
-            _place(item, nodes[member_owner[key]].record["id"], "direct_body")
+            owner_key = member_owner[key]
+            _place(
+                item,
+                body_root_id if owner_key is None else nodes[owner_key].record["id"],
+                "direct_body",
+            )
         elif item["record_type"] in {"table", "figure"}:
             owner = _most_recent_preceding_heading(nodes, order_by_id[item["id"]])
             _place(item, body_root_id if owner is None else owner.record["id"], "inherited_nontext")
@@ -156,29 +163,50 @@ def _unique_index(records: list[JsonObject], field: str, label: str) -> dict[str
     return index
 
 
-def _parent_index(hierarchy: JsonObject, headings: list[str]) -> dict[str, str]:
+def _parent_index(
+    hierarchy: JsonObject,
+    headings: list[str],
+    replacement_keys: set[str] | frozenset[str],
+) -> dict[str, str]:
     heading_set = set(headings)
-    roots = set(hierarchy["roots"])
+    original_roots = set(hierarchy["roots"])
+    original_parents = {edge["child_key"]: edge["parent_key"] for edge in hierarchy["edges"]}
+    original_headings = original_roots | set(original_parents)
+    if heading_set != original_headings - set(replacement_keys):
+        raise SemanticContractError("accepted hierarchy replacement projection differs")
     parent_by_key: dict[str, str] = {}
-    for edge in hierarchy["edges"]:
-        child, parent = edge["child_key"], edge["parent_key"]
-        if child in parent_by_key:
-            raise SemanticContractError(f"accepted heading has two parents: {child}")
-        parent_by_key[child] = parent
-    if roots | set(parent_by_key) != heading_set:
-        raise SemanticContractError("accepted hierarchy does not cover every corrected heading")
-    if roots & set(parent_by_key):
-        raise SemanticContractError("accepted hierarchy root also has a parent")
+    for child in headings:
+        parent = original_parents.get(child)
+        seen = {child}
+        while parent is not None and parent not in heading_set:
+            if parent in seen:
+                raise SemanticContractError(f"accepted hierarchy contains a cycle: {child}")
+            seen.add(parent)
+            parent = original_parents.get(parent)
+        if parent is not None:
+            parent_by_key[child] = parent
     return parent_by_key
 
 
-def _membership_index(hierarchy: JsonObject) -> dict[str, str]:
-    result: dict[str, str] = {}
+def _membership_index(
+    hierarchy: JsonObject,
+    retained_headings: set[str],
+    replacement_keys: set[str] | frozenset[str],
+) -> dict[str, str | None]:
+    result: dict[str, str | None] = {}
+    parent_by_heading = {edge["child_key"]: edge["parent_key"] for edge in hierarchy["edges"]}
     for membership in hierarchy["direct_membership"]:
         key = membership["item_key"]
+        if key in replacement_keys:
+            continue
         if key in result:
             raise SemanticContractError(f"accepted direct member has two owners: {key}")
-        result[key] = membership["heading_key"]
+        owner = membership["heading_key"]
+        while owner not in retained_headings:
+            owner = parent_by_heading.get(owner)
+            if owner is None:
+                break
+        result[key] = owner
     return result
 
 

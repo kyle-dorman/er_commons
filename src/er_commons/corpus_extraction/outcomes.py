@@ -3,18 +3,26 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal, cast
 
 from er_commons.corpus_extraction.candidates import find_reusable_candidate
 from er_commons.corpus_extraction.identity import build_transaction_id
-from er_commons.corpus_extraction.preflight import prepare_document_run
+from er_commons.corpus_extraction.preflight import DocumentRun, prepare_document_run
 from er_commons.corpus_extraction.records import AttemptRecord, DocumentCompletion, StateEvent
 from er_commons.corpus_extraction.storage import verify_candidate
 from er_commons.corpus_extraction_contract_v1_1.model import JsonObject
 
 TerminalDisposition = Literal["complete", "complete_with_warnings", "failed_terminal"]
+TARGET_RECORD_STREAMS = (
+    "documents.jsonl",
+    "sections.jsonl",
+    "tables.jsonl",
+    "figures.jsonl",
+    "pages.jsonl",
+)
 
 
 @dataclass(frozen=True)
@@ -23,11 +31,13 @@ class DocumentTerminalEvidence:
 
     source: JsonObject
     source_ordinal: int
+    evidence_kind: Literal["document_attempt", "downstream_replay"]
     transaction_id: str
-    attempt: int
+    attempt: int | None
     disposition: TerminalDisposition
-    terminal_event_ref: JsonObject
-    attempt_record_ref: JsonObject
+    terminal_event_ref: JsonObject | None
+    attempt_record_ref: JsonObject | None
+    downstream_replay_ref: JsonObject | None
     failure_class: str | None
     retained_evidence_refs: tuple[JsonObject, ...]
     candidate_id: str | None = None
@@ -52,32 +62,44 @@ def observe_document_outcome(
         completion = DocumentCompletion.model_validate_json(completion_path.read_bytes())
         candidate_root = completion_path.parents[1]
         verify_candidate(candidate_root, completion.candidate_id, run.source)
+        replay_path = candidate_root / "records" / "downstream_replay.json"
+        if replay_path.is_file():
+            from er_commons.corpus_extraction.downstream_replay import (
+                verify_downstream_replay,
+            )
+
+            verify_downstream_replay(candidate_root, data_root=data_root)
+            identity = json.loads(
+                (candidate_root / "records" / "document_identity.json").read_bytes()
+            )
+            return _successful_evidence(
+                run=run,
+                source_ordinal=source_ordinal,
+                completion=completion,
+                completion_path=completion_path,
+                disposition=cast(TerminalDisposition, identity["terminal_state"]),
+                attempt_number=None,
+                evidence_kind="downstream_replay",
+                terminal_event_ref=None,
+                attempt_record_ref=None,
+                downstream_replay_ref=_file_ref(replay_path, run.extraction_root),
+            )
         attempt_root, attempt, terminal = _matching_attempt(
             run.extraction_root, run.scope_id, run.source.source_id, run.source.sha256
         )
         if attempt.disposition not in {"complete", "complete_with_warnings"}:
             raise ValueError("candidate attempt does not record terminal success")
-        canonical = candidate_root / "content" / "canonical"
-        return DocumentTerminalEvidence(
-            source=run.source.model_dump(mode="json"),
+        return _successful_evidence(
+            run=run,
             source_ordinal=source_ordinal,
-            transaction_id=attempt.transaction_id,
-            attempt=attempt.attempt,
+            completion=completion,
+            completion_path=completion_path,
             disposition=cast(TerminalDisposition, attempt.disposition),
+            attempt_number=attempt.attempt,
+            evidence_kind="document_attempt",
             terminal_event_ref=_file_ref(terminal, run.extraction_root),
             attempt_record_ref=_file_ref(attempt_root / "attempt_record.json", run.extraction_root),
-            failure_class=None,
-            retained_evidence_refs=(),
-            candidate_id=completion.candidate_id,
-            document_completion_ref=_file_ref(completion_path, run.extraction_root),
-            candidate_inventory_ref=_file_ref(
-                candidate_root / "records" / "artifact_inventory.json", run.extraction_root
-            ),
-            cross_references_ref=_file_ref(
-                canonical / "cross_references.jsonl", run.extraction_root
-            ),
-            target_aliases_ref=_file_ref(canonical / "target_aliases.jsonl", run.extraction_root),
-            target_records_refs=(_file_ref(canonical / "documents.jsonl", run.extraction_root),),
+            downstream_replay_ref=None,
         )
 
     attempt_root, attempt, terminal = _matching_attempt(
@@ -95,13 +117,55 @@ def observe_document_outcome(
     return DocumentTerminalEvidence(
         source=run.source.model_dump(mode="json"),
         source_ordinal=source_ordinal,
+        evidence_kind="document_attempt",
         transaction_id=attempt.transaction_id,
         attempt=attempt.attempt,
         disposition="failed_terminal",
         terminal_event_ref=_file_ref(terminal, run.extraction_root),
         attempt_record_ref=_file_ref(attempt_root / "attempt_record.json", run.extraction_root),
+        downstream_replay_ref=None,
         failure_class=attempt.failure_class,
         retained_evidence_refs=retained,
+    )
+
+
+def _successful_evidence(
+    *,
+    run: DocumentRun,
+    source_ordinal: int,
+    completion: DocumentCompletion,
+    completion_path: Path,
+    disposition: TerminalDisposition,
+    attempt_number: int | None,
+    evidence_kind: Literal["document_attempt", "downstream_replay"],
+    terminal_event_ref: JsonObject | None,
+    attempt_record_ref: JsonObject | None,
+    downstream_replay_ref: JsonObject | None,
+) -> DocumentTerminalEvidence:
+    candidate_root = completion_path.parents[1]
+    canonical = candidate_root / "content" / "canonical"
+    return DocumentTerminalEvidence(
+        source=run.source.model_dump(mode="json"),
+        source_ordinal=source_ordinal,
+        evidence_kind=evidence_kind,
+        transaction_id=completion.transaction_id,
+        attempt=attempt_number,
+        disposition=disposition,
+        terminal_event_ref=terminal_event_ref,
+        attempt_record_ref=attempt_record_ref,
+        downstream_replay_ref=downstream_replay_ref,
+        failure_class=None,
+        retained_evidence_refs=(),
+        candidate_id=completion.candidate_id,
+        document_completion_ref=_file_ref(completion_path, run.extraction_root),
+        candidate_inventory_ref=_file_ref(
+            candidate_root / "records" / "artifact_inventory.json", run.extraction_root
+        ),
+        cross_references_ref=_file_ref(canonical / "cross_references.jsonl", run.extraction_root),
+        target_aliases_ref=_file_ref(canonical / "target_aliases.jsonl", run.extraction_root),
+        target_records_refs=tuple(
+            _file_ref(canonical / name, run.extraction_root) for name in TARGET_RECORD_STREAMS
+        ),
     )
 
 

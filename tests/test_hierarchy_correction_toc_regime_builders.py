@@ -106,6 +106,38 @@ def test_primary_toc_ends_at_later_outline_sibling_and_excludes_picture_target()
     assert result.reconciliations[0]["candidate_keys"] == [features[7]["stable_item_key"]]
 
 
+def test_document_index_header_is_toc_content_even_without_parsed_rows() -> None:
+    features = [
+        _feature(
+            0,
+            "DOCUMENT INDEX HEADER",
+            page=11,
+            role="section_header",
+            parent="#/tables/34",
+            outline_state="unique_exact",
+        ),
+        _feature(1, "Header-only index note", page=11, parent="#/texts/0"),
+    ]
+
+    result = build_visible_toc(
+        features,
+        (),
+        document_index_text_refs=frozenset({"#/texts/0", "#/texts/1"}),
+    )
+
+    assert result.features[0]["toc_region"] is True
+    assert result.features[1]["toc_region"] is True
+    assert result.entries == ()
+    assert result.diagnostics == (
+        {
+            "reading_order_index": 1,
+            "stable_item_key": features[1]["stable_item_key"],
+            "code": "TOC_ROW_UNPARSEABLE",
+            "detail": "document-index text retained without a parseable TOC row",
+        },
+    )
+
+
 def test_embedded_toc_uses_roman_to_arabic_footer_transition() -> None:
     features = [
         _feature(0, "TABLE OF CONTENTS", page=112, role="section_header"),

@@ -229,7 +229,7 @@ Task 03E.4 IDs as correspondence evidence. It may extend the preserved alias
 inventory only for a numbered table label proven by an exact standalone label
 on the same page as exactly one canonical table. An exact-number table mention
 considers those verified targets only at physical-page distance zero through
-five; multiple targets remain ambiguous and qualified external-reference forms
+ten; multiple targets remain ambiguous and qualified external-reference forms
 remain unresolved. Distance never creates a target. Figures remain unresolved without an explicit caption link
 or independently verified TOC-to-printed-page alignment to one non-decorative
 figure; current v3 authorizes zero derived figure aliases, and such support

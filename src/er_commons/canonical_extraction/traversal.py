@@ -27,6 +27,7 @@ class TraversalResult:
     events: tuple[TraversalEvent, ...]
     emitted_text_pointers: frozenset[str]
     suppressed_text_pointers: frozenset[str]
+    invalid_geometry_text_pointers: frozenset[str]
     suppressed_picture_furniture_pointers: frozenset[str]
     zero_table_pointers: frozenset[str]
 
@@ -38,13 +39,15 @@ class DoclingTraversal:
         self,
         document: dict[str, Any],
         mapped_table_ids: dict[str, tuple[str, ...]],
+        invalid_geometry_text_pointers: set[str] | frozenset[str] = frozenset(),
     ) -> None:
         self._document = document
         self._mapped_table_ids = mapped_table_ids
         self._events: list[TraversalEvent] = []
         self._emitted_text: set[str] = set()
         self._emitted_semantic: set[str] = set()
-        self._suppressed_text: set[str] = set()
+        self._invalid_geometry_text = set(invalid_geometry_text_pointers)
+        self._suppressed_text: set[str] = set(self._invalid_geometry_text)
         self._suppressed_picture_furniture: set[str] = set()
         self._zero_tables: set[str] = set()
         self._active_groups: set[str] = set()
@@ -70,6 +73,7 @@ class DoclingTraversal:
             events=tuple(self._events),
             emitted_text_pointers=frozenset(self._emitted_text),
             suppressed_text_pointers=frozenset(self._suppressed_text),
+            invalid_geometry_text_pointers=frozenset(self._invalid_geometry_text),
             suppressed_picture_furniture_pointers=frozenset(self._suppressed_picture_furniture),
             zero_table_pointers=frozenset(self._zero_tables),
         )
@@ -161,6 +165,9 @@ class DoclingTraversal:
 
     def _emit_text(self, pointer: str, layer: str) -> None:
         self._resolve(pointer)
+        if pointer in self._invalid_geometry_text:
+            self._suppressed_text.add(pointer)
+            return
         if pointer in self._emitted_text:
             raise ContractError(f"duplicate Docling semantic traversal: {pointer}")
         if pointer in self._suppressed_text:
@@ -217,6 +224,11 @@ class DoclingTraversal:
 def traverse_docling_document(
     document: dict[str, Any],
     mapped_table_ids: dict[str, tuple[str, ...]],
+    invalid_geometry_text_pointers: set[str] | frozenset[str] = frozenset(),
 ) -> TraversalResult:
     """Flatten one saved Docling document under the Task 03D traversal policy."""
-    return DoclingTraversal(document, mapped_table_ids).run()
+    return DoclingTraversal(
+        document,
+        mapped_table_ids,
+        invalid_geometry_text_pointers,
+    ).run()

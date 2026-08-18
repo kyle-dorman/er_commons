@@ -63,6 +63,53 @@ def test_exact_headers_merge_adjacent_nonowners() -> None:
     assert families[0]["evidence"] == ["exact_cleaned_header"]
 
 
+def test_explicit_rejection_blocks_exact_header_merge() -> None:
+    """Older header evidence cannot override a terminal boundary decision."""
+    pages = [
+        {"physical_pdf_page": 20, "footer": None, "footer_owner_table_id": None},
+        {"physical_pdf_page": 21, "footer": None, "footer_owner_table_id": None},
+    ]
+    tables = [
+        table("left", 20, 1, [["a", "b"]]),
+        table("right", 21, 1, [["a", "b"]]),
+    ]
+    decisions = [
+        {
+            "left_table_id": "left",
+            "right_table_id": "right",
+            "status": "rejected",
+        }
+    ]
+
+    assignments, _families = assign_families(pages, tables, continuation_records=decisions)
+
+    assert len({item["family_id"] for item in assignments}) == 2
+
+
+def test_explicit_accepted_pair_uses_only_continuation_evidence() -> None:
+    """An accepted decision owns the union even when exact headers also match."""
+    pages = [
+        {"physical_pdf_page": 20, "footer": None, "footer_owner_table_id": None},
+        {"physical_pdf_page": 21, "footer": None, "footer_owner_table_id": None},
+    ]
+    tables = [
+        table("left", 20, 1, [["a", "b"]]),
+        table("right", 21, 1, [["a", "b"]]),
+    ]
+    decisions = [
+        {
+            "left_table_id": "left",
+            "right_table_id": "right",
+            "status": "accepted",
+        }
+    ]
+
+    assignments, families = assign_families(pages, tables, continuation_records=decisions)
+
+    assert len({item["family_id"] for item in assignments}) == 1
+    assert families[0]["evidence"] == ["cross_page_continuation"]
+
+
 def test_family_prefix_is_source_scoped() -> None:
     """Routed sources cannot collide while legacy G3 IDs remain the default."""
     pages = [{"physical_pdf_page": 1, "footer": None, "footer_owner_table_id": None}]

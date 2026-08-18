@@ -33,6 +33,7 @@ import pypdfium2 as pdfium  # type: ignore[import-untyped]
 from er_commons.source_freeze import sha256_file, write_json_atomic
 from er_commons.table_extraction.continuations import continuation_decisions
 from er_commons.table_extraction.families import assign_families
+from er_commons.table_extraction.fragments import project_logical_tables
 from er_commons.table_extraction.learned_fallback import VerifiedTableFormerFallback
 from er_commons.table_extraction.models import load_config
 from er_commons.table_extraction.page import extract_page
@@ -283,6 +284,17 @@ def run_table_extraction(
     if len({table["table_id"] for table in tables}) != len(tables):
         raise ValueError("logical table IDs are not unique")
 
+    projection = project_logical_tables(page_results, page_records, tables)
+    page_results = projection.page_results
+    page_records = projection.page_records
+    tables = projection.tables
+    for page_result in page_results:
+        page_number = int(page_result["physical_pdf_page"])
+        write_json_atomic(
+            root / "pages" / f"page_{page_number:05d}" / "result.json",
+            page_result,
+        )
+
     continuations = continuation_decisions(page_records, tables)
     assignments, families = assign_families(
         page_records,
@@ -303,7 +315,7 @@ def run_table_extraction(
     )
 
     zero_table_pages = [
-        int(page["physical_pdf_page"]) for page in page_results if page["table_count"] == 0
+        int(page["physical_pdf_page"]) for page in page_records if page["table_count"] == 0
     ]
     unmatched_detected_regions = [
         {
@@ -330,6 +342,10 @@ def run_table_extraction(
         ),
         "layout_regions_count": sum(page["route"] == "layout_regions" for page in page_results),
         "logical_table_count": len(tables),
+        "header_only_continuation_fragment_count": len(projection.fragments),
+        "header_only_continuation_fragment_pages": [
+            int(fragment["physical_pdf_page"]) for fragment in projection.fragments
+        ],
         "stream_table_count": sum(table["parser"] == "camelot_stream" for table in tables),
         "lattice_table_count": sum(table["parser"] == "camelot_lattice" for table in tables),
         "network_table_count": sum(table["parser"] == "camelot_network" for table in tables),

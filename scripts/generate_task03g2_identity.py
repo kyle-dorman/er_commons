@@ -100,23 +100,25 @@ def main() -> None:
                 extra_code=("src/er_commons/document_extraction/hierarchy/document.py",),
             ),
             "cross_reference_contract": _section(
-                version="task03g2-fresh-cross-reference-v3",
+                version="task03g2f-shared-family-cross-reference-v4",
                 artifacts=(
                     "docs/specs/cross_references_v3.md",
                     "docs/specs/semantic_structure_v2.md",
+                    "configs/brisbane_baylands_2025_deir_task03g2_source_family_catalog_v1.json",
                     *_owner_configs("cross_references"),
                 ),
                 code_roots=("src/er_commons/cross_reference_enrichment",),
+                extra_code=("src/er_commons/source_family_catalog.py",),
             ),
             "corpus_workflow_contract": _section(
-                version="task03g2-representative-pilot-workflow-v1_1",
+                version="task03g2f-source-id-resolution-workflow-v1_1",
                 artifacts=(
                     "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/invalid_mutations.json",
                     "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/positive_scenarios.json",
                     "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/task03g2_production_scope_evidence.json",
                     "benchmarks/er_bench/schemas/corpus_extraction/v1_1/records.schema.json",
                     "docs/specs/restartable_corpus_extraction_v1_1.md",
-                    "configs/brisbane_baylands_2025_deir_task03g2_corpus_catalog_v1.json",
+                    "configs/brisbane_baylands_2025_deir_task03g2_source_family_catalog_v1.json",
                     "configs/brisbane_baylands_2025_deir_task03g2_scope_v1.json",
                     "configs/brisbane_baylands_2025_deir_task03g2_target_policy_v1.json",
                     "configs/brisbane_baylands_2025_deir_task03g2_resolution_policy_v1.json",
@@ -126,7 +128,10 @@ def main() -> None:
                     "src/er_commons/corpus_extraction_contract_v1_1",
                     "src/er_commons/corpus_resolution",
                 ),
-                extra_code=("src/er_commons/cli.py",),
+                extra_code=(
+                    "src/er_commons/cli.py",
+                    "src/er_commons/source_family_catalog.py",
+                ),
             ),
         }
     )

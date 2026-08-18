@@ -46,12 +46,23 @@ def test_empty_text_has_zero_coverage() -> None:
     assert result["text_height_fraction"] == 0.0
 
 
+def test_off_canvas_text_is_clipped_to_visible_page_geometry() -> None:
+    result = measure_routing_geometry(
+        (100.0, 200.0),
+        (0.0, 0.0, 100.0, 200.0),
+        0,
+        [(-25.0, 50.0, 25.0, 100.0), (120.0, 250.0, 140.0, 280.0)],
+    )
+
+    assert result["text_width_fraction"] == pytest.approx(0.25)
+    assert result["text_height_fraction"] == pytest.approx(0.25)
+
+
 @pytest.mark.parametrize(
     ("displayed_size", "bbox", "rotation", "rectangles", "message"),
     [
         ((100.0, 200.0), (0.0, 0.0, 100.0, 200.0), 45, [], "unsupported"),
         ((200.0, 100.0), (0.0, 0.0, 100.0, 200.0), 0, [], "disagrees"),
-        ((100.0, 200.0), (0.0, 0.0, 100.0, 200.0), 0, [(0.0, 0.0, 101.0, 10.0)], "outside"),
         ((100.0, 200.0), (0.0, 0.0, 100.0, 200.0), 0, [(1.0, 1.0, 1.0, 2.0)], "non-positive"),
     ],
 )

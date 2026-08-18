@@ -89,18 +89,16 @@ class DisplayedPageTransform:
             return self.canvas_width - x, self.canvas_height - y
         return self.canvas_height - y, x
 
-    def to_displayed_rectangle(self, rectangle: Rectangle) -> Rectangle:
-        """Validate and transform one source rectangle without losing its extent."""
+    def to_displayed_rectangle(self, rectangle: Rectangle) -> Rectangle | None:
+        """Clip visible source geometry and transform it into displayed coordinates."""
         left, bottom, right, top = _validated_rectangle(rectangle, label="text rectangle")
         page_left, page_bottom, page_right, page_top = self.page_bbox
-        tolerance = 1e-3
-        if (
-            left < page_left - tolerance
-            or bottom < page_bottom - tolerance
-            or right > page_right + tolerance
-            or top > page_top + tolerance
-        ):
-            raise ValueError("text rectangle falls outside the routing page bbox")
+        left = max(left, page_left)
+        bottom = max(bottom, page_bottom)
+        right = min(right, page_right)
+        top = min(top, page_top)
+        if right <= left or top <= bottom:
+            return None
         local_corners = (
             (left - page_left, bottom - page_bottom),
             (left - page_left, top - page_bottom),
@@ -149,7 +147,9 @@ def measure_routing_geometry(
         rotation_degrees,
     )
     displayed_rectangles = [
-        transform.to_displayed_rectangle(rectangle) for rectangle in text_rectangles
+        displayed
+        for rectangle in text_rectangles
+        if (displayed := transform.to_displayed_rectangle(rectangle)) is not None
     ]
     width_fraction, height_fraction = _coverage_fractions(
         displayed_rectangles,

@@ -91,6 +91,19 @@ def test_furniture_is_appended_by_pointer_not_furniture_root() -> None:
     assert furniture == ["#/texts/4"]
 
 
+def test_explicit_invalid_geometry_text_is_suppressed_and_accounted() -> None:
+    result = traverse_docling_document(
+        tiny_document(),
+        {},
+        {"#/texts/0", "#/texts/4"},
+    )
+
+    assert "#/texts/0" not in {event.pointer for event in result.events}
+    assert "#/texts/4" not in {event.pointer for event in result.events}
+    assert result.invalid_geometry_text_pointers == {"#/texts/0", "#/texts/4"}
+    assert {"#/texts/0", "#/texts/4"} <= result.suppressed_text_pointers
+
+
 def test_group_cycle_is_fatal() -> None:
     document = tiny_document()
     groups = document["groups"]

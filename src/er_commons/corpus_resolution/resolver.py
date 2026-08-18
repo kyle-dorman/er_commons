@@ -6,6 +6,7 @@ from er_commons.corpus_extraction.outcomes import DocumentTerminalEvidence
 from er_commons.corpus_extraction_contract_v1_1.accounting import unavailable_source_digest
 from er_commons.corpus_extraction_contract_v1_1.model import JsonObject
 from er_commons.corpus_resolution.mentions import DerivedMention
+from er_commons.source_family_catalog import SourceFamilyCatalog
 
 
 class CorpusMentionResolver:
@@ -16,13 +17,13 @@ class CorpusMentionResolver:
         *,
         index: JsonObject,
         evidence: tuple[DocumentTerminalEvidence, ...],
-        catalog_lookup: dict[str, tuple[JsonObject, ...]],
+        catalog: SourceFamilyCatalog,
         catalog_ref: JsonObject,
         scope_id: str,
     ) -> None:
         self._index = index
         self._evidence = evidence
-        self._catalog_lookup = catalog_lookup
+        self._catalog = catalog
         self._catalog_ref = catalog_ref
         self._scope_id = scope_id
         self._by_source = {str(item.source["source_id"]): item for item in evidence}
@@ -39,10 +40,11 @@ class CorpusMentionResolver:
         source = self._source_evidence(mention.source_candidate_id)
         matching = self._matching_targets(mention.record)
         base = self._base_record(mention.record, source, matching)
-        if matching:
+        if matching or len(mention.record["intended_target_source_ids"]) > 1:
+            ambiguous = len(matching) > 1 or len(mention.record["intended_target_source_ids"]) > 1
             return {
                 **base,
-                "status": "resolved" if len(matching) == 1 else "ambiguous",
+                "status": "ambiguous" if ambiguous else "resolved",
                 "unresolved_reason": None,
                 "reason_evidence": None,
             }
@@ -59,12 +61,10 @@ class CorpusMentionResolver:
             {
                 "target_id": entry["target_id"],
                 "target_source_id": entry["source_id"],
-                "target_type": entry["target_type"],
+                "target_type": "document",
             }
-            for entry in self._index["entries"]
-            if entry["lookup_key"] == mention["lookup_key"]
-            and entry["target_type"] == "document"
-            and entry["source_id"] in mention["intended_target_source_ids"]
+            for entry in self._index["document_targets"]
+            if entry["source_id"] in mention["intended_target_source_ids"]
         ]
 
     @staticmethod
@@ -77,7 +77,9 @@ class CorpusMentionResolver:
             "mention_id": mention["mention_id"],
             "source_candidate_id": source.candidate_id,
             "candidate_local_sequence": mention["candidate_local_sequence"],
+            "mention_class": mention["mention_class"],
             "lookup_key": mention["lookup_key"],
+            "cross_document_evidence": mention["cross_document_evidence"],
             "target_type": "document",
             "intended_target_source_ids": mention["intended_target_source_ids"],
             "source_inventory_before_ref": source.candidate_inventory_ref,
@@ -101,7 +103,7 @@ class CorpusMentionResolver:
                 "target_source_id": source_id,
                 "target_candidate_id": target.candidate_id,
                 "index_id": self._index["index_id"],
-                "entries_sha256": self._index["entries_ref"]["sha256"],
+                "document_targets_sha256": self._index["document_targets_ref"]["sha256"],
             }
         if failed:
             source_id = failed[0]
@@ -121,12 +123,9 @@ class CorpusMentionResolver:
         }
 
     def _catalog_source(self, mention: JsonObject) -> JsonObject:
-        return next(
-            source
-            for source_id in mention["intended_target_source_ids"]
-            for source in self._catalog_lookup[str(mention["lookup_key"])]
-            if source["source_id"] == source_id
-        )
+        source_id = str(mention["intended_target_source_ids"][0])
+        source = self._catalog.by_source_id[source_id].source
+        return {key: source[key] for key in ("source_id", "sha256", "pdf_page_count")}
 
     def _source_evidence(self, candidate_id: str) -> DocumentTerminalEvidence:
         for item in self._evidence:

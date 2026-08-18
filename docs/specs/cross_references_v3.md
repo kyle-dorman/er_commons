@@ -1,6 +1,7 @@
 # Canonical Cross-Reference Contract v3
 
-Status: **accepted Task 03E.5 production contract**. Gate B was explicitly
+Status: **accepted Task 03E.5 production contract, amended by Task 03G.2f**.
+Gate B was explicitly
 approved on 2026-08-03 before production implementation began. The accepted
 human-owned implementation is `er_commons.cross_reference_enrichment`; the
 earlier behavioral-reference package was removed by Task 03F.4 after every
@@ -128,11 +129,11 @@ Proximity from the mention to a table is never sufficient evidence. A table
 mention resolves only through the independently built target index and the
 following physical-page window.
 
-### Five-page table-mention window
+### Ten-page table-mention window
 
 For an eligible `Table N` mention, consider only exact `table n` target-index
 entries whose canonical table occupies a physical PDF page at absolute distance
-zero through five from the mention's physical page. Page distance filters
+zero through ten from the mention's physical page. Page distance filters
 already verified targets; it never creates a target alias.
 
 - one distinct target in the window resolves with its page distance recorded;
@@ -182,10 +183,16 @@ The closed unresolved vocabulary is:
 - `accepted_target_type_unavailable`; and
 - `malformed_supported_form`.
 
-`deferred_cross_document` is used only when the literal target is identifiable
-in the sealed Task 02 35-document model corpus. A named document outside that
-scope uses `external_document_outside_corpus`. These remain local
-`unresolved` records, not separate resolution states.
+`deferred_cross_document` is used only after exact local resolution fails and
+the checksum-bound source-family catalog identifies one or more intended
+source IDs. The record preserves its original `appendix` or `document` class
+and adds the reviewed alias, catalog checksum, intended source IDs, and family
+traversal evidence. The root report may traverse to cataloged top-level
+appendices. A nested appendix may traverse to a sibling only when adjacent
+source text contains a reviewed EIR-family qualifier; an unqualified appendix
+reference remains local and unresolved. A named document outside the catalog
+uses `external_document_outside_corpus`. These remain local `unresolved`
+records, not separate resolution states.
 
 ## Provenance and persisted record
 
@@ -199,6 +206,10 @@ synthesize narrower geometry or new lineage.
 Every candidate cites a v3-local alias and target. Preserved aliases retain
 both upstream IDs. A verified table alias has a null upstream alias ID and the
 exact upstream table target ID. No edge may leave the v3 namespace.
+
+The local stage and corpus stage consume the same sealed source-family catalog.
+The local stage attempts within-document resolution first and never changes
+literal mention fields to manufacture corpus eligibility.
 
 ## Identity, preservation, and support
 

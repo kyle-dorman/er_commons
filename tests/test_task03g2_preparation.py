@@ -34,7 +34,7 @@ def test_prepare_task03g2_stages_exact_catalog_and_reports_freshness(
                 "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
                 "sources": [
                     {**document["source"], "source_role": "model_corpus"}
-                    for document in catalog["documents"]
+                    for document in catalog["sources"]
                 ],
             }
         )

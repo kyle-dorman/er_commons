@@ -103,6 +103,32 @@ class DocumentCompletion(StrictRecord):
     completion_last: Literal[True] = True
 
 
+class DownstreamReplayRecord(StrictRecord):
+    """Evidence for document republication without a document execution attempt."""
+
+    schema_version: Literal["er_commons.downstream_document_replay.v1"] = (
+        "er_commons.downstream_document_replay.v1"
+    )
+    replay_id: str = Field(pattern=r"^replayv1-[0-9a-f]{64}$")
+    source: SourceIdentity
+    source_candidate_id: str = Field(pattern=r"^docv1-[0-9a-f]{64}$")
+    source_completion_ref: ArtifactRef
+    source_inventory_ref: ArtifactRef
+    reused_stage_completions: dict[str, ArtifactRef]
+    replacement_cross_reference_completion_ref: ArtifactRef
+    candidate_id: str = Field(pattern=r"^docv1-[0-9a-f]{64}$")
+    publication_mode: Literal["downstream_only"] = "downstream_only"
+    document_attempt_allocated: Literal[False] = False
+
+    @model_validator(mode="after")
+    def require_only_reusable_upstream_owners(self) -> DownstreamReplayRecord:
+        """Keep cross-reference replacement distinct from five reused owners."""
+        expected = STAGE_COMPLETION_ROLE_SET - {"cross_references"}
+        if set(self.reused_stage_completions) != expected:
+            raise ValueError("downstream replay must reuse exactly five upstream owners")
+        return self
+
+
 class PipelineResult(StrictRecord):
     """Typed child-process handoff from the existing content owners."""
 

@@ -4,9 +4,8 @@
   "eligible_resolution_status": "unresolved",
   "eligible_unresolved_reason": "deferred_cross_document",
   "target_type": "document",
-  "catalog_join": "normalized_lookup_key_to_intended_source_ids",
+  "catalog_join": "reviewed_alias_to_source_ids_to_sealed_document_targets",
   "match_fields": [
-    "lookup_key",
     "target_type",
     "intended_target_source_ids"
   ],

@@ -11,6 +11,7 @@ from er_commons.canonical_extraction.config import CanonicalizationConfig
 from er_commons.canonical_extraction.errors import ContractError
 from er_commons.canonical_extraction.identifiers import make_record_id
 from er_commons.canonical_extraction.inputs import CanonicalizationInputs
+from er_commons.canonical_extraction.provenance import project_regions
 from er_commons.canonical_extraction.tables import ProducerTableBundle
 from er_commons.canonical_extraction.traversal import (
     TraversalEvent,
@@ -72,6 +73,7 @@ class MaterializationContext:
     document_index_descendants: frozenset[str]
     all_text_pointers: frozenset[str]
     accounted_text_pointers: frozenset[str]
+    invalid_text_provenance: tuple[dict[str, Any], ...]
 
     def __post_init__(self) -> None:
         """Freeze geometry and table-event indexes at the stage boundary."""
@@ -238,11 +240,31 @@ def build_materialization_context(
     mapped_table_ids = {
         mapping.raw_object_ref: mapping.clean_table_ids for mapping in table_bundle.region_mappings
     }
-    traversal = traverse_docling_document(inputs.document, mapped_table_ids)
     texts = inputs.document.get("texts")
     if not isinstance(texts, list):
         raise ContractError("saved Docling document has no text collection")
     all_text_pointers = frozenset(f"#/texts/{index}" for index in range(len(texts)))
+    invalid_geometry_text_pointers: set[str] = set()
+    invalid_text_provenance: list[dict[str, Any]] = []
+    for index, item in enumerate(texts):
+        pointer = f"#/texts/{index}"
+        projection = project_regions(
+            item=item,
+            pointer=pointer,
+            page_ids=page_ids,
+            page_sizes=page_sizes,
+        )
+        if projection.regions:
+            continue
+        if not projection.rejected:
+            raise ContractError(f"text has no provenance to account: pointer={pointer}")
+        invalid_geometry_text_pointers.add(pointer)
+        invalid_text_provenance.extend(projection.rejected)
+    traversal = traverse_docling_document(
+        inputs.document,
+        mapped_table_ids,
+        invalid_geometry_text_pointers,
+    )
     accounted_text_pointers = traversal.emitted_text_pointers | traversal.suppressed_text_pointers
     overlap = traversal.emitted_text_pointers & traversal.suppressed_text_pointers
     if overlap or accounted_text_pointers != all_text_pointers:
@@ -263,8 +285,11 @@ def build_materialization_context(
             document_index_descendants.update(
                 _descendant_text_pointers(inputs.document, item.get("children", []))
             )
-    if not document_index_descendants <= traversal.emitted_text_pointers:
-        missing = document_index_descendants - traversal.emitted_text_pointers
+    accounted_document_index = (
+        traversal.emitted_text_pointers | traversal.invalid_geometry_text_pointers
+    )
+    if not document_index_descendants <= accounted_document_index:
+        missing = document_index_descendants - accounted_document_index
         raise ContractError(
             f"document-index descendants were not emitted: missing={sorted(missing)}"
         )
@@ -362,4 +387,5 @@ def build_materialization_context(
         document_index_descendants=frozenset(document_index_descendants),
         all_text_pointers=all_text_pointers,
         accounted_text_pointers=accounted_text_pointers,
+        invalid_text_provenance=tuple(invalid_text_provenance),
     )

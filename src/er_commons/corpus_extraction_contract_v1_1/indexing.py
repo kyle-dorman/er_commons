@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+from pathlib import Path
 from typing import cast
 
 from er_commons.corpus_extraction_contract_v1_1.accounting import (
@@ -18,11 +20,19 @@ from er_commons.corpus_extraction_contract_v1_1.identity import validate_index_i
 from er_commons.corpus_extraction_contract_v1_1.model import ArtifactReader, JsonObject
 
 
+@dataclass(frozen=True)
+class IndexEvidence:
+    """Independently derived alias and source-indexed document targets."""
+
+    targets_by_lookup: dict[str, tuple[JsonObject, ...]]
+    document_targets: tuple[JsonObject, ...]
+
+
 def validate_target_index(
     bundle: JsonObject,
     scope: ScopeEvidence,
     reader: ArtifactReader,
-) -> dict[str, tuple[JsonObject, ...]]:
+) -> IndexEvidence:
     """Validate exact index inputs and return authorized targets by lookup key."""
     index = cast(JsonObject, bundle["target_index"])
     accounting = cast(JsonObject, bundle["accounting"])
@@ -57,6 +67,15 @@ def validate_target_index(
     if entries != _derive_entries(eligible, reader):
         fail("index_derivation", "target index differs from sealed candidate streams")
 
+    document_targets = cast(list[JsonObject], index["document_targets"])
+    document_target_bytes = verify_ref(cast(JsonObject, index["document_targets_ref"]), reader)
+    if parse_jsonl(document_target_bytes, subject="document_targets") != document_targets:
+        fail("document_targets", "serialized document targets differ")
+    if index["document_target_count"] != len(document_targets):
+        fail("document_targets", "document target count differs")
+    if document_targets != _derive_document_targets(eligible, reader):
+        fail("document_targets", "document targets differ from sealed document streams")
+
     inventory = cast(JsonObject, index["artifact_inventory"])
     verify_ref(inventory, reader)
     preimage = cast(JsonObject, index["identity_preimage"])
@@ -70,6 +89,8 @@ def validate_target_index(
         "unavailable_sources_sha256": index["unavailable_sources_ref"]["sha256"],
         "entries_sha256": index["entries_ref"]["sha256"],
         "entry_count": len(entries),
+        "document_targets_sha256": index["document_targets_ref"]["sha256"],
+        "document_target_count": len(document_targets),
         "ordering_policy_version": "corpus_target_order_v1",
         "target_policy_sha256": preimage["target_policy_sha256"],
         "managed_inventory_sha256": inventory["sha256"],
@@ -77,7 +98,7 @@ def validate_target_index(
     if preimage != expected_preimage:
         fail("index_identity", "index preimage does not bind exact inputs")
     validate_index_id(cast(str, index["index_id"]), preimage)
-    return _targets_by_lookup(entries)
+    return IndexEvidence(_targets_by_lookup(entries), tuple(document_targets))
 
 
 def _validate_eligible_candidates(
@@ -140,6 +161,35 @@ def _derive_entries(eligible: list[JsonObject], reader: ArtifactReader) -> list[
                     }
                 )
     return sorted(derived, key=_entry_key)
+
+
+def _derive_document_targets(
+    eligible: list[JsonObject], reader: ArtifactReader
+) -> list[JsonObject]:
+    derived: list[JsonObject] = []
+    for candidate in eligible:
+        references = [
+            reference
+            for reference in cast(list[JsonObject], candidate["target_records_ref"])
+            if Path(cast(str, reference["path"])).name == "documents.jsonl"
+        ]
+        if len(references) != 1:
+            fail("document_targets", "candidate lacks one sealed document stream")
+        for document in parse_jsonl(
+            verify_ref(references[0], reader), subject=cast(str, references[0]["path"])
+        ):
+            derived.append(
+                {
+                    "source_id": candidate["source_id"],
+                    "source_ordinal": candidate["source_ordinal"],
+                    "candidate_id": candidate["candidate_id"],
+                    "target_id": document["id"],
+                }
+            )
+    return sorted(
+        derived,
+        key=lambda row: (row["source_ordinal"], row["target_id"], row["candidate_id"]),
+    )
 
 
 def _validate_entry_order(entries: list[JsonObject]) -> None:

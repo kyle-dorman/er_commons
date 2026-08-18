@@ -20,6 +20,7 @@ from er_commons.cross_reference_enrichment.policy import (
 from er_commons.cross_reference_enrichment.resolution import TARGET_TYPE_FOR_MENTION
 from er_commons.cross_reference_enrichment.storage import read_jsonl
 from er_commons.cross_reference_enrichment.types import JsonObject, MentionKind
+from er_commons.source_family_catalog import SourceFamilyCatalog
 
 
 def validate_candidate_build(
@@ -30,11 +31,19 @@ def validate_candidate_build(
     candidate_id: str,
     schema_path: Path,
     identity_extension: JsonObject,
+    source_family_catalog: SourceFamilyCatalog | None = None,
+    source_id: str | None = None,
+    source_family_catalog_sha256: str | None = None,
 ) -> None:
     """Sequence shape, provenance, graph-closure, and preservation policies."""
     schema = json.loads(schema_path.read_bytes())
     _validate_shapes(build, schema, identity_extension)
-    _validate_cross_reference_policy(build)
+    _validate_cross_reference_policy(
+        build,
+        source_family_catalog=source_family_catalog,
+        source_id=source_id,
+        source_family_catalog_sha256=source_family_catalog_sha256,
+    )
     _validate_alias_correspondence(build, upstream_root)
     _validate_target_index(build, upstream_root, upstream_candidate_id, candidate_id)
     _validate_support(build, upstream_root, upstream_candidate_id, candidate_id)
@@ -73,7 +82,13 @@ def _validate_shapes(
     _definition_validator(schema, "identity_extension").validate(identity_extension)
 
 
-def _validate_cross_reference_policy(build: CandidateBuild) -> None:
+def _validate_cross_reference_policy(
+    build: CandidateBuild,
+    *,
+    source_family_catalog: SourceFamilyCatalog | None = None,
+    source_id: str | None = None,
+    source_family_catalog_sha256: str | None = None,
+) -> None:
     """Validate source, resolution, target, and evidence policy cross-record."""
     blocks = {
         block["id"]: block for block in build.preserved_record_files["canonical/blocks.jsonl"]
@@ -139,6 +154,16 @@ def _validate_cross_reference_policy(build: CandidateBuild) -> None:
             (expected_status == "unresolved") == (mention["unresolved_reason"] is not None),
             "mention unresolved reason matches status",
         )
+        if source_family_catalog is not None:
+            if source_id is None or source_family_catalog_sha256 is None:
+                raise ValueError("source-family validation inputs are incomplete")
+            _validate_cross_document_disposition(
+                mention,
+                source,
+                source_family_catalog=source_family_catalog,
+                source_id=source_id,
+                source_family_catalog_sha256=source_family_catalog_sha256,
+            )
         target_ids = [candidate["target_record_id"] for candidate in candidates]
         _require(len(target_ids) == len(set(target_ids)), "candidate targets are deduplicated")
         for candidate in candidates:
@@ -226,7 +251,7 @@ def _validate_table_resolution(
     expected_targets = set() if qualified else set(eligible_distances)
     _require(
         {candidate["target_record_id"] for candidate in candidates} == expected_targets,
-        "table candidates match the verified five-page target window",
+        "table candidates match the verified ten-page target window",
     )
     for candidate in candidates:
         _require(
@@ -245,6 +270,37 @@ def _validate_table_resolution(
             mention["unresolved_reason"] == expected_reason,
             "table unresolved reason matches target evidence",
         )
+
+
+def _validate_cross_document_disposition(
+    mention: JsonObject,
+    source: JsonObject,
+    *,
+    source_family_catalog: SourceFamilyCatalog,
+    source_id: str,
+    source_family_catalog_sha256: str,
+) -> None:
+    """Recompute catalog eligibility from literal stage-one evidence."""
+    start, end = mention["source_charspan"]
+    expected = source_family_catalog.cross_document_match(
+        source_id=source_id,
+        mention_class=mention["mention_class"],
+        lookup_key=mention["lookup_key"],
+        source_text=source["canonical_text"],
+        mention_start=start,
+        mention_end=end,
+    )
+    evidence = mention.get("cross_document_evidence")
+    if mention["candidates"] or expected is None:
+        _require(evidence is None, "ineligible or locally resolved mention lacks catalog evidence")
+        return
+    expected_json = expected.as_json(catalog_sha256=source_family_catalog_sha256)
+    _require(evidence == expected_json, "cross-document catalog evidence is exact")
+    _require(
+        mention["resolution_status"] == "unresolved"
+        and mention["unresolved_reason"] == "deferred_cross_document",
+        "catalog-eligible mention is deferred after local failure",
+    )
 
 
 def _validate_derived_table_aliases(

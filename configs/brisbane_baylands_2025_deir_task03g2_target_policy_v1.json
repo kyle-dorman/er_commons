@@ -4,7 +4,8 @@
   "eligible_candidates": "verified_successful_document_candidates",
   "input_roles": [
     "target_aliases",
-    "target_records"
+    "target_records",
+    "document_targets"
   ],
   "deduplication_key": [
     "alias_id",

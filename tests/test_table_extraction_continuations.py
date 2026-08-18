@@ -36,6 +36,7 @@ def _table(
             "effective_column_count": len(retained) if retained is not None else columns,
         },
         "header_matrix": [["A", "B", "C"]],
+        "shape_clean": [4, columns],
         "raw_column_type_signatures": [
             {"column_index": i, "dominant_type": "text"} for i in range(columns)
         ],
@@ -92,6 +93,36 @@ def test_new_marker_rejects_geometry_compatible_boundary() -> None:
 
     assert decision["status"] == "rejected"
     assert decision["reasons"] == ["new_table_marker"]
+    assignments, _families = assign_families(
+        _pages(markers=[marker]), tables, continuation_records=[decision]
+    )
+    assert len({assignment["family_id"] for assignment in assignments}) == 2
+
+
+def test_exact_header_corroborates_narrow_left_bottom_gap() -> None:
+    tables = [
+        _table("left", 10, 1, bottom=126.35, top=500.0),
+        _table("right", 11, 1, bottom=100.0, top=540.0),
+    ]
+
+    decision = continuation_decisions(_pages(), tables)[0]
+
+    assert decision["status"] == "accepted"
+    assert decision["reasons"] == ["exact_header_corroborated_left_bottom_gap"]
+    assert decision["measurements"]["left_bottom_fraction"] > 0.20
+    assert decision["measurements"]["exact_nonempty_header_match"] is True
+
+
+def test_exact_header_does_not_waive_larger_left_bottom_gap() -> None:
+    tables = [
+        _table("left", 10, 1, bottom=138.0, top=500.0),
+        _table("right", 11, 1, bottom=100.0, top=540.0),
+    ]
+
+    decision = continuation_decisions(_pages(), tables)[0]
+
+    assert decision["status"] == "ambiguous"
+    assert "left_table_not_at_page_bottom" in decision["reasons"]
 
 
 def test_column_disagreement_remains_ambiguous_and_separate() -> None:
@@ -117,6 +148,16 @@ def test_incompatible_retained_column_types_remain_ambiguous() -> None:
 
     assert decision["status"] == "ambiguous"
     assert "retained_column_type_mismatch" in decision["reasons"]
+
+
+def test_exact_header_does_not_waive_another_ambiguity() -> None:
+    left = _table("left", 10, 1, bottom=126.35, top=300.0)
+    right = _table("right", 11, 1, bottom=100.0, top=450.0)
+
+    decision = continuation_decisions(_pages(), [left, right])[0]
+
+    assert decision["status"] == "ambiguous"
+    assert "right_table_not_at_page_top" in decision["reasons"]
 
 
 def test_missing_placeholder_is_compatible_with_numeric_continuation() -> None:

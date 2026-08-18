@@ -26,6 +26,9 @@ from er_commons.canonical_extraction.record_sets import (
     JsonRecord,
     MaterializationReport,
 )
+from er_commons.canonical_extraction.table_projection import (
+    DOCUMENT_INDEX_UNMAPPED_REASON,
+)
 from er_commons.canonical_extraction.tables import ProducerTableBundle
 from er_commons.canonical_extraction.validation import validate_bundle_integrity
 
@@ -56,7 +59,13 @@ def canonicalization_warnings(
     return [
         *inputs.conversion_observation_record.captured_python_warnings,
         *[
-            f"zero table mapping: {mapping.raw_object_ref} provenance {mapping.provenance_index}"
+            (
+                f"document index preserved as text: {mapping.raw_object_ref} "
+                f"provenance {mapping.provenance_index}"
+                if mapping.unmapped_reason == DOCUMENT_INDEX_UNMAPPED_REASON
+                else f"zero table mapping: {mapping.raw_object_ref} "
+                f"provenance {mapping.provenance_index}"
+            )
             for mapping in table_bundle.region_mappings
             if not mapping.clean_table_ids
         ],

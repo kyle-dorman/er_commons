@@ -28,7 +28,7 @@ def _blocks(
 ) -> tuple[tuple[JsonRecord, ...], tuple[JsonRecord, ...]]:
     """Build text blocks and return rejected provenance separately."""
     records: list[JsonRecord] = []
-    rejected: list[JsonRecord] = []
+    rejected: list[JsonRecord] = list(context.invalid_text_provenance)
     for sequence, event in enumerate(context.block_events, start=1):
         index = int(event.pointer.rsplit("/", 1)[1])
         item = inputs.document["texts"][index]
@@ -83,6 +83,8 @@ def _caption_ids_by_owner(
     for pointer, item in owners:
         for caption in item.get("captions", []):
             caption_pointer = caption["$ref"]
+            if caption_pointer in context.traversal.invalid_geometry_text_pointers:
+                continue
             if caption_pointer not in context.block_id_by_pointer:
                 raise ContractError(
                     f"caption was not emitted: owner={pointer}, caption={caption_pointer}"

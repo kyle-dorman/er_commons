@@ -9,6 +9,7 @@ from er_commons.corpus_extraction.outcomes import DocumentTerminalEvidence
 from er_commons.corpus_extraction_contract_v1_1.checks import canonical_sha256
 from er_commons.corpus_extraction_contract_v1_1.identity import build_index_id
 from er_commons.corpus_extraction_contract_v1_1.model import JsonObject
+from er_commons.corpus_resolution.document_targets import build_document_targets
 from er_commons.corpus_resolution.domain import PublishedStage, StageBuild, StageName
 from er_commons.corpus_resolution.storage import (
     bytes_ref,
@@ -45,11 +46,19 @@ class TargetIndexBuilder:
             self._unavailable(item) for item in inputs.evidence if item.candidate_id is None
         ]
         entries = self._entries(inputs.evidence, inputs.extraction_root)
+        document_targets = build_document_targets(inputs.evidence, inputs.extraction_root)
         semantic_payloads = {
             "unavailable_sources.jsonl": jsonl_bytes(unavailable),
             "target_index.jsonl": jsonl_bytes(entries),
+            "document_targets.jsonl": jsonl_bytes(document_targets),
         }
-        preimage = self._identity_preimage(inputs, eligible, semantic_payloads, len(entries))
+        preimage = self._identity_preimage(
+            inputs,
+            eligible,
+            semantic_payloads,
+            len(entries),
+            len(document_targets),
+        )
         index_id = build_index_id(preimage)
         final_relative = f"scopes/{inputs.scope_id}/target_indexes/{index_id}"
         payloads = {
@@ -72,6 +81,9 @@ class TargetIndexBuilder:
             "entries": entries,
             "entries_ref": refs["target_index.jsonl"],
             "entry_count": len(entries),
+            "document_targets": document_targets,
+            "document_targets_ref": refs["document_targets.jsonl"],
+            "document_target_count": len(document_targets),
             "artifact_inventory": inventory_ref(final_relative, semantic_payloads),
             "completion_last": True,
             "status": "complete",
@@ -84,6 +96,7 @@ class TargetIndexBuilder:
         eligible: list[JsonObject],
         payloads: dict[str, bytes],
         entry_count: int,
+        document_target_count: int,
     ) -> JsonObject:
         return {
             "schema_version": "er_commons.corpus_target_index_identity.v1_1",
@@ -96,6 +109,10 @@ class TargetIndexBuilder:
             )["sha256"],
             "entries_sha256": bytes_ref("unused", payloads["target_index.jsonl"])["sha256"],
             "entry_count": entry_count,
+            "document_targets_sha256": bytes_ref("unused", payloads["document_targets.jsonl"])[
+                "sha256"
+            ],
+            "document_target_count": document_target_count,
             "ordering_policy_version": inputs.ordering_policy_version,
             "target_policy_sha256": inputs.target_policy_sha256,
             "managed_inventory_sha256": inventory_ref("unused", payloads)["sha256"],

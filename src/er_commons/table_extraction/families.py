@@ -93,6 +93,23 @@ def _union_accepted_continuations(
             raise ValueError("accepted continuation would place two tables from one page together")
 
 
+def _explicit_continuation_pairs(
+    decisions: list[dict[str, Any]],
+) -> set[frozenset[str]]:
+    """Return evaluated table pairs that older heuristics may not override."""
+    return {
+        frozenset((str(decision["left_table_id"]), str(decision["right_table_id"])))
+        for decision in decisions
+        if isinstance(decision.get("left_table_id"), str)
+        and isinstance(decision.get("right_table_id"), str)
+    }
+
+
+def _is_explicit_pair(left: str, right: str, pairs: set[frozenset[str]]) -> bool:
+    """Return whether continuation policy already disposed this table pair."""
+    return frozenset((left, right)) in pairs
+
+
 def assign_families(
     page_records: list[dict[str, Any]],
     tables: list[dict[str, Any]],
@@ -110,7 +127,9 @@ def assign_families(
         if page.get("footer_owner_table_id")
     }
 
-    _union_accepted_continuations(groups, continuation_records or [])
+    decisions = continuation_records or []
+    _union_accepted_continuations(groups, decisions)
+    explicit_pairs = _explicit_continuation_pairs(decisions)
 
     ordered_pages = sorted(page_records, key=lambda item: item["physical_pdf_page"])
     for left_page, right_page in zip(ordered_pages, ordered_pages[1:], strict=False):
@@ -118,7 +137,11 @@ def assign_families(
             continue
         left_owner = left_page.get("footer_owner_table_id")
         right_owner = right_page.get("footer_owner_table_id")
-        if left_owner and right_owner:
+        if (
+            left_owner
+            and right_owner
+            and not _is_explicit_pair(str(left_owner), str(right_owner), explicit_pairs)
+        ):
             groups.union(str(left_owner), str(right_owner), "footer_run")
 
     # A page-local visual index is stable enough for exact-header continuation
@@ -130,8 +153,12 @@ def assign_families(
     for candidates in by_visual_index.values():
         candidates.sort(key=lambda item: item["physical_pdf_page"])
         for left, right in zip(candidates, candidates[1:], strict=False):
-            if right["physical_pdf_page"] == left["physical_pdf_page"] + 1 and headers_match(
-                left, right
+            if (
+                right["physical_pdf_page"] == left["physical_pdf_page"] + 1
+                and headers_match(left, right)
+                and not _is_explicit_pair(
+                    str(left["table_id"]), str(right["table_id"]), explicit_pairs
+                )
             ):
                 groups.union(
                     str(left["table_id"]),

@@ -26,6 +26,7 @@ ZERO_SHA256 = "0" * 64
 IDENTITY_RELATIVE = (
     "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/production_identity_preimage.json"
 )
+SOURCE_FAMILY_CATALOG_NAME = "brisbane_baylands_2025_deir_task03g2_source_family_catalog_v1.json"
 
 SOURCES: tuple[dict[str, Any], ...] = (
     {
@@ -74,6 +75,9 @@ def main() -> None:
         "brisbane_baylands_2025_deir_task03e5_cross_references_human_v2.json"
     )
 
+    source_family_catalog_path = CONFIG_ROOT / SOURCE_FAMILY_CATALOG_NAME
+    _write(source_family_catalog_path, _source_family_catalog())
+
     owner_paths: dict[str, dict[str, str]] = {}
     for source in SOURCES:
         owner_paths[str(source["source_id"])] = _write_owner_templates(
@@ -96,7 +100,7 @@ def main() -> None:
             "schema_version": "er_commons.corpus_target_policy.v1",
             "policy_version": "task03g2-corpus-target-policy-v1",
             "eligible_candidates": "verified_successful_document_candidates",
-            "input_roles": ["target_aliases", "target_records"],
+            "input_roles": ["target_aliases", "target_records", "document_targets"],
             "deduplication_key": ["alias_id", "target_id"],
             "collision_policy": "retain_cross_target_collisions",
             "ordering": [
@@ -116,8 +120,8 @@ def main() -> None:
             "eligible_resolution_status": "unresolved",
             "eligible_unresolved_reason": "deferred_cross_document",
             "target_type": "document",
-            "catalog_join": "normalized_lookup_key_to_intended_source_ids",
-            "match_fields": ["lookup_key", "target_type", "intended_target_source_ids"],
+            "catalog_join": "reviewed_alias_to_source_ids_to_sealed_document_targets",
+            "match_fields": ["target_type", "intended_target_source_ids"],
             "dispositions": {
                 "one_match": "resolved",
                 "multiple_matches": "ambiguous",
@@ -126,27 +130,6 @@ def main() -> None:
                 "source_outside_scope": "target_not_in_scope",
             },
             "stage_one_mutation": "forbidden",
-        },
-    )
-
-    catalog_name = "brisbane_baylands_2025_deir_task03g2_corpus_catalog_v1.json"
-    _write(
-        CONFIG_ROOT / catalog_name,
-        {
-            "schema_version": "er_commons.corpus_catalog.v1",
-            "scope_name": "brisbane_baylands_task03g2_representative_pilot",
-            "documents": [
-                {
-                    "source": {
-                        "source_id": source["source_id"],
-                        "sha256": source["sha256"],
-                        "byte_size": source["byte_size"],
-                        "pdf_page_count": source["pdf_page_count"],
-                    },
-                    "lookup_keys": source["lookup_keys"],
-                }
-                for source in SOURCES
-            ],
         },
     )
 
@@ -195,8 +178,9 @@ def main() -> None:
             "schema_version": "er_commons.scope_run_spec.v1",
             "document_run_spec": document_name,
             "source_ids": [source["source_id"] for source in SOURCES],
-            "corpus_catalog_relative_path": (f"{PILOT_ROOT}/inputs/{catalog_name}"),
+            "corpus_catalog_relative_path": (f"{PILOT_ROOT}/inputs/{SOURCE_FAMILY_CATALOG_NAME}"),
             "blocking_policy": "all_sources_successful",
+            "document_evidence_mode": "downstream_replay_only",
             "target_policy_sha256": _sha256(target_policy_path),
             "resolution_policy_sha256": _sha256(resolution_policy_path),
             "ordering_policy_version": "corpus_target_order_v1",
@@ -323,6 +307,10 @@ def _write_owner_templates(
             "artifact_relative_root": CANONICAL_ROOT,
             "source_manifest_relative_path": MANIFEST_RELATIVE,
             "source_manifest_sha256": MANIFEST_SHA256,
+            "source_family_catalog_relative_path": (
+                f"{PILOT_ROOT}/inputs/{SOURCE_FAMILY_CATALOG_NAME}"
+            ),
+            "source_family_catalog_sha256": _sha256(CONFIG_ROOT / SOURCE_FAMILY_CATALOG_NAME),
         }
     )
     values = {
@@ -336,6 +324,36 @@ def _write_owner_templates(
     for role, value in values.items():
         _write(ROOT / paths[role], value)
     return paths
+
+
+def _source_family_catalog() -> dict[str, Any]:
+    """Build the shared reviewed source-family catalog used by both stages."""
+    sources = []
+    for source in SOURCES:
+        aliases = list(source["lookup_keys"])
+        aliases.append(str(source["official_title"]).casefold())
+        sources.append(
+            {
+                "source": {
+                    "source_id": source["source_id"],
+                    "sha256": source["sha256"],
+                    "byte_size": source["byte_size"],
+                    "pdf_page_count": source["pdf_page_count"],
+                },
+                "family_root_source_id": "deir_main",
+                "document_role": (
+                    "root_report" if source["source_id"] == "deir_main" else "top_level_appendix"
+                ),
+                "parent_source_id": (None if source["source_id"] == "deir_main" else "deir_main"),
+                "reference_aliases": aliases,
+            }
+        )
+    return {
+        "schema_version": "er_commons.source_family_catalog.v1",
+        "catalog_version": "brisbane_baylands_2025_deir_task03g2_source_family_v1",
+        "source_family_id": "brisbane_baylands_2025_deir",
+        "sources": sources,
+    }
 
 
 def _read(name: str) -> dict[str, Any]:

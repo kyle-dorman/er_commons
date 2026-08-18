@@ -21,6 +21,8 @@ INDEX_PREIMAGE_FIELDS = (
     "unavailable_sources_sha256",
     "entries_sha256",
     "entry_count",
+    "document_targets_sha256",
+    "document_target_count",
     "ordering_policy_version",
     "target_policy_sha256",
     "managed_inventory_sha256",

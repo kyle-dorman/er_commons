@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+from er_commons.corpus_extraction_contract_v1_1.checks import canonical_sha256
 from er_commons.extraction_review import (
     AnomalyPolicy,
     PilotReviewRequest,
@@ -108,7 +109,6 @@ def _pilot_fixture(tmp_path: Path) -> tuple[Path, Path, dict[str, object]]:
         "tables": [{"id": "t1"}],
         "table_families": [{"id": "f1"}],
         "sections": [{"id": "s1"}],
-        "page_labels": [{"id": "l1"}, {"id": "l2"}],
         "target_aliases": [{"id": "a1"}],
         "cross_references": [
             {"id": "m2", "resolution_status": "unresolved"},
@@ -117,6 +117,10 @@ def _pilot_fixture(tmp_path: Path) -> tuple[Path, Path, dict[str, object]]:
     }
     for name, rows in records.items():
         _write_jsonl(canonical / f"{name}.jsonl", rows)
+    _write_jsonl(
+        candidate_root / "content/observations/page_labels.jsonl",
+        [{"id": "l1"}, {"id": "l2"}],
+    )
 
     producer = data_root / "owners/producer/prv1-test"
     producer_completion = producer / "records/completion_record.json"
@@ -203,8 +207,8 @@ def _pilot_fixture(tmp_path: Path) -> tuple[Path, Path, dict[str, object]]:
         correction_completion,
         {
             "status": "complete_with_ambiguities",
-            "artifact_inventory_sha256": sha256_file(
-                correction / "records/artifact_inventory.json"
+            "artifact_inventory_sha256": canonical_sha256(
+                json.loads((correction / "records/artifact_inventory.json").read_text())
             ),
         },
     )

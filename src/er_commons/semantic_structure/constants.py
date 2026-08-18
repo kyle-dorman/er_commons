@@ -20,6 +20,7 @@ PERMITTED_BRIDGE_DISPOSITIONS = frozenset(
     {
         "canonical_table_replacement_descendant",
         "canonical_figure_suppressed_descendant",
+        "canonical_invalid_provenance_suppressed",
     }
 )
 

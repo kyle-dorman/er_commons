@@ -13,7 +13,10 @@ from typing import Any
 from er_commons.hierarchy_correction.candidate_records import stable_json_bytes
 from er_commons.hierarchy_correction.configuration import load_hierarchy_correction_config
 from er_commons.hierarchy_correction.decision_builder import build_rule_decisions
-from er_commons.hierarchy_correction.features import build_feature_seeds
+from er_commons.hierarchy_correction.features import (
+    build_feature_seeds,
+    document_index_text_pointers,
+)
 from er_commons.hierarchy_correction.hierarchy_builder import build_corrected_hierarchy
 from er_commons.hierarchy_correction.inputs import (
     HierarchyCorrectionInputs,
@@ -55,9 +58,8 @@ def build_single_semantic_candidate(
     total_start = time.perf_counter()
 
     started = time.perf_counter()
-    outline_observations, _source_page_labels = read_pdf_observations(
-        inputs.selected_source.source_path
-    )
+    pdf_observations = read_pdf_observations(inputs.selected_source.source_path)
+    outline_observations = pdf_observations.outline_observations
     features = build_feature_seeds(
         inputs.document,
         inputs.conversion_pages,
@@ -73,6 +75,7 @@ def build_single_semantic_candidate(
         features,
         outline_observations,
         native_heading_observations=native_heading_observations,
+        document_index_text_refs=document_index_text_pointers(inputs.document),
     )
     toc_seconds = time.perf_counter() - started
 
@@ -103,7 +106,7 @@ def build_single_semantic_candidate(
         "hierarchy": hierarchy.hierarchy,
         "ambiguities": list(decisions.ambiguities),
         "warnings": sorted(
-            [*toc.diagnostics, *hierarchy.warnings],
+            [*pdf_observations.diagnostics, *toc.diagnostics, *hierarchy.warnings],
             key=lambda item: (
                 -1 if item["reading_order_index"] is None else item["reading_order_index"],
                 "" if item["stable_item_key"] is None else item["stable_item_key"],

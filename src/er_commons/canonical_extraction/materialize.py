@@ -28,6 +28,7 @@ from er_commons.canonical_extraction.publication import (
 )
 from er_commons.canonical_extraction.record_sets import CanonicalRecordSet
 from er_commons.canonical_extraction.support_records import build_support_records
+from er_commons.canonical_extraction.table_projection import project_canonical_table_bundle
 from er_commons.canonical_extraction.tables import (
     load_producer_table_bundle,
 )
@@ -56,7 +57,8 @@ def build_candidate_in_workspace(
     identity: dict[str, object],
 ) -> None:
     """Build and completion-seal one candidate in an isolated workspace."""
-    table_bundle = load_producer_table_bundle(inputs.document_root / "producer")
+    producer_table_bundle = load_producer_table_bundle(inputs.document_root / "producer")
+    table_bundle = project_canonical_table_bundle(inputs.document, producer_table_bundle)
     context = build_materialization_context(
         config=config,
         inputs=inputs,

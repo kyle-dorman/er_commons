@@ -189,6 +189,7 @@
             "docling",
             "pdfium_router",
             "camelot_clean_pipeline",
+            "tableformer_fallback",
             "project_cleanup",
             "project_family_assignment"
           ]
@@ -725,6 +726,7 @@
                 "docling",
                 "pdfium_router",
                 "camelot_clean_pipeline",
+                "tableformer_fallback",
                 "project"
               ]
             }

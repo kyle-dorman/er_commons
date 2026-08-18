@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -14,10 +15,32 @@ from er_commons.hierarchy_correction.features import normalize_text
 JsonObject = dict[str, Any]
 
 
-def read_pdf_observations(source_pdf: Path) -> tuple[tuple[JsonObject, ...], dict[int, str]]:
+@dataclass(frozen=True)
+class OutlineExtraction:
+    """Usable outline nodes plus explicit evidence omitted as invalid leaves."""
+
+    observations: tuple[JsonObject, ...]
+    diagnostics: tuple[JsonObject, ...]
+
+
+@dataclass(frozen=True)
+class PdfObservations:
+    """Independent source-PDF observations consumed by hierarchy correction."""
+
+    outline_observations: tuple[JsonObject, ...]
+    page_labels: dict[int, str]
+    diagnostics: tuple[JsonObject, ...]
+
+
+def read_pdf_observations(source_pdf: Path) -> PdfObservations:
     """Read outline nodes and page labels without converting source content."""
     reader = PdfReader(source_pdf, strict=True)
-    return extract_outline_observations(reader), extract_page_labels(reader)
+    outline = extract_outline_observations(reader)
+    return PdfObservations(
+        outline_observations=outline.observations,
+        page_labels=extract_page_labels(reader),
+        diagnostics=outline.diagnostics,
+    )
 
 
 def read_native_heading_observations(
@@ -69,18 +92,19 @@ def extract_page_labels(reader: Any) -> dict[int, str]:
     return {index: label for index, label in enumerate(labels, start=1)}
 
 
-def extract_outline_observations(reader: Any) -> tuple[JsonObject, ...]:
-    """Flatten pypdf's nested outline while retaining parent and raw depth."""
+def extract_outline_observations(reader: Any) -> OutlineExtraction:
+    """Flatten valid outline nodes and diagnose destinationless leaf entries."""
     try:
         outline = reader.outline
     except Exception as error:  # pragma: no cover - pypdf exception types vary by defect
         raise HierarchyCorrectionContractError("source PDF outline is malformed") from error
     if not outline:
-        return ()
+        return OutlineExtraction((), ())
     if not isinstance(outline, list):
         raise HierarchyCorrectionContractError("source PDF outline is invalid")
 
     observations: list[JsonObject] = []
+    diagnostics: list[JsonObject] = []
 
     def walk(nodes: list[Any], parent_id: str | None, depth: int, root_depth: int) -> None:
         previous_id: str | None = None
@@ -100,7 +124,18 @@ def extract_outline_observations(reader: Any) -> tuple[JsonObject, ...]:
                     "outline destination is malformed"
                 ) from error
             if not isinstance(page_index, int) or not 0 <= page_index < len(reader.pages):
-                raise HierarchyCorrectionContractError("outline destination page is invalid")
+                diagnostics.append(
+                    {
+                        "reading_order_index": None,
+                        "stable_item_key": None,
+                        "code": "TOC_TARGET_MISSING",
+                        "detail": (
+                            f"PDF outline leaf has no valid destination and was omitted: {title}"
+                        ),
+                    }
+                )
+                previous_id = None
+                continue
             outline_id = f"outline-{len(observations):08d}"
             observations.append(
                 {
@@ -117,4 +152,4 @@ def extract_outline_observations(reader: Any) -> tuple[JsonObject, ...]:
             previous_id = outline_id
 
     walk(outline, None, 1, 1)
-    return tuple(observations)
+    return OutlineExtraction(tuple(observations), tuple(diagnostics))

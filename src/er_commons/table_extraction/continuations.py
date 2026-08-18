@@ -9,6 +9,7 @@ from typing import Any
 
 JsonObject = dict[str, Any]
 MAX_LEFT_BOTTOM_FRACTION = 0.20
+MAX_CORROBORATED_LEFT_BOTTOM_FRACTION = 0.22
 MIN_RIGHT_TOP_FRACTION = 0.80
 MAX_HORIZONTAL_DELTA = 0.03
 MAX_COLUMN_BOUNDARY_DELTA = 0.02
@@ -63,6 +64,9 @@ class ContinuationSignals:
     right_raw_column_count: int
     maximum_column_boundary_delta: float | None
     column_types: ColumnTypeCompatibility
+    exact_nonempty_header_match: bool
+    left_body_row_count: int
+    right_body_row_count: int
 
     def measurements(self) -> JsonObject:
         """Serialize diagnostic signals without embedding policy conclusions."""
@@ -75,7 +79,55 @@ class ContinuationSignals:
             "maximum_column_boundary_delta": self.maximum_column_boundary_delta,
             "compatible_retained_column_types": self.column_types.compatible,
             "retained_column_type_comparisons": self.column_types.comparisons,
+            "exact_nonempty_header_match": self.exact_nonempty_header_match,
+            "left_body_row_count": self.left_body_row_count,
+            "right_body_row_count": self.right_body_row_count,
         }
+
+
+def body_row_count(table: JsonObject) -> int:
+    """Return cleaned rows not already identified as printed header rows."""
+    shape = table.get("shape_clean")
+    matrix = table.get("header_matrix")
+    if (
+        not isinstance(shape, list)
+        or len(shape) != 2
+        or not isinstance(shape[0], int)
+        or not isinstance(matrix, list)
+    ):
+        return 0
+    return max(0, int(shape[0]) - len(matrix))
+
+
+def exact_nonempty_headers_match(left: JsonObject, right: JsonObject) -> bool:
+    """Return whether two records carry the same non-empty printed header."""
+    left_header = left.get("header_matrix")
+    return bool(left_header and left_header == right.get("header_matrix"))
+
+
+def edge_geometry_compatible(
+    left: TableEdge,
+    right: TableEdge,
+    *,
+    maximum_left_bottom_fraction: float = MAX_LEFT_BOTTOM_FRACTION,
+) -> bool:
+    """Require page-edge placement, span, and raw-column geometry to agree."""
+    span_delta = max(
+        abs(left_value - right_value)
+        for left_value, right_value in zip(
+            left.horizontal_span,
+            right.horizontal_span,
+            strict=True,
+        )
+    )
+    column_delta = _maximum_column_delta(left, right)
+    return bool(
+        left.bottom_fraction <= maximum_left_bottom_fraction
+        and right.top_fraction >= MIN_RIGHT_TOP_FRACTION
+        and span_delta <= MAX_HORIZONTAL_DELTA
+        and column_delta is not None
+        and column_delta <= MAX_COLUMN_BOUNDARY_DELTA
+    )
 
 
 def _tables_on_page(tables: list[JsonObject], page: int) -> list[JsonObject]:
@@ -187,13 +239,22 @@ def _continuation_signals(left: TableEdge, right: TableEdge) -> ContinuationSign
         right_raw_column_count=len(right.columns),
         maximum_column_boundary_delta=_maximum_column_delta(left, right),
         column_types=_column_type_compatibility(left, right),
+        exact_nonempty_header_match=exact_nonempty_headers_match(left.record, right.record),
+        left_body_row_count=body_row_count(left.record),
+        right_body_row_count=body_row_count(right.record),
     )
 
 
 def _ambiguity_reasons(signals: ContinuationSignals) -> list[str]:
     """Apply the conservative continuation thresholds to measured signals."""
     reasons: list[str] = []
-    if signals.left_bottom_fraction > MAX_LEFT_BOTTOM_FRACTION:
+    corroborated_bottom_gap = bool(
+        signals.left_bottom_fraction <= MAX_CORROBORATED_LEFT_BOTTOM_FRACTION
+        and signals.exact_nonempty_header_match
+        and signals.left_body_row_count > 0
+        and signals.right_body_row_count > 0
+    )
+    if signals.left_bottom_fraction > MAX_LEFT_BOTTOM_FRACTION and not corroborated_bottom_gap:
         reasons.append("left_table_not_at_page_bottom")
     if signals.right_top_fraction < MIN_RIGHT_TOP_FRACTION:
         reasons.append("right_table_not_at_page_top")
@@ -207,6 +268,13 @@ def _ambiguity_reasons(signals: ContinuationSignals) -> list[str]:
     if not signals.column_types.compatible:
         reasons.append("retained_column_type_mismatch")
     return reasons
+
+
+def _acceptance_reason(signals: ContinuationSignals) -> str:
+    """Name the positive policy basis, including any narrow threshold waiver."""
+    if signals.left_bottom_fraction > MAX_LEFT_BOTTOM_FRACTION:
+        return "exact_header_corroborated_left_bottom_gap"
+    return "all_continuation_signals_passed"
 
 
 def _evaluate_edge_pair(
@@ -231,7 +299,7 @@ def _evaluate_edge_pair(
         "left_table_id": left.table_id,
         "right_table_id": right.table_id,
         "status": status,
-        "reasons": reasons or ["all_continuation_signals_passed"],
+        "reasons": reasons or [_acceptance_reason(signals)],
         "measurements": signals.measurements(),
         "right_page_markers": markers,
         "inherited_header": (

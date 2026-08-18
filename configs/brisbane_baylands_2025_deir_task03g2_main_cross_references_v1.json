@@ -8,5 +8,7 @@
   "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
   "source_manifest_sha256": "fede3e4af815378b77a7f7f54c863ef095328da789859d4f4b25a524f3408f38",
   "specification_relative_path": "docs/specs/cross_references_v3.md",
-  "schema_relative_path": "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json"
+  "schema_relative_path": "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json",
+  "source_family_catalog_relative_path": "pipelines/brisbane_baylands/task_03g2_representative_pilot/inputs/brisbane_baylands_2025_deir_task03g2_source_family_catalog_v1.json",
+  "source_family_catalog_sha256": "8b5ec35a3f8ef7a388dd40610ec803a486412f2a74a62343bfddd4fb3159a948"
 }

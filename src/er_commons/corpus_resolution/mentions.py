@@ -9,6 +9,7 @@ from er_commons.corpus_extraction.outcomes import DocumentTerminalEvidence
 from er_commons.corpus_extraction_contract_v1_1.checks import canonical_sha256
 from er_commons.corpus_extraction_contract_v1_1.model import JsonObject
 from er_commons.corpus_resolution.storage import read_jsonl
+from er_commons.source_family_catalog import SourceFamilyCatalog, normalize_reference_alias
 
 
 @dataclass(frozen=True)
@@ -46,10 +47,12 @@ class MentionManifestBuilder:
     def __init__(
         self,
         extraction_root: Path,
-        catalog_lookup: dict[str, tuple[JsonObject, ...]],
+        catalog: SourceFamilyCatalog,
+        catalog_sha256: str,
     ) -> None:
         self._extraction_root = extraction_root
-        self._catalog_lookup = catalog_lookup
+        self._catalog = catalog
+        self._catalog_sha256 = catalog_sha256
 
     def build(self, evidence: tuple[DocumentTerminalEvidence, ...]) -> MentionManifest:
         """Cover every successful candidate, including zero-mention candidates."""
@@ -73,7 +76,7 @@ class MentionManifestBuilder:
             raise ValueError("successful evidence lacks mention inputs")
         path = self._extraction_root / str(item.cross_references_ref["path"])
         eligible = [
-            self._eligible_record(row)
+            self._eligible_record(row, source_id=str(item.source["source_id"]))
             for row in read_jsonl(path)
             if row.get("resolution_status") == "unresolved"
             and row.get("unresolved_reason") == "deferred_cross_document"
@@ -91,15 +94,36 @@ class MentionManifestBuilder:
         }
         return candidate, [DerivedMention(record, item.candidate_id) for record in eligible]
 
-    def _eligible_record(self, row: JsonObject) -> JsonObject:
-        sources = self._catalog_lookup.get(str(row["lookup_key"]))
-        if not sources:
-            raise ValueError("deferred mention lacks sealed catalog ownership")
+    def _eligible_record(self, row: JsonObject, *, source_id: str) -> JsonObject:
+        evidence = row.get("cross_document_evidence")
+        if not isinstance(evidence, dict):
+            raise ValueError("deferred mention lacks explicit catalog evidence")
+        if evidence.get("catalog_sha256") != self._catalog_sha256:
+            raise ValueError("deferred mention catalog checksum differs")
+        alias = normalize_reference_alias(str(row["lookup_key"]))
+        if evidence.get("matched_alias") != alias:
+            raise ValueError("deferred mention matched alias differs")
+        origin = self._catalog.by_source_id.get(source_id)
+        if origin is None:
+            raise ValueError("deferred mention source is absent from catalog")
+        sources = tuple(
+            target
+            for target in self._catalog.alias_lookup.get(alias, ())
+            if target.source_id != source_id
+            and target.family_root_source_id == origin.family_root_source_id
+        )
+        intended = [source.source_id for source in sources]
+        if evidence.get("intended_target_source_ids") != intended:
+            raise ValueError("deferred mention intended sources differ from catalog")
+        mention_class = str(row["mention_class"])
+        if mention_class not in {"appendix", "document"}:
+            raise ValueError("deferred mention class is not cross-document eligible")
         return {
             "mention_id": row["id"],
             "candidate_local_sequence": row["sequence"],
             "document_id": row["document_id"],
-            "mention_class": "document",
+            "mention_class": mention_class,
             "lookup_key": row["lookup_key"],
-            "intended_target_source_ids": [source["source_id"] for source in sources],
+            "cross_document_evidence": evidence,
+            "intended_target_source_ids": intended,
         }

@@ -26,6 +26,7 @@ COMPATIBLE_ASSET_PRODUCERS = {
     "docling": {"docling"},
     "pdfium_router": {"pdfium_router"},
     "camelot_clean_pipeline": {"camelot_clean_pipeline"},
+    "tableformer_fallback": {"tableformer_fallback"},
     "project_cleanup": {"camelot_clean_pipeline", "project"},
     "project_family_assignment": {"camelot_clean_pipeline", "project"},
 }

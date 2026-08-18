@@ -20,7 +20,9 @@ from er_commons.source_freeze import sha256_file, write_json_atomic
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DOCUMENT_SPEC = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03g2_document_v1.json"
 SCOPE_SPEC = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03g2_scope_v1.json"
-CATALOG = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03g2_corpus_catalog_v1.json"
+CATALOG = (
+    PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03g2_source_family_catalog_v1.json"
+)
 TASK_ROOTS = (
     Path("pipelines/brisbane_baylands/task_03g2_document_producers"),
     Path("pipelines/brisbane_baylands/task_03g2_canonical_records"),

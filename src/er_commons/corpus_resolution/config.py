@@ -19,6 +19,9 @@ class ScopeRunSpec(BaseModel):
     source_ids: tuple[str, ...] = Field(min_length=1)
     corpus_catalog_relative_path: Path
     blocking_policy: Literal["all_sources_successful", "terminal_failures_allowed"]
+    document_evidence_mode: Literal["document_attempt", "downstream_replay_only"] = (
+        "document_attempt"
+    )
     target_policy_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     resolution_policy_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     ordering_policy_version: Literal["corpus_target_order_v1"] = "corpus_target_order_v1"

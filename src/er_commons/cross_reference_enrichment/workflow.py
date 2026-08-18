@@ -6,7 +6,6 @@ import uuid
 from pathlib import Path
 
 from er_commons.canonical_extraction.publication import publish_workspace, reserve_workspace
-from er_commons.cross_reference_enrichment.catalog import CorpusDocumentCatalog
 from er_commons.cross_reference_enrichment.config import RuntimeContext
 from er_commons.cross_reference_enrichment.construction import (
     CandidateSource,
@@ -25,6 +24,7 @@ from er_commons.cross_reference_enrichment.validation import (
     validate_candidate_build,
     validate_serialized_terminal_records,
 )
+from er_commons.source_family_catalog import SourceFamilyCatalog
 
 
 def run_cross_reference_enrichment(
@@ -50,7 +50,7 @@ def run_cross_reference_enrichment(
 def _build_validate_and_publish(context: RuntimeContext, identity: JsonObject) -> Path:
     candidate_id = str(identity["extraction_id"])
     upstream = CandidateSource.load(context.upstream_root)
-    catalog = CorpusDocumentCatalog.from_source_manifest(context.source_manifest_path)
+    catalog = SourceFamilyCatalog.load(context.source_family_catalog_path)
     policy = default_mention_policy()
     workspace = None
     build = None
@@ -61,7 +61,8 @@ def _build_validate_and_publish(context: RuntimeContext, identity: JsonObject) -
             upstream_candidate_id=context.config.upstream_candidate_id,
             candidate_id=candidate_id,
             policy=policy,
-            corpus_catalog=catalog,
+            source_family_catalog=catalog,
+            source_family_catalog_sha256=context.source_family_catalog_sha256,
             source_id=context.config.source_id,
         ).build()
         validate_candidate_build(
@@ -71,6 +72,9 @@ def _build_validate_and_publish(context: RuntimeContext, identity: JsonObject) -
             candidate_id=candidate_id,
             schema_path=context.project_root / context.config.schema_relative_path,
             identity_extension=identity["cross_reference_contract"],
+            source_family_catalog=catalog,
+            source_id=context.config.source_id,
+            source_family_catalog_sha256=context.source_family_catalog_sha256,
         )
         CandidateWriter(upstream).write(workspace.staging_root, build, identity)
         validate_serialized_terminal_records(

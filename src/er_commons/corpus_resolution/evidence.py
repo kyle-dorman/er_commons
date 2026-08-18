@@ -45,10 +45,11 @@ class TerminalEvidenceCollector:
         ordinal: int,
     ) -> DocumentTerminalEvidence:
         execution_error: Exception | None = None
-        try:
-            self._runner(run.data_root, run.document_spec_path, source_id)
-        except Exception as error:
-            execution_error = error
+        if run.scope_spec.document_evidence_mode == "document_attempt":
+            try:
+                self._runner(run.data_root, run.document_spec_path, source_id)
+            except Exception as error:
+                execution_error = error
         try:
             terminal = self._observer(
                 run.data_root,

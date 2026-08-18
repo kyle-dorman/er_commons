@@ -258,7 +258,10 @@
       "properties": {
         "record_type": {"const": "document_completion"},
         "schema_version": {"const": "er_commons.document_completion.v1"},
-        "transaction_id": {"type": "string", "pattern": "^txv1-[0-9a-f]{64}$"},
+        "transaction_id": {
+          "type": "string",
+          "pattern": "^(?:txv1|replayv1)-[0-9a-f]{64}$"
+        },
         "source": {"$ref": "#/$defs/source"},
         "scope_kind": {"const": "full_document"},
         "processed_pages": {
@@ -311,6 +314,58 @@
         "completion_path": {"type": ["string", "null"]}
       }
     },
+    "downstream_replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "replay_id",
+        "source",
+        "source_candidate_id",
+        "source_completion_ref",
+        "source_inventory_ref",
+        "reused_stage_completions",
+        "replacement_cross_reference_completion_ref",
+        "candidate_id",
+        "publication_mode",
+        "document_attempt_allocated"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.downstream_document_replay.v1"},
+        "replay_id": {"type": "string", "pattern": "^replayv1-[0-9a-f]{64}$"},
+        "source": {"$ref": "#/$defs/source"},
+        "source_candidate_id": {
+          "type": "string",
+          "pattern": "^docv1-[0-9a-f]{64}$"
+        },
+        "source_completion_ref": {"$ref": "#/$defs/stage_one_artifact_ref"},
+        "source_inventory_ref": {"$ref": "#/$defs/stage_one_artifact_ref"},
+        "reused_stage_completions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "baseline_producer",
+            "hierarchy_producer",
+            "canonical",
+            "hierarchy_correction",
+            "semantic"
+          ],
+          "properties": {
+            "baseline_producer": {"$ref": "#/$defs/stage_one_artifact_ref"},
+            "hierarchy_producer": {"$ref": "#/$defs/stage_one_artifact_ref"},
+            "canonical": {"$ref": "#/$defs/stage_one_artifact_ref"},
+            "hierarchy_correction": {"$ref": "#/$defs/stage_one_artifact_ref"},
+            "semantic": {"$ref": "#/$defs/stage_one_artifact_ref"}
+          }
+        },
+        "replacement_cross_reference_completion_ref": {
+          "$ref": "#/$defs/stage_one_artifact_ref"
+        },
+        "candidate_id": {"type": "string", "pattern": "^docv1-[0-9a-f]{64}$"},
+        "publication_mode": {"const": "downstream_only"},
+        "document_attempt_allocated": {"const": false}
+      }
+    },
     "document_resources": {
       "type": "object",
       "additionalProperties": false,
@@ -361,11 +416,13 @@
       "required": [
         "source_id",
         "source_ordinal",
+        "evidence_kind",
         "terminal_state",
         "transaction_id",
         "attempt",
         "terminal_event_ref",
         "attempt_record_ref",
+        "downstream_replay_ref",
         "candidate_id",
         "document_completion_ref",
         "candidate_inventory_ref",
@@ -375,13 +432,24 @@
       "properties": {
         "source_id": {"$ref": "#/$defs/source_id"},
         "source_ordinal": {"type": "integer", "minimum": 1},
+        "evidence_kind": {"enum": ["document_attempt", "downstream_replay"]},
         "terminal_state": {
           "enum": ["complete", "complete_with_warnings", "failed_terminal"]
         },
-        "transaction_id": {"type": "string", "pattern": "^txv1-[0-9a-f]{64}$"},
-        "attempt": {"type": "integer", "minimum": 1},
-        "terminal_event_ref": {"$ref": "#/$defs/artifact_ref"},
-        "attempt_record_ref": {"$ref": "#/$defs/artifact_ref"},
+        "transaction_id": {
+          "type": "string",
+          "pattern": "^(?:txv1|replayv1)-[0-9a-f]{64}$"
+        },
+        "attempt": {"type": ["integer", "null"], "minimum": 1},
+        "terminal_event_ref": {
+          "oneOf": [{"$ref": "#/$defs/artifact_ref"}, {"type": "null"}]
+        },
+        "attempt_record_ref": {
+          "oneOf": [{"$ref": "#/$defs/artifact_ref"}, {"type": "null"}]
+        },
+        "downstream_replay_ref": {
+          "oneOf": [{"$ref": "#/$defs/artifact_ref"}, {"type": "null"}]
+        },
         "candidate_id": {
           "type": ["string", "null"],
           "pattern": "^docv1-[0-9a-f]{64}$"
@@ -405,6 +473,37 @@
         }
       },
       "allOf": [
+        {
+          "if": {
+            "properties": {"evidence_kind": {"const": "downstream_replay"}},
+            "required": ["evidence_kind"]
+          },
+          "then": {
+            "properties": {
+              "terminal_state": {"enum": ["complete", "complete_with_warnings"]},
+              "transaction_id": {
+                "type": "string",
+                "pattern": "^replayv1-[0-9a-f]{64}$"
+              },
+              "attempt": {"type": "null"},
+              "terminal_event_ref": {"type": "null"},
+              "attempt_record_ref": {"type": "null"},
+              "downstream_replay_ref": {"$ref": "#/$defs/artifact_ref"}
+            }
+          },
+          "else": {
+            "properties": {
+              "transaction_id": {
+                "type": "string",
+                "pattern": "^txv1-[0-9a-f]{64}$"
+              },
+              "attempt": {"type": "integer", "minimum": 1},
+              "terminal_event_ref": {"$ref": "#/$defs/artifact_ref"},
+              "attempt_record_ref": {"$ref": "#/$defs/artifact_ref"},
+              "downstream_replay_ref": {"type": "null"}
+            }
+          }
+        },
         {
           "if": {
             "properties": {
@@ -569,6 +668,17 @@
         "target_id": {"type": "string", "minLength": 1}
       }
     },
+    "document_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_ordinal", "candidate_id", "target_id"],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/source_id"},
+        "source_ordinal": {"type": "integer", "minimum": 1},
+        "candidate_id": {"type": "string", "pattern": "^docv1-[0-9a-f]{64}$"},
+        "target_id": {"type": "string", "minLength": 1}
+      }
+    },
     "index_identity_preimage": {
       "type": "object",
       "additionalProperties": false,
@@ -581,6 +691,8 @@
         "unavailable_sources_sha256",
         "entries_sha256",
         "entry_count",
+        "document_targets_sha256",
+        "document_target_count",
         "ordering_policy_version",
         "target_policy_sha256",
         "managed_inventory_sha256"
@@ -597,6 +709,8 @@
         "unavailable_sources_sha256": {"$ref": "#/$defs/sha256"},
         "entries_sha256": {"$ref": "#/$defs/sha256"},
         "entry_count": {"type": "integer", "minimum": 0},
+        "document_targets_sha256": {"$ref": "#/$defs/sha256"},
+        "document_target_count": {"type": "integer", "minimum": 0},
         "ordering_policy_version": {"const": "corpus_target_order_v1"},
         "target_policy_sha256": {"$ref": "#/$defs/sha256"},
         "managed_inventory_sha256": {"$ref": "#/$defs/sha256"}
@@ -618,6 +732,9 @@
         "entries",
         "entries_ref",
         "entry_count",
+        "document_targets",
+        "document_targets_ref",
+        "document_target_count",
         "artifact_inventory",
         "completion_last",
         "status"
@@ -644,9 +761,38 @@
         },
         "entries_ref": {"$ref": "#/$defs/artifact_ref"},
         "entry_count": {"type": "integer", "minimum": 0},
+        "document_targets": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/document_target"}
+        },
+        "document_targets_ref": {"$ref": "#/$defs/artifact_ref"},
+        "document_target_count": {"type": "integer", "minimum": 0},
         "artifact_inventory": {"$ref": "#/$defs/artifact_ref"},
         "completion_last": {"const": true},
         "status": {"const": "complete"}
+      }
+    },
+    "cross_document_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalog_sha256", "source_family_id", "matched_alias", "traversal_rule",
+        "intended_target_source_ids"
+      ],
+      "properties": {
+        "catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "source_family_id": {"type": "string", "minLength": 1},
+        "matched_alias": {"type": "string", "minLength": 1},
+        "traversal_rule": {
+          "enum": [
+            "reviewed_named_document_alias", "root_report_to_top_level_appendix",
+            "qualified_nested_to_top_level_appendix"
+          ]
+        },
+        "intended_target_source_ids": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/source_id"}
+        }
       }
     },
     "eligible_mention": {
@@ -658,14 +804,16 @@
         "document_id",
         "mention_class",
         "lookup_key",
+        "cross_document_evidence",
         "intended_target_source_ids"
       ],
       "properties": {
         "mention_id": {"type": "string", "minLength": 1},
         "candidate_local_sequence": {"type": "integer", "minimum": 1},
         "document_id": {"type": "string", "minLength": 1},
-        "mention_class": {"const": "document"},
+        "mention_class": {"enum": ["appendix", "document"]},
         "lookup_key": {"type": "string", "minLength": 1},
+        "cross_document_evidence": {"$ref": "#/$defs/cross_document_evidence"},
         "intended_target_source_ids": {
           "type": "array",
           "minItems": 1,
@@ -765,7 +913,7 @@
         "target_source_id",
         "target_candidate_id",
         "index_id",
-        "entries_sha256"
+        "document_targets_sha256"
       ],
       "properties": {
         "reason": {"const": "target_unavailable"},
@@ -775,7 +923,7 @@
           "pattern": "^docv1-[0-9a-f]{64}$"
         },
         "index_id": {"type": "string", "pattern": "^idxv1-[0-9a-f]{64}$"},
-        "entries_sha256": {"$ref": "#/$defs/sha256"}
+        "document_targets_sha256": {"$ref": "#/$defs/sha256"}
       }
     },
     "resolution": {
@@ -785,7 +933,9 @@
         "mention_id",
         "source_candidate_id",
         "candidate_local_sequence",
+        "mention_class",
         "lookup_key",
+        "cross_document_evidence",
         "target_type",
         "intended_target_source_ids",
         "candidate_targets",
@@ -802,7 +952,9 @@
           "pattern": "^docv1-[0-9a-f]{64}$"
         },
         "candidate_local_sequence": {"type": "integer", "minimum": 1},
+        "mention_class": {"enum": ["appendix", "document"]},
         "lookup_key": {"type": "string", "minLength": 1},
+        "cross_document_evidence": {"$ref": "#/$defs/cross_document_evidence"},
         "target_type": {"const": "document"},
         "intended_target_source_ids": {
           "type": "array",
@@ -856,8 +1008,11 @@
             "required": ["status"]
           },
           "then": {
+            "anyOf": [
+              {"properties": {"candidate_targets": {"minItems": 2}}},
+              {"properties": {"intended_target_source_ids": {"minItems": 2}}}
+            ],
             "properties": {
-              "candidate_targets": {"minItems": 2},
               "unresolved_reason": {"type": "null"},
               "reason_evidence": {"type": "null"}
             }
@@ -1193,6 +1348,7 @@
         "state_events",
         "document_attempts",
         "document_completions",
+        "downstream_replays",
         "accounting",
         "target_index",
         "resolution_completion",
@@ -1210,17 +1366,19 @@
         "resource_policy": {"$ref": "#/$defs/resource_policy"},
         "state_events": {
           "type": "array",
-          "minItems": 1,
           "items": {"$ref": "#/$defs/state_event"}
         },
         "document_attempts": {
           "type": "array",
-          "minItems": 1,
           "items": {"$ref": "#/$defs/document_attempt"}
         },
         "document_completions": {
           "type": "array",
           "items": {"$ref": "#/$defs/document_completion"}
+        },
+        "downstream_replays": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/downstream_replay"}
         },
         "accounting": {"$ref": "#/$defs/scope_accounting"},
         "target_index": {"$ref": "#/$defs/target_index"},

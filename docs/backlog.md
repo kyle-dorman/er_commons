@@ -13,6 +13,14 @@ scope, replace a numbered task, or record a completed experiment.
   measured integration need proves that thin task-specific glue is insufficient.
 - Consider richer workflow orchestration only after simple commands and
   manifests demonstrate a real restart, scheduling, or dependency bottleneck.
+- Low-confidence tool-calling model trial: consider a bounded test of Cactus
+  Compute's [Needle](https://cactuscompute.com/blog/needle), an open-source 26M
+  parameter model designed for single-shot function calls. It may be too narrow
+  for evidence-oriented, multi-step retrieval, so treat it as a speculative
+  candidate rather than an expected replacement. After the benchmark and tool
+  interface are frozen, compare exact tool selection, argument extraction,
+  schema validity, and retrieval outcomes under the same call budget before
+  deciding whether it has a role.
 - RL environments for environmental-review agents: investigate whether an
   `er_bench` task could become a clean, reproducible agent-training environment
   without changing the benchmark's frozen evaluation contract. Prime

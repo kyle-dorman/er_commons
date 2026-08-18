@@ -291,10 +291,15 @@ def load_semantic_materialization_inputs(
         identity_source = identity.get("source")
         if not isinstance(identity_source, dict):
             identity_source = identity.get("preimage", {}).get("source", {})
+        observed_source_id = (
+            identity_source.get("source_id")
+            if isinstance(identity_source, dict) and identity_source
+            else identity.get("source_id")
+        )
         _require_input_value(
             invariant="strict hierarchy candidate source matches semantic config",
             expected=config.source.source_id,
-            observed=identity_source.get("source_id"),
+            observed=observed_source_id,
             subject=config.hierarchy_candidate_id,
         )
         control = {

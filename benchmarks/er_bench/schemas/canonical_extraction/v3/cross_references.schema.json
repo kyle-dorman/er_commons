@@ -199,7 +199,7 @@
           "type": "array", "items": {"$ref": "#/$defs/record_id"}, "uniqueItems": true
         },
         "upstream_target_record_id": {"$ref": "#/$defs/record_id"},
-        "page_distance": {"type": "integer", "minimum": 0, "maximum": 5},
+        "page_distance": {"type": "integer", "minimum": 0, "maximum": 10},
         "evidence": {"type": "array", "items": {"$ref": "#/$defs/candidate_evidence"}, "minItems": 1}
       },
       "additionalProperties": false,
@@ -220,13 +220,36 @@
         }
       ]
     },
+    "cross_document_evidence": {
+      "type": "object",
+      "required": [
+        "catalog_sha256", "source_family_id", "matched_alias", "traversal_rule",
+        "intended_target_source_ids"
+      ],
+      "properties": {
+        "catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "source_family_id": {"type": "string", "minLength": 1},
+        "matched_alias": {"type": "string", "minLength": 1},
+        "traversal_rule": {
+          "enum": [
+            "reviewed_named_document_alias", "root_report_to_top_level_appendix",
+            "qualified_nested_to_top_level_appendix"
+          ]
+        },
+        "intended_target_source_ids": {
+          "type": "array", "items": {"type": "string", "minLength": 1},
+          "minItems": 1, "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
     "cross_reference": {
       "type": "object",
       "required": [
         "schema_version", "extraction_id", "id", "document_id", "sequence",
         "source_record_id", "mention_class", "raw_text", "source_charspan",
         "pattern_version", "lookup_key", "candidates", "resolution_status",
-        "unresolved_reason", "regions", "raw_links"
+        "unresolved_reason", "cross_document_evidence", "regions", "raw_links"
       ],
       "properties": {
         "schema_version": {"const": "er_commons.canonical_extraction.v3"},
@@ -239,7 +262,10 @@
         "raw_text": {"type": "string", "minLength": 1},
         "source_charspan": {"$ref": "#/$defs/charspan"},
         "pattern_version": {
-          "enum": ["cross_reference_patterns_v1", "cross_reference_patterns_v2"]
+          "enum": [
+            "cross_reference_patterns_v1", "cross_reference_patterns_v2",
+            "cross_reference_patterns_v3"
+          ]
         },
         "lookup_key": {"type": "string", "minLength": 1},
         "candidates": {"type": "array", "items": {"$ref": "#/$defs/candidate"}},
@@ -252,6 +278,9 @@
             "outside_table_page_window", "qualified_external_table_reference",
             "malformed_supported_form", null
           ]
+        },
+        "cross_document_evidence": {
+          "anyOf": [{"$ref": "#/$defs/cross_document_evidence"}, {"type": "null"}]
         },
         "regions": {"type": "array", "items": {"$ref": "#/$defs/region"}, "minItems": 1},
         "raw_links": {"type": "array", "items": {"$ref": "#/$defs/raw_link"}, "minItems": 1}
@@ -385,7 +414,7 @@
     },
     "identity_extension": {
       "type": "object",
-      "required": ["schema_version", "upstream_candidate_id", "upstream_completion_sha256", "upstream_inventory_sha256", "specification", "schema", "config", "owned_code_inventory", "owned_code_bundle_sha256", "pattern_version", "allowed_difference_categories"],
+      "required": ["schema_version", "upstream_candidate_id", "upstream_completion_sha256", "upstream_inventory_sha256", "specification", "schema", "config", "corpus_manifest", "source_family_catalog", "owned_code_inventory", "owned_code_bundle_sha256", "pattern_version", "resolver_policy_version", "table_page_window", "allowed_difference_categories"],
       "properties": {
         "schema_version": {"const": "er_commons.cross_reference_identity_extension.v3"},
         "upstream_candidate_id": {"$ref": "#/$defs/candidate_id"},
@@ -395,11 +424,17 @@
         "schema": {"$ref": "#/$defs/artifact_ref"},
         "config": {"$ref": "#/$defs/artifact_ref"},
         "corpus_manifest": {"$ref": "#/$defs/artifact_ref"},
+        "source_family_catalog": {"$ref": "#/$defs/artifact_ref"},
         "owned_code_inventory": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}, "minItems": 1},
         "owned_code_bundle_sha256": {"$ref": "#/$defs/sha256"},
         "pattern_version": {
-          "enum": ["cross_reference_patterns_v1", "cross_reference_patterns_v2"]
+          "enum": [
+            "cross_reference_patterns_v1", "cross_reference_patterns_v2",
+            "cross_reference_patterns_v3"
+          ]
         },
+        "resolver_policy_version": {"const": "cross_document_resolution_v2"},
+        "table_page_window": {"const": 10},
         "allowed_difference_categories": {
           "const": ["identity_and_schema", "cross_reference_records", "verified_table_alias_extension", "cross_reference_support", "terminal_artifacts"]
         }
@@ -475,7 +510,7 @@
         },
         "target_types": {"type": "array", "items": {"enum": ["document", "page", "section", "table", "figure"]}},
         "evidence_kinds": {"type": "array", "items": {"type": "string"}},
-        "target_page_distances": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 5}}
+        "target_page_distances": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 10}}
       },
       "additionalProperties": false
     },

@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-from er_commons.cross_reference_enrichment.catalog import CorpusDocumentCatalog
 from er_commons.cross_reference_enrichment.construction import CandidateBuild
 from er_commons.cross_reference_enrichment.detection import MentionDetector
 from er_commons.cross_reference_enrichment.indexing import (
@@ -26,9 +25,54 @@ from er_commons.cross_reference_enrichment.types import (
     TargetIndexEntry,
     UnresolvedReason,
 )
+from er_commons.source_family_catalog import SourceFamilyCatalog
 
 ROOT = Path(__file__).parents[1]
 FIXTURES = ROOT / "benchmarks/er_bench/fixtures/canonical_extraction/v3"
+
+
+def _source_family_catalog(
+    *, target_alias: str | None = None, second_target_alias: str | None = None
+) -> SourceFamilyCatalog:
+    sources = [
+        {
+            "source": {"source_id": "alpha", "sha256": "a" * 64, "pdf_page_count": 1},
+            "family_root_source_id": "alpha",
+            "document_role": "root_report",
+            "parent_source_id": None,
+            "reference_aliases": ["report alpha"],
+        }
+    ]
+    if target_alias is not None:
+        sources.append(
+            {
+                "source": {"source_id": "beta", "sha256": "b" * 64, "pdf_page_count": 1},
+                "family_root_source_id": "alpha",
+                "document_role": "top_level_appendix",
+                "parent_source_id": "alpha",
+                "reference_aliases": [target_alias],
+            }
+        )
+    if second_target_alias is not None:
+        sources.append(
+            {
+                "source": {"source_id": "gamma", "sha256": "c" * 64, "pdf_page_count": 1},
+                "family_root_source_id": "alpha",
+                "document_role": "top_level_appendix",
+                "parent_source_id": "alpha",
+                "reference_aliases": [second_target_alias],
+            }
+        )
+    return SourceFamilyCatalog.from_bytes(
+        json.dumps(
+            {
+                "schema_version": "er_commons.source_family_catalog.v1",
+                "catalog_version": "fixture-v1",
+                "source_family_id": "fixture-family",
+                "sources": sources,
+            }
+        ).encode()
+    )
 
 
 def _fixture_inventories() -> list[dict[str, Any]]:
@@ -210,7 +254,9 @@ def test_target_index_and_table_window_are_separate_responsibilities() -> None:
         target_document_order={},
         target_index_sha256="0" * 64,
         table_page_window=5,
-        corpus_document_keys=(),
+        source_family_catalog=_source_family_catalog(),
+        source_id="alpha",
+        source_family_catalog_sha256="c" * 64,
     )
     resolution = resolver.resolve(mentions[0], source_text=source_text, source_page_id=source_page)
     assert resolution.unresolved_reason is None
@@ -251,7 +297,9 @@ def test_structural_section_lookup_resolves_through_index_entry_keys() -> None:
         target_document_order={},
         target_index_sha256="0" * 64,
         table_page_window=5,
-        corpus_document_keys=(),
+        source_family_catalog=_source_family_catalog(),
+        source_id="alpha",
+        source_family_catalog_sha256="c" * 64,
     )
 
     result = resolver.resolve(mention, source_text="See Section 3.1.", source_page_id=source_page)
@@ -263,7 +311,9 @@ def test_structural_section_lookup_resolves_through_index_entry_keys() -> None:
 def test_table_window_boundary_and_case_insensitive_external_qualification() -> None:
     candidate = "exv1-" + "2" * 64
     source_near = f"{candidate}/page/doc/p000001"
-    source_far = f"{candidate}/page/doc/p000012"
+    source_six = f"{candidate}/page/doc/p000012"
+    source_ten = f"{candidate}/page/doc/p000016"
+    source_far = f"{candidate}/page/doc/p000017"
     evidence_page = f"{candidate}/page/doc/p000006"
     entry = TargetIndexEntry(
         lookup_key="table 1",
@@ -279,11 +329,19 @@ def test_table_window_boundary_and_case_insensitive_external_qualification() -> 
     )
     resolver = MentionResolver(
         target_index=TargetIndex((), (entry,), 0),
-        page_numbers={source_near: 1, source_far: 12, evidence_page: 6},
+        page_numbers={
+            source_near: 1,
+            source_six: 12,
+            source_ten: 16,
+            source_far: 17,
+            evidence_page: 6,
+        },
         target_document_order={},
         target_index_sha256="0" * 64,
-        table_page_window=5,
-        corpus_document_keys=(),
+        table_page_window=10,
+        source_family_catalog=_source_family_catalog(),
+        source_id="alpha",
+        source_family_catalog_sha256="c" * 64,
     )
     detector = MentionDetector(default_mention_policy())
     local_text = "See Table 1."
@@ -297,6 +355,8 @@ def test_table_window_boundary_and_case_insensitive_external_qualification() -> 
     )[0][0]
 
     boundary = resolver.resolve(local, source_text=local_text, source_page_id=source_near)
+    distance_six = resolver.resolve(local, source_text=local_text, source_page_id=source_six)
+    distance_ten = resolver.resolve(local, source_text=local_text, source_page_id=source_ten)
     outside = resolver.resolve(local, source_text=local_text, source_page_id=source_far)
     qualified_text = "See Table 1 from rEfErEnCe 2."
     qualified = detector.detect(
@@ -320,6 +380,8 @@ def test_table_window_boundary_and_case_insensitive_external_qualification() -> 
     no_alias = resolver.resolve(missing, source_text=missing_text, source_page_id=source_near)
 
     assert boundary.candidates[0]["page_distance"] == 5
+    assert distance_six.candidates[0]["page_distance"] == 6
+    assert distance_ten.candidates[0]["page_distance"] == 10
     assert outside.unresolved_reason is UnresolvedReason.OUTSIDE_TABLE_WINDOW
     assert external.unresolved_reason is UnresolvedReason.QUALIFIED_EXTERNAL_TABLE
     assert no_alias.unresolved_reason is UnresolvedReason.NO_LOCAL_ALIAS
@@ -345,35 +407,49 @@ def test_document_disposition_uses_catalog_membership_not_literal_special_cases(
         target_document_order={},
         target_index_sha256="0" * 64,
         table_page_window=5,
-        corpus_document_keys={mention.lookup_key},
+        source_family_catalog=_source_family_catalog(target_alias=mention.lookup_key),
+        source_id="alpha",
+        source_family_catalog_sha256="c" * 64,
     )
     deferred = resolver.resolve(mention, source_text=text, source_page_id=page)
     assert deferred.unresolved_reason is UnresolvedReason.DEFERRED_CROSS_DOCUMENT
 
 
-def test_corpus_catalog_derives_document_keys_from_sealed_titles(tmp_path: Path) -> None:
-    manifest = tmp_path / "source_manifest.json"
-    manifest.write_text(
-        json.dumps(
-            {
-                "sources": [
-                    {
-                        "source_id": "deir_main",
-                        "source_role": "model_corpus",
-                        "official_title": "Complete Harbor Resilience Master Plan DEIR (PDF)",
-                    },
-                    {
-                        "source_id": "outside_reference",
-                        "source_role": "supporting_reference",
-                        "official_title": "Outside Report (PDF)",
-                    },
-                ]
-            }
-        )
+def test_source_family_catalog_preserves_reviewed_aliases_and_roles() -> None:
+    catalog = _source_family_catalog(target_alias="appendix d", second_target_alias="appendix p")
+    assert [source.source_id for source in catalog.alias_lookup["appendix d"]] == ["beta"]
+    match = catalog.cross_document_match(
+        source_id="alpha",
+        mention_class="appendix",
+        lookup_key="appendix d",
+        source_text="See Appendix D.",
+        mention_start=4,
+        mention_end=14,
     )
-    catalog = CorpusDocumentCatalog.from_source_manifest(manifest)
-    assert "draft eir for the harbor resilience master plan" in catalog.lookup_keys
-    assert "outside report" not in catalog.lookup_keys
+    assert match is not None
+    assert match.intended_target_source_ids == ("beta",)
+
+    unqualified = catalog.cross_document_match(
+        source_id="beta",
+        mention_class="appendix",
+        lookup_key="appendix p",
+        source_text="See Appendix P.",
+        mention_start=4,
+        mention_end=14,
+    )
+    qualified_text = "See Appendix P of the Draft Environmental Impact Report."
+    qualified = catalog.cross_document_match(
+        source_id="beta",
+        mention_class="appendix",
+        lookup_key="appendix p",
+        source_text=qualified_text,
+        mention_start=4,
+        mention_end=14,
+    )
+    assert unqualified is None
+    assert qualified is not None
+    assert qualified.intended_target_source_ids == ("gamma",)
+    assert qualified.traversal_rule == "qualified_nested_to_top_level_appendix"
 
 
 def test_human_owned_failed_attempt_has_no_completion(tmp_path: Path) -> None:

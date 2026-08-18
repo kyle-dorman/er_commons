@@ -73,6 +73,9 @@ def validate_scope_accounting(bundle: JsonObject, reader: ArtifactReader) -> Sco
         "transaction_id",
         "completion",
     )
+    replays = _index_unique(
+        cast(list[JsonObject], bundle["downstream_replays"]), "replay_id", "downstream replay"
+    )
     _validate_attempt_histories(events, attempts)
 
     candidate_sources: dict[str, str] = {}
@@ -87,8 +90,12 @@ def validate_scope_accounting(bundle: JsonObject, reader: ArtifactReader) -> Sco
         if transaction_id in row_transactions:
             fail("scope_transactions", "accounting repeats a transaction", subject=transaction_id)
         row_transactions.add(transaction_id)
-        terminal = _validate_row_evidence(row, events, attempts, reader)
-        _require_latest_attempt(row, attempts)
+        if row["evidence_kind"] == "downstream_replay":
+            _validate_replay_row(row, replays, reader)
+            terminal = None
+        else:
+            terminal = _validate_row_evidence(row, events, attempts, reader)
+            _require_latest_attempt(row, attempts)
         if row["terminal_state"] in SUCCESS_STATES:
             candidate_id, inventory_ref = _validate_success(
                 row, source_by_id[source_id], completions, reader
@@ -100,6 +107,8 @@ def validate_scope_accounting(bundle: JsonObject, reader: ArtifactReader) -> Sco
             candidate_sources[candidate_id] = source_id
             inventories[candidate_id] = inventory_ref
         else:
+            if terminal is None:
+                fail("downstream_replay", "downstream replay cannot publish a failed source")
             _validate_failure(row, terminal, completions, reader)
             failed_rows[source_id] = row
 
@@ -108,7 +117,12 @@ def validate_scope_accounting(bundle: JsonObject, reader: ArtifactReader) -> Sco
         for transaction_id, attempt in attempts.items()
         if attempt["disposition"] in SCOPE_TERMINAL_STATES and _is_latest_attempt(attempt, attempts)
     }
-    if row_transactions != latest_scope_transactions:
+    attempt_row_transactions = {
+        cast(str, row["transaction_id"])
+        for row in rows
+        if row["evidence_kind"] == "document_attempt"
+    }
+    if attempt_row_transactions != latest_scope_transactions:
         fail("scope_transactions", "accounting does not cover every latest scope-terminal attempt")
     if set(completions) != {
         cast(str, row["transaction_id"]) for row in rows if row["terminal_state"] in SUCCESS_STATES
@@ -121,6 +135,56 @@ def validate_scope_accounting(bundle: JsonObject, reader: ArtifactReader) -> Sco
         candidate_inventory_refs=inventories,
         failed_rows=failed_rows,
     )
+
+
+def _validate_replay_row(
+    row: JsonObject,
+    replays: dict[str, JsonObject],
+    reader: ArtifactReader,
+) -> None:
+    replay_id = cast(str, row["transaction_id"])
+    replay = replays.get(replay_id)
+    reference = row.get("downstream_replay_ref")
+    if replay is None or not isinstance(reference, dict):
+        fail("downstream_replay", "accounting row lacks replay evidence", subject=replay_id)
+    if _read_json(cast(JsonObject, reference), reader) != replay:
+        fail("downstream_replay", "replay reference differs", subject=replay_id)
+    if (
+        row["attempt"] is not None
+        or row["terminal_event_ref"] is not None
+        or row["attempt_record_ref"] is not None
+        or row["terminal_state"] not in SUCCESS_STATES
+        or replay["source"]["source_id"] != row["source_id"]
+        or replay["candidate_id"] != row["candidate_id"]
+        or replay["document_attempt_allocated"] is not False
+        or replay["publication_mode"] != "downstream_only"
+    ):
+        fail("downstream_replay", "replay accounting fields differ", subject=replay_id)
+    for field in (
+        "source_completion_ref",
+        "source_inventory_ref",
+        "replacement_cross_reference_completion_ref",
+    ):
+        _validate_stage_one_ref(cast(JsonObject, replay[field]), replay_id)
+    for reference in cast(dict[str, JsonObject], replay["reused_stage_completions"]).values():
+        _validate_stage_one_ref(reference, replay_id)
+
+
+def _validate_stage_one_ref(reference: JsonObject, replay_id: str) -> None:
+    """Validate data-root refs already reverified by replay publication."""
+    path = reference.get("path")
+    digest = reference.get("sha256")
+    if (
+        set(reference) != {"path", "sha256"}
+        or not isinstance(path, str)
+        or not path
+        or PurePosixPath(path).is_absolute()
+        or ".." in PurePosixPath(path).parts
+        or not isinstance(digest, str)
+        or len(digest) != 64
+        or any(character not in "0123456789abcdef" for character in digest)
+    ):
+        fail("downstream_replay", "replay owner reference is invalid", subject=replay_id)
 
 
 def validate_unavailable_sources(

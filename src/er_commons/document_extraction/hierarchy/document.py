@@ -39,6 +39,45 @@ def stable_text_key(item: JsonObject) -> str:
     return hashlib.sha256(canonical_bytes(identity)).hexdigest()
 
 
+def stable_text_keys(items: list[JsonObject]) -> tuple[str, ...]:
+    """Disambiguate exact duplicate text representations without absolute indices."""
+    base_keys = [stable_text_key(item) for item in items]
+    counts: dict[str, int] = {}
+    for key in base_keys:
+        counts[key] = counts.get(key, 0) + 1
+
+    seen: dict[tuple[str, str], int] = {}
+    keys: list[str] = []
+    for item, base_key in zip(items, base_keys, strict=True):
+        if counts[base_key] == 1:
+            keys.append(base_key)
+            continue
+        parent_collection = _parent_collection(item)
+        group = (base_key, parent_collection)
+        ordinal = seen.get(group, 0)
+        seen[group] = ordinal + 1
+        collision_identity = {
+            "identity_version": "stable_text_collision_v1",
+            "base_stable_text_key": base_key,
+            "parent_collection": parent_collection,
+            "duplicate_ordinal": ordinal,
+        }
+        keys.append(hashlib.sha256(canonical_bytes(collision_identity)).hexdigest())
+    return tuple(keys)
+
+
+def _parent_collection(item: JsonObject) -> str:
+    """Return the semantic parent collection used only for collision identity."""
+    parent = item.get("parent")
+    pointer = parent.get("$ref") if isinstance(parent, dict) else None
+    if not isinstance(pointer, str) or not pointer.startswith("#/"):
+        raise ValueError("text item has invalid parent reference")
+    parts = pointer.split("/")
+    if len(parts) not in {2, 3} or not parts[1]:
+        raise ValueError("text item has invalid parent reference")
+    return parts[1]
+
+
 @dataclass(frozen=True)
 class DocumentIndex:
     """Stable text lookup, semantic reference map, and source collection order."""
@@ -57,10 +96,9 @@ class DocumentIndex:
         items: dict[str, JsonObject] = {}
         references = {"#/body": "root:body", "#/furniture": "root:furniture"}
         order: list[str] = []
-        for raw in texts:
+        for raw, key in zip(texts, stable_text_keys(texts), strict=True):
             if not isinstance(raw, dict):
                 raise ValueError("Docling text item is invalid")
-            key = stable_text_key(raw)
             if key in items:
                 raise ValueError(f"duplicate stable text key: {key}")
             self_ref = raw.get("self_ref")

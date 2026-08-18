@@ -8,13 +8,21 @@ import pytest
 
 from er_commons.semantic_materialization.aliases import (
     AliasSeed,
+    build_appendix_p_alias_seeds,
     build_target_aliases,
     prefer_reconciled_toc_evidence,
 )
 from er_commons.semantic_materialization.bridge import BridgeItem, build_cross_producer_bridge
 from er_commons.semantic_materialization.comparison import compare_baseline_collections
+from er_commons.semantic_materialization.config import SemanticExpectations
+from er_commons.semantic_materialization.errors import SemanticMaterializationInvariantError
 from er_commons.semantic_materialization.page_labels import build_page_label_observations
+from er_commons.semantic_materialization.producer_evidence import (
+    ProducerEvidence,
+    aligned_stable_key_maps,
+)
 from er_commons.semantic_materialization.sections import build_semantic_sections
+from er_commons.semantic_materialization.support import _bridge_payload
 from er_commons.semantic_structure import SemanticContractError
 
 OLD_ID = "exv1-" + "a" * 64
@@ -47,6 +55,132 @@ def test_bridge_is_built_from_complete_independent_correspondence() -> None:
             canonical_block_by_key={},
             disposition_by_key={"2" * 64: "canonical_table_replacement_descendant"},
         )
+
+
+def test_producer_text_alignment_accepts_unique_subpoint_bbox_drift() -> None:
+    baseline = _docling_text_document(_docling_text("#/texts/0", left=10.0, right=30.0))
+    hierarchy = _docling_text_document(_docling_text("#/texts/7", left=10.2, right=29.9))
+
+    baseline_keys, hierarchy_keys = aligned_stable_key_maps(baseline, hierarchy)
+
+    assert baseline_keys["#/texts/0"] == hierarchy_keys["#/texts/7"]
+
+
+def test_producer_text_alignment_rejects_ambiguous_bbox_drift() -> None:
+    baseline = _docling_text_document(
+        _docling_text("#/texts/0", left=10.0, right=30.0),
+        _docling_text("#/texts/1", left=10.1, right=30.1),
+    )
+    hierarchy = _docling_text_document(
+        _docling_text("#/texts/7", left=10.2, right=30.2),
+        _docling_text("#/texts/8", left=10.3, right=30.3),
+    )
+
+    with pytest.raises(SemanticMaterializationInvariantError, match="align uniquely"):
+        aligned_stable_key_maps(baseline, hierarchy)
+
+
+def test_producer_text_alignment_preserves_exact_duplicates_by_parent_collection() -> None:
+    picture_item = _docling_text("#/texts/0", left=10.0, right=30.0)
+    picture_item["parent"] = {"$ref": "#/pictures/4"}
+    group_item = _docling_text("#/texts/1", left=10.0, right=30.0)
+    group_item["parent"] = {"$ref": "#/groups/7"}
+    baseline = _docling_text_document(picture_item, group_item)
+
+    hierarchy_group = copy.deepcopy(group_item)
+    hierarchy_group["self_ref"] = "#/texts/8"
+    hierarchy_picture = copy.deepcopy(picture_item)
+    hierarchy_picture["self_ref"] = "#/texts/9"
+    hierarchy = _docling_text_document(hierarchy_group, hierarchy_picture)
+
+    baseline_keys, hierarchy_keys = aligned_stable_key_maps(baseline, hierarchy)
+
+    assert baseline_keys["#/texts/0"] == hierarchy_keys["#/texts/9"]
+    assert baseline_keys["#/texts/1"] == hierarchy_keys["#/texts/8"]
+    assert len(set(hierarchy_keys.values())) == 2
+
+
+def test_toc_aliases_use_only_exact_reconciliations(tmp_path) -> None:
+    hierarchy_root = tmp_path / "hierarchy"
+    baseline_root = tmp_path / "baseline"
+    (hierarchy_root / "artifacts").mkdir(parents=True)
+    (baseline_root / "canonical").mkdir(parents=True)
+    for relative in (
+        "artifacts/decisions.jsonl",
+        "artifacts/item_features.jsonl",
+        "artifacts/toc_reconciliation.jsonl",
+    ):
+        (hierarchy_root / relative).write_text("")
+    (baseline_root / "canonical/documents.jsonl").write_text("")
+    key = "1" * 64
+    section_id = f"{NEW_ID}/section/deir_appendix_d/sec000001"
+    evidence = ProducerEvidence(
+        baseline_document={},
+        hierarchy_document={},
+        item_features=[{"stable_item_key": key, "text": "Exact target"}],
+        decisions=[],
+        hierarchy={},
+        visible_toc_entries=[
+            {
+                "toc_entry_id": "toc-missing",
+                "title_with_marker_normalized": "Missing target",
+            },
+            {
+                "toc_entry_id": "toc-exact",
+                "title_with_marker_normalized": "Exact target",
+            },
+        ],
+        toc_reconciliations=[
+            {"toc_entry_id": "toc-missing", "state": "missing", "target_key": None},
+            {"toc_entry_id": "toc-exact", "state": "exact", "target_key": key},
+        ],
+        baseline_key_by_pointer={},
+        hierarchy_key_by_pointer={},
+    )
+    seeds = build_appendix_p_alias_seeds(
+        collections={
+            "documents": [{"id": "document", "title": "Appendix D"}],
+            "blocks": [
+                {
+                    "stable_item_key": key,
+                    "canonical_text": "Exact target",
+                    "sequence": 1,
+                }
+            ],
+            "pages": [],
+        },
+        sections=[
+            {
+                "source_stable_item_key": key,
+                "section_kind": "semantic",
+                "id": section_id,
+            }
+        ],
+        evidence=evidence,
+        page_labels=[],
+        hierarchy_root=hierarchy_root,
+        baseline_root=baseline_root,
+    )
+
+    assert [seed.raw_value for seed in seeds] == ["Appendix D", "Exact target", "Exact target"]
+
+
+def test_strict_bridge_report_does_not_claim_a_reviewed_producer_comparison() -> None:
+    expectations = SemanticExpectations(
+        section_count=0,
+        bridge_entry_count=0,
+        canonical_block_count=0,
+        heading_count=0,
+        direct_membership_count=0,
+        mapped_block_count=0,
+        table_replacement_count=0,
+        figure_suppression_count=0,
+    )
+    build = type("Build", (), {"bridge_entries": []})()
+
+    report = _bridge_payload(build, {"control_kind": "strict_quality_gate"}, expectations)
+
+    assert report["producer_comparison_sha256"] is None
 
 
 def test_sections_project_sparse_hierarchy_toc_furniture_and_nontext() -> None:
@@ -100,6 +234,46 @@ def test_sections_project_sparse_hierarchy_toc_furniture_and_nontext() -> None:
     assert placed[4]["section_id"] == sections[0]["id"]
     assert placed[5]["section_id"] == sections[1]["id"]
     assert sections[2]["ordered_child_ids"][:2] == [placed[0]["id"], placed[1]["id"]]
+
+
+def test_sections_project_table_replaced_heading_out_of_canonical_hierarchy() -> None:
+    replaced_key, retained_key = (f"{i:064x}" for i in range(1, 3))
+    content = [
+        _content(1, retained_key),
+        _content(2, None, record_type="table"),
+    ]
+    features = [_feature(replaced_key), _feature(retained_key)]
+    decisions = [
+        _decision(replaced_key, "heading", 1),
+        _decision(retained_key, "heading", 2),
+    ]
+    hierarchy = {
+        "roots": [replaced_key],
+        "edges": [{"parent_key": replaced_key, "child_key": retained_key}],
+        "direct_membership": [],
+        "unassigned_content": [],
+    }
+
+    sections, placed = build_semantic_sections(
+        content,
+        document_id=DOCUMENT_ID,
+        extraction_id=NEW_ID,
+        source_id="deir_appendix_p",
+        features=features,
+        decisions=decisions,
+        hierarchy=hierarchy,
+        evidence_ref=REF,
+        replacement_keys={replaced_key},
+    )
+
+    assert [section["source_stable_item_key"] for section in sections] == [
+        None,
+        None,
+        retained_key,
+    ]
+    assert sections[2]["parent_section_id"] == sections[0]["id"]
+    assert placed[1]["semantic_placement"] == "inherited_nontext"
+    assert placed[1]["section_id"] == sections[2]["id"]
 
 
 def test_page_labels_cover_missing_pages_and_apply_conflict_precedence() -> None:
@@ -234,3 +408,35 @@ def _feature(key: str, *, toc: bool = False) -> dict[str, object]:
 
 def _decision(key: str, role: str, level: int | None) -> dict[str, object]:
     return {"stable_item_key": key, "corrected_role": role, "corrected_level": level}
+
+
+def _docling_text_document(*texts: dict[str, object]) -> dict[str, object]:
+    return {
+        "texts": list(texts),
+        "groups": [],
+        "tables": [],
+        "pictures": [],
+        "key_value_items": [],
+        "form_items": [],
+    }
+
+
+def _docling_text(self_ref: str, *, left: float, right: float) -> dict[str, object]:
+    return {
+        "self_ref": self_ref,
+        "text": "Map label",
+        "orig": "Map label",
+        "prov": [
+            {
+                "page_no": 15,
+                "bbox": {
+                    "l": left,
+                    "t": 50.0,
+                    "r": right,
+                    "b": 40.0,
+                    "coord_origin": "BOTTOMLEFT",
+                },
+                "charspan": [0, 9],
+            }
+        ],
+    }

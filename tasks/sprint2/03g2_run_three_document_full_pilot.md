@@ -1,11 +1,30 @@
 # Task 03G.2: Prepare and Run the Fresh Three-Document Full Pilot
 
-Status: **active for no-PDF preparation only**. The user approved a completely
-fresh configuration and downstream chain for the main Draft EIR, Appendix D,
-and Appendix P on 2026-08-05. Do not verify source PDF bytes, open or convert a
-PDF, run Docling/Camelot/TableFormer, or invoke the pilot until the preparation
-diff and production-shaped preflight are reviewed and the user separately
-approves PDF execution.
+Status: **completed and accepted on 2026-08-18 after Task 03G.2f's maintained
+downstream replay**.
+The user approved a completely fresh configuration and downstream chain for
+the main Draft EIR, Appendix D, and Appendix P on 2026-08-05, then separately
+approved PDF execution. The first main-report baseline attempt exposed a real
+table-boundary invariant failure. [Task
+03G.2a](03g2a_remediate_main_table_boundaries.md) completed the approved repair
+and the fresh main baseline and hierarchy producers sealed. Canonical
+materialization then deterministically rejected 7,092 suppressed descendants
+of Docling `document_index` objects on both the first attempt and checksum-reuse
+retry. Task 03G.2b then succeeded and the fresh main document completed all
+six owner stages. The resumed scope exposed Appendix D off-canvas native text
+geometry and a separate bounded Appendix P cross-producer bbox difference.
+Task [03G.2c](03g2c_remediate_cross_source_geometry_and_alignment.md) completed
+those source-general corrections and all three document candidates. Task
+[03G.2d](03g2d_seal_complete_target_streams.md) repaired the downstream target
+streams and completed stage two. Task
+[03G.2e](03g2e_repair_pilot_report_page_labels.md) completed the aggregate
+report and request-only render recipe.
+[Task 03G.2f](03g2f_repair_cross_document_resolution.md) established the shared
+source-family behavior, ten-page exact-table replay, nonempty corpus
+resolution, ready handoff, reporting refresh, and identical reuse proof at MVP
+quality. The user rejected that implementation as human-maintainable. The
+subsequent responsibility-owned refactor and maintained bounded replay passed
+all closure gates, so both tasks are now complete.
 
 ## Abstract
 
@@ -281,9 +300,16 @@ command once, and prove reuse without new content-owner reconstruction.
 
 Task 03G.2 closes only after the preparation is accepted, the separately
 approved fresh invocation has an explicit outcome, the handoff and aggregate
-report validate, and the one reuse invocation has an explicit outcome. Task
-03G remains open until the user accepts Task 03G.2 and any real remediation;
-only then may Task 03H be revised for activation.
+report validate, and the one reuse invocation has an explicit outcome. In
+addition, active [Task 03G.2f](03g2f_repair_cross_document_resolution.md)
+published and validated an MVP cross-document result and must still pass
+human maintainability acceptance after refactoring,
+running the ten-page table-link policy over the preserved three-document
+scope, matching its required exact outcomes, and proving identical checksum
+reuse. Behavioral execution alone does not satisfy this gate. Task 03G remains
+open until the user accepts
+Task 03G.2 and any real remediation; only then may Task 03H be revised for
+activation.
 
 ## Non-goals
 
@@ -295,3 +321,72 @@ only then may Task 03H be revised for activation.
 - Final EIR comments/responses or standalone comment PDFs;
 - OCR, generative repair, or pilot-local silent correction; or
 - activating Task 03H or calling the extraction release accepted.
+
+## Execution outcome
+
+**Post-execution acceptance finding, 2026-08-18:** anomaly review found that
+the valid stage-two resolution candidate contains zero eligible mentions and
+zero resolution records. The local stage left 187 main-report appendix
+mentions as `no_local_alias`, including 8 references to Appendix D and 10 to
+Appendix P, so the corpus resolver never evaluated them. Review also found a
+second exact-key mismatch between reviewed short source aliases and indexed
+document titles. The user withheld acceptance and activated Task 03G.2f to
+repair this boundary and run the approved ten-page table-link policy. The
+execution evidence below remains immutable, but it is not a closable final
+outcome until 03G.2f succeeds.
+
+The separately approved fresh pilot completed all 2,670 pages across the main
+Draft EIR, Appendix D, and Appendix P. After the bounded Tasks 03G.2a-03G.2e
+repairs, all six producers and twelve downstream content-owner candidates pass
+their owning completion verifiers. The final production identity is
+`exv1-0d16254809c9d97a4118f7597d3b2630d81c336a35bbba0567e3452a33d1f327`.
+
+Scope `scopev1-2096b371305552b6ec927bda3d5f6ff8285dd40bd5e9b168747f39cad21b6a95`
+records three `complete_with_warnings` documents and zero failures. Its target
+index contains 4,893 verified alias-target entries, and ready handoff
+`handoffv1-56a0e83e80cf28201885692e936abc4b715d82106f11b00b9573d9d8ff1329c0`
+passes independent v1.1 validation with `task04_status: not_evaluated`.
+
+The required identical invocation returned the same bundle SHA-256
+`70efacff8c3a00f0dcd8d8ae1341d668eedd84ea1f27816c4b9268f5951c848b`
+and handoff SHA-256
+`f9e8583dab687b1e1f46d1f81c5158a9911976c750556ca3901576b807a7e435`
+without allocating another document attempt. The aggregate report and
+request-only render recipe completed under Task 03G.2e; no renders were
+generated. Historical Appendix P lineage was not used.
+
+Final validation: restartable extraction contract valid, Ruff clean, mypy
+clean, 513 tests passed, and `git diff --check` passed. Task 03H remains
+provisional until the user accepts this Task 03G.2 result and Task 03G closes.
+
+**Task 03G.2f MVP amendment, 2026-08-18:** production identity
+`exv1-d508a2d557b04b8d0542dc11531d85f16ce3020599019d69611646fc8fb72cac`
+reused every owner completion through semantic materialization. Scope
+`scopev1-45e05f55179892400e842c3de1726aa8b7c63e47571509648c378ce99aa64771`
+resolved all 18 eligible main-report appendix mentions and published ready
+handoff
+`handoffv1-4c7f5b1fac7b529b3e0bf1ca941d21b2100e23b7d492d760e4b26c9ace3ea663`.
+The exact ten-page table deltas, local-ownership controls, independent handoff
+validation, aggregate report, request-only recipe, 513 tests, and identical
+reuse proof passed. No PDF, model, producer, semantic, or document attempt
+ran. The user subsequently rejected the implementation as human-maintainable.
+At that point Task 03G.2 and Task 03G.2f remained open; the maintainability
+amendment and maintained replay below supersede that interim disposition.
+
+**Task 03G.2f maintainability amendment, 2026-08-18:** the replay runner and
+downstream publisher were split into typed, responsibility-owned modules with
+stable diagnostic codes and direct offline tests. The operator CLI is now 45
+lines; replay modules are bounded at 220 lines and functions at 60 lines by
+the maintainability suite. The complete offline gate passes 520 tests, Ruff,
+mypy over 260 source files, restartable extraction contract validation, and
+`git diff --check`. No PDF, model, producer, semantic, document, corpus, or
+reporting execution ran. Refreshed production recipe
+`exv1-ca6cafcb781e5e0ae87defbf7746ac088ef9369f493c75605fee9744d8f4a0d9`
+was subsequently executed through the bounded downstream-only replay. Scope
+`scopev1-c52bba178cf47e9338bae9f200c31f4a0e4c135d8b0a8154535b7b0357beb6a8`
+resolved all 18 eligible mentions, published ready handoff
+`handoffv1-78262d2ea1f47faa0c1c6c6e6c3479e86a408f9c32d442cc708c20d5306582`,
+and reproduced the accepted report metrics and exact table/local controls.
+Independent handoff, report-seal, request-seal, attempt-isolation, exact-reuse,
+and full offline project gates passed. Task 03G.2 and Task 03G.2f are closed;
+Task 03H remains provisional and was not activated.

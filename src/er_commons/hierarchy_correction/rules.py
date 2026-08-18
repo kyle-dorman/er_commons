@@ -126,7 +126,11 @@ def _validate_r07(feature: JsonRecord, decision: JsonRecord, context: RuleContex
 def _validate_r08(feature: JsonRecord, decision: JsonRecord, context: RuleContext) -> None:
     """R08 preserves the remaining schema-valid raw role and level."""
     key = decision["stable_item_key"]
-    _require_no_higher_anchor(feature, key, context)
+    picture_caption = (
+        feature["raw_parent_ref"].startswith("#/pictures/") and feature["raw_role"] == "caption"
+    )
+    if not picture_caption:
+        _require_no_higher_anchor(feature, key, context)
     require(decision["outcome"] == "unchanged", f"R08 outcome differs: {key}")
     if feature["content_layer"] == "body" and feature["raw_role"] == "section_header":
         require(decision["corrected_role"] == "heading", f"R08 role differs: {key}")

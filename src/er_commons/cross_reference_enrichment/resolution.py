@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from collections.abc import Collection, Mapping
+from collections.abc import Mapping
 
 from er_commons.cross_reference_enrichment.indexing import TargetIndex
 from er_commons.cross_reference_enrichment.policy import is_qualified_external_table_reference
@@ -15,6 +15,7 @@ from er_commons.cross_reference_enrichment.types import (
     TargetIndexEntry,
     UnresolvedReason,
 )
+from er_commons.source_family_catalog import SourceFamilyCatalog
 
 TARGET_TYPE_FOR_MENTION = {
     MentionKind.SECTION: "section",
@@ -38,14 +39,18 @@ class MentionResolver:
         target_document_order: Mapping[str, int],
         target_index_sha256: str,
         table_page_window: int,
-        corpus_document_keys: Collection[str],
+        source_family_catalog: SourceFamilyCatalog,
+        source_id: str,
+        source_family_catalog_sha256: str,
     ) -> None:
         self._target_index = target_index
         self._page_numbers = page_numbers
         self._target_document_order = target_document_order
         self._target_index_sha256 = target_index_sha256
         self._table_page_window = table_page_window
-        self._corpus_document_keys = frozenset(corpus_document_keys)
+        self._source_family_catalog = source_family_catalog
+        self._source_id = source_id
+        self._source_family_catalog_sha256 = source_family_catalog_sha256
 
     def resolve(
         self,
@@ -73,13 +78,23 @@ class MentionResolver:
             return Resolution(tuple(candidates), None)
         if unfiltered_table_match:
             return Resolution((), UnresolvedReason.OUTSIDE_TABLE_WINDOW)
-        if mention.kind is MentionKind.DOCUMENT:
-            reason = (
-                UnresolvedReason.DEFERRED_CROSS_DOCUMENT
-                if mention.lookup_key in self._corpus_document_keys
-                else UnresolvedReason.EXTERNAL_DOCUMENT
+        if mention.kind in {MentionKind.APPENDIX, MentionKind.DOCUMENT}:
+            cross_document = self._source_family_catalog.cross_document_match(
+                source_id=self._source_id,
+                mention_class=mention.kind.value,
+                lookup_key=mention.lookup_key,
+                source_text=source_text,
+                mention_start=mention.span.start,
+                mention_end=mention.span.end,
             )
-            return Resolution((), reason)
+            if cross_document is not None:
+                return Resolution(
+                    (),
+                    UnresolvedReason.DEFERRED_CROSS_DOCUMENT,
+                    cross_document.as_json(catalog_sha256=self._source_family_catalog_sha256),
+                )
+            if mention.kind is MentionKind.DOCUMENT:
+                return Resolution((), UnresolvedReason.EXTERNAL_DOCUMENT)
         return Resolution((), UnresolvedReason.NO_LOCAL_ALIAS)
 
     def _within_table_window(

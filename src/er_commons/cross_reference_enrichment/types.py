@@ -133,6 +133,7 @@ class Resolution:
 
     candidates: tuple[JsonObject, ...]
     unresolved_reason: UnresolvedReason | None
+    cross_document_evidence: JsonObject | None = None
 
     @property
     def status(self) -> ResolutionStatus:

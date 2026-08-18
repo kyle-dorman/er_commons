@@ -34,7 +34,7 @@ class ContractBundleWriter:
         stage_attempts: list[JsonObject],
     ) -> Path:
         """Reconstruct, validate, and exactly persist one durable bundle."""
-        events, attempts, completions = self._stage_one_records(evidence)
+        events, attempts, completions, replays = self._stage_one_records(evidence)
         policy = self._run.document_spec.resource_policy
         bundle: JsonObject = {
             "schema_version": "er_commons.corpus_extraction_contract_fixture.v1_1",
@@ -52,6 +52,7 @@ class ContractBundleWriter:
             "state_events": events,
             "document_attempts": attempts,
             "document_completions": completions,
+            "downstream_replays": replays,
             "accounting": accounting,
             "target_index": index,
             "resolution_completion": resolution,
@@ -66,10 +67,11 @@ class ContractBundleWriter:
 
     def _stage_one_records(
         self, evidence: tuple[DocumentTerminalEvidence, ...]
-    ) -> tuple[list[JsonObject], list[JsonObject], list[JsonObject]]:
+    ) -> tuple[list[JsonObject], list[JsonObject], list[JsonObject], list[JsonObject]]:
         events: list[JsonObject] = []
         attempts: list[JsonObject] = []
         completions: list[JsonObject] = []
+        replays: list[JsonObject] = []
         source_by_id = {str(item.source["source_id"]): item for item in evidence}
         for root in sorted((self._run.extraction_root / "attempts").glob("txv1-*.*")):
             record_path = root / "attempt_record.json"
@@ -96,7 +98,11 @@ class ContractBundleWriter:
                 completions.append(
                     read_json(self._run.extraction_root / str(item.document_completion_ref["path"]))
                 )
-        return events, attempts, completions
+            if item.downstream_replay_ref is not None:
+                replays.append(
+                    read_json(self._run.extraction_root / str(item.downstream_replay_ref["path"]))
+                )
+        return events, attempts, completions, replays
 
     def _transaction_id(self, source: DocumentTerminalEvidence, attempt: AttemptRecord) -> str:
         return build_transaction_id(

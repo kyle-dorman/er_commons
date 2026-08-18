@@ -130,7 +130,17 @@ def build_appendix_p_alias_seeds(
         )
     reconciliation_by_id = {item["toc_entry_id"]: item for item in evidence.toc_reconciliations}
     for toc in evidence.visible_toc_entries:
-        target_key = reconciliation_by_id[toc["toc_entry_id"]]["target_key"]
+        reconciliation = reconciliation_by_id[toc["toc_entry_id"]]
+        if reconciliation["state"] != "exact":
+            continue
+        target_key = reconciliation["target_key"]
+        if (
+            not isinstance(target_key, str)
+            or target_key not in features_by_key
+            or target_key not in sections_by_key
+            or target_key not in blocks_by_key
+        ):
+            raise SemanticContractError("exact TOC alias target is absent from semantic content")
         raw_value = features_by_key[target_key]["text"]
         seeds.append(
             AliasSeed.reconciled_toc_target(

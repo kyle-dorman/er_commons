@@ -11,7 +11,7 @@ from er_commons.cross_reference_enrichment.types import MentionKind
 LookupKeyBuilder = Callable[[re.Match[str]], str]
 
 ELIGIBLE_BLOCK_TYPES = frozenset({"caption", "footnote", "list_item", "paragraph"})
-TABLE_PAGE_WINDOW = 5
+TABLE_PAGE_WINDOW = 10
 QUALIFIED_EXTERNAL_TABLE_PATTERN = re.compile(
     r"^\s+(?:in|from|of)\s+reference\s+[1-9][0-9]*\b", re.IGNORECASE
 )
@@ -139,7 +139,7 @@ def default_mention_policy() -> MentionPolicy:
         ),
     )
     return MentionPolicy(
-        pattern_version="cross_reference_patterns_v2",
+        pattern_version="cross_reference_patterns_v3",
         eligible_block_types=ELIGIBLE_BLOCK_TYPES,
         mention_rules=rules,
         block_exclusions=exclusions,

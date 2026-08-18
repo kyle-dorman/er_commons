@@ -204,18 +204,53 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    `exv1-a0908c8f...5adee`. The user accepted the behavioral and
    human-maintainability outcome on 2026-08-05. No full smoke rerun or
    complete-document/corpus candidate was produced.
-4. Active no-PDF preparation: [Task
-   03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md). Implement the
-   fresh-lineage configuration boundary, then freeze 18 source/owner plans,
-   exact three-source document/scope specs, a pilot identity, corpus catalog,
-   shared policies, resources, freshness evidence, and a production-shaped
-   preflight. The main report, Appendix D, and Appendix P must all build from
-   fresh configuration and fresh downstream candidates; Appendix P's completed
-   Task 03F chain and bounded authorization are forbidden inputs. Stop and ask
-   for separate user approval before source verification or any PDF/model
-   command. After approval, run one fresh pilot and one reuse check. Add Task
-   03G.x fixes only for failures that actually occur. Close Task 03G only after
-   the user accepts all outcomes and fixes. Keep [Task
+4. Completed remediation [Task
+   03G.2a](../tasks/sprint2/03g2a_remediate_main_table_boundaries.md) fixed and
+   validated the hard split, genuine continuation, and repeated header-only
+   fragment regimes. The refreshed 2,092-page main baseline and hierarchy
+   producers sealed, but canonical materialization failed twice because 24
+   Docling `document_index` regions became logical tables and suppressed 7,092
+   required descendant text blocks. Completed [Task
+   03G.2b](../tasks/sprint2/03g2b_preserve_document_index_text.md) derived the
+   filtered canonical table view, checksum-reused both main producers, and
+   completed the main document through all six owners. The resumed scope then
+   exposed two source-general failures. Completed [Task
+   03G.2c](../tasks/sprint2/03g2c_remediate_cross_source_geometry_and_alignment.md)
+   completed the source-general geometry and alignment repair, all six fresh
+   producers, all downstream content owners, the three document candidates,
+   and exact scope accounting. Completed [Task
+   03G.2d](../tasks/sprint2/03g2d_seal_complete_target_streams.md) exposed all
+   five sealed semantic target streams, published the ready handoff, and proved
+   exact reuse. Completed [Task
+   03G.2e](../tasks/sprint2/03g2e_repair_pilot_report_page_labels.md) repaired
+   the review-only page-label observation path and published the aggregate
+   report plus a checksummed request-only render recipe with no renders.
+   Review then found that the valid sealed corpus-resolution candidate had
+   zero eligible mentions and zero rows: at least 8 main-report references to
+   Appendix D and 10 to Appendix P never crossed the local/corpus boundary.
+   Completed [Task
+   03G.2f](../tasks/sprint2/03g2f_repair_cross_document_resolution.md) delivered
+   the downstream-only shared source-family catalog and resolver repair,
+   together with the approved five- to ten-physical-page exact-table window.
+   It reused every checksum-valid completion through semantic materialization
+   without rerunning PDF, model, parser, producer, canonical, hierarchy, or
+   semantic work. The subsequent offline human-ownership refactor replaced
+   the monolithic runner with a 45-line CLI and typed responsibility-owned
+   replay, audit, inventory, and validation modules. Stable diagnostic codes,
+   module/function size gates, and direct pure-behavior tests now pass in the
+   520-test project gate. The maintained bounded replay then published scope
+   `scopev1-c52b...beb6a8`, resolved all 18 eligible mentions, passed
+   independent handoff/report/request validation and exact reuse, and changed
+   no forbidden attempt inventory. No upstream content owner or document
+   attempt ran. [Task
+   03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md)
+   is complete and accepted: all 18 eligible mentions resolved, the ten-page table replay
+   matched every exact expectation, the handoff/report validate, and identical
+   invocation reused exact bytes without upstream or document attempts.
+   The maintained execution reproduced the accepted report metrics and closed
+   both Task 03G.2 and Task 03G.2f.
+   Historical Appendix P lineage remains forbidden. Close Task
+   03G only after the user accepts all outcomes and fixes. Keep [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) provisional until
    that closure.
 5. Independently review usability and freeze the accepted extraction release

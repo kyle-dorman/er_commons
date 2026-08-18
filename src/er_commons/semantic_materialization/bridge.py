@@ -29,7 +29,7 @@ def build_cross_producer_bridge(
     """Build bridge rows and the separately supplied validation evidence index.
 
     Every producer item must either map one-to-one to a retained canonical block
-    or carry one of the two accepted replacement dispositions. Input order is
+    or carry one accepted evidence-backed suppression disposition. Input order is
     preserved because it is the verified hierarchy-producer reading order.
     """
     keys = [item.stable_item_key for item in items]

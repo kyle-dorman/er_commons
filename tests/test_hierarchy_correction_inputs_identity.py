@@ -211,6 +211,7 @@ def test_identity_binds_exact_digests_and_derives_hcorv1_id(tmp_path: Path) -> N
 
     payload = {key: value for key, value in identity.items() if key != "candidate_id"}
     assert identity["candidate_id"] == f"hcorv1-{canonical_json_sha256(payload)}"
+    assert identity["source_id"] == config.source.source_id
     assert identity["policy_sha256"] == sha256_file(policy_path)
     assert identity["schema_sha256"] == sha256_file(schema_path)
     assert identity["code_bundle_sha256"] == code_bundle_sha256(tmp_path, (code_path,))

@@ -15,6 +15,9 @@ from er_commons.canonical_extraction.record_sets import (
     JsonRecord,
     SupportRecordSet,
 )
+from er_commons.canonical_extraction.table_projection import (
+    DOCUMENT_INDEX_UNMAPPED_REASON,
+)
 from er_commons.canonical_extraction.tables import ProducerTableBundle
 
 
@@ -95,14 +98,18 @@ def _table_stage_observations(
             f"stage-p{page:06d}-o{ordinal:06d}",
         )
         ids_by_page[page].append(stage_id)
-        warning = (
-            []
-            if mapping.clean_table_ids
-            else [
+        if mapping.clean_table_ids:
+            warning = []
+        elif mapping.unmapped_reason == DOCUMENT_INDEX_UNMAPPED_REASON:
+            warning = [
+                f"Parser evidence for {mapping.raw_object_ref} remains in the sealed producer; "
+                "the document index is preserved as canonical text."
+            ]
+        else:
+            warning = [
                 f"No clean table matched {mapping.raw_object_ref} "
                 f"provenance {mapping.provenance_index}."
             ]
-        )
         records.append(
             {
                 "schema_version": SCHEMA_VERSION,

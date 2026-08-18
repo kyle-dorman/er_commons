@@ -1,6 +1,6 @@
 {
   "schema_version": "er_commons.document_run_spec.v1",
-  "production_extraction_id": "exv1-ed5fc78aa96a056ba0401899a3411ee676057616758aca30a6a3b8c06f35d72d",
+  "production_extraction_id": "exv1-ca6cafcb781e5e0ae87defbf7746ac088ef9369f493c75605fee9744d8f4a0d9",
   "production_identity_relative_path": "benchmarks/er_bench/fixtures/corpus_extraction/v1_1/production_identity_preimage.json",
   "scope_kind": "representative_pilot",
   "source_release_version": "brisbane_baylands_2025_deir_sources_v1",

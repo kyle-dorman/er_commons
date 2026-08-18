@@ -6,7 +6,6 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
-from er_commons.cross_reference_enrichment.catalog import CorpusDocumentCatalog
 from er_commons.cross_reference_enrichment.detection import MentionDetector
 from er_commons.cross_reference_enrichment.indexing import (
     NamespaceRemapper,
@@ -26,6 +25,7 @@ from er_commons.cross_reference_enrichment.types import (
     JsonObject,
     Resolution,
 )
+from er_commons.source_family_catalog import SourceFamilyCatalog
 
 TARGET_ALIAS_PATH = "canonical/target_aliases.jsonl"
 CROSS_REFERENCE_PATH = "canonical/cross_references.jsonl"
@@ -69,13 +69,15 @@ class CrossReferenceCandidateBuilder:
         upstream_candidate_id: str,
         candidate_id: str,
         policy: MentionPolicy,
-        corpus_catalog: CorpusDocumentCatalog,
+        source_family_catalog: SourceFamilyCatalog,
+        source_family_catalog_sha256: str,
         source_id: str,
     ) -> None:
         self._source = source
         self._candidate_id = candidate_id
         self._policy = policy
-        self._catalog = corpus_catalog
+        self._source_family_catalog = source_family_catalog
+        self._source_family_catalog_sha256 = source_family_catalog_sha256
         self._source_id = source_id
         self._remapper = NamespaceRemapper(upstream_candidate_id, candidate_id)
 
@@ -136,7 +138,9 @@ class CrossReferenceCandidateBuilder:
             target_document_order=_target_document_order(preserved),
             target_index_sha256=target_index_sha256,
             table_page_window=self._policy.table_page_window,
-            corpus_document_keys=self._catalog.lookup_keys,
+            source_family_catalog=self._source_family_catalog,
+            source_id=self._source_id,
+            source_family_catalog_sha256=self._source_family_catalog_sha256,
         )
         mentions: list[JsonObject] = []
         diagnostic_counts: Counter[str] = Counter()
@@ -198,6 +202,7 @@ class CrossReferenceCandidateBuilder:
                 if resolution.unresolved_reason is not None
                 else None
             ),
+            "cross_document_evidence": resolution.cross_document_evidence,
             "regions": source_block["regions"],
             "raw_links": source_block["raw_links"],
         }

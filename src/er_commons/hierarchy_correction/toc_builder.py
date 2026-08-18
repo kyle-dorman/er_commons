@@ -20,12 +20,14 @@ def build_visible_toc(
     outline_observations: tuple[JsonObject, ...],
     *,
     native_heading_observations: dict[str, JsonObject] | None = None,
+    document_index_text_refs: frozenset[str] = frozenset(),
 ) -> TocBuildResult:
     """Adapt schema-shaped records to the typed TOC analysis stage."""
     return _build_visible_toc(
         cast(list[ObservedItem], features),
         outline_observations,
         native_heading_observations=native_heading_observations,
+        document_index_text_refs=document_index_text_refs,
     )
 
 

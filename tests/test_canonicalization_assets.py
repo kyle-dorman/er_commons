@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
 from typing import cast
@@ -53,6 +54,7 @@ def _context() -> MaterializationContext:
         events=(),
         emitted_text_pointers=frozenset(),
         suppressed_text_pointers=frozenset(),
+        invalid_geometry_text_pointers=frozenset(),
         suppressed_picture_furniture_pointers=frozenset(),
         zero_table_pointers=frozenset(),
     )
@@ -66,6 +68,7 @@ def _context() -> MaterializationContext:
         document_index_descendants=frozenset(),
         all_text_pointers=frozenset(),
         accounted_text_pointers=frozenset(),
+        invalid_text_provenance=(),
     )
 
 
@@ -203,6 +206,29 @@ def test_asset_catalog_preserves_registration_order_and_generated_bytes(
         b'[{"bbox_pdf_points_bottom_left":[1.0,2.0,3.0,4.0],'
         b'"column_index":0,"row_index":0,"text":"cell"}]\n'
     )
+
+
+def test_tableformer_fallback_assets_preserve_parser_lineage(tmp_path: Path) -> None:
+    inputs, table_bundle, _picture_bytes, _clean_csv_digest = _fixture(tmp_path)
+    fallback_table = replace(table_bundle.tables[0], parser="tableformer_accurate")
+
+    catalog = materialize_assets(
+        data_root=tmp_path,
+        candidate_root=tmp_path / "candidate",
+        context=_context(),
+        inputs=inputs,
+        table_bundle=replace(table_bundle, tables=(fallback_table,)),
+    )
+
+    raw_table_assets = [
+        asset
+        for asset in catalog.records
+        if asset["role"] in {"raw_table_json", "raw_table_cells_json", "raw_table_csv"}
+    ]
+    assert {asset["producer"] for asset in raw_table_assets} == {"tableformer_fallback"}
+    assert {link["producer"] for link in catalog.table_raw_links_by_id["producer_table_1"][:3]} == {
+        "tableformer_fallback"
+    }
 
 
 def test_asset_catalog_lookup_mappings_are_read_only(tmp_path: Path) -> None:

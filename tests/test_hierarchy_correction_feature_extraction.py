@@ -11,6 +11,7 @@ from er_commons.hierarchy_correction.errors import HierarchyCorrectionContractEr
 from er_commons.hierarchy_correction.features import (
     align_parsed_line,
     build_feature_seeds,
+    document_index_text_pointers,
     normalize_text,
     parse_numbering,
     traverse_provenance_text,
@@ -112,6 +113,55 @@ def test_picture_descendants_are_preserved_and_only_declared_caption_is_caption(
     assert traversed[2].content_layer == "furniture"
 
 
+def test_document_index_text_pointers_include_nested_descendants_only() -> None:
+    document = _document()
+    document["groups"] = [
+        {
+            "self_ref": "#/groups/0",
+            "children": [{"$ref": "#/texts/3"}],
+        }
+    ]
+    document["tables"] = [
+        {
+            "self_ref": "#/tables/0",
+            "label": "document_index",
+            "children": [{"$ref": "#/groups/0"}],
+        },
+        {
+            "self_ref": "#/tables/1",
+            "label": "table",
+            "children": [{"$ref": "#/texts/1"}],
+        },
+    ]
+
+    assert document_index_text_pointers(document) == frozenset({"#/texts/3"})
+
+
+def test_exact_duplicate_text_representations_receive_distinct_stable_keys() -> None:
+    document = _document()
+    duplicate = _text(4, "#/pictures/0", "1. Heading", label="section_header")
+    duplicate["prov"] = [dict(document["texts"][3]["prov"][0])]
+    document["texts"].append(duplicate)
+    document["pictures"][0]["children"].append({"$ref": "#/texts/4"})
+
+    traversed = traverse_provenance_text(document)
+    features = build_feature_seeds(
+        document,
+        {
+            "pages": [
+                {
+                    "page_no": 1,
+                    "size": {"width": 612.0, "height": 792.0},
+                    "parsed_page": {"textline_cells": [{"text": "1. Heading"}]},
+                }
+            ]
+        },
+    )
+
+    assert len(traversed) == 5
+    assert len({item["stable_item_key"] for item in features}) == 5
+
+
 @pytest.mark.parametrize("failure", ["label", "parent", "page"])
 def test_picture_caption_disagreement_fails_closed(failure: str) -> None:
     document = _document()
@@ -169,9 +219,41 @@ class _Reader:
 
 def test_pdf_observations_preserve_nested_outline_and_page_labels() -> None:
     reader = _Reader()
-    observations = extract_outline_observations(reader)
+    result = extract_outline_observations(reader)
+    observations = result.observations
     assert extract_page_labels(reader) == {1: "i", 2: "1"}
+    assert result.diagnostics == ()
     assert observations[0]["parent_outline_id"] is None
     assert observations[1]["parent_outline_id"] == observations[0]["outline_id"]
     assert observations[1]["physical_page"] == 2
     assert observations[1]["effective_level"] == 2
+
+
+def test_pdf_observations_omit_only_destinationless_outline_leaves() -> None:
+    reader = _Reader()
+    reader.outline.append(SimpleNamespace(title="Missing appendix", page=9))
+
+    result = extract_outline_observations(reader)
+
+    assert [item["title"] for item in result.observations] == ["Appendix P", "Article 1"]
+    assert result.diagnostics == (
+        {
+            "reading_order_index": None,
+            "stable_item_key": None,
+            "code": "TOC_TARGET_MISSING",
+            "detail": (
+                "PDF outline leaf has no valid destination and was omitted: Missing appendix"
+            ),
+        },
+    )
+
+
+def test_pdf_observations_reject_destinationless_outline_parent() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Missing parent", page=9),
+        [SimpleNamespace(title="Child", page=1)],
+    ]
+
+    with pytest.raises(HierarchyCorrectionContractError, match="child list has no parent"):
+        extract_outline_observations(reader)

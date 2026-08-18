@@ -113,7 +113,7 @@ def _validate_mapped_entry(view: SemanticBundleView, entry: JsonObject) -> str:
 
 
 def _validate_permitted_unmapped_entry(entry: JsonObject) -> None:
-    """Allow only the two evidence-backed replacement dispositions."""
+    """Allow only evidence-backed replacement or invalid-geometry dispositions."""
     if entry["disposition"] not in PERMITTED_BRIDGE_DISPOSITIONS or entry["canonical_record_ids"]:
         raise SemanticContractError(
             f"bridge unmapped disposition is not permitted: {entry['stable_item_key']}"

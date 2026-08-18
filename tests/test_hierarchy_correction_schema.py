@@ -80,6 +80,20 @@ def test_each_persisted_record_definition_validates(
     ).validate(value)
 
 
+def test_document_index_text_may_retain_a_table_parent_pointer() -> None:
+    """Accept text descendants when a Docling document index remains text."""
+    feature = copy.deepcopy(VALID_BUNDLE["features"][0])
+    feature["raw_parent_ref"] = "#/tables/34"
+
+    Draft202012Validator(
+        {
+            "$schema": RECORD_SCHEMA["$schema"],
+            "$ref": "#/$defs/feature",
+            "$defs": RECORD_SCHEMA["$defs"],
+        }
+    ).validate(feature)
+
+
 def test_failed_attempt_definition_validates() -> None:
     """Keep a schema-valid record for failed, unpublished attempts."""
     attempt = {

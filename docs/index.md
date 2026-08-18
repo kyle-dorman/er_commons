@@ -234,14 +234,43 @@ the structural grid. The responsibility-owned implementation exactly preserves
 all 35 fallback decisions and all persisted continuation decisions in a fresh
 v7 bounded run. The new non-executed production recipe is
 `exv1-a0908c8f...5adee`. [Task
-03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md) is active for
-no-PDF preparation only. The user selected fresh source-specialized
-configuration and a fresh downstream chain for the main report, Appendix D,
-and Appendix P; no historical Appendix P producer, candidate, or bounded
-authorization may enter the pilot. Preparation must first implement runtime-
-derived fresh lineage, freeze the exact three-source specs/identity/resources,
-and pass a production-shaped preflight. Source verification and PDF/model work
-remain behind a separate approval. Task 03H remains provisional.
+03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md) execution was
+separately approved after fresh-lineage preparation. Completed [Task
+03G.2a](../tasks/sprint2/03g2a_remediate_main_table_boundaries.md) fixed the
+first continuation/family invariant. Completed [Task
+03G.2b](../tasks/sprint2/03g2b_preserve_document_index_text.md) then filtered
+Docling `document_index` mappings only in the canonical logical-table view,
+checksum-reused the sealed main producers, and completed the main document
+through all six owners. The resumed scope exposed off-canvas Appendix D native
+text geometry and 18 uniquely corresponding Appendix P producer text items
+with subpoint bbox drift. Task
+[03G.2c](../tasks/sprint2/03g2c_remediate_cross_source_geometry_and_alignment.md)
+completed both source-general corrections and the three full document
+candidates. Completed [Task
+03G.2d](../tasks/sprint2/03g2d_seal_complete_target_streams.md) repaired the
+sealed target-stream handoff, published a ready handoff, and proved exact
+reuse. Completed [Task
+03G.2e](../tasks/sprint2/03g2e_repair_pilot_report_page_labels.md) repaired the
+review-only page-label observation path and completed final aggregate
+reporting. Review then found that the sealed corpus resolver received zero
+eligible mentions even though the main report contains at least 8 references
+to Appendix D and 10 to Appendix P. Active [Task
+03G.2f](../tasks/sprint2/03g2f_repair_cross_document_resolution.md) completed
+the
+shared source-family boundary and ran the approved ten-page exact-table policy
+without PDF, model, parser, producer, semantic, or document attempts. All 18
+eligible mentions resolved, every exact table/local-ownership control passed,
+the handoff and aggregate report validate, and identical invocation reused
+exact bytes. The offline human-ownership refactor then replaced the monolithic
+runner with a 45-line CLI and typed responsibility-owned replay, audit,
+inventory, and validation modules. The 520-test project gate, stable
+diagnostics, and objective module/function size gates pass without rerunning
+any upstream content-owner stage. Its maintained bounded replay then published
+scope `scopev1-c52b...beb6a8`, resolved 18/18 eligible mentions, validated the
+ready handoff and report independently, proved exact reuse, and preserved all
+forbidden attempt inventories. Task 03G.2 and Task 03G.2f are closed. No
+historical Appendix P producer, candidate, or bounded authorization entered
+the replay. Task 03H remains provisional.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

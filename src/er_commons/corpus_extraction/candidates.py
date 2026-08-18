@@ -119,7 +119,14 @@ def find_reusable_candidate(run: DocumentRun) -> Path | None:
         if not _matches_run(identity, run):
             continue
         verify_identity_and_upstreams(root, identity=identity, data_root=run.data_root)
-        reconcile_published_attempt(root, identity)
+        if (root / "records" / "downstream_replay.json").is_file():
+            from er_commons.corpus_extraction.downstream_replay import (
+                verify_downstream_replay,
+            )
+
+            verify_downstream_replay(root, data_root=run.data_root)
+        else:
+            reconcile_published_attempt(root, identity)
         matches.append(root / "records" / "completion_record.json")
     if len(matches) > 1:
         raise ValueError("multiple reusable document candidates match the same contract")

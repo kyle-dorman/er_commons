@@ -65,7 +65,9 @@ def build_valid_fixture() -> SyntheticFixture:
     """Build one scope covering success, failure, zero mentions, and all reasons."""
     artifacts = MemoryArtifacts()
     sources = _sources()
-    stage_one = _stage_one_evidence(artifacts, sources)
+    catalog = _catalog(sources)
+    catalog_sha256 = bytes_sha256(_json_bytes(catalog))
+    stage_one = _stage_one_evidence(artifacts, sources, catalog, catalog_sha256)
     accounting = _accounting(artifacts, sources, stage_one)
     index = _target_index(artifacts, accounting, stage_one, sources)
     resolution = _resolution(artifacts, accounting, index, stage_one, sources)
@@ -86,6 +88,7 @@ def build_valid_fixture() -> SyntheticFixture:
         "state_events": stage_one["events"],
         "document_attempts": stage_one["attempts"],
         "document_completions": stage_one["completions"],
+        "downstream_replays": [],
         "accounting": accounting,
         "target_index": index,
         "resolution_completion": resolution,
@@ -103,7 +106,12 @@ def _sources() -> list[JsonObject]:
     ]
 
 
-def _stage_one_evidence(artifacts: MemoryArtifacts, sources: list[JsonObject]) -> JsonObject:
+def _stage_one_evidence(
+    artifacts: MemoryArtifacts,
+    sources: list[JsonObject],
+    catalog: JsonObject,
+    catalog_sha256: str,
+) -> JsonObject:
     events: list[JsonObject] = []
     attempts: list[JsonObject] = []
     completions: list[JsonObject] = []
@@ -175,7 +183,7 @@ def _stage_one_evidence(artifacts: MemoryArtifacts, sources: list[JsonObject]) -
             "completion_path": completion_ref["path"] if completion_ref else None,
         }
         attempt_ref = artifacts.add_json(f"stage_one/{source_id}/attempt_record.json", attempt)
-        cross_reference_rows = _cross_references(source_id, candidate_id)
+        cross_reference_rows = _cross_references(source_id, candidate_id, catalog, catalog_sha256)
         cross_references_ref = artifacts.add_jsonl(
             f"stage_one/{source_id}/canonical/cross_references.jsonl",
             cross_reference_rows,
@@ -242,7 +250,12 @@ def _event(
     }
 
 
-def _cross_references(source_id: str, candidate_id: object) -> list[JsonObject]:
+def _cross_references(
+    source_id: str,
+    candidate_id: object,
+    catalog: JsonObject,
+    catalog_sha256: str,
+) -> list[JsonObject]:
     if source_id != "fixture_alpha":
         return []
     document_id = f"{candidate_id}/document/{source_id}"
@@ -254,6 +267,11 @@ def _cross_references(source_id: str, candidate_id: object) -> list[JsonObject]:
         ("report epsilon", "deferred_cross_document"),
         ("outside report", "external_document_outside_corpus"),
     )
+    alias_owners: dict[str, list[str]] = {}
+    for source in catalog["sources"]:
+        for alias in source["reference_aliases"]:
+            if source["source"]["source_id"] != source_id:
+                alias_owners.setdefault(alias, []).append(source["source"]["source_id"])
     return [
         {
             "id": f"{candidate_id}/cross-reference/{source_id}/ref{sequence:06d}",
@@ -263,6 +281,17 @@ def _cross_references(source_id: str, candidate_id: object) -> list[JsonObject]:
             "lookup_key": lookup_key,
             "resolution_status": "unresolved",
             "unresolved_reason": reason,
+            "cross_document_evidence": (
+                {
+                    "catalog_sha256": catalog_sha256,
+                    "source_family_id": catalog["source_family_id"],
+                    "matched_alias": lookup_key,
+                    "traversal_rule": "reviewed_named_document_alias",
+                    "intended_target_source_ids": alias_owners[lookup_key],
+                }
+                if reason == "deferred_cross_document"
+                else None
+            ),
         }
         for sequence, (lookup_key, reason) in enumerate(keys, start=1)
     ]
@@ -273,6 +302,8 @@ def _targets(source_id: str, candidate_id: object) -> tuple[list[JsonObject], li
         return [], []
     target_id = f"{candidate_id}/document/{source_id}"
     records = [{"id": target_id, "source_id": source_id}]
+    if source_id == "fixture_epsilon":
+        return [], []
     if source_id not in {"fixture_alpha", "fixture_gamma"}:
         return [], records
     lookup_keys = (
@@ -305,11 +336,13 @@ def _accounting(
             {
                 "source_id": source_id,
                 "source_ordinal": ordinal,
+                "evidence_kind": "document_attempt",
                 "terminal_state": evidence["disposition"],
                 "transaction_id": evidence["transaction_id"],
                 "attempt": 1,
                 "terminal_event_ref": evidence["terminal_event_ref"],
                 "attempt_record_ref": evidence["attempt_record_ref"],
+                "downstream_replay_ref": None,
                 "candidate_id": evidence["candidate_id"],
                 "document_completion_ref": evidence["completion_ref"],
                 "candidate_inventory_ref": evidence["inventory_ref"],
@@ -401,6 +434,30 @@ def _target_index(
         )
     )
     entries_ref = artifacts.add_jsonl("corpus/index/target_index.jsonl", entries)
+    document_targets: list[JsonObject] = []
+    for candidate in eligible:
+        evidence = stage_one["by_source"][candidate["source_id"]]
+        records = [
+            json.loads(line)
+            for line in artifacts.read_bytes(evidence["target_records_ref"][0])
+            .decode()
+            .splitlines()
+        ]
+        document_targets.extend(
+            {
+                "source_id": candidate["source_id"],
+                "source_ordinal": candidate["source_ordinal"],
+                "candidate_id": candidate["candidate_id"],
+                "target_id": record["id"],
+            }
+            for record in records
+        )
+    document_targets.sort(
+        key=lambda row: (row["source_ordinal"], row["target_id"], row["candidate_id"])
+    )
+    document_targets_ref = artifacts.add_jsonl(
+        "corpus/index/document_targets.jsonl", document_targets
+    )
     inventory = artifacts.add_json("corpus/index/artifact_inventory.json", {"files": []})
     preimage = {
         "schema_version": "er_commons.corpus_target_index_identity.v1_1",
@@ -411,6 +468,8 @@ def _target_index(
         "unavailable_sources_sha256": unavailable_ref["sha256"],
         "entries_sha256": entries_ref["sha256"],
         "entry_count": len(entries),
+        "document_targets_sha256": document_targets_ref["sha256"],
+        "document_target_count": len(document_targets),
         "ordering_policy_version": "corpus_target_order_v1",
         "target_policy_sha256": "d" * 64,
         "managed_inventory_sha256": inventory["sha256"],
@@ -429,6 +488,9 @@ def _target_index(
         "entries": entries,
         "entries_ref": entries_ref,
         "entry_count": len(entries),
+        "document_targets": document_targets,
+        "document_targets_ref": document_targets_ref,
+        "document_target_count": len(document_targets),
         "artifact_inventory": inventory,
         "completion_last": True,
         "status": "complete",
@@ -536,34 +598,48 @@ def _resolution(
 def _catalog(sources: list[JsonObject]) -> JsonObject:
     delta = {"source_id": "fixture_delta", "sha256": "d" * 64, "pdf_page_count": 2}
     all_sources = [*sources, delta]
-    documents = []
+    family_sources = []
     for source in all_sources:
         source_name = str(source["source_id"]).removeprefix("fixture_")
-        lookup_keys = [f"report {source_name}"]
-        if source_name == "alpha":
-            lookup_keys.append("report gamma")
-        elif source_name == "gamma":
-            lookup_keys.append("report gamma unique")
-        documents.append({"source": source, "lookup_keys": lookup_keys})
-    return {"documents": documents}
+        aliases = [f"report {source_name}"]
+        if source_name == "gamma":
+            aliases.append("report gamma unique")
+        elif source_name == "epsilon":
+            aliases.append("report gamma")
+        family_sources.append(
+            {
+                "source": source,
+                "family_root_source_id": "fixture_alpha",
+                "document_role": (
+                    "root_report" if source_name == "alpha" else "top_level_appendix"
+                ),
+                "parent_source_id": None if source_name == "alpha" else "fixture_alpha",
+                "reference_aliases": aliases,
+            }
+        )
+    return {
+        "schema_version": "er_commons.source_family_catalog.v1",
+        "catalog_version": "synthetic_fixture_v1",
+        "source_family_id": "synthetic_fixture_family",
+        "sources": family_sources,
+    }
 
 
 def _eligible_mentions(
     reference: JsonObject, artifacts: MemoryArtifacts, catalog: JsonObject
 ) -> list[JsonObject]:
-    lookup: dict[str, list[str]] = {}
-    for document in catalog["documents"]:
-        for key in document["lookup_keys"]:
-            lookup.setdefault(key, []).append(document["source"]["source_id"])
     records = [json.loads(line) for line in artifacts.read_bytes(reference).decode().splitlines()]
     return [
         {
             "mention_id": record["id"],
             "candidate_local_sequence": record["sequence"],
             "document_id": record["document_id"],
-            "mention_class": "document",
+            "mention_class": record["mention_class"],
             "lookup_key": record["lookup_key"],
-            "intended_target_source_ids": lookup[record["lookup_key"]],
+            "cross_document_evidence": record["cross_document_evidence"],
+            "intended_target_source_ids": record["cross_document_evidence"][
+                "intended_target_source_ids"
+            ],
         }
         for record in records
         if record["unresolved_reason"] == "deferred_cross_document"
@@ -583,7 +659,9 @@ def _resolution_row(
         "mention_id": mention["mention_id"],
         "source_candidate_id": source_candidate_id,
         "candidate_local_sequence": mention["candidate_local_sequence"],
+        "mention_class": mention["mention_class"],
         "lookup_key": lookup_key,
+        "cross_document_evidence": mention["cross_document_evidence"],
         "target_type": "document",
         "intended_target_source_ids": mention["intended_target_source_ids"],
         "source_inventory_before_ref": source_inventory,
@@ -593,17 +671,20 @@ def _resolution_row(
         {
             "target_id": entry["target_id"],
             "target_source_id": entry["source_id"],
-            "target_type": entry["target_type"],
+            "target_type": "document",
         }
-        for entry in index["entries"]
-        if entry["lookup_key"] == lookup_key
-        and entry["source_id"] in mention["intended_target_source_ids"]
+        for entry in index["document_targets"]
+        if entry["source_id"] in mention["intended_target_source_ids"]
     ]
     if candidate_targets:
         return {
             **base,
             "candidate_targets": candidate_targets,
-            "status": "resolved" if len(candidate_targets) == 1 else "ambiguous",
+            "status": (
+                "ambiguous"
+                if len(candidate_targets) > 1 or len(mention["intended_target_source_ids"]) > 1
+                else "resolved"
+            ),
             "unresolved_reason": None,
             "reason_evidence": None,
         }
@@ -635,7 +716,7 @@ def _resolution_row(
                 if row["source_id"] == "fixture_epsilon"
             ),
             "index_id": index["index_id"],
-            "entries_sha256": index["entries_ref"]["sha256"],
+            "document_targets_sha256": index["document_targets_ref"]["sha256"],
         }
     return {
         **base,

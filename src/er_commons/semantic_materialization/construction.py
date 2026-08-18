@@ -23,7 +23,9 @@ from er_commons.semantic_materialization.producer_evidence import (
     artifact_reference,
     attach_stable_keys_in_place,
     build_bridge_construction,
+    hierarchy_relevant_keys,
     load_producer_evidence,
+    replacement_dispositions,
 )
 from er_commons.semantic_materialization.sections import build_semantic_sections
 from er_commons.semantic_structure.policies.bridge import BridgeSourceEvidence
@@ -146,6 +148,14 @@ def _place_semantic_content(
     inputs: SemanticConstructionInputs,
 ) -> tuple[list[JsonObject], list[JsonObject]]:
     """Project accepted hierarchy roles onto the remapped mixed-content stream."""
+    replacement_keys = set(
+        replacement_dispositions(
+            baseline_document=evidence.baseline_document,
+            producer_root=inputs.baseline_producer_root,
+            key_by_pointer=evidence.baseline_key_by_pointer,
+            relevant_keys=hierarchy_relevant_keys(evidence.hierarchy, []),
+        )
+    )
     return build_semantic_sections(
         ordered_content,
         document_id=document_id,
@@ -157,4 +167,5 @@ def _place_semantic_content(
         evidence_ref=artifact_reference(
             inputs.hierarchy_candidate_root, "artifacts/decisions.jsonl"
         ),
+        replacement_keys=replacement_keys,
     )

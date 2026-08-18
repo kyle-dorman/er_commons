@@ -10,11 +10,12 @@ from er_commons.corpus_extraction.outcomes import DocumentTerminalEvidence
 from er_commons.corpus_extraction_contract_v1_1.checks import canonical_sha256
 from er_commons.corpus_extraction_contract_v1_1.identity import build_resolution_id
 from er_commons.corpus_extraction_contract_v1_1.model import JsonObject
-from er_commons.corpus_resolution.catalog import CorpusCatalog, ScopeInputStore
+from er_commons.corpus_resolution.catalog import ScopeInputStore
 from er_commons.corpus_resolution.domain import PublishedStage, StageBuild, StageName
 from er_commons.corpus_resolution.mentions import MentionManifestBuilder
 from er_commons.corpus_resolution.resolver import CorpusMentionResolver
 from er_commons.corpus_resolution.storage import bytes_ref, inventory_ref, json_bytes, jsonl_bytes
+from er_commons.source_family_catalog import SourceFamilyCatalog
 
 
 @dataclass(frozen=True)
@@ -37,12 +38,20 @@ class ResolutionBuilder:
 
     def build(self, inputs: ResolutionInputs) -> StageBuild:
         """Return complete deterministic resolution bytes for publication."""
-        catalog = CorpusCatalog.load(inputs.data_root, inputs.catalog_relative_path)
+        catalog_path = (inputs.data_root / inputs.catalog_relative_path).resolve()
+        if (
+            not catalog_path.is_relative_to(inputs.data_root.resolve())
+            or not catalog_path.is_file()
+        ):
+            raise FileNotFoundError(catalog_path)
+        catalog = SourceFamilyCatalog.load(catalog_path)
         input_store = ScopeInputStore(inputs.extraction_root, inputs.scope_id)
         catalog_ref = input_store.publish("corpus_catalog", catalog.raw_bytes)
-        manifest = MentionManifestBuilder(inputs.extraction_root, catalog.lookup).build(
-            inputs.evidence
-        )
+        manifest = MentionManifestBuilder(
+            inputs.extraction_root,
+            catalog,
+            str(catalog_ref["sha256"]),
+        ).build(inputs.evidence)
         manifest_record = manifest.as_record(
             index_id=str(inputs.index["index_id"]), catalog_ref=catalog_ref
         )
@@ -50,7 +59,7 @@ class ResolutionBuilder:
         resolutions = CorpusMentionResolver(
             index=inputs.index,
             evidence=inputs.evidence,
-            catalog_lookup=catalog.lookup,
+            catalog=catalog,
             catalog_ref=catalog_ref,
             scope_id=inputs.scope_id,
         ).resolve_all(manifest.mentions)
