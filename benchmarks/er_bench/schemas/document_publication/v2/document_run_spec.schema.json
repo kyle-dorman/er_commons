@@ -1,0 +1,144 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://er-commons.local/schemas/document-publication/v2/document_run_spec.schema.json",
+    "title": "ER Commons document run specification v2",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "schema_version",
+        "production_extraction_id",
+        "production_identity_relative_path",
+        "scope_kind",
+        "source_release_version",
+        "source_manifest_relative_path",
+        "artifact_relative_root",
+        "document_processes",
+        "hierarchy_dispositions",
+        "resource_policy"
+    ],
+    "properties": {
+        "schema_version": {"const": "er_commons.document_run_spec.v2"},
+        "production_extraction_id": {"type": "string", "pattern": "^exv1-[0-9a-f]{64}$"},
+        "production_identity_relative_path": {"$ref": "#/$defs/relative_path"},
+        "scope_kind": {
+            "enum": ["fixture", "engineering_smoke", "representative_pilot", "production_full"]
+        },
+        "source_release_version": {"type": "string", "minLength": 1},
+        "source_manifest_relative_path": {"$ref": "#/$defs/relative_path"},
+        "artifact_relative_root": {"$ref": "#/$defs/relative_path"},
+        "document_processes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"$ref": "#/$defs/document_process_selection"}
+        },
+        "hierarchy_dispositions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"$ref": "#/$defs/hierarchy_disposition"}
+        },
+        "resource_policy": {"$ref": "#/$defs/resource_policy"}
+    },
+    "$defs": {
+        "relative_path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+        },
+        "document_process_selection": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source_id", "configs"],
+            "properties": {
+                "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+                "lineage_mode": {
+                    "enum": ["sealed_inputs", "fresh_build"],
+                    "default": "sealed_inputs"
+                },
+                "configs": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                        "content_parsing",
+                        "heading_evidence_parsing",
+                        "record_mapping",
+                        "hierarchy_inference",
+                        "document_structure",
+                        "document_reference_linking"
+                    ],
+                    "properties": {
+                        "content_parsing": {"$ref": "#/$defs/relative_path"},
+                        "heading_evidence_parsing": {"$ref": "#/$defs/relative_path"},
+                        "record_mapping": {"$ref": "#/$defs/relative_path"},
+                        "hierarchy_inference": {"$ref": "#/$defs/relative_path"},
+                        "document_structure": {"$ref": "#/$defs/relative_path"},
+                        "document_reference_linking": {"$ref": "#/$defs/relative_path"}
+                    }
+                }
+            }
+        },
+        "hierarchy_disposition": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source_id", "authority"],
+            "properties": {
+                "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+                "authority": {"enum": ["machine_validation", "bounded_acceptance"]},
+                "authorization_relative_path": {
+                    "oneOf": [{"$ref": "#/$defs/relative_path"}, {"type": "null"}]
+                }
+            },
+            "allOf": [
+                {
+                    "if": {"properties": {"authority": {"const": "bounded_acceptance"}}},
+                    "then": {
+                        "required": ["authorization_relative_path"],
+                        "properties": {
+                            "authorization_relative_path": {"$ref": "#/$defs/relative_path"}
+                        }
+                    }
+                },
+                {
+                    "if": {"properties": {"authority": {"const": "machine_validation"}}},
+                    "then": {"properties": {"authorization_relative_path": {"type": "null"}}}
+                }
+            ]
+        },
+        "resource_policy": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "document_concurrency",
+                "page_batch_size",
+                "stage_batch_size",
+                "queue_capacity",
+                "cpu_threads_per_document",
+                "device",
+                "memory_estimate_bytes",
+                "storage_estimate_bytes",
+                "cancellation_grace_seconds",
+                "retry_limit"
+            ],
+            "properties": {
+                "document_concurrency": {"type": "integer", "minimum": 1, "maximum": 4},
+                "page_batch_size": {"type": "integer", "minimum": 1, "maximum": 32},
+                "stage_batch_size": {"type": "integer", "minimum": 1, "maximum": 32},
+                "queue_capacity": {"type": "integer", "minimum": 1, "maximum": 256},
+                "cpu_threads_per_document": {"type": "integer", "minimum": 1, "maximum": 16},
+                "device": {"enum": ["cpu", "mps", "cuda", "auto"]},
+                "memory_estimate_bytes": {"type": "integer", "exclusiveMinimum": 0},
+                "storage_estimate_bytes": {"type": "integer", "exclusiveMinimum": 0},
+                "docling_timeout_seconds": {"type": ["number", "null"], "exclusiveMinimum": 0},
+                "outer_process_deadline_seconds": {
+                    "type": ["number", "null"],
+                    "exclusiveMinimum": 0
+                },
+                "cancellation_grace_seconds": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "maximum": 60
+                },
+                "retry_limit": {"type": "integer", "minimum": 0, "maximum": 5}
+            }
+        }
+    }
+}

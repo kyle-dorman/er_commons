@@ -1,21 +1,24 @@
 # Configuration
 
 Project settings are typed models loaded from the required local `.env`.
-Portable source and extraction-owner configuration stays in Git; the external
+Portable source and document/collection configuration stays in Git; the external
 data root is resolved only through `ER_COMMONS_DATA_ROOT`.
 
-The maintained production orchestration accepts an explicit Task 03F run spec
-through `er-commons extraction run-document` or `run-scope`. A document-owner
-selection names the current complete-document, hierarchy-producer, canonical,
-hierarchy-correction, semantic, and cross-reference configs for that source.
-There are no implicit Appendix P defaults in the public extraction commands.
+The maintained production orchestration accepts an explicit v2 document specification
+through `er-commons documents publish` and a v2 collection specification through
+`er-commons collections assemble-handoff`. A document-process selection names content
+parsing, heading-evidence parsing, record mapping, hierarchy inference, document
+structure, and document-reference linking for that source. There are no implicit
+Appendix P defaults in the public commands.
 The checked-in Appendix P document run spec is
 `brisbane_baylands_2025_deir_appendix_p_document_v1.json`.
 
-Task 03G.1's `brisbane_baylands_2025_deir_task03g1_smoke_v1.json` is a
-separate diagnostic contract. It freezes 342 spread-sampled pages across all
+Task 03G.1's immutable `brisbane_baylands_2025_deir_task03g1_smoke_v1.json`
+remains historical evidence. The maintained
+`brisbane_baylands_2025_deir_task03g1_parser_smoke_v2.json` is its
+responsibility-named diagnostic successor. It freezes 342 spread-sampled pages across all
 35 model-corpus sources and can be passed only to the separate
-`python -m er_commons.smoke_extraction` diagnostic entrypoint. It does not
+`python -m er_commons.parser_smoke` diagnostic entrypoint. It does not
 configure or relax either production orchestration command. Its ordered
 `owned_code_paths` inventory binds every runtime module in the human-owned
 diagnostic package so a wrapper refactor changes `smokev1-` without changing
@@ -27,37 +30,44 @@ review, repeat-build, comparison, and first-600 configurations were removed in
 Task 03F.4 after their active invariants moved to maintained validators or to
 candidate-neutral review/comparison utilities.
 
-Task 03G.2 is active for no-PDF preparation. It will add one fresh six-owner
-plan for each of `deir_main`, `deir_appendix_d`, and `deir_appendix_p`, plus an
-exact document run spec and scope run spec. Use the stem
+Task 03G.2 is closed. Its accepted fresh six-owner plans cover `deir_main`,
+`deir_appendix_d`, and `deir_appendix_p`, with an exact document run spec and
+scope run spec. Their historical stem is
 `brisbane_baylands_2025_deir_task03g2_<source>_<owner>_v1.json`; the two run
 specs are `brisbane_baylands_2025_deir_task03g2_document_v1.json` and
 `brisbane_baylands_2025_deir_task03g2_scope_v1.json`.
 
-Do not create those files by copying historical Appendix P IDs. The first four
-owner plans bind static reviewed policy and newly predicted producer IDs.
-Semantic and cross-reference lineage can be completed only from the exact IDs,
-completion records, and inventories of newly published Task 03G.2 upstream
-candidates. The fresh-lineage schema and offline tests must land before these
-configs are added. Every hierarchy disposition is `machine_validation`; no
-Task 03E.2d bounded-acceptance path is permitted. PDF execution remains behind
-a separate user approval after a production-shaped no-PDF preflight.
+Those files are immutable checksum-bound evidence and must not be regenerated or
+rewritten. Every hierarchy disposition is `machine_validation`; no Task 03E.2d
+bounded-acceptance path is permitted.
 
-Regenerate the reviewed static files and then close their checksums into the
-three-source non-executed identity with:
+The historical preparation used these commands to generate and close the files:
 
 ```bash
 uv run python scripts/generate_task03g2_configs.py
 uv run python scripts/generate_task03g2_identity.py
 ```
 
-The identity generator preserves the accepted Task 03G.1a recipe at its
-historical path before replacing the canonical current recipe. A second run of
-the two commands is byte-stable and keeps the document spec bound to the
-generated pilot identity.
+Do not rerun them against the accepted v1 paths. They remain maintained only as
+bounded historical tooling and compatibility evidence.
 
-Stage the exact checked-in three-source catalog and write the no-PDF freshness
-report with `uv run python scripts/prepare_task03g2.py`. This reads the sealed
-manifest and task-owned artifact namespaces, but it does not open, checksum, or
-convert a source PDF. Producer identities are derived later by the approved
-execution preflight because they bind verified source and model bytes.
+`scripts/prepare_task03g2.py` likewise remains a bounded, source-PDF-free
+compatibility check for the accepted configuration set; it is not a current
+production entry point.
+
+Task 03G.3 adds strict v2 document and collection contracts for future execution.
+Their keys use responsibility names and do not accept the v1 `document_owners`,
+producer, semantic, or corpus-process keys. The Task 03G.2 configs remain checked-in
+checksum inputs and are read only through explicit v1 compatibility loaders. Do not
+use aliases to mix the two versions.
+
+The checked examples are fixtures, not production recipes:
+
+- `benchmarks/er_bench/fixtures/document_publication/v2/document_run_spec.json`
+- `benchmarks/er_bench/fixtures/collection_processing/v2/collection_run_spec.json`
+
+Their schemas live beside the corresponding package name under
+`benchmarks/er_bench/schemas/`. Run `make validate-collection-contract` for the
+collection fixture gate. Task 03H, once separately activated, owns the first real
+all-source v2 document and collection specifications; do not treat the fixture IDs or
+paths as runnable Brisbane configuration.

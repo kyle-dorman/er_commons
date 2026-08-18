@@ -250,15 +250,19 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    The maintained execution reproduced the accepted report metrics and closed
    both Task 03G.2 and Task 03G.2f.
    Historical Appendix P lineage remains forbidden.
-5. Review and explicitly activate drafted [Task
-   03G.3](../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md).
-   It must inventory and freeze the exact semantic responsibility graph,
-   operation-oriented vocabulary, caller/artifact migration, and identity
-   consequences before implementation. It then owns the behavior-preserving
-   refactor and revision of provisional [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md). No PDF/model run,
-   implementation, commit, or Task 03H activation is authorized by the drafted
-   contract. Close Task 03G only after Task 03G.3 is accepted.
+5. [Task
+   03G.3](../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md)
+   Gate B's behavioral MVP is implemented and offline-validated. The maintained packages, CLI,
+   strict v2 workflow contracts, tests, reporting split, and current docs now use
+   the accepted responsibility vocabulary; all 270 frozen Task 03G.2 control files
+   reverified byte-for-byte. The separate human-maintainability pass replaced the
+   legacy-backed v2 runtime, split mixed-responsibility application paths, added typed
+   recovery and artifact boundaries, made journals/JSONL atomic, and added contextual
+   corruption/recovery tests. The complete gate passes 595 tests and strict mypy
+   across 287 source files; all 270 controls still match exactly. The user accepted
+   the result and closed Task 03G.3 on 2026-08-18. No source-PDF/model run or
+   accepted-artifact mutation occurred. Task 03H remains provisional and requires
+   separate activation.
 6. Independently review usability and freeze the accepted extraction release
    in Task 04.
 7. Continue through the separately identified curator-only response inventory,

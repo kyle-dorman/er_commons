@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document-publication/v2/production_identity.schema.json",
+  "title": "ER Commons document publication identity v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type", "schema_version", "fixture_status", "execution_status",
+    "extraction_id", "identity_sha256", "preimage"
+  ],
+  "properties": {
+    "record_type": {"const": "production_identity"},
+    "schema_version": {"const": "er_commons.document_publication_identity.v2"},
+    "fixture_status": {"const": "identity_recipe"},
+    "execution_status": {"const": "not_executed"},
+    "extraction_id": {"type": "string", "pattern": "^exv1-[0-9a-f]{64}$"},
+    "identity_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "preimage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "contract_revision", "extraction_version_name",
+        "production_scope", "document_process_contract", "collection_process_contract"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_publication_identity_preimage.v2"},
+        "contract_revision": {"type": "string", "minLength": 1},
+        "extraction_version_name": {"type": "string", "minLength": 1},
+        "production_scope": {
+          "type": "object",
+          "required": ["ordered_source_ids", "allowed_scope_kinds"],
+          "properties": {
+            "ordered_source_ids": {
+              "type": "array", "minItems": 1, "uniqueItems": true,
+              "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"}
+            },
+            "allowed_scope_kinds": {
+              "type": "array", "minItems": 1, "uniqueItems": true,
+              "items": {"enum": ["fixture", "engineering_smoke", "representative_pilot", "production_full"]}
+            }
+          }
+        },
+        "document_process_contract": {"$ref": "#/$defs/contract"},
+        "collection_process_contract": {"$ref": "#/$defs/contract"}
+      }
+    }
+  },
+  "$defs": {
+    "artifact_ref": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "byte_size"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "byte_size": {"type": "integer", "minimum": 0}
+      }
+    },
+    "contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "artifacts", "owned_code"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
+        "owned_code": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}}
+      }
+    }
+  }
+}

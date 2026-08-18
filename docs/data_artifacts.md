@@ -209,11 +209,12 @@ contain only content, active support/control records, identity, inventory,
 checksums, attempts, and completion artifacts required by maintained validators.
 
 Requested page, table, family, hierarchy, and region evidence is generated
-separately under `review_cache`. Its candidate-neutral request manifest records
-the exact sample and checksums generated files but does not participate in
-candidate identity, completeness, publication, acceptance, or Task 04 status.
-`extraction validate-handoff` verifies a published v1.1 handoff and successful
-document candidates read-only without rebuilding them.
+separately under `review_cache`. A candidate-neutral render-plan manifest records
+the exact sample and verifies immutable input checksums; a generated-review
+manifest checksums any disposable outputs. Neither participates in candidate
+identity, completeness, publication, acceptance, or Task 04 status.
+`collections validate-handoff` verifies a published native-v2 handoff and
+successful document candidates read-only without rebuilding them.
 
 Task 03G.1 adds a separate diagnostic-only namespace:
 
@@ -304,6 +305,24 @@ document-local `support/cross_reference_target_index.json`. Corpus resolution
 records similarly append references to stable stage-one mention IDs and must
 prove that every stage-one managed-file inventory is byte-identical before and
 after resolution.
+
+Task 03G.3 does not rename or move any accepted Task 03G.2 or Task 03G.2f
+artifact. Those roots, their v1/v1.1 schemas, and every derived identifier remain
+historical evidence. Future runs use responsibility-oriented roots defined by their
+new versioned run specifications:
+
+```text
+pipelines/brisbane_baylands/document_parse_evidence/<prv1-id>/
+pipelines/brisbane_baylands/document_records/<exv1-id>/
+pipelines/brisbane_baylands/document_publications/documents/<source-id>/<docv1-id>/
+pipelines/brisbane_baylands/collection_runs/scopes/<scopev1-id>/
+```
+
+Within a document-record candidate, `canonical/` remains the stable record-family
+directory. Within a collection scope, `accounting/`, `target_indexes/`,
+`resolutions/`, and `handoffs/` remain precise artifact names. Code and config path
+changes intentionally produce new future identities even when normalized semantic
+records compare exactly; accepted identities are never rebound.
 
 ## Git policy
 

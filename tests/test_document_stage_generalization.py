@@ -5,10 +5,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from er_commons.canonical_extraction.config import CanonicalizationConfig
-from er_commons.cross_reference_enrichment.config import CrossReferenceEnrichmentConfig
-from er_commons.hierarchy_correction.configuration import HierarchyCorrectionConfig
-from er_commons.semantic_materialization.config import SemanticMaterializationConfig
+from er_commons.document_records.document_references.config import DocumentReferenceConfig
+from er_commons.document_records.document_structure.config import DocumentStructureConfig
+from er_commons.document_records.record_mapping.config import RecordMappingConfig
+from er_commons.hierarchy_inference.config import HierarchyInferenceConfig
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -28,7 +28,7 @@ def test_canonical_owner_accepts_generic_complete_document_profile() -> None:
         {"source_id": "alternate", "source_sha256": "2" * 64, "pdf_page_count": 7}
     ]
 
-    config = CanonicalizationConfig.model_validate(payload)
+    config = RecordMappingConfig.model_validate(payload)
 
     assert config.selected_source_id == "alternate"
 
@@ -50,7 +50,7 @@ def test_hierarchy_owner_accepts_strict_generic_document_profile() -> None:
         "expected_pdf_page_count": 7,
     }
 
-    config = HierarchyCorrectionConfig.model_validate(payload)
+    config = HierarchyInferenceConfig.model_validate(payload)
 
     assert config.source.source_id == "alternate"
 
@@ -85,7 +85,7 @@ def test_semantic_owner_accepts_strict_independent_document_profile() -> None:
         "figure_suppression_count": 0,
     }
 
-    config = SemanticMaterializationConfig.model_validate(payload)
+    config = DocumentStructureConfig.model_validate(payload)
 
     assert config.source.source_id == "alternate"
     assert config.expectations.section_count == 3
@@ -104,7 +104,7 @@ def test_cross_reference_owner_accepts_independent_document_profile(
     path = tmp_path / "cross_reference.json"
     path.write_text(json.dumps(payload))
 
-    config = CrossReferenceEnrichmentConfig.load(path)
+    config = DocumentReferenceConfig.load(path)
 
     assert config.source_id == "alternate"
     assert config.source_id == "alternate"

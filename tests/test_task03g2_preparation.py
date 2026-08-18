@@ -8,17 +8,17 @@ from pathlib import Path
 
 import pytest
 
-from er_commons.corpus_extraction.task03g2_preparation import CATALOG, prepare_task03g2
+from er_commons.document_publication.task03g2_preparation import CATALOG, prepare_task03g2
 
 
 def test_prepare_task03g2_stages_exact_catalog_and_reports_freshness(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from er_commons.corpus_extraction import (
+    from er_commons.document_publication import (
         fresh_preflight,
         preflight,
     )
-    from er_commons.corpus_extraction import (
+    from er_commons.document_publication import (
         task03g2_preparation as preparation,
     )
 

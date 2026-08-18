@@ -9,8 +9,8 @@ from typing import Any
 
 import pytest
 
-from er_commons.canonical_extraction.errors import ContractError
-from er_commons.canonical_extraction.tables import load_producer_table_bundle
+from er_commons.document_records.record_mapping.errors import MappingContractError
+from er_commons.document_records.record_mapping.tables import load_producer_table_bundle
 
 
 def _write_json(path: Path, payload: Any) -> None:
@@ -179,7 +179,7 @@ def test_rejects_missing_raw_cell_position(tmp_path: Path) -> None:
     cells = json.loads(cells_path.read_text(encoding="utf-8"))
     _write_json(cells_path, cells[:-1])
 
-    with pytest.raises(ContractError, match="raw cells do not match shape_raw"):
+    with pytest.raises(MappingContractError, match="raw cells do not match shape_raw"):
         load_producer_table_bundle(producer)
 
 
@@ -189,7 +189,7 @@ def test_rejects_clean_csv_text_that_differs_from_projected_cells(tmp_path: Path
     with csv_path.open("w", encoding="utf-8", newline="") as stream:
         csv.writer(stream).writerows([["A", "WRONG"], ["1", "2"]])
 
-    with pytest.raises(ContractError, match="clean CSV text differs"):
+    with pytest.raises(MappingContractError, match="clean CSV text differs"):
         load_producer_table_bundle(producer)
 
 
@@ -208,7 +208,7 @@ def test_rejects_family_definition_assignment_mismatch(tmp_path: Path) -> None:
         },
     )
 
-    with pytest.raises(ContractError, match="family assignments differ"):
+    with pytest.raises(MappingContractError, match="family assignments differ"):
         load_producer_table_bundle(producer)
 
 
@@ -219,5 +219,5 @@ def test_rejects_page_result_that_differs_from_table_jsonl(tmp_path: Path) -> No
     result["tables"][0]["region_id"] = "layout_002"
     _write_json(result_path, result)
 
-    with pytest.raises(ContractError, match="page result differs from tables.jsonl"):
+    with pytest.raises(MappingContractError, match="page result differs from tables.jsonl"):
         load_producer_table_bundle(producer)

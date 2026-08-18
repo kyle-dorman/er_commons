@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from er_commons.corpus_resolution.workflow import run_scope
+from er_commons.collection_processing.workflow import assemble_collection_handoff
 from er_commons.task03g2f_replay.audit import PilotReplayAuditor
 from er_commons.task03g2f_replay.config import ReplayPaths
 from er_commons.task03g2f_replay.errors import ReplayValidationError
@@ -89,12 +89,12 @@ class Task03G2FReplay:
         return documents, cross_references
 
     def _publish_scope_with_exact_reuse(self) -> ScopePublication:
-        first_handoff = run_scope(self.paths.data_root, self.paths.scope_spec)
+        first_handoff = assemble_collection_handoff(self.paths.data_root, self.paths.scope_spec)
         first_bundle = first_handoff.parents[3] / "contract_bundle.json"
         bundle_bytes = first_bundle.read_bytes()
         handoff_bytes = first_handoff.read_bytes()
 
-        second_handoff = run_scope(self.paths.data_root, self.paths.scope_spec)
+        second_handoff = assemble_collection_handoff(self.paths.data_root, self.paths.scope_spec)
         second_bundle = second_handoff.parents[3] / "contract_bundle.json"
         if second_bundle != first_bundle or second_bundle.read_bytes() != bundle_bytes:
             raise ReplayValidationError(

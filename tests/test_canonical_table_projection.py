@@ -9,18 +9,19 @@ from typing import cast
 
 import pytest
 
-from er_commons.canonical_extraction.assets import AssetCatalog
-from er_commons.canonical_extraction.candidate import canonicalization_warnings
-from er_commons.canonical_extraction.context import MaterializationContext
-from er_commons.canonical_extraction.errors import ContractError
-from er_commons.canonical_extraction.inputs import CanonicalizationInputs
-from er_commons.canonical_extraction.record_sets import MaterializationReport
-from er_commons.canonical_extraction.support_records import _table_stage_observations
-from er_commons.canonical_extraction.table_projection import (
+from er_commons.document_records.document_structure import parser_evidence
+from er_commons.document_records.record_mapping.assets import AssetCatalog
+from er_commons.document_records.record_mapping.candidate import canonicalization_warnings
+from er_commons.document_records.record_mapping.context import RecordMappingContext
+from er_commons.document_records.record_mapping.errors import MappingContractError
+from er_commons.document_records.record_mapping.inputs import RecordMappingInputs
+from er_commons.document_records.record_mapping.record_sets import MaterializationReport
+from er_commons.document_records.record_mapping.support_records import _table_stage_observations
+from er_commons.document_records.record_mapping.table_projection import (
     DOCUMENT_INDEX_UNMAPPED_REASON,
     project_canonical_table_bundle,
 )
-from er_commons.canonical_extraction.tables import (
+from er_commons.document_records.record_mapping.tables import (
     CleanTableCell,
     ProducerTable,
     ProducerTableBundle,
@@ -28,8 +29,7 @@ from er_commons.canonical_extraction.tables import (
     RegionTableMapping,
     TableCleanupEvidence,
 )
-from er_commons.canonical_extraction.traversal import traverse_docling_document
-from er_commons.semantic_materialization import producer_evidence
+from er_commons.document_records.record_mapping.traversal import traverse_docling_document
 
 
 def _table(table_id: str, family_id: str, page: int) -> ProducerTable:
@@ -176,7 +176,7 @@ def test_projected_traversal_emits_index_text_and_replaces_only_ordinary_table()
 def test_projected_document_index_diagnostics_explain_text_preservation() -> None:
     projected = project_canonical_table_bundle(_document(), _bundle())
     context = cast(
-        MaterializationContext,
+        RecordMappingContext,
         SimpleNamespace(
             extraction_id=f"exv1-{'a' * 64}",
             source_id="deir_main",
@@ -208,7 +208,7 @@ def test_projected_document_index_diagnostics_explain_text_preservation() -> Non
     assert ordinary_observation["warnings"] == []
 
     inputs = cast(
-        CanonicalizationInputs,
+        RecordMappingInputs,
         SimpleNamespace(
             conversion_observation_record=SimpleNamespace(captured_python_warnings=[]),
         ),
@@ -229,7 +229,7 @@ def test_rejects_mixed_document_index_and_ordinary_family() -> None:
     )
     tables = tuple(replace(table, family_id="mixed_family") for table in bundle.tables)
 
-    with pytest.raises(ContractError, match="split a mixed table family"):
+    with pytest.raises(MappingContractError, match="split a mixed table family"):
         project_canonical_table_bundle(
             _document(),
             replace(bundle, tables=tables, families=(mixed,)),
@@ -241,7 +241,7 @@ def test_rejects_invalid_or_unknown_region_pointer(pointer: str) -> None:
     bundle = _bundle()
     mappings = (replace(bundle.region_mappings[0], raw_object_ref=pointer),)
 
-    with pytest.raises(ContractError, match="Docling table pointer"):
+    with pytest.raises(MappingContractError, match="Docling table pointer"):
         project_canonical_table_bundle(
             _document(),
             replace(bundle, region_mappings=mappings),
@@ -252,7 +252,7 @@ def test_rejects_duplicate_region_pointer() -> None:
     bundle = _bundle()
     duplicate = replace(bundle.region_mappings[1], raw_object_ref="#/tables/0")
 
-    with pytest.raises(ContractError, match="duplicate Docling table pointer"):
+    with pytest.raises(MappingContractError, match="duplicate Docling table pointer"):
         project_canonical_table_bundle(
             _document(),
             replace(bundle, region_mappings=(bundle.region_mappings[0], duplicate)),
@@ -300,9 +300,9 @@ def test_semantic_replacement_dispositions_use_projected_table_view(
         "groups": [],
         "pictures": [],
     }
-    monkeypatch.setattr(producer_evidence, "load_producer_table_bundle", lambda _root: _bundle())
+    monkeypatch.setattr(parser_evidence, "load_producer_table_bundle", lambda _root: _bundle())
 
-    dispositions = producer_evidence.replacement_dispositions(
+    dispositions = parser_evidence.replacement_dispositions(
         baseline_document=document,
         producer_root=tmp_path,
         key_by_pointer={

@@ -7,21 +7,25 @@ from typing import Annotated
 
 import typer
 
-from er_commons.corpus_extraction import run_document as run_restartable_document
-from er_commons.corpus_extraction_contract_v1_1 import validate_fixture_directory
-from er_commons.corpus_resolution import run_scope as run_corpus_scope
-from er_commons.corpus_resolution import validate_handoff
+from er_commons.collection_processing import (
+    assemble_collection_handoff,
+    validate_collection_contract_fixtures,
+    validate_collection_handoff,
+)
+from er_commons.document_publication import publish_document
 from er_commons.settings import ProjectSettings, load_settings
-from er_commons.source_freeze import freeze_release, verify_release
+from er_commons.source_release import freeze_release, verify_release
 
 app = typer.Typer(
     help="Small, reproducible environmental-review data workflows.",
     no_args_is_help=True,
 )
 sources_app = typer.Typer(help="Acquire and verify immutable public source releases.")
-extraction_app = typer.Typer(help="Validate and run explicit corpus-extraction scopes.")
+documents_app = typer.Typer(help="Publish complete manifest-selected documents.")
+collections_app = typer.Typer(help="Assemble and validate collection handoffs.")
 app.add_typer(sources_app, name="sources")
-app.add_typer(extraction_app, name="extraction")
+app.add_typer(documents_app, name="documents")
+app.add_typer(collections_app, name="collections")
 
 DEFAULT_BRISBANE_SOURCE_SPEC = Path("configs/brisbane_baylands_2025_deir_sources_v1.json")
 
@@ -93,8 +97,8 @@ def verify_sources(
     typer.echo(f"pages={manifest.aggregates['page_count']}")
 
 
-@extraction_app.command("validate-contract")
-def validate_extraction_contract(
+@collections_app.command("validate-contract")
+def validate_collection_contract(
     schema: Annotated[
         Path,
         typer.Option(
@@ -102,7 +106,7 @@ def validate_extraction_contract(
             file_okay=True,
             dir_okay=False,
             readable=True,
-            help="Restartable corpus-extraction v1.1 JSON Schema.",
+            help="Versioned collection-processing JSON Schema.",
         ),
     ],
     fixtures: Annotated[
@@ -116,22 +120,23 @@ def validate_extraction_contract(
         ),
     ],
 ) -> None:
-    """Validate the current offline corpus-extraction contract fixtures."""
-    validate_fixture_directory(schema.resolve(), fixtures.resolve())
-    typer.echo("restartable_extraction_contract=valid")
+    """Validate the current offline collection-processing contract fixtures."""
+    count = validate_collection_contract_fixtures(schema.resolve(), fixtures.resolve())
+    typer.echo("collection_contract=valid")
+    typer.echo(f"fixtures={count}")
 
 
-@extraction_app.command("run-document")
-def run_extraction_document(
-    run_spec: Annotated[
+@documents_app.command("publish")
+def publish_selected_document(
+    document_spec: Annotated[
         Path,
         typer.Option(
-            "--run-spec",
+            "--document-spec",
             exists=True,
             file_okay=True,
             dir_okay=False,
             readable=True,
-            help="Explicit restartable document-stage run specification.",
+            help="Explicit document-publication specification.",
         ),
     ],
     source_id: Annotated[
@@ -140,40 +145,40 @@ def run_extraction_document(
     ],
 ) -> None:
     """Run or checksum-reuse one complete manifest-selected document."""
-    completion = run_restartable_document(load_settings().data_root, run_spec, source_id)
+    completion = publish_document(load_settings().data_root, document_spec, source_id)
     typer.echo(f"document_completion={completion}")
 
 
-@extraction_app.command("run-scope")
-def run_extraction_scope(
-    run_spec: Annotated[
+@collections_app.command("assemble-handoff")
+def assemble_handoff(
+    collection_spec: Annotated[
         Path,
         typer.Option(
-            "--run-spec",
+            "--collection-spec",
             exists=True,
             file_okay=True,
             dir_okay=False,
             readable=True,
-            help="Explicit stage-two scope run specification.",
+            help="Explicit collection handoff specification.",
         ),
     ],
 ) -> None:
-    """Run or checksum-reuse one manifest-ordered corpus scope."""
-    completion = run_corpus_scope(load_settings().data_root, run_spec)
+    """Assemble or checksum-reuse one manifest-ordered collection handoff."""
+    completion = assemble_collection_handoff(load_settings().data_root, collection_spec)
     typer.echo(f"handoff_completion={completion}")
 
 
-@extraction_app.command("validate-handoff")
-def validate_extraction_handoff(
-    extraction_root: Annotated[
+@collections_app.command("validate-handoff")
+def validate_published_handoff(
+    collection_root: Annotated[
         Path,
         typer.Option(
-            "--extraction-root",
+            "--collection-root",
             exists=True,
             file_okay=False,
             dir_okay=True,
             readable=True,
-            help="Published Task 03F extraction root.",
+            help="Published collection-processing root.",
         ),
     ],
     scope_id: Annotated[str, typer.Option("--scope-id", help="Published scope ID.")],
@@ -185,18 +190,18 @@ def validate_extraction_handoff(
             file_okay=True,
             dir_okay=False,
             readable=True,
-            help="Current corpus-extraction v1.1 schema.",
+            help="Versioned collection-processing schema.",
         ),
     ],
 ) -> None:
     """Verify one published handoff and its successful documents without rebuilding."""
-    result = validate_handoff(
-        extraction_root=extraction_root,
+    result = validate_collection_handoff(
+        extraction_root=collection_root,
         scope_id=scope_id,
         schema_path=schema,
     )
     typer.echo(f"handoff_id={result.handoff_id}")
-    typer.echo(f"documents={result.verified_document_count}")
+    typer.echo(f"verified_documents={result.verified_document_count}")
     typer.echo(f"task04_status={result.task04_status}")
 
 

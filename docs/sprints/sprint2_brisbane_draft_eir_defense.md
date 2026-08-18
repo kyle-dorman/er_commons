@@ -642,7 +642,9 @@ validation boundary.
      on the main report, Appendix D, and Appendix P, then verify checksum reuse;
    - [Task 03G.3](../../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md):
      align maintained code boundaries and operation-oriented vocabulary with
-     the accepted semantic DAG before the all-source run; and
+     the accepted semantic DAG before the all-source run. Gate A was explicitly
+     accepted, Gate B was implemented and offline-validated, and the user
+     accepted and closed the task on 2026-08-18; and
    - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
      all 35 sources, preserve explicit terminal failures, and publish the
      candidate extraction and accounting handoff for Task 04.

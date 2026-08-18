@@ -208,7 +208,10 @@ authorization remains source-specific. Corpus v1, reference/rewrite/repeat/
 quality/review proof paths, completed-task commands, and their proof-only
 schemas/configs/tests were removed after invariant transfer. Candidate-neutral
 comparison/requested-render utilities and read-only handoff validation preserve
-the declared Task 03G--04 capabilities. Fail-fast lineage validation now
+the declared Task 03G--04 capabilities. Human-review code uses one validated
+`ReviewSelection` for both grouped `RenderPlan` requests and
+`GeneratedReviewManifest` outputs, while retaining the accepted v2 request and
+v1 generated-manifest artifact schemas. Fail-fast lineage validation now
 rejects stale inter-stage pins before attempt allocation or PDF work. After
 candidate-neutral review, the user approved the exact Appendix P hierarchy
 rebind. The pre-close maintainability pass refreshed hierarchy candidate
@@ -270,13 +273,19 @@ scope `scopev1-c52b...beb6a8`, resolved 18/18 eligible mentions, validated the
 ready handoff and report independently, proved exact reuse, and preserved all
 forbidden attempt inventories. Task 03G.2 and Task 03G.2f are closed. No
 historical Appendix P producer, candidate, or bounded authorization entered
-the replay. Drafted [Task
-03G.3](../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md) now
-owns the user-directed pre-production refactor that will align maintained code
-boundaries and operation-oriented names with the semantic document/collection
-DAG. It is not activated and authorizes no implementation or PDF/model work.
-Task 03H remains provisional until Task 03G.3 is accepted and its contract is
-reconciled to the resulting vocabulary and architecture.
+the replay. Active [Task
+03G.3](../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md) has
+completed the Gate B behavioral MVP and offline validation. Maintained code now follows
+the accepted document/collection responsibility DAG; public commands use
+`documents` and `collections`; strict v2 workflow contracts cannot accept v1 keys;
+and machine reporting is separate from human review support. All 270 frozen Task
+03G.2 control files reverified exactly. No PDF/model ran and no accepted artifact
+changed. The distinct human-maintainability pass is now implemented and offline-
+validated: current execution uses native v2 records/identities, application shells and
+runtime seams are responsibility-owned and typed, recovery diagnostics name corrupt
+evidence, and behavior-focused gates pass all 595 tests plus strict mypy across 287
+source files. The user accepted the human-maintainability result and closed Task
+03G.3 on 2026-08-18. Task 03H remains provisional and is not activated.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

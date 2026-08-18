@@ -26,6 +26,58 @@ tests/                   # Fast tests for project-owned glue and contracts
 docs/ and tasks/         # Routing, decisions, plans, and execution contracts
 ```
 
+## Maintained document and collection pipeline
+
+Task 03G.3 replaces the accumulated task-era process layout with
+responsibility-oriented packages. The maintained dependency direction is:
+
+```text
+source_release + artifact_io
+  -> document_parsing
+     -> hierarchy_inference
+     -> document_records
+  -> document_publication
+  -> collection_processing
+  -> extraction_reporting
+
+human_review_support consumes published evidence but is never a production dependency.
+```
+
+`document_parsing` owns stable-content parsing, heading-evidence parsing, and table
+reconstruction. `hierarchy_inference` consumes parsed evidence and owns hierarchy
+decisions. `document_records` groups record mapping, document structure (sections,
+printed page labels, and aliases), and document-local reference linking.
+`document_publication` owns attempts, lineage, reuse, and atomic publication for one
+document; it does not own parsing policy. `collection_processing` accounts for declared
+documents, builds record and document target indexes, resolves cross-document links,
+and assembles the handoff. `extraction_reporting` is machine reporting. Only
+`human_review_support` requests or records human judgment.
+
+The public CLI mirrors those boundaries: `er-commons documents publish` and
+`er-commons collections {assemble-handoff,validate-handoff,validate-contract}`.
+Accepted Task 03G.2 v1 configurations, v1/v1.1 schemas, serialized role names, and
+artifact paths remain immutable and are readable only through explicit versioned
+compatibility code. New executable specifications use strict v2 models and cannot
+silently accept old keys. Canonical record vocabulary and the established typed ID
+prefixes remain data-model terms, not process names.
+
+The layout exposes a parsing boundary for Task 03H, but Task 03H still owns making the
+expensive content-conversion result independently sealable and exercising it on the
+full collection.
+
+For code navigation, start at the public facade and follow one short application shell:
+
+| Responsibility | Public facade | Application shell | Primary behavior tests |
+| --- | --- | --- | --- |
+| Publish one document | `er_commons.document_publication` | `document_publication/workflow.py` | `tests/test_document_publication_workflow.py` |
+| Assemble one collection | `er_commons.collection_processing` | `collection_processing/workflow.py` | `tests/test_collection_processing_workflow.py` |
+| Report machine outcomes | `er_commons.extraction_reporting` | `extraction_reporting/reporting.py` | `tests/test_extraction_reporting.py` |
+
+The v2 run-spec models live in each production package's `config.py`; checked schemas
+and examples live under `benchmarks/er_bench/{schemas,fixtures}/`. Neutral checksum,
+contained-path, and deterministic JSON helpers belong in `artifact_io.py`, not inside a
+downstream workflow package.
+
 The initial CLI exposes the artifact root. Task 02 added a `sources` command
 group backed by Requests and urllib3 for bounded streaming and retries,
 Beautiful Soup for landing-page reconciliation, pikepdf for structural PDF
@@ -72,6 +124,12 @@ CLI, while `make` loads and validates the same value for routine commands.
 Committed workflow configuration must not depend on a developer's absolute
 paths. Future workflow settings should use validated Pydantic contracts rather
 than untyped dictionaries.
+
+## Historical architecture record (Tasks 03C through 03G.2)
+
+The sections below explain the immutable evidence produced before Task 03G.3. Their
+package paths, commands, and task-era process names are historical, not instructions for
+current code. Use the maintained pipeline and navigation table above for new work.
 
 Task 03C adds a separate complete-document producer policy above the accepted
 Task 03A parser components. `documents run-review` remains the fixed comparison
@@ -273,7 +331,13 @@ rule. Bridge validation requires an independently constructed producer-evidence
 index, so persisted bridge rows cannot authenticate their own pointers or
 unmapped dispositions.
 
-## Restartable corpus workflow
+### Task 03F through Task 03G.2 workflow
+
+The following section records the architecture that produced the immutable Task
+03G.2 evidence. Its package paths, command names, and v1/v1.1 vocabulary are
+historical inputs to the Task 03G.3 compatibility boundary, not maintained
+entry points. See "Maintained document and collection pipeline" above for the
+current architecture.
 
 Task 03F.4 reduced the maintained extraction surface to two production
 orchestration commands: `extraction run-document` and `extraction run-scope`.

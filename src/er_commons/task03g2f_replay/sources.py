@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from er_commons.corpus_extraction.downstream_replay import publish_downstream_replay
-from er_commons.cross_reference_enrichment.workflow import run_cross_reference_enrichment
+from er_commons.document_publication.downstream_replay import publish_downstream_replay
+from er_commons.document_records.document_references.workflow import link_document_references
 from er_commons.task03g2f_replay.config import SOURCE_CONFIG_SLUGS, ReplayPaths
 from er_commons.task03g2f_replay.errors import ReplayValidationError
 from er_commons.task03g2f_replay.io import (
@@ -123,7 +123,7 @@ class SourceReplayer:
         )
         control = self.paths.effective_cross_reference_config(source_id)
         write_exact(control, json_bytes(effective))
-        return run_cross_reference_enrichment(
+        return link_document_references(
             self.paths.data_root,
             control,
             config_identity_path=template,

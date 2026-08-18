@@ -1,0 +1,704 @@
+{
+  "schema_version": "er_commons.task03g1_parser_smoke.v2",
+  "smoke_policy_version": "task03g1-v2",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03g1_model_collection_parser_smoke",
+  "production_extraction_id": "exv1-1bd71e02e9f8da505d68bfb58b8dd8d4c1b47aabc8365417028d6daf60c1fcc4",
+  "smoke_identity_prefix": "smokev1-",
+  "page_number_basis": "one_based_physical_pdf_page",
+  "selection_rule": "all_if_at_most_10_else_first_3_center_4_last_3",
+  "expected_source_count": 35,
+  "expected_selected_page_count": 342,
+  "selection_sha256": "b2b9dc65c61c4b69d88076bbb6ec93f66261dea61fc50faf9184f129658136f0",
+  "sources": [
+    {
+      "source_id": "deir_main",
+      "expected_sha256": "0b81e84176c86205c07d9ae6b2a9994fcd45405e516546bcfc7ab9b1f88cf83f",
+      "expected_byte_size": 65818524,
+      "expected_pdf_page_count": 2092,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        1045,
+        1046,
+        1047,
+        1048,
+        2090,
+        2091,
+        2092
+      ]
+    },
+    {
+      "source_id": "deir_appendix_a",
+      "expected_sha256": "6f77ff07db8037b382cbe7ad4555e65bb9808749004a2324f48c615b2e378dd4",
+      "expected_byte_size": 116168501,
+      "expected_pdf_page_count": 514,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        256,
+        257,
+        258,
+        259,
+        512,
+        513,
+        514
+      ]
+    },
+    {
+      "source_id": "deir_appendix_b",
+      "expected_sha256": "ae3f77879164c4567c1d614daf285a0fb68db5c97b80fa2bc93f53bac1a5ce04",
+      "expected_byte_size": 60349740,
+      "expected_pdf_page_count": 258,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        128,
+        129,
+        130,
+        131,
+        256,
+        257,
+        258
+      ]
+    },
+    {
+      "source_id": "deir_appendix_c",
+      "expected_sha256": "41102148c33a4b56bc2ac88bd22acd998138e6bb7735a3c321784cccc686b974",
+      "expected_byte_size": 5329542,
+      "expected_pdf_page_count": 86,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        42,
+        43,
+        44,
+        45,
+        84,
+        85,
+        86
+      ]
+    },
+    {
+      "source_id": "deir_appendix_d",
+      "expected_sha256": "0e0d0dc3d5c9d75ca52ec698f3943da59e560e69dde8dfa4763c9afd6673e1c3",
+      "expected_byte_size": 62423471,
+      "expected_pdf_page_count": 356,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        177,
+        178,
+        179,
+        180,
+        354,
+        355,
+        356
+      ]
+    },
+    {
+      "source_id": "deir_appendix_e",
+      "expected_sha256": "cb1da68df2f6daf3874109fb9f5083367e58da61178c6a26b97c9b7f274a127b",
+      "expected_byte_size": 47230860,
+      "expected_pdf_page_count": 362,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        180,
+        181,
+        182,
+        183,
+        360,
+        361,
+        362
+      ]
+    },
+    {
+      "source_id": "deir_appendix_f1",
+      "expected_sha256": "dd51b7e5f0d511abc34617c10afde270e27d5dfe5df7ae9b7048cc206528ac78",
+      "expected_byte_size": 8223907,
+      "expected_pdf_page_count": 75,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        36,
+        37,
+        38,
+        39,
+        73,
+        74,
+        75
+      ]
+    },
+    {
+      "source_id": "deir_appendix_f2",
+      "expected_sha256": "eb6fee2ba7648cee1b864924fb6be03596d904096d48572711533ca8d27e3ba1",
+      "expected_byte_size": 7609591,
+      "expected_pdf_page_count": 16,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        7,
+        8,
+        9,
+        10,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "source_id": "deir_appendix_g1",
+      "expected_sha256": "e11835a7c6346c6780bfe26bee0037f4b6206b0a1573b3d480cb2b4170e79f7f",
+      "expected_byte_size": 41021082,
+      "expected_pdf_page_count": 2488,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        1243,
+        1244,
+        1245,
+        1246,
+        2486,
+        2487,
+        2488
+      ]
+    },
+    {
+      "source_id": "deir_appendix_g2",
+      "expected_sha256": "6513536914ad08ad21fa9e97911744f7d5bcfabca9ba51a151e6a4ddb65e0b13",
+      "expected_byte_size": 52067638,
+      "expected_pdf_page_count": 3736,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        1867,
+        1868,
+        1869,
+        1870,
+        3734,
+        3735,
+        3736
+      ]
+    },
+    {
+      "source_id": "deir_appendix_g3",
+      "expected_sha256": "2f06933b506dd55e30cc965422b7a3dd55fb9dc6b0416a8bed651864bc147e97",
+      "expected_byte_size": 84721934,
+      "expected_pdf_page_count": 6104,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        3051,
+        3052,
+        3053,
+        3054,
+        6102,
+        6103,
+        6104
+      ]
+    },
+    {
+      "source_id": "deir_appendix_h",
+      "expected_sha256": "72b649f0a4c9798952aa62b5c417b4fa4437c19267a4bec6c6fb3319fb0baea7",
+      "expected_byte_size": 9395481,
+      "expected_pdf_page_count": 2572,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        1285,
+        1286,
+        1287,
+        1288,
+        2570,
+        2571,
+        2572
+      ]
+    },
+    {
+      "source_id": "deir_appendix_i",
+      "expected_sha256": "3e924410e0c009aa9188174693418893033c1fec426c689ec77dc9b9f766c810",
+      "expected_byte_size": 5531470,
+      "expected_pdf_page_count": 2408,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        1203,
+        1204,
+        1205,
+        1206,
+        2406,
+        2407,
+        2408
+      ]
+    },
+    {
+      "source_id": "deir_appendix_j",
+      "expected_sha256": "94bc63d0cfff952ae382094a6e2c05b725a03a4909da61ac551b0aaf265f5d00",
+      "expected_byte_size": 5796567,
+      "expected_pdf_page_count": 188,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        93,
+        94,
+        95,
+        96,
+        186,
+        187,
+        188
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k1_part_1_of_4",
+      "expected_sha256": "ac90ffd5047934d8e107fc9f1fa79dfd55f7df6b1690997205b8905d353afd19",
+      "expected_byte_size": 53331351,
+      "expected_pdf_page_count": 732,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        365,
+        366,
+        367,
+        368,
+        730,
+        731,
+        732
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k1_part_2_of_4",
+      "expected_sha256": "63298b1e1a9105a7ff8f2a80594b36fdd0ea14d3455a41fae35d91296eb5b5ac",
+      "expected_byte_size": 49095779,
+      "expected_pdf_page_count": 1422,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        710,
+        711,
+        712,
+        713,
+        1420,
+        1421,
+        1422
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k1_part_3_of_4",
+      "expected_sha256": "21dd741bd7c0f90c17af440c4b10865154486a1560197a744750ed5bb18a8f93",
+      "expected_byte_size": 53839734,
+      "expected_pdf_page_count": 2790,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        1394,
+        1395,
+        1396,
+        1397,
+        2788,
+        2789,
+        2790
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k1_part_4_of_4",
+      "expected_sha256": "a2b80c03a69926271d8aa4f6d4ff63d90d4441b0741a395b75eac8dbf615f055",
+      "expected_byte_size": 56647801,
+      "expected_pdf_page_count": 2558,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        1278,
+        1279,
+        1280,
+        1281,
+        2556,
+        2557,
+        2558
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k2_part_1_of_5",
+      "expected_sha256": "4fe642c108185f37cc539ce44658ba610ea1ed4d617e5e91651010207d4860cb",
+      "expected_byte_size": 120467120,
+      "expected_pdf_page_count": 1454,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        726,
+        727,
+        728,
+        729,
+        1452,
+        1453,
+        1454
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k2_part_2_of_5",
+      "expected_sha256": "6723a013ce1698ca82e312e49008e09fba1f05f2f45085630a08096a5f7145d1",
+      "expected_byte_size": 70207279,
+      "expected_pdf_page_count": 1048,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        523,
+        524,
+        525,
+        526,
+        1046,
+        1047,
+        1048
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k2_part_3_of_5",
+      "expected_sha256": "8cf4e44bd09d342337157a2c7e806cd72144d1684be3f60b163b8d92a6670dcb",
+      "expected_byte_size": 113583865,
+      "expected_pdf_page_count": 7934,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        3966,
+        3967,
+        3968,
+        3969,
+        7932,
+        7933,
+        7934
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k2_part_4_of_5",
+      "expected_sha256": "9409162457003a2537cc60c75768ebb6c0de059088d7f88eed785fb6608098a4",
+      "expected_byte_size": 121208125,
+      "expected_pdf_page_count": 3882,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        1940,
+        1941,
+        1942,
+        1943,
+        3880,
+        3881,
+        3882
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k2_part_5_of_5",
+      "expected_sha256": "933b3ffae254ebca733b60598d940d9af90b0c7ac4d1526ba831feec3333c125",
+      "expected_byte_size": 43974745,
+      "expected_pdf_page_count": 2328,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        1163,
+        1164,
+        1165,
+        1166,
+        2326,
+        2327,
+        2328
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k3",
+      "expected_sha256": "4fcd75c6ddf6488a96f133aa28cfaf6ee7907e4758c6bef70436f56bdec055ff",
+      "expected_byte_size": 123509420,
+      "expected_pdf_page_count": 1250,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        624,
+        625,
+        626,
+        627,
+        1248,
+        1249,
+        1250
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k4",
+      "expected_sha256": "e08dccf8018e83be4ea3244b3e7e5d6526463fdf2c7b24ee51946b3186695533",
+      "expected_byte_size": 211076,
+      "expected_pdf_page_count": 4,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k5",
+      "expected_sha256": "5e654af2173aa725b24f77396801496f10e9b08b5b7fa2ed6ca9ad33007b96c4",
+      "expected_byte_size": 288975,
+      "expected_pdf_page_count": 10,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "source_id": "deir_appendix_k6",
+      "expected_sha256": "bc3749eea2120b2a278477f48e8bc2ed1c0ddeef985fd36aaf08fcd96cccc0ec",
+      "expected_byte_size": 1550021,
+      "expected_pdf_page_count": 20,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        9,
+        10,
+        11,
+        12,
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "source_id": "deir_appendix_l",
+      "expected_sha256": "d850fae7db9df5d3e06263e37e1fdcf06810f94950957e3eb2028af38c7367bf",
+      "expected_byte_size": 3215969,
+      "expected_pdf_page_count": 36,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        17,
+        18,
+        19,
+        20,
+        34,
+        35,
+        36
+      ]
+    },
+    {
+      "source_id": "deir_appendix_m1",
+      "expected_sha256": "01a229d4ecd58a9cd6f02231a3292bc0f17d6027628b14416b1c4f45e2c4a94d",
+      "expected_byte_size": 21674563,
+      "expected_pdf_page_count": 246,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        122,
+        123,
+        124,
+        125,
+        244,
+        245,
+        246
+      ]
+    },
+    {
+      "source_id": "deir_appendix_m2",
+      "expected_sha256": "d84c7ac634c2b576218ae4043b752273140ab98579c4db2e9330398238a2d08f",
+      "expected_byte_size": 84060813,
+      "expected_pdf_page_count": 1042,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        520,
+        521,
+        522,
+        523,
+        1040,
+        1041,
+        1042
+      ]
+    },
+    {
+      "source_id": "deir_appendix_m3",
+      "expected_sha256": "27df91b95ac9529d72e99c1719c36fa984d572a42c4e19050a2d80be1f2b4f69",
+      "expected_byte_size": 2366846,
+      "expected_pdf_page_count": 32,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        15,
+        16,
+        17,
+        18,
+        30,
+        31,
+        32
+      ]
+    },
+    {
+      "source_id": "deir_appendix_n1",
+      "expected_sha256": "d81f31687e589abb9df852f2438333d0f828f6094ce77cb748f03e15e289108e",
+      "expected_byte_size": 272074,
+      "expected_pdf_page_count": 8,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "source_id": "deir_appendix_n2",
+      "expected_sha256": "81f71217877831ffb00c74b1d8e1b4dfc7175d0a5ac185df0f626ce08791339d",
+      "expected_byte_size": 1250403,
+      "expected_pdf_page_count": 14,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "source_id": "deir_appendix_o",
+      "expected_sha256": "e478a49820a44f052c7f8064a101a98463d93a98ffd66aa802ceb9fa9ce7a2b6",
+      "expected_byte_size": 20953571,
+      "expected_pdf_page_count": 54,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        26,
+        27,
+        28,
+        29,
+        52,
+        53,
+        54
+      ]
+    },
+    {
+      "source_id": "deir_appendix_p",
+      "expected_sha256": "2dfceac46931a946bc343d52b09104b7b58ed8831bc4f49a03f0b8655e4e6ea1",
+      "expected_byte_size": 6528561,
+      "expected_pdf_page_count": 222,
+      "selected_physical_pages": [
+        1,
+        2,
+        3,
+        110,
+        111,
+        112,
+        113,
+        220,
+        221,
+        222
+      ]
+    }
+  ],
+  "model_inventory_relative_path": "pipelines/brisbane_baylands/task_03a_docling_native_pilot_v1/model_inventory.json",
+  "configuration_id": "docling_native_pypdfium2_heron_layout_only_cpu",
+  "backend": "pypdfium2",
+  "device": "cpu",
+  "strict_table_dominant_thresholds": {
+    "minimum_text_width_fraction": 0.7,
+    "minimum_text_height_fraction": 0.75,
+    "minimum_nonempty_line_count": 80,
+    "minimum_nonspace_characters_per_square_point": 0.02,
+    "minimum_digit_fraction": 0.35
+  },
+  "numeric_table_bearing_thresholds": {
+    "minimum_text_width_fraction": 0.7,
+    "minimum_nonempty_line_count": 20,
+    "minimum_nonspace_characters_per_square_point": 0.005,
+    "minimum_digit_fraction": 0.5
+  },
+  "table_detection": {
+    "render_scale": 3.0,
+    "horizontal_kernel_pixels": 24,
+    "vertical_kernel_pixels": 12,
+    "minimum_region_width_pixels": 60,
+    "minimum_region_height_pixels": 18,
+    "minimum_intersections": 4,
+    "complex_page_minimum_regions": 2,
+    "maximum_network_ruling_coverage": 0.1,
+    "minimum_region_match_iou": 0.5
+  },
+  "table_cleanup": {
+    "footer_pattern": "(?P<sheet>\\d+\\.[A-Za-z0-9_]+)\\s+(?P<page>\\d+)\\s+of\\s+(?P<total>\\d+)",
+    "footer_counter_pattern": "\\b\\d+\\s+of\\s+\\d+\\b",
+    "leading_filename_pattern": "^[a-z0-9_]+_v[0-9]+$",
+    "maximum_header_rows": 8,
+    "minimum_numeric_cell_fraction_for_data_row": 0.5
+  },
+  "retain_review_derivatives": false,
+  "resource_policy": {
+    "maximum_source_workers": 1,
+    "converter_thread_count": 4,
+    "minimum_free_bytes_before_source": 21474836480,
+    "continue_after_source_failure": true,
+    "stop_before_pdf_run_without_explicit_approval": true
+  },
+  "planning_estimate": {
+    "wall_time_hours_low": 1.0,
+    "wall_time_hours_high": 6.0,
+    "retained_bytes_low": 104857600,
+    "retained_bytes_high": 5368709120,
+    "basis": "342 pages in 99 sequential conversion ranges; no review renders; uncertainty is dominated by heterogeneous PDF complexity and routed table pages."
+  },
+  "owned_code_paths": [
+    "src/er_commons/parser_smoke/__init__.py",
+    "src/er_commons/parser_smoke/__main__.py",
+    "src/er_commons/parser_smoke/config.py",
+    "src/er_commons/parser_smoke/selection.py",
+    "src/er_commons/parser_smoke/conversion.py",
+    "src/er_commons/parser_smoke/table_stage.py",
+    "src/er_commons/parser_smoke/records.py",
+    "src/er_commons/parser_smoke/services.py",
+    "src/er_commons/parser_smoke/routing.py",
+    "src/er_commons/parser_smoke/source_processing.py",
+    "src/er_commons/parser_smoke/reporting.py",
+    "src/er_commons/parser_smoke/warnings.py",
+    "src/er_commons/parser_smoke/publication.py",
+    "src/er_commons/parser_smoke/workflow.py"
+  ]
+}

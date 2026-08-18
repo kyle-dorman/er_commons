@@ -1,0 +1,27 @@
+{
+  "record_type": "production_identity",
+  "schema_version": "er_commons.document_publication_identity.v2",
+  "fixture_status": "identity_recipe",
+  "execution_status": "not_executed",
+  "extraction_id": "exv1-648aa715a95311cda4378c6862f164522a1723f5f612ee4d6d9ff57e6d88bd6a",
+  "identity_sha256": "648aa715a95311cda4378c6862f164522a1723f5f612ee4d6d9ff57e6d88bd6a",
+  "preimage": {
+    "schema_version": "er_commons.document_publication_identity_preimage.v2",
+    "contract_revision": "document_publication_fixture_v2",
+    "extraction_version_name": "fixture_document_publication_v2",
+    "production_scope": {
+      "ordered_source_ids": ["alpha", "beta"],
+      "allowed_scope_kinds": ["fixture"]
+    },
+    "document_process_contract": {
+      "version": "v2",
+      "artifacts": [],
+      "owned_code": []
+    },
+    "collection_process_contract": {
+      "version": "v2",
+      "artifacts": [],
+      "owned_code": []
+    }
+  }
+}

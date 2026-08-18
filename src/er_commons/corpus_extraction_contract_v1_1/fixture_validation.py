@@ -26,7 +26,6 @@ def validate_fixture_directory(schema_path: Path, fixture_root: Path) -> None:
     validator.validate(fixture.bundle)
     validate_contract_bundle(fixture.bundle, fixture.artifacts)
 
-    project_root = _find_project_root(schema_path)
     identity = _read_object(fixture_root / "production_identity_preimage.json")
     preimage = identity["preimage"]
     if not isinstance(preimage, dict):
@@ -49,7 +48,6 @@ def validate_fixture_directory(schema_path: Path, fixture_root: Path) -> None:
         identity,
         expected_source_ids=expected_source_ids,
         expected_scope=scope_evidence,
-        project_root=project_root,
     )
 
     mutations = json.loads((fixture_root / "invalid_mutations.json").read_bytes())
@@ -107,10 +105,3 @@ def _read_object(path: Path) -> JsonObject:
     if not isinstance(value, dict):
         fail("fixture_shape", "fixture root is not an object", subject=path.as_posix())
     return value
-
-
-def _find_project_root(path: Path) -> Path:
-    for parent in (path.resolve(), *path.resolve().parents):
-        if (parent / "pyproject.toml").is_file():
-            return parent
-    fail("fixture_path", "could not find project root", subject=path.as_posix())

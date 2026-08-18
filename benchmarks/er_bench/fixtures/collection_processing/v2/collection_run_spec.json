@@ -1,0 +1,11 @@
+{
+  "schema_version": "er_commons.collection_run_spec.v2",
+  "document_run_spec": "document_run_spec.json",
+  "source_ids": ["appendix_a"],
+  "source_family_catalog_relative_path": "catalogs/source_family.json",
+  "blocking_policy": "all_sources_successful",
+  "document_evidence_mode": "document_attempt",
+  "target_policy_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "resolution_policy_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "ordering_policy_version": "record_target_order_v2"
+}

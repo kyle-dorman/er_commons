@@ -5,8 +5,8 @@ ENV_FILE := .env
 export ER_COMMONS_DATA_ROOT
 
 .PHONY: help bootstrap sync check-env data-dirs about paths freeze-brisbane-sources \
-	verify-brisbane-sources validate-extraction-contract run-extraction-document \
-	run-extraction-scope \
+	verify-brisbane-sources validate-collection-contract publish-document \
+	assemble-collection-handoff validate-collection-handoff \
 	format format-check lint lint-fix type test check fix
 
 help:
@@ -16,10 +16,10 @@ help:
 	@echo "  make paths       Show the configured external data/artifact paths"
 	@echo "  make freeze-brisbane-sources  Freeze the reviewed Brisbane source release"
 	@echo "  make verify-brisbane-sources  Verify the frozen release without network access"
-	@echo "  make validate-extraction-contract  Validate the current v1.1 contract fixtures"
-	@echo "  make run-extraction-document RUN_SPEC=PATH SOURCE_ID=ID  Run one document"
-	@echo "  make run-extraction-scope RUN_SPEC=PATH  Run or reuse one explicit corpus scope"
-	@echo "  er-commons extraction validate-handoff  Verify a published handoff read-only"
+	@echo "  make validate-collection-contract  Validate the current v2 contract fixtures"
+	@echo "  make publish-document DOCUMENT_SPEC=PATH SOURCE_ID=ID  Publish one document"
+	@echo "  make assemble-collection-handoff COLLECTION_SPEC=PATH  Assemble one collection handoff"
+	@echo "  make validate-collection-handoff COLLECTION_ROOT=DIR SCOPE_ID=ID SCHEMA=FILE"
 	@echo "  make fix         Apply lint and formatting fixes"
 	@echo "  make check       Run formatting, linting, types, and tests"
 
@@ -51,17 +51,28 @@ verify-brisbane-sources: check-env
 	uv run er-commons sources verify \
 		--spec configs/brisbane_baylands_2025_deir_sources_v1.json
 
-validate-extraction-contract:
-	uv run python -m er_commons.corpus_extraction_contract_v1_1
+validate-collection-contract:
+	uv run er-commons collections validate-contract \
+		--schema benchmarks/er_bench/schemas/collection_processing/v2/collection_run_spec.schema.json \
+		--fixtures benchmarks/er_bench/fixtures/collection_processing/v2
 
-run-extraction-document: check-env
-	@test -n "$(RUN_SPEC)" || (echo "RUN_SPEC=PATH is required"; exit 1)
+publish-document: check-env
+	@test -n "$(DOCUMENT_SPEC)" || (echo "DOCUMENT_SPEC=PATH is required"; exit 1)
 	@test -n "$(SOURCE_ID)" || (echo "SOURCE_ID=ID is required"; exit 1)
-	uv run er-commons extraction run-document --run-spec "$(RUN_SPEC)" --source-id "$(SOURCE_ID)"
+	uv run er-commons documents publish --document-spec "$(DOCUMENT_SPEC)" --source-id "$(SOURCE_ID)"
 
-run-extraction-scope: check-env
-	@test -n "$(RUN_SPEC)" || (echo "RUN_SPEC=PATH is required"; exit 1)
-	uv run er-commons extraction run-scope --run-spec "$(RUN_SPEC)"
+assemble-collection-handoff: check-env
+	@test -n "$(COLLECTION_SPEC)" || (echo "COLLECTION_SPEC=PATH is required"; exit 1)
+	uv run er-commons collections assemble-handoff --collection-spec "$(COLLECTION_SPEC)"
+
+validate-collection-handoff: check-env
+	@test -n "$(COLLECTION_ROOT)" || (echo "COLLECTION_ROOT=DIR is required"; exit 1)
+	@test -n "$(SCOPE_ID)" || (echo "SCOPE_ID=ID is required"; exit 1)
+	@test -n "$(SCHEMA)" || (echo "SCHEMA=FILE is required"; exit 1)
+	uv run er-commons collections validate-handoff \
+		--collection-root "$(COLLECTION_ROOT)" \
+		--scope-id "$(SCOPE_ID)" \
+		--schema "$(SCHEMA)"
 
 format:
 	uv run ruff format .

@@ -1,28 +1,28 @@
-# Task 03H: Run and Validate the Full Canonical Extraction
+# Task 03H: Publish and Validate the Full Document Collection
 
 Status: **provisional; execution shape revised by user direction on
-2026-08-05**. Do not activate or execute this task until the Task 03G umbrella,
-including Tasks 03G.1, 03G.2, all observed-failure remediation, and the drafted
+2026-08-05**. Tasks 03G.1, 03G.2, all observed-failure remediation, and the
 [Task 03G.3](03g3_align_pipeline_responsibilities_and_names.md) architecture
-and naming refactor, is accepted and closed. Before activation, reconcile this
-provisional contract against the accepted Task 03G.3 responsibility graph and
-vocabulary, then confirm that the independently sealed Docling restart boundary
-below is implemented and validated.
+and naming refactor are accepted and closed. This contract uses the accepted
+Task 03G.3 responsibility graph and vocabulary but remains inactive. The Task
+03G umbrella must receive separate closure and Task 03H must receive separate
+user activation; before activation, also confirm that the independently sealed
+content-parsing restart boundary below is implemented and validated.
 
 ## Abstract
 
-Run the frozen two-stage workflow across all 35 checksum-pinned model-corpus
-PDFs without treating the complete producer as the only restart boundary. For
+Run the frozen document and collection workflow across all 35 checksum-pinned
+model-collection PDFs without treating document parsing as one restart boundary. For
 each required source/configuration pair, publish the expensive Docling
 conversion as independently sealed immutable evidence before routing, table
-extraction, canonicalization, or later owners consume it. Prove that boundary
+reconstruction, record mapping, or later processes consume it. Prove that boundary
 on a small, diverse full-document wave before scheduling the remaining corpus;
 afterward, pipeline work as capacity allows while retaining the stage seals.
 
-Publish immutable per-document stage-one candidates, seal the corpus
+Publish immutable per-document candidates, seal the collection
 target/alias index, publish cross-document resolution records, and account
 explicitly for every source and terminal state. Produce a candidate handoff and
-producer-side integrity evidence for Task 04. Task 04 independently decides
+machine integrity evidence for Task 04. Task 04 independently decides
 usability and freezes the accepted extraction release; Task 03H does not
 silently represent a failed source as a successful extraction.
 
@@ -34,11 +34,12 @@ independently validated before benchmark use.
 
 ## Inputs
 
-- user-approved Task 03G umbrella outcome and Task 03G.2 configuration,
+- user-approved Task 03G umbrella outcome and strict Task 03G.3 v2 configuration,
   identity, and capacity settings
 - the sealed Task 02 manifest filtered to its 35 ordered, checksum-pinned
   `model_corpus` records
-- production commands and contracts accepted in Tasks 03C.1 and 03D.1, the
+- responsibility-oriented packages and commands accepted in Task 03G.3, plus the
+  behavioral contracts accepted in Tasks 03C.1 and 03D.1, the
   Task 03E.2d correction acceptance, and Tasks 03E.3–03F
 - accepted pilot evidence and `/Volumes/x10pro/er_commons` capacity
 - measured Task 03G conversion and downstream timings sufficient to forecast
@@ -52,7 +53,7 @@ independently validated before benchmark use.
   checksums, warnings, and an explicit success seal
 - derived routing and table evidence that names its exact sealed Docling input
   and can be rebuilt without rerunning conversion when that input remains valid
-- immutable raw producer output, canonical records, semantic hierarchy,
+- immutable parser evidence, canonical records, inferred hierarchy,
   printed-label evidence and resolutions, aliases, reference mentions,
   within-document resolutions, content assets, and mappings for every
   successful stage-one document
@@ -62,7 +63,7 @@ independently validated before benchmark use.
   reasons for unavailable or ambiguous targets
 - separate target-index, resolution, all-source-accounting, and candidate-
   handoff completion records
-- corpus manifest, producer summary, checksums, warnings, configuration, and
+- collection manifest, machine report, checksums, warnings, configuration, and
   software/model/runtime identities
 - producer-side completeness, schema, referential-integrity, coordinate,
   asset, stage-immutability, and rerun reports
@@ -84,7 +85,7 @@ The outcome must explain:
   rerun checks, and warning visibility are separate layers.
 - **Accounting is not success.** Every source can have a terminal record even
   when policy blocks candidate handoff or later acceptance.
-- **Producer handoff is not Task 04 freeze.** Task 03H reports exactly what was
+- **Machine handoff is not Task 04 freeze.** Task 03H reports exactly what was
   produced; Task 04 determines what is usable for the benchmark.
 - **The corpus pass cannot rewrite documents.** Cross-document resolutions are
   new records over a sealed target index.
@@ -99,7 +100,7 @@ The outcome must explain:
 - **Expensive inference and deterministic interpretation have different
   restart boundaries.** A routing, table, canonical, hierarchy, resolution, or
   reporting correction must not rerun valid Docling conversion merely because
-  the old producer lifecycle sealed them together. Only a source-byte,
+  the old parsing lifecycle sealed them together. Only a source-byte,
   Docling/model/configuration, conversion-adapter, or conversion-contract
   change can invalidate the corresponding conversion bundle.
 - **An overnight target requires an honest forecast.** Pilot timings, source
@@ -132,16 +133,16 @@ Write a short run plan immediately before execution. Confirm:
    plan from page count, layout/table regime, rotation, and learned-fallback
    evidence; do not select only easy controls;
 7. that the first wave passes conversion sealing, derived producer stages, all
-   document owners, and reuse verification before the remaining conversions
+   document processes, and reuse verification before the remaining conversions
    are scheduled;
 8. after the first wave passes, a work queue that may convert the remaining
    documents and start later stages as each conversion seal becomes available,
    without waiting for all 35 conversions or weakening resource limits;
 9. stage-specific invalidation and restart behavior:
-   - canonical or later-owner changes reuse sealed Docling and derived producer
+   - record-mapping or later-process changes reuse sealed Docling and derived parsing
      evidence when their identities still verify;
    - routing or table changes reuse sealed Docling evidence and rebuild the
-     affected derived producer and downstream stages;
+     affected derived parsing and downstream stages;
    - source bytes, Docling/model/configuration, conversion-adapter, or
      conversion-contract changes invalidate only the affected conversion
      identity and require an explicit scope decision before rerun;
@@ -161,7 +162,7 @@ Write a short run plan immediately before execution. Confirm:
 
 If the maintained runtime cannot seal and reuse Docling conversion separately
 from routing and tables, that is a pre-execution implementation blocker. Do
-not compensate by launching a monolithic 35-document producer run.
+not compensate by launching a monolithic 35-document parsing run.
 
 Do not change accepted parser, Task 03E.2d hierarchy, schema, or resolution
 policy during the run. A material new failure mode stops the candidate for an

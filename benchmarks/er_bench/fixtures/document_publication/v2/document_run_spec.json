@@ -1,0 +1,40 @@
+{
+  "schema_version": "er_commons.document_run_spec.v2",
+  "production_extraction_id": "exv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "production_identity_relative_path": "identities/future.json",
+  "scope_kind": "fixture",
+  "source_release_version": "fixture_release_v1",
+  "source_manifest_relative_path": "release/records/source_manifest.json",
+  "artifact_relative_root": "pipelines/fixture/document_publications",
+  "document_processes": [
+    {
+      "source_id": "appendix_a",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/content_parsing.json",
+        "heading_evidence_parsing": "configs/heading_evidence_parsing.json",
+        "record_mapping": "configs/record_mapping.json",
+        "hierarchy_inference": "configs/hierarchy_inference.json",
+        "document_structure": "configs/document_structure.json",
+        "document_reference_linking": "configs/document_reference_linking.json"
+      }
+    }
+  ],
+  "hierarchy_dispositions": [
+    {"source_id": "appendix_a", "authority": "machine_validation"}
+  ],
+  "resource_policy": {
+    "document_concurrency": 1,
+    "page_batch_size": 4,
+    "stage_batch_size": 4,
+    "queue_capacity": 100,
+    "cpu_threads_per_document": 4,
+    "device": "cpu",
+    "memory_estimate_bytes": 1000000,
+    "storage_estimate_bytes": 1000000,
+    "docling_timeout_seconds": 10,
+    "outer_process_deadline_seconds": 20,
+    "cancellation_grace_seconds": 1,
+    "retry_limit": 0
+  }
+}

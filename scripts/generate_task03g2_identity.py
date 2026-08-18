@@ -72,8 +72,9 @@ def main() -> None:
                 code_roots=(
                     "src/er_commons/document_extraction",
                     "src/er_commons/table_extraction",
+                    "src/er_commons/source_release",
                 ),
-                extra_code=("src/er_commons/source_freeze.py",),
+                extra_code=("src/er_commons/artifact_io.py",),
             ),
             "canonical_contract": _section(
                 version="task03g2-fresh-canonical-semantic-v1",

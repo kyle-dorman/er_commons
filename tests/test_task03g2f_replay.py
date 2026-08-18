@@ -33,8 +33,8 @@ def test_replay_modules_fit_one_named_responsibility() -> None:
                 assert length <= 60, f"split {path.name}:{node.name} ({length} lines)"
 
     for path in (
-        Path("src/er_commons/corpus_extraction/downstream_replay.py"),
-        Path("src/er_commons/corpus_extraction/downstream_replay_validation.py"),
+        Path("src/er_commons/document_publication/downstream_replay.py"),
+        Path("src/er_commons/document_publication/downstream_replay_validation.py"),
     ):
         source = path.read_text()
         assert len(source.splitlines()) <= 220, f"split the responsibilities in {path.name}"

@@ -7,19 +7,22 @@ from pathlib import Path
 
 import pytest
 
-from er_commons.canonical_extraction.config import load_canonicalization_config
-from er_commons.corpus_extraction import fresh_preflight
-from er_commons.corpus_extraction.config import load_run_spec
-from er_commons.corpus_extraction.fresh_preflight import validate_fresh_build_templates
-from er_commons.corpus_extraction.owner_inputs import OwnerConfigs, _require_selected_source
+from er_commons.artifact_io import sha256_file
+from er_commons.collection_processing.compatibility_v1 import load_scope_run_spec_v1
 from er_commons.corpus_extraction_contract_v1_1.identity import validate_production_identity
-from er_commons.corpus_resolution.config import load_scope_run_spec
-from er_commons.cross_reference_enrichment.config import CrossReferenceEnrichmentConfig
-from er_commons.document_extraction.producer_config import load_producer_config
-from er_commons.hierarchy_correction.configuration import load_hierarchy_correction_config
-from er_commons.semantic_materialization.config import load_semantic_materialization_config
+from er_commons.document_parsing.content_parsing.config import load_content_parsing_config
+from er_commons.document_publication import fresh_preflight
+from er_commons.document_publication.compatibility_v1 import load_document_run_spec_v1
+from er_commons.document_publication.config import HierarchyDisposition
+from er_commons.document_publication.fresh_preflight import validate_fresh_build_templates
+from er_commons.document_publication.process_inputs import ProcessConfigs
+from er_commons.document_records.document_references.config import DocumentReferenceConfig
+from er_commons.document_records.document_structure.config import (
+    load_document_structure_config,
+)
+from er_commons.document_records.record_mapping.config import load_record_mapping_config
+from er_commons.hierarchy_inference.config import load_hierarchy_inference_config
 from er_commons.source_family_catalog import SourceFamilyCatalog
-from er_commons.source_freeze import sha256_file
 
 ROOT = Path(__file__).parents[1]
 CONFIG_ROOT = ROOT / "configs"
@@ -51,8 +54,8 @@ EXPECTED_SOURCES = {
 
 
 def test_document_and_scope_specs_freeze_the_exact_fresh_pilot_shape() -> None:
-    document, _ = load_run_spec(DOCUMENT_SPEC)
-    scope, _ = load_scope_run_spec(SCOPE_SPEC)
+    document, _ = load_document_run_spec_v1(DOCUMENT_SPEC)
+    scope, _ = load_scope_run_spec_v1(SCOPE_SPEC)
     expected_ids = list(EXPECTED_SOURCES)
 
     assert document.scope_kind == "representative_pilot"
@@ -66,7 +69,6 @@ def test_document_and_scope_specs_freeze_the_exact_fresh_pilot_shape() -> None:
             identity,
             expected_source_ids=expected_ids,
             expected_scope_kind="representative_pilot",
-            project_root=ROOT,
         ).value
         == document.production_extraction_id
     )
@@ -90,7 +92,7 @@ def test_document_and_scope_specs_freeze_the_exact_fresh_pilot_shape() -> None:
 
 
 def test_all_18_owner_templates_load_and_select_only_their_source() -> None:
-    document, _ = load_run_spec(DOCUMENT_SPEC)
+    document, _ = load_document_run_spec_v1(DOCUMENT_SPEC)
     observed_paths: set[Path] = set()
     for owner in document.document_owners:
         expected = EXPECTED_SOURCES[owner.source_id]
@@ -100,14 +102,13 @@ def test_all_18_owner_templates_load_and_select_only_their_source() -> None:
             assert path.is_file()
             assert path not in observed_paths
             observed_paths.add(path)
-            _require_selected_source(path, owner.source_id)
 
-        baseline, _ = load_producer_config(ROOT / configs.baseline_producer)
-        hierarchy, _ = load_producer_config(ROOT / configs.hierarchy_producer)
-        canonical, _ = load_canonicalization_config(ROOT / configs.canonical)
-        correction, _ = load_hierarchy_correction_config(ROOT / configs.hierarchy_correction)
-        semantic, _ = load_semantic_materialization_config(ROOT / configs.semantic)
-        cross_references = CrossReferenceEnrichmentConfig.load(ROOT / configs.cross_references)
+        baseline, _ = load_content_parsing_config(ROOT / configs.baseline_producer)
+        hierarchy, _ = load_content_parsing_config(ROOT / configs.hierarchy_producer)
+        canonical, _ = load_record_mapping_config(ROOT / configs.canonical)
+        correction, _ = load_hierarchy_inference_config(ROOT / configs.hierarchy_correction)
+        semantic, _ = load_document_structure_config(ROOT / configs.semantic)
+        cross_references = DocumentReferenceConfig.load(ROOT / configs.cross_references)
 
         for producer in (baseline, hierarchy):
             assert producer.source.source_id == owner.source_id
@@ -142,7 +143,7 @@ def test_all_18_owner_templates_load_and_select_only_their_source() -> None:
 
 
 def test_scope_policy_digests_name_real_checked_in_policy_bytes() -> None:
-    scope, _ = load_scope_run_spec(SCOPE_SPEC)
+    scope, _ = load_scope_run_spec_v1(SCOPE_SPEC)
     target = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03g2_target_policy_v1.json"
     resolution = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03g2_resolution_policy_v1.json"
 
@@ -161,12 +162,18 @@ def test_fresh_template_preflight_accepts_each_source_without_downstream_candida
     monkeypatch: pytest.MonkeyPatch,
     source_id: str,
 ) -> None:
-    document, _ = load_run_spec(DOCUMENT_SPEC)
-    selected = document.content_owners(source_id)
-    configs = OwnerConfigs(
-        **{role: ROOT / relative for role, relative in selected.model_dump().items()}
+    document, _ = load_document_run_spec_v1(DOCUMENT_SPEC)
+    owner = next(item for item in document.document_owners if item.source_id == source_id)
+    selected = owner.configs
+    configs = ProcessConfigs(
+        content_parsing=ROOT / selected.baseline_producer,
+        heading_evidence_parsing=ROOT / selected.hierarchy_producer,
+        record_mapping=ROOT / selected.canonical,
+        hierarchy_inference=ROOT / selected.hierarchy_correction,
+        document_structure=ROOT / selected.semantic,
+        document_reference_linking=ROOT / selected.cross_references,
     )
-    cross_references = CrossReferenceEnrichmentConfig.load(configs.cross_references)
+    cross_references = DocumentReferenceConfig.load(configs.document_reference_linking)
     manifest = tmp_path / cross_references.source_manifest_relative_path
     manifest.parent.mkdir(parents=True)
     manifest.write_text("{}")
@@ -179,7 +186,11 @@ def test_fresh_template_preflight_accepts_each_source_without_downstream_candida
     final_root, authorization = validate_fresh_build_templates(
         configs=configs,
         source_id=source_id,
-        disposition=document.hierarchy_disposition(source_id),
+        disposition=HierarchyDisposition.model_validate(
+            next(
+                item for item in document.hierarchy_dispositions if item.source_id == source_id
+            ).model_dump()
+        ),
         data_root=tmp_path,
     )
 
@@ -188,7 +199,7 @@ def test_fresh_template_preflight_accepts_each_source_without_downstream_candida
 
 
 def test_checked_in_catalog_is_a_valid_exact_three_source_scope_input(tmp_path: Path) -> None:
-    scope, _ = load_scope_run_spec(SCOPE_SPEC)
+    scope, _ = load_scope_run_spec_v1(SCOPE_SPEC)
     checked_in = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03g2_source_family_catalog_v1.json"
     staged = tmp_path / scope.corpus_catalog_relative_path
     staged.parent.mkdir(parents=True)
