@@ -61,14 +61,43 @@ compatibility code. New executable specifications use strict v2 models and canno
 silently accept old keys. Canonical record vocabulary and the established typed ID
 prefixes remain data-model terms, not process names.
 
-The layout exposes a parsing boundary for Task 03H, but Task 03H still owns making the
-expensive content-conversion result independently sealable and exercising it on the
-full collection.
+Task 03H implements the parsing restart boundary as two immutable publications. A
+`dconv1-` conversion bundle binds source bytes and page count, the sealed release,
+Docling-only options and invocation limits, model and package inventory, and the code
+that creates or accepts conversion bytes. Its inventory and completion record are
+verified before any routing or table work begins. The derived `prv1-` publication
+binds that exact conversion ID plus routing, table, and remaining producer policy.
+It records the upstream completion and inventory checksums in
+`records/conversion_input.json`; downstream stages resolve that closed reference rather
+than receiving a physical copy of the conversion payload. A verified `dconv1-` hit is resolved
+before `DocumentConverter` construction, so routing or table changes do not allocate
+Docling or rerun the PDF.
+
+The conversion publication retains Docling's complete semantic and provenance model
+but externalizes raster payloads before serializing `document.json`. Available figure
+crops are written and checksummed first; embedded page renders and duplicate picture
+rasters are then removed and explicitly accounted for in `asset_inventory.json`.
+Large document and conversion-page JSON records are written atomically through
+streaming encoders so artifact size does not become a second in-memory copy.
+
+Hierarchy candidates follow a completion-last immutable-publication boundary. Normal
+restart lookup verifies the completion-to-inventory seal, exact managed path set and
+file sizes, and every small identity and terminal record; it derives semantic
+authorization from the sealed inventory without reopening multi-gigabyte semantic
+payloads. This fast path assumes published candidate files remain immutable. The
+separate `scripts/audit_hierarchy_candidate.py` command stream-hashes every managed
+byte and is the required integrity checkpoint before a hierarchy candidate enters a
+Task 03H collection handoff. Candidate validation and JSON/JSONL publication report
+processed/total units, throughput, elapsed time, and ETA while writing bounded chunks.
 
 For code navigation, start at the public facade and follow one short application shell:
 
 | Responsibility | Public facade | Application shell | Primary behavior tests |
 | --- | --- | --- | --- |
+| Publish or reuse one conversion | `er_commons.document_parsing.content_parsing.conversion_bundle` | `document_parsing/content_parsing/application.py` | `tests/test_document_parsing_application.py` |
+| Build and audit hierarchy evidence | `er_commons.hierarchy_inference` | `hierarchy_inference/application.py` | `tests/test_hierarchy_inference_application.py`, `tests/test_hierarchy_candidate_audit_script.py` |
+| Materialize canonical records | `er_commons.document_records.record_mapping` | `document_records/record_mapping/materialize.py` | `tests/test_record_mapping_application.py` |
+| Materialize semantic document structure | `er_commons.document_records.document_structure` | `document_records/document_structure/workflow.py` | `tests/test_document_structure_workflow.py` |
 | Publish one document | `er_commons.document_publication` | `document_publication/workflow.py` | `tests/test_document_publication_workflow.py` |
 | Assemble one collection | `er_commons.collection_processing` | `collection_processing/workflow.py` | `tests/test_collection_processing_workflow.py` |
 | Report machine outcomes | `er_commons.extraction_reporting` | `extraction_reporting/reporting.py` | `tests/test_extraction_reporting.py` |

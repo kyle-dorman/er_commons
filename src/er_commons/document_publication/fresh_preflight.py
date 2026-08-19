@@ -46,10 +46,10 @@ def validate_fresh_build_templates(
         mismatches.append("fresh document_structure template carries historical review controls")
     _validate_manifest(data_root, source_id, values["document_reference_linking"], mismatches)
     artifact_roots = _fresh_artifact_roots(values)
-    invalid_roots = [str(path) for path in artifact_roots if not is_task03g2_root(path)]
+    invalid_roots = [str(path) for path in artifact_roots if not is_fresh_document_root(path)]
     if invalid_roots:
         mismatches.append(
-            "fresh process artifact roots must use the task_03g2 namespace: "
+            "fresh process artifact roots must use a task_03g2 or task_03h namespace: "
             + ", ".join(invalid_roots)
         )
     _validate_fresh_placeholders(values, mismatches)
@@ -65,9 +65,14 @@ def validate_fresh_build_templates(
     return final_root, None
 
 
-def is_task03g2_root(path: Path) -> bool:
-    """Recognize only the exact task namespace or a named child namespace."""
-    return any(part == "task_03g2" or part.startswith("task_03g2_") for part in path.parts)
+def is_fresh_document_root(path: Path) -> bool:
+    """Recognize the accepted pilot or full-collection fresh-run namespaces."""
+    return any(
+        part in {"task_03g2", "task_03h"}
+        or part.startswith("task_03g2_")
+        or part.startswith("task_03h_")
+        for part in path.parts
+    )
 
 
 def _validate_manifest(

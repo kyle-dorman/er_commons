@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -19,7 +20,9 @@ from er_commons.document_records.record_mapping.config import (
     RecordMappingConfig,
     load_record_mapping_config,
 )
+from er_commons.document_records.record_mapping.errors import MappingContractError
 from er_commons.document_records.record_mapping.inputs import load_record_mapping_inputs
+from er_commons.document_records.record_mapping.table_records import read_jsonl_objects
 from er_commons.source_release.models import SourceManifest, SourceRecord, SourceRole
 
 CONFIG_PATH = Path("configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json")
@@ -116,13 +119,13 @@ def _fake_handoff(tmp_path: Path, config: RecordMappingConfig) -> None:
         },
     )
 
-    for path in (
-        producer_root / "docling" / "document.json",
-        producer_root / "asset_inventory.json",
-    ):
-        _write_json(path, {"path": path.name})
+    conversion_id = "dconv1-" + "d" * 64
+    raw_root = tmp_path / "pipelines/conversions" / conversion_id
+    raw_producer = raw_root / "documents" / selected.source_id / "producer"
+    _write_json(raw_producer / "docling/document.json", {"path": "document.json"})
+    _write_json(raw_producer / "asset_inventory.json", {"path": "asset_inventory.json"})
     _write_json(
-        producer_root / "docling" / "conversion_observation.json",
+        raw_producer / "docling" / "conversion_observation.json",
         {
             "source_id": selected.source_id,
             "raw_status": "success",
@@ -137,6 +140,66 @@ def _fake_handoff(tmp_path: Path, config: RecordMappingConfig) -> None:
             "wall_seconds": 1.0,
             "cpu_seconds": 1.0,
             "peak_rss_bytes": 1,
+        },
+    )
+    _write_json(
+        raw_root / "records/conversion_identity.json",
+        {
+            "conversion_id": conversion_id,
+            "identity": {
+                "source": {
+                    "source_id": selected.source_id,
+                    "sha256": selected.source_sha256,
+                    "pdf_page_count": selected.pdf_page_count,
+                },
+                "model_inventory": {"models": []},
+                "packages": {},
+            },
+        },
+    )
+    _write_json(
+        raw_root / "records/runtime_configuration.json",
+        {
+            "configuration_id": "fixture-runtime",
+            "pipeline_class": "FixturePipeline",
+            "backend_class": "FixtureBackend",
+            "effective_options": {},
+        },
+    )
+    raw_files = [
+        raw_producer / "docling/document.json",
+        raw_producer / "docling/conversion_observation.json",
+        raw_producer / "asset_inventory.json",
+        raw_root / "records/conversion_identity.json",
+        raw_root / "records/runtime_configuration.json",
+    ]
+    raw_inventory = {
+        "file_count": len(raw_files),
+        "byte_count": sum(path.stat().st_size for path in raw_files),
+        "files": [
+            {
+                "path": path.relative_to(raw_root).as_posix(),
+                "byte_size": path.stat().st_size,
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            }
+            for path in raw_files
+        ],
+    }
+    raw_completion = raw_root / "records/completion_record.json"
+    raw_inventory_path = raw_root / "records/artifact_inventory.json"
+    _write_json(raw_completion, {"conversion_id": conversion_id})
+    _write_json(raw_inventory_path, raw_inventory)
+    _write_json(
+        records_root / "conversion_input.json",
+        {
+            "schema_version": "er_commons.conversion_input_reference.v1",
+            "conversion_id": conversion_id,
+            "path": raw_root.relative_to(tmp_path).as_posix(),
+            "completion_path": raw_completion.relative_to(tmp_path).as_posix(),
+            "inventory_path": raw_inventory_path.relative_to(tmp_path).as_posix(),
+            "completion_sha256": hashlib.sha256(raw_completion.read_bytes()).hexdigest(),
+            "inventory_sha256": hashlib.sha256(raw_inventory_path.read_bytes()).hexdigest(),
+            "document_view": "base",
         },
     )
     _write_jsonl(
@@ -193,6 +256,16 @@ def test_checked_config_freezes_the_approved_non_release_scope() -> None:
     assert config.acceptance_profile == "generic_complete_document"
 
 
+def test_jsonl_loaders_report_artifact_and_line_context(tmp_path: Path) -> None:
+    path = tmp_path / "broken.jsonl"
+    path.write_text('{"valid":true}\n{"broken":\n')
+
+    with pytest.raises(ValueError, match=r"invalid JSONL artifact .*broken\.jsonl:2"):
+        input_module._load_jsonl_objects(path)
+    with pytest.raises(MappingContractError, match=r"invalid JSONL artifact .*broken\.jsonl:2"):
+        read_jsonl_objects(path)
+
+
 def test_config_rejects_path_escape() -> None:
     payload = json.loads(CONFIG_PATH.read_text())
     payload["artifact_relative_root"] = "../escape"
@@ -228,9 +301,12 @@ def test_input_loader_verifies_seals_then_loads_preserved_plain_data(
         lambda _root, _config: _typed_manifest(config),
     )
 
-    inputs = load_record_mapping_inputs(tmp_path, config)
+    prepared = input_module.prepare_record_mapping_inputs(tmp_path, config)
+    identity_inputs = prepared.identity_inputs()
+    inputs = prepared.semantic_inputs()
 
     assert verified == [(inputs.producer_run_root, config.producer_run_id)]
+    assert identity_inputs.selected_source == inputs.selected_source
     assert isinstance(inputs.document, dict)
     assert isinstance(inputs.sealed_manifest, SourceManifest)
     assert inputs.selected_source.source_id == config.selected_source_id

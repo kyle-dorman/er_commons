@@ -98,6 +98,26 @@ def verify_model_inventory(
 ) -> tuple[ModelInventory, Path]:
     """Verify every recorded model file and installed package version."""
     inventory = ModelInventory.model_validate_json(inventory_path.read_bytes())
+    models_root = validate_model_inventory_metadata(data_root, inventory_path, inventory)
+    verify_model_files(data_root, inventory_path, inventory)
+    return inventory, models_root
+
+
+def load_model_inventory_metadata(
+    data_root: Path,
+    inventory_path: Path,
+) -> tuple[ModelInventory, Path]:
+    """Validate the small inventory contract without hashing model payloads."""
+    inventory = ModelInventory.model_validate_json(inventory_path.read_bytes())
+    return inventory, validate_model_inventory_metadata(data_root, inventory_path, inventory)
+
+
+def validate_model_inventory_metadata(
+    data_root: Path,
+    inventory_path: Path,
+    inventory: ModelInventory,
+) -> Path:
+    """Validate model/package identities and return the contained models root."""
     expected_models = {
         ("layout", "docling-project/docling-layout-heron", "main"),
         ("table_structure", "docling-project/docling-models", "v2.3.0"),
@@ -111,6 +131,21 @@ def verify_model_inventory(
         if inventory.packages.get(package) != version(package):
             raise ValueError(f"installed package differs from model inventory: {package}")
 
+    inventory_root = inventory_path.parent.resolve()
+    models_root = inventory_root / "models"
+    for model in inventory.models:
+        model_root = (inventory_root / model.local_path).resolve()
+        if not model_root.is_relative_to(data_root.resolve()):
+            raise ValueError("model snapshot escapes ER_COMMONS_DATA_ROOT")
+    return models_root
+
+
+def verify_model_files(
+    data_root: Path,
+    inventory_path: Path,
+    inventory: ModelInventory,
+) -> None:
+    """Deep-verify model payloads immediately before a conversion cache miss."""
     inventory_root = inventory_path.parent.resolve()
     for model in inventory.models:
         model_root = (inventory_root / model.local_path).resolve()
@@ -128,26 +163,24 @@ def verify_model_inventory(
             total += recorded.byte_size
         if total != model.byte_size:
             raise ValueError(f"model byte total differs from inventory: {model.repository}")
-    return inventory, inventory_root / "models"
 
 
-def build_converter(
+def build_converter_options(
     models_root: Path,
     *,
     thread_count: int,
     heading_hierarchy_options: HeadingHierarchyConfig | None = None,
-) -> tuple[Any, Any, Any]:
-    """Build the one accepted local, native-text-only Docling converter."""
+) -> tuple[Any, Any]:
+    """Construct the accepted Docling options without allocating a converter."""
     from docling.backend.pypdfium2_backend import PyPdfiumDocumentBackend
     from docling.datamodel.accelerator_options import AcceleratorDevice, AcceleratorOptions
-    from docling.datamodel.base_models import InputFormat
     from docling.datamodel.layout_model_specs import DOCLING_LAYOUT_HERON
     from docling.datamodel.pipeline_options import (
         HeadingHierarchyOptions,
         LayoutOptions,
         ThreadedPdfPipelineOptions,
     )
-    from docling.document_converter import DocumentConverter, PdfFormatOption
+    from docling.document_converter import PdfFormatOption
     from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
 
     options = ThreadedPdfPipelineOptions(
@@ -181,6 +214,24 @@ def build_converter(
         pipeline_options=options,
     )
     assert_native_only(options, format_option, models_root)
+    return options, format_option
+
+
+def build_converter(
+    models_root: Path,
+    *,
+    thread_count: int,
+    heading_hierarchy_options: HeadingHierarchyConfig | None = None,
+) -> tuple[Any, Any, Any]:
+    """Build the one accepted local, native-text-only Docling converter."""
+    from docling.datamodel.base_models import InputFormat
+    from docling.document_converter import DocumentConverter
+
+    options, format_option = build_converter_options(
+        models_root,
+        thread_count=thread_count,
+        heading_hierarchy_options=heading_hierarchy_options,
+    )
     converter = DocumentConverter(
         allowed_formats=[InputFormat.PDF],
         format_options={InputFormat.PDF: format_option},

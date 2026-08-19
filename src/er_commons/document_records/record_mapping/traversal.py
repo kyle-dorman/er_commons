@@ -40,6 +40,7 @@ class DoclingTraversal:
         document: dict[str, Any],
         mapped_table_ids: dict[str, tuple[str, ...]],
         invalid_geometry_text_pointers: set[str] | frozenset[str] = frozenset(),
+        suppressed_table_pointers: set[str] | frozenset[str] = frozenset(),
     ) -> None:
         self._document = document
         self._mapped_table_ids = mapped_table_ids
@@ -47,6 +48,7 @@ class DoclingTraversal:
         self._emitted_text: set[str] = set()
         self._emitted_semantic: set[str] = set()
         self._invalid_geometry_text = set(invalid_geometry_text_pointers)
+        self._suppressed_tables = set(suppressed_table_pointers)
         self._suppressed_text: set[str] = set(self._invalid_geometry_text)
         self._suppressed_picture_furniture: set[str] = set()
         self._zero_tables: set[str] = set()
@@ -108,6 +110,13 @@ class DoclingTraversal:
         item = self._resolve(pointer)
         table_ids = self._mapped_table_ids.get(pointer, ())
         captions = {self._child_pointer(ref) for ref in item.get("captions", [])}
+        if pointer in self._suppressed_tables:
+            self._claim_semantic(pointer)
+            for caption in captions:
+                self._emit_text(caption, self._content_layer(self._resolve(caption)))
+            for child in item.get("children", []):
+                self._suppress_descendant_text(self._child_pointer(child), captions)
+            return
         if table_ids:
             self._claim_semantic(pointer)
             for producer_table_id in table_ids:
@@ -225,10 +234,12 @@ def traverse_docling_document(
     document: dict[str, Any],
     mapped_table_ids: dict[str, tuple[str, ...]],
     invalid_geometry_text_pointers: set[str] | frozenset[str] = frozenset(),
+    suppressed_table_pointers: set[str] | frozenset[str] = frozenset(),
 ) -> TraversalResult:
-    """Flatten one saved Docling document under the Task 03D traversal policy."""
+    """Flatten one saved Docling document under the canonical traversal policy."""
     return DoclingTraversal(
         document,
         mapped_table_ids,
         invalid_geometry_text_pointers,
+        suppressed_table_pointers,
     ).run()

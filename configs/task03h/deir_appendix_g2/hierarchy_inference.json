@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "pipeline_id": "brisbane_baylands_2025_deir_task03h_deir_appendix_g2_hierarchy_v1",
+  "publication_authorization": "machine_validation",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "source": {
+    "source_id": "deir_appendix_g2",
+    "official_title": "Appendix G2 - Health Risk Assessment (PDF)",
+    "expected_sha256": "6513536914ad08ad21fa9e97911744f7d5bcfabca9ba51a151e6a4ddb65e0b13",
+    "expected_byte_size": 52067638,
+    "expected_pdf_page_count": 3736
+  },
+  "producer_artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_parse_evidence",
+  "producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/hierarchy_inference",
+  "policy_relative_path": "docs/specs/hierarchy_correction_v1.md",
+  "schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
+  "bounded_acceptance_config_relative_path": null,
+  "bounded_acceptance_artifact_relative_root": null
+}

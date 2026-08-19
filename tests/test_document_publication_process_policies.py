@@ -28,6 +28,7 @@ from er_commons.document_publication.process_observations import collect_process
 from er_commons.document_publication.process_validation import (
     ProcessCompletions,
     validate_hierarchy_authorization,
+    validate_process_lineage,
 )
 
 
@@ -127,6 +128,62 @@ def test_warning_aggregation_includes_hierarchy_summary_and_stream(
 
     assert "hierarchy_decisions warning_count: 1" in warnings
     assert "hierarchy_decisions TOC_WARNING: retained ambiguity" in warnings
+
+
+def test_process_lineage_reads_final_source_from_canonical_owner_path(tmp_path: Path) -> None:
+    ids = {
+        "content_parsing": "prv1-baseline",
+        "heading_evidence_parsing": "prv1-heading",
+        "record_mapping": "exv1-mapped",
+        "hierarchy_inference": "hcorv1-hierarchy",
+        "document_structure": "exv1-structured",
+        "document_reference_linking": "exv1-linked",
+    }
+    completions: dict[str, Path] = {}
+    for role, candidate_id in ids.items():
+        completion = tmp_path / role / candidate_id / "records/completion_record.json"
+        write_json_atomic(completion, {"source_id": "alpha"})
+        completions[role] = completion
+    final_documents = completions["document_reference_linking"].parents[1] / (
+        "canonical/documents.jsonl"
+    )
+    final_documents.parent.mkdir()
+    final_documents.write_text('{"source_id":"alpha"}\n')
+
+    config_values = {
+        "content_parsing": {},
+        "heading_evidence_parsing": {},
+        "record_mapping": {"producer_run_id": ids["content_parsing"]},
+        "hierarchy_inference": {
+            "producer_run_id": ids["heading_evidence_parsing"],
+            "publication_authorization": "machine_validation",
+        },
+        "document_structure": {
+            "baseline_candidate_id": ids["record_mapping"],
+            "baseline_producer_run_id": ids["content_parsing"],
+            "hierarchy_producer_run_id": ids["heading_evidence_parsing"],
+            "hierarchy_candidate_id": ids["hierarchy_inference"],
+            "bounded_acceptance_relative_path": None,
+        },
+        "document_reference_linking": {"upstream_candidate_id": ids["document_structure"]},
+    }
+    config_paths: dict[str, Path] = {}
+    for role, value in config_values.items():
+        path = tmp_path / "configs" / f"{role}.json"
+        write_json_atomic(path, value)
+        config_paths[role] = path
+
+    validate_process_lineage(
+        data_root=tmp_path,
+        source_id="alpha",
+        hierarchy_disposition={
+            "source_id": "alpha",
+            "authority": "machine_validation",
+            "authorization_relative_path": None,
+        },
+        configs=ProcessConfigs(**config_paths),
+        completions=ProcessCompletions(**completions),
+    )
 
 
 def test_owner_failure_persists_stage_qualified_diagnostics(tmp_path: Path) -> None:
@@ -241,6 +298,29 @@ def test_fresh_lineage_preflight_does_not_require_downstream_candidates(
         data_root=tmp_path / "data",
         lineage_mode="fresh_build",
     )
+
+
+def test_task03h_fresh_lineage_namespace_is_admitted_before_pdf_work(
+    tmp_path: Path,
+) -> None:
+    configs = _fresh_templates(tmp_path, task_namespace="task_03h")
+
+    final_root, authorization = validate_lineage_bindings(
+        configs=configs,
+        source_id="deir_appendix_p",
+        disposition=HierarchyDisposition(
+            source_id="deir_appendix_p", authority="machine_validation"
+        ),
+        lineage=ProducerLineage(
+            baseline="prv1-" + "1" * 64,
+            hierarchy="prv1-" + "2" * 64,
+        ),
+        data_root=tmp_path / "data",
+        lineage_mode="fresh_build",
+    )
+
+    assert any(part.startswith("task_03h_") for part in final_root.parts)
+    assert authorization is None
 
 
 def test_fresh_lineage_preflight_rejects_historical_pins_and_bounded_authority(
@@ -369,7 +449,7 @@ def _lineage_fixture(tmp_path: Path) -> tuple[ProcessConfigs, HierarchyDispositi
     return configs, disposition
 
 
-def _fresh_templates(tmp_path: Path) -> ProcessConfigs:
+def _fresh_templates(tmp_path: Path, *, task_namespace: str = "task_03g2") -> ProcessConfigs:
     zero = "0" * 64
     config_root = tmp_path / "configs"
     config_root.mkdir()
@@ -389,9 +469,10 @@ def _fresh_templates(tmp_path: Path) -> ProcessConfigs:
     values = {
         role: json.loads((source_root / name).read_text()) for role, name in source_files.items()
     }
-    producer_root = "pipelines/brisbane_baylands/task_03g2_owner_candidates/producers"
-    canonical_root = "pipelines/brisbane_baylands/task_03g2_owner_candidates/record_mapping"
-    correction_root = "pipelines/brisbane_baylands/task_03g2_owner_candidates/correction"
+    owner_root = f"pipelines/brisbane_baylands/{task_namespace}_owner_candidates"
+    producer_root = owner_root + "/producers"
+    canonical_root = owner_root + "/record_mapping"
+    correction_root = owner_root + "/correction"
     for role in ("content_parsing", "heading_evidence_parsing"):
         values[role]["artifact_relative_root"] = producer_root
     values["record_mapping"].update(

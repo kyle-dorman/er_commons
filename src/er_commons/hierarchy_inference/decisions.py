@@ -52,10 +52,8 @@ def decision_headers_and_evidence_are_consistent(view: HierarchyBundleView) -> N
         )
         picture_owned = feature["raw_parent_ref"].startswith("#/pictures/")
         picture_caption = picture_owned and feature["raw_role"] == "caption"
-        must_select_r01 = (
-            feature["content_layer"] == "furniture"
-            or feature["toc_region"]
-            or (picture_owned and not picture_caption)
+        must_select_r01 = not picture_caption and (
+            feature["content_layer"] == "furniture" or feature["toc_region"] or picture_owned
         )
         require(
             (decision["selected_rule_id"] == "R01_EXCLUDE_NON_BODY_OR_TOC") == must_select_r01,

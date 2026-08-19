@@ -100,6 +100,11 @@ def _verify_production_contract(spec: DocumentRunSpec, project_root: Path, data_
             identity=identity,
             data_root=data_root,
         )
+        configured_source_ids = [selection.source_id for selection in spec.document_processes]
+        if configured_source_ids != source_ids:
+            raise ValueError(
+                "document process selections differ from the exact production source scope"
+            )
     validate_production_identity(
         identity,
         expected_source_ids=source_ids,

@@ -14,5 +14,5 @@
   {"name": "routing_rejects_human_status", "collection": "routing_observations", "index": 0, "operation": "replace", "path": ["status"], "value": "usable"},
   {"name": "table_stage_rejects_human_status", "collection": "table_stage_observations", "index": 0, "operation": "replace", "path": ["status"], "value": "accepted"},
   {"name": "conversion_rejects_human_status", "collection": "conversion_observations", "index": 0, "operation": "replace", "path": ["status"], "value": "review_complete"},
-  {"name": "mapping_requires_raw_lineage", "collection": "raw_mappings", "index": 0, "operation": "replace", "path": ["raw_links"], "value": []}
+  {"name": "table_cell_requires_text", "collection": "tables", "index": 0, "operation": "replace", "path": ["cells", 0, "text"], "value": 1}
 ]

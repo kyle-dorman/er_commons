@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from dataclasses import dataclass, field
 from typing import Any
 
 from er_commons.document_parsing.heading_evidence_parsing.text_evidence import (
@@ -12,7 +13,7 @@ from er_commons.document_parsing.heading_evidence_parsing.text_evidence import (
     parse_numbering,
 )
 from er_commons.hierarchy_inference.toc_regions import TocRegion
-from er_commons.hierarchy_inference.toc_text import typographic_canonical
+from er_commons.hierarchy_inference.toc_text import split_inline_leader, typographic_canonical
 
 JsonObject = dict[str, Any]
 
@@ -26,6 +27,176 @@ _TRAILING_DIGITS = re.compile(r"\S[0-9]+$")
 _APPENDIX_MARKER = re.compile(r"^Appendix [A-Z]$")
 
 
+@dataclass(frozen=True)
+class TocItemClassification:
+    """Lexical roles relevant to one TOC parser transition."""
+
+    normalized: str
+    is_marker: bool
+    is_leader: bool
+    inline_title: str | None
+    is_page: bool
+
+
+@dataclass
+class TocRowParser:
+    """Mutable marker/title/leader state for one detected TOC region."""
+
+    items: list[JsonObject]
+    outlines: tuple[JsonObject, ...]
+    entries: list[JsonObject] = field(default_factory=list)
+    diagnostics: list[JsonObject] = field(default_factory=list)
+    current: list[JsonObject] = field(default_factory=list)
+    marker: str | None = None
+    titles: list[JsonObject] = field(default_factory=list)
+    in_leader: bool = False
+
+    def parse(self) -> tuple[list[JsonObject], list[JsonObject]]:
+        """Consume all region items and flush the terminal partial row."""
+        for offset, item in enumerate(self.items):
+            self._consume(offset, item)
+        if self.current:
+            self._emit(None)
+        return self.entries, self.diagnostics
+
+    def _consume(self, offset: int, item: JsonObject) -> None:
+        """Route one item through heading, row-start, and active-row transitions."""
+        normalized = normalize_text(item["text"], casefold=False)
+        if item["raw_role"] == "section_header":
+            self._consume_heading(item, normalized)
+            return
+        classification = self._classify(offset, normalized)
+        if not self.current:
+            self._start_row(item, classification)
+        elif self._consume_split_marker_period(item, classification.normalized):
+            return
+        elif self.in_leader:
+            self._consume_leader_item(item, classification)
+        else:
+            self._consume_row_item(item, classification)
+
+    def _classify(self, offset: int, normalized: str) -> TocItemClassification:
+        """Classify one non-heading item using complete-row lookahead."""
+        return TocItemClassification(
+            normalized=normalized,
+            is_marker=_ROW_MARKER.fullmatch(normalized) is not None
+            and _marker_has_title_ahead(
+                self.items,
+                offset,
+                current=bool(self.current),
+                in_leader=self.in_leader,
+            ),
+            is_leader=_LEADER.fullmatch(normalized) is not None,
+            inline_title=split_inline_leader(normalized),
+            is_page=_PAGE_TOKEN.fullmatch(normalized) is not None,
+        )
+
+    def _consume_heading(self, item: JsonObject, normalized: str) -> None:
+        """Handle continued headings, appendix markers, and invalid headings."""
+        if normalize_text(item["text"]) == _CONTINUED:
+            if self.current:
+                self._abandon("continued TOC heading interrupts a row")
+            return
+        if _APPENDIX_MARKER.fullmatch(normalized):
+            if self.current:
+                self._emit(None)
+            self.current = [item]
+            self.marker = normalized
+            return
+        if self.current:
+            self._emit(None)
+        self.diagnostics.append(
+            _diagnostic(item, "TOC_ROW_UNPARSEABLE", "unexpected heading in TOC")
+        )
+
+    def _start_row(self, item: JsonObject, value: TocItemClassification) -> None:
+        """Initialize a row only from a marker or title-bearing item."""
+        self.current = [item]
+        if value.is_marker:
+            self.marker = value.normalized
+        elif value.inline_title is not None:
+            self.titles = [item]
+            self.in_leader = True
+        elif not value.is_leader and not value.is_page:
+            self.titles = [item]
+        else:
+            self._abandon("TOC row starts without marker or title")
+
+    def _consume_split_marker_period(self, item: JsonObject, normalized: str) -> bool:
+        """Attach a geometrically adjacent period to a numeric marker."""
+        if (
+            self.marker is not None
+            and not self.titles
+            and normalized == "."
+            and _is_adjacent_marker_period(self.current[-1], item, self.marker)
+        ):
+            self.current.append(item)
+            self.marker = f"{self.marker}."
+            return True
+        return False
+
+    def _consume_leader_item(self, item: JsonObject, value: TocItemClassification) -> None:
+        """Require a leader to terminate in exactly one page token."""
+        self.current.append(item)
+        if value.is_leader:
+            return
+        if value.is_page:
+            self._emit(value.normalized)
+        else:
+            self._abandon("TOC leader is not followed by one page token")
+
+    def _consume_row_item(self, item: JsonObject, value: TocItemClassification) -> None:
+        """Advance an active marker/title row before its terminal page."""
+        if value.is_marker:
+            self._emit(None)
+            self.current = [item]
+            self.marker = value.normalized
+        elif value.is_leader:
+            self.current.append(item)
+            self.in_leader = True
+        elif value.inline_title is not None:
+            self.current.append(item)
+            self.titles.append(item)
+            self.in_leader = True
+        elif value.is_page:
+            self.current.append(item)
+            self._abandon("TOC row has a page token before its leader")
+        else:
+            self.current.append(item)
+            self.titles.append(item)
+
+    def _emit(self, page: str | None) -> None:
+        """Validate and serialize the current row, or abandon it with evidence."""
+        if not self.titles:
+            self._abandon("TOC row has no title")
+            return
+        if self.marker is None and page is None and not self.in_leader:
+            self._abandon("unmarked TOC row lacks leader and terminal page")
+            return
+        if _APPENDIX_MARKER.fullmatch(self.marker or "") is None and any(
+            _TRAILING_DIGITS.search(normalize_text(item["text"], casefold=False))
+            for item in self.titles
+        ):
+            self._abandon("TOC title contains inseparable trailing digits")
+            return
+        self.entries.append(_entry(self.current, self.marker, self.titles, page, self.outlines))
+        self._reset()
+
+    def _abandon(self, detail: str) -> None:
+        """Emit one contextual diagnostic per source item and reset the row."""
+        self.diagnostics.extend(
+            _diagnostic(item, "TOC_ROW_UNPARSEABLE", detail) for item in self.current
+        )
+        self._reset()
+
+    def _reset(self) -> None:
+        """Restore the empty parser state after an emitted or rejected row."""
+        self.current = []
+        self.marker = None
+        self.titles = []
+        self.in_leader = False
+
+
 def parse_toc_region(
     features: list[JsonObject],
     region: TocRegion,
@@ -35,101 +206,7 @@ def parse_toc_region(
     items = [
         item for item in features[region.start + 1 : region.end] if item["content_layer"] == "body"
     ]
-    entries: list[JsonObject] = []
-    diagnostics: list[JsonObject] = []
-    current: list[JsonObject] = []
-    marker: str | None = None
-    titles: list[JsonObject] = []
-    in_leader = False
-
-    def abandon(detail: str) -> None:
-        nonlocal current, marker, titles, in_leader
-        diagnostics.extend(_diagnostic(item, "TOC_ROW_UNPARSEABLE", detail) for item in current)
-        current, marker, titles, in_leader = [], None, [], False
-
-    def emit(page: str | None) -> None:
-        nonlocal current, marker, titles, in_leader
-        if not titles:
-            abandon("TOC row has no title")
-            return
-        if marker is None and page is None and not in_leader:
-            abandon("unmarked TOC row lacks leader and terminal page")
-            return
-        if _APPENDIX_MARKER.fullmatch(marker or "") is None and any(
-            _TRAILING_DIGITS.search(normalize_text(item["text"], casefold=False)) for item in titles
-        ):
-            abandon("TOC title contains inseparable trailing digits")
-            return
-        entries.append(_entry(current, marker, titles, page, outlines))
-        current, marker, titles, in_leader = [], None, [], False
-
-    for offset, item in enumerate(items):
-        normalized = normalize_text(item["text"], casefold=False)
-        if item["raw_role"] == "section_header":
-            if normalize_text(item["text"]) == _CONTINUED:
-                if current:
-                    abandon("continued TOC heading interrupts a row")
-                continue
-            if _APPENDIX_MARKER.fullmatch(normalized):
-                if current:
-                    emit(None)
-                current = [item]
-                marker = normalized
-                continue
-            if current:
-                emit(None)
-            diagnostics.append(
-                _diagnostic(item, "TOC_ROW_UNPARSEABLE", "unexpected heading in TOC")
-            )
-            continue
-        is_marker = _ROW_MARKER.fullmatch(normalized) is not None and _marker_has_title_ahead(
-            items, offset, current=bool(current), in_leader=in_leader
-        )
-        is_leader = _LEADER.fullmatch(normalized) is not None
-        is_page = _PAGE_TOKEN.fullmatch(normalized) is not None
-        if not current:
-            current = [item]
-            if is_marker:
-                marker = normalized
-            elif not is_leader and not is_page:
-                titles = [item]
-            else:
-                abandon("TOC row starts without marker or title")
-            continue
-        if (
-            marker is not None
-            and not titles
-            and normalized == "."
-            and _is_adjacent_marker_period(current[-1], item, marker)
-        ):
-            current.append(item)
-            marker = f"{marker}."
-            continue
-        if in_leader:
-            current.append(item)
-            if is_leader:
-                continue
-            if is_page:
-                emit(normalized)
-            else:
-                abandon("TOC leader is not followed by one page token")
-            continue
-        if is_marker:
-            emit(None)
-            current = [item]
-            marker = normalized
-        elif is_leader:
-            current.append(item)
-            in_leader = True
-        elif is_page:
-            current.append(item)
-            abandon("TOC row has a page token before its leader")
-        else:
-            current.append(item)
-            titles.append(item)
-    if current:
-        emit(None)
-    return entries, diagnostics
+    return TocRowParser(items, outlines).parse()
 
 
 def _is_adjacent_marker_period(
@@ -155,7 +232,9 @@ def _entry(
     page: str | None,
     outlines: tuple[JsonObject, ...],
 ) -> JsonObject:
-    title = normalize_text(" ".join(item["text"] for item in titles))
+    title = normalize_text(
+        " ".join(split_inline_leader(item["text"]) or item["text"] for item in titles)
+    )
     title_with_marker = normalize_text(" ".join(filter(None, (marker, title))))
     outline_levels = {
         item["effective_level"]

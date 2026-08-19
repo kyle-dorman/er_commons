@@ -7,8 +7,9 @@ import json
 import os
 import tempfile
 from collections.abc import Iterable, Iterator
+from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, TypedDict, cast
+from typing import Any, TextIO, TypedDict, cast
 
 import rfc8785
 from pydantic import BaseModel
@@ -94,6 +95,30 @@ def write_json_atomic(path: Path, payload: BaseModel | dict[str, Any]) -> None:
     _write_bytes_atomic(path, content)
 
 
+@contextmanager
+def atomic_text_writer(path: Path) -> Iterator[TextIO]:
+    """Yield a UTF-8 stream and atomically replace the target after a durable close."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(dir=path.parent, suffix=".part")
+    temporary_path = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            yield stream
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary_path, path)
+        _fsync_directory(path.parent)
+    finally:
+        temporary_path.unlink(missing_ok=True)
+
+
+def write_json_atomic_streaming(path: Path, payload: object) -> None:
+    """Serialize a large JSON value without first allocating its encoded bytes."""
+    with atomic_text_writer(path) as stream:
+        json.dump(payload, stream, indent=2)
+        stream.write("\n")
+
+
 def write_jsonl(path: Path, records: Iterable[dict[str, Any]]) -> int:
     """Stream deterministic JSONL through an atomic replacement and return its count."""
     return _write_jsonl(path, records, no_clobber=False)
@@ -107,7 +132,8 @@ def publish_jsonl_no_clobber(path: Path, records: Iterable[dict[str, Any]]) -> i
 def load_json(path: Path) -> JsonValue:
     """Read one JSON value with artifact-path context on malformed input."""
     try:
-        return cast(JsonValue, json.loads(path.read_bytes()))
+        with path.open(encoding="utf-8") as stream:
+            return cast(JsonValue, json.load(stream))
     except OSError as error:
         raise ValueError(f"cannot read JSON artifact {path}: {error}") from error
     except UnicodeDecodeError as error:
@@ -264,6 +290,7 @@ __all__ = [
     "JsonObject",
     "JsonValue",
     "artifact_inventory",
+    "atomic_text_writer",
     "assert_contained",
     "canonical_json_sha256",
     "directory_bytes",
@@ -281,4 +308,5 @@ __all__ = [
     "stable_json_sha256",
     "write_json_atomic",
     "write_jsonl",
+    "write_json_atomic_streaming",
 ]

@@ -14,6 +14,7 @@ from er_commons.artifact_io import (
     load_json,
     publish_jsonl_no_clobber,
     read_jsonl,
+    write_json_atomic_streaming,
     write_jsonl,
 )
 
@@ -121,3 +122,21 @@ def test_file_reference_hashes_large_files_and_rejects_escape(tmp_path: Path) ->
     outside.write_bytes(b"outside")
     with pytest.raises(ValueError, match="escapes root"):
         file_reference(outside, root=root)
+
+
+def test_streaming_json_write_is_atomic_and_load_does_not_use_read_bytes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    target = tmp_path / "large.json"
+    payload = {"records": [{"index": index} for index in range(10_000)]}
+    write_json_atomic_streaming(target, payload)
+
+    monkeypatch.setattr(Path, "read_bytes", lambda _path: pytest.fail("read_bytes used"))
+    assert load_json(target) == payload
+
+    original = target.read_text()
+    with pytest.raises(TypeError):
+        write_json_atomic_streaming(target, {"invalid": object()})
+    assert target.read_text() == original
+    assert not list(tmp_path.glob("*.part"))

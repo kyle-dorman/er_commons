@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
+import ast
+from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
 from typing import cast
 
 import pytest
 
+import er_commons.document_records.record_mapping.context as context_facade
+import er_commons.document_records.record_mapping.context_types as context_types
 from er_commons.document_records.record_mapping.config import (
     RecordMappingConfig,
     load_record_mapping_config,
@@ -25,6 +29,23 @@ from er_commons.document_records.record_mapping.tables import (
 
 CONFIG_PATH = Path("configs/brisbane_baylands_2025_deir_task03d_appendix_p_v1.json")
 EXTRACTION_ID = f"exv1-{'a' * 64}"
+
+
+def test_context_module_is_a_stable_logic_free_facade() -> None:
+    source = Path(context_facade.__file__).read_text()
+    module = ast.parse(source)
+
+    assert not any(isinstance(node, (ast.ClassDef, ast.FunctionDef)) for node in module.body)
+    assert context_facade.RecordIds is context_types.RecordIds
+    assert context_facade.RecordMappingContext is context_types.RecordMappingContext
+    assert context_facade.TraversalContext is context_types.TraversalContext
+    assert context_facade.__all__ == [
+        "PageSize",
+        "RecordIds",
+        "RecordMappingContext",
+        "TraversalContext",
+        "build_record_mapping_context",
+    ]
 
 
 def _document() -> dict[str, object]:
@@ -63,6 +84,12 @@ def _document() -> dict[str, object]:
                 "content_layer": "body",
                 "children": [{"$ref": "#/texts/1"}],
                 "captions": [],
+                "prov": [
+                    {
+                        "page_no": 1,
+                        "bbox": {"l": 1.0, "b": 2.0, "r": 3.0, "t": 4.0},
+                    }
+                ],
             }
         ],
         "pictures": [
@@ -197,3 +224,46 @@ def test_context_copies_and_freezes_cross_stage_mappings() -> None:
         context.page_ids[1] = "changed"  # type: ignore[index]
     with pytest.raises(TypeError):
         context.block_id_by_pointer["#/texts/0"] = "changed"  # type: ignore[index]
+
+
+def test_context_places_regionless_full_page_table_without_docling_region() -> None:
+    inputs = cast(RecordMappingInputs, SimpleNamespace(document=_document()))
+    original = _table_bundle()
+    full_page = replace(
+        original.tables[0],
+        table_id="producer_table_2",
+        physical_pdf_page=2,
+        region_id=None,
+        parser="camelot_stream",
+        family_id="producer_family_2",
+    )
+    bundle = ProducerTableBundle(
+        tables=(full_page,),
+        families=(
+            ProducerTableFamily(
+                family_id="producer_family_2",
+                table_ids=("producer_table_2",),
+                evidence=("singleton",),
+            ),
+        ),
+        region_mappings=(
+            replace(
+                original.region_mappings[0],
+                clean_table_ids=(),
+                unmapped_reason="full_page_numeric_route",
+            ),
+        ),
+    )
+
+    context = build_record_mapping_context(
+        config=_config(),
+        inputs=inputs,
+        identity={"extraction_id": EXTRACTION_ID},
+        table_bundle=bundle,
+    )
+
+    assert set(context.table_event_by_id) == {"producer_table_2"}
+    event = context.table_event_by_id["producer_table_2"]
+    assert event.pointer == "#/full_page_tables/producer_table_2"
+    assert event.content_layer == "body"
+    assert "#/texts/1" in context.traversal.suppressed_text_pointers

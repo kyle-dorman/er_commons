@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Any, cast
 
 from er_commons.hierarchy_inference.constants import RULE_ORDER
-from er_commons.hierarchy_inference.rule_context import ItemRuleContext
+from er_commons.hierarchy_inference.rule_context import RuleEvaluationState
 from er_commons.hierarchy_inference.semantic_types import (
     DiagnosticRecord,
     HierarchyDecisionRecord,
@@ -24,19 +24,19 @@ class RuleApplication:
     ambiguities: tuple[DiagnosticRecord, ...] = ()
 
 
-RuleApplicationFunction = Callable[[ItemRuleContext], RuleApplication]
+RuleApplicationFunction = Callable[[RuleEvaluationState], RuleApplication]
 
 
-def apply_selected_rule(context: ItemRuleContext) -> RuleApplication:
+def apply_selected_rule(context: RuleEvaluationState) -> RuleApplication:
     """Dispatch one item to the first eligible rule's explicit implementation."""
     return _APPLICATIONS[context.selected_rule_id](context)
 
 
-def _r01_exclude(context: ItemRuleContext) -> RuleApplication:
+def _r01_exclude(context: RuleEvaluationState) -> RuleApplication:
     return RuleApplication(_decision(context, role="excluded", level=None, outcome="applied"))
 
 
-def _r02_demote_bullet(context: ItemRuleContext) -> RuleApplication:
+def _r02_demote_bullet(context: RuleEvaluationState) -> RuleApplication:
     feature = context.feature
     features = context.policy.features
     raw_level = feature["raw_level"]
@@ -82,35 +82,23 @@ def _r02_demote_bullet(context: ItemRuleContext) -> RuleApplication:
     )
 
 
-def _r03_apply_outline(context: ItemRuleContext) -> RuleApplication:
+def _r03_apply_outline(context: RuleEvaluationState) -> RuleApplication:
     level = context.policy.levels.supported_levels[context.feature["stable_item_key"]]
     context.evidence["outline_level"] = level
     return RuleApplication(_decision(context, role="heading", level=level, outcome="applied"))
 
 
-def _r04_apply_toc(context: ItemRuleContext) -> RuleApplication:
+def _r04_apply_toc(context: RuleEvaluationState) -> RuleApplication:
     toc_id, depth = context.policy.toc_targets[context.feature["stable_item_key"]]
     context.evidence["toc_entry_id"] = toc_id
     return RuleApplication(_decision(context, role="heading", level=depth, outcome="applied"))
 
 
-def _r05_apply_numbering(context: ItemRuleContext) -> RuleApplication:
+def _r05_apply_numbering(context: RuleEvaluationState) -> RuleApplication:
     feature = context.feature
     numbering_level = context.numbering_level
     assert numbering_level is not None
-    numbering_levels = context.policy.levels.numbering_levels
-    previous_numbered = next(
-        (
-            item
-            for item in reversed(context.policy.features[: context.index])
-            if item["regime_id"] == feature["regime_id"]
-            and item["stable_item_key"] in numbering_levels
-        ),
-        None,
-    )
-    previous_level = (
-        numbering_levels[previous_numbered["stable_item_key"]] if previous_numbered else None
-    )
+    previous_level = context.policy.previous_numbering_levels[feature["stable_item_key"]]
     invalid_jump = (
         previous_level is None
         and numbering_level != context.policy.regimes_by_id[feature["regime_id"]]["root_level"]
@@ -131,7 +119,7 @@ def _r05_apply_numbering(context: ItemRuleContext) -> RuleApplication:
     )
 
 
-def _r06_flag_sibling(context: ItemRuleContext) -> RuleApplication:
+def _r06_flag_sibling(context: RuleEvaluationState) -> RuleApplication:
     context.evidence["conflict_codes"] = ["SIBLING_EVIDENCE_CONFLICT"]
     ambiguity = _diagnostic(
         context,
@@ -144,22 +132,22 @@ def _r06_flag_sibling(context: ItemRuleContext) -> RuleApplication:
     )
 
 
-def _r07_transfer_level(context: ItemRuleContext) -> RuleApplication:
-    transferred, detail = context.policy.levels.transfers[context.feature["stable_item_key"]]
-    if transferred is not None:
-        context.evidence["transferred_level"] = transferred
+def _r07_transfer_level(context: RuleEvaluationState) -> RuleApplication:
+    transfer = context.policy.levels.transfers[context.feature["stable_item_key"]]
+    if transfer.level is not None:
+        context.evidence["transferred_level"] = transfer.level
         return RuleApplication(
-            _decision(context, role="heading", level=transferred, outcome="applied")
+            _decision(context, role="heading", level=transfer.level, outcome="applied")
         )
     context.evidence["conflict_codes"] = ["LOCAL_LEVEL_TRANSFER_CONFLICT"]
-    ambiguity = _diagnostic(context, "LOCAL_LEVEL_TRANSFER_CONFLICT", detail)
+    ambiguity = _diagnostic(context, "LOCAL_LEVEL_TRANSFER_CONFLICT", transfer.detail)
     return RuleApplication(
         _decision(context, role="content", level=None, outcome="ambiguous"),
         (ambiguity,),
     )
 
 
-def _r08_preserve(context: ItemRuleContext) -> RuleApplication:
+def _r08_preserve(context: RuleEvaluationState) -> RuleApplication:
     feature = context.feature
     preserve_heading = bool(
         feature["content_layer"] == "body"
@@ -178,7 +166,7 @@ def _r08_preserve(context: ItemRuleContext) -> RuleApplication:
 
 
 def _decision(
-    context: ItemRuleContext,
+    context: RuleEvaluationState,
     *,
     role: str,
     level: int | None,
@@ -201,7 +189,7 @@ def _decision(
     )
 
 
-def _diagnostic(context: ItemRuleContext, code: str, detail: str) -> DiagnosticRecord:
+def _diagnostic(context: RuleEvaluationState, code: str, detail: str) -> DiagnosticRecord:
     feature = context.feature
     return DiagnosticRecord(
         reading_order_index=feature["reading_order_index"],

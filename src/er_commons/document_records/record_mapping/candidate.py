@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import copy
 import json
+from collections.abc import Callable
 from pathlib import Path
 
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
@@ -46,7 +46,6 @@ RECORD_PATHS = {
     "routing_observations": "observations/routing.jsonl",
     "table_stage_observations": "observations/table_stage.jsonl",
     "conversion_observations": "observations/conversion.jsonl",
-    "raw_mappings": "mappings/raw_to_canonical.jsonl",
 }
 
 
@@ -57,6 +56,7 @@ def canonicalization_warnings(
 ) -> list[str]:
     """Preserve producer, zero-mapping, and invalid-provenance warnings."""
     return [
+        *inputs.conversion_observation_record.source_manifest_warnings,
         *inputs.conversion_observation_record.captured_python_warnings,
         *[
             (
@@ -69,11 +69,11 @@ def canonicalization_warnings(
             for mapping in table_bundle.region_mappings
             if not mapping.clean_table_ids
         ],
-        *[
-            f"invalid provenance: {item['raw_object_pointer']} "
-            f"index {item['provenance_index']} {item['rejection_reason']}"
-            for item in report.invalid_provenance
-        ],
+        *(
+            [f"invalid provenance records: {len(report.invalid_provenance)}"]
+            if report.invalid_provenance
+            else []
+        ),
     ]
 
 
@@ -85,7 +85,7 @@ def build_summary(
     report: MaterializationReport,
     candidate_id: str,
 ) -> JsonRecord:
-    """Build the Task 03D accounting summary once from named projections."""
+    """Build the canonical mapping accounting summary from named projections."""
     mapped_regions = sum(bool(mapping.clean_table_ids) for mapping in table_bundle.region_mappings)
     zero_regions = sum(not mapping.clean_table_ids for mapping in table_bundle.region_mappings)
     summary: JsonRecord = {
@@ -122,7 +122,10 @@ def build_summary(
                 report.suppressed_picture_furniture_pointers
             ),
         },
-        "invalid_provenance": copy.deepcopy(list(report.invalid_provenance)),
+        "invalid_provenance": {
+            "record_count": len(report.invalid_provenance),
+            "path": "observations/invalid_provenance.jsonl",
+        },
         "producer_warnings": list(inputs.producer_summary_record.warnings),
         "errors": [],
     }
@@ -197,9 +200,13 @@ def write_validate_and_seal_candidate(
     table_bundle: ProducerTableBundle,
     records: DocumentRecordSet,
     report: MaterializationReport,
+    substage_observations: tuple[dict[str, object], ...] = (),
+    terminal_observation: Callable[[], dict[str, object]] | None = None,
 ) -> None:
     """Write, independently validate, summarize, and completion-seal a candidate."""
     write_json(root / "records" / "extraction_identity.json", identity)
+    write_jsonl(root / "records/substage_observations.jsonl", substage_observations)
+    write_jsonl(root / "observations/invalid_provenance.jsonl", report.invalid_provenance)
     record_files = write_record_files(root, records)
     warnings = canonicalization_warnings(inputs, table_bundle, report)
     manifest = build_manifest(
@@ -230,6 +237,10 @@ def write_validate_and_seal_candidate(
     write_json(root / "records" / "manifest.json", manifest)
     write_json(root / "records" / "canonicalization_summary.json", summary)
     inventory_path = write_inventory(root)
+    if terminal_observation is not None:
+        substage_observations = (*substage_observations, terminal_observation())
+        write_jsonl(root / "records/substage_observations.jsonl", substage_observations)
+        inventory_path = write_inventory(root)
     write_json(
         root / "records" / "completion_record.json",
         {

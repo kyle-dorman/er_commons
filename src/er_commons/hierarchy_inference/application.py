@@ -4,11 +4,11 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 import uuid
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 from er_commons.hierarchy_inference.bounded_acceptance import (
     VerifiedBoundedAcceptancePolicy,
@@ -16,31 +16,34 @@ from er_commons.hierarchy_inference.bounded_acceptance import (
 )
 from er_commons.hierarchy_inference.candidate_identity import build_environment_record
 from er_commons.hierarchy_inference.candidate_publication import (
+    CandidateSeal,
     CandidateWorkspace,
-    VerifiedPublicationAuthorization,
     preserve_failed_workspace,
     publish_workspace,
     reserve_workspace,
     retain_failed_attempt,
-    reuse_completed_candidate,
     write_validate_and_seal_candidate,
 )
 from er_commons.hierarchy_inference.candidate_records import (
-    CandidateMeasurements,
     CandidatePayload,
+    SemanticBuildMeasurements,
+)
+from er_commons.hierarchy_inference.candidate_verification import (
+    machine_authorization_for_verified_candidate,
+    reuse_completed_candidate,
 )
 from er_commons.hierarchy_inference.failures import RunStage, disposition_for
 from er_commons.hierarchy_inference.inputs import HierarchyInferenceInputs
 from er_commons.hierarchy_inference.preflight import HierarchyRunContext, prepare_run
+from er_commons.hierarchy_inference.progress import CandidateAssemblyProgress, ProgressSnapshot
 from er_commons.hierarchy_inference.publication_authorization import (
-    authorize_validated_candidate,
+    VerifiedPublicationAuthorization,
 )
 from er_commons.hierarchy_inference.single_build import (
     SingleBuildResult,
     build_single_semantic_candidate,
 )
 
-JsonRecord = dict[str, Any]
 LOGGER = logging.getLogger(__name__)
 
 
@@ -55,14 +58,17 @@ def infer_document_hierarchy(
     active = services or HierarchyWorkflowServices()
     run = active.prepare(data_root, config_path, config_identity_path)
     if run.final_root.exists():
-        LOGGER.info("Reusing verified hierarchy candidate %s", run.candidate_id)
+        LOGGER.info(
+            "Reusing completion-sealed hierarchy candidate without semantic-byte audit %s",
+            run.candidate_id,
+        )
         return active.reuse(run)
     LOGGER.info("Building hierarchy candidate %s", run.candidate_id)
     return active.build_and_publish(run)
 
 
 def _reuse_candidate(run: HierarchyRunContext) -> Path:
-    """Verify configured authorization and every completed candidate byte."""
+    """Verify sealed metadata and authorization under immutable-publication trust."""
     authorization = _existing_authorization(run, run.final_root)
     return reuse_completed_candidate(
         run.final_root,
@@ -76,19 +82,34 @@ def _build_and_publish(run: HierarchyRunContext) -> Path:
     """Build once, validate, authorize, and preserve any failed attempt."""
     workspace = reserve_workspace(run.task_root, run.candidate_id, uuid.uuid4().hex)
     stage = RunStage.BUILD
+    progress: CandidateAssemblyProgress | None = None
     try:
         result = build_single_semantic_candidate(run.inputs)
         stage = RunStage.CANDIDATE_ASSEMBLY
-        _write_staged_candidate(run, workspace, result)
+        started = time.perf_counter()
+        LOGGER.info("Hierarchy stage started stage=%s", stage.value)
+        progress = CandidateAssemblyProgress(LOGGER, run.candidate_id)
+        seal = _write_staged_candidate(run, workspace, result, progress)
+        LOGGER.info(
+            "Hierarchy stage completed stage=%s elapsed_seconds=%.3f",
+            stage.value,
+            time.perf_counter() - started,
+        )
         stage = RunStage.AUTHORIZATION
-        authorization = _new_authorization(run, workspace)
+        authorization = _new_authorization(run, workspace, seal)
         stage = RunStage.PUBLICATION
         completion = publish_workspace(workspace, authorization)
         LOGGER.info("Published hierarchy candidate %s", run.candidate_id)
         return completion
-    except Exception as error:
+    except (Exception, KeyboardInterrupt) as error:
         try:
-            _retain_failure(run, workspace, stage, error)
+            _retain_failure(
+                run,
+                workspace,
+                stage,
+                error,
+                progress.last_snapshot if progress is not None else None,
+            )
         except Exception as retention_error:
             error.add_note(f"failed to retain hierarchy attempt: {retention_error}")
             LOGGER.exception(
@@ -103,38 +124,41 @@ def _write_staged_candidate(
     run: HierarchyRunContext,
     workspace: CandidateWorkspace,
     result: SingleBuildResult,
-) -> None:
+    progress: CandidateAssemblyProgress,
+) -> CandidateSeal:
     """Assemble active records and write completion last in private staging."""
     producer_wall_seconds, producer_bytes = _producer_measurements(run.inputs)
-    measurements = CandidateMeasurements(
-        build_wall_time_seconds=result.wall_seconds,
-        stage_wall_time_seconds=result.stage_wall_time_seconds,
-        peak_rss_bytes=result.peak_rss_bytes,
+    measurements = SemanticBuildMeasurements(
+        semantic_build_wall_time_seconds=result.wall_seconds,
+        semantic_stage_wall_time_seconds=result.stage_wall_time_seconds,
+        semantic_build_peak_rss_bytes=result.peak_rss_bytes,
         input_bytes=_input_bytes(run.data_root, run.inputs),
         producer_build_wall_time_seconds=producer_wall_seconds,
         producer_bytes=producer_bytes,
     )
-    payload = _candidate_payload(
+    payload = CandidatePayload(
         identity=run.identity,
         input_inventory=run.inputs.input_inventory,
         environment=build_environment_record(uv_lock_path=run.project_root / "uv.lock"),
         semantic=result.semantic,
     )
-    write_validate_and_seal_candidate(
+    return write_validate_and_seal_candidate(
         workspace=workspace,
         payload=payload,
         measurements=measurements,
         schema_path=run.schema_path,
+        progress=progress.report,
     )
 
 
 def _new_authorization(
     run: HierarchyRunContext,
     workspace: CandidateWorkspace,
+    seal: CandidateSeal,
 ) -> VerifiedPublicationAuthorization:
     """Apply direct machine policy or Appendix P's source-scoped decision."""
     if run.config.publication_authorization == "machine_validation":
-        return authorize_validated_candidate(workspace.staging_root, run.candidate_id)
+        return seal.machine_authorization
     policy, path = _bounded_controls(run)
     if path.exists():
         return verify_bounded_acceptance(
@@ -155,7 +179,11 @@ def _existing_authorization(
 ) -> VerifiedPublicationAuthorization:
     """Recompute machine authority or verify the source-scoped authorization."""
     if run.config.publication_authorization == "machine_validation":
-        return authorize_validated_candidate(candidate_root, run.candidate_id)
+        return machine_authorization_for_verified_candidate(
+            candidate_root,
+            run.candidate_id,
+            run.schema_path,
+        )
     policy, path = _bounded_controls(run)
     if not path.exists():
         raise ValueError("completed candidate has no bounded publication authorization")
@@ -181,7 +209,8 @@ def _retain_failure(
     run: HierarchyRunContext,
     workspace: CandidateWorkspace,
     stage: RunStage,
-    error: Exception,
+    error: BaseException,
+    progress_snapshot: ProgressSnapshot | None = None,
 ) -> None:
     """Persist a stage-qualified disposition without parsing exception prose."""
     failure = disposition_for(error, stage)
@@ -191,6 +220,8 @@ def _retain_failure(
         fatal_code=failure.fatal_code,
         detail=failure.persisted_detail,
         schema_path=run.schema_path,
+        stage=stage,
+        progress_snapshot=progress_snapshot,
     )
     preserve_failed_workspace(workspace, run.task_root / "attempts")
     LOGGER.error(
@@ -198,29 +229,6 @@ def _retain_failure(
         run.candidate_id,
         failure.stage.value,
         failure.fatal_code,
-    )
-
-
-def _candidate_payload(
-    *,
-    identity: JsonRecord,
-    input_inventory: JsonRecord,
-    environment: JsonRecord,
-    semantic: JsonRecord,
-) -> CandidatePayload:
-    """Convert one build's semantic protocol to publication-owned records."""
-    return CandidatePayload(
-        identity=identity,
-        input_inventory=input_inventory,
-        environment=environment,
-        features=tuple(semantic["features"]),
-        toc_entries=tuple(semantic["toc_entries"]),
-        reconciliations=tuple(semantic["reconciliations"]),
-        regimes=tuple(semantic["regimes"]),
-        decisions=tuple(semantic["decisions"]),
-        hierarchy=semantic["hierarchy"],
-        ambiguities=tuple(semantic["ambiguities"]),
-        warnings=tuple(semantic["warnings"]),
     )
 
 

@@ -11,10 +11,35 @@ from collection_processing_test_support import write_collection_spec, write_cros
 from document_publication_test_support import _result, _workspace
 
 from er_commons.collection_processing.handoff_validation import validate_collection_handoff
+from er_commons.collection_processing.preflight import prepare_collection_run
 from er_commons.collection_processing.publication import StageHooks
 from er_commons.collection_processing.workflow import CollectionHooks, assemble_collection_handoff
 from er_commons.document_publication.process import ProcessOutcome
 from er_commons.document_publication.workflow import publish_document
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        ("missing_source", "catalog differs from the exact collection scope"),
+        ("wrong_byte_size", "catalog source identity differs from manifest"),
+    ],
+)
+def test_collection_preflight_rejects_incomplete_or_byte_mismatched_catalog(
+    tmp_path: Path, mutation: str, message: str
+) -> None:
+    data_root, _document_spec = _workspace(tmp_path)
+    collection_spec = write_collection_spec(tmp_path, data_root)
+    catalog_path = data_root / "catalog.json"
+    catalog = json.loads(catalog_path.read_text())
+    if mutation == "missing_source":
+        catalog["sources"].pop()
+    else:
+        catalog["sources"][0]["source"]["byte_size"] += 1
+    catalog_path.write_text(json.dumps(catalog))
+
+    with pytest.raises(ValueError, match=message):
+        prepare_collection_run(data_root, collection_spec)
 
 
 def test_run_scope_continues_terminal_failure_and_reuses_exact_outputs(

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import uuid
-from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +17,7 @@ from er_commons.document_records.document_structure.publication import (
 from er_commons.document_records.document_structure.runtime import (
     RuntimeContext,
     inherited_warnings,
+    load_construction_inputs,
 )
 from er_commons.document_records.document_structure.sealing import (
     DocumentStructureSealingInputs,
@@ -55,11 +55,11 @@ def build_validate_and_publish(
             candidate_id=candidate_id,
             root=workspace.staging_root,
         )
+        verify_completed_document_structure(workspace.staging_root, candidate_id)
         completion = publish_workspace(workspace)
-        verify_completed_document_structure(context.task_root / candidate_id, candidate_id)
         return completion
-    except Exception as error:
-        if workspace is not None and workspace.staging_root.exists():
+    except BaseException as error:
+        if workspace is not None:
             try:
                 preserve_failed_attempt(
                     context.task_root,
@@ -80,16 +80,15 @@ def _write_candidate_workspace(
     root: Path,
 ) -> DocumentStructureBuild:
     """Construct support records and seal one fresh workspace completion-last."""
-    build = build_document_structure_records(
-        replace(context.construction_inputs, candidate_id=candidate_id)
-    )
+    construction_inputs = load_construction_inputs(context, candidate_id=candidate_id)
+    build = build_document_structure_records(construction_inputs)
     support = build_candidate_support(
         baseline_root=context.inputs.baseline_candidate_root,
         build=build,
         baseline_candidate_id=context.config.baseline_candidate_id,
         candidate_id=candidate_id,
         control=context.inputs.control_provenance,
-        expectations=context.construction_inputs.expectations,
+        expectations=construction_inputs.expectations,
     )
     validate_serialize_and_seal(
         root=root,
@@ -104,7 +103,7 @@ def _write_candidate_workspace(
             hierarchy_producer_run_id=context.config.hierarchy_producer_run_id,
             control=context.inputs.control_provenance,
             inherited_warnings=inherited_warnings(context.inputs),
-            expectations=context.construction_inputs.expectations,
+            expectations=construction_inputs.expectations,
             source_semantic_disposition=(
                 "strict_quality_gate"
                 if context.config.control_profile == "strict_quality_gate"

@@ -124,6 +124,11 @@ def test_record_ids_are_reproducible_and_use_explicit_prefixes() -> None:
     assert make_record_id(extraction_id, "figure", "deir_fixture", "fig000001").endswith(
         "/figure/deir_fixture/fig000001"
     )
+    assert make_record_id(extraction_id, "block", "deir_fixture", "blk1000000").endswith(
+        "/block/deir_fixture/blk1000000"
+    )
+    with pytest.raises(MappingContractError, match="invalid block local key"):
+        make_record_id(extraction_id, "block", "deir_fixture", "blk99999")
     with pytest.raises(MappingContractError, match="invalid figure local key"):
         make_record_id(extraction_id, "figure", "deir_fixture", "f000001")
 
@@ -334,10 +339,9 @@ def test_table_shape_must_match_its_cells() -> None:
         validate_bundle_integrity(wrong_shape)
 
 
-def test_every_canonical_content_record_requires_a_raw_mapping() -> None:
+def test_every_canonical_content_record_requires_direct_raw_lineage() -> None:
     missing_mapping = copy.deepcopy(BUNDLE)
-    missing_mapping["raw_mappings"] = []
-    missing_mapping["manifest"]["record_files"][-1]["record_count"] = 0
+    missing_mapping["blocks"][0]["raw_links"] = []
     with pytest.raises(MappingContractError, match="missing raw mappings"):
         validate_bundle_integrity(missing_mapping)
 

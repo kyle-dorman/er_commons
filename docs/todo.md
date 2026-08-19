@@ -261,13 +261,88 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    corruption/recovery tests. The complete gate passes 595 tests and strict mypy
    across 287 source files; all 270 controls still match exactly. The user accepted
    the result and closed Task 03G.3 on 2026-08-18. No source-PDF/model run or
-   accepted-artifact mutation occurred. Task 03H remains provisional and requires
-   separate activation.
-6. Independently review usability and freeze the accepted extraction release
+   accepted-artifact mutation occurred.
+6. Paused [Task
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was activated by
+   user direction on 2026-08-18. The no-PDF implementation now separates a
+   completion-last `dconv1-` conversion bundle from the derived `prv1-` producer,
+   verifies full page accounting and exact managed bytes before consumption, and
+   checksum-reuses conversion before constructing Docling. Offline tests cover
+   routing-only invalidation, interruption/resume, corruption rejection, and single
+   failure accounting. The exact production-full v2 specification set is now prepared:
+   35 ordered sources, 210 unique process configs, a complete family catalog, and a
+   native-v2 production identity. The source/model-free readiness record reports no
+   existing Task 03H completion markers. The user approved the five-source wave.
+   F2, L, O, C, and E are sealed under their accepted production identity
+   `exv1-b894b665a8f4809edc9d0ceaec1628839d7e6ffd3beb7e2934c2717694625cbd`
+   and identical invocations reuse the exact document completions in under one
+   second. Four source-independent live-only defects were fixed with regression
+   coverage while preserving reusable Docling seals. C's two destinationless
+   grouping bookmarks now bind only through the user-authorized, fail-closed fuzzy
+   appendix-identifier rule and record explicit diagnostics for pages 52 and 81.
+   E's verified picture caption now follows the written R08-content rule even when
+   it intersects a detected TOC region. The memory-safe K2 part 5 repair advanced
+   the current production identity to
+   `exv1-b1a340675b1a871baa3a17732df4a5649df9dd4973671373ba9f7ddb20644b28`
+   and passed Ruff, strict mypy across 290 source files, and all 618 tests. Both
+   2,328-page K2 Docling conversions and both 1,819-table producers are sealed.
+   Subsequent mapping and hierarchy work exposed a source-general scaling failure:
+   corrected mapping took 31.3 minutes, hierarchy ran 94.7 minutes before failing,
+   and an over-broad identity change caused a separate 93.8-minute producer rebuild.
+   Each raw view contains a 1.47 GB document plus a 22.51 GB conversion-page record,
+   and those bytes are repeated across derived views. The user stopped K2; no
+   collection work has started.
+7. [Task
+   03H.1](../tasks/sprint2/03h1_profile_and_repair_full_document_scaling.md)
+   completed Gate B implementation and K2 validation plus the Gate C human-ownership
+   refactor, deterministic identity refresh, full repository gate, and independent
+   cross-owner recovery review. The user approved the reviewed scope and closed the
+   task on 2026-08-19. It
+   explains the 24 GB view,
+   eliminates quadratic-like heading alignment and
+   duplicate feature construction, stops physical raw-payload amplification and
+   unrelated invalidation, adds substage telemetry, and meets explicit sealed-evidence
+   time, memory, and storage budgets.
+   It may inspect and replay existing sealed evidence but may not run a PDF/model,
+   delete retained attempts, resume another source, or assemble the collection
+   without a new user approval after its offline gate passes. Gate A is now measured:
+   the source-free ledger found 166.24 GB across 16 large K2 JSON paths and 94.47 GB
+   of checksum-known duplicate logical bytes. Exact event digests prove the global
+   assembled section repeats the page-owned sequences, and semantic comparison proves
+   the two 10,678-file table trees differ only in configuration identity and recorded
+   durations. A provisional page-oriented JSON alignment projection is 26.18 MB,
+   860 times smaller than its 22.51 GB source, builds in 84.8 seconds, and reads in
+   0.124 seconds. JSON remains the default candidate, not an accepted format choice.
+   The user accepted the Gate B plan with three explicit boundaries: this MVP keeps
+   one clean current schema and no maintained backward compatibility; valid Docling
+   evidence remains immutable while regenerated downstream bundles replace historical
+   work; and Gate B must stop after control/K2 validation before any 35-source run,
+   collection work, or deletion. Any test whose elapsed time or stable ETA breaches
+   the existing 30-minute stage, 60-minute downstream, 16-GiB RSS, or synthetic
+   scaling budget must stop safely for problem/solution review rather than continue
+   to an hours-long failure. The selected JSON-first repair now stores one common
+   conversion, a 470 KB heading overlay, and a 26.31 MB page-alignment JSONL stream;
+   derived stages use closed references rather than 24 GB copies. The final K2 mapping
+   candidate `exv1-1fb6bf9e...3883a31` completed in 497.23 seconds at 10.80 GB peak
+   RSS, reduced managed output from 5.128 GB/3,655 files to 1.208 GB/18 files with
+   identical declared semantic projections, and exact-reused in 6.66 seconds at
+   159 MB without parsing the 1.47 GB document. The full K2 hierarchy then sealed in
+   1,021.78 seconds at 14,731,198,464 bytes peak RSS with zero swaps; its 3.6 GiB
+   bundle replaces the former approximately 24 GB view. Ordinary completion-seal
+   reuse fast-validated in 0.68 seconds without opening semantic payloads, while the
+   audit-only command retains exact full-byte verification. Candidate assembly now
+   reports processed/total units, throughput, and ETA. Deterministic Task 03H
+   generation, Ruff, strict mypy across 316 source files, all 732 tests, and
+   `git diff --check` pass. The final independent review reports no P0 or P1 finding.
+   No other source, collection assembly, deletion, or Docling rerun is required for
+   Task 03H.1 closure. Task 03H remains paused pending separate user approval to
+   restart from the first ordered source rather than continue a historical
+   remaining-source queue.
+8. Independently review usability and freeze the accepted extraction release
    in Task 04.
-7. Continue through the separately identified curator-only response inventory,
+9. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
-8. Freeze human evaluation before BM25 retrieval, target generation, and judge
+10. Freeze human evaluation before BM25 retrieval, target generation, and judge
    calibration; finish with the primary test and oracle diagnostics.
 
 Sprint 2 scope, decisions, and provisional sequencing live in

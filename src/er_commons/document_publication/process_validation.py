@@ -159,7 +159,7 @@ def _require_producer_sources(completions: ProcessCompletions, source_id: str) -
 
 
 def _require_final_source(completion: Path, source_id: str) -> None:
-    document_path = completion.parents[1] / "record_mapping" / "documents.jsonl"
+    document_path = completion.parents[1] / "canonical" / "documents.jsonl"
     document = json.loads(document_path.read_text().splitlines()[0])
     if document.get("source_id") != source_id:
         raise ValueError(

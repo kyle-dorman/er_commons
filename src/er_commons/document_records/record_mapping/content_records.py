@@ -13,7 +13,6 @@ from er_commons.document_records.record_mapping.provenance import project_region
 from er_commons.document_records.record_mapping.record_sets import (
     ContentRecordSet,
     JsonRecord,
-    MappedRecord,
     MaterializationReport,
 )
 from er_commons.document_records.record_mapping.tables import ProducerTable, ProducerTableBundle
@@ -123,16 +122,7 @@ def _tables(
                 "row_index": cell.row_index,
                 "column_index": cell.column_index,
                 **(cell.span_fields() if table.parser == "tableformer_accurate" else {}),
-                "producer_row_index": cell.row_index,
-                "producer_column_index": table.cleanup.retained_column_indices[cell.column_index],
-                "producer_normalized_text": cell.text,
-                "canonical_text": cell.text,
-                "region": table_region(
-                    cell.bbox_pdf_points_bottom_left,
-                    table.physical_pdf_page,
-                    dict(context.page_ids),
-                    dict(context.page_sizes),
-                ),
+                "text": cell.text,
             }
             for cell in table.cells
         ]
@@ -322,64 +312,6 @@ def _sections_and_page_content(
     return tuple(sections), {page: tuple(content_ids) for page, content_ids in page_content.items()}
 
 
-def _mapped_records(
-    *,
-    blocks: tuple[JsonRecord, ...],
-    tables: tuple[JsonRecord, ...],
-    table_families: tuple[JsonRecord, ...],
-    figures: tuple[JsonRecord, ...],
-    images: tuple[JsonRecord, ...],
-    assets: AssetCatalog,
-) -> tuple[MappedRecord, ...]:
-    """Assign lineage roles explicitly rather than parsing canonical IDs."""
-    records = [
-        *[
-            MappedRecord(
-                record_id=record["id"],
-                mapping_role="text_provenance",
-                raw_links=tuple(record["raw_links"]),
-            )
-            for record in blocks
-        ],
-        *[
-            MappedRecord(
-                record_id=record["id"],
-                mapping_role="producer_table_lineage",
-                raw_links=tuple(record["raw_links"]),
-            )
-            for record in tables
-        ],
-        *[
-            MappedRecord(
-                record_id=record["id"],
-                mapping_role="derived_family_lineage",
-                raw_links=(
-                    raw_link(
-                        "project_family_assignment",
-                        assets.family_assignments_asset_id,
-                        "/",
-                    ),
-                    raw_link(
-                        "project_family_assignment",
-                        assets.table_families_asset_id,
-                        "/",
-                    ),
-                ),
-            )
-            for record in table_families
-        ],
-        *[
-            MappedRecord(
-                record_id=record["id"],
-                mapping_role="geometry_provenance",
-                raw_links=tuple(record["raw_links"]),
-            )
-            for record in [*figures, *images]
-        ],
-    ]
-    return tuple(records)
-
-
 def build_content_records(
     *,
     context: RecordMappingContext,
@@ -430,14 +362,6 @@ def build_content_records(
         sections=sections,
         page_content=page_content,
         invalid_provenance=invalid_provenance,
-        mapped_records=_mapped_records(
-            blocks=blocks,
-            tables=tables,
-            table_families=table_families,
-            figures=figures,
-            images=images,
-            assets=assets,
-        ),
     )
     report = MaterializationReport(
         invalid_provenance=invalid_provenance,

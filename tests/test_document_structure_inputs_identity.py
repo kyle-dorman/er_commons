@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import copy
 import hashlib
 import json
 from pathlib import Path
@@ -12,15 +11,13 @@ import pytest
 from pydantic import ValidationError
 
 from er_commons.document_parsing.content_parsing.records import CompletionRecord
+from er_commons.document_records.document_structure.code_inventory import owned_code_paths
 from er_commons.document_records.document_structure.config import (
     DocumentStructureConfig,
     load_document_structure_config,
 )
 from er_commons.document_records.document_structure.identity import (
     build_document_structure_identity,
-    normalized_bridge_preimage,
-    normalized_bridge_preimage_sha256,
-    normalized_support_preimage_sha256,
 )
 from er_commons.document_records.document_structure.inputs import (
     ArtifactReference,
@@ -59,31 +56,6 @@ def _completion(run_id: str, source_manifest_sha256: str) -> dict[str, Any]:
     }
 
 
-def _bridge(candidate_id: str) -> list[dict[str, Any]]:
-    return [
-        {
-            "stable_item_key": "1" * 64,
-            "hierarchy_producer_run_id": HIERARCHY_PRODUCER_RUN_ID,
-            "hierarchy_raw_pointer": "#/texts/1",
-            "baseline_producer_run_id": BASELINE_PRODUCER_RUN_ID,
-            "baseline_raw_pointer": "#/texts/2",
-            "status": "mapped",
-            "canonical_record_ids": [f"{candidate_id}/block/{SOURCE_ID}/blk000001"],
-            "disposition": None,
-        },
-        {
-            "stable_item_key": "2" * 64,
-            "hierarchy_producer_run_id": HIERARCHY_PRODUCER_RUN_ID,
-            "hierarchy_raw_pointer": "#/texts/3",
-            "baseline_producer_run_id": BASELINE_PRODUCER_RUN_ID,
-            "baseline_raw_pointer": "#/texts/4",
-            "status": "permitted_unmapped",
-            "canonical_record_ids": [],
-            "disposition": "canonical_table_replacement_descendant",
-        },
-    ]
-
-
 def test_checked_in_config_is_strict_and_freezes_production_inputs() -> None:
     config, digest = load_document_structure_config(CONFIG_PATH)
     assert config.baseline_candidate_id == BASELINE_CANDIDATE_ID
@@ -100,39 +72,20 @@ def test_checked_in_config_is_strict_and_freezes_production_inputs() -> None:
         DocumentStructureConfig.model_validate(mismatched)
 
 
-def test_bridge_preimage_breaks_only_candidate_identity_cycle() -> None:
-    first = _bridge("exv1-" + "a" * 64)
-    second = _bridge("exv1-" + "b" * 64)
-    assert normalized_bridge_preimage_sha256(first) == normalized_bridge_preimage_sha256(second)
-    assert normalized_bridge_preimage(first)[0]["canonical_record_ids"] == [
-        f"<EXTRACTION_ID>/block/{SOURCE_ID}/blk000001"
-    ]
+def test_document_structure_code_inventory_is_owner_specific() -> None:
+    relative = {path.relative_to(ROOT).as_posix() for path in owned_code_paths(ROOT, CONFIG_PATH)}
 
-    changed = copy.deepcopy(first)
-    changed[0]["baseline_raw_pointer"] = "#/texts/99"
-    assert normalized_bridge_preimage_sha256(first) != normalized_bridge_preimage_sha256(changed)
-
-
-def test_support_preimage_normalizes_only_candidate_identity_values() -> None:
-    first_id = "exv1-" + "a" * 64
-    second_id = "exv1-" + "b" * 64
-    first = {
-        "new_candidate_id": first_id,
-        "nested": [f"{first_id}/block/{SOURCE_ID}/blk000001"],
-        "unrelated": f"comparison:{first_id}",
-    }
-    second = {
-        "new_candidate_id": second_id,
-        "nested": [f"{second_id}/block/{SOURCE_ID}/blk000001"],
-        "unrelated": f"comparison:{first_id}",
-    }
-
-    first_hash = normalized_support_preimage_sha256(first)
-    assert first_hash == normalized_support_preimage_sha256(second)
-
-    changed_unrelated = copy.deepcopy(second)
-    changed_unrelated["unrelated"] = f"comparison:{second_id}"
-    assert first_hash != normalized_support_preimage_sha256(changed_unrelated)
+    assert "src/er_commons/document_parsing/content_parsing/references.py" in relative
+    assert "src/er_commons/document_parsing/content_parsing/evidence.py" in relative
+    assert "src/er_commons/document_parsing/heading_evidence_parsing/document.py" in relative
+    assert "src/er_commons/document_parsing/heading_evidence_parsing/heading_overlay.py" in relative
+    assert "src/er_commons/document_records/record_mapping/provenance.py" in relative
+    assert "src/er_commons/document_records/record_mapping/table_projection.py" in relative
+    assert "src/er_commons/document_records/record_mapping/table_artifacts.py" in relative
+    assert "src/er_commons/document_parsing/content_parsing/application.py" not in relative
+    assert "src/er_commons/document_records/record_mapping/context.py" not in relative
+    assert "src/er_commons/cli.py" not in relative
+    assert "uv.lock" not in relative
 
 
 def test_input_loader_verifies_all_upstream_seals(
@@ -262,8 +215,6 @@ def test_identity_binds_every_normative_input(tmp_path: Path) -> None:
         config_path=config_copy,
         config=config,
         inputs=inputs,
-        bridge_entries=_bridge("exv1-" + "e" * 64),
-        support_preimages={"candidate_correspondence": {"new_candidate_id": "exv1-" + "e" * 64}},
         owned_paths=(owned,),
     )
     assert identity["extraction_id"].startswith("exv1-")
@@ -274,15 +225,11 @@ def test_identity_binds_every_normative_input(tmp_path: Path) -> None:
     assert correction["semantic_file_set_sha256"] == "e" * 64
     assert correction["aggregate_semantic_sha256"] == "f" * 64
     contract = identity["semantic_contract"]
-    assert contract["bridge_preimage_sha256"] == normalized_bridge_preimage_sha256(
-        _bridge("exv1-" + "f" * 64)
-    )
     assert set(contract) == {
         "policy_version",
         "specification",
         "schema",
         "configuration",
-        "bridge_preimage_sha256",
-        "support_preimage_sha256s",
         "owned_code_bundle_sha256",
+        "runtime_dependencies",
     }

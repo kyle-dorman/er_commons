@@ -105,6 +105,11 @@ def _table_stage_observations(
                 f"Parser evidence for {mapping.raw_object_ref} remains in the sealed producer; "
                 "the document index is preserved as canonical text."
             ]
+        elif mapping.unmapped_reason == "full_page_numeric_route":
+            warning = [
+                f"Docling region {mapping.raw_object_ref} was not selected because the page "
+                "used full-page numeric extraction."
+            ]
         else:
             warning = [
                 f"No clean table matched {mapping.raw_object_ref} "
@@ -155,7 +160,7 @@ def _conversion_observations(
         context.source_id,
         "conv000001",
     )
-    producer_runtime = inputs.producer_identity["identity"]["runtime"]
+    producer_runtime = inputs.conversion_runtime
     observation = inputs.conversion_observation_record
     return (
         (
@@ -171,7 +176,10 @@ def _conversion_observations(
                 "backend_class": producer_runtime["backend_class"],
                 "raw_document_asset_id": assets.raw_docling_asset_id,
                 "errors": observation.errors,
-                "warnings": observation.captured_python_warnings,
+                "warnings": [
+                    *observation.source_manifest_warnings,
+                    *observation.captured_python_warnings,
+                ],
             },
         ),
         conversion_id,
@@ -232,30 +240,6 @@ def _document_and_pages(
     return (document,), pages
 
 
-def _raw_mappings(
-    *,
-    context: RecordMappingContext,
-    content: ContentRecordSet,
-) -> tuple[JsonRecord, ...]:
-    """Serialize explicit content-lineage classifications without ID parsing."""
-    return tuple(
-        {
-            "schema_version": SCHEMA_VERSION,
-            "extraction_id": context.extraction_id,
-            "id": make_record_id(
-                context.extraction_id,
-                "raw-mapping",
-                context.source_id,
-                f"map{sequence:06d}",
-            ),
-            "canonical_record_id": mapped.record_id,
-            "mapping_role": mapped.mapping_role,
-            "raw_links": list(mapped.raw_links),
-        }
-        for sequence, mapped in enumerate(content.mapped_records, start=1)
-    )
-
-
 def build_support_records(
     *,
     context: RecordMappingContext,
@@ -292,5 +276,4 @@ def build_support_records(
         routing_observations=routing,
         table_stage_observations=table_stage,
         conversion_observations=conversion,
-        raw_mappings=_raw_mappings(context=context, content=content),
     )

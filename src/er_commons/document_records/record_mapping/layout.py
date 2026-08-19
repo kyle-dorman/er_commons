@@ -29,7 +29,6 @@ RECORD_COLLECTIONS = (
     RecordCollection("routing-observation", "routing_observations"),
     RecordCollection("table-stage-observation", "table_stage_observations"),
     RecordCollection("conversion-observation", "conversion_observations"),
-    RecordCollection("raw-mapping", "raw_mappings"),
 )
 
 RECORD_TYPES = frozenset(item.record_type for item in RECORD_COLLECTIONS)

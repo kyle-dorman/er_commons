@@ -53,6 +53,29 @@ def test_document_transformation_application_responsibilities_stay_bounded() -> 
                 assert length <= 90, f"split {path.name}:{node.name} ({length} lines)"
 
 
+def test_record_mapping_table_responsibilities_stay_bounded() -> None:
+    """Table types, cleanup, loading, families, and regions remain separate owners."""
+    module_root = Path("src/er_commons/document_records/record_mapping")
+    owner_paths = tuple(
+        module_root / name
+        for name in (
+            "table_records.py",
+            "table_cleanup.py",
+            "table_families.py",
+            "table_artifacts.py",
+            "table_regions.py",
+        )
+    )
+    facade = module_root / "tables.py"
+    assert len(facade.read_text().splitlines()) <= 60
+    for path in owner_paths:
+        assert len(path.read_text().splitlines()) <= 300
+        for node in ast.walk(ast.parse(path.read_text())):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                length = (node.end_lineno or node.lineno) - node.lineno + 1
+                assert length <= 80, f"split {path.name}:{node.name} ({length} lines)"
+
+
 def test_responsibility_imports_remain_acyclic() -> None:
     """Hierarchy may consume parsing; records may consume both, never the reverse."""
     roots = {

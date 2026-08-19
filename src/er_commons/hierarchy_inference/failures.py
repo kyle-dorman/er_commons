@@ -68,9 +68,11 @@ def explicit_failure(stage: RunStage, fatal_code: str, detail: str) -> Hierarchy
     return HierarchyInferenceFailure(FailureDisposition(stage, fatal_code, detail))
 
 
-def disposition_for(error: Exception, stage: RunStage) -> FailureDisposition:
+def disposition_for(error: BaseException, stage: RunStage) -> FailureDisposition:
     """Select attempt evidence from operation context, never exception wording."""
     if isinstance(error, HierarchyInferenceFailure):
         return error.disposition
+    if isinstance(error, KeyboardInterrupt):
+        return FailureDisposition(stage, "RUN_INTERRUPTED", "KeyboardInterrupt")
     detail = str(error) or type(error).__name__
     return FailureDisposition(stage, _DEFAULT_CODE_BY_STAGE[stage], detail)

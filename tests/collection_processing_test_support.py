@@ -22,6 +22,7 @@ def write_collection_spec(tmp_path: Path, data_root: Path) -> Path:
                 "source": {
                     "source_id": source_id,
                     "sha256": records[source_id]["sha256"],
+                    "byte_size": records[source_id]["byte_size"],
                     "pdf_page_count": records[source_id]["pdf_page_count"],
                 },
                 "family_root_source_id": "alpha",

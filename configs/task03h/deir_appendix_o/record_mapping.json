@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "canonicalization_policy_version": "task03d-v1",
+  "mapping_policy_version": "task03g2-source-neutral-mapping-v1",
+  "candidate_version_name": "deir_appendix_o_task03h_core_candidate_v1",
+  "candidate_scope": "document_scoped_non_release",
+  "acceptance_profile": "generic_complete_document",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "ordered_materialization_scope": [
+    {
+      "source_id": "deir_appendix_o",
+      "source_sha256": "e478a49820a44f052c7f8064a101a98463d93a98ffd66aa802ceb9fa9ce7a2b6",
+      "pdf_page_count": 54
+    }
+  ],
+  "producer_artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_parse_evidence",
+  "producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_records"
+}

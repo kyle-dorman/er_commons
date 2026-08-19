@@ -2,19 +2,27 @@
 
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from er_commons.artifact_io import assert_contained, sha256_file
+from er_commons.artifact_io import assert_contained, read_json_object, sha256_file
 from er_commons.document_parsing.content_parsing.config import CompleteSource
 from er_commons.document_parsing.content_parsing.evidence import verify_completed_run
 from er_commons.document_parsing.content_parsing.records import CompletionRecord
+from er_commons.document_parsing.content_parsing.references import (
+    inventory_file_record,
+    load_conversion_document,
+    resolve_conversion_input,
+)
 from er_commons.document_parsing.content_parsing.sources import (
     CompleteResolvedSource,
     load_sealed_manifest,
     resolve_complete_source,
+)
+from er_commons.document_parsing.heading_evidence_parsing.alignment_projection import (
+    AlignmentPage,
+    load_alignment_projection,
 )
 from er_commons.hierarchy_inference.config import HierarchyInferenceConfig
 from er_commons.source_release.models import SourceManifest
@@ -32,7 +40,7 @@ class HierarchyInferenceInputs:
     producer_completion: CompletionRecord
     producer_identity: JsonObject
     document: JsonObject
-    conversion_pages: JsonObject
+    alignment_pages: dict[int, AlignmentPage]
     input_inventory: JsonObject
 
 
@@ -46,10 +54,7 @@ class _ReleaseSelection:
 
 def _load_json_object(path: Path) -> JsonObject:
     """Load one persisted JSON object and reject other top-level shapes."""
-    value = json.loads(path.read_bytes())
-    if not isinstance(value, dict):
-        raise ValueError(f"expected a JSON object: {path}")
-    return value
+    return read_json_object(path)
 
 
 def _verify_producer_identity(
@@ -114,9 +119,13 @@ def load_hierarchy_inference_inputs(
     if completion.source_manifest_sha256 != sha256_file(manifest_path):
         raise ValueError("producer source-manifest checksum differs from sealed manifest")
 
-    document_root = producer_run_root / "documents" / config.source.source_id / "producer"
-    document_path = document_root / "docling" / "document.json"
-    conversion_pages_path = document_root / "docling" / "conversion_pages.json"
+    conversion = resolve_conversion_input(data_root, records_root / "conversion_input.json")
+    conversion_prefix = f"documents/{config.source.source_id}/producer"
+    document_relative = f"{conversion_prefix}/docling/document.json"
+    alignment_relative = f"{conversion_prefix}/docling/alignment_pages.jsonl"
+    inventory_file_record(conversion, document_relative)
+    inventory_file_record(conversion, alignment_relative)
+    alignment_path = conversion.root / alignment_relative
     input_inventory: JsonObject = {
         "producer_completion_path": completion_path.relative_to(data_root).as_posix(),
         "producer_completion_sha256": sha256_file(completion_path),
@@ -124,7 +133,9 @@ def load_hierarchy_inference_inputs(
         "producer_inventory_sha256": sha256_file(inventory_path),
         "source_path": selected_source.source_path.relative_to(data_root).as_posix(),
         "source_sha256": selected_source.source_sha256,
-        "verified_file_count": 3,
+        "conversion_completion_sha256": conversion.reference.completion_sha256,
+        "conversion_inventory_sha256": conversion.reference.inventory_sha256,
+        "verified_file_count": 5,
     }
     return HierarchyInferenceInputs(
         producer_run_root=producer_run_root,
@@ -132,7 +143,10 @@ def load_hierarchy_inference_inputs(
         selected_source=selected_source,
         producer_completion=completion,
         producer_identity=producer_identity,
-        document=_load_json_object(document_path),
-        conversion_pages=_load_json_object(conversion_pages_path),
+        document=load_conversion_document(conversion, source_id=config.source.source_id),
+        alignment_pages=load_alignment_projection(
+            alignment_path,
+            expected_page_count=selected_source.source_page_count,
+        ),
         input_inventory=input_inventory,
     )

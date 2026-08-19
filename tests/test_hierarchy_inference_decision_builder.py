@@ -70,7 +70,12 @@ def _build(features: tuple[dict[str, Any], ...]):
 
 def test_picture_owned_policy_excludes_non_caption_but_preserves_caption_content() -> None:
     non_caption = _feature(0, raw_parent_ref="#/pictures/0")
-    caption = _feature(1, raw_parent_ref="#/pictures/0", raw_role="caption")
+    caption = _feature(
+        1,
+        raw_parent_ref="#/pictures/0",
+        raw_role="caption",
+        toc_region=True,
+    )
 
     result = _build((non_caption, caption))
 
@@ -151,6 +156,153 @@ def test_structural_sibling_and_numbering_jump_are_fail_closed_ambiguities() -> 
     assert [item["code"] for item in result.ambiguities] == [
         "SIBLING_EVIDENCE_CONFLICT",
         "NUMBERING_JUMP_UNSUPPORTED",
+    ]
+
+
+def test_indexed_heading_neighbors_preserve_exact_decision_evidence() -> None:
+    features = (
+        _feature(0),
+        _feature(1, raw_role="section_header", raw_level=1),
+        _feature(2),
+        _feature(3),
+        _feature(4, raw_role="section_header", raw_level=2),
+        _feature(5),
+    )
+
+    result = _build(features)
+
+    for index, decision in enumerate(result.decisions):
+        previous = next(
+            (
+                item["stable_item_key"]
+                for item in reversed(features[:index])
+                if item["raw_role"] == "section_header"
+            ),
+            None,
+        )
+        following = next(
+            (
+                item["stable_item_key"]
+                for item in features[index + 1 :]
+                if item["raw_role"] == "section_header"
+            ),
+            None,
+        )
+        assert decision["evidence"]["previous_heading_key"] == previous
+        assert decision["evidence"]["next_heading_key"] == following
+
+
+def test_previous_numbered_level_index_never_crosses_regimes() -> None:
+    second_regime = "reg-fedcba9876543210"
+    regimes = (
+        _regime()[0],
+        {
+            **_regime()[0],
+            "regime_id": second_regime,
+            "start_item_key": f"{3:064x}",
+        },
+    )
+    features = (
+        _feature(
+            0,
+            raw_role="section_header",
+            raw_level=2,
+            numbering_kind="decimal",
+            numbering_token="1.1",
+            numbering_depth=2,
+        ),
+        _feature(1),
+        _feature(
+            2,
+            regime_id=second_regime,
+            raw_role="section_header",
+            raw_level=1,
+            numbering_kind="decimal",
+            numbering_token="1",
+            numbering_depth=1,
+        ),
+    )
+
+    result = build_rule_decisions(
+        features=features,
+        toc_entries=(),
+        reconciliations=(),
+        regimes=regimes,
+    )
+
+    assert result.decisions[2]["outcome"] == "applied"
+    assert result.decisions[2]["corrected_level"] == 1
+
+
+def test_indexed_local_transfer_preserves_cluster_semantics() -> None:
+    features = (
+        _feature(
+            0,
+            raw_role="section_header",
+            raw_level=1,
+            outline_state="unique_exact",
+            outline_level=1,
+        ),
+        _feature(1, raw_role="section_header", raw_level=5, left_pt=90.0),
+        _feature(2, raw_role="section_header", raw_level=5, left_pt=90.5),
+        _feature(
+            3,
+            raw_role="section_header",
+            raw_level=2,
+            numbering_kind="decimal",
+            numbering_token="2",
+            numbering_depth=1,
+            outline_state="unique_exact",
+            outline_level=2,
+            left_pt=90.0,
+        ),
+    )
+
+    result = _build(features)
+
+    assert [item["selected_rule_id"] for item in result.decisions[1:3]] == [
+        "R07_TRANSFER_LOCAL_HEADING_LEVEL",
+        "R07_TRANSFER_LOCAL_HEADING_LEVEL",
+    ]
+    assert [item["corrected_level"] for item in result.decisions[1:3]] == [2, 2]
+    assert [item["evidence"]["transferred_level"] for item in result.decisions[1:3]] == [2, 2]
+
+
+def test_supported_unnumbered_heading_does_not_bridge_transfer_intervals() -> None:
+    features = (
+        _feature(
+            0,
+            raw_role="section_header",
+            raw_level=1,
+            outline_state="unique_exact",
+            outline_level=1,
+        ),
+        _feature(1, raw_role="section_header", raw_level=5, left_pt=90.0),
+        _feature(
+            2,
+            raw_role="section_header",
+            raw_level=2,
+            outline_state="unique_exact",
+            outline_level=2,
+            left_pt=90.0,
+        ),
+        _feature(3, raw_role="section_header", raw_level=3, left_pt=90.0),
+        _feature(
+            4,
+            raw_role="section_header",
+            raw_level=3,
+            outline_state="unique_exact",
+            outline_level=3,
+            left_pt=90.0,
+        ),
+    )
+
+    result = _build(features)
+
+    assert result.decisions[1]["selected_rule_id"] == "R08_DEFAULT_PRESERVE"
+    assert result.decisions[2]["eligible_rule_ids"] == [
+        "R03_APPLY_EXACT_OUTLINE_ANCHOR",
+        "R08_DEFAULT_PRESERVE",
     ]
 
 

@@ -46,7 +46,6 @@ RECORD_TYPES = {
     "routing_observations": "routing_observation",
     "table_stage_observations": "table_stage_observation",
     "conversion_observations": "conversion_observation",
-    "raw_mappings": "raw_mapping",
     "page_label_observations": "page_label_observation",
 }
 

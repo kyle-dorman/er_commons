@@ -16,7 +16,7 @@ from er_commons.document_records.document_structure.errors import (
 )
 from er_commons.document_records.document_structure.handoff import verify_bounded_hierarchy_control
 from er_commons.document_records.record_mapping.publication import verify_completed_candidate
-from er_commons.hierarchy_inference.candidate_publication import (
+from er_commons.hierarchy_inference.candidate_verification import (
     verify_completed_candidate as verify_hierarchy_candidate,
 )
 

@@ -20,11 +20,14 @@ class RulePolicyContext:
     regimes_by_id: dict[str, NumberingScopeRecord]
     toc_targets: dict[str, tuple[str, int]]
     levels: LevelEvidence
+    previous_raw_headings: tuple[ScopedItem | None, ...]
+    next_raw_headings: tuple[ScopedItem | None, ...]
+    previous_numbering_levels: dict[str, int | None]
 
 
-@dataclass(frozen=True)
-class ItemRuleContext:
-    """One item's complete ordered eligibility and initial evidence record."""
+@dataclass
+class RuleEvaluationState:
+    """Mutable evidence and fixed eligibility while one rule is applied."""
 
     policy: RulePolicyContext
     index: int
@@ -45,24 +48,30 @@ def build_rule_policy_context(
     """Build document-wide indexes without consulting corrected decisions."""
     regimes_by_id = {item["regime_id"]: item for item in regimes}
     toc_targets = _exact_toc_targets(toc_entries, reconciliations)
+    levels = derive_level_evidence(
+        features=features,
+        toc_targets=toc_targets,
+        regimes=regimes_by_id,
+    )
+    previous_headings, next_headings = _raw_heading_neighbor_indexes(features)
     return RulePolicyContext(
         features=features,
         regimes_by_id=regimes_by_id,
         toc_targets=toc_targets,
-        levels=derive_level_evidence(
-            features=features,
-            toc_targets=toc_targets,
-            regimes=regimes_by_id,
-        ),
+        levels=levels,
+        previous_raw_headings=previous_headings,
+        next_raw_headings=next_headings,
+        previous_numbering_levels=_previous_numbering_levels(features, levels.numbering_levels),
     )
 
 
-def build_item_rule_context(policy: RulePolicyContext, index: int) -> ItemRuleContext:
+def build_item_rule_context(policy: RulePolicyContext, index: int) -> RuleEvaluationState:
     """Evaluate all rule predicates and preserve their frozen precedence."""
     feature = policy.features[index]
     key = feature["stable_item_key"]
     evidence = _base_evidence(feature)
-    earlier, later = raw_heading_neighbors(policy.features, index)
+    earlier = policy.previous_raw_headings[index]
+    later = policy.next_raw_headings[index]
     evidence["previous_heading_key"] = earlier and earlier["stable_item_key"]
     evidence["next_heading_key"] = later and later["stable_item_key"]
 
@@ -73,11 +82,8 @@ def build_item_rule_context(policy: RulePolicyContext, index: int) -> ItemRuleCo
     )
     numbering_level = policy.levels.numbering_levels.get(key)
     predicates = {
-        RULE_ORDER[0]: (
-            feature["content_layer"] == "furniture"
-            or feature["toc_region"]
-            or (picture_owned and not picture_caption)
-        ),
+        RULE_ORDER[0]: not picture_caption
+        and (feature["content_layer"] == "furniture" or feature["toc_region"] or picture_owned),
         RULE_ORDER[1]: bool(
             body_eligible
             and feature["raw_role"] == "section_header"
@@ -88,12 +94,13 @@ def build_item_rule_context(policy: RulePolicyContext, index: int) -> ItemRuleCo
         RULE_ORDER[2]: body_eligible and feature["outline_state"] == "unique_exact",
         RULE_ORDER[3]: body_eligible and key in policy.toc_targets,
         RULE_ORDER[4]: body_eligible and numbering_level is not None,
-        RULE_ORDER[5]: body_eligible and structural_sibling_pattern(policy.features, index),
+        RULE_ORDER[5]: body_eligible
+        and structural_sibling_pattern(policy.features, index, earlier=earlier, later=later),
         RULE_ORDER[6]: body_eligible and key in policy.levels.transfers,
         RULE_ORDER[7]: True,
     }
     eligible = [rule_id for rule_id in RULE_ORDER if predicates[rule_id]]
-    return ItemRuleContext(
+    return RuleEvaluationState(
         policy=policy,
         index=index,
         feature=feature,
@@ -104,28 +111,55 @@ def build_item_rule_context(policy: RulePolicyContext, index: int) -> ItemRuleCo
     )
 
 
-def raw_heading_neighbors(
-    features: tuple[ScopedItem, ...], index: int
-) -> tuple[ScopedItem | None, ScopedItem | None]:
-    """Return nearest earlier and later raw section headers."""
-    earlier = next(
-        (item for item in reversed(features[:index]) if item["raw_role"] == "section_header"),
-        None,
-    )
-    later = next(
-        (item for item in features[index + 1 :] if item["raw_role"] == "section_header"),
-        None,
-    )
-    return earlier, later
+def _raw_heading_neighbor_indexes(
+    features: tuple[ScopedItem, ...],
+) -> tuple[tuple[ScopedItem | None, ...], tuple[ScopedItem | None, ...]]:
+    """Build nearest-heading references with one forward and one reverse pass."""
+    previous: list[ScopedItem | None] = []
+    heading: ScopedItem | None = None
+    for feature in features:
+        previous.append(heading)
+        if feature["raw_role"] == "section_header":
+            heading = feature
+
+    following: list[ScopedItem | None] = [None] * len(features)
+    heading = None
+    for index in range(len(features) - 1, -1, -1):
+        following[index] = heading
+        feature = features[index]
+        if feature["raw_role"] == "section_header":
+            heading = feature
+    return tuple(previous), tuple(following)
 
 
-def structural_sibling_pattern(features: tuple[ScopedItem, ...], index: int) -> bool:
+def _previous_numbering_levels(
+    features: tuple[ScopedItem, ...], numbering_levels: dict[str, int]
+) -> dict[str, int | None]:
+    """Index the previous numbered level inside each regime for R05."""
+    previous_by_key: dict[str, int | None] = {}
+    latest_by_regime: dict[str, int] = {}
+    for feature in features:
+        key = feature["stable_item_key"]
+        if key not in numbering_levels:
+            continue
+        regime_id = feature["regime_id"]
+        previous_by_key[key] = latest_by_regime.get(regime_id)
+        latest_by_regime[regime_id] = numbering_levels[key]
+    return previous_by_key
+
+
+def structural_sibling_pattern(
+    features: tuple[ScopedItem, ...],
+    index: int,
+    *,
+    earlier: ScopedItem | None,
+    later: ScopedItem | None,
+) -> bool:
     """Evaluate the complete frozen R06 structural-sibling predicate."""
     feature = features[index]
     if feature["raw_role"] != "text" or index == 0 or index == len(features) - 1:
         return False
     previous_item, next_item = features[index - 1], features[index + 1]
-    earlier, later = raw_heading_neighbors(features, index)
     return bool(
         earlier
         and later

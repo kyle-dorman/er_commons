@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import platform
 from dataclasses import dataclass
 from datetime import datetime
@@ -93,12 +94,19 @@ def write_preflight_records(
 
 
 def publish_workspace(workspace: ProducerWorkspace) -> Path:
-    """Atomically rename completed staging into an absent final destination."""
+    """Durably rename one completion-sealed staging tree into its final path."""
     if workspace.final_root.exists():
         raise FileExistsError(
             f"producer final root appeared during publication: {workspace.final_root}"
         )
+    completion = workspace.records_root / "completion_record.json"
+    if not completion.is_file():
+        raise ValueError("producer staging tree has no completion record")
+    _fsync_tree(workspace.staging_root)
+    source_parent = workspace.staging_root.parent
     workspace.staging_root.rename(workspace.final_root)
+    _fsync_directory(source_parent)
+    _fsync_directory(workspace.final_root.parent)
     return workspace.final_root / "records" / "completion_record.json"
 
 
@@ -125,13 +133,18 @@ def preserve_failed_attempt(
     attempt_root = task_root / "attempts" / attempt_id
     if staging_root is not None and staging_root.exists():
         attempt_root.parent.mkdir(parents=True, exist_ok=True)
+        source_parent = staging_root.parent
         staging_root.rename(attempt_root)
+        _fsync_directory(source_parent)
+        _fsync_directory(attempt_root.parent)
     else:
         attempt_root.mkdir(parents=True, exist_ok=False)
 
     invalid_completion = attempt_root / "records" / "completion_record.json"
     removed_completion_marker = invalid_completion.exists()
     invalid_completion.unlink(missing_ok=True)
+    if removed_completion_marker:
+        _fsync_directory(invalid_completion.parent)
     record = AttemptRecord(
         schema_version="1.0.0",
         attempt_id=attempt_id,
@@ -150,4 +163,28 @@ def preserve_failed_attempt(
         attempt_root / "attempt_record.json",
         record.model_dump(mode="json"),
     )
+    _fsync_tree(attempt_root)
+    _fsync_directory(attempt_root.parent)
     return attempt_root
+
+
+def _fsync_tree(root: Path) -> None:
+    """Persist every regular file and directory entry below one staged tree."""
+    for path in sorted(item for item in root.rglob("*") if item.is_file()):
+        descriptor = os.open(path, os.O_RDONLY)
+        try:
+            os.fsync(descriptor)
+        finally:
+            os.close(descriptor)
+    directories = [root, *(path for path in root.rglob("*") if path.is_dir())]
+    for path in sorted(directories, key=lambda item: len(item.parts), reverse=True):
+        _fsync_directory(path)
+
+
+def _fsync_directory(path: Path) -> None:
+    """Persist directory-entry changes at one publication boundary."""
+    descriptor = os.open(path, os.O_RDONLY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)

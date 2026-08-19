@@ -15,7 +15,7 @@ from er_commons.hierarchy_inference.bounded_acceptance import (
     verify_bounded_acceptance,
     verify_bounded_acceptance_policy,
 )
-from er_commons.hierarchy_inference.candidate_publication import (
+from er_commons.hierarchy_inference.candidate_verification import (
     verify_completed_candidate as verify_hierarchy_candidate,
 )
 

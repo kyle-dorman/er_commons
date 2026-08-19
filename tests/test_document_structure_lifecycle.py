@@ -12,7 +12,7 @@ from er_commons.document_records.document_structure import lifecycle, sealing
 from er_commons.document_records.document_structure.config import DocumentStructureExpectations
 from er_commons.document_records.document_structure.runtime import RuntimeContext
 from er_commons.document_records.document_structure.sealing import DocumentStructureSealingInputs
-from er_commons.document_records.record_mapping.publication import write_json
+from er_commons.document_records.record_mapping.publication import CandidateWorkspace, write_json
 
 CANDIDATE_ID = "exv1-" + "a" * 64
 
@@ -99,6 +99,101 @@ def test_failure_retention_error_does_not_mask_original(
         )
 
     assert captured.value.__notes__ == ["failed to retain semantic attempt: retention failure"]
+
+
+def test_keyboard_interrupt_is_retained_and_retry_is_clean(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """An operator interruption cannot leave completion or block a clean retry."""
+    context = _context(tmp_path)
+
+    def interrupt_after_completion(**kwargs: Any) -> None:
+        root = cast(Path, kwargs["root"])
+        write_json(root / "records" / "partial.json", {"phase": "serialization"})
+        write_json(root / "records" / "completion_record.json", {"status": "complete"})
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(lifecycle, "_write_candidate_workspace", interrupt_after_completion)
+    with pytest.raises(KeyboardInterrupt):
+        lifecycle.build_validate_and_publish(
+            context=context,
+            identity={"extraction_id": CANDIDATE_ID},
+            candidate_id=CANDIDATE_ID,
+        )
+
+    attempts = tuple((context.task_root / "attempts").iterdir())
+    assert len(attempts) == 1
+    assert (attempts[0] / "records" / "partial.json").is_file()
+    assert not (attempts[0] / "records" / "completion_record.json").exists()
+    assert "KeyboardInterrupt" in (attempts[0] / "records" / "attempt_record.json").read_text()
+    assert not (context.task_root / CANDIDATE_ID).exists()
+
+    _patch_lifecycle_edges(monkeypatch)
+    completion = lifecycle.build_validate_and_publish(
+        context=context,
+        identity={"extraction_id": CANDIDATE_ID},
+        candidate_id=CANDIDATE_ID,
+    )
+    assert completion.is_file()
+
+
+def test_prepublish_verification_failure_never_creates_final_candidate(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A sealed-but-invalid staging tree remains attempt evidence, never a final."""
+    context = _context(tmp_path)
+
+    def write_complete_workspace(**kwargs: Any) -> None:
+        root = cast(Path, kwargs["root"])
+        write_json(root / "records" / "completion_record.json", {"status": "complete"})
+
+    monkeypatch.setattr(lifecycle, "_write_candidate_workspace", write_complete_workspace)
+    monkeypatch.setattr(
+        lifecycle,
+        "verify_completed_document_structure",
+        lambda *_args: (_ for _ in ()).throw(ValueError("invalid sealed workspace")),
+    )
+
+    with pytest.raises(ValueError, match="invalid sealed workspace"):
+        lifecycle.build_validate_and_publish(
+            context=context,
+            identity={"extraction_id": CANDIDATE_ID},
+            candidate_id=CANDIDATE_ID,
+        )
+
+    assert not (context.task_root / CANDIDATE_ID).exists()
+    attempt = next((context.task_root / "attempts").iterdir())
+    assert not (attempt / "records" / "completion_record.json").exists()
+
+
+def test_post_rename_durability_failure_retains_diagnostic_and_final_is_reusable(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A parent-fsync error leaves a valid final plus separate attempt evidence."""
+    context = _context(tmp_path)
+    _patch_lifecycle_edges(monkeypatch)
+
+    def rename_then_fail(workspace: CandidateWorkspace) -> Path:
+        workspace.staging_root.rename(workspace.final_root)
+        raise OSError("destination parent fsync failed")
+
+    monkeypatch.setattr(lifecycle, "publish_workspace", rename_then_fail)
+    with pytest.raises(OSError, match="destination parent fsync failed"):
+        lifecycle.build_validate_and_publish(
+            context=context,
+            identity={"extraction_id": CANDIDATE_ID},
+            candidate_id=CANDIDATE_ID,
+        )
+
+    final_root = context.task_root / CANDIDATE_ID
+    assert (final_root / "records" / "completion_record.json").is_file()
+    attempts = tuple((context.task_root / "attempts").iterdir())
+    assert len(attempts) == 1
+    assert (
+        "destination parent fsync failed"
+        in (attempts[0] / "records" / "attempt_record.json").read_text()
+    )
+    assert lifecycle.reuse_completed_candidate(context=context, candidate_id=CANDIDATE_ID).is_file()
 
 
 def test_semantic_validation_reads_the_configured_schema(

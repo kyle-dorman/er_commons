@@ -11,6 +11,7 @@ from er_commons.document_records.document_structure.errors import (
     DocumentStructureInvariantError,
 )
 from er_commons.document_records.document_structure.publication import (
+    deep_audit_completed_document_structure,
     preserve_failed_attempt,
     verify_completed_document_structure,
 )
@@ -28,6 +29,7 @@ def _write_completed_candidate(
     *,
     disposition: str = "accepted_with_known_limitations",
     status: str = "complete_with_warnings",
+    semantic_payload: bytes | None = None,
 ) -> None:
     """Write the smallest checksum-valid semantic candidate fixture."""
     support_files = []
@@ -49,6 +51,10 @@ def _write_completed_candidate(
             "support_files": support_files,
         },
     )
+    if semantic_payload is not None:
+        payload_path = root / "canonical" / "blocks.jsonl"
+        payload_path.parent.mkdir(parents=True, exist_ok=True)
+        payload_path.write_bytes(semantic_payload)
     inventory_path = write_inventory(root)
     write_json(
         root / "records" / "completion_record.json",
@@ -76,8 +82,30 @@ def test_completed_candidate_verifier_fails_closed_on_tamper(tmp_path: Path) -> 
     with pytest.raises(DocumentStructureInvariantError) as error:
         verify_completed_document_structure(tmp_path, candidate_id)
     assert error.value.stage == "candidate reuse verification"
-    assert error.value.invariant == "semantic candidate inventory matches the managed file set"
+    assert (
+        error.value.invariant
+        == "semantic candidate inventory metadata matches the managed file set"
+    )
     assert error.value.subject.endswith("records/artifact_inventory.json")
+
+
+def test_fast_reuse_skips_semantic_hash_and_deep_audit_detects_same_size_tamper(
+    tmp_path: Path,
+) -> None:
+    """Normal restart trusts immutable large bytes; explicit audit reauthenticates them."""
+    candidate_id = "exv1-" + "e" * 64
+    original = b'{"block":"one"}\n'
+    changed = b'{"block":"two"}\n'
+    assert len(original) == len(changed)
+    _write_completed_candidate(tmp_path, candidate_id, semantic_payload=original)
+    payload_path = tmp_path / "canonical" / "blocks.jsonl"
+    payload_path.write_bytes(changed)
+
+    assert verify_completed_document_structure(tmp_path, candidate_id).is_file()
+    with pytest.raises(DocumentStructureInvariantError) as error:
+        deep_audit_completed_document_structure(tmp_path, candidate_id)
+    assert error.value.stage == "candidate deep audit"
+    assert error.value.subject == payload_path.as_posix()
 
 
 @pytest.mark.parametrize("status", ["complete", "complete_with_warnings"])

@@ -50,11 +50,14 @@ def build_candidate_identity(
         "source_manifest_sha256": inputs.producer_completion.source_manifest_sha256,
         "producer_completion_sha256": inputs.input_inventory["producer_completion_sha256"],
         "producer_inventory_sha256": inputs.input_inventory["producer_inventory_sha256"],
+        "conversion_completion_sha256": inputs.input_inventory["conversion_completion_sha256"],
+        "conversion_inventory_sha256": inputs.input_inventory["conversion_inventory_sha256"],
         "policy_version": config.policy_version,
         "policy_sha256": sha256_file(policy_path),
         "config_sha256": config_sha256,
         "schema_sha256": sha256_file(schema_path),
         "code_bundle_sha256": code_bundle_sha256(project_root, owned_code_paths),
+        "runtime_lock_sha256": sha256_file(project_root / "uv.lock"),
     }
     return {"candidate_id": f"hcorv1-{canonical_json_sha256(payload)}", **payload}
 

@@ -13,7 +13,15 @@ from er_commons.document_parsing.content_parsing.config import (
     load_content_parsing_config,
 )
 from er_commons.document_parsing.content_parsing.conversion import map_conversion_status
-from er_commons.document_parsing.content_parsing.identity import canonical_json_sha256
+from er_commons.document_parsing.content_parsing.conversion_identity import (
+    conversion_code_paths,
+    conversion_policy,
+)
+from er_commons.document_parsing.content_parsing.identity import (
+    canonical_json_sha256,
+    parsing_code_paths,
+    routing_table_policy,
+)
 from er_commons.document_parsing.content_parsing.routing import layout_table_observations
 from er_commons.document_parsing.content_parsing.sources import resolve_complete_source
 from er_commons.source_release.models import SourceManifest
@@ -185,6 +193,71 @@ def test_identity_hash_is_order_independent_and_content_bound() -> None:
 
     assert canonical_json_sha256(first) == canonical_json_sha256(reordered)
     assert canonical_json_sha256(first) != canonical_json_sha256(changed)
+
+
+def test_conversion_policy_excludes_routing_and_table_configuration() -> None:
+    """Deterministic interpretation changes must not invalidate Docling evidence."""
+    config, _ = load_content_parsing_config(
+        Path("configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json")
+    )
+    changed = config.model_copy(
+        update={
+            "strict_table_dominant_thresholds": config.strict_table_dominant_thresholds.model_copy(
+                update={"minimum_digit_fraction": 0.99}
+            ),
+            "table_cleanup": config.table_cleanup.model_copy(
+                update={"maximum_header_rows": config.table_cleanup.maximum_header_rows + 1}
+            ),
+            "learned_table_fallback": config.learned_table_fallback.model_copy(
+                update={"minimum_native_text_coverage": 0.99}
+            ),
+        }
+    )
+
+    assert conversion_policy(changed) == conversion_policy(config)
+
+
+def test_heading_consumers_share_one_common_conversion_policy() -> None:
+    """Heading levels are an overlay and no longer require a second conversion."""
+    baseline, _ = load_content_parsing_config(
+        Path("configs/brisbane_baylands_2025_deir_task03c_appendix_p_v2.json")
+    )
+    hierarchy, _ = load_content_parsing_config(
+        Path("configs/brisbane_baylands_2025_deir_task03e_appendix_p_v1.json")
+    )
+
+    assert conversion_policy(baseline) == conversion_policy(hierarchy)
+    assert routing_table_policy(baseline) == routing_table_policy(hierarchy)
+
+
+def test_conversion_code_inventory_covers_export_and_acceptance_dependencies() -> None:
+    """Byte writers and persisted conversion-record contracts must invalidate raw reuse."""
+    repo_root = Path(__file__).parents[1]
+    paths = {path.relative_to(repo_root).as_posix() for path in conversion_code_paths(repo_root)}
+
+    assert {
+        "src/er_commons/document_parsing/content_parsing/evidence.py",
+        "src/er_commons/document_parsing/content_parsing/records.py",
+        "src/er_commons/document_parsing/content_parsing/conversion.py",
+        "src/er_commons/document_parsing/content_parsing/conversion_bundle.py",
+        "src/er_commons/document_parsing/content_parsing/conversion_execution.py",
+        "src/er_commons/document_parsing/content_parsing/conversion_preflight.py",
+        "src/er_commons/document_parsing/content_parsing/conversion_seal.py",
+        "src/er_commons/document_parsing/heading_evidence_parsing/errors.py",
+        "src/er_commons/document_parsing/heading_evidence_parsing/types.py",
+    } <= paths
+
+
+def test_derived_code_inventory_covers_direct_routing_and_sealing_dependencies() -> None:
+    """Direct routing, source, and inventory owners must invalidate derived reuse."""
+    repo_root = Path(__file__).parents[1]
+    paths = {path.relative_to(repo_root).as_posix() for path in parsing_code_paths(repo_root)}
+
+    assert {
+        "src/er_commons/document_parsing/content_parsing/evidence.py",
+        "src/er_commons/document_parsing/content_parsing/routing_geometry.py",
+        "src/er_commons/document_parsing/content_parsing/sources.py",
+    } <= paths
 
 
 def test_layout_observations_retain_raw_lineage_pointers() -> None:

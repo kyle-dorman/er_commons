@@ -49,7 +49,12 @@ text, physical page, and character span plus tightly bounded bbox drift.
 7. Omit only a PDF outline leaf with a missing or out-of-range destination and
    persist a `TOC_TARGET_MISSING` warning containing its title. Continue failing
    closed when an invalid outline node owns children, because reparenting that
-   subtree would invent hierarchy.
+   subtree would invent hierarchy. Task 03H extends this rule only for a
+   destinationless appendix container whose children all have valid ordered
+   destinations and whose appendix identifier uniquely fuzzy-matches a visible
+   body heading on the page immediately preceding the first child. Bind that
+   container to the evidenced heading, retain its children without reparenting,
+   and emit `OUTLINE_CONTAINER_RECOVERED`; otherwise continue failing closed.
 8. Preserve every exact duplicate producer text representation. Leave ordinary
    stable keys unchanged; for a colliding base identity only, derive a tagged
    key from the base key, semantic parent collection, and occurrence ordinal

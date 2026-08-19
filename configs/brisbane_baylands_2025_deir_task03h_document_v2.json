@@ -1,0 +1,587 @@
+{
+  "schema_version": "er_commons.document_run_spec.v2",
+  "production_extraction_id": "exv1-2062cbc522311109775485bd6b816c030b601f65abbb404514b36c3526aad332",
+  "production_identity_relative_path": "benchmarks/er_bench/fixtures/document_publication/v2/task03h_production_identity.json",
+  "scope_kind": "production_full",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_publications",
+  "document_processes": [
+    {
+      "source_id": "deir_main",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_main/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_main/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_main/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_main/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_main/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_main/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_a",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_a/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_a/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_a/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_a/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_a/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_a/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_b",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_b/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_b/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_b/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_b/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_b/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_b/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_c",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_c/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_c/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_c/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_c/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_c/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_c/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_d",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_d/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_d/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_d/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_d/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_d/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_d/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_e",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_e/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_e/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_e/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_e/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_e/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_e/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_f1",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_f1/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_f1/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_f1/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_f1/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_f1/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_f1/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_f2",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_f2/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_f2/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_f2/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_f2/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_f2/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_f2/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_g1",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_g1/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_g1/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_g1/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_g1/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_g1/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_g1/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_g2",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_g2/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_g2/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_g2/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_g2/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_g2/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_g2/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_g3",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_g3/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_g3/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_g3/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_g3/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_g3/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_g3/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_h",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_h/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_h/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_h/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_h/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_h/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_h/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_i",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_i/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_i/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_i/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_i/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_i/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_i/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_j",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_j/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_j/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_j/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_j/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_j/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_j/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k1_part_1_of_4",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k1_part_1_of_4/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k1_part_1_of_4/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k1_part_1_of_4/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k1_part_1_of_4/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k1_part_1_of_4/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k1_part_1_of_4/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k1_part_2_of_4",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k1_part_2_of_4/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k1_part_2_of_4/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k1_part_2_of_4/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k1_part_2_of_4/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k1_part_2_of_4/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k1_part_2_of_4/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k1_part_3_of_4",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k1_part_3_of_4/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k1_part_3_of_4/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k1_part_3_of_4/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k1_part_3_of_4/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k1_part_3_of_4/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k1_part_3_of_4/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k1_part_4_of_4",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k1_part_4_of_4/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k1_part_4_of_4/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k1_part_4_of_4/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k1_part_4_of_4/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k1_part_4_of_4/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k1_part_4_of_4/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k2_part_1_of_5",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k2_part_1_of_5/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k2_part_1_of_5/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k2_part_1_of_5/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k2_part_1_of_5/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k2_part_1_of_5/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k2_part_1_of_5/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k2_part_2_of_5",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k2_part_2_of_5/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k2_part_2_of_5/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k2_part_2_of_5/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k2_part_2_of_5/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k2_part_2_of_5/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k2_part_2_of_5/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k2_part_3_of_5",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k2_part_3_of_5/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k2_part_3_of_5/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k2_part_3_of_5/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k2_part_3_of_5/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k2_part_3_of_5/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k2_part_3_of_5/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k2_part_4_of_5",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k2_part_4_of_5/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k2_part_4_of_5/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k2_part_4_of_5/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k2_part_4_of_5/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k2_part_4_of_5/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k2_part_4_of_5/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k2_part_5_of_5",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k2_part_5_of_5/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k2_part_5_of_5/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k2_part_5_of_5/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k2_part_5_of_5/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k2_part_5_of_5/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k2_part_5_of_5/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k3",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k3/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k3/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k3/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k3/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k3/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k3/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k4",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k4/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k4/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k4/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k4/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k4/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k4/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k5",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k5/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k5/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k5/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k5/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k5/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k5/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_k6",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_k6/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_k6/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_k6/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_k6/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_k6/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_k6/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_l",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_l/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_l/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_l/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_l/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_l/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_l/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_m1",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_m1/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_m1/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_m1/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_m1/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_m1/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_m1/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_m2",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_m2/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_m2/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_m2/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_m2/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_m2/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_m2/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_m3",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_m3/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_m3/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_m3/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_m3/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_m3/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_m3/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_n1",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_n1/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_n1/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_n1/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_n1/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_n1/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_n1/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_n2",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_n2/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_n2/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_n2/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_n2/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_n2/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_n2/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_o",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_o/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_o/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_o/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_o/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_o/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_o/document_reference_linking.json"
+      }
+    },
+    {
+      "source_id": "deir_appendix_p",
+      "lineage_mode": "fresh_build",
+      "configs": {
+        "content_parsing": "configs/task03h/deir_appendix_p/content_parsing.json",
+        "heading_evidence_parsing": "configs/task03h/deir_appendix_p/heading_evidence_parsing.json",
+        "record_mapping": "configs/task03h/deir_appendix_p/record_mapping.json",
+        "hierarchy_inference": "configs/task03h/deir_appendix_p/hierarchy_inference.json",
+        "document_structure": "configs/task03h/deir_appendix_p/document_structure.json",
+        "document_reference_linking": "configs/task03h/deir_appendix_p/document_reference_linking.json"
+      }
+    }
+  ],
+  "hierarchy_dispositions": [
+    {
+      "source_id": "deir_main",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_a",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_b",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_c",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_d",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_e",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_f1",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_f2",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_g1",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_g2",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_g3",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_h",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_i",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_j",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k1_part_1_of_4",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k1_part_2_of_4",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k1_part_3_of_4",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k1_part_4_of_4",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k2_part_1_of_5",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k2_part_2_of_5",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k2_part_3_of_5",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k2_part_4_of_5",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k2_part_5_of_5",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k3",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k4",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k5",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_k6",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_l",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_m1",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_m2",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_m3",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_n1",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_n2",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_o",
+      "authority": "machine_validation"
+    },
+    {
+      "source_id": "deir_appendix_p",
+      "authority": "machine_validation"
+    }
+  ],
+  "resource_policy": {
+    "document_concurrency": 1,
+    "page_batch_size": 4,
+    "stage_batch_size": 4,
+    "queue_capacity": 100,
+    "cpu_threads_per_document": 4,
+    "device": "cpu",
+    "memory_estimate_bytes": 17179869184,
+    "storage_estimate_bytes": 429496729600,
+    "docling_timeout_seconds": null,
+    "outer_process_deadline_seconds": 86400,
+    "cancellation_grace_seconds": 15,
+    "retry_limit": 1
+  }
+}

@@ -31,7 +31,7 @@ records.
 | Layer | Immutable input or output | Meaning owned here | Canonical use |
 | --- | --- | --- | --- |
 | Sealed source release | Source manifest and completion seal | Source bytes, role, checksum, warnings, and release order | Only `model_corpus` records become documents |
-| Docling | Lossless `document.json`, conversion pages, images, and conversion record | Native text, labels, reading order, content layer, figures, and zero/one/many provenance entries | Blocks, hierarchy observations, figures, images, and raw links |
+| Docling | Semantic `document.json`, conversion pages, separately inventoried figure crops, and conversion record | Native text, labels, reading order, content layer, figures, and zero/one/many provenance entries | Blocks, hierarchy observations, figures, images, and raw links |
 | PDFium router | Page-route JSONL | Native-text measurements, threshold results, and selected route | Routing observations only |
 | Heron through Docling | Table-labeled document items and provenance | Candidate table regions | Raw region observations, never canonical cells |
 | Camelot clean pipeline | Page/table records, cell JSON, raw and clean CSV | Reconstructed logical tables and producer-normalized cells | Canonical tables and cells with producer lineage |
@@ -50,9 +50,13 @@ content-layer classification. The canonical contract therefore preserves raw
 pointers as producer locators but owns its own hierarchy edges and
 `body`/`furniture` classification.
 
-Docling JSON is the lossless producer serialization. Markdown and rendered HTML
-are QA views, not canonical inputs. Raw Docling JSON must be saved without
-coordinate or confidence rounding.
+Docling JSON is the lossless semantic and provenance serialization: text, tables,
+labels, hierarchy, pointers, coordinates, and confidence values are retained without
+rounding. Embedded raster payloads are not semantic records. Figure crops are saved
+first as separately checksummed assets, then page-render and in-object picture-image
+fields are set to null before the durable JSON export. Full-page renders remain QA
+cache rather than extraction evidence. Markdown and rendered HTML are QA views, not
+canonical inputs.
 
 Camelot Stream reconstructs tables from text alignment; Lattice reconstructs
 ruled cells from page geometry. Its cells use bottom-left PDF coordinates and

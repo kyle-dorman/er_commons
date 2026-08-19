@@ -23,11 +23,13 @@ from er_commons.document_records.document_structure.parser_evidence import (
     artifact_reference,
     attach_stable_keys_in_place,
     build_bridge_construction,
-    hierarchy_relevant_keys,
     load_producer_evidence,
-    replacement_dispositions,
 )
 from er_commons.document_records.document_structure.policies.bridge import BridgeSourceEvidence
+from er_commons.document_records.document_structure.replacement_evidence import (
+    hierarchy_relevant_keys,
+    replacement_dispositions,
+)
 from er_commons.document_records.document_structure.sections import build_document_sections
 
 JsonObject = dict[str, Any]
@@ -39,7 +41,9 @@ class DocumentStructureConstructionInputs:
 
     baseline_candidate_root: Path
     baseline_producer_root: Path
+    baseline_document: JsonObject
     hierarchy_producer_root: Path
+    hierarchy_document: JsonObject
     hierarchy_candidate_root: Path
     baseline_candidate_id: str
     candidate_id: str
@@ -73,8 +77,8 @@ def build_document_structure_records(
         new_extraction_id=inputs.candidate_id,
     )
     evidence = load_producer_evidence(
-        baseline_producer_root=inputs.baseline_producer_root,
-        hierarchy_producer_root=inputs.hierarchy_producer_root,
+        baseline_document=inputs.baseline_document,
+        hierarchy_document=inputs.hierarchy_document,
         hierarchy_root=inputs.hierarchy_candidate_root,
     )
     block_id_by_key = attach_stable_keys_in_place(

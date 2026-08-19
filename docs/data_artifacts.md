@@ -312,11 +312,24 @@ historical evidence. Future runs use responsibility-oriented roots defined by th
 new versioned run specifications:
 
 ```text
-pipelines/brisbane_baylands/document_parse_evidence/<prv1-id>/
-pipelines/brisbane_baylands/document_records/<exv1-id>/
-pipelines/brisbane_baylands/document_publications/documents/<source-id>/<docv1-id>/
-pipelines/brisbane_baylands/collection_runs/scopes/<scopev1-id>/
+pipelines/brisbane_baylands/task_03h/
+  inputs/
+  document_parse_evidence/
+    docling_conversions/<dconv1-id>/
+    <prv1-id>/
+  hierarchy_inference/<hcorv1-id>/
+  document_records/<exv1-id>/
+  document_publications/
+    documents/<source-id>/<docv1-id>/
+    scopes/<scopev1-id>/
 ```
+
+Each `dconv1-` directory is an independently inventoried, completion-last raw
+conversion bundle. Each `prv1-` directory names the exact upstream conversion seal in
+`records/conversion_input.json`; its copied `documents/` tree is a compatibility view,
+not a second inference result. Conversion attempts are retained only under
+`docling_conversions/attempts/`, while derived-stage failures remain in the producer
+attempt stream. Neither failure stream carries a completion marker.
 
 Within a document-record candidate, `canonical/` remains the stable record-family
 directory. Within a collection scope, `accounting/`, `target_indexes/`,

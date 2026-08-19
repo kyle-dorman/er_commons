@@ -15,7 +15,6 @@ from er_commons.document_records.record_mapping.identifiers import record_type
 MAPPED_CONTENT_COLLECTIONS = (
     "blocks",
     "tables",
-    "table_families",
     "figures",
     "images",
 )
@@ -75,10 +74,12 @@ def _require_same_document_references(view: BundleView, record: Record, document
 
 
 def raw_mapping_coverage_is_complete(view: BundleView) -> None:
-    """Require raw lineage for every canonical content record."""
-    mapped_ids = {mapping["canonical_record_id"] for mapping in view.bundle["raw_mappings"]}
-    required_ids = {record["id"] for record in view.from_collections(*MAPPED_CONTENT_COLLECTIONS)}
-    missing = sorted(required_ids - mapped_ids)
+    """Require direct raw lineage for every canonical content record."""
+    missing = sorted(
+        record["id"]
+        for record in view.from_collections(*MAPPED_CONTENT_COLLECTIONS)
+        if not tuple(raw_links(record))
+    )
     if missing:
         raise MappingContractError(f"canonical records missing raw mappings: {missing}")
 
@@ -91,13 +92,6 @@ def raw_link_producers_are_compatible(view: BundleView) -> None:
             allowed_producers = COMPATIBLE_ASSET_PRODUCERS[link["producer"]]
             if asset["producer"] not in allowed_producers:
                 raise MappingContractError(f"raw-link producer differs from asset: {record['id']}")
-
-    for mapping in view.bundle["raw_mappings"]:
-        target = view.records_by_id[mapping["canonical_record_id"]]
-        for link in mapping["raw_links"]:
-            asset = view.records_by_id[link["asset_id"]]
-            if asset["document_id"] != target["document_id"]:
-                raise MappingContractError(f"cross-document raw mapping: {mapping['id']}")
 
 
 def cross_reference_statuses_are_consistent(view: BundleView) -> None:

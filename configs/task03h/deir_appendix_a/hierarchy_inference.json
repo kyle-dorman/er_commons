@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "pipeline_id": "brisbane_baylands_2025_deir_task03h_deir_appendix_a_hierarchy_v1",
+  "publication_authorization": "machine_validation",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "source": {
+    "source_id": "deir_appendix_a",
+    "official_title": "Appendix A - 2025 Baylands Specific Plan (PDF)",
+    "expected_sha256": "6f77ff07db8037b382cbe7ad4555e65bb9808749004a2324f48c615b2e378dd4",
+    "expected_byte_size": 116168501,
+    "expected_pdf_page_count": 514
+  },
+  "producer_artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_parse_evidence",
+  "producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/hierarchy_inference",
+  "policy_relative_path": "docs/specs/hierarchy_correction_v1.md",
+  "schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
+  "bounded_acceptance_config_relative_path": null,
+  "bounded_acceptance_artifact_relative_root": null
+}

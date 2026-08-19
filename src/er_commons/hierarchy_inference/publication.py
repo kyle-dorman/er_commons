@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from typing import Any
 
 from er_commons.hierarchy_inference.bundle import HierarchyBundleView, JsonRecord
 from er_commons.hierarchy_inference.checks import require, require_sorted, require_unique
@@ -62,37 +63,37 @@ def diagnostics_and_summary_match_decisions(view: HierarchyBundleView) -> None:
     require(summary["status"] == expected_status, "summary ambiguity status differs")
 
 
-def metrics_are_internally_consistent(view: HierarchyBundleView) -> None:
-    """Recompute one-build ratios and the cheapness disposition."""
-    metrics = view.bundle["metrics"]
-    candidate_id = view.bundle["identity"]["candidate_id"]
+def metrics_are_internally_consistent(bundle: dict[str, Any]) -> None:
+    """Recompute semantic-build and payload comparisons to the producer."""
+    metrics = bundle["metrics"]
+    candidate_id = bundle["identity"]["candidate_id"]
     require(metrics["candidate_id"] == candidate_id, "metrics candidate differs")
 
     require(
         math.isclose(
-            metrics["wall_time_ratio"],
-            metrics["build_wall_time_seconds"] / metrics["producer_build_wall_time_seconds"],
+            metrics["semantic_build_to_producer_wall_time_ratio"],
+            metrics["semantic_build_wall_time_seconds"]
+            / metrics["producer_build_wall_time_seconds"],
         ),
-        "wall-time ratio differs",
+        "semantic-build wall-time ratio differs",
     )
     require(
-        metrics["artifact_bytes_ratio"]
-        == round(metrics["artifact_bytes"] / metrics["producer_bytes"], 6),
-        "artifact-byte ratio differs",
+        metrics["payload_to_producer_bytes_ratio"]
+        == round(metrics["payload_bytes"] / metrics["producer_bytes"], 6),
+        "payload-byte ratio differs",
     )
     expected_cheapness = (
-        metrics["build_wall_time_seconds"] < metrics["producer_build_wall_time_seconds"]
-        and metrics["artifact_bytes"] < metrics["producer_bytes"]
+        metrics["semantic_build_wall_time_seconds"] < metrics["producer_build_wall_time_seconds"]
+        and metrics["payload_bytes"] < metrics["producer_bytes"]
     )
     require(
-        metrics["cheap_relative_to_producer"] == expected_cheapness,
-        "cheapness disposition differs",
+        metrics["semantic_build_faster_and_payload_smaller_than_producer"] == expected_cheapness,
+        "semantic-build and payload comparison differs",
     )
 
 
-def completion_seals_required_artifacts(view: HierarchyBundleView) -> None:
+def completion_seals_required_artifacts(bundle: dict[str, Any]) -> None:
     """Require the exact artifact set and bind completion to its inventory."""
-    bundle = view.bundle
     summary = bundle["summary"]
     completion = bundle["completion"]
     inventory = bundle["artifact_inventory"]

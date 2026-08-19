@@ -2,21 +2,29 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any
+from typing import Any, cast
 
 import pytest
 
 import er_commons.hierarchy_inference.application as application
-from er_commons.hierarchy_inference.candidate_publication import CandidateWorkspace
+from er_commons.hierarchy_inference.candidate_publication import CandidateSeal, CandidateWorkspace
 from er_commons.hierarchy_inference.failures import RunStage
-from er_commons.hierarchy_inference.publication_authorization import (
-    VerifiedMachinePublication,
+from er_commons.hierarchy_inference.progress import (
+    CandidateAssemblyProgress,
+    CandidatePhase,
+    ProgressSnapshot,
 )
+from er_commons.hierarchy_inference.publication_authorization import (
+    VerifiedPublicationAuthorization,
+)
+from er_commons.hierarchy_inference.semantic_types import SemanticCandidate
 from er_commons.hierarchy_inference.single_build import SingleBuildResult
 
 CANDIDATE_ID = "hcorv1-" + "a" * 64
+SCHEMA_PATH = Path("benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json")
 
 
 def _run(tmp_path: Path, *, final_exists: bool = False) -> Any:
@@ -39,7 +47,7 @@ def _run(tmp_path: Path, *, final_exists: bool = False) -> Any:
 
 def _result() -> SingleBuildResult:
     return SingleBuildResult(
-        semantic={"features": []},
+        semantic=SemanticCandidate((), (), (), (), (), {"roots": []}, (), ()),
         wall_seconds=1.25,
         stage_wall_time_seconds={"features": 1.0},
         peak_rss_bytes=123,
@@ -75,13 +83,18 @@ def test_new_candidate_builds_exactly_once_then_authorizes_and_publishes(
         calls.append("build")
         return _result()
 
-    def write(_run: object, _workspace: object, result: SingleBuildResult) -> None:
+    def write(
+        _run: object,
+        _workspace: object,
+        result: SingleBuildResult,
+        _progress: object,
+    ) -> None:
         assert result.wall_seconds == 1.25
         calls.append("validate_and_seal")
 
-    authorization = VerifiedMachinePublication(CANDIDATE_ID, "b" * 64)
+    authorization = cast(VerifiedPublicationAuthorization, object())
 
-    def authorize(*_args: object) -> VerifiedMachinePublication:
+    def authorize(*_args: object) -> VerifiedPublicationAuthorization:
         calls.append("authorize")
         return authorization
 
@@ -133,7 +146,7 @@ def test_bounded_publication_does_not_create_missing_authorization(
     )
 
     with pytest.raises(ValueError, match="requires separately supplied candidate authorization"):
-        application._new_authorization(run, workspace)
+        application._new_authorization(run, workspace, cast(CandidateSeal, object()))
 
     assert not run.bounded_acceptance_path.exists()
 
@@ -176,7 +189,10 @@ def test_failure_retention_names_the_responsible_stage(
     monkeypatch.setattr(
         application,
         "_new_authorization",
-        lambda *_args: maybe_fail("authorize", VerifiedMachinePublication(CANDIDATE_ID, "b" * 64)),
+        lambda *_args: maybe_fail(
+            "authorize",
+            cast(VerifiedPublicationAuthorization, object()),
+        ),
     )
     monkeypatch.setattr(
         application,
@@ -186,7 +202,7 @@ def test_failure_retention_names_the_responsible_stage(
     monkeypatch.setattr(
         application,
         "_retain_failure",
-        lambda _run, _workspace, stage, _error: seen.append(stage),
+        lambda _run, _workspace, stage, _error, _progress: seen.append(stage),
     )
 
     with pytest.raises(ValueError, match=failing_owner):
@@ -220,30 +236,121 @@ def test_failure_retention_error_does_not_mask_hierarchy_failure(
     assert captured.value.__notes__ == ["failed to retain hierarchy attempt: retention failure"]
 
 
-def test_candidate_payload_preserves_all_eight_semantic_families() -> None:
-    semantic = {
-        "features": [{"id": "feature"}],
-        "toc_entries": [{"id": "toc"}],
-        "reconciliations": [{"id": "reconciliation"}],
-        "regimes": [{"id": "regime"}],
-        "decisions": [{"id": "decision"}],
-        "hierarchy": {"roots": []},
-        "ambiguities": [{"id": "ambiguity"}],
-        "warnings": [{"id": "warning"}],
-    }
-
-    payload = application._candidate_payload(
-        identity={"candidate_id": CANDIDATE_ID},
-        input_inventory={"source": "fixture"},
-        environment={"python": "fixture"},
-        semantic=semantic,
+def test_keyboard_interrupt_is_retained_and_reraised(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    run = _run(tmp_path)
+    run.schema_path = SCHEMA_PATH.resolve()
+    monkeypatch.setattr(
+        application,
+        "build_single_semantic_candidate",
+        lambda *_args: (_ for _ in ()).throw(KeyboardInterrupt()),
     )
 
-    assert payload.features == ({"id": "feature"},)
-    assert payload.toc_entries == ({"id": "toc"},)
-    assert payload.reconciliations == ({"id": "reconciliation"},)
-    assert payload.regimes == ({"id": "regime"},)
-    assert payload.decisions == ({"id": "decision"},)
-    assert payload.hierarchy == {"roots": []}
-    assert payload.ambiguities == ({"id": "ambiguity"},)
-    assert payload.warnings == ({"id": "warning"},)
+    with pytest.raises(KeyboardInterrupt):
+        application._build_and_publish(run)
+
+    [attempt_path] = list((tmp_path / "attempts").glob("*/records/attempt_record.json"))
+    attempt = json.loads(attempt_path.read_text())
+    assert attempt["fatal_code"] == "RUN_INTERRUPTED"
+    assert attempt["detail"] == "build: KeyboardInterrupt"
+    assert not list((tmp_path / ".tmp").glob("*"))
+
+
+@pytest.mark.parametrize(
+    ("checkpoint", "completion_written"),
+    [
+        ("semantic_validation", False),
+        ("mid_streaming", False),
+        ("post_inventory", False),
+        ("post_completion", True),
+    ],
+)
+def test_candidate_assembly_interruptions_retain_partial_evidence_and_retry_cleanly(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    checkpoint: str,
+    completion_written: bool,
+) -> None:
+    run = _run(tmp_path)
+    run.schema_path = SCHEMA_PATH.resolve()
+    monkeypatch.setattr(application, "build_single_semantic_candidate", lambda *_args: _result())
+    expected_phase = {
+        "semantic_validation": CandidatePhase.SEMANTIC_SCHEMA_VALIDATION,
+        "mid_streaming": CandidatePhase.STREAMING_PUBLICATION,
+        "post_inventory": CandidatePhase.INVENTORY_SEAL,
+        "post_completion": CandidatePhase.COMPLETION_SEAL,
+    }[checkpoint]
+
+    def interrupt_write(
+        _run: object,
+        workspace: CandidateWorkspace,
+        _result_value: SingleBuildResult,
+        progress: CandidateAssemblyProgress,
+    ) -> None:
+        phase = expected_phase
+        unit = (
+            "files"
+            if phase in {CandidatePhase.INVENTORY_SEAL, CandidatePhase.COMPLETION_SEAL}
+            else "records"
+        )
+        progress.report(ProgressSnapshot(phase, 1, 2, unit))
+        evidence = workspace.staging_root / "artifacts" / f"{checkpoint}.partial"
+        evidence.parent.mkdir(parents=True, exist_ok=True)
+        evidence.write_text("inspectable partial evidence\n")
+        if checkpoint == "post_inventory":
+            records = workspace.staging_root / "records"
+            records.mkdir(parents=True, exist_ok=True)
+            (records / "artifact_inventory.json").write_text("{}\n")
+        if completion_written:
+            records = workspace.staging_root / "records"
+            records.mkdir(parents=True, exist_ok=True)
+            (records / "completion_record.json").write_text("{}\n")
+            return
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(application, "_write_staged_candidate", interrupt_write)
+    if completion_written:
+        monkeypatch.setattr(
+            application,
+            "_new_authorization",
+            lambda *_args: (_ for _ in ()).throw(KeyboardInterrupt()),
+        )
+
+    with pytest.raises(KeyboardInterrupt):
+        application._build_and_publish(run)
+
+    [attempt_root] = list((tmp_path / "attempts").glob(f"{CANDIDATE_ID}.*"))
+    assert (attempt_root / "artifacts" / f"{checkpoint}.partial").is_file()
+    assert not (attempt_root / "records/completion_record.json").exists()
+    attempt = json.loads((attempt_root / "records/attempt_record.json").read_text())
+    assert attempt["fatal_code"] == "RUN_INTERRUPTED"
+    assert attempt["phase"] == expected_phase.value
+    assert (attempt["processed_units"], attempt["total_units"]) == (1, 2)
+    retry = application.reserve_workspace(tmp_path, CANDIDATE_ID, f"retry-{checkpoint}")
+    assert retry.staging_root.is_dir()
+
+
+def test_semantic_candidate_names_all_eight_record_families() -> None:
+    semantic = SemanticCandidate(
+        features=({"id": "feature"},),
+        toc_entries=({"id": "toc"},),
+        reconciliations=({"id": "reconciliation"},),
+        regimes=({"id": "regime"},),
+        decisions=({"id": "decision"},),
+        hierarchy={"roots": []},
+        ambiguities=({"id": "ambiguity"},),
+        warnings=({"id": "warning"},),
+    )
+
+    assert set(semantic.as_mapping()) == {
+        "features",
+        "toc_entries",
+        "reconciliations",
+        "regimes",
+        "decisions",
+        "hierarchy",
+        "ambiguities",
+        "warnings",
+    }

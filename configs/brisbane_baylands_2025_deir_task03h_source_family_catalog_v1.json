@@ -1,0 +1,603 @@
+{
+  "schema_version": "er_commons.source_family_catalog.v1",
+  "catalog_version": "brisbane_baylands_2025_deir_task03h_source_family_v1",
+  "source_family_id": "brisbane_baylands_2025_deir",
+  "sources": [
+    {
+      "source": {
+        "source_id": "deir_main",
+        "sha256": "0b81e84176c86205c07d9ae6b2a9994fcd45405e516546bcfc7ab9b1f88cf83f",
+        "byte_size": 65818524,
+        "pdf_page_count": 2092
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "root_report",
+      "parent_source_id": null,
+      "reference_aliases": [
+        "complete 2025 baylands specific plan deir",
+        "baylands specific plan draft eir",
+        "draft eir",
+        "deir",
+        "complete 2025 baylands specific plan deir (pdf)"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_a",
+        "sha256": "6f77ff07db8037b382cbe7ad4555e65bb9808749004a2324f48c615b2e378dd4",
+        "byte_size": 116168501,
+        "pdf_page_count": 514
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix a - 2025 baylands specific plan",
+        "appendix a - 2025 baylands specific plan (pdf)",
+        "2025 baylands specific plan",
+        "appendix a"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_b",
+        "sha256": "ae3f77879164c4567c1d614daf285a0fb68db5c97b80fa2bc93f53bac1a5ce04",
+        "byte_size": 60349740,
+        "pdf_page_count": 258
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix b - notice of preparation(s) distribution list",
+        "appendix b - notice of preparation(s) distribution list (pdf)",
+        "notice of preparation(s) distribution list",
+        "appendix b"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_c",
+        "sha256": "41102148c33a4b56bc2ac88bd22acd998138e6bb7735a3c321784cccc686b974",
+        "byte_size": 5329542,
+        "pdf_page_count": 86
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix c - urban decay technical report",
+        "appendix c - urban decay technical report (pdf)",
+        "urban decay technical report",
+        "appendix c"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_d",
+        "sha256": "0e0d0dc3d5c9d75ca52ec698f3943da59e560e69dde8dfa4763c9afd6673e1c3",
+        "byte_size": 62423471,
+        "pdf_page_count": 356
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix d - biological resources technical report",
+        "appendix d - biological resources technical report (pdf)",
+        "biological resources technical report",
+        "appendix d"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_e",
+        "sha256": "cb1da68df2f6daf3874109fb9f5083367e58da61178c6a26b97c9b7f274a127b",
+        "byte_size": 47230860,
+        "pdf_page_count": 362
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix e - cultural resources technical report",
+        "appendix e - cultural resources technical report (pdf)",
+        "cultural resources technical report",
+        "appendix e"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_f1",
+        "sha256": "dd51b7e5f0d511abc34617c10afde270e27d5dfe5df7ae9b7048cc206528ac78",
+        "byte_size": 8223907,
+        "pdf_page_count": 75
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix f1 - transportation impact assessment",
+        "appendix f1 - transportation impact assessment (pdf)",
+        "transportation impact assessment",
+        "appendix f1"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_f2",
+        "sha256": "eb6fee2ba7648cee1b864924fb6be03596d904096d48572711533ca8d27e3ba1",
+        "byte_size": 7609591,
+        "pdf_page_count": 16
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix f2 - safe routes to school study",
+        "appendix f2 - safe routes to school study (pdf)",
+        "safe routes to school study",
+        "appendix f2"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_g1",
+        "sha256": "e11835a7c6346c6780bfe26bee0037f4b6206b0a1573b3d480cb2b4170e79f7f",
+        "byte_size": 41021082,
+        "pdf_page_count": 2488
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix g1 - air quality technical report",
+        "appendix g1 - air quality technical report (pdf)",
+        "air quality technical report",
+        "appendix g1"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_g2",
+        "sha256": "6513536914ad08ad21fa9e97911744f7d5bcfabca9ba51a151e6a4ddb65e0b13",
+        "byte_size": 52067638,
+        "pdf_page_count": 3736
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix g2 - health risk assessment",
+        "appendix g2 - health risk assessment (pdf)",
+        "health risk assessment",
+        "appendix g2"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_g3",
+        "sha256": "2f06933b506dd55e30cc965422b7a3dd55fb9dc6b0416a8bed651864bc147e97",
+        "byte_size": 84721934,
+        "pdf_page_count": 6104
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix g3 - mitigated air quality and health risk calculations",
+        "appendix g3 - mitigated air quality and health risk calculations (pdf)",
+        "mitigated air quality and health risk calculations",
+        "appendix g3"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_h",
+        "sha256": "72b649f0a4c9798952aa62b5c417b4fa4437c19267a4bec6c6fb3319fb0baea7",
+        "byte_size": 9395481,
+        "pdf_page_count": 2572
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix h - greenhouse gas emissions technical report",
+        "appendix h - greenhouse gas emissions technical report (pdf)",
+        "greenhouse gas emissions technical report",
+        "appendix h"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_i",
+        "sha256": "3e924410e0c009aa9188174693418893033c1fec426c689ec77dc9b9f766c810",
+        "byte_size": 5531470,
+        "pdf_page_count": 2408
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix i - energy resources technical report",
+        "appendix i - energy resources technical report (pdf)",
+        "energy resources technical report",
+        "appendix i"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_j",
+        "sha256": "94bc63d0cfff952ae382094a6e2c05b725a03a4909da61ac551b0aaf265f5d00",
+        "byte_size": 5796567,
+        "pdf_page_count": 188
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix j - noise technical report",
+        "appendix j - noise technical report (pdf)",
+        "noise technical report",
+        "appendix j"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k1_part_1_of_4",
+        "sha256": "ac90ffd5047934d8e107fc9f1fa79dfd55f7df6b1690997205b8905d353afd19",
+        "byte_size": 53331351,
+        "pdf_page_count": 732
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k1 - ou-sm rap 1 of 4",
+        "appendix k1 - ou-sm rap 1 of 4 (pdf)",
+        "ou-sm rap 1 of 4",
+        "appendix k1 part 1 of 4"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k1_part_2_of_4",
+        "sha256": "63298b1e1a9105a7ff8f2a80594b36fdd0ea14d3455a41fae35d91296eb5b5ac",
+        "byte_size": 49095779,
+        "pdf_page_count": 1422
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k1 - ou-sm rap 2 of 4",
+        "appendix k1 - ou-sm rap 2 of 4 (pdf)",
+        "ou-sm rap 2 of 4",
+        "appendix k1 part 2 of 4"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k1_part_3_of_4",
+        "sha256": "21dd741bd7c0f90c17af440c4b10865154486a1560197a744750ed5bb18a8f93",
+        "byte_size": 53839734,
+        "pdf_page_count": 2790
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k1 - ou-sm rap 3 of 4",
+        "appendix k1 - ou-sm rap 3 of 4 (pdf)",
+        "ou-sm rap 3 of 4",
+        "appendix k1 part 3 of 4"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k1_part_4_of_4",
+        "sha256": "a2b80c03a69926271d8aa4f6d4ff63d90d4441b0741a395b75eac8dbf615f055",
+        "byte_size": 56647801,
+        "pdf_page_count": 2558
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k1 - ou-sm rap 4 of 4",
+        "appendix k1 - ou-sm rap 4 of 4 (pdf)",
+        "ou-sm rap 4 of 4",
+        "appendix k1 part 4 of 4"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k2_part_1_of_5",
+        "sha256": "4fe642c108185f37cc539ce44658ba610ea1ed4d617e5e91651010207d4860cb",
+        "byte_size": 120467120,
+        "pdf_page_count": 1454
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k2 - ou-2 rap 1 of 5",
+        "appendix k2 - ou-2 rap 1 of 5 (pdf)",
+        "ou-2 rap 1 of 5",
+        "appendix k2 part 1 of 5"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k2_part_2_of_5",
+        "sha256": "6723a013ce1698ca82e312e49008e09fba1f05f2f45085630a08096a5f7145d1",
+        "byte_size": 70207279,
+        "pdf_page_count": 1048
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k2 - ou-2 rap 2 of 5",
+        "appendix k2 - ou-2 rap 2 of 5 (pdf)",
+        "ou-2 rap 2 of 5",
+        "appendix k2 part 2 of 5"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k2_part_3_of_5",
+        "sha256": "8cf4e44bd09d342337157a2c7e806cd72144d1684be3f60b163b8d92a6670dcb",
+        "byte_size": 113583865,
+        "pdf_page_count": 7934
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k2 - ou-2 rap 3 of 5",
+        "appendix k2 - ou-2 rap 3 of 5 (pdf)",
+        "ou-2 rap 3 of 5",
+        "appendix k2 part 3 of 5"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k2_part_4_of_5",
+        "sha256": "9409162457003a2537cc60c75768ebb6c0de059088d7f88eed785fb6608098a4",
+        "byte_size": 121208125,
+        "pdf_page_count": 3882
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k2 - ou-2 rap 4 of 5",
+        "appendix k2 - ou-2 rap 4 of 5 (pdf)",
+        "ou-2 rap 4 of 5",
+        "appendix k2 part 4 of 5"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k2_part_5_of_5",
+        "sha256": "933b3ffae254ebca733b60598d940d9af90b0c7ac4d1526ba831feec3333c125",
+        "byte_size": 43974745,
+        "pdf_page_count": 2328
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k2 - ou-2 rap 5 of 5",
+        "appendix k2 - ou-2 rap 5 of 5 (pdf)",
+        "ou-2 rap 5 of 5",
+        "appendix k2 part 5 of 5"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k3",
+        "sha256": "4fcd75c6ddf6488a96f133aa28cfaf6ee7907e4758c6bef70436f56bdec055ff",
+        "byte_size": 123509420,
+        "pdf_page_count": 1250
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k3 - former brisbane landfill closure plan and post closure maintenance plan",
+        "appendix k3 - former brisbane landfill closure plan and post closure maintenance plan (pdf)",
+        "former brisbane landfill closure plan and post closure maintenance plan",
+        "appendix k3"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k4",
+        "sha256": "e08dccf8018e83be4ea3244b3e7e5d6526463fdf2c7b24ee51946b3186695533",
+        "byte_size": 211076,
+        "pdf_page_count": 4
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k4 - ou-sm approval record",
+        "appendix k4 - ou-sm approval record (pdf)",
+        "ou-sm approval record",
+        "appendix k4"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k5",
+        "sha256": "5e654af2173aa725b24f77396801496f10e9b08b5b7fa2ed6ca9ad33007b96c4",
+        "byte_size": 288975,
+        "pdf_page_count": 10
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k5 - ou-2 approval record",
+        "appendix k5 - ou-2 approval record (pdf)",
+        "ou-2 approval record",
+        "appendix k5"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_k6",
+        "sha256": "bc3749eea2120b2a278477f48e8bc2ed1c0ddeef985fd36aaf08fcd96cccc0ec",
+        "byte_size": 1550021,
+        "pdf_page_count": 20
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix k6 - former brisbane landfill closure plan approval record",
+        "appendix k6 - former brisbane landfill closure plan approval record (pdf)",
+        "former brisbane landfill closure plan approval record",
+        "appendix k6"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_l",
+        "sha256": "d850fae7db9df5d3e06263e37e1fdcf06810f94950957e3eb2028af38c7367bf",
+        "byte_size": 3215969,
+        "pdf_page_count": 36
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix l - sea level rise technical report",
+        "appendix l - sea level rise technical report (pdf)",
+        "sea level rise technical report",
+        "appendix l"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_m1",
+        "sha256": "01a229d4ecd58a9cd6f02231a3292bc0f17d6027628b14416b1c4f45e2c4a94d",
+        "byte_size": 21674563,
+        "pdf_page_count": 246
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix m1 - geotechnical report (western portion of the baylands)",
+        "appendix m1 - geotechnical report (western portion of the baylands) (pdf)",
+        "geotechnical report (western portion of the baylands)",
+        "appendix m1"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_m2",
+        "sha256": "d84c7ac634c2b576218ae4043b752273140ab98579c4db2e9330398238a2d08f",
+        "byte_size": 84060813,
+        "pdf_page_count": 1042
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix m2 - geotechnical report (eastern portion of the baylands)",
+        "appendix m2 - geotechnical report (eastern portion of the baylands) (pdf)",
+        "geotechnical report (eastern portion of the baylands)",
+        "appendix m2"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_m3",
+        "sha256": "27df91b95ac9529d72e99c1719c36fa984d572a42c4e19050a2d80be1f2b4f69",
+        "byte_size": 2366846,
+        "pdf_page_count": 32
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix m3 - paleontological resource report",
+        "appendix m3 - paleontological resource report (pdf)",
+        "paleontological resource report",
+        "appendix m3"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_n1",
+        "sha256": "d81f31687e589abb9df852f2438333d0f828f6094ce77cb748f03e15e289108e",
+        "byte_size": 272074,
+        "pdf_page_count": 8
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix n1 - police protection facilities plan",
+        "appendix n1 - police protection facilities plan (pdf)",
+        "police protection facilities plan",
+        "appendix n1"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_n2",
+        "sha256": "81f71217877831ffb00c74b1d8e1b4dfc7175d0a5ac185df0f626ce08791339d",
+        "byte_size": 1250403,
+        "pdf_page_count": 14
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix n2 - fire protection services plan",
+        "appendix n2 - fire protection services plan (pdf)",
+        "fire protection services plan",
+        "appendix n2"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_o",
+        "sha256": "e478a49820a44f052c7f8064a101a98463d93a98ffd66aa802ceb9fa9ce7a2b6",
+        "byte_size": 20953571,
+        "pdf_page_count": 54
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix o - wind analysis",
+        "appendix o - wind analysis (pdf)",
+        "wind analysis",
+        "appendix o"
+      ]
+    },
+    {
+      "source": {
+        "source_id": "deir_appendix_p",
+        "sha256": "2dfceac46931a946bc343d52b09104b7b58ed8831bc4f49a03f0b8655e4e6ea1",
+        "byte_size": 6528561,
+        "pdf_page_count": 222
+      },
+      "family_root_source_id": "deir_main",
+      "document_role": "top_level_appendix",
+      "parent_source_id": "deir_main",
+      "reference_aliases": [
+        "appendix p - water supply assessment",
+        "appendix p - water supply assessment (pdf)",
+        "water supply assessment",
+        "appendix p"
+      ]
+    }
+  ]
+}

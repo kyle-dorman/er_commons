@@ -23,6 +23,8 @@ def input_inventory_matches_identity(view: HierarchyBundleView) -> None:
         "source_sha256",
         "producer_completion_sha256",
         "producer_inventory_sha256",
+        "conversion_completion_sha256",
+        "conversion_inventory_sha256",
     ):
         require(
             inventory[field_name] == identity[field_name],

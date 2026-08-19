@@ -63,6 +63,7 @@ def _producer_fixture(tmp_path: Path) -> Path:
         "table_id": table_id,
         "physical_pdf_page": 84,
         "page_table_index": 1,
+        "route": "layout_regions",
         "region_id": "layout_001",
         "parser": "camelot_lattice",
         "shape_raw": [3, 3],
@@ -171,6 +172,74 @@ def test_loads_clean_grid_page84_crosswalk_and_exact_family(tmp_path: Path) -> N
     assert zero.raw_object_ref == "#/tables/22"
     assert zero.clean_table_ids == ()
     assert zero.unmapped_reason == "no_clean_table_match"
+
+
+def test_loads_full_page_numeric_table_without_fabricated_region(tmp_path: Path) -> None:
+    producer = _producer_fixture(tmp_path)
+    tables_path = producer / "tables/tables.jsonl"
+    table = json.loads(tables_path.read_text(encoding="utf-8"))
+    table["route"] = "full_page_numeric"
+    table.pop("region_id")
+    _write_jsonl(tables_path, [table])
+    _write_jsonl(
+        producer / "routing/page_routes.jsonl",
+        [{"physical_pdf_page": 84, "layout_table_observations": []}],
+    )
+
+    bundle = load_producer_table_bundle(producer)
+
+    assert bundle.tables[0].region_id is None
+    assert bundle.region_mappings == ()
+
+
+def test_full_page_numeric_route_preserves_unselected_docling_regions(tmp_path: Path) -> None:
+    producer = _producer_fixture(tmp_path)
+    tables_path = producer / "tables/tables.jsonl"
+    table = json.loads(tables_path.read_text(encoding="utf-8"))
+    table["route"] = "full_page_numeric"
+    table.pop("region_id")
+    _write_jsonl(tables_path, [table])
+    routes_path = producer / "routing/page_routes.jsonl"
+    route = json.loads(routes_path.read_text(encoding="utf-8"))
+    route["route"] = "full_page_numeric"
+    _write_jsonl(routes_path, [route])
+    result_path = producer / "tables/pages/page_00084/result.json"
+    result = json.loads(result_path.read_text(encoding="utf-8"))
+    result["parser_evidence"] = {"stream_return_count": 1}
+    result["tables"] = [{"table_id": table["table_id"]}]
+    _write_json(result_path, result)
+
+    bundle = load_producer_table_bundle(producer)
+
+    assert bundle.tables[0].region_id is None
+    assert len(bundle.region_mappings) == 2
+    assert all(mapping.clean_table_ids == () for mapping in bundle.region_mappings)
+    assert all(
+        mapping.unmapped_reason == "full_page_numeric_route" for mapping in bundle.region_mappings
+    )
+
+
+@pytest.mark.parametrize(
+    ("route", "region_id"),
+    [("layout_regions", None), ("full_page_numeric", "layout_001")],
+)
+def test_rejects_region_placement_that_disagrees_with_route(
+    tmp_path: Path,
+    route: str,
+    region_id: str | None,
+) -> None:
+    producer = _producer_fixture(tmp_path)
+    tables_path = producer / "tables/tables.jsonl"
+    table = json.loads(tables_path.read_text(encoding="utf-8"))
+    table["route"] = route
+    if region_id is None:
+        table.pop("region_id")
+    else:
+        table["region_id"] = region_id
+    _write_jsonl(tables_path, [table])
+
+    with pytest.raises(MappingContractError, match="table placement is invalid"):
+        load_producer_table_bundle(producer)
 
 
 def test_rejects_missing_raw_cell_position(tmp_path: Path) -> None:

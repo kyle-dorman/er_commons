@@ -7,6 +7,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from er_commons.artifact_io import assert_contained
+from er_commons.document_parsing.content_parsing.references import (
+    load_document_views,
+    resolve_conversion_input,
+)
+from er_commons.document_records.document_structure.code_inventory import owned_code_paths
 from er_commons.document_records.document_structure.config import (
     DocumentStructureConfig,
     load_document_structure_config,
@@ -20,7 +25,6 @@ from er_commons.document_records.document_structure.inputs import (
 )
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
-PLACEHOLDER_ID = "exv1-" + "0" * 64
 
 
 @dataclass(frozen=True)
@@ -32,7 +36,6 @@ class RuntimeContext:
     config_identity_path: Path
     config: DocumentStructureConfig
     inputs: DocumentStructureInputs
-    construction_inputs: DocumentStructureConstructionInputs
     task_root: Path
     semantic_schema_path: Path
 
@@ -53,23 +56,53 @@ def load_runtime_context(
     inputs = load_document_structure_inputs(
         data_root=data_root, project_root=PROJECT_ROOT, config=config
     )
-    construction_inputs = DocumentStructureConstructionInputs(
-        baseline_candidate_root=inputs.baseline_candidate_root,
-        baseline_producer_root=_producer_document_root(
-            data_root,
-            config.baseline_producer_relative_root,
-            config.baseline_producer_run_id,
-            config.source.source_id,
-        ),
+    return RuntimeContext(
+        data_root=data_root,
+        config_path=config_path.resolve(),
+        config_identity_path=(config_identity_path or config_path).resolve(),
+        config=config,
+        inputs=inputs,
+        task_root=assert_contained(data_root, config.artifact_relative_root.as_posix()),
+        semantic_schema_path=PROJECT_ROOT / config.semantic_schema_relative_path,
+    )
+
+
+def load_construction_inputs(
+    context: RuntimeContext,
+    *,
+    candidate_id: str,
+) -> DocumentStructureConstructionInputs:
+    """Load large document views once, only after a fresh candidate is required."""
+    config = context.config
+    data_root = context.data_root
+    baseline_run_root = _producer_run_root(
+        data_root, config.baseline_producer_relative_root, config.baseline_producer_run_id
+    )
+    hierarchy_run_root = _producer_run_root(
+        data_root, config.hierarchy_producer_relative_root, config.hierarchy_producer_run_id
+    )
+    baseline_conversion = resolve_conversion_input(
+        data_root, baseline_run_root / "records/conversion_input.json"
+    )
+    hierarchy_conversion = resolve_conversion_input(
+        data_root, hierarchy_run_root / "records/conversion_input.json"
+    )
+    baseline_document, hierarchy_document = load_document_views(
+        baseline_conversion,
+        hierarchy_conversion,
+        source_id=config.source.source_id,
+    )
+    return DocumentStructureConstructionInputs(
+        baseline_candidate_root=context.inputs.baseline_candidate_root,
+        baseline_producer_root=_producer_document_root(baseline_run_root, config.source.source_id),
+        baseline_document=baseline_document,
         hierarchy_producer_root=_producer_document_root(
-            data_root,
-            config.hierarchy_producer_relative_root,
-            config.hierarchy_producer_run_id,
-            config.source.source_id,
+            hierarchy_run_root, config.source.source_id
         ),
-        hierarchy_candidate_root=inputs.hierarchy_candidate_root,
+        hierarchy_document=hierarchy_document,
+        hierarchy_candidate_root=context.inputs.hierarchy_candidate_root,
         baseline_candidate_id=config.baseline_candidate_id,
-        candidate_id=PLACEHOLDER_ID,
+        candidate_id=candidate_id,
         baseline_producer_run_id=config.baseline_producer_run_id,
         hierarchy_producer_run_id=config.hierarchy_producer_run_id,
         source_id=config.source.source_id,
@@ -77,16 +110,6 @@ def load_runtime_context(
         expectations=(
             config.expectations if config.control_profile == "task03e2d_bounded" else None
         ),
-    )
-    return RuntimeContext(
-        data_root=data_root,
-        config_path=config_path.resolve(),
-        config_identity_path=(config_identity_path or config_path).resolve(),
-        config=config,
-        inputs=inputs,
-        construction_inputs=construction_inputs,
-        task_root=assert_contained(data_root, config.artifact_relative_root.as_posix()),
-        semantic_schema_path=PROJECT_ROOT / config.semantic_schema_relative_path,
     )
 
 
@@ -109,47 +132,12 @@ def inherited_warnings(inputs: DocumentStructureInputs) -> list[str]:
 
 def owned_runtime_paths(config_path: Path) -> tuple[Path, ...]:
     """Name every checked-in runtime module bound into candidate identity."""
-    runtime_packages = (
-        PROJECT_ROOT / "src" / "er_commons" / "document_records",
-        PROJECT_ROOT / "src" / "er_commons" / "document_parsing",
-    )
-    runtime_paths = {
-        path.resolve() for package in runtime_packages for path in package.rglob("*.py")
-    }
-    runtime_paths.update(
-        path.resolve()
-        for path in (PROJECT_ROOT / "src" / "er_commons" / "source_release").rglob("*.py")
-    )
-    runtime_paths.update(
-        {
-            (PROJECT_ROOT / "src" / "er_commons" / "artifact_io.py").resolve(),
-            (PROJECT_ROOT / "src" / "er_commons" / "settings.py").resolve(),
-            (PROJECT_ROOT / "src" / "er_commons" / "cli.py").resolve(),
-        }
-    )
-    contract_paths = (
-        PROJECT_ROOT / "pyproject.toml",
-        PROJECT_ROOT / "uv.lock",
-        PROJECT_ROOT / "docs" / "specs" / "semantic_structure_v2.md",
-        PROJECT_ROOT
-        / "benchmarks"
-        / "er_bench"
-        / "schemas"
-        / "canonical_extraction"
-        / "v2"
-        / "semantic_structure.schema.json",
-        config_path.resolve(),
-    )
-    return tuple(sorted(runtime_paths)) + contract_paths
+    return owned_code_paths(PROJECT_ROOT, config_path)
 
 
-def _producer_document_root(
-    data_root: Path, relative_root: Path, run_id: str, source_id: str
-) -> Path:
-    return (
-        assert_contained(data_root, relative_root.as_posix())
-        / run_id
-        / "documents"
-        / source_id
-        / "producer"
-    )
+def _producer_run_root(data_root: Path, relative_root: Path, run_id: str) -> Path:
+    return assert_contained(data_root, relative_root.as_posix()) / run_id
+
+
+def _producer_document_root(run_root: Path, source_id: str) -> Path:
+    return run_root / "documents" / source_id / "producer"

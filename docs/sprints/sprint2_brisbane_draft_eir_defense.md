@@ -554,9 +554,22 @@ user-authorized Appendix P attempt exposed stale lineage and candidate-bound
 authorization inputs. Fail-fast lineage validation now runs before attempt
 allocation. After candidate-neutral review, the user approved the exact
 Appendix P rebind; the refreshed hierarchy, semantic, cross-reference, and
-222-page document candidates now verify, including checksum reuse. Task 03G is
-an open umbrella with inactive smoke and pilot subtasks; Task 03H remains
-provisional. The
+222-page document candidates now verify, including checksum reuse. Task 03G
+and its accepted subtasks are closed. Task 03H was activated on 2026-08-18,
+completed its first five-source wave, and was paused during K2 part 5 on 2026-08-19
+after unacceptable full-document time, memory, storage amplification, and
+invalidation behavior. Task 03H.1 completed its source-free Gate B repair and the
+separately approved full K2 hierarchy validation on 2026-08-19: final K2 mapping
+finished in 8.29 minutes, full hierarchy sealed in 17.03 minutes below the 16 GiB
+limit, and the current compact bundles eliminate the former approximately 24 GB raw
+view. Completion-seal reuse is subsecond without reading large semantic payloads, an
+audit-only command retains exact full-byte verification. Gate C completed the
+human-ownership refactor, deterministic identity refresh, all 732 tests, strict mypy
+across 316 source files, and an independent cross-owner recovery review with no P0 or
+P1 finding. The user approved the reviewed scope and closed Task 03H.1 on 2026-08-19.
+Task 03H remains paused pending separate approval to restart from the first ordered
+source under the reviewed run plan;
+corpus execution, collection assembly, and deletion are not Task 03H.1 closure work. The
 numbers below are routing
 labels, not a promise
 that the sprint will contain only these tasks. Split a stage further whenever
@@ -706,8 +719,10 @@ validation boundary.
    Task 03G.1 instead owns a new incomplete POC diagnostic across bounded pages
    from all 35 sources, and Task 03G.2 owns a fresh three-document complete
    pilot. Neither can claim all-source completion. Task 03H alone owns all-35-
-   source complete execution and terminal accounting, and remains provisional
-   until Task 03G and any observed-failure remediation are accepted.
+   source complete execution and terminal accounting. Task 03G and its
+   observed-failure remediation are accepted, and Task 03H was activated by
+   user direction on 2026-08-18; source-PDF and model execution remain behind
+   the task's explicit user check-in.
 3. **Task 04 — Review usability and freeze the accepted extraction release.**
    Validate all source terminal records and machine integrity, then perform
    stratified and risk-triggered QA. Review every failed or skipped document,

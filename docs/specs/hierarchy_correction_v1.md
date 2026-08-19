@@ -6,7 +6,7 @@ or republish producer records, and it does not materialize canonical semantic
 sections.
 
 Task 03F.4 revised only the production measurement/publication boundary: a
-candidate now records one honest `build_wall_time_seconds` value and publishes
+candidate now records one honest `semantic_build_wall_time_seconds` value and publishes
 after direct machine validation. The eight semantic record families and
 content policy are unchanged. Appendix P's bounded authorization remains
 separate source-specific provenance and explicitly denies corpus-wide
@@ -135,9 +135,12 @@ record and must appear in `records/artifact_inventory.json`.
 
 All JSONL files are in increasing `reading_order_index` and then stable-key
 order; roots and edges are likewise ordered. Publication is atomic, no-clobber,
-inventory-sealed, and completion-last. A completed matching candidate is reused
-only after every inventoried checksum verifies. Failed attempts preserve an
-attempt manifest and error but omit completion.
+inventory-sealed, and completion-last. Normal restart lookup verifies the sealed
+completion, inventory, managed path set, file sizes, and small identity/terminal
+records without reopening the multi-gigabyte semantic streams; it assumes published
+candidate files remain immutable. The explicit hierarchy deep-audit command hashes
+every managed byte and is required before collection handoff. Failed attempts preserve
+an attempt manifest and error but omit completion.
 
 The overlay owns its features, reconciliation, decisions, corrected roles and
 levels, and hierarchy. Docling owns raw text, raw roles/levels, pointers,
@@ -386,6 +389,7 @@ Fatal invariant codes are frozen as `INPUT_COMPLETION_INVALID`,
 `MEMBERSHIP_NOT_INVERTIBLE`,
 `PUBLICATION_COLLISION`, and `REPEAT_BUILD_MISMATCH`. Warning and ambiguity
 codes are `TOC_ROW_UNPARSEABLE`, `TOC_TARGET_MISSING`,
+`OUTLINE_CONTAINER_RECOVERED`,
 `TOC_TARGET_AMBIGUOUS`, `TOC_PAGE_CONFLICT`, `TOC_LEVEL_CONFLICT`,
 `TOC_ORDER_CONFLICT`, `NUMBERING_JUMP_UNSUPPORTED`,
 `SIBLING_EVIDENCE_CONFLICT`, `LOCAL_LEVEL_TRANSFER_CONFLICT`, and

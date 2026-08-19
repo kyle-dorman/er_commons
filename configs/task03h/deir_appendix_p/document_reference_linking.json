@@ -1,0 +1,14 @@
+{
+  "upstream_candidate_id": "exv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "upstream_completion_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "upstream_inventory_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "source_id": "deir_appendix_p",
+  "candidate_version_name": "deir_appendix_p_task03h_cross_references_v3",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_records",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "source_manifest_sha256": "fede3e4af815378b77a7f7f54c863ef095328da789859d4f4b25a524f3408f38",
+  "specification_relative_path": "docs/specs/cross_references_v3.md",
+  "schema_relative_path": "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json",
+  "source_family_catalog_relative_path": "pipelines/brisbane_baylands/task_03h/inputs/brisbane_baylands_2025_deir_task03h_source_family_catalog_v1.json",
+  "source_family_catalog_sha256": "dabdc76d765859c59b8e90cc9681f394362dbbb0e4b5683bb073be067cefacff"
+}

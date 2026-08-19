@@ -182,3 +182,14 @@ def test_publication_race_never_overwrites_final_output(tmp_path: Path) -> None:
 
     assert workspace.staging_root.is_dir()
     assert workspace.final_root.is_dir()
+
+
+def test_publication_refuses_workspace_without_completion(tmp_path: Path) -> None:
+    workspace = reserve_workspace(tmp_path, "prv1-example", token="token")
+    (workspace.staging_root / "payload.json").write_text("{}\n")
+
+    with pytest.raises(ValueError, match="no completion record"):
+        publish_workspace(workspace)
+
+    assert workspace.staging_root.is_dir()
+    assert not workspace.final_root.exists()

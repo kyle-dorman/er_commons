@@ -47,6 +47,7 @@ FATAL_CODES = frozenset(
         "PUBLICATION_COLLISION",
         "QUALITY_GATE_REJECTED",
         "REPEAT_BUILD_MISMATCH",
+        "RUN_INTERRUPTED",
     }
 )
 

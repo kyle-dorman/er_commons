@@ -9,14 +9,17 @@ from typing import cast
 
 import pytest
 
-from er_commons.document_records.document_structure import parser_evidence
+from er_commons.document_records.document_structure import replacement_evidence
 from er_commons.document_records.record_mapping.assets import AssetCatalog
 from er_commons.document_records.record_mapping.candidate import canonicalization_warnings
 from er_commons.document_records.record_mapping.context import RecordMappingContext
 from er_commons.document_records.record_mapping.errors import MappingContractError
 from er_commons.document_records.record_mapping.inputs import RecordMappingInputs
 from er_commons.document_records.record_mapping.record_sets import MaterializationReport
-from er_commons.document_records.record_mapping.support_records import _table_stage_observations
+from er_commons.document_records.record_mapping.support_records import (
+    _conversion_observations,
+    _table_stage_observations,
+)
 from er_commons.document_records.record_mapping.table_projection import (
     DOCUMENT_INDEX_UNMAPPED_REASON,
     project_canonical_table_bundle,
@@ -133,6 +136,29 @@ def test_projection_is_deterministic() -> None:
     assert first == second
 
 
+def test_projection_retains_regionless_full_page_table_without_region_mapping() -> None:
+    full_page = replace(
+        _table("full_page", "full_page_family", 3),
+        region_id=None,
+        parser="camelot_stream",
+    )
+    bundle = ProducerTableBundle(
+        tables=(full_page,),
+        families=(
+            ProducerTableFamily(
+                family_id="full_page_family",
+                table_ids=("full_page",),
+                evidence=("singleton",),
+            ),
+        ),
+        region_mappings=(),
+    )
+
+    projected = project_canonical_table_bundle(_document(), bundle)
+
+    assert projected == bundle
+
+
 def test_projected_traversal_emits_index_text_and_replaces_only_ordinary_table() -> None:
     document = {
         "pages": {"1": {"size": {"width": 100.0, "height": 100.0}}},
@@ -210,14 +236,58 @@ def test_projected_document_index_diagnostics_explain_text_preservation() -> Non
     inputs = cast(
         RecordMappingInputs,
         SimpleNamespace(
-            conversion_observation_record=SimpleNamespace(captured_python_warnings=[]),
+            conversion_observation_record=SimpleNamespace(
+                source_manifest_warnings=["source repair"],
+                captured_python_warnings=[],
+            ),
         ),
     )
     report = cast(MaterializationReport, SimpleNamespace(invalid_provenance=()))
     warnings = canonicalization_warnings(inputs, projected, report)
 
     assert "document index preserved as text: #/tables/0 provenance 0" in warnings
+    assert "source repair" in warnings
     assert "zero table mapping: #/tables/0 provenance 0" not in warnings
+
+
+def test_conversion_observation_preserves_source_manifest_warnings() -> None:
+    context = cast(
+        RecordMappingContext,
+        SimpleNamespace(
+            extraction_id=f"exv1-{'a' * 64}",
+            source_id="deir_appendix_c",
+            document_id="document-1",
+        ),
+    )
+    inputs = cast(
+        RecordMappingInputs,
+        SimpleNamespace(
+            conversion_runtime={
+                "pipeline_class": "pipeline",
+                "backend_class": "backend",
+            },
+            producer_identity={
+                "identity": {"runtime": {"pipeline_class": "pipeline", "backend_class": "backend"}}
+            },
+            conversion_observation_record=SimpleNamespace(
+                status="complete_with_warnings",
+                errors=[],
+                source_manifest_warnings=["source repair"],
+                captured_python_warnings=[],
+            ),
+        ),
+    )
+    assets = cast(AssetCatalog, SimpleNamespace(raw_docling_asset_id="raw-docling-asset"))
+
+    observations, _observation_id = _conversion_observations(
+        context=context,
+        inputs=inputs,
+        assets=assets,
+        page_count=86,
+    )
+
+    assert observations[0]["status"] == "complete_with_warnings"
+    assert observations[0]["warnings"] == ["source repair"]
 
 
 def test_rejects_mixed_document_index_and_ordinary_family() -> None:
@@ -300,9 +370,9 @@ def test_semantic_replacement_dispositions_use_projected_table_view(
         "groups": [],
         "pictures": [],
     }
-    monkeypatch.setattr(parser_evidence, "load_producer_table_bundle", lambda _root: _bundle())
+    monkeypatch.setattr(replacement_evidence, "load_producer_table_bundle", lambda _root: _bundle())
 
-    dispositions = parser_evidence.replacement_dispositions(
+    dispositions = replacement_evidence.replacement_dispositions(
         baseline_document=document,
         producer_root=tmp_path,
         key_by_pointer={

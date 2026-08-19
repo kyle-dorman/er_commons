@@ -448,11 +448,7 @@
       "required": [
         "row_index",
         "column_index",
-        "producer_row_index",
-        "producer_column_index",
-        "producer_normalized_text",
-        "canonical_text",
-        "region"
+        "text"
       ],
       "properties": {
         "row_index": {"type": "integer", "minimum": 0},
@@ -461,11 +457,7 @@
         "end_column_offset_idx": {"type": "integer", "minimum": 1},
         "row_span": {"type": "integer", "minimum": 1},
         "column_span": {"type": "integer", "minimum": 1},
-        "producer_row_index": {"type": ["integer", "null"], "minimum": 0},
-        "producer_column_index": {"type": ["integer", "null"], "minimum": 0},
-        "producer_normalized_text": {"type": "string"},
-        "canonical_text": {"type": "string"},
-        "region": {"$ref": "#/$defs/region"}
+        "text": {"type": "string"}
       },
       "additionalProperties": false
     },
@@ -1504,8 +1496,7 @@
         "cross_references",
         "routing_observations",
         "table_stage_observations",
-        "conversion_observations",
-        "raw_mappings"
+        "conversion_observations"
       ],
       "properties": {
         "identity": {"$ref": "#/$defs/extraction_identity"},
@@ -1561,10 +1552,6 @@
         "conversion_observations": {
           "type": "array",
           "items": {"$ref": "#/$defs/conversion_observation"}
-        },
-        "raw_mappings": {
-          "type": "array",
-          "items": {"$ref": "#/$defs/raw_mapping"}
         }
       },
       "additionalProperties": false

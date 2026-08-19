@@ -8,7 +8,6 @@ from er_commons.document_records.document_structure.errors import StructureContr
 from er_commons.document_records.document_structure.handoff import verify_bounded_hierarchy_control
 from er_commons.document_records.document_structure.identity import (
     build_document_structure_identity,
-    normalized_bridge_preimage_sha256,
 )
 from er_commons.document_records.document_structure.inputs import (
     DocumentStructureInputs,
@@ -17,6 +16,9 @@ from er_commons.document_records.document_structure.inputs import (
 from er_commons.document_records.document_structure.normalization import normalize_alias
 from er_commons.document_records.document_structure.policies.bridge import (
     BridgeSourceEvidence,
+)
+from er_commons.document_records.document_structure.publication import (
+    deep_audit_completed_document_structure,
 )
 from er_commons.document_records.document_structure.validation import (
     validate_document_structure_contract,
@@ -29,11 +31,11 @@ __all__ = [
     "DocumentStructureConfig",
     "DocumentStructureInputs",
     "build_document_structure_identity",
+    "deep_audit_completed_document_structure",
     "load_document_structure_config",
     "load_document_structure_inputs",
     "map_document_structure",
     "normalize_alias",
-    "normalized_bridge_preimage_sha256",
     "validate_document_structure_contract",
     "verify_bounded_hierarchy_control",
 ]

@@ -10,11 +10,13 @@ from typing import Any, Literal
 
 from pydantic import Field, model_validator
 
-from er_commons.hierarchy_inference.candidate_records import stable_json_bytes
+from er_commons.hierarchy_inference.candidate_storage import stable_json_bytes
 from er_commons.hierarchy_inference.config import StrictConfigModel
 from er_commons.hierarchy_inference.digests import canonical_json_sha256
 from er_commons.hierarchy_inference.publication_authorization import (
     SEMANTIC_PATHS,
+    VerifiedPublicationAuthorization,
+    _mark_verified_authorization,
     candidate_semantic_sha256,
 )
 
@@ -152,15 +154,19 @@ class CandidateIdentityBinding(StrictConfigModel):
 
     candidate_id: str = Field(pattern=r"^hcorv1-[0-9a-f]{64}$")
     producer_run_id: str = Field(pattern=r"^prv1-[0-9a-f]{64}$")
+    source_id: str | None = Field(default=None, pattern=r"^[a-z0-9][a-z0-9_]*$")
     source_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     source_manifest_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     producer_completion_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     producer_inventory_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    conversion_completion_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    conversion_inventory_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     policy_version: Literal["1.0.0"]
     policy_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     config_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     schema_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     code_bundle_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    runtime_lock_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
 class CandidateBinding(StrictConfigModel):
@@ -204,7 +210,7 @@ class VerifiedBoundedAcceptancePolicy:
 
 
 @dataclass(frozen=True)
-class VerifiedBoundedAcceptance:
+class VerifiedBoundedAcceptance(VerifiedPublicationAuthorization):
     """Opaque candidate-bound proof accepted by the publication seam."""
 
     path: Path
@@ -416,4 +422,6 @@ def verify_bounded_acceptance(
         or counts != policy.config.expected_counts
     ):
         raise ValueError("bounded-acceptance candidate binding differs")
-    return VerifiedBoundedAcceptance(path, candidate_id, semantic_digest, frozen_digest)
+    authorization = VerifiedBoundedAcceptance(path, candidate_id, semantic_digest, frozen_digest)
+    _mark_verified_authorization(authorization)
+    return authorization

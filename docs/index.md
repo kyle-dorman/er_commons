@@ -273,9 +273,9 @@ scope `scopev1-c52b...beb6a8`, resolved 18/18 eligible mentions, validated the
 ready handoff and report independently, proved exact reuse, and preserved all
 forbidden attempt inventories. Task 03G.2 and Task 03G.2f are closed. No
 historical Appendix P producer, candidate, or bounded authorization entered
-the replay. Active [Task
-03G.3](../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md) has
-completed the Gate B behavioral MVP and offline validation. Maintained code now follows
+the replay. Completed [Task
+03G.3](../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md)
+aligned the maintained code with the accepted responsibility DAG. Maintained code follows
 the accepted document/collection responsibility DAG; public commands use
 `documents` and `collections`; strict v2 workflow contracts cannot accept v1 keys;
 and machine reporting is separate from human review support. All 270 frozen Task
@@ -285,7 +285,30 @@ validated: current execution uses native v2 records/identities, application shel
 runtime seams are responsibility-owned and typed, recovery diagnostics name corrupt
 evidence, and behavior-focused gates pass all 595 tests plus strict mypy across 287
 source files. The user accepted the human-maintainability result and closed Task
-03G.3 on 2026-08-18. Task 03H remains provisional and is not activated.
+03G.3 on 2026-08-18. Active [Task
+03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was activated on
+2026-08-18 and is now paused. The first five-source wave is complete, and K2 part 5
+sealed both memory-safe Docling conversions and derived table producers. Later K2
+work exposed a 24 GB raw view, physical duplication, a 31.3-minute mapping stage, a
+94.7-minute hierarchy failure, a separate 93.8-minute producer rebuild after
+unrelated identity churn, and a quadratic-like heading-alignment scan. Active [Task
+03H.1](../tasks/sprint2/03h1_profile_and_repair_full_document_scaling.md) has completed
+Gate B implementation and K2 validation plus the Gate C human-ownership refactor,
+deterministic identity refresh, full repository validation, and independent
+cross-owner recovery review. The user approved the reviewed scope and closed Task
+03H.1 on 2026-08-19. The
+JSON-first MVP replaces the 22.51 GB replay record with a 26.31 MB page-alignment
+stream, uses one base document plus a 470 KB heading overlay, and uses closed
+references instead of raw-payload copies. Final K2 mapping completed in 8.29 minutes.
+The full K2 hierarchy sealed in 17.03 minutes at 14.73 GB peak RSS and occupies 3.6
+GiB instead of the former approximately 24 GB view. Ordinary completion-seal reuse is
+subsecond without opening semantic payloads; an audit-only command retains exact
+full-byte verification. Ruff, strict mypy across 316 source files, all 732 tests,
+deterministic generation, and `git diff --check` pass. No additional source processing,
+collection assembly, deletion, or Docling rerun is required to close Task 03H.1.
+Task 03H remains paused pending separate user approval to restart from the first
+ordered source under the reviewed run plan; it does not continue a historical
+remaining-source queue.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

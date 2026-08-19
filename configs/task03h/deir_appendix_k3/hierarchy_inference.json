@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "pipeline_id": "brisbane_baylands_2025_deir_task03h_deir_appendix_k3_hierarchy_v1",
+  "publication_authorization": "machine_validation",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "source": {
+    "source_id": "deir_appendix_k3",
+    "official_title": "Appendix K3 - Former Brisbane Landfill Closure Plan and Post Closure Maintenance Plan (PDF)",
+    "expected_sha256": "4fcd75c6ddf6488a96f133aa28cfaf6ee7907e4758c6bef70436f56bdec055ff",
+    "expected_byte_size": 123509420,
+    "expected_pdf_page_count": 1250
+  },
+  "producer_artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_parse_evidence",
+  "producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/hierarchy_inference",
+  "policy_relative_path": "docs/specs/hierarchy_correction_v1.md",
+  "schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
+  "bounded_acceptance_config_relative_path": null,
+  "bounded_acceptance_artifact_relative_root": null
+}

@@ -9,25 +9,26 @@ from er_commons.document_records.record_mapping.layout import RECORD_TYPES
 
 EXTRACTION_ID_PATTERN = re.compile(r"^exv1-[0-9a-f]{64}$")
 SOURCE_ID_PATTERN = re.compile(r"^[a-z0-9][a-z0-9_]*$")
+ORDINAL_PATTERN = r"[0-9]{6,}"
 
 # Explicit prefixes make IDs recognizable when they appear outside their
 # containing JSONL file. Document IDs are the one exception: their local key is
 # the frozen source ID itself.
 LOCAL_KEY_PATTERNS = {
     "document": re.compile(r"^[a-z0-9][a-z0-9_]*$"),
-    "page": re.compile(r"^p[0-9]{6}$"),
-    "section": re.compile(r"^sec[0-9]{6}$"),
-    "block": re.compile(r"^blk[0-9]{6}$"),
-    "table": re.compile(r"^tbl[0-9]{6}$"),
-    "table-family": re.compile(r"^fam[0-9]{6}$"),
-    "figure": re.compile(r"^fig[0-9]{6}$"),
-    "image": re.compile(r"^img[0-9]{6}$"),
-    "asset": re.compile(r"^[a-z0-9][a-z0-9_-]*/ast[0-9]{6}$"),
-    "cross-reference": re.compile(r"^xref[0-9]{6}$"),
-    "routing-observation": re.compile(r"^route-p[0-9]{6}$"),
-    "table-stage-observation": re.compile(r"^stage-p[0-9]{6}-o[0-9]{6}$"),
-    "conversion-observation": re.compile(r"^conv[0-9]{6}$"),
-    "raw-mapping": re.compile(r"^map[0-9]{6}$"),
+    "page": re.compile(rf"^p{ORDINAL_PATTERN}$"),
+    "section": re.compile(rf"^sec{ORDINAL_PATTERN}$"),
+    "block": re.compile(rf"^blk{ORDINAL_PATTERN}$"),
+    "table": re.compile(rf"^tbl{ORDINAL_PATTERN}$"),
+    "table-family": re.compile(rf"^fam{ORDINAL_PATTERN}$"),
+    "figure": re.compile(rf"^fig{ORDINAL_PATTERN}$"),
+    "image": re.compile(rf"^img{ORDINAL_PATTERN}$"),
+    "asset": re.compile(rf"^[a-z0-9][a-z0-9_-]*/ast{ORDINAL_PATTERN}$"),
+    "cross-reference": re.compile(rf"^xref{ORDINAL_PATTERN}$"),
+    "routing-observation": re.compile(rf"^route-p{ORDINAL_PATTERN}$"),
+    "table-stage-observation": re.compile(rf"^stage-p{ORDINAL_PATTERN}-o{ORDINAL_PATTERN}$"),
+    "conversion-observation": re.compile(rf"^conv{ORDINAL_PATTERN}$"),
+    "raw-mapping": re.compile(rf"^map{ORDINAL_PATTERN}$"),
 }
 
 

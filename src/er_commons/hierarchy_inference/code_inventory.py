@@ -6,9 +6,17 @@ from pathlib import Path
 
 OWNED_CODE_RELATIVE_PATHS = (
     "pyproject.toml",
+    "src/er_commons/artifact_io.py",
     "src/er_commons/cli.py",
+    "src/er_commons/document_parsing/content_parsing/config.py",
+    "src/er_commons/document_parsing/content_parsing/evidence.py",
+    "src/er_commons/document_parsing/content_parsing/records.py",
+    "src/er_commons/document_parsing/content_parsing/references.py",
+    "src/er_commons/document_parsing/content_parsing/sources.py",
+    "src/er_commons/document_parsing/heading_evidence_parsing/alignment_projection.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/document.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/errors.py",
+    "src/er_commons/document_parsing/heading_evidence_parsing/heading_overlay.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/pdf_observations.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/source_features.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/text_evidence.py",
@@ -20,9 +28,11 @@ OWNED_CODE_RELATIVE_PATHS = (
     "src/er_commons/hierarchy_inference/candidate_identity.py",
     "src/er_commons/hierarchy_inference/candidate_publication.py",
     "src/er_commons/hierarchy_inference/candidate_records.py",
+    "src/er_commons/hierarchy_inference/candidate_storage.py",
+    "src/er_commons/hierarchy_inference/candidate_verification.py",
     "src/er_commons/hierarchy_inference/checks.py",
     "src/er_commons/hierarchy_inference/code_inventory.py",
-    "src/er_commons/hierarchy_inference/configuration.py",
+    "src/er_commons/hierarchy_inference/config.py",
     "src/er_commons/hierarchy_inference/constants.py",
     "src/er_commons/hierarchy_inference/correction_policy.py",
     "src/er_commons/hierarchy_inference/decisions.py",
@@ -36,6 +46,8 @@ OWNED_CODE_RELATIVE_PATHS = (
     "src/er_commons/hierarchy_inference/level_evidence.py",
     "src/er_commons/hierarchy_inference/numbering_scopes.py",
     "src/er_commons/hierarchy_inference/preflight.py",
+    "src/er_commons/hierarchy_inference/progress.py",
+    "src/er_commons/hierarchy_inference/record_schema.py",
     "src/er_commons/hierarchy_inference/publication.py",
     "src/er_commons/hierarchy_inference/publication_authorization.py",
     "src/er_commons/hierarchy_inference/regimes.py",
@@ -52,6 +64,7 @@ OWNED_CODE_RELATIVE_PATHS = (
     "src/er_commons/hierarchy_inference/toc_rows.py",
     "src/er_commons/hierarchy_inference/toc_text.py",
     "src/er_commons/hierarchy_inference/validation.py",
+    "src/er_commons/source_release/models.py",
 )
 
 

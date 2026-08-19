@@ -3,11 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
 
-from er_commons.document_records.document_structure.construction import (
-    build_document_structure_records,
-)
 from er_commons.document_records.document_structure.errors import (
     DocumentStructureInvariantError,
 )
@@ -19,12 +15,10 @@ from er_commons.document_records.document_structure.lifecycle import (
     reuse_completed_candidate,
 )
 from er_commons.document_records.document_structure.runtime import (
-    PLACEHOLDER_ID,
     RuntimeContext,
     load_runtime_context,
     owned_runtime_paths,
 )
-from er_commons.document_records.document_structure.support import build_candidate_support
 
 
 def map_document_structure(
@@ -39,7 +33,13 @@ def map_document_structure(
         config_path=config_path,
         config_identity_path=config_identity_path,
     )
-    identity = _candidate_identity(context)
+    identity = build_document_structure_identity(
+        project_root=context.project_root,
+        config_path=context.config_identity_path,
+        config=context.config,
+        inputs=context.inputs,
+        owned_paths=owned_runtime_paths(context.config_identity_path),
+    )
     candidate_id = identity["extraction_id"]
     _require_new_candidate_id(context, candidate_id)
     candidate_root = context.task_root / candidate_id
@@ -52,28 +52,6 @@ def map_document_structure(
     )
 
 
-def _candidate_identity(context: RuntimeContext) -> dict[str, Any]:
-    """Derive identity from the candidate-ID-independent placeholder projection."""
-    build = build_document_structure_records(context.construction_inputs)
-    support = build_candidate_support(
-        baseline_root=context.inputs.baseline_candidate_root,
-        build=build,
-        baseline_candidate_id=context.config.baseline_candidate_id,
-        candidate_id=PLACEHOLDER_ID,
-        control=context.inputs.control_provenance,
-        expectations=context.construction_inputs.expectations,
-    )
-    return build_document_structure_identity(
-        project_root=context.project_root,
-        config_path=context.config_identity_path,
-        config=context.config,
-        inputs=context.inputs,
-        bridge_entries=build.bridge_entries,
-        support_preimages=support.payloads,
-        owned_paths=owned_runtime_paths(context.config_identity_path),
-    )
-
-
 def _require_new_candidate_id(context: RuntimeContext, candidate_id: str) -> None:
     if candidate_id == context.config.baseline_candidate_id:
         raise DocumentStructureInvariantError(
@@ -81,5 +59,5 @@ def _require_new_candidate_id(context: RuntimeContext, candidate_id: str) -> Non
             invariant="semantic candidate differs from the Task 03D.1 baseline",
             expected="new extraction ID",
             observed=candidate_id,
-            subject="Appendix P candidate",
+            subject=f"{context.config.source.source_id} candidate",
         )

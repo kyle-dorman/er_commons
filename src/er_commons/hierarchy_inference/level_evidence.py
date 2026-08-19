@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from bisect import bisect_left
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -10,12 +11,20 @@ JsonRecord = dict[str, Any]
 
 
 @dataclass(frozen=True)
+class LevelTransfer:
+    """One local heading's proposed absolute level and supporting detail."""
+
+    level: int | None
+    detail: str
+
+
+@dataclass(frozen=True)
 class LevelEvidence:
     """Precomputed absolute levels and R07 transfer proposals."""
 
     numbering_levels: dict[str, int]
     supported_levels: dict[str, int]
-    transfers: dict[str, tuple[int | None, str]]
+    transfers: dict[str, LevelTransfer]
 
 
 def derive_level_evidence(
@@ -98,36 +107,44 @@ def _numbering_level(
 
 def _local_level_transfers(
     features: Sequence[Mapping[str, Any]], supported: dict[str, int]
-) -> dict[str, tuple[int | None, str]]:
-    transfers: dict[str, tuple[int | None, str]] = {}
+) -> dict[str, LevelTransfer]:
+    supported_positions = [
+        index for index, item in enumerate(features) if item["stable_item_key"] in supported
+    ]
+    candidate_pairs: list[tuple[int, int]] = []
+    seen_pairs: set[tuple[int, int]] = set()
     for index, feature in enumerate(features):
         if feature["raw_role"] != "section_header" or feature["numbering_kind"] != "none":
             continue
-        earlier_index = next(
-            (
-                cursor
-                for cursor in range(index - 1, -1, -1)
-                if features[cursor]["stable_item_key"] in supported
-            ),
-            None,
-        )
-        if earlier_index is None:
-            continue
-        earlier = features[earlier_index]
-        earlier_level = supported[earlier["stable_item_key"]]
         raw_level = feature["raw_level"]
+        cursor = bisect_left(supported_positions, index)
+        if cursor == 0:
+            continue
+        earlier_index = supported_positions[cursor - 1]
+        earlier_level = supported[features[earlier_index]["stable_item_key"]]
         unsupported = not isinstance(raw_level, int) or not 1 <= raw_level <= 6
         unsupported = unsupported or raw_level > earlier_level + 1
         if not unsupported:
             continue
-        later_index = next(
-            (
-                cursor
-                for cursor in range(index + 1, len(features))
-                if features[cursor]["stable_item_key"] in supported
-            ),
-            len(features),
+        later_cursor = (
+            cursor + 1
+            if (cursor < len(supported_positions) and supported_positions[cursor] == index)
+            else cursor
         )
+        later_index = (
+            supported_positions[later_cursor]
+            if later_cursor < len(supported_positions)
+            else len(features)
+        )
+        pair = (earlier_index, later_index)
+        if pair not in seen_pairs:
+            seen_pairs.add(pair)
+            candidate_pairs.append(pair)
+
+    transfers: dict[str, LevelTransfer] = {}
+    for earlier_index, later_index in candidate_pairs:
+        earlier = features[earlier_index]
+        earlier_level = supported[earlier["stable_item_key"]]
         cluster = [
             item
             for item in features[earlier_index + 1 : later_index]
@@ -149,5 +166,5 @@ def _local_level_transfers(
                 transferred = later_level
                 detail = "local heading level transferred from bounding supported headings"
         for item in cluster:
-            transfers[item["stable_item_key"]] = (transferred, detail)
+            transfers[item["stable_item_key"]] = LevelTransfer(transferred, detail)
     return transfers

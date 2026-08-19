@@ -83,7 +83,9 @@ def project_canonical_table_bundle(
     remaining_mapping_ids = {
         table_id for mapping in projected_mappings for table_id in mapping.clean_table_ids
     }
-    remaining_table_ids = {table.table_id for table in projected_tables}
+    remaining_table_ids = {
+        table.table_id for table in projected_tables if table.region_id is not None
+    }
     if remaining_mapping_ids != remaining_table_ids:
         raise MappingContractError(
             "canonical table projection does not exactly cover retained tables: "

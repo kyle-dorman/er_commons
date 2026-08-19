@@ -12,18 +12,12 @@ import rfc8785
 
 from er_commons.artifact_io import sha256_file
 from er_commons.document_parsing.content_parsing.config import ContentParsingConfig
-from er_commons.document_parsing.content_parsing.runtime import ModelInventory, configuration_record
 from er_commons.document_parsing.content_parsing.sources import CompleteResolvedSource
 
 PACKAGE_NAMES = (
-    "docling",
-    "docling-core",
-    "docling-parse",
-    "docling-ibm-models",
     "pypdfium2",
     "camelot-py",
     "opencv-python-headless",
-    "torch",
 )
 
 
@@ -40,38 +34,32 @@ def canonical_json_sha256(payload: Any) -> str:
     return hashlib.sha256(rfc8785.dumps(payload)).hexdigest()
 
 
-def runtime_identity(
-    config: ContentParsingConfig,
-    options: Any,
-    format_option: Any,
-) -> dict[str, Any]:
-    """Record effective options while replacing the local absolute model path."""
-    record = configuration_record(config.configuration_id, options, format_option)
-    effective = dict(record["effective_options"])
-    effective["artifacts_path"] = (
-        config.model_inventory_relative_path.parent / "models"
-    ).as_posix()
-    record["effective_options"] = effective
-    record["invocation_limits"] = {
-        "page_range": [1, config.source.expected_pdf_page_count],
-        "max_num_pages": config.source.expected_pdf_page_count,
-        "max_file_size": config.source.expected_byte_size,
-        "document_timeout_seconds": config.document_timeout_seconds,
-    }
-    return record
-
-
 def parsing_code_paths(repo_root: Path) -> list[Path]:
-    """List every tracked-code surface that can change parsing behavior."""
-    parsing_code = sorted((repo_root / "src/er_commons/document_parsing").rglob("*.py"))
-    source_release_code = sorted((repo_root / "src/er_commons/source_release").rglob("*.py"))
+    """List only routing/table owner code that can change producer bytes."""
+    content = repo_root / "src/er_commons/document_parsing/content_parsing"
+    tables = repo_root / "src/er_commons/document_parsing/table_reconstruction"
+    content_names = (
+        "application.py",
+        "config.py",
+        "derived_publication.py",
+        "evidence.py",
+        "identity.py",
+        "preparation.py",
+        "publication.py",
+        "records.py",
+        "routing.py",
+        "routing_execution.py",
+        "routing_geometry.py",
+        "services.py",
+        "sources.py",
+        "table_markers.py",
+        "table_processing.py",
+        "table_request.py",
+    )
     candidates = [
-        *parsing_code,
-        *source_release_code,
+        *(content / name for name in content_names),
+        *sorted(tables.rglob("*.py")),
         repo_root / "src/er_commons/artifact_io.py",
-        repo_root / "src/er_commons/cli.py",
-        repo_root / "pyproject.toml",
-        repo_root / "uv.lock",
     ]
     return [path for path in candidates if path.is_file()]
 
@@ -91,28 +79,37 @@ def code_identity(paths: list[Path], *, repo_root: Path) -> dict[str, Any]:
     }
 
 
+def routing_table_policy(config: ContentParsingConfig) -> dict[str, Any]:
+    """Project one combined config onto only shared routing/table behavior."""
+    return {
+        "strict_table_dominant_thresholds": config.strict_table_dominant_thresholds.model_dump(
+            mode="json"
+        ),
+        "numeric_table_bearing_thresholds": config.numeric_table_bearing_thresholds.model_dump(
+            mode="json"
+        ),
+        "table_detection": config.table_detection.model_dump(mode="json"),
+        "table_cleanup": config.table_cleanup.model_dump(mode="json"),
+        "learned_table_fallback": config.learned_table_fallback.model_dump(mode="json"),
+    }
+
+
 def build_content_parsing_identity(
     *,
     config: ContentParsingConfig,
     source: CompleteResolvedSource,
     source_manifest_path: Path,
     source_completion_path: Path,
-    model_inventory_path: Path,
-    model_inventory: ModelInventory,
-    runtime: dict[str, Any],
     table_environment: dict[str, Any],
     project_code: dict[str, Any],
+    conversion_id: str,
 ) -> ContentParsingIdentity:
     """Bind source, policy, runtime, models, packages, and code into one ID."""
-    configuration_policy = config.model_dump(
-        mode="json",
-        exclude={"artifact_relative_root"},
-    )
-    if config.heading_hierarchy_options is None:
-        configuration_policy.pop("heading_hierarchy_options")
+    configuration_policy = routing_table_policy(config)
     payload = {
-        "identity_schema_version": "task03c-producer-identity-v1",
-        "producer_policy_version": config.producer_policy_version,
+        "identity_schema_version": "er_commons.routing_table_identity.v2",
+        "docling_conversion_id": conversion_id,
+        "routing_table_contract_version": "er_commons.routing_table_bundle.v1",
         "configuration_policy": configuration_policy,
         "source": {
             "source_id": source.source_id,
@@ -128,12 +125,6 @@ def build_content_parsing_identity(
                 config.source_manifest_relative_path.parent / "completion_record.json"
             ).as_posix(),
             "completion_record_sha256": sha256_file(source_completion_path),
-        },
-        "runtime": runtime,
-        "model_inventory": {
-            "path": config.model_inventory_relative_path.as_posix(),
-            "sha256": sha256_file(model_inventory_path),
-            "models": model_inventory.model_dump(mode="json")["models"],
         },
         "routing_sha256": canonical_json_sha256(
             {

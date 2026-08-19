@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from er_commons.hierarchy_inference.digests import canonical_json_sha256
 
@@ -21,6 +21,38 @@ SEMANTIC_PATHS = (
 )
 
 
+class VerifiedPublicationAuthorization:
+    """Nominal candidate and semantic binding accepted by the publication seam."""
+
+    __slots__ = ("_publication_authorization_marker",)
+
+    candidate_id: str
+    candidate_semantic_sha256: str
+
+
+_PUBLICATION_AUTHORIZATION_MARKER = object()
+
+
+def _mark_verified_authorization(
+    authorization: VerifiedPublicationAuthorization,
+) -> None:
+    """Mark a nominal authorization created by an owning verifier."""
+    object.__setattr__(
+        authorization,
+        "_publication_authorization_marker",
+        _PUBLICATION_AUTHORIZATION_MARKER,
+    )
+
+
+def is_verified_publication_authorization(value: object) -> bool:
+    """Reject nominal or structural lookalikes not produced by an owning verifier."""
+    return (
+        isinstance(value, VerifiedPublicationAuthorization)
+        and getattr(value, "_publication_authorization_marker", None)
+        is _PUBLICATION_AUTHORIZATION_MARKER
+    )
+
+
 def candidate_semantic_sha256(candidate_root: Path) -> str:
     """Hash exact semantic file checksums under the accepted digest contract."""
     records: list[dict[str, str]] = []
@@ -31,32 +63,51 @@ def candidate_semantic_sha256(candidate_root: Path) -> str:
         records.append(
             {
                 "path": relative,
-                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "sha256": _sha256_file(path),
             }
         )
     return canonical_json_sha256({"semantic_files": records})
 
 
-@dataclass(frozen=True)
-class VerifiedMachinePublication:
+def candidate_semantic_sha256_from_inventory(inventory: dict[str, Any]) -> str:
+    """Derive the semantic digest from an already completion-sealed inventory."""
+    by_path = {item["path"]: item for item in inventory["files"]}
+    if not all(relative in by_path for relative in SEMANTIC_PATHS):
+        raise ValueError("candidate inventory omits semantic files")
+    records = [
+        {"path": relative, "sha256": by_path[relative]["sha256"]} for relative in SEMANTIC_PATHS
+    ]
+    return canonical_json_sha256({"semantic_files": records})
+
+
+def _sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
+    """Hash one semantic file without allocating its complete byte content."""
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        while chunk := stream.read(chunk_size):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+@dataclass(frozen=True, init=False)
+class VerifiedMachinePublication(VerifiedPublicationAuthorization):
     """Opaque binding created after active schema and cross-record validation."""
 
     candidate_id: str
     candidate_semantic_sha256: str
 
 
-def authorize_validated_candidate(
-    candidate_root: Path,
+def _machine_authorization_from_verified_seal(
     candidate_id: str,
+    candidate_semantic_sha256: str,
 ) -> VerifiedMachinePublication:
-    """Bind publication to the staged candidate that active validators accepted."""
-    identity_path = candidate_root / "records/identity.json"
-    if (
-        not identity_path.is_file()
-        or json.loads(identity_path.read_bytes()).get("candidate_id") != candidate_id
-    ):
-        raise ValueError("machine publication candidate identity differs")
-    return VerifiedMachinePublication(
-        candidate_id=candidate_id,
-        candidate_semantic_sha256=candidate_semantic_sha256(candidate_root),
+    """Mint the nominal capability only from validation/seal owning modules."""
+    authorization = object.__new__(VerifiedMachinePublication)
+    object.__setattr__(authorization, "candidate_id", candidate_id)
+    object.__setattr__(
+        authorization,
+        "candidate_semantic_sha256",
+        candidate_semantic_sha256,
     )
+    _mark_verified_authorization(authorization)
+    return authorization

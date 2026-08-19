@@ -68,6 +68,23 @@ The checked examples are fixtures, not production recipes:
 
 Their schemas live beside the corresponding package name under
 `benchmarks/er_bench/schemas/`. Run `make validate-collection-contract` for the
-collection fixture gate. Task 03H, once separately activated, owns the first real
-all-source v2 document and collection specifications; do not treat the fixture IDs or
-paths as runnable Brisbane configuration.
+collection fixture gate. Task 03H owns the first real all-source v2 specifications:
+
+- `brisbane_baylands_2025_deir_task03h_document_v2.json` selects the exact ordered
+  35-source production scope;
+- `brisbane_baylands_2025_deir_task03h_collection_v2.json` selects the matching
+  collection handoff policy;
+- `brisbane_baylands_2025_deir_task03h_source_family_catalog_v1.json` contains the
+  exact full-scope source identities and reviewed conservative aliases; and
+- `task03h_templates/` contains the six current source-neutral owner templates; and
+- `task03h/<source_id>/` contains the 210 generated source-specialized process configs.
+
+Generate or byte-check the 210 templates, catalog, specs, and native-v2 identity with:
+
+```bash
+uv run python scripts/generate_task03h_configs.py
+uv run python scripts/generate_task03h_configs.py --check
+```
+
+The generator reads only the sealed manifest and release completion metadata; it does
+not read source PDFs or model files. The checked fixture examples remain non-runnable.

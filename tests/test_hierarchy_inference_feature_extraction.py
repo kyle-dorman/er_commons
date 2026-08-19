@@ -7,6 +7,9 @@ from typing import Any
 
 import pytest
 
+from er_commons.document_parsing.heading_evidence_parsing.alignment_projection import (
+    AlignmentPage,
+)
 from er_commons.document_parsing.heading_evidence_parsing.pdf_observations import (
     extract_outline_observations,
     extract_page_labels,
@@ -17,6 +20,7 @@ from er_commons.document_parsing.heading_evidence_parsing.source_features import
     traverse_provenance_text,
 )
 from er_commons.document_parsing.heading_evidence_parsing.text_evidence import (
+    LayoutEvidence,
     align_parsed_line,
     normalize_text,
     parse_numbering,
@@ -149,15 +153,7 @@ def test_exact_duplicate_text_representations_receive_distinct_stable_keys() -> 
     traversed = traverse_provenance_text(document)
     features = build_feature_seeds(
         document,
-        {
-            "pages": [
-                {
-                    "page_no": 1,
-                    "size": {"width": 612.0, "height": 792.0},
-                    "parsed_page": {"textline_cells": [{"text": "1. Heading"}]},
-                }
-            ]
-        },
+        {1: AlignmentPage(1, 612.0, 792.0, {"1. heading": LayoutEvidence("unique_aligned", 1)})},
     )
 
     assert len(traversed) == 5
@@ -179,14 +175,13 @@ def test_picture_caption_disagreement_fails_closed(failure: str) -> None:
 
 
 def test_feature_seed_uses_stable_key_layout_outline_and_footer_evidence() -> None:
-    conversion_pages = {
-        "pages": [
-            {
-                "page_no": 1,
-                "size": {"width": 612.0, "height": 792.0},
-                "parsed_page": {"textline_cells": [{"text": "1. Heading"}]},
-            }
-        ]
+    alignment_pages = {
+        1: AlignmentPage(
+            1,
+            612.0,
+            792.0,
+            {"1. heading": LayoutEvidence("unique_aligned", 1)},
+        )
     }
     outline = (
         {
@@ -195,7 +190,7 @@ def test_feature_seed_uses_stable_key_layout_outline_and_footer_evidence() -> No
             "effective_level": 2,
         },
     )
-    features = build_feature_seeds(_document(), conversion_pages, outline_observations=outline)
+    features = build_feature_seeds(_document(), alignment_pages, outline_observations=outline)
     heading = features[-1]
     assert len(heading["stable_item_key"]) == 64
     assert heading["raw_parent_ref"] == "#/body"
@@ -255,6 +250,120 @@ def test_pdf_observations_reject_destinationless_outline_parent() -> None:
     reader.outline = [
         SimpleNamespace(title="Missing parent", page=9),
         [SimpleNamespace(title="Child", page=1)],
+    ]
+
+    with pytest.raises(HierarchyInferenceContractError, match="child list has no parent"):
+        extract_outline_observations(reader)
+
+
+def test_pdf_observations_recover_unique_adjacent_appendix_container() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Appendix A Exhibits.pdf", page=9),
+        [SimpleNamespace(title="E1. Project Desc", page=1)],
+    ]
+    heading = {
+        "content_layer": "body",
+        "raw_role": "section_header",
+        "physical_page": 1,
+        "text": "APPENDIX A: EXHIBITS",
+        "normalized_text": "appendix a: exhibits",
+        "reading_order_index": 12,
+        "stable_item_key": "a" * 64,
+    }
+
+    result = extract_outline_observations(reader, heading_features=[heading])  # type: ignore[list-item]
+
+    assert [item["title"] for item in result.observations] == [
+        "Appendix A Exhibits.pdf",
+        "E1. Project Desc",
+    ]
+    container, child = result.observations
+    assert container["physical_page"] == 1
+    assert container["normalized_title"] == "appendix a: exhibits"
+    assert child["parent_outline_id"] == container["outline_id"]
+    assert result.diagnostics[0]["code"] == "OUTLINE_CONTAINER_RECOVERED"
+    assert result.diagnostics[0]["stable_item_key"] == "a" * 64
+
+
+def test_pdf_observations_reject_ambiguous_or_nonmatching_container() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Appendix A Exhibits.pdf", page=9),
+        [SimpleNamespace(title="E1. Project Desc", page=1)],
+    ]
+    nonmatch = {
+        "content_layer": "body",
+        "raw_role": "section_header",
+        "physical_page": 1,
+        "text": "APPENDIX B: EXHIBITS",
+        "normalized_text": "appendix b: exhibits",
+        "reading_order_index": 12,
+        "stable_item_key": "b" * 64,
+    }
+
+    with pytest.raises(HierarchyInferenceContractError, match="child list has no parent"):
+        extract_outline_observations(reader, heading_features=[nonmatch])  # type: ignore[list-item]
+
+
+@pytest.mark.parametrize(
+    ("title", "preceding_text", "child_text", "expected_page"),
+    [
+        (
+            "J90411-1 UDS Level 2 Report Final Report.pdf",
+            "APPENDIX I Analytical Laboratory Reports",
+            "ANALYTICAL REPORT TestAmerica Job ID: 720-90411-1",
+            2,
+        ),
+        (
+            "AppJ-DataValRpts.pdf",
+            "APPENDIX J Data Validation Summaries",
+            "Stage 2A Data Validation Work Order 720-89864-1",
+            1,
+        ),
+    ],
+)
+def test_pdf_observations_recover_unique_fuzzy_adjacent_container(
+    title: str,
+    preceding_text: str,
+    child_text: str,
+    expected_page: int,
+) -> None:
+    class Page:
+        def __init__(self, text: str) -> None:
+            self.text = text
+
+        def extract_text(self) -> str:
+            return self.text
+
+    reader = _Reader()
+    reader.pages = [Page(preceding_text), Page(child_text)]
+    reader.outline = [
+        SimpleNamespace(title=title, page=9),
+        [
+            SimpleNamespace(title="1. Cover Page", page=1),
+            [SimpleNamespace(title="1.1 Nested child", page=1)],
+        ],
+    ]
+
+    result = extract_outline_observations(reader)
+
+    assert result.observations[0]["physical_page"] == expected_page
+    assert result.observations[1]["parent_outline_id"] == result.observations[0]["outline_id"]
+    assert result.diagnostics[0]["code"] == "OUTLINE_CONTAINER_RECOVERED"
+    assert "unique fuzzy title evidence" in result.diagnostics[0]["detail"]
+
+
+def test_pdf_observations_reject_fuzzy_container_when_both_pages_match() -> None:
+    class Page:
+        def extract_text(self) -> str:
+            return "TestAmerica Job ID: 720-90411-1"
+
+    reader = _Reader()
+    reader.pages = [Page(), Page()]
+    reader.outline = [
+        SimpleNamespace(title="J90411-1 UDS Level 2 Report Final Report.pdf", page=9),
+        [SimpleNamespace(title="1. Cover Page", page=1)],
     ]
 
     with pytest.raises(HierarchyInferenceContractError, match="child list has no parent"):

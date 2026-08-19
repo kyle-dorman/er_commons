@@ -11,7 +11,7 @@ from er_commons.document_parsing.heading_evidence_parsing.text_evidence import (
     parse_numbering,
 )
 from er_commons.hierarchy_inference.errors import HierarchyInferenceContractError
-from er_commons.hierarchy_inference.toc_text import split_body_title
+from er_commons.hierarchy_inference.toc_text import split_body_title, split_inline_leader
 
 JsonObject = dict[str, Any]
 
@@ -157,7 +157,7 @@ def _embedded_region_end(
             continue
         _marker, title = split_body_title(feature)
         if title in provisional_titles and _heading_has_following_content(features, feature):
-            return int(feature["reading_order_index"])
+            return _first_body_index_on_or_after_page(features, int(feature["physical_page"]))
     raise HierarchyInferenceContractError("TOC_REGION_UNTERMINATED")
 
 
@@ -169,6 +169,9 @@ def _provisional_row_titles(features: list[JsonObject], start: int) -> set[str]:
         marker, title = split_body_title(feature)
         if marker and title:
             titles.add(title)
+        inline_title = split_inline_leader(feature["text"])
+        if inline_title is not None:
+            titles.add(inline_title)
     return titles
 
 

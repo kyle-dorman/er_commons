@@ -78,12 +78,14 @@ def _fixture(
     run_root = data_root / "producer_run"
     document_root = run_root / "documents" / "deir_appendix_p"
     producer_root = document_root / "producer"
+    conversion_run_root = data_root / "conversion_run"
+    conversion_producer_root = conversion_run_root / "documents" / "deir_appendix_p" / "producer"
     tables_root = producer_root / "tables"
     table_id = "producer_table_1"
     table_relative_root = f"pages/page_00001/tables/{table_id}"
 
-    _write(producer_root / "docling/document.json", b'{"document":true}\n')
-    _write(producer_root / "docling/conversion_pages.json", b'{"pages":[]}\n')
+    document_bytes = b'{"document":true}\n'
+    _write(conversion_producer_root / "docling/document.json", document_bytes)
     _write(producer_root / "routing/page_routes.jsonl", b'{"page":1}\n')
     _write(tables_root / f"{table_relative_root}/table.json", b'{"table":true}\n')
     _write(tables_root / f"{table_relative_root}/cells.json", b"[]\n")
@@ -94,7 +96,7 @@ def _fixture(
 
     picture_bytes = b"\x89PNG\r\nfixture"
     picture_relative = "documents/deir_appendix_p/assets/figures/p00001.png"
-    _write(run_root / picture_relative, picture_bytes)
+    _write(conversion_run_root / picture_relative, picture_bytes)
 
     clean_csv_sha256 = _sha256(b"cell\n")
     table = ProducerTable(
@@ -137,6 +139,18 @@ def _fixture(
         SimpleNamespace(
             document_root=document_root,
             producer_run_root=run_root,
+            conversion_run_root=conversion_run_root,
+            conversion_producer_root=conversion_producer_root,
+            conversion_inventory={
+                "files": [
+                    {
+                        "path": ("documents/deir_appendix_p/producer/docling/document.json"),
+                        "sha256": _sha256(document_bytes),
+                        "byte_size": len(document_bytes),
+                    }
+                ]
+            },
+            selected_source=SimpleNamespace(source_id="deir_appendix_p"),
             document={"pictures": [{}]},
             asset_inventory={
                 "assets": [
@@ -161,7 +175,7 @@ def _fixture(
 def test_asset_catalog_preserves_registration_order_and_generated_bytes(
     tmp_path: Path,
 ) -> None:
-    inputs, table_bundle, _picture_bytes, clean_csv_digest = _fixture(tmp_path)
+    inputs, table_bundle, _picture_bytes, _clean_csv_digest = _fixture(tmp_path)
     candidate_root = tmp_path / "candidate"
 
     catalog = materialize_assets(
@@ -174,38 +188,20 @@ def test_asset_catalog_preserves_registration_order_and_generated_bytes(
 
     assert [record["role"] for record in catalog.records] == [
         "raw_docling_json",
-        "conversion_pages_json",
         "routing_jsonl",
         "raw_table_json",
         "raw_table_cells_json",
         "raw_table_csv",
         "clean_table_csv",
-        "clean_table_json",
-        "clean_table_cells_json",
         "table_family_assignments_jsonl",
         "table_families_json",
         "content_image",
     ]
     assert catalog.raw_docling_asset_id.endswith("/raw_docling_json/ast000001")
-    assert catalog.family_assignments_asset_id.endswith("/table_family_assignments_jsonl/ast000010")
-    assert catalog.picture_asset_ids_by_pointer["#/pictures/0"].endswith("/content_image/ast000012")
-    assert len(catalog.table_raw_links_by_id["producer_table_1"]) == 6
-
-    clean_table_path = (
-        candidate_root / "documents/deir_appendix_p/assets/tables/producer_table_1/table.json"
-    )
-    expected_table = (
-        b'{"clean_csv_sha256":"' + clean_csv_digest + b'","cleanup":{"effective_column_count":1,'
-        b'"removed_filename_row_indices":[],"removed_footer_row_indices":[],'
-        b'"retained_column_indices":[0]},"producer_table_id":"producer_table_1",'
-        b'"schema_version":"er_commons.clean_table.v1","shape":[1,1]}\n'
-    )
-    assert clean_table_path.read_bytes() == expected_table
-    clean_cells_path = clean_table_path.with_name("cells.json")
-    assert clean_cells_path.read_bytes() == (
-        b'[{"bbox_pdf_points_bottom_left":[1.0,2.0,3.0,4.0],'
-        b'"column_index":0,"row_index":0,"text":"cell"}]\n'
-    )
+    assert catalog.family_assignments_asset_id.endswith("/table_family_assignments_jsonl/ast000007")
+    assert catalog.picture_asset_ids_by_pointer["#/pictures/0"].endswith("/content_image/ast000009")
+    assert len(catalog.table_raw_links_by_id["producer_table_1"]) == 4
+    assert not (candidate_root / "documents").exists()
 
 
 def test_tableformer_fallback_assets_preserve_parser_lineage(tmp_path: Path) -> None:

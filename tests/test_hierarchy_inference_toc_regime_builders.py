@@ -7,8 +7,18 @@ from typing import Any
 from er_commons.document_parsing.heading_evidence_parsing.source_features import (
     unique_footer_labels,
 )
-from er_commons.hierarchy_inference.numbering_scopes import build_numbering_regimes
+from er_commons.document_parsing.heading_evidence_parsing.text_evidence import parse_numbering
+from er_commons.hierarchy_inference.numbering_scopes import (
+    NumberingScopeCandidate,
+    _assign_innermost_regimes,
+    _materialize_regimes,
+    _nested_candidates,
+    build_numbering_regimes,
+)
 from er_commons.hierarchy_inference.toc_analysis import build_visible_toc
+from er_commons.hierarchy_inference.toc_reconciliation import reconcile_toc_entries
+from er_commons.hierarchy_inference.toc_regions import TocRegion
+from er_commons.hierarchy_inference.toc_rows import parse_toc_region
 
 
 def _feature(
@@ -161,6 +171,28 @@ def test_embedded_toc_uses_roman_to_arabic_footer_transition() -> None:
     assert result.entries[0]["numbering_token"] == "1"
     assert result.entries[0]["depth"] == 1
     assert result.reconciliations[0]["state"] == "exact"
+    assert result.reconciliations[0]["target_key"] == features[6]["stable_item_key"]
+
+
+def test_embedded_toc_accepts_unnumbered_inline_leader_rows() -> None:
+    features = [
+        _feature(0, "TABLE OF CONTENTS", page=27, role="section_header"),
+        _feature(1, "Definitions/Glossary . . . . .", page=27),
+        _feature(2, "3", page=27),
+        _feature(3, "Page 2 of 100", page=27, role="page_footer", layer="furniture"),
+        _feature(4, "Qualifiers", page=28, role="section_header"),
+        _feature(5, "Qualifier body", page=28),
+        _feature(6, "Definitions/Glossary", page=28, role="section_header"),
+        _feature(7, "Glossary body", page=28),
+        _feature(8, "Page 3 of 100", page=28, role="page_footer", layer="furniture"),
+    ]
+
+    result = build_visible_toc(features, ())
+
+    assert result.regions[0].end == 4
+    assert result.features[4]["toc_region"] is False
+    assert result.entries[0]["title_without_marker_normalized"] == "definitions/glossary"
+    assert result.entries[0]["printed_page"] == "3"
     assert result.reconciliations[0]["target_key"] == features[6]["stable_item_key"]
 
 
@@ -383,6 +415,130 @@ def test_native_pdf_bbox_match_rejects_nonexact_or_nonunique_evidence() -> None:
         assert result.reconciliations[0]["native_pdf_evidence"] is None
 
 
+def test_toc_row_parser_rejection_branches_keep_source_specific_diagnostics() -> None:
+    scenarios = (
+        ([(_feature(1, "7", page=1))], "TOC row starts without marker or title"),
+        (
+            [
+                _feature(1, "Introduction", page=1),
+                _feature(2, "TABLE OF CONTENTS (CONTINUED)", page=1, role="section_header"),
+            ],
+            "continued TOC heading interrupts a row",
+        ),
+        (
+            [_feature(1, "Unexpected heading", page=1, role="section_header")],
+            "unexpected heading in TOC",
+        ),
+        (
+            [_feature(1, "Introduction", page=1), _feature(2, "7", page=1)],
+            "TOC row has a page token before its leader",
+        ),
+        (
+            [_feature(1, "Appendix A", page=1, role="section_header")],
+            "TOC row has no title",
+        ),
+        (
+            [
+                _feature(1, "Introduction", page=1),
+                _feature(2, ".....", page=1),
+                _feature(3, "not a page", page=1),
+            ],
+            "TOC leader is not followed by one page token",
+        ),
+        (
+            [
+                _feature(1, "1", page=1),
+                _feature(2, "Project 2025", page=1),
+                _feature(3, ".....", page=1),
+                _feature(4, "7", page=1),
+            ],
+            "TOC title contains inseparable trailing digits",
+        ),
+    )
+
+    for items, detail in scenarios:
+        header = _feature(0, "TABLE OF CONTENTS", page=1, role="section_header")
+        boundary_order = max(item["reading_order_index"] for item in items) + 1
+        features = [header, *items, _feature(boundary_order, "Body", page=2)]
+        region = TocRegion(
+            0, len(features) - 1, len(features), header["stable_item_key"], None, None
+        )
+
+        entries, diagnostics = parse_toc_region(features, region, ())
+
+        assert entries == []
+        assert diagnostics
+        assert {item["detail"] for item in diagnostics} == {detail}
+
+
+def test_reconciliation_validation_keeps_page_level_and_order_conflicts_distinct() -> None:
+    source_a = _feature(1, "row a", page=1)
+    source_b = _feature(2, "row b", page=1)
+    target_a = _feature(3, "1 Alpha", page=8, role="section_header")
+    target_b = _feature(4, "2 Beta", page=9, role="section_header")
+    features = [
+        _feature(0, "TABLE OF CONTENTS", page=1, role="section_header"),
+        source_a,
+        source_b,
+        target_a,
+        target_b,
+    ]
+    region = TocRegion(0, 3, 5, features[0]["stable_item_key"], None, None)
+
+    def entry(
+        entry_id: str,
+        source: dict[str, Any],
+        marker: str,
+        title: str,
+        *,
+        depth: int = 1,
+        printed_page: str | None = None,
+    ) -> dict[str, Any]:
+        return {
+            "toc_entry_id": entry_id,
+            "source_item_keys": [source["stable_item_key"]],
+            "reading_order_index": source["reading_order_index"],
+            "title_with_marker_normalized": f"{marker} {title}",
+            "title_without_marker_normalized": title,
+            "numbering_token": marker,
+            "depth": depth,
+            "depth_source": "numbering",
+            "printed_page": printed_page,
+        }
+
+    page_records, _ = reconcile_toc_entries(
+        [entry("page", source_a, "1", "alpha", printed_page="7")],
+        features,
+        (region,),
+        (),
+        {8: "8"},
+        {},
+    )
+    level_records, _ = reconcile_toc_entries(
+        [entry("level", source_a, "1", "alpha", depth=1)],
+        features,
+        (region,),
+        (_outline(0, "1 Alpha", 8, parent="root", depth=2),),
+        {},
+        {},
+    )
+    order_records, _ = reconcile_toc_entries(
+        [
+            entry("first", source_a, "2", "beta"),
+            entry("second", source_b, "1", "alpha"),
+        ],
+        features,
+        (region,),
+        (),
+        {},
+        {},
+    )
+
+    assert page_records[0]["state"] == "page_conflict"
+    assert level_records[0]["state"] == "level_conflict"
+    assert [item["state"] for item in order_records] == ["exact", "order_conflict"]
+
+
 def test_composite_appendices_are_individual_and_attachment_list_is_not_a_row() -> None:
     features = [_feature(0, "TABLE OF CONTENTS", page=112, role="section_header")]
     order = 1
@@ -509,3 +665,162 @@ def test_initial_regime_assigns_pre_body_furniture_but_starts_at_first_body() ->
 
     assert result.regimes[0]["start_item_key"] == features[1]["stable_item_key"]
     assert {item["regime_id"] for item in result.features} == {result.regimes[0]["regime_id"]}
+
+
+def _brute_nested_candidates(
+    features: list[dict[str, Any]], outlines: tuple[dict[str, Any], ...], after_last: int
+) -> list[NumberingScopeCandidate]:
+    """Preserve the pre-indexing candidate algorithm as a small semantic oracle."""
+    anchors = [
+        feature
+        for feature in features
+        if feature["content_layer"] == "body"
+        and not feature.get("toc_region", False)
+        and feature["outline_state"] == "unique_exact"
+    ]
+    candidates: list[NumberingScopeCandidate] = []
+    for anchor_index, anchor in enumerate(anchors):
+        next_anchor_order = (
+            anchors[anchor_index + 1]["reading_order_index"]
+            if anchor_index + 1 < len(anchors)
+            else after_last
+        )
+        numbered = next(
+            (
+                feature
+                for feature in features
+                if anchor["reading_order_index"]
+                < feature["reading_order_index"]
+                < next_anchor_order
+                and feature["content_layer"] == "body"
+                and feature["raw_role"] == "section_header"
+                and parse_numbering(feature["text"], raw_role=feature["raw_role"]).kind
+                not in {"none", "bullet"}
+            ),
+            None,
+        )
+        if numbered is None:
+            continue
+        evidence = parse_numbering(numbered["text"], raw_role=numbered["raw_role"])
+        is_start = (evidence.kind == "article" and evidence.token == "1") or (
+            evidence.kind == "decimal" and evidence.token == "1" and evidence.depth == 1
+        )
+        prior_markers = [
+            parse_numbering(feature["text"], raw_role=feature["raw_role"])
+            for feature in features
+            if feature["reading_order_index"] < anchor["reading_order_index"]
+            and feature["raw_role"] == "section_header"
+            and not feature.get("toc_region", False)
+        ]
+        has_different_marker = any(
+            item.kind in {"article", "decimal"}
+            and item.depth == 1
+            and (item.kind, item.token) != (evidence.kind, evidence.token)
+            for item in prior_markers
+        )
+        if not is_start or not has_different_marker:
+            continue
+        outline_matches = [
+            item
+            for item in outlines
+            if item["physical_page"] == anchor["physical_page"]
+            and item["normalized_title"] == anchor["normalized_text"]
+        ]
+        if len(outline_matches) != 1:
+            continue
+        outline_position = outlines.index(outline_matches[0])
+        later_boundary = next(
+            (
+                item
+                for item in outlines[outline_position + 1 :]
+                if item["raw_depth"] <= outline_matches[0]["raw_depth"]
+            ),
+            None,
+        )
+        end = after_last
+        if later_boundary is not None:
+            end_matches = [
+                feature
+                for feature in features
+                if feature["physical_page"] == later_boundary["physical_page"]
+                and feature["normalized_text"] == later_boundary["normalized_title"]
+                and feature["outline_state"] == "unique_exact"
+            ]
+            if len(end_matches) != 1:
+                continue
+            end = end_matches[0]["reading_order_index"]
+        if numbered["reading_order_index"] < end:
+            candidates.append(
+                NumberingScopeCandidate(
+                    start=numbered["reading_order_index"],
+                    end=end,
+                    anchor_key=anchor["stable_item_key"],
+                    article=evidence.kind == "article",
+                )
+            )
+    return candidates
+
+
+def test_indexed_numbering_candidates_match_brute_force_semantics() -> None:
+    features = [
+        _feature(0, "2 Previous", page=1, role="section_header"),
+        _feature(1, "APPENDIX D", page=2, role="section_header", outline_state="unique_exact"),
+        _feature(2, "Article 1. Parties", page=3, role="section_header"),
+        _feature(3, "Body", page=3),
+        _feature(4, "APPENDIX E", page=4, role="section_header", outline_state="unique_exact"),
+        _feature(5, "1 Introduction", page=5, role="section_header"),
+        _feature(6, "Body", page=5),
+    ]
+    outlines = (
+        _outline(0, "APPENDIX D", 2, parent="root", depth=2),
+        _outline(1, "APPENDIX E", 4, parent="root", depth=2),
+    )
+    after_last = len(features)
+
+    assert _nested_candidates(features, outlines, after_last) == _brute_nested_candidates(
+        features, outlines, after_last
+    )
+
+
+def test_materialized_regimes_preserve_nested_and_peer_parentage() -> None:
+    features = [_feature(order, f"item {order}", page=1) for order in range(8)]
+    candidates = [
+        NumberingScopeCandidate(start=1, end=7, anchor_key="outer", article=False),
+        NumberingScopeCandidate(start=2, end=4, anchor_key="nested-a", article=False),
+        NumberingScopeCandidate(start=4, end=7, anchor_key="nested-b", article=False),
+    ]
+
+    result = _materialize_regimes(
+        features=features,
+        candidates=candidates,
+        initial_start=0,
+        after_last=8,
+        initial_id="initial",
+        initial_item_key=features[0]["stable_item_key"],
+    )
+
+    initial, outer, nested_a, nested_b = result.regimes
+    assert outer["parent_regime_id"] == initial["regime_id"]
+    assert nested_a["parent_regime_id"] == outer["regime_id"]
+    assert nested_b["parent_regime_id"] == outer["regime_id"]
+
+
+def test_scope_assignment_preserves_first_materialized_regime_for_tied_starts() -> None:
+    features = [_feature(order, f"item {order}", page=1) for order in range(4)]
+
+    projected = _assign_innermost_regimes(
+        features,
+        {
+            "initial": (0, 4),
+            "first-tied": (1, 3),
+            "second-tied": (1, 3),
+        },
+        frozenset(),
+    )
+
+    assert [item["regime_id"] for item in projected] == [
+        "initial",
+        "first-tied",
+        "first-tied",
+        "initial",
+    ]

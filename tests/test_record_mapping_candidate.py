@@ -59,7 +59,6 @@ def _records_from_bundle(bundle: dict[str, Any]) -> DocumentRecordSet:
         routing_observations=tuple(bundle["routing_observations"]),
         table_stage_observations=tuple(bundle["table_stage_observations"]),
         conversion_observations=tuple(bundle["conversion_observations"]),
-        raw_mappings=tuple(bundle["raw_mappings"]),
     )
 
 
@@ -105,7 +104,6 @@ def _accepted_record_set() -> DocumentRecordSet:
         routing_observations=tuple({} for _ in range(222)),
         table_stage_observations=tuple({} for _ in range(34)),
         conversion_observations=(),
-        raw_mappings=(),
     )
 
 
@@ -155,10 +153,13 @@ def test_summary_snapshots_mutable_producer_evidence() -> None:
         report=report,
         candidate_id="exv1-" + "a" * 64,
     )
-    summary["invalid_provenance"][0]["rejection_reason"] = "mutated"
     summary["producer_warnings"].append("mutated")
 
     assert report.invalid_provenance[0]["rejection_reason"] == "outside"
+    assert summary["invalid_provenance"] == {
+        "record_count": 1,
+        "path": "observations/invalid_provenance.jsonl",
+    }
     assert producer_warnings == ["producer warning"]
     assert summary["text_accounting"]["unaccounted_count"] == 0
 
@@ -182,7 +183,9 @@ def test_fixture_bundle_reaches_validation_inventory_and_completion_seal(
     inputs = cast(
         Any,
         SimpleNamespace(
-            conversion_observation_record=SimpleNamespace(captured_python_warnings=[]),
+            conversion_observation_record=SimpleNamespace(
+                source_manifest_warnings=[], captured_python_warnings=[]
+            ),
         ),
     )
     report = MaterializationReport((), 0, 0, 0, 0, 0, 0, ())
@@ -218,6 +221,11 @@ def test_fixture_bundle_reaches_validation_inventory_and_completion_seal(
         table_bundle=table_bundle,
         records=records,
         report=report,
+        substage_observations=({"name": "content_mapping"},),
+        terminal_observation=lambda: {
+            "name": "serialization_validation_inventory",
+            "elapsed_seconds": 1.0,
+        },
     )
 
     assert validation_calls == ["schema", "integrity"]
@@ -227,6 +235,16 @@ def test_fixture_bundle_reaches_validation_inventory_and_completion_seal(
     )
     completion = json.loads((candidate_root / "records" / "completion_record.json").read_text())
     inventory = json.loads((candidate_root / "records" / "artifact_inventory.json").read_text())
+    observations = [
+        json.loads(line)
+        for line in (candidate_root / "records/substage_observations.jsonl")
+        .read_text()
+        .splitlines()
+    ]
     assert completion["warning_count"] == 0
     assert completion["status"] == "complete"
     assert "records/completion_record.json" not in {item["path"] for item in inventory["files"]}
+    assert [record["name"] for record in observations] == [
+        "content_mapping",
+        "serialization_validation_inventory",
+    ]

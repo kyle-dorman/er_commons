@@ -21,11 +21,8 @@ from er_commons.hierarchy_inference.bounded_acceptance import (
     semantic_counts,
     verify_bounded_acceptance,
 )
-from er_commons.hierarchy_inference.candidate_records import (
-    JSONL_PATHS,
-    stable_json_bytes,
-    stable_jsonl_bytes,
-)
+from er_commons.hierarchy_inference.candidate_records import JSONL_PATHS
+from er_commons.hierarchy_inference.candidate_storage import stable_json_bytes
 from er_commons.hierarchy_inference.digests import canonical_json_sha256
 from er_commons.hierarchy_inference.publication_authorization import SEMANTIC_PATHS
 
@@ -198,7 +195,9 @@ def _write_candidate(root: Path) -> tuple[str, dict[str, object]]:
         path.parent.mkdir(parents=True, exist_ok=True)
         value = values[relative]
         path.write_bytes(
-            stable_jsonl_bytes(value) if relative in JSONL_PATHS else stable_json_bytes(value)
+            b"".join(stable_json_bytes(record) for record in value)
+            if relative in JSONL_PATHS
+            else stable_json_bytes(value)
         )
     return identity["candidate_id"], fixture
 

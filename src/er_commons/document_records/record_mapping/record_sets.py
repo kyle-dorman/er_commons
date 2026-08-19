@@ -11,15 +11,6 @@ JsonRecord = dict[str, Any]
 
 
 @dataclass(frozen=True)
-class MappedRecord:
-    """One canonical record and its explicit raw-lineage classification."""
-
-    record_id: str
-    mapping_role: str
-    raw_links: tuple[JsonRecord, ...]
-
-
-@dataclass(frozen=True)
 class ContentRecordSet:
     """Canonical content records plus indexes needed by support records."""
 
@@ -31,7 +22,6 @@ class ContentRecordSet:
     sections: tuple[JsonRecord, ...]
     page_content: dict[int, tuple[str, ...]]
     invalid_provenance: tuple[JsonRecord, ...]
-    mapped_records: tuple[MappedRecord, ...]
 
 
 @dataclass(frozen=True)
@@ -43,7 +33,6 @@ class SupportRecordSet:
     routing_observations: tuple[JsonRecord, ...]
     table_stage_observations: tuple[JsonRecord, ...]
     conversion_observations: tuple[JsonRecord, ...]
-    raw_mappings: tuple[JsonRecord, ...]
 
 
 @dataclass(frozen=True)
@@ -63,7 +52,6 @@ class DocumentRecordSet:
     routing_observations: tuple[JsonRecord, ...]
     table_stage_observations: tuple[JsonRecord, ...]
     conversion_observations: tuple[JsonRecord, ...]
-    raw_mappings: tuple[JsonRecord, ...]
 
     @classmethod
     def assemble(
@@ -88,7 +76,6 @@ class DocumentRecordSet:
             routing_observations=support.routing_observations,
             table_stage_observations=support.table_stage_observations,
             conversion_observations=support.conversion_observations,
-            raw_mappings=support.raw_mappings,
         )
 
     def as_bundle_collections(self) -> dict[str, list[JsonRecord]]:

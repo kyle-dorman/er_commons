@@ -29,10 +29,8 @@ def _validate_r01(feature: JsonRecord, decision: JsonRecord, _: RuleContext) -> 
     key = decision["stable_item_key"]
     picture_owned = feature["raw_parent_ref"].startswith("#/pictures/")
     picture_caption = picture_owned and feature["raw_role"] == "caption"
-    must_exclude = (
-        feature["content_layer"] == "furniture"
-        or feature["toc_region"]
-        or (picture_owned and not picture_caption)
+    must_exclude = not picture_caption and (
+        feature["content_layer"] == "furniture" or feature["toc_region"] or picture_owned
     )
     require(must_exclude, f"R01 selected for body item: {key}")
     require(decision["corrected_role"] == "excluded", f"R01 role differs: {key}")

@@ -11,9 +11,12 @@ from er_commons.document_records.document_structure.errors import (
     DocumentStructureInvariantError,
 )
 from er_commons.document_records.document_structure.support import SUPPORT_PATHS
+from er_commons.document_records.record_mapping.errors import MappingContractError
 from er_commons.document_records.record_mapping.publication import (
-    build_inventory,
+    CandidateWorkspace,
+    retain_workspace_without_completion,
     sha256_file,
+    validate_inventory_metadata,
     write_json,
 )
 
@@ -170,13 +173,16 @@ def _verify_manifest_and_inventory(
         observed=records.manifest.get("source_semantic_disposition"),
         subject=records.manifest_path.as_posix(),
     )
-    expected_inventory = build_inventory(root)
-    _require_publication_value(
-        invariant="semantic candidate inventory matches the managed file set",
-        expected=expected_inventory,
-        observed=records.inventory,
-        subject=records.inventory_path.as_posix(),
-    )
+    try:
+        validate_inventory_metadata(root, records.inventory)
+    except MappingContractError as error:
+        raise DocumentStructureInvariantError(
+            stage="candidate reuse verification",
+            invariant="semantic candidate inventory metadata matches the managed file set",
+            expected="unique contained files with exact sizes and totals",
+            observed=str(error),
+            subject=records.inventory_path.as_posix(),
+        ) from error
 
 
 def _verify_support_files(root: Path, records: _CandidateRecords) -> None:
@@ -225,7 +231,7 @@ def _verify_support_files(root: Path, records: _CandidateRecords) -> None:
 
 
 def verify_completed_document_structure(root: Path, candidate_id: str) -> Path:
-    """Fail closed unless a v2 candidate, support set, and inventory are exact."""
+    """Verify the immutable seal and metadata without hashing large semantic streams."""
     records = _load_candidate_records(root)
     disposition = _verify_completion(records, candidate_id)
     _verify_manifest_and_inventory(root, records, candidate_id, disposition)
@@ -233,17 +239,34 @@ def verify_completed_document_structure(root: Path, candidate_id: str) -> Path:
     return records.completion_path
 
 
+def deep_audit_completed_document_structure(root: Path, candidate_id: str) -> Path:
+    """Stream-hash every managed semantic byte after fast seal verification."""
+    completion = verify_completed_document_structure(root, candidate_id)
+    records = _load_candidate_records(root)
+    managed_files = validate_inventory_metadata(root, records.inventory)
+    for item in managed_files:
+        observed = sha256_file(item.path)
+        if observed != item.sha256:
+            raise DocumentStructureInvariantError(
+                stage="candidate deep audit",
+                invariant="semantic candidate managed checksum matches",
+                expected=item.sha256,
+                observed=observed,
+                subject=item.path.as_posix(),
+            )
+    return completion
+
+
 def preserve_failed_attempt(
     task_root: Path,
     staging_root: Path,
     *,
     candidate_id: str | None = None,
-    error: Exception | None = None,
+    error: BaseException | None = None,
 ) -> Path:
     """Retain a failed build and optional structured diagnostic without completion."""
-    failed = task_root / "attempts" / staging_root.name
-    failed.parent.mkdir(parents=True, exist_ok=True)
-    (staging_root / "records" / "completion_record.json").unlink(missing_ok=True)
+    final_root = task_root / candidate_id if candidate_id is not None else task_root / "unpublished"
+    workspace = CandidateWorkspace(staging_root=staging_root, final_root=final_root)
     if error is not None:
         write_json(
             staging_root / "records" / "attempt_record.json",
@@ -255,6 +278,7 @@ def preserve_failed_attempt(
                 "detail": str(error) or type(error).__name__,
             },
         )
-    if staging_root.exists():
-        staging_root.rename(failed)
-    return failed
+    retained = retain_workspace_without_completion(workspace, task_root / "attempts")
+    if retained is None:
+        raise FileNotFoundError(f"failed semantic workspace is missing: {staging_root}")
+    return retained

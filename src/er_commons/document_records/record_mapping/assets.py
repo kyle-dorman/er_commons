@@ -113,6 +113,34 @@ class _AssetRegistry:
             producer=producer,
         )
 
+    def sealed_external(
+        self,
+        *,
+        key: str,
+        role: str,
+        path: Path,
+        sha256: str,
+        byte_size: int,
+        media_type: str,
+        producer: str,
+    ) -> str:
+        """Register an immutable owner file using its already sealed digest."""
+        try:
+            relative = path.relative_to(self._data_root).as_posix()
+        except ValueError as error:
+            raise MappingContractError(f"asset escapes ER_COMMONS_DATA_ROOT: {path}") from error
+        if not path.is_file() or path.stat().st_size != byte_size:
+            raise MappingContractError(f"sealed asset path or size differs: {path}")
+        return self._add(
+            key=key,
+            role=role,
+            path=relative,
+            sha256=sha256,
+            byte_size=byte_size,
+            media_type=media_type,
+            producer=producer,
+        )
+
     def generated(
         self,
         *,
@@ -220,44 +248,11 @@ def _register_table_assets(
             media_type="text/csv",
             producer="camelot_clean_pipeline",
         )
-        clean_cells_payload = [
-            {
-                "row_index": cell.row_index,
-                "column_index": cell.column_index,
-                **(cell.span_fields() if table.parser == "tableformer_accurate" else {}),
-                "text": cell.text,
-                "bbox_pdf_points_bottom_left": list(cell.bbox_pdf_points_bottom_left),
-            }
-            for cell in table.cells
-        ]
-        clean_relative_root = f"documents/{context.source_id}/assets/tables/{table.table_id}"
-        clean_table_asset = registry.generated(
-            key=f"{table.table_id}:clean_table",
-            role="clean_table_json",
-            relative_path=f"{clean_relative_root}/table.json",
-            payload={
-                "schema_version": "er_commons.clean_table.v1",
-                "producer_table_id": table.table_id,
-                "shape": list(table.shape_clean),
-                "cleanup": table.cleanup.as_json(),
-                "clean_csv_sha256": table.clean_csv_sha256,
-            },
-            media_type="application/json",
-        )
-        clean_cells_asset = registry.generated(
-            key=f"{table.table_id}:clean_cells",
-            role="clean_table_cells_json",
-            relative_path=f"{clean_relative_root}/cells.json",
-            payload=clean_cells_payload,
-            media_type="application/json",
-        )
         links_by_id[table.table_id] = (
             raw_link(parser_producer, raw_table_asset, "/"),
             raw_link(parser_producer, raw_cells_asset, "/"),
             raw_link(parser_producer, raw_csv_asset, "/"),
             raw_link("project_cleanup", clean_csv_asset, "/"),
-            raw_link("project_cleanup", clean_table_asset, "/"),
-            raw_link("project_cleanup", clean_cells_asset, "/"),
         )
     return links_by_id
 
@@ -282,7 +277,7 @@ def _register_picture_assets(
         path_value = item.get("path")
         if not isinstance(path_value, str):
             raise MappingContractError(f"picture asset path is invalid: {pointer}")
-        path = inputs.producer_run_root / path_value
+        path = inputs.conversion_run_root / path_value
         if sha256_file(path) != item.get("sha256") or path.stat().st_size != item.get("byte_size"):
             raise MappingContractError(f"picture asset differs from inventory: {pointer}")
         picture_ids[pointer] = registry.external(
@@ -320,17 +315,24 @@ def materialize_assets(
     )
     producer_root = inputs.document_root / "producer"
     tables_root = producer_root / "tables"
-    raw_docling_asset_id = registry.external(
+    raw_relative = f"documents/{inputs.selected_source.source_id}/producer/docling/document.json"
+    raw_records = inputs.conversion_inventory.get("files")
+    if not isinstance(raw_records, list):
+        raise MappingContractError("conversion inventory files are invalid")
+    raw_matches = [
+        record
+        for record in raw_records
+        if isinstance(record, dict) and record.get("path") == raw_relative
+    ]
+    if len(raw_matches) != 1:
+        raise MappingContractError("raw Docling owner record is missing")
+    raw_record = raw_matches[0]
+    raw_docling_asset_id = registry.sealed_external(
         key="raw_docling",
         role="raw_docling_json",
-        path=producer_root / "docling" / "document.json",
-        media_type="application/json",
-        producer="docling",
-    )
-    registry.external(
-        key="conversion_pages",
-        role="conversion_pages_json",
-        path=producer_root / "docling" / "conversion_pages.json",
+        path=inputs.conversion_producer_root / "docling" / "document.json",
+        sha256=str(raw_record["sha256"]),
+        byte_size=int(raw_record["byte_size"]),
         media_type="application/json",
         producer="docling",
     )

@@ -17,6 +17,7 @@ from er_commons.hierarchy_inference.candidate_identity import (
     build_environment_record,
     code_bundle_sha256,
 )
+from er_commons.hierarchy_inference.code_inventory import owned_code_paths
 from er_commons.hierarchy_inference.config import (
     ACCEPTED_PRODUCER_RUN_ID,
     APPENDIX_P_PAGE_COUNT,
@@ -65,6 +66,50 @@ def _write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value) + "\n")
 
 
+def _write_conversion_reference(tmp_path: Path, run_root: Path, source_id: str) -> Path:
+    conversion_id = "dconv1-" + "d" * 64
+    raw_root = tmp_path / "pipelines/conversions" / conversion_id
+    docling = raw_root / "documents" / source_id / "producer/docling"
+    _write_json(docling / "document.json", {"texts": []})
+    (docling / "alignment_pages.jsonl").write_text("")
+    (docling / "heading_overlay.jsonl").write_text("")
+    files = [
+        {
+            "path": path.relative_to(raw_root).as_posix(),
+            "byte_size": path.stat().st_size,
+            "sha256": sha256_file(path),
+        }
+        for path in (
+            docling / "document.json",
+            docling / "alignment_pages.jsonl",
+            docling / "heading_overlay.jsonl",
+        )
+    ]
+    inventory = {
+        "files": files,
+        "file_count": len(files),
+        "byte_count": sum(item["byte_size"] for item in files),
+    }
+    completion_path = raw_root / "records/completion_record.json"
+    inventory_path = raw_root / "records/artifact_inventory.json"
+    _write_json(completion_path, {"conversion_id": conversion_id})
+    _write_json(inventory_path, inventory)
+    _write_json(
+        run_root / "records/conversion_input.json",
+        {
+            "schema_version": "er_commons.conversion_input_reference.v1",
+            "conversion_id": conversion_id,
+            "path": raw_root.relative_to(tmp_path).as_posix(),
+            "completion_path": completion_path.relative_to(tmp_path).as_posix(),
+            "inventory_path": inventory_path.relative_to(tmp_path).as_posix(),
+            "completion_sha256": sha256_file(completion_path),
+            "inventory_sha256": sha256_file(inventory_path),
+            "document_view": "base",
+        },
+    )
+    return raw_root
+
+
 def _completion(config: HierarchyInferenceConfig, manifest_sha256: str) -> dict[str, Any]:
     return {
         "schema_version": "1.0.0",
@@ -91,6 +136,22 @@ def test_config_rejects_unreviewed_fields_paths_and_source_changes() -> None:
     changed_source["expected_pdf_page_count"] = 221
     with pytest.raises(ValueError, match="approved Appendix P"):
         _config(source=changed_source)
+
+
+def test_owned_code_inventory_resolves_every_checked_path() -> None:
+    project_root = Path(__file__).parents[1]
+
+    paths = owned_code_paths(project_root)
+
+    assert project_root / "src/er_commons/hierarchy_inference/config.py" in paths
+    assert project_root / "src/er_commons/hierarchy_inference/progress.py" in paths
+    assert (
+        project_root
+        / "src/er_commons/document_parsing/heading_evidence_parsing/alignment_projection.py"
+        in paths
+    )
+    assert project_root / "src/er_commons/document_parsing/content_parsing/references.py" in paths
+    assert project_root / "src/er_commons/artifact_io.py" in paths
 
 
 def test_loader_verifies_run_and_source_before_loading_semantic_inputs(
@@ -121,9 +182,7 @@ def test_loader_verifies_run_and_source_before_loading_semantic_inputs(
             },
         },
     )
-    producer_root = run_root / "documents/deir_appendix_p/producer/docling"
-    _write_json(producer_root / "document.json", {"texts": []})
-    _write_json(producer_root / "conversion_pages.json", {"pages": []})
+    _write_conversion_reference(tmp_path, run_root, config.source.source_id)
 
     calls: list[tuple[Path, str]] = []
 
@@ -146,12 +205,13 @@ def test_loader_verifies_run_and_source_before_loading_semantic_inputs(
     monkeypatch.setattr(input_module, "verify_completed_run", verify)
     monkeypatch.setattr(input_module, "load_sealed_manifest", lambda *_args: manifest)
     monkeypatch.setattr(input_module, "resolve_complete_source", lambda *_args: resolved)
+    monkeypatch.setattr(input_module, "load_alignment_projection", lambda *_args, **_kwargs: {})
 
     inputs = load_hierarchy_inference_inputs(tmp_path, config)
 
     assert calls == [(run_root, config.producer_run_id)]
     assert inputs.document == {"texts": []}
-    assert inputs.conversion_pages == {"pages": []}
+    assert inputs.alignment_pages == {}
     assert inputs.input_inventory == {
         "producer_completion_path": completion_path.relative_to(tmp_path).as_posix(),
         "producer_completion_sha256": sha256_file(completion_path),
@@ -159,7 +219,9 @@ def test_loader_verifies_run_and_source_before_loading_semantic_inputs(
         "producer_inventory_sha256": sha256_file(inventory_path),
         "source_path": source_path.relative_to(tmp_path).as_posix(),
         "source_sha256": config.source.expected_sha256,
-        "verified_file_count": 3,
+        "conversion_completion_sha256": inputs.input_inventory["conversion_completion_sha256"],
+        "conversion_inventory_sha256": inputs.input_inventory["conversion_inventory_sha256"],
+        "verified_file_count": 5,
     }
 
 
@@ -193,10 +255,12 @@ def test_identity_binds_exact_digests_and_derives_hcorv1_id(tmp_path: Path) -> N
         producer_completion=completion,
         producer_identity={},
         document={},
-        conversion_pages={},
+        alignment_pages={},
         input_inventory={
             "producer_completion_sha256": "c" * 64,
             "producer_inventory_sha256": "d" * 64,
+            "conversion_completion_sha256": "f" * 64,
+            "conversion_inventory_sha256": "a" * 64,
         },
     )
 
@@ -216,6 +280,9 @@ def test_identity_binds_exact_digests_and_derives_hcorv1_id(tmp_path: Path) -> N
     assert identity["policy_sha256"] == sha256_file(policy_path)
     assert identity["schema_sha256"] == sha256_file(schema_path)
     assert identity["code_bundle_sha256"] == code_bundle_sha256(tmp_path, (code_path,))
+    assert identity["runtime_lock_sha256"] == sha256_file(lock_path)
+    assert identity["conversion_completion_sha256"] == "f" * 64
+    assert identity["conversion_inventory_sha256"] == "a" * 64
     environment = build_environment_record(
         uv_lock_path=lock_path,
         package_names=("definitely-not-an-installed-package",),

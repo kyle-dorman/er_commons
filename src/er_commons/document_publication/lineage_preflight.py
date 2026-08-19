@@ -10,9 +10,8 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from er_commons.artifact_io import sha256_file
 from er_commons.document_parsing.content_parsing.application import prepare_content_parsing
 from er_commons.document_parsing.content_parsing.config import load_content_parsing_config
-from er_commons.document_parsing.content_parsing.services import ContentParsingServices
 from er_commons.document_publication.config import DocumentRunSpec
-from er_commons.document_publication.fresh_preflight import is_task03g2_root
+from er_commons.document_publication.fresh_preflight import is_fresh_document_root
 from er_commons.document_publication.identity import canonical_digest
 from er_commons.document_publication.lineage_validation import validate_lineage_bindings
 from er_commons.document_publication.process_inputs import ProcessConfigs, prepare_process_configs
@@ -74,8 +73,10 @@ def build_execution_preflight(
     )
     lineage = _derive_producer_lineage(data_root, configs)
     lineage_mode = run_spec.lineage_mode(source_id)
-    if lineage_mode == "fresh_build" and not is_task03g2_root(run_spec.artifact_relative_root):
-        raise ValueError("fresh document artifact root must use the task_03g2 namespace")
+    if lineage_mode == "fresh_build" and not is_fresh_document_root(
+        run_spec.artifact_relative_root
+    ):
+        raise ValueError("fresh document artifact root must use a task_03g2 or task_03h namespace")
     final_relative_root, authorization_ref = validate_lineage_bindings(
         configs=configs,
         source_id=source_id,
@@ -146,7 +147,6 @@ def verify_execution_preflight(
 
 def _derive_producer_lineage(data_root: Path, configs: ProcessConfigs) -> ProducerLineage:
     """Construct effective runtimes and derive both producer identities only."""
-    services = ContentParsingServices()
 
     def derive(path: Path) -> str:
         config, digest = load_content_parsing_config(path)
@@ -154,7 +154,6 @@ def _derive_producer_lineage(data_root: Path, configs: ProcessConfigs) -> Produc
             data_root,
             config=config,
             config_sha256=digest,
-            services=services,
         ).identity.run_id
 
     return ProducerLineage(

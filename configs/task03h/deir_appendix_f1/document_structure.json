@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "semantic_policy_version": "task03e4-v1",
+  "candidate_version_name": "deir_appendix_f1_task03h_semantic_candidate_v2",
+  "candidate_scope": "document_scoped_non_release",
+  "control_profile": "strict_quality_gate",
+  "source": {
+    "source_id": "deir_appendix_f1",
+    "source_sha256": "dd51b7e5f0d511abc34617c10afde270e27d5dfe5df7ae9b7048cc206528ac78",
+    "physical_page_count": 75
+  },
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "baseline_candidate_relative_root": "pipelines/brisbane_baylands/task_03h/document_records/exv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "baseline_candidate_id": "exv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "baseline_producer_relative_root": "pipelines/brisbane_baylands/task_03h/document_parse_evidence",
+  "baseline_producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "hierarchy_producer_relative_root": "pipelines/brisbane_baylands/task_03h/document_parse_evidence",
+  "hierarchy_producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "hierarchy_candidate_relative_root": "pipelines/brisbane_baylands/task_03h/hierarchy_inference/hcorv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "hierarchy_candidate_id": "hcorv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "hierarchy_schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
+  "semantic_spec_relative_path": "docs/specs/semantic_structure_v2.md",
+  "semantic_schema_relative_path": "benchmarks/er_bench/schemas/canonical_extraction/v2/semantic_structure.schema.json",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_records",
+  "bounded_acceptance_relative_path": null,
+  "bounded_acceptance_policy_relative_path": null,
+  "producer_comparison_relative_path": null
+}

@@ -66,6 +66,18 @@ def test_environment_record_cannot_escape_the_managed_inventory() -> None:
         validate_hierarchy_inference_bundle(bundle)
 
 
+@pytest.mark.parametrize(
+    "field_name",
+    ["conversion_completion_sha256", "conversion_inventory_sha256"],
+)
+def test_conversion_seals_must_match_candidate_identity(field_name: str) -> None:
+    bundle = copy.deepcopy(VALID_BUNDLE)
+    bundle["input_inventory"][field_name] = "0" * 64
+
+    with pytest.raises(HierarchyInferenceContractError, match=f"{field_name} differs"):
+        validate_hierarchy_inference_bundle(bundle)
+
+
 def test_picture_owned_non_caption_text_must_select_r01() -> None:
     """Preserve picture text evidence while excluding it from hierarchy."""
     bundle = copy.deepcopy(VALID_BUNDLE)

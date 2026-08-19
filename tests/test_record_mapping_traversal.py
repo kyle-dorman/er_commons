@@ -85,6 +85,20 @@ def test_mapped_table_replaces_descendants_and_zero_table_falls_back() -> None:
     assert result.zero_table_pointers == {"#/tables/1"}
 
 
+def test_full_page_replacement_suppresses_duplicate_region_descendants() -> None:
+    result = traverse_docling_document(
+        tiny_document(),
+        {},
+        suppressed_table_pointers={"#/tables/0"},
+    )
+
+    assert "#/texts/1" in result.suppressed_text_pointers
+    assert "#/tables/0" not in result.zero_table_pointers
+    assert not any(event.pointer == "#/tables/0" for event in result.events)
+    assert "#/texts/2" in {event.pointer for event in result.events}
+    assert "#/tables/1" in result.zero_table_pointers
+
+
 def test_furniture_is_appended_by_pointer_not_furniture_root() -> None:
     result = traverse_docling_document(tiny_document(), {})
     furniture = [event.pointer for event in result.events if event.content_layer == "furniture"]

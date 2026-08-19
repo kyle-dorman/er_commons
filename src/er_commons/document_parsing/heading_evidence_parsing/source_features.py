@@ -8,12 +8,14 @@ from dataclasses import dataclass
 from decimal import ROUND_HALF_EVEN, Decimal
 from typing import Any, Literal, cast
 
+from er_commons.document_parsing.heading_evidence_parsing.alignment_projection import (
+    AlignmentPage,
+)
 from er_commons.document_parsing.heading_evidence_parsing.document import stable_text_keys
 from er_commons.document_parsing.heading_evidence_parsing.errors import (
     HierarchyInferenceContractError,
 )
 from er_commons.document_parsing.heading_evidence_parsing.text_evidence import (
-    align_parsed_line,
     normalize_text,
     parse_numbering,
 )
@@ -160,20 +162,13 @@ def traverse_provenance_text(document: JsonObject) -> tuple[TraversedText, ...]:
 
 def extract_item_observations(
     document: JsonObject,
-    conversion_pages: JsonObject,
+    alignment_pages: dict[int, AlignmentPage],
     *,
     outline_observations: tuple[JsonObject, ...] = (),
     printed_page_labels: dict[int, str] | None = None,
 ) -> list[ObservedItem]:
     """Build producer-owned feature fields before TOC and regime assignment."""
-    pages = _conversion_page_index(conversion_pages)
-    outline_by_target: dict[tuple[int, str], list[JsonObject]] = defaultdict(list)
-    for observation in outline_observations:
-        title = observation.get("normalized_title")
-        page = observation.get("physical_page")
-        if isinstance(title, str) and isinstance(page, int):
-            outline_by_target[(page, title)].append(observation)
-
+    pages = alignment_pages
     labels = printed_page_labels or unique_footer_labels(document)
     traversed = traverse_provenance_text(document)
     text_items = document.get("texts")
@@ -207,28 +202,9 @@ def extract_item_observations(
         if not isinstance(text, str) or not isinstance(orig, str) or not isinstance(role, str):
             raise HierarchyInferenceContractError(f"invalid text fields: {entry.pointer}")
         page_record = pages[physical_page]
-        parsed_page = page_record.get("parsed_page")
-        if not isinstance(parsed_page, dict):
-            raise HierarchyInferenceContractError(f"missing parsed page: {physical_page}")
-        layout = align_parsed_line(text, parsed_page)
+        layout = page_record.lookup(text)
         numbering = parse_numbering(text, raw_role=role)
         normalized = normalize_text(text)
-        outline_matches = outline_by_target[(physical_page, normalized)]
-        outline_state: str = "absent"
-        outline_level: int | None = None
-        if len(outline_matches) == 1:
-            outline_state = "unique_exact"
-            level = outline_matches[0].get("effective_level")
-            if not isinstance(level, int) or not 1 <= level <= 6:
-                raise HierarchyInferenceContractError(
-                    f"invalid matched outline level: {entry.pointer}"
-                )
-            outline_level = level
-        elif len(outline_matches) > 1:
-            outline_state = "ambiguous"
-        size = page_record.get("size")
-        if not isinstance(size, dict):
-            raise HierarchyInferenceContractError(f"missing page dimensions: {physical_page}")
         features.append(
             cast(
                 ObservedItem,
@@ -244,8 +220,8 @@ def extract_item_observations(
                     "raw_role": role,
                     "raw_level": item.get("level") if isinstance(item.get("level"), int) else None,
                     "physical_page": physical_page,
-                    "page_width": size.get("width"),
-                    "page_height": size.get("height"),
+                    "page_width": page_record.width,
+                    "page_height": page_record.height,
                     "bbox": bbox,
                     "charspan": charspan,
                     "line_count": layout.line_count,
@@ -254,19 +230,49 @@ def extract_item_observations(
                     "numbering_kind": numbering.kind,
                     "numbering_token": numbering.token,
                     "numbering_depth": numbering.depth,
-                    "outline_state": outline_state,
-                    "outline_level": outline_level,
+                    "outline_state": "absent",
+                    "outline_level": None,
                     "layout_state": layout.state,
                     "printed_page_label": labels.get(physical_page),
                 },
             )
         )
-    return features
+    return apply_outline_observations(features, outline_observations)
+
+
+def apply_outline_observations(
+    features: list[ObservedItem],
+    outline_observations: tuple[JsonObject, ...],
+) -> list[ObservedItem]:
+    """Apply validated outline matches without rebuilding source feature seeds."""
+    by_target: dict[tuple[int, str], list[JsonObject]] = defaultdict(list)
+    for observation in outline_observations:
+        title = observation.get("normalized_title")
+        page = observation.get("physical_page")
+        level = observation.get("effective_level")
+        if not isinstance(title, str) or not isinstance(page, int):
+            raise HierarchyInferenceContractError("outline observation target is invalid")
+        if not isinstance(level, int) or not 1 <= level <= 6:
+            raise HierarchyInferenceContractError("outline observation level is invalid")
+        by_target[(page, title)].append(observation)
+
+    overlaid: list[ObservedItem] = []
+    for feature in features:
+        matches = by_target[(feature["physical_page"], feature["normalized_text"])]
+        updated = dict(feature)
+        if len(matches) == 1:
+            updated["outline_state"] = "unique_exact"
+            updated["outline_level"] = matches[0]["effective_level"]
+        elif len(matches) > 1:
+            updated["outline_state"] = "ambiguous"
+            updated["outline_level"] = None
+        overlaid.append(cast(ObservedItem, updated))
+    return overlaid
 
 
 def build_feature_seeds(
     document: JsonObject,
-    conversion_pages: JsonObject,
+    alignment_pages: dict[int, AlignmentPage],
     *,
     outline_observations: tuple[JsonObject, ...] = (),
     printed_page_labels: dict[int, str] | None = None,
@@ -274,7 +280,7 @@ def build_feature_seeds(
     """Return typed parser observations for hierarchy inference."""
     return extract_item_observations(
         document,
-        conversion_pages,
+        alignment_pages,
         outline_observations=outline_observations,
         printed_page_labels=printed_page_labels,
     )
@@ -359,21 +365,6 @@ def _index_objects(document: JsonObject) -> dict[str, JsonObject]:
                 raise HierarchyInferenceContractError(f"invalid Docling self reference: {expected}")
             objects[pointer] = item
     return objects
-
-
-def _conversion_page_index(conversion_pages: JsonObject) -> dict[int, JsonObject]:
-    raw_pages = conversion_pages.get("pages")
-    if not isinstance(raw_pages, list):
-        raise HierarchyInferenceContractError("conversion pages collection is invalid")
-    pages: dict[int, JsonObject] = {}
-    for item in raw_pages:
-        if not isinstance(item, dict) or not isinstance(item.get("page_no"), int):
-            raise HierarchyInferenceContractError("conversion page record is invalid")
-        page_no = item["page_no"]
-        if page_no in pages:
-            raise HierarchyInferenceContractError(f"duplicate conversion page: {page_no}")
-        pages[page_no] = item
-    return pages
 
 
 def _references(value: Any, context: str) -> tuple[str, ...]:

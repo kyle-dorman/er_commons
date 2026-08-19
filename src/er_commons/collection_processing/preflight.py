@@ -52,6 +52,9 @@ def prepare_collection_run(data_root: Path, run_spec_path: Path) -> CollectionRu
     )
     catalog = SourceFamilyCatalog.load(catalog_path)
     manifest_by_id = {record.source_id: record for record in manifest.sources}
+    catalog_source_ids = [source.source_id for source in catalog.sources]
+    if catalog_source_ids != list(collection_spec.source_ids):
+        raise ValueError("source-family catalog differs from the exact collection scope")
     for family_source in catalog.sources:
         record = manifest_by_id.get(family_source.source_id)
         if record is None:
@@ -59,10 +62,12 @@ def prepare_collection_run(data_root: Path, run_spec_path: Path) -> CollectionRu
         expected = {
             "source_id": record.source_id,
             "sha256": record.sha256,
+            "byte_size": record.byte_size,
             "pdf_page_count": record.pdf_page_count,
         }
         observed = {
-            key: family_source.source.get(key) for key in ("source_id", "sha256", "pdf_page_count")
+            key: family_source.source.get(key)
+            for key in ("source_id", "sha256", "byte_size", "pdf_page_count")
         }
         if observed != expected:
             raise ValueError("source-family catalog source identity differs from manifest")

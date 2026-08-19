@@ -48,18 +48,16 @@ FOUNDATION_POLICY_CHECKS: tuple[PolicyCheck, ...] = (
     toc_reconciliations_are_complete,
 )
 
-FINAL_POLICY_CHECKS: tuple[PolicyCheck, ...] = (
+SEMANTIC_POLICY_CHECKS: tuple[PolicyCheck, ...] = (
     selected_rules_follow_policy,
     exact_toc_targets_use_an_anchor_rule,
     hierarchy_matches_decisions,
     diagnostics_and_summary_match_decisions,
-    metrics_are_internally_consistent,
-    completion_seals_required_artifacts,
 )
 
 
-def validate_hierarchy_inference_bundle(bundle: dict[str, Any]) -> None:
-    """Validate a schema-valid hierarchy-inference bundle.
+def validate_semantic_candidate(bundle: dict[str, Any]) -> None:
+    """Validate relationships among schema-valid semantic candidate records.
 
     JSON Schema owns individual record shapes. This function validates only
     relationships and policy that require the complete bundle.
@@ -71,5 +69,17 @@ def validate_hierarchy_inference_bundle(bundle: dict[str, Any]) -> None:
     topology = RegimeTopology.build(view)
     features_use_innermost_regime(view, topology)
 
-    for check in FINAL_POLICY_CHECKS:
+    for check in SEMANTIC_POLICY_CHECKS:
         check(view)
+
+
+def validate_publication_tail(bundle: dict[str, Any]) -> None:
+    """Validate metrics, inventory, and completion without semantic placeholders."""
+    metrics_are_internally_consistent(bundle)
+    completion_seals_required_artifacts(bundle)
+
+
+def validate_hierarchy_inference_bundle(bundle: dict[str, Any]) -> None:
+    """Validate all relationships in one schema-valid persisted bundle."""
+    validate_semantic_candidate(bundle)
+    validate_publication_tail(bundle)

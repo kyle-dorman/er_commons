@@ -28,7 +28,6 @@ BASELINE_COLLECTION_PATHS = {
     "routing_observations": "observations/routing.jsonl",
     "table_stage_observations": "observations/table_stage.jsonl",
     "conversion_observations": "observations/conversion.jsonl",
-    "raw_mappings": "mappings/raw_to_canonical.jsonl",
 }
 
 

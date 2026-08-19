@@ -114,10 +114,8 @@ def typed_references(record: Record) -> Iterator[tuple[str, set[str]]]:
 
 
 def regions(record: Record) -> Iterator[Record]:
-    """Yield direct regions and table-cell regions owned by a record."""
+    """Yield direct canonical regions owned by a record."""
     yield from record.get("regions", [])
-    for cell in record.get("cells", []):
-        yield cell["region"]
 
 
 def raw_links(record: Record) -> Iterator[Record]:

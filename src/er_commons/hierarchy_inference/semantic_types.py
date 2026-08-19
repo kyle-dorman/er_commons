@@ -6,6 +6,7 @@ available at each semantic stage explicit without changing those records.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Any, Literal, NewType, TypedDict
 
 from er_commons.document_parsing.heading_evidence_parsing.types import (
@@ -82,3 +83,33 @@ class HierarchyRecord(TypedDict):
     edges: list[HierarchyEdge]
     direct_membership: list[DirectMembership]
     unassigned_content: list[str]
+
+
+JsonRecord = dict[str, Any]
+
+
+@dataclass(frozen=True)
+class SemanticCandidate:
+    """Complete in-memory semantic result passed from inference to publication."""
+
+    features: tuple[JsonRecord, ...]
+    toc_entries: tuple[JsonRecord, ...]
+    reconciliations: tuple[JsonRecord, ...]
+    regimes: tuple[JsonRecord, ...]
+    decisions: tuple[JsonRecord, ...]
+    hierarchy: JsonRecord
+    ambiguities: tuple[JsonRecord, ...]
+    warnings: tuple[JsonRecord, ...]
+
+    def as_mapping(self) -> dict[str, object]:
+        """Expose the schema-owned field names without copying record collections."""
+        return {
+            "features": self.features,
+            "toc_entries": self.toc_entries,
+            "reconciliations": self.reconciliations,
+            "regimes": self.regimes,
+            "decisions": self.decisions,
+            "hierarchy": self.hierarchy,
+            "ambiguities": self.ambiguities,
+            "warnings": self.warnings,
+        }

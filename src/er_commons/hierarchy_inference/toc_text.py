@@ -22,6 +22,7 @@ _DASH_TRANSLATION = str.maketrans(
         "−": "-",
     }
 )
+_INLINE_LEADER = re.compile(r"^(?P<title>.*?\S)\s+(?:\.\s*){2,}$")
 
 
 def typographic_canonical(value: str) -> str:
@@ -51,3 +52,9 @@ def split_heading_text(value: str) -> tuple[str, str]:
         if match is not None:
             return match.group("token"), normalize_text(match.group("title"))
     return "", normalize_text(text)
+
+
+def split_inline_leader(value: str) -> str | None:
+    """Return an unnumbered TOC title followed by an attached dot leader."""
+    match = _INLINE_LEADER.fullmatch(normalize_text(value, casefold=False))
+    return normalize_text(match.group("title")) if match is not None else None
