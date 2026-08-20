@@ -78,6 +78,9 @@ def test_task03h_specs_and_identity_are_strict_native_v2() -> None:
     assert [item.source_id for item in document.hierarchy_dispositions] == source_ids
     assert list(collection.source_ids) == source_ids
     assert document.scope_kind == "production_full"
+    assert document.artifact_relative_root == Path(
+        "pipelines/brisbane_baylands/task_03h_clean_full_v1/document_publications"
+    )
     assert all(selection.lineage_mode == "fresh_build" for selection in document.document_processes)
     assert all(item.authority == "machine_validation" for item in document.hierarchy_dispositions)
     assert all(item.authorization_relative_path is None for item in document.hierarchy_dispositions)
@@ -262,6 +265,13 @@ def test_task03h_readiness_stages_catalog_without_pdf_or_model_reads(
     )
     completion_path = manifest_path.parent / "completion_record.json"
     completion_path.write_text("{}\n")
+    historical_completion = (
+        tmp_path
+        / "pipelines/brisbane_baylands/task_03h/document_publications/historical/records"
+        / "completion_record.json"
+    )
+    historical_completion.parent.mkdir(parents=True)
+    historical_completion.write_text("{}\n")
 
     def fake_source_hash(path: Path) -> str:
         if path == manifest_path:
@@ -280,11 +290,15 @@ def test_task03h_readiness_stages_catalog_without_pdf_or_model_reads(
     report_path = prepare_task03h(tmp_path)
     report = json.loads(report_path.read_text())
 
-    assert report["status"] == "ready_for_user_authorized_first_wave"
+    assert report["status"] == "ready_for_user_authorized_clean_run"
     assert report["source_scope"]["source_count"] == 35
     assert report["source_scope"]["page_count"] == 48_341
     assert len(report["owner_configs"]) == 210
     assert report["source_pdf_bytes_read"] is False
     assert report["model_files_read"] is False
     assert report["producer_identity_derivation_run"] is False
+    assert report["freshness"]["task_root"] == (
+        "pipelines/brisbane_baylands/task_03h_clean_full_v1"
+    )
+    assert report["freshness"]["completed_candidate_markers"] == []
     assert (report_path.parent / CATALOG.name).read_bytes() == CATALOG.read_bytes()

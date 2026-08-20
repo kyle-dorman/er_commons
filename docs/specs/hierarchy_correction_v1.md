@@ -33,6 +33,42 @@ uses as an anchor, or schema failure is fatal; the attempt is retained but
 never published as complete. A source PDF with no outline is valid and records
 an empty outline inventory.
 
+A destinationless outline parent is recoverable as a semantic node only through the
+separately defined unique visible-title evidence. A destinationless bookmark whose
+normalized title ends in `.pdf`, contains neither an appendix identifier nor a
+distinctive numeric identifier, and therefore cannot enter either maintained visible-
+container recovery may instead be treated as a transparent source-PDF folder when it
+owns at least one direct child, every direct child has a valid destination, and those
+destinations are nondecreasing. The filename node is omitted, its children are
+traversed under the nearest valid parent at the flattened depth, and
+`OUTLINE_FILENAME_CONTAINER_OMITTED` records the omission. A non-filename parent,
+empty child list, invalid child destination, unordered child list, or ambiguous
+visible-container candidate remains fatal.
+
+One narrower malformed-destination branch applies before pypdf outline construction.
+An indirect `.pdf` filename node with a nonempty child list and a raw destination whose
+page reference is null and whose fit-position token is numeric is normalized in memory
+to a destinationless node; source bytes are never changed. That malformed filename
+container may be omitted when its valid direct-child destinations form a nonempty,
+nondecreasing sequence. Valid children are retained at flattened depth, while invalid
+child leaves are omitted individually with `TOC_TARGET_MISSING`. An unordered or empty
+valid-child sequence, a direct malformed node, or the same malformed destination on a
+non-filename node remains fatal. This branch may bypass the appendix/numeric filename
+exclusion because the raw destination defect is independently established; it does not
+synthesize the filename as a semantic heading.
+
+Within a source outline that activates that malformed-destination branch, nested
+technical filename folders ending in `.pdf`, `Appendix_Complete_<digits>`, or `Pages`
+may also be flattened when their retained descendant destinations form a nonempty,
+nondecreasing sequence. Invalid leaves retain `TOC_TARGET_MISSING`. A fully broken
+technical subtree may be omitted as duplicate navigation only when every invalid leaf
+title has either a valid outline destination elsewhere or one unique body-heading
+match after removing generic filename/report tokens. A fully broken technical child
+below an already valid parent may instead be omitted with its missing-leaf diagnostics
+because the valid parent retains the section anchor. Deduplication is restricted to
+broken navigation evidence: document content and same-titled valid bookmarks on
+different pages are never collapsed.
+
 The input inventory is limited to these persisted signals:
 
 | Feature | Source and representation | Missing state |
@@ -310,7 +346,7 @@ ordered eligible list, selected rule, evidence, and terminal outcome.
 | `R02_DEMOTE_BULLET_HEADING` | For a bullet-prefixed raw section header with no exact outline or TOC anchor, scan on the same page until the next raw heading at the same or shallower raw level or page end. If the segment contains at least one `list_item` whose left edge is at least 18 PDF points farther right, set role `content`; otherwise return terminal ambiguity. |
 | `R03_APPLY_EXACT_OUTLINE_ANCHOR` | A unique exact normalized outline title on the same physical page promotes or retains a body item as `heading`. Follow the unique parent chain to its topmost outline ancestor; this is the selected source root. Effective level is `min(6, raw_outline_depth - selected_source_root_depth + 1)`. A missing parent link, multiple matches, or non-unique parent chain is terminal ambiguity. |
 | `R04_APPLY_EXACT_TOC_ANCHOR` | A unique `exact` TOC reconciliation promotes or retains its body target as `heading` at reconciled depth, unless R03 already applied. |
-| `R05_APPLY_NUMBERING_REGIME` | A body raw heading matching a non-bullet grammar receives an absolute level calibrated only from immutable raw evidence. Find the nearest earlier same-regime eligible numbered feature with a unique exact outline or exact TOC anchor; its offset is `supported_absolute_level - anchor_grammar_depth`, and the proposal is `offset + current_grammar_depth`. When no such immutable anchor exists, use `active_root_level + grammar_depth - 1`. No corrected decision can feed calibration. Raw list items and bullet matches are ineligible. Upper-alpha and upper-Roman markers have grammar depth 3 only inside an article regime and are otherwise ineligible. Compare the proposed level with the proposed grammar level of the nearest earlier same-regime raw heading matching an eligible non-bullet grammar; a forward jump greater than one is terminal ambiguity. With no predecessor, only a root-level proposal is allowed. |
+| `R05_APPLY_NUMBERING_REGIME` | A body raw heading matching a non-bullet grammar receives an absolute level calibrated only from immutable raw evidence. Find the nearest earlier same-regime eligible numbered feature with a unique exact outline or exact TOC anchor; its offset is `supported_absolute_level - anchor_grammar_depth`, and the proposal is `min(6, offset + current_grammar_depth)`. When no such immutable anchor exists, use `min(6, active_root_level + grammar_depth - 1)`. The cap preserves a true heading while projecting deeper source numbering into the semantic contract's deepest supported level. No corrected decision can feed calibration. Raw list items and bullet matches are ineligible. Upper-alpha and upper-Roman markers have grammar depth 3 only inside an article regime and are otherwise ineligible. For a multi-part decimal marker, compare the proposal first with the nearest earlier same-regime peer having the same depth and parent-number prefix; this prevents an intervening unrelated numbering sequence from hiding a repeated peer section. If no such peer exists, compare with the nearest earlier same-regime raw heading matching an eligible non-bullet grammar. A forward jump greater than one is terminal ambiguity. With no predecessor, only a root-level proposal is allowed. |
 | `R06_FLAG_STRUCTURAL_AMBIGUITY` | A raw `text` item matching the structural-sibling pattern is recorded as `content` with terminal ambiguity; it is not automatically promoted because the persisted producer lacks a second independent style signal. Exact outline or TOC anchors in R03/R04 are the only plain-text promotion paths. |
 | `R07_TRANSFER_LOCAL_HEADING_LEVEL` | An unsupported heading is an unnumbered raw `section_header` whose raw level is outside 1–6 or jumps by more than one from the evidence-derived level of the nearest earlier supported heading. A supported heading has a unique exact outline anchor, exact TOC reconciliation, or eligible non-bullet numbering level. The maximal cluster is every unsupported unnumbered raw heading after that supported heading and before the next supported heading, with `max(left_pt)-min(left_pt) <= 1`. Require at least two cluster items. Transfer later supported level `L` only when the earlier supported level is `L-1` and every cluster item's left edge is within 1 point of the later supported heading. Otherwise return ambiguity. |
 | `R08_DEFAULT_PRESERVE` | Map a body raw `section_header` with integer level 1–6 to `heading`; map every other body raw role to `content`; map furniture to `excluded`. Heading keeps its raw level; `content` and `excluded` have null corrected level. A later hierarchy-continuity failure remains fatal. |
@@ -389,7 +425,7 @@ Fatal invariant codes are frozen as `INPUT_COMPLETION_INVALID`,
 `MEMBERSHIP_NOT_INVERTIBLE`,
 `PUBLICATION_COLLISION`, and `REPEAT_BUILD_MISMATCH`. Warning and ambiguity
 codes are `TOC_ROW_UNPARSEABLE`, `TOC_TARGET_MISSING`,
-`OUTLINE_CONTAINER_RECOVERED`,
+`OUTLINE_CONTAINER_RECOVERED`, `OUTLINE_FILENAME_CONTAINER_OMITTED`,
 `TOC_TARGET_AMBIGUOUS`, `TOC_PAGE_CONFLICT`, `TOC_LEVEL_CONFLICT`,
 `TOC_ORDER_CONFLICT`, `NUMBERING_JUMP_UNSUPPORTED`,
 `SIBLING_EVIDENCE_CONFLICT`, `LOCAL_LEVEL_TRANSFER_CONFLICT`, and

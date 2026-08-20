@@ -122,7 +122,10 @@ def _fake_handoff(tmp_path: Path, config: RecordMappingConfig) -> None:
     conversion_id = "dconv1-" + "d" * 64
     raw_root = tmp_path / "pipelines/conversions" / conversion_id
     raw_producer = raw_root / "documents" / selected.source_id / "producer"
-    _write_json(raw_producer / "docling/document.json", {"path": "document.json"})
+    _write_json(
+        raw_producer / "docling/document.json",
+        {"path": "document.json", "view": "base"},
+    )
     _write_json(raw_producer / "asset_inventory.json", {"path": "asset_inventory.json"})
     _write_json(
         raw_producer / "docling" / "conversion_observation.json",
@@ -199,7 +202,7 @@ def _fake_handoff(tmp_path: Path, config: RecordMappingConfig) -> None:
             "inventory_path": raw_inventory_path.relative_to(tmp_path).as_posix(),
             "completion_sha256": hashlib.sha256(raw_completion.read_bytes()).hexdigest(),
             "inventory_sha256": hashlib.sha256(raw_inventory_path.read_bytes()).hexdigest(),
-            "document_view": "base",
+            "document_view": "heading",
         },
     )
     _write_jsonl(
@@ -308,6 +311,7 @@ def test_input_loader_verifies_seals_then_loads_preserved_plain_data(
     assert verified == [(inputs.producer_run_root, config.producer_run_id)]
     assert identity_inputs.selected_source == inputs.selected_source
     assert isinstance(inputs.document, dict)
+    assert inputs.document["view"] == "base"
     assert isinstance(inputs.sealed_manifest, SourceManifest)
     assert inputs.selected_source.source_id == config.selected_source_id
     assert isinstance(inputs.producer_summary_record, ProducerSummary)

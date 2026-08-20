@@ -286,9 +286,10 @@ runtime seams are responsibility-owned and typed, recovery diagnostics name corr
 evidence, and behavior-focused gates pass all 595 tests plus strict mypy across 287
 source files. The user accepted the human-maintainability result and closed Task
 03G.3 on 2026-08-18. Active [Task
-03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was activated on
-2026-08-18 and is now paused. The first five-source wave is complete, and K2 part 5
-sealed both memory-safe Docling conversions and derived table producers. Later K2
+03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was reactivated on
+2026-08-19. Clean source-free preparation completed, and the user approved a fresh
+`deir_main` run. The historical first five-source wave is complete, and K2
+part 5 sealed both memory-safe Docling conversions and derived table producers. Later K2
 work exposed a 24 GB raw view, physical duplication, a 31.3-minute mapping stage, a
 94.7-minute hierarchy failure, a separate 93.8-minute producer rebuild after
 unrelated identity churn, and a quadratic-like heading-alignment scan. Active [Task
@@ -306,9 +307,75 @@ subsecond without opening semantic payloads; an audit-only command retains exact
 full-byte verification. Ruff, strict mypy across 316 source files, all 732 tests,
 deterministic generation, and `git diff --check` pass. No additional source processing,
 collection assembly, deletion, or Docling rerun is required to close Task 03H.1.
-Task 03H remains paused pending separate user approval to restart from the first
-ordered source under the reviewed run plan; it does not continue a historical
-remaining-source queue.
+Task 03H now prepares a clean run from the first ordered source under the reviewed run
+plan; it does not continue a historical remaining-source queue or reuse historical
+Docling runs. The isolated namespace will create fresh conversion seals for all 35
+sources, and restart reuse begins only within that new run.
+The clean main-report conversion, shared producer, mapping, and hierarchy stages
+sealed within the reviewed budgets, but document structure initially treated the
+shared producer's legacy base-view annotation as the hierarchy consumer role. The
+automatic retry reused all sealed work and reproduced the failure without a model
+call. The approved repair makes base and heading explicit consumer selections while
+preserving the one sealed conversion and shared routing/table bundle. Its focused
+regressions and full 733-test repository gate pass, and Task 03H has resumed from the
+retained `deir_main` transaction under production identity `exv1-66de7f37...df405`.
+That transaction published `docv1-aea7f7e...69543`. Appendix A then sealed its fresh
+514-page conversion, shared producer, and record mapping but failed twice at hierarchy
+cross-record validation. Visual inspection proved A-3 is a heading and peer of A-2;
+intervening numbered standards rows had polluted the generic predecessor check. The
+approved repair prefers a same-depth, same-parent-prefix decimal peer and retains the
+documented fail-closed branch for genuine jumps. A live Appendix A semantic build now
+classifies A-3 as an applied level-5 heading. All 735 tests and the full gate pass under
+identity `exv1-f0c129ad...df66d7`, and Task 03H is resuming from Appendix A's sealed
+upstream artifacts without rerunning Docling.
+That resume exposed seven genuine fifth-depth `6.5.2.2.x` headings whose calibrated
+level 7 exceeded the semantic contract's level-6 maximum. The approved repair clips
+all inferred heading levels to 6 and enforces the same maximum in the hierarchy
+decision schema. Its Appendix A-shaped regression retains the deepest items as
+headings under production identity `exv1-1027d4c6...ccd3d84`; Appendix A resumes from
+its sealed upstream artifacts.
+Appendix A then published all 514 pages as `docv1-7c030772...e64bc`. Appendix B sealed
+its fresh 258-page conversion, shared producer, and record mapping, but both hierarchy
+attempts fail closed on the source PDF's destinationless `TRT.pdf` grouping bookmark.
+It owns valid child bookmarks but has no visible adjacent-page title, so the existing
+strict container recovery correctly refuses to synthesize it. Task 03H is paused
+before Appendix C. The user approved a transparent filename-container rule that
+excludes appendix-labeled and distinctively numbered recovery candidates and requires
+a nonempty, valid, internally ordered child list. Actual Appendix B inspection retains
+63 outline observations and records exactly nine omissions. All 740 tests and the full
+gate pass under identity `exv1-fb4f9bb9...8c6b68`; Appendix B is resuming from sealed
+upstream work.
+Appendix B subsequently published as `docv1-46bf7426...1624`, followed serially by
+Appendices C, D, E, F1, and F2. Appendix G1 completed fresh content parsing for all
+2,488 pages and sealed shared producer `prv1-159379eb...1b74`; all 2,076 routed table
+pages completed and record mapping sealed below the 16 GiB resource ceiling. Both
+hierarchy attempts then failed before traversal because pypdf cannot construct a raw
+`Appendix_071024.pdf` outline node whose destination array is
+`[null, 0.0, 0.0, 1]`. Its ten children include two invalid destinations, so the
+approved Appendix B transparent-container rule does not apply. Task 03H is paused
+before Appendix G2 pending review of a distinct tolerant-outline rule.
+The approved two-child G1 omission passes focused regressions, but live traversal then
+revealed an earlier destinationless `Binder4.pdf` subtree hidden by pypdf's original
+failure. Its nested Building group has one invalid and 29 valid children, while its
+Sustainability group and all nine children are invalid. Because resolving or omitting
+that nested tree exceeds the approved two-leaf change, G1 remains paused with its
+sealed upstream work reusable.
+The user approved the expanded evidence-backed cleanup and deduplication on 2026-08-20.
+The in-memory-only adapter now exhausts all five invalid G1 parents, retains 162 outline
+observations and all ordered valid descendants, removes only broken duplicate or
+missing-target navigation evidence, and preserves same-titled valid bookmarks on
+different pages. All 743 tests and the full gate pass under identity
+`exv1-cf068567...442d3`; G1 is resuming from sealed upstream work.
+G1 then published all 2,488 pages as `docv1-54e6036f...c9fdef`. Appendix G2's
+3,736-page Docling conversion ran for 14,940.61 seconds, reached 13.91 GB peak RSS,
+and received `SIGKILL` during a system-wide macOS memory-pressure event before it
+could publish a conversion seal. The table stage never began, and the automatic
+monolithic retry was stopped near the start. Active [Task
+03H.2](../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md)
+now owns a source-independent, restartable chunk-conversion experiment. It must first
+preserve the reviewed baseline on a branch, prove source-free recomposition against
+sealed G1, and check in before any bounded PDF/model comparison or G2 rerun. Task 03H
+remains paused before G2.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

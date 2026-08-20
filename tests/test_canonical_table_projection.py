@@ -387,3 +387,42 @@ def test_semantic_replacement_dispositions_use_projected_table_view(
         "table-key": "canonical_table_replacement_descendant",
         "invalid-key": "canonical_invalid_provenance_suppressed",
     }
+
+
+def test_semantic_replacement_dispositions_cover_full_page_numeric_regions(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    document = {
+        "pages": {"1": {"size": {"width": 100.0, "height": 100.0}}},
+        "tables": [
+            {
+                "label": "table",
+                "children": [{"$ref": "#/texts/0"}],
+                "captions": [],
+            }
+        ],
+        "texts": [
+            {
+                "children": [],
+                "prov": [{"page_no": 1, "bbox": {"l": 1.0, "b": 1.0, "r": 2.0, "t": 2.0}}],
+            }
+        ],
+        "groups": [],
+        "pictures": [],
+    }
+    full_page_region = replace(
+        _mapping("#/tables/0", None, 1),
+        unmapped_reason="full_page_numeric_route",
+    )
+    bundle = ProducerTableBundle(tables=(), families=(), region_mappings=(full_page_region,))
+    monkeypatch.setattr(replacement_evidence, "load_producer_table_bundle", lambda _root: bundle)
+
+    dispositions = replacement_evidence.replacement_dispositions(
+        baseline_document=document,
+        producer_root=tmp_path,
+        key_by_pointer={"#/texts/0": "table-key"},
+        relevant_keys={"table-key"},
+    )
+
+    assert dispositions == {"table-key": "canonical_table_replacement_descendant"}

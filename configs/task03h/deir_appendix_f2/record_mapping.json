@@ -14,7 +14,7 @@
       "pdf_page_count": 16
     }
   ],
-  "producer_artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_parse_evidence",
+  "producer_artifact_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v1/document_parse_evidence",
   "producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
-  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_records"
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v1/document_records"
 }

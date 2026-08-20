@@ -70,9 +70,18 @@ def _write_conversion_reference(tmp_path: Path, run_root: Path, source_id: str) 
     conversion_id = "dconv1-" + "d" * 64
     raw_root = tmp_path / "pipelines/conversions" / conversion_id
     docling = raw_root / "documents" / source_id / "producer/docling"
-    _write_json(docling / "document.json", {"texts": []})
+    _write_json(docling / "document.json", {"texts": [{"self_ref": "#/texts/0", "level": 1}]})
     (docling / "alignment_pages.jsonl").write_text("")
-    (docling / "heading_overlay.jsonl").write_text("")
+    (docling / "heading_overlay.jsonl").write_text(
+        json.dumps(
+            {
+                "schema_version": "er_commons.heading_level_overlay.v1",
+                "raw_self_ref": "#/texts/0",
+                "level": 3,
+            }
+        )
+        + "\n"
+    )
     files = [
         {
             "path": path.relative_to(raw_root).as_posix(),
@@ -210,7 +219,7 @@ def test_loader_verifies_run_and_source_before_loading_semantic_inputs(
     inputs = load_hierarchy_inference_inputs(tmp_path, config)
 
     assert calls == [(run_root, config.producer_run_id)]
-    assert inputs.document == {"texts": []}
+    assert inputs.document == {"texts": [{"self_ref": "#/texts/0", "level": 3}]}
     assert inputs.alignment_pages == {}
     assert inputs.input_inventory == {
         "producer_completion_path": completion_path.relative_to(tmp_path).as_posix(),

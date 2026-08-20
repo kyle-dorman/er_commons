@@ -3,9 +3,18 @@
 from __future__ import annotations
 
 from types import SimpleNamespace
-from typing import Any
+from typing import Any, cast
 
 import pytest
+from pypdf.generic import (
+    ArrayObject,
+    DictionaryObject,
+    FloatObject,
+    IndirectObject,
+    NameObject,
+    NullObject,
+    TextStringObject,
+)
 
 from er_commons.document_parsing.heading_evidence_parsing.alignment_projection import (
     AlignmentPage,
@@ -251,6 +260,210 @@ def test_pdf_observations_reject_destinationless_outline_parent() -> None:
         SimpleNamespace(title="Missing parent", page=9),
         [SimpleNamespace(title="Child", page=1)],
     ]
+
+    with pytest.raises(HierarchyInferenceContractError, match="child list has no parent"):
+        extract_outline_observations(reader)
+
+
+def test_pdf_observations_flatten_destinationless_filename_container() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="2020 NOP", page=0),
+        [
+            SimpleNamespace(title="TRT.pdf", page=9),
+            [
+                SimpleNamespace(title="TRT Comments", page=0),
+                SimpleNamespace(title="Attachment", page=1),
+            ],
+        ],
+    ]
+
+    result = extract_outline_observations(reader)
+
+    assert [item["title"] for item in result.observations] == [
+        "2020 NOP",
+        "TRT Comments",
+        "Attachment",
+    ]
+    parent, first_child, second_child = result.observations
+    assert first_child["parent_outline_id"] == parent["outline_id"]
+    assert second_child["parent_outline_id"] == parent["outline_id"]
+    assert first_child["raw_depth"] == 2
+    assert second_child["raw_depth"] == 2
+    assert result.diagnostics == (
+        {
+            "reading_order_index": None,
+            "stable_item_key": None,
+            "code": "OUTLINE_FILENAME_CONTAINER_OMITTED",
+            "detail": (
+                "Omitted destinationless PDF filename container 'TRT.pdf' and "
+                "flattened 2 ordered child bookmarks."
+            ),
+        },
+    )
+
+
+class _MalformedOutlineReader:
+    """Expose one raw malformed node and its post-normalization outline view."""
+
+    def __init__(self, children: list[SimpleNamespace]) -> None:
+        self._container_reference = IndirectObject(8875, 0, self)
+        self._child_reference = IndirectObject(8876, 0, self)
+        self._raw_container = DictionaryObject(
+            {
+                NameObject("/Title"): TextStringObject("Appendix_071024.pdf"),
+                NameObject("/Dest"): ArrayObject(
+                    [NullObject(), FloatObject(0.0), FloatObject(0.0), FloatObject(1.0)]
+                ),
+                NameObject("/First"): self._child_reference,
+            }
+        )
+        self._raw_child = DictionaryObject({NameObject("/Title"): TextStringObject("Placeholder")})
+        self._children = children
+        self.custom_outline: list[Any] | None = None
+        self.pages = [object(), object()]
+        self.trailer = {
+            "/Root": {
+                "/Outlines": {
+                    "/First": self._container_reference,
+                }
+            }
+        }
+
+    def get_destination_page_number(self, destination: Any) -> int:
+        return int(destination.page)
+
+    def get_object(self, reference: IndirectObject) -> DictionaryObject:
+        return (
+            self._raw_container
+            if reference.idnum == self._container_reference.idnum
+            else self._raw_child
+        )
+
+    @property
+    def outline(self) -> list[Any]:
+        destination = cast(ArrayObject, self._raw_container["/Dest"])
+        if destination[1] != "/Fit":
+            raise ValueError("Unknown Destination Type: '0.0'")
+        container = self.malformed_container()
+        return self.custom_outline or [container, self._children]
+
+    def malformed_container(self) -> SimpleNamespace:
+        return SimpleNamespace(
+            title="Appendix_071024.pdf",
+            page=9,
+            indirect_reference=self._container_reference,
+        )
+
+
+def test_pdf_observations_drop_only_invalid_children_of_malformed_container() -> None:
+    reader = _MalformedOutlineReader(
+        [
+            SimpleNamespace(title="Sustainability_Appendix_Page.pdf", page=9),
+            SimpleNamespace(title="Battery Storage", page=0),
+            SimpleNamespace(title="Solar Farm", page=1),
+            SimpleNamespace(title="Water Recycling Detailed Report", page=9),
+        ]
+    )
+
+    result = extract_outline_observations(reader)
+
+    assert [item["title"] for item in result.observations] == [
+        "Battery Storage",
+        "Solar Farm",
+    ]
+    assert [item["raw_depth"] for item in result.observations] == [1, 1]
+    assert [item["code"] for item in result.diagnostics] == [
+        "OUTLINE_FILENAME_CONTAINER_OMITTED",
+        "TOC_TARGET_MISSING",
+        "TOC_TARGET_MISSING",
+    ]
+    assert "retained 2 ordered descendant bookmarks" in result.diagnostics[0]["detail"]
+    assert "2 invalid leaf bookmarks" in result.diagnostics[0]["detail"]
+
+
+def test_pdf_observations_reject_malformed_container_with_unordered_valid_children() -> None:
+    reader = _MalformedOutlineReader(
+        [
+            SimpleNamespace(title="Later", page=1),
+            SimpleNamespace(title="Earlier", page=0),
+        ]
+    )
+
+    with pytest.raises(HierarchyInferenceContractError, match="children are unordered"):
+        extract_outline_observations(reader)
+
+
+def test_pdf_observations_deduplicate_broken_nested_filename_subtree() -> None:
+    reader = _MalformedOutlineReader([])
+    reader.custom_outline = [
+        SimpleNamespace(title="Binder4.pdf", page=9),
+        [
+            SimpleNamespace(title="_BuildingConst_Appendix_Complete_091423", page=9),
+            [
+                SimpleNamespace(title="BuildingConst_Appendix_Page.pdf", page=9),
+                SimpleNamespace(title="Building A", page=0),
+                SimpleNamespace(title="Building B", page=1),
+            ],
+            SimpleNamespace(title="_Sustainability_Appendix_Complete_091323", page=9),
+            [
+                SimpleNamespace(title="Battery Report", page=9),
+                SimpleNamespace(title="Water Recycling Detailed Report (4)", page=9),
+            ],
+        ],
+        reader.malformed_container(),
+        [
+            SimpleNamespace(title="Sustainability_Appendix_Page.pdf", page=9),
+            SimpleNamespace(title="Battery Report", page=0),
+            SimpleNamespace(title="Water Recycling Detailed Report (4)", page=9),
+            SimpleNamespace(title="Water Tank", page=1),
+        ],
+        SimpleNamespace(title="_EmissionMatrix_Appendix_Complete", page=1),
+        [
+            SimpleNamespace(title="EmissionMatrix_Pages", page=9),
+            [SimpleNamespace(title="Emissions", page=9)],
+        ],
+    ]
+    water_heading = {
+        "content_layer": "body",
+        "raw_role": "section_header",
+        "normalized_text": "bbl water recycling detailed report updated",
+    }
+
+    result = extract_outline_observations(
+        reader,
+        heading_features=[water_heading],  # type: ignore[list-item]
+    )
+
+    assert [item["title"] for item in result.observations] == [
+        "Building A",
+        "Building B",
+        "Battery Report",
+        "Water Tank",
+        "_EmissionMatrix_Appendix_Complete",
+    ]
+    assert sum(item["title"] == "Battery Report" for item in result.observations) == 1
+    assert any(
+        "Omitted duplicate broken outline subtree" in item["detail"] for item in result.diagnostics
+    )
+    assert any("EmissionMatrix_Pages" in item["detail"] for item in result.diagnostics)
+
+
+@pytest.mark.parametrize(
+    "children",
+    [
+        [
+            SimpleNamespace(title="Later", page=1),
+            SimpleNamespace(title="Earlier", page=0),
+        ],
+        [SimpleNamespace(title="Missing", page=9)],
+    ],
+)
+def test_pdf_observations_reject_unsupported_filename_container(
+    children: list[SimpleNamespace],
+) -> None:
+    reader = _Reader()
+    reader.outline = [SimpleNamespace(title="Folder.pdf", page=9), children]
 
     with pytest.raises(HierarchyInferenceContractError, match="child list has no parent"):
         extract_outline_observations(reader)

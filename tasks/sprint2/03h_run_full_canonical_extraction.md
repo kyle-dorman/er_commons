@@ -1,16 +1,258 @@
 # Task 03H: Publish and Validate the Full Document Collection
 
-Status: **paused pending separate user approval to restart from the first ordered
-source under the reviewed post-[Task 03H.1](03h1_profile_and_repair_full_document_scaling.md)
-execution plan**. Task 03H.1 closed on 2026-08-19; that closure does not authorize
-PDF/model execution. Task 03H was activated
-by user direction on 2026-08-18. Tasks 03G.1,
+Status: **paused while active Task
+[03H.2](03h2_build_restartable_chunked_docling_conversion.md) repairs the conversion
+boundary exposed by Appendix G2**. Appendix B published after its transparent-container
+repair, Appendices C through F2 published serially, and Appendix G1 published after its
+malformed-outline and deduplication repair. Appendix G2's first clean Docling attempt
+ran for 14,940.61 seconds and was killed during system-wide memory pressure before a
+conversion seal or table-stage invocation. Its automatic retry was stopped near the
+start. No Appendix G3 or later source has begun.
+Task 03H was originally activated by user direction on 2026-08-18. Tasks 03G.1,
 03G.2, all observed-failure remediation, and the [Task
 03G.3](03g3_align_pipeline_responsibilities_and_names.md) architecture and
 naming refactor are accepted and closed. Activation begins with the no-PDF
 preparation phase: implement and offline-validate the independently sealed
 content-parsing restart boundary and write the short run plan required below.
 Check in with the user before source-PDF or model execution.
+
+## Restart activation checkpoint: 2026-08-19
+
+The user reactivated Task 03H for source-free restart preparation and orientation.
+The reviewed post-Task-03H.1 plan starts from the exact 35-source order and writes the
+serial run plan from `deir_main`, the first ordered source. By user decision on
+2026-08-19, the run must also start clean at the Docling boundary. It must not
+continue the historical first-wave or remaining-source queue and must not reuse any
+historical Docling bundle. All stages and all 35 terminal document records belong to
+the new run.
+
+This checkpoint authorizes no source-PDF read, Docling/model construction, document
+publication, collection assembly, artifact deletion, or reuse claim. After the
+source-free preparation and offline validation are complete, report the regenerated
+identity, ordered work plan, resource bounds, and clean-build decisions,
+then obtain separate user approval before the first PDF/model-capable command.
+
+The clean run uses
+`pipelines/brisbane_baylands/task_03h_clean_full_v1/`. Deterministic source-free
+generation owns that namespace in all 210 process configurations, the document and
+collection specifications, and the production identity. The readiness preflight
+inspects only the clean root and ignores the retained historical Task 03H tree. Its
+exact 35-source order begins with `deir_main`.
+
+Source-free regeneration and readiness validation completed on 2026-08-19. The clean
+production identity is
+`exv1-9bac33fc761a60ef98b09a708299d9bfe32be36b97bfbb1c7a265eb891293e70`.
+The readiness record at
+`pipelines/brisbane_baylands/task_03h_clean_full_v1/inputs/task03h_preparation_readiness.json`
+reports `ready_for_user_authorized_clean_run`, zero clean-run completion markers,
+zero historical lineage pins, and false for both source-PDF and model-file reads.
+Only the catalog and readiness record exist below the clean external root.
+
+## Clean main-report execution checkpoint: 2026-08-19
+
+The user approved fresh PDF/model execution and continued serial processing unless a
+major blocker appeared. The first `deir_main` attempt built and sealed a new 2,092-page
+Docling conversion, one shared routing/table producer, canonical record mapping, and
+hierarchy inference entirely below the clean namespace. Content parsing took
+1,057.30 seconds; heading-evidence parsing reused the common conversion and shared
+producer in 0.60 seconds; record mapping took 26.86 seconds; and hierarchy inference
+took 28.42 seconds. Peak process RSS was 12,517,179,392 bytes, below the 16-GiB bound.
+The shared producer records 1,551 no-table pages, 541 layout-region pages, 513 logical
+tables, and 388 families. No second Docling conversion ran.
+
+Document structure then failed closed before publication with
+`CompletedRunInvariantError: completed-run invariant failed
+[conversion_document_views]: one base and one heading view are required`. The common
+`prv1-4673283f...5f046` routing/table bundle contains only one
+`records/conversion_input.json`, written by the first base-view caller. The heading
+caller correctly reuses that same producer identity but receives the same base-view
+reference. Document structure therefore sees base plus base rather than the required
+base plus heading pair. The earlier hierarchy stage also loaded the base view through
+that shared reference, so its completion is retained failure-context evidence and
+must not be promoted as the clean-run hierarchy result.
+
+The automatic second attempt made zero Docling or table calls, reused parsing,
+mapping, and hierarchy seals in 8.19 seconds, and reproduced the same failure. It is
+retained as terminal attempt evidence. No document completion, second source, or
+collection work existed at that checkpoint.
+
+The user approved a bounded repair and resume on 2026-08-19. The repair makes document
+view an explicit consumer role: record mapping requests `base`, hierarchy inference
+requests `heading`, and document structure treats its ordered inputs as base and
+heading while verifying that both resolve to the same sealed conversion owner. The
+legacy `document_view` value in the shared producer reference remains readable
+provenance about the caller that first published the shared bundle, but it no longer
+overrides the downstream stage's semantic role. This keeps the sealed conversion and
+shared `prv1-4673283f...5f046` routing/table bundle immutable and reusable. A direct
+regression passes the exact same base-tagged reference for both roles and proves one
+raw document load plus a detached overlay-derived heading view. Record-mapping and
+hierarchy input regressions independently prove their explicit selections.
+
+The regenerated production identity is
+`exv1-66de7f37f3bfce8832e350d73537d65f04b608fbf51bff6cf2c0b13960fdf405`.
+Ruff, strict mypy across 316 source files, all 733 tests, deterministic Task 03H
+generation, and `git diff --check` pass before resumed execution.
+
+## Appendix A execution blocker: 2026-08-19
+
+The repaired `deir_main` transaction reused the clean conversion and shared producer,
+then rebuilt only the corrected downstream stages. It published complete-with-warnings
+document candidate `docv1-aea7f7e...69543` for all 2,092 pages. The corrected record
+mapping, hierarchy, document structure, and document-reference stages took 26.11,
+29.49, 29.89, and 5.05 seconds, respectively.
+
+Serial execution then started Appendix A. Its fresh 514-page conversion and shared
+producer sealed as `dconv1-3dc176e9...e6603b` and `prv1-914a26ff...f5a59` in 294.23
+seconds at 10,932,436,992 bytes peak RSS. The producer records 374 no-table pages, 140
+layout-region pages, 167 logical tables, and 162 families. Record mapping sealed as
+`exv1-76dc6235...9e3e2`. Hierarchy inference failed twice during semantic cross-record
+validation on stable item key `fdbda7ff...7c81` with `R05 role differs`.
+
+The failure exposes a source-independent contradiction already visible between the
+written R05 policy, rule application, and validator. R05 intentionally emits terminal
+ambiguity with role `content`, null level, and conflict code
+`NUMBERING_JUMP_UNSUPPORTED` when a numbering proposal jumps forward by more than one;
+the direct decision-builder regression requires exactly that result. The independent
+R05 cross-record validator instead unconditionally requires role `heading` and the
+proposed level for every R05 decision. Appendix A is the first clean heading-view
+source to exercise that valid ambiguity through full candidate validation.
+
+Visual inspection changed the repair scope before implementation. The source page
+shows `3.6.3 A-3: MULTI-FAMILY LOW` as an unambiguous peer of the identically styled
+`3.6.2 A-2: MULTI-FAMILY MID`, followed by subordinate `DESCRIPTION`. Intervening
+numbered rows such as `5.2 Residential Building ID Sign` and `6. Sustainability` are
+inside the A-2 required-standards sequence but some are attached to `#/body` by the
+raw conversion, so table ancestry is not a reliable general filter. Their unrelated
+numbering caused the jump check to compare inferred level 3 with A-3's level 5.
+
+The user approved the semantic repair on 2026-08-19. For a multi-part decimal marker,
+R05 now prefers the nearest earlier same-regime peer with the same depth and parent-
+number prefix before falling back to the nearest unrelated numbered heading. A-3
+therefore compares with A-2 through shared prefix `3.6`, remains a heading at level 5,
+and carries no numbering-jump ambiguity. R05's independent validator also now accepts
+its separately documented fail-closed ambiguity branch for genuine unsupported jumps.
+Focused regressions cover both behaviors. A live Appendix A semantic rebuild gives
+A-3 `corrected_role=heading`, `corrected_level=5`, and `outcome=applied`; the rule and
+hierarchy validators pass. The regenerated production identity is
+`exv1-f0c129adff879e7c345a76b1d5418293f4872e3d270bb8cc220d6b5ae8df66d7`.
+Ruff, strict mypy across 316 source files, all 735 tests, deterministic generation,
+and `git diff --check` pass before resuming Appendix A. Its clean conversion, shared
+producer, and mapping artifacts remain immutable reusable inputs; Docling must not
+rerun.
+
+The resumed Appendix A hierarchy sealed with the peer-numbering correction, but
+document structure then failed because seven genuine fifth-depth headings under
+`6.5.2.2` had corrected level 7 while the semantic-structure contract permits levels
+1 through 6. Visual inspection of physical pages 355, 357, 359, and 361 confirmed
+that `6.5.2.2.1` through `6.5.2.2.7` are real headings and that the base conversion
+already represents them at raw level 6. The mismatch was source-independent: R03
+outline evidence already caps effective levels at 6, while R05 numbering calibration
+did not.
+
+The user approved clipping inferred heading levels to 6 on 2026-08-19. R05 now
+applies `min(6, proposed_level)` for both calibrated and fallback numbering; anchor
+and TOC applications use the same maximum; and the hierarchy decision schema rejects
+corrected levels above 6 so this boundary fails in its owning stage rather than later
+document structure. A direct Appendix A-shaped regression proves the sequence
+`3, 4, 5, 6, 6`, retains the fifth-depth item as an applied heading, and independently
+recomputes the same validator levels. The regenerated production identity is
+`exv1-1027d4c6fdc86b8d8d2fa90680bd66b49079884bd9f31b6612d44ccabccd3d84`.
+
+Full source-free validation passed Ruff, strict mypy across 316 source files, all 737
+tests, deterministic Task 03H generation, and `git diff --check`. Appendix A then
+reused its sealed conversion, shared producer, and mapping, rebuilt hierarchy as
+`hcorv1-88c700e2...e8a71`, and published all 514 pages as
+`docv1-7c030772...e64bc` with raw Docling status `SUCCESS`.
+
+## Appendix B outline-container blocker: 2026-08-19
+
+Appendix B began next in manifest order. Its fresh 258-page Docling conversion sealed
+as `dconv1-427645ba...b6ffc`; the shared routing/table producer sealed as
+`prv1-6b4a7297...1653` after 66.64 seconds at 7,355,318,272 bytes peak RSS. It records
+253 no-table pages, five layout-region pages, three logical tables, and three table
+families. Record mapping also sealed. The configured retry reused all sealed work and
+both hierarchy attempts failed identically during outline observation with
+`UNKNOWN_REFERENCE: outline child list has no parent`. No Appendix C work started.
+
+Read-only outline inspection found that the source PDF uses destinationless `.pdf`
+filename bookmarks as grouping nodes. Under `2020 NOP`, the first is `TRT.pdf`; it
+has no destination and owns three valid child bookmarks on physical pages 166, 170,
+and 172. Physical page 165 is the end of the previous attachment, while page 166
+begins the Tuolumne River Trust letter, so the filename is not a visible heading that
+the existing adjacent-page recovery may synthesize. The same outline contains seven
+more destinationless filename groups under `2020 NOP` and one under the valid
+`Roland Lebrun` bookmark in `2023 NOP (Revised)`.
+
+The user approved a separate transparent-container rule on 2026-08-19. A plain
+destinationless `.pdf` filename with neither an appendix nor distinctive numeric
+identifier is omitted only when its nonempty direct-child list has valid nondecreasing
+destinations; its children traverse under the current valid parent at flattened depth
+and `OUTLINE_FILENAME_CONTAINER_OMITTED` records the omission. Appendix-labeled,
+distinctively numbered, non-filename, empty, invalid-child, and unordered containers
+retain the earlier visible-evidence recovery or fatal rejection. Focused regressions
+preserve both earlier rejection cases. Read-only execution against Appendix B retains
+63 outline observations and emits exactly nine named filename-container omissions.
+Ruff, strict mypy across 316 source files, all 740 tests, deterministic Task 03H
+generation, and `git diff --check` pass under regenerated production identity
+`exv1-fb4f9bb94aa1f648756b75979a976722f7164836c654c06d187065deb88c6b68`.
+
+## Clean serial publication through Appendix G1: 2026-08-19
+
+The repaired Appendix B published as `docv1-46bf7426...1624`. The same validated
+identity then published Appendix C as `docv1-144895ad...cd4f`, Appendix D as
+`docv1-ced2e404...fd54`, Appendix E as `docv1-68759f7f...162`, Appendix F1 as
+`docv1-324cb098...2332`, and Appendix F2 as `docv1-acf75493...1631b`.
+
+Appendix G1 next completed fresh content parsing for all 2,488 pages. Its routing
+manifest records 412 no-table pages, 2,060 layout-region pages, and 16 full-page
+numeric pages; all 2,076 routed pages completed table reconstruction. The shared
+producer sealed as `prv1-159379eb...1b74`, and record mapping sealed after projecting
+52,012 records. Peak attempt RSS was 12,653,035,520 bytes, below the 16 GiB policy.
+
+Hierarchy inference then failed before outline traversal. The source contains one raw
+outline node titled `Appendix_071024.pdf` whose malformed destination array is
+`[null, 0.0, 0.0, 1]`; pypdf interprets the numeric second element as a fit type and
+raises `PdfReadError: Unknown Destination Type: '0.0'` while constructing the entire
+outline. The automatic retry reused sealed upstream work and failed identically, so
+Appendix G1 is terminal under the current identity and Appendix G2 has not started.
+Read-only raw-object inspection confirms that this node owns ten children, two of
+which also lack valid destinations. This differs from Appendix B's bounded transparent
+container case, which requires every direct child destination to be valid and ordered.
+Any tolerant raw-outline adapter or new omission/recovery rule therefore requires a
+separate review before implementation.
+
+The user approved retaining the eight valid children of `Appendix_071024.pdf` and
+omitting only its two invalid child bookmarks. A focused in-memory adapter and
+regressions pass, but the first live outline traversal exposed an earlier defect that
+pypdf's original construction failure had masked. Destinationless `Binder4.pdf` owns
+seven direct groups. `_BuildingConst_Appendix_Complete_091423` is itself
+destinationless and owns one invalid plus 29 valid child bookmarks;
+`_Sustainability_Appendix_Complete_091323` is destinationless and all nine of its
+children are invalid. The later `Appendix_071024.pdf` subtree duplicates most of the
+Sustainability navigation, while visible Battery Storage and Water Recycling headings
+remain in the sealed conversion. Resolving or omitting this earlier nested subtree is
+materially broader than the approved two-leaf omission, so execution remains paused
+before G1 hierarchy publication and Appendix G2.
+
+The user approved the expanded evidence-backed cleanup and outline deduplication on
+2026-08-20. The tolerant adapter modifies only pypdf's in-memory view of the exact
+null-page/numeric-fit destination; source bytes remain immutable. Within that activated
+outline, technical filename folders may flatten only across a nonempty ordered set of
+valid descendants. Broken duplicate subtrees may disappear only when every invalid
+leaf has a valid bookmark elsewhere or one unique visible body heading; same-titled
+valid bookmarks on different pages remain distinct. A fully broken technical child of
+an already valid parent retains the parent anchor and explicit missing-leaf diagnostic.
+
+Actual G1 inspection now exhausts all five invalid parents in one pass. It retains 66
+ordered descendants from `Binder4.pdf`, including 29 from the Building group; omits
+the one invalid Building placeholder; removes the nine-leaf broken Sustainability
+duplicate in favor of eight later valid bookmarks plus the unique visible Water
+Recycling heading; omits the broken `EmissionMatrix_Pages` child below its valid parent;
+and retains eight ordered children from `Appendix_071024.pdf` while omitting its two
+invalid leaves. The resulting outline has 162 observations and ten diagnostics.
+Ruff, strict mypy across 316 source files, all 743 tests, deterministic Task 03H
+generation, and `git diff --check` pass under production identity
+`exv1-cf06856763a69d67205f5b44d79b189b9f0ea4e54d7363bce8651eaa535442d3`.
 
 ## Restart boundary after Task 03H.1
 
@@ -22,13 +264,13 @@ plan beginning with the first source, and check in with the user before any PDF/
 work. Historical first-wave and K2 results remain diagnostic evidence only; they do
 not count toward the new run's 35 terminal records.
 
-Starting from the beginning does not mean blindly recomputing expensive conversion.
-For each source in order, Task 03H first validates the current conversion identity,
-completion, inventory, page accounting, and exact source/model/runtime bindings. An
-exact current seal is reused without constructing Docling; a missing, stale, or
-invalid seal is rebuilt and recorded normally. All post-Docling stages are regenerated
-under the current compact schemas. No compatibility reader or historical downstream
-bundle is maintained merely to preserve the stopped run.
+Starting clean means recomputing Docling conversion for every required source and
+configuration in the new run namespace. The first pass may not resolve or copy a
+conversion, producer, document, or collection completion from the historical Task
+03H root, even when its content identity matches. After a fresh conversion seals in
+the clean namespace, interruption/resume and downstream retries may reuse that exact
+new-run seal. All post-Docling stages are also regenerated under the current compact
+schemas. No compatibility reader or historical downstream bundle is maintained.
 
 The new Task 03H owns corpus execution, all 35 terminal document records, collection
 assembly and validation, and the eventual deletion manifest for superseded
@@ -93,8 +335,8 @@ The configuration gate is complete. The checked-in production-full inputs are:
 - native-v2 production identity
   `exv1-2062cbc522311109775485bd6b816c030b601f65abbb404514b36c3526aad332`.
 
-These source-free closeout values will change again when Task 03H regenerates its
-execution identity after Task 03H.1 is committed; they are not approval to execute.
+These were the historical preparation values used before the stopped run. They are
+not the clean-run identity inputs or approval to execute.
 
 The source-free readiness report is
 `pipelines/brisbane_baylands/task_03h/inputs/task03h_preparation_readiness.json`
@@ -368,16 +610,14 @@ Write a short run plan immediately before execution. Confirm:
    a complete validated candidate and handoff can credibly finish within that
    window; if not, report the estimate and revised schedule before allocating
    the corpus run;
-6. a first wave of four to six diverse small or medium documents that runs
-   through the complete document pipeline. Select the exact sources in the run
-   plan from page count, layout/table regime, rotation, and learned-fallback
-   evidence; do not select only easy controls;
-7. that the first wave passes conversion sealing, derived producer stages, all
-   document processes, and reuse verification before the remaining conversions
-   are scheduled;
-8. after the first wave passes, a work queue that may convert the remaining
-   documents and start later stages as each conversion seal becomes available,
-   without waiting for all 35 conversions or weakening resource limits;
+6. the exact manifest order for one serial clean-build queue beginning with
+   `deir_main`, with no historical completion eligible as a queue result;
+7. that `deir_main` passes fresh conversion sealing, derived producer stages, all
+   document processes, and an exact within-run reuse invocation before the second
+   ordered source starts;
+8. after the main-report checkpoint passes, a serial work queue that completes each
+   source through the document pipeline before starting the next source, without
+   weakening resource limits;
 9. stage-specific invalidation and restart behavior:
    - record-mapping or later-process changes reuse sealed Docling and derived parsing
      evidence when their identities still verify;
@@ -442,8 +682,8 @@ explicit Task 03G or owning earlier-task revision.
   outputs.
 - Verify cross-document resolution leaves stage-one checksums unchanged.
 - Recompute aggregate counts instead of trusting separately maintained totals.
-- Reinvoke the accepted Task 03G.2 pilot subset under the Task 03H contract and
-  verify the exact reuse or rebuild behavior frozen after Task 03G.
+- Reinvoke completed clean-run sources under the Task 03H contract and verify exact
+  within-run reuse without consulting historical Task 03G or Task 03H roots.
 - Exercise the invalidation matrix without rerunning PDFs: a downstream-only
   identity change must reuse sealed Docling evidence, a routing/table identity
   change must rebuild from it, and a conversion-owned change must refuse reuse.
@@ -474,8 +714,8 @@ git diff --check
 - Every successful required Docling conversion has its own verified immutable
   completion, and routing/table or downstream remediation can reuse it without
   model execution when conversion-owned inputs are unchanged.
-- The diverse first wave completes end to end before remaining corpus
-  conversion is scheduled.
+- The main report completes end to end from a fresh Docling conversion and passes an
+  exact within-run reuse invocation before the second ordered source starts.
 - No completed main-document raw conversion runs twice under the same frozen
   raw-conversion identity.
 - A material native-extraction failure in the main report blocks candidate

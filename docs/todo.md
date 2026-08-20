@@ -263,16 +263,18 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    the result and closed Task 03G.3 on 2026-08-18. No source-PDF/model run or
    accepted-artifact mutation occurred.
 6. Paused [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was activated by
-   user direction on 2026-08-18. The no-PDF implementation now separates a
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was reactivated by
+   user direction on 2026-08-19. Clean source-free preparation completed, and the
+   user approved a fresh `deir_main` run. The implementation separates a
    completion-last `dconv1-` conversion bundle from the derived `prv1-` producer,
    verifies full page accounting and exact managed bytes before consumption, and
    checksum-reuses conversion before constructing Docling. Offline tests cover
    routing-only invalidation, interruption/resume, corruption rejection, and single
    failure accounting. The exact production-full v2 specification set is now prepared:
    35 ordered sources, 210 unique process configs, a complete family catalog, and a
-   native-v2 production identity. The source/model-free readiness record reports no
-   existing Task 03H completion markers. The user approved the five-source wave.
+   native-v2 production identity. The historical source/model-free readiness record
+   reported no existing Task 03H completion markers before the first wave. The user
+   approved that five-source wave.
    F2, L, O, C, and E are sealed under their accepted production identity
    `exv1-b894b665a8f4809edc9d0ceaec1628839d7e6ffd3beb7e2934c2717694625cbd`
    and identical invocations reuse the exact document completions in under one
@@ -334,10 +336,89 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    reports processed/total units, throughput, and ETA. Deterministic Task 03H
    generation, Ruff, strict mypy across 316 source files, all 732 tests, and
    `git diff --check` pass. The final independent review reports no P0 or P1 finding.
-   No other source, collection assembly, deletion, or Docling rerun is required for
-   Task 03H.1 closure. Task 03H remains paused pending separate user approval to
-   restart from the first ordered source rather than continue a historical
-   remaining-source queue.
+   No other source, collection assembly, deletion, or Docling rerun was required for
+   Task 03H.1 closure. Task 03H now prepares a clean run from the first ordered source
+   rather than continuing a historical remaining-source queue. By user decision on
+   2026-08-19, it will not reuse historical Docling runs; new-run restart reuse begins
+   only after each source has produced a fresh seal in the isolated namespace. The
+   main report sealed its fresh 2,092-page conversion, shared routing/table producer,
+   record mapping, and hierarchy evidence within all resource budgets, but document
+   structure initially treated the shared producer's legacy base-view annotation as
+   the hierarchy consumer role. The automatic retry reused all sealed stages and
+   reproduced the failure without a model call. The user approved a bounded repair
+   and resume on 2026-08-19. Base and heading are now explicit consumer selections,
+   so the one clean conversion and shared routing/table bundle remain reusable. The
+   focused regressions, deterministic generation, Ruff, strict mypy across 316 source
+   files, all 733 tests, and `git diff --check` pass. Resume the retained `deir_main`
+   transaction, then continue the exact serial source order unless a major blocker
+   appears. The current production identity is `exv1-66de7f37...df405`. The repaired
+   main report published as `docv1-aea7f7e...69543`. Appendix A subsequently sealed
+   its fresh 514-page conversion, shared producer, and record mapping, then failed
+   twice at hierarchy validation because R05's validator rejects the documented
+   terminal-ambiguity result for an unsupported numbering jump. No Appendix B or later
+   source started. Visual inspection proved A-3 is a peer heading to A-2, while
+   unrelated numbered required-standards rows polluted the predecessor check. The user
+   approved a source-independent peer-numbering repair: multi-part decimal headings
+   prefer the nearest same-depth, same-parent-prefix peer, and genuine numbering jumps
+   retain their validated ambiguity branch. The live Appendix A semantic result now
+   keeps A-3 as an applied level-5 heading. Deterministic generation, Ruff, strict mypy
+   across 316 source files, all 735 tests, and `git diff --check` pass under identity
+   `exv1-f0c129ad...df66d7`. Resume Appendix A from its sealed conversion, producer,
+   and mapping artifacts without rerunning Docling, then continue serially.
+   The resumed hierarchy then reached document structure and exposed seven real
+   `6.5.2.2.x` headings at corrected level 7, beyond the semantic contract's level-6
+   maximum. The user approved clipping inferred levels to 6. The hierarchy policy and
+   schema now share that maximum, and an Appendix A-shaped regression preserves the
+   fifth-depth items as applied headings. The current production identity is
+   `exv1-1027d4c6...ccd3d84`. Resume Appendix A from sealed upstream artifacts, then
+   continue serially unless another major blocker appears.
+   Appendix A published all 514 pages as `docv1-7c030772...e64bc`. Appendix B then
+   sealed its fresh 258-page conversion `dconv1-427645ba...b6ffc`, shared producer
+   `prv1-6b4a7297...1653`, and record mapping, but both hierarchy attempts fail on a
+   destinationless `TRT.pdf` bookmark that owns three valid child bookmarks. Eight
+   other destinationless filename groups occur in the same outline. The current
+   visible-title recovery correctly refuses to invent a heading because the filename
+   is absent from the adjacent pages. The user approved the bounded transparent
+   filename-container rule. It preserves appendix/numeric recovery candidates and
+   rejects empty, invalid, or unordered folders; actual Appendix B inspection records
+   exactly nine omissions and retains 63 outline nodes. The full 740-test gate passes
+   under identity `exv1-fb4f9bb9...8c6b68`. Resume Appendix B from sealed upstream
+   artifacts, then continue serially unless another major blocker appears.
+   Appendix B published as `docv1-46bf7426...1624`, and Appendices C through F2 also
+   published serially. Appendix G1 completed all 2,488 pages of clean content parsing,
+   sealed `prv1-159379eb...1b74`, and sealed record mapping after all 2,076 routed
+   table pages completed. Both hierarchy attempts fail before traversal on a malformed
+   raw `Appendix_071024.pdf` destination array `[null, 0.0, 0.0, 1]`. The node's ten
+   children include two invalid destinations, so the approved bounded Appendix B rule
+   cannot flatten it. Pause before Appendix G2 and review a distinct tolerant-outline
+   rule while reusing Appendix G1's sealed upstream work.
+   The user approved dropping only the two invalid children of
+   `Appendix_071024.pdf`, but the first tolerant live traversal revealed an earlier
+   destinationless `Binder4.pdf` tree hidden by pypdf's original crash. Its Building
+   group has one invalid and 29 valid child bookmarks; its Sustainability group and
+   all nine children are invalid, though later bookmarks and visible headings duplicate
+   most semantic boundaries. Treat this nested subtree as a new major blocker rather
+   than silently broadening the approved two-leaf omission.
+   The user approved the expanded cleanup and deduplication on 2026-08-20. The bounded
+   in-memory adapter now exhausts all five invalid G1 parents, retains 162 outline
+   observations, preserves 66 ordered Binder descendants and eight later Sustainability
+   bookmarks, removes only broken duplicate or missing-target navigation evidence, and
+   records ten diagnostics. Same-titled valid bookmarks on different pages remain
+   distinct. The full 743-test gate passes under identity `exv1-cf068567...442d3`.
+   G1 then published as `docv1-54e6036f...c9fdef`. G2's first clean 3,736-page Docling
+   attempt ran 14,940.61 seconds, peaked at 13,907,099,648 bytes RSS, and was killed
+   during system-wide memory pressure before conversion sealing or table extraction.
+   Its automatic retry was stopped near the start rather than risk repeating the same
+   four-hour loss.
+7. Active [Task
+   03H.2](../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md)
+   owns the resulting source-general scaling experiment. First preserve the complete
+   approved Task 03H repair baseline on a dedicated branch and commit. Then prove a
+   deterministic, reference-closed recomposition against sealed G1 without reading a
+   PDF or constructing Docling. Check in before any bounded split-versus-contiguous
+   PDF/model comparison, document-driven G2 range inspection, concurrency benchmark,
+   or G2 rerun. Task 03H remains paused before G2; no later source or collection work
+   may start.
 8. Independently review usability and freeze the accepted extraction release
    in Task 04.
 9. Continue through the separately identified curator-only response inventory,

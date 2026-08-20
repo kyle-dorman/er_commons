@@ -73,6 +73,12 @@ than receiving a physical copy of the conversion payload. A verified `dconv1-` h
 before `DocumentConverter` construction, so routing or table changes do not allocate
 Docling or rerun the PDF.
 
+The reference's v1 `document_view` field records which caller first published a
+shared routing/table bundle; it is legacy provenance, not downstream view policy.
+Record mapping explicitly selects the base document, hierarchy inference explicitly
+selects the heading-overlay view, and document structure verifies that those ordered
+roles share one conversion owner before loading the base bytes once.
+
 The conversion publication retains Docling's complete semantic and provenance model
 but externalizes raster payloads before serializing `document.json`. Available figure
 crops are written and checksummed first; embedded page renders and duplicate picture

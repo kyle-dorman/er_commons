@@ -7,6 +7,8 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
 
+from er_commons.hierarchy_inference.constants import MAX_HEADING_LEVEL
+
 JsonRecord = dict[str, Any]
 
 
@@ -44,9 +46,9 @@ def derive_level_evidence(
         if feature["outline_state"] == "unique_exact":
             if feature["outline_level"] is None:
                 raise ValueError(f"unique outline anchor lacks effective level: {key}")
-            supported[key] = int(feature["outline_level"])
+            supported[key] = min(MAX_HEADING_LEVEL, int(feature["outline_level"]))
         elif key in toc_targets:
-            supported[key] = toc_targets[key][1]
+            supported[key] = min(MAX_HEADING_LEVEL, toc_targets[key][1])
         elif key in numbering_levels:
             supported[key] = numbering_levels[key]
     return LevelEvidence(
@@ -73,7 +75,8 @@ def calibrated_numbering_levels(
         regime_id = feature["regime_id"]
         depth = int(feature["numbering_depth"])
         anchors = immutable_anchors.setdefault(regime_id, [])
-        levels[key] = anchors[-1][0] - anchors[-1][1] + depth if anchors else fallback
+        proposed_level = anchors[-1][0] - anchors[-1][1] + depth if anchors else fallback
+        levels[key] = min(MAX_HEADING_LEVEL, proposed_level)
 
         absolute_level: int | None = None
         if feature["outline_state"] == "unique_exact":
@@ -84,7 +87,7 @@ def calibrated_numbering_levels(
         elif key in toc_targets:
             absolute_level = toc_targets[key][1]
         if absolute_level is not None:
-            levels[key] = absolute_level
+            levels[key] = min(MAX_HEADING_LEVEL, absolute_level)
             anchors.append((absolute_level, depth))
     return levels
 
@@ -102,7 +105,10 @@ def _numbering_level(
         return None
     if kind in {"upper_alpha", "upper_roman"} and feature["regime_id"] not in article_regimes:
         return None
-    return int(regimes[feature["regime_id"]]["root_level"]) + int(depth) - 1
+    return min(
+        MAX_HEADING_LEVEL,
+        int(regimes[feature["regime_id"]]["root_level"]) + int(depth) - 1,
+    )
 
 
 def _local_level_transfers(

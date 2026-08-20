@@ -6,7 +6,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, cast
 
-from er_commons.hierarchy_inference.constants import RULE_ORDER
+from er_commons.hierarchy_inference.constants import MAX_HEADING_LEVEL, RULE_ORDER
 from er_commons.hierarchy_inference.rule_context import RuleEvaluationState
 from er_commons.hierarchy_inference.semantic_types import (
     DiagnosticRecord,
@@ -85,13 +85,27 @@ def _r02_demote_bullet(context: RuleEvaluationState) -> RuleApplication:
 def _r03_apply_outline(context: RuleEvaluationState) -> RuleApplication:
     level = context.policy.levels.supported_levels[context.feature["stable_item_key"]]
     context.evidence["outline_level"] = level
-    return RuleApplication(_decision(context, role="heading", level=level, outcome="applied"))
+    return RuleApplication(
+        _decision(
+            context,
+            role="heading",
+            level=min(MAX_HEADING_LEVEL, level),
+            outcome="applied",
+        )
+    )
 
 
 def _r04_apply_toc(context: RuleEvaluationState) -> RuleApplication:
     toc_id, depth = context.policy.toc_targets[context.feature["stable_item_key"]]
     context.evidence["toc_entry_id"] = toc_id
-    return RuleApplication(_decision(context, role="heading", level=depth, outcome="applied"))
+    return RuleApplication(
+        _decision(
+            context,
+            role="heading",
+            level=min(MAX_HEADING_LEVEL, depth),
+            outcome="applied",
+        )
+    )
 
 
 def _r05_apply_numbering(context: RuleEvaluationState) -> RuleApplication:

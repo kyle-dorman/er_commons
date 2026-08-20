@@ -95,13 +95,14 @@ def load_conversion_document(
     resolved: ResolvedConversionInput,
     *,
     source_id: str,
+    document_view: Literal["base", "heading"],
 ) -> dict[str, Any]:
-    """Load the configured base or heading view from one common document owner."""
+    """Load the consumer-selected view from one common document owner."""
     prefix = f"documents/{source_id}/producer/docling"
     document_relative = f"{prefix}/document.json"
     inventory_file_record(resolved, document_relative)
     document = read_json_object(resolved.root / document_relative)
-    if resolved.reference.document_view == "base":
+    if document_view == "base":
         return document
     overlay_relative = f"{prefix}/heading_overlay.jsonl"
     inventory_file_record(resolved, overlay_relative)
@@ -127,26 +128,15 @@ def load_document_views(
             "conversion_document_views",
             "baseline and hierarchy views must share one sealed conversion owner",
         )
-    if {reference.document_view for reference in references} != {"base", "heading"}:
-        raise CompletedRunInvariantError(
-            "conversion_document_views",
-            "one base and one heading view are required",
-        )
-    base = baseline if baseline.reference.document_view == "base" else hierarchy
-    heading = hierarchy if hierarchy.reference.document_view == "heading" else baseline
     prefix = f"documents/{source_id}/producer/docling"
     document_relative = f"{prefix}/document.json"
     overlay_relative = f"{prefix}/heading_overlay.jsonl"
-    inventory_file_record(base, document_relative)
-    inventory_file_record(heading, overlay_relative)
-    document = read_json_object(base.root / document_relative)
-    overlay = list(iter_jsonl(heading.root / overlay_relative))
+    inventory_file_record(baseline, document_relative)
+    inventory_file_record(hierarchy, overlay_relative)
+    document = read_json_object(baseline.root / document_relative)
+    overlay = list(iter_jsonl(hierarchy.root / overlay_relative))
     heading_document = apply_heading_overlay(document, overlay)
-    return (
-        (document, heading_document)
-        if baseline.reference.document_view == "base"
-        else (heading_document, document)
-    )
+    return document, heading_document
 
 
 __all__ = [

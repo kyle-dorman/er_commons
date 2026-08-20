@@ -44,16 +44,16 @@ def replacement_dispositions(
     table_bundle = project_canonical_table_bundle(
         baseline_document, load_producer_table_bundle(producer_root)
     )
-    mapped_table_refs = {
+    replaced_table_refs = {
         mapping.raw_object_ref
         for mapping in table_bundle.region_mappings
-        if mapping.clean_table_ids
+        if mapping.clean_table_ids or mapping.unmapped_reason == "full_page_numeric_route"
     }
     table_pointers = _replacement_text_pointers(
         baseline_document,
         (
             baseline_document["tables"][int(ref.rsplit("/", 1)[-1])]
-            for ref in sorted(mapped_table_refs)
+            for ref in sorted(replaced_table_refs)
         ),
     )
     picture_pointers = _replacement_text_pointers(

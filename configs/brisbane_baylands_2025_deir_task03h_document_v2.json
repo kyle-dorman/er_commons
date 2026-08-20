@@ -1,11 +1,11 @@
 {
   "schema_version": "er_commons.document_run_spec.v2",
-  "production_extraction_id": "exv1-2062cbc522311109775485bd6b816c030b601f65abbb404514b36c3526aad332",
+  "production_extraction_id": "exv1-1594625ce741a9db1a883ceb58c70396b55eba50b43d03a33bbd47cb3604642e",
   "production_identity_relative_path": "benchmarks/er_bench/fixtures/document_publication/v2/task03h_production_identity.json",
   "scope_kind": "production_full",
   "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
   "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
-  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_publications",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v1/document_publications",
   "document_processes": [
     {
       "source_id": "deir_main",

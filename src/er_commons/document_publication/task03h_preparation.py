@@ -31,7 +31,7 @@ TARGET_POLICY = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03g2_tar
 RESOLUTION_POLICY = (
     PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03g2_resolution_policy_v1.json"
 )
-TASK_ROOT = Path("pipelines/brisbane_baylands/task_03h")
+TASK_ROOT = Path("pipelines/brisbane_baylands/task_03h_clean_full_v1")
 SCHEMAS = {
     "document": PROJECT_ROOT
     / "benchmarks/er_bench/schemas/document_publication/v2/document_run_spec.schema.json",
@@ -237,7 +237,7 @@ def _write_readiness_report(
         report_path,
         {
             "schema_version": "er_commons.task03h_preparation_readiness.v1",
-            "status": "ready_for_user_authorized_first_wave",
+            "status": "ready_for_user_authorized_clean_run",
             "production_extraction_id": extraction_id,
             "production_identity_sha256": sha256_file(identity_path),
             "document_run_spec_sha256": document_sha256,

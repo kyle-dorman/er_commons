@@ -12,6 +12,7 @@ from er_commons.document_parsing.content_parsing.evidence import CompletedRunInv
 from er_commons.document_parsing.content_parsing.references import (
     ConversionInputReference,
     ResolvedConversionInput,
+    load_conversion_document,
     load_document_views,
 )
 
@@ -65,14 +66,40 @@ def test_common_document_views_load_base_once_and_detach_heading(
         return original(path)
 
     monkeypatch.setattr(references, "read_json_object", observe)
+    shared_base_reference = _resolved(tmp_path, "base")
     base, heading = load_document_views(
-        _resolved(tmp_path, "base"), _resolved(tmp_path, "heading"), source_id="source"
+        shared_base_reference, shared_base_reference, source_id="source"
     )
 
     assert reads.count(document_path) == 1
     assert base["texts"][0]["level"] == 1
     assert heading["texts"][0]["level"] == 3
     assert base is not heading
+
+
+def test_consumer_role_selects_view_independently_of_legacy_annotation(tmp_path: Path) -> None:
+    prefix = tmp_path / "documents/source/producer/docling"
+    prefix.mkdir(parents=True)
+    (prefix / "document.json").write_text(
+        json.dumps({"texts": [{"self_ref": "#/texts/0", "level": 1}]})
+    )
+    (prefix / "heading_overlay.jsonl").write_text(
+        json.dumps(
+            {
+                "schema_version": "er_commons.heading_level_overlay.v1",
+                "raw_self_ref": "#/texts/0",
+                "level": 3,
+            }
+        )
+        + "\n"
+    )
+    legacy_base = _resolved(tmp_path, "base")
+
+    base = load_conversion_document(legacy_base, source_id="source", document_view="base")
+    heading = load_conversion_document(legacy_base, source_id="source", document_view="heading")
+
+    assert base["texts"][0]["level"] == 1
+    assert heading["texts"][0]["level"] == 3
 
 
 def test_document_views_reject_different_conversion_owners(tmp_path: Path) -> None:

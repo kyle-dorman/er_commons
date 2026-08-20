@@ -8,7 +8,11 @@ from typing import Any, cast
 from er_commons.hierarchy_inference.correction_policy import build_rule_decisions
 from er_commons.hierarchy_inference.hierarchy import derive_expected_hierarchy
 from er_commons.hierarchy_inference.hierarchy_projection import build_corrected_hierarchy
-from er_commons.hierarchy_inference.rules import _calibrated_numbering_levels
+from er_commons.hierarchy_inference.rules import (
+    RuleContext,
+    _calibrated_numbering_levels,
+    _validate_r05,
+)
 
 
 def _feature(index: int, **updates: Any) -> dict[str, Any]:
@@ -157,6 +161,65 @@ def test_structural_sibling_and_numbering_jump_are_fail_closed_ambiguities() -> 
         "SIBLING_EVIDENCE_CONFLICT",
         "NUMBERING_JUMP_UNSUPPORTED",
     ]
+
+
+def test_decimal_peer_ignores_intervening_unrelated_numbering_sequence() -> None:
+    features = (
+        _feature(
+            0,
+            raw_role="section_header",
+            raw_level=4,
+            numbering_kind="decimal",
+            numbering_token="3.6.2",
+            numbering_depth=3,
+            outline_state="unique_exact",
+            outline_level=5,
+        ),
+        _feature(
+            1,
+            raw_role="section_header",
+            raw_level=2,
+            numbering_kind="decimal",
+            numbering_token="6",
+            numbering_depth=1,
+        ),
+        _feature(
+            2,
+            raw_role="section_header",
+            raw_level=4,
+            numbering_kind="decimal",
+            numbering_token="3.6.3",
+            numbering_depth=3,
+        ),
+    )
+
+    result = _build(features)
+
+    assert result.decisions[2]["selected_rule_id"] == "R05_APPLY_NUMBERING_REGIME"
+    assert result.decisions[2]["corrected_role"] == "heading"
+    assert result.decisions[2]["corrected_level"] == 5
+    assert result.decisions[2]["outcome"] == "applied"
+
+
+def test_r05_validator_accepts_documented_numbering_jump_ambiguity() -> None:
+    feature = _feature(
+        0,
+        raw_role="section_header",
+        raw_level=3,
+        numbering_kind="decimal",
+        numbering_token="1.1.1",
+        numbering_depth=3,
+    )
+    result = _build((feature,))
+    decision = result.decisions[0]
+    context = RuleContext(
+        view=cast(Any, SimpleNamespace()),
+        exact_toc_targets=frozenset(),
+        exact_reconciliations_by_toc={},
+        numbering_levels_by_key={feature["stable_item_key"]: 3},
+    )
+
+    _validate_r05(feature, decision, context)
 
 
 def test_indexed_heading_neighbors_preserve_exact_decision_evidence() -> None:
@@ -361,6 +424,77 @@ def test_r05_calibrates_from_nearest_immutable_outline_anchor() -> None:
         )
     )
     assert [validator_levels[item["stable_item_key"]] for item in features] == [3, 4, 5]
+
+
+def test_r05_clips_deep_numbering_to_semantic_level_six() -> None:
+    features = (
+        _feature(
+            0,
+            raw_role="section_header",
+            raw_level=3,
+            text="6 Circulation",
+            numbering_kind="decimal",
+            numbering_token="6",
+            numbering_depth=1,
+            outline_state="unique_exact",
+            outline_level=3,
+        ),
+        _feature(
+            1,
+            raw_role="section_header",
+            raw_level=3,
+            text="6.5 Streetscape Design Guidelines",
+            numbering_kind="decimal",
+            numbering_token="6.5",
+            numbering_depth=2,
+        ),
+        _feature(
+            2,
+            raw_role="section_header",
+            raw_level=4,
+            text="6.5.2 Development Approach",
+            numbering_kind="decimal",
+            numbering_token="6.5.2",
+            numbering_depth=3,
+        ),
+        _feature(
+            3,
+            raw_role="section_header",
+            raw_level=5,
+            text="6.5.2.2 Streetscape Elements",
+            numbering_kind="decimal",
+            numbering_token="6.5.2.2",
+            numbering_depth=4,
+        ),
+        _feature(
+            4,
+            raw_role="section_header",
+            raw_level=6,
+            text="6.5.2.2.1 Canopy And Understory Trees",
+            numbering_kind="decimal",
+            numbering_token="6.5.2.2.1",
+            numbering_depth=5,
+        ),
+    )
+
+    result = _build(features)
+
+    assert [item["corrected_level"] for item in result.decisions] == [3, 4, 5, 6, 6]
+    assert result.decisions[4]["corrected_role"] == "heading"
+    assert result.decisions[4]["outcome"] == "applied"
+
+    validator_levels = _calibrated_numbering_levels(
+        cast(
+            Any,
+            SimpleNamespace(
+                features=features,
+                regimes_by_id={_regime()[0]["regime_id"]: _regime()[0]},
+                exact_reconciliations_by_toc={},
+                toc_entries_by_id={},
+            ),
+        )
+    )
+    assert [validator_levels[item["stable_item_key"]] for item in features] == [3, 4, 5, 6, 6]
 
 
 def test_hierarchy_uses_per_regime_stack_and_exact_content_membership() -> None:

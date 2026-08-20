@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 from er_commons.hierarchy_inference.bundle import HierarchyBundleView, JsonRecord
 from er_commons.hierarchy_inference.checks import require
-from er_commons.hierarchy_inference.constants import ANCHOR_RULES
+from er_commons.hierarchy_inference.constants import ANCHOR_RULES, MAX_HEADING_LEVEL
 from er_commons.hierarchy_inference.level_evidence import calibrated_numbering_levels
 
 
@@ -58,7 +58,10 @@ def _validate_r03(feature: JsonRecord, decision: JsonRecord, _: RuleContext) -> 
     require(feature["outline_state"] == "unique_exact", f"R03 outline differs: {key}")
     require(outline_level is not None, f"R03 evidence absent: {key}")
     require(decision["corrected_role"] == "heading", f"R03 role differs: {key}")
-    require(decision["corrected_level"] == outline_level, f"R03 level differs: {key}")
+    require(
+        decision["corrected_level"] == min(MAX_HEADING_LEVEL, outline_level),
+        f"R03 level differs: {key}",
+    )
 
 
 def _validate_r04(feature: JsonRecord, decision: JsonRecord, context: RuleContext) -> None:
@@ -71,7 +74,10 @@ def _validate_r04(feature: JsonRecord, decision: JsonRecord, context: RuleContex
     require(reconciliation["target_key"] == key, f"R04 target differs: {key}")
     require(decision["corrected_role"] == "heading", f"R04 role differs: {key}")
     toc_depth = context.view.toc_entries_by_id[toc_id]["depth"]
-    require(decision["corrected_level"] == toc_depth, f"R04 level differs: {key}")
+    require(
+        decision["corrected_level"] == min(MAX_HEADING_LEVEL, toc_depth),
+        f"R04 level differs: {key}",
+    )
 
 
 def _validate_r05(feature: JsonRecord, decision: JsonRecord, context: RuleContext) -> None:
@@ -88,6 +94,15 @@ def _validate_r05(feature: JsonRecord, decision: JsonRecord, context: RuleContex
         evidence["numbering_depth"] == feature["numbering_depth"],
         f"R05 depth differs: {key}",
     )
+    if decision["outcome"] == "ambiguous":
+        require(decision["corrected_role"] == "content", f"R05 role differs: {key}")
+        require(decision["corrected_level"] is None, f"R05 level differs: {key}")
+        require(
+            evidence["conflict_codes"] == ["NUMBERING_JUMP_UNSUPPORTED"],
+            f"R05 conflict differs: {key}",
+        )
+        return
+    require(decision["outcome"] == "applied", f"R05 outcome differs: {key}")
     require(decision["corrected_role"] == "heading", f"R05 role differs: {key}")
     expected_level = context.numbering_levels_by_key[key]
     require(decision["corrected_level"] == expected_level, f"R05 level differs: {key}")

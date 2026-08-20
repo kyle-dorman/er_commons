@@ -216,6 +216,18 @@ identity, completeness, publication, acceptance, or Task 04 status.
 `collections validate-handoff` verifies a published native-v2 handoff and
 successful document candidates read-only without rebuilding them.
 
+The restarted Task 03H full-corpus run uses a clean external namespace:
+
+```text
+pipelines/brisbane_baylands/task_03h_clean_full_v1/
+```
+
+The historical `task_03h/` tree remains immutable diagnostic and scaling evidence.
+The clean run does not search that tree for Docling conversion, producer, document,
+or collection completions. Its first pass creates fresh Docling seals for all 35
+ordered sources; restart reuse is allowed only for seals created inside the clean
+namespace.
+
 Task 03G.1 adds a separate diagnostic-only namespace:
 
 ```text

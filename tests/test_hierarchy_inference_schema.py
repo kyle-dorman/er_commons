@@ -30,6 +30,20 @@ def test_valid_bundle_matches_draft_2020_12_contract() -> None:
     assert identity["candidate_id"] == f"hcorv1-{canonical_json_sha256(identity_inputs)}"
 
 
+def test_corrected_heading_level_above_six_is_rejected() -> None:
+    decision = copy.deepcopy(VALID_BUNDLE["decisions"][0])
+    decision["corrected_level"] = 7
+
+    with pytest.raises(ValidationError):
+        Draft202012Validator(
+            {
+                "$schema": RECORD_SCHEMA["$schema"],
+                "$ref": "#/$defs/decision",
+                "$defs": RECORD_SCHEMA["$defs"],
+            }
+        ).validate(decision)
+
+
 def test_contract_digests_use_rfc_8785_number_and_key_normalization() -> None:
     """Distinguish the normative digest from ordinary sorted JSON."""
     first = {"z": "é", "number": 1.0, "nested": {"b": False, "a": None}}

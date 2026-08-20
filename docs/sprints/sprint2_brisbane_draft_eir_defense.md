@@ -567,9 +567,14 @@ audit-only command retains exact full-byte verification. Gate C completed the
 human-ownership refactor, deterministic identity refresh, all 732 tests, strict mypy
 across 316 source files, and an independent cross-owner recovery review with no P0 or
 P1 finding. The user approved the reviewed scope and closed Task 03H.1 on 2026-08-19.
-Task 03H remains paused pending separate approval to restart from the first ordered
-source under the reviewed run plan;
-corpus execution, collection assembly, and deletion are not Task 03H.1 closure work. The
+The clean Task 03H run subsequently published the main report and Appendices A
+through G1. Appendix G2's first monolithic 3,736-page Docling conversion was killed
+after 14,940.61 seconds during system-wide memory pressure before it could seal, and
+its automatic retry was stopped near the start. Active Task 03H.2 now owns the
+source-general chunked-conversion experiment, beginning with branch preservation and
+a source-free G1 recomposition proof. Task 03H remains paused before G2, and Task
+03H.2 must check in before any PDF/model comparison or G2 rerun. Corpus execution,
+collection assembly, and deletion are not Task 03H.1 or source-free Task 03H.2 work. The
 numbers below are routing
 labels, not a promise
 that the sprint will contain only these tasks. Split a stage further whenever
@@ -660,7 +665,10 @@ validation boundary.
      accepted and closed the task on 2026-08-18; and
    - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
      all 35 sources, preserve explicit terminal failures, and publish the
-     candidate extraction and accounting handoff for Task 04.
+     candidate extraction and accounting handoff for Task 04; and
+   - [Task 03H.2](../../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md):
+     prove and implement independently sealed, deterministic, document-driven
+     Docling ranges before Task 03H retries Appendix G2.
    Tasks 03A through 03D are complete. Task 03C published the checksum-verified
    222-page Appendix P producer run with 19 clean tables and 19
    complete-document families. [Task

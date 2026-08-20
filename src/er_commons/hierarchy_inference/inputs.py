@@ -143,7 +143,11 @@ def load_hierarchy_inference_inputs(
         selected_source=selected_source,
         producer_completion=completion,
         producer_identity=producer_identity,
-        document=load_conversion_document(conversion, source_id=config.source.source_id),
+        document=load_conversion_document(
+            conversion,
+            source_id=config.source.source_id,
+            document_view="heading",
+        ),
         alignment_pages=load_alignment_projection(
             alignment_path,
             expected_page_count=selected_source.source_page_count,

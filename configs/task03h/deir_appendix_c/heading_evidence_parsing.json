@@ -11,7 +11,7 @@
     "expected_byte_size": 5329542,
     "expected_pdf_page_count": 86
   },
-  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h/document_parse_evidence",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v1/document_parse_evidence",
   "model_inventory_relative_path": "pipelines/brisbane_baylands/task_03a_docling_native_pilot_v1/model_inventory.json",
   "configuration_id": "docling_native_pypdfium2_heron_layout_heading_hierarchy_tableformer_fallback_cpu",
   "backend": "pypdfium2",

@@ -3,8 +3,8 @@
   "schema_version": "er_commons.document_publication_identity.v2",
   "fixture_status": "identity_recipe",
   "execution_status": "not_executed",
-  "extraction_id": "exv1-2062cbc522311109775485bd6b816c030b601f65abbb404514b36c3526aad332",
-  "identity_sha256": "2062cbc522311109775485bd6b816c030b601f65abbb404514b36c3526aad332",
+  "extraction_id": "exv1-1594625ce741a9db1a883ceb58c70396b55eba50b43d03a33bbd47cb3604642e",
+  "identity_sha256": "1594625ce741a9db1a883ceb58c70396b55eba50b43d03a33bbd47cb3604642e",
   "preimage": {
     "schema_version": "er_commons.document_publication_identity_preimage.v2",
     "contract_revision": "task_03h_production_full_v1",
@@ -88,1058 +88,1058 @@
         },
         {
           "path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
-          "sha256": "b01319b5b32452b701db029c7e62050540ead2d4cea72e09063d76d005180e14",
-          "byte_size": 20344
+          "sha256": "9ce7b8c9f4ea916bf16ec56e02264c2d4de39b1323ee705afec24325df4682df",
+          "byte_size": 20396
         },
         {
           "path": "configs/task03h/deir_appendix_a/content_parsing.json",
-          "sha256": "e8dc6ae1cfdeb5940836a4839bcfad3700699338a009a87e36231dfb6ab26672",
-          "byte_size": 2837
-        },
-        {
-          "path": "configs/task03h/deir_appendix_a/document_reference_linking.json",
-          "sha256": "de7144e99678cea78110ec8df84cbe4ded3b13a573a0697cfa3771be3146224c",
-          "byte_size": 1170
-        },
-        {
-          "path": "configs/task03h/deir_appendix_a/document_structure.json",
-          "sha256": "6a206d77de13de099658d507e885a88c655c727adf0378a8832312e12a68f607",
-          "byte_size": 2044
-        },
-        {
-          "path": "configs/task03h/deir_appendix_a/heading_evidence_parsing.json",
-          "sha256": "1c1c80f0879265a1b5129acfd94bfbde81b0cae02b3c11e06ad5d6d9055a6440",
-          "byte_size": 3078
-        },
-        {
-          "path": "configs/task03h/deir_appendix_a/hierarchy_inference.json",
-          "sha256": "4ad546989ae64f95514ed44c28f600e49f6726be7a79bc5c3311e924856b38cc",
-          "byte_size": 1256
-        },
-        {
-          "path": "configs/task03h/deir_appendix_a/record_mapping.json",
-          "sha256": "3d8ffccc6e06a859356cb7f4ccea57c8bfe1a9c30fbb39f70ef6a90943c43a53",
-          "byte_size": 1030
-        },
-        {
-          "path": "configs/task03h/deir_appendix_b/content_parsing.json",
-          "sha256": "3fa935e2eccd313bd11cd74d940e474ee38dfa41550c1ed78e26229a5386754c",
+          "sha256": "9e3ebb3f0689a56c322a22dd1619b4e422689fe49ea65515798947557b27c570",
           "byte_size": 2851
         },
         {
-          "path": "configs/task03h/deir_appendix_b/document_reference_linking.json",
-          "sha256": "e6a4ea2ad44ec9b4de1a47e6e78a67d60892c606ce882edcc76c8f463653e10a",
-          "byte_size": 1170
+          "path": "configs/task03h/deir_appendix_a/document_reference_linking.json",
+          "sha256": "70e964acc58e9d7fc6a1aedade69338d0080d1ed84dcddce655644c9f605c03c",
+          "byte_size": 1198
         },
         {
-          "path": "configs/task03h/deir_appendix_b/document_structure.json",
-          "sha256": "3f1d2d04cfd25f6d0951d13ec4beb1d73d492e31755ceabc1a51b18c43a68b70",
-          "byte_size": 2044
+          "path": "configs/task03h/deir_appendix_a/document_structure.json",
+          "sha256": "bf80c05fc7932ff7f5415d9741557279873292b76d811dd43b35d1261722756f",
+          "byte_size": 2114
         },
         {
-          "path": "configs/task03h/deir_appendix_b/heading_evidence_parsing.json",
-          "sha256": "7ecc945c8bb9092ab06f1ae4c1c1046209ba6993c3b1689db3f55a45e90fb055",
+          "path": "configs/task03h/deir_appendix_a/heading_evidence_parsing.json",
+          "sha256": "55918741c9145c22095d065313bf6020a06319be4afd039dc7b71f5b59ee1684",
           "byte_size": 3092
         },
         {
-          "path": "configs/task03h/deir_appendix_b/hierarchy_inference.json",
-          "sha256": "09ed4bf3ef082d2533d020b6bc2ac99660fca8d8795d1604af0518cac5204250",
-          "byte_size": 1270
-        },
-        {
-          "path": "configs/task03h/deir_appendix_b/record_mapping.json",
-          "sha256": "2a9b8d5cca8fdb82443a3bcb590184085b1d075f7d85b3004bf1f3520972a37f",
-          "byte_size": 1030
-        },
-        {
-          "path": "configs/task03h/deir_appendix_c/content_parsing.json",
-          "sha256": "23e811957748396067c87a2a71b8318b30de9a9651de05d46f40b9bd97a58ca8",
-          "byte_size": 2835
-        },
-        {
-          "path": "configs/task03h/deir_appendix_c/document_reference_linking.json",
-          "sha256": "7f8f336c916f49b6dc769da2b13a25744deb08f5451ba7de73f1ad6b12e665d2",
-          "byte_size": 1170
-        },
-        {
-          "path": "configs/task03h/deir_appendix_c/document_structure.json",
-          "sha256": "1817956703e2f4b721ddcfb1690a3bc57b8d77a47caedf810bb5390be896444c",
-          "byte_size": 2043
-        },
-        {
-          "path": "configs/task03h/deir_appendix_c/heading_evidence_parsing.json",
-          "sha256": "a8f14d443367bd20e67b480740881fc0116ad9f01b2abae29e15d36fd6d7f5fa",
-          "byte_size": 3076
-        },
-        {
-          "path": "configs/task03h/deir_appendix_c/hierarchy_inference.json",
-          "sha256": "fd5c846bd009fed4e45628d4fcf953f73098e6be58979ab5e7436bdee038a976",
-          "byte_size": 1254
-        },
-        {
-          "path": "configs/task03h/deir_appendix_c/record_mapping.json",
-          "sha256": "eddd30c7106e66ba27903db78eeb3811caf8f93b49fd16708ab1ca4b5adc9230",
-          "byte_size": 1029
-        },
-        {
-          "path": "configs/task03h/deir_appendix_d/content_parsing.json",
-          "sha256": "ab0e4258b877418212ce17b590531b9ca4acf6b0ef682470b5b28f6a5a675378",
-          "byte_size": 2846
-        },
-        {
-          "path": "configs/task03h/deir_appendix_d/document_reference_linking.json",
-          "sha256": "74c957fca7c0ca3f0068883e17d336b90da58e1b4185b5004a3dcbf21c4635dd",
-          "byte_size": 1170
-        },
-        {
-          "path": "configs/task03h/deir_appendix_d/document_structure.json",
-          "sha256": "9dc23b3bd1de1802106b926733462f780ff3b72e36dd10af95d8708a32ab28ac",
-          "byte_size": 2044
-        },
-        {
-          "path": "configs/task03h/deir_appendix_d/heading_evidence_parsing.json",
-          "sha256": "366e9837ef6b56590b2d6ea8315cb70c54fbd7a93cb7eb30bfdd19cd5f58c1e6",
-          "byte_size": 3087
-        },
-        {
-          "path": "configs/task03h/deir_appendix_d/hierarchy_inference.json",
-          "sha256": "a7b85e059ae9d9fe63cefb58b9b205cac200c41709d69df403a66438e608f568",
-          "byte_size": 1265
-        },
-        {
-          "path": "configs/task03h/deir_appendix_d/record_mapping.json",
-          "sha256": "9f82e5a4c4cbac96f9cd8f3a94c7a1ac769ed8bb4ea004c21c210bc0194b4b63",
-          "byte_size": 1030
-        },
-        {
-          "path": "configs/task03h/deir_appendix_e/content_parsing.json",
-          "sha256": "c3c2fe07d2bb20dffe05cbe661ad48eecb3d372cca1c0ce0b0486ec0028a878c",
-          "byte_size": 2844
-        },
-        {
-          "path": "configs/task03h/deir_appendix_e/document_reference_linking.json",
-          "sha256": "80b724ffebce43f8b76ad0384cc75b2369a33d8b452bd5c3ae9cec75bfc58778",
-          "byte_size": 1170
-        },
-        {
-          "path": "configs/task03h/deir_appendix_e/document_structure.json",
-          "sha256": "5638d6912c6a7f41362f08ba25fedab001457805ffe6fbb5b8189beb31f437e5",
-          "byte_size": 2044
-        },
-        {
-          "path": "configs/task03h/deir_appendix_e/heading_evidence_parsing.json",
-          "sha256": "c090c7e346447849a136015d616c12150ccdb78b729bc0cdf14bf49739a37294",
-          "byte_size": 3085
-        },
-        {
-          "path": "configs/task03h/deir_appendix_e/hierarchy_inference.json",
-          "sha256": "5d670cdf079bf75459b121bc995985972398ff0a1b2ba854b045b18373074c20",
-          "byte_size": 1263
-        },
-        {
-          "path": "configs/task03h/deir_appendix_e/record_mapping.json",
-          "sha256": "b693d3c1ae0e18119859e9cc7bb0fa7bc6612b4a2bb43f165d2f962c501252a5",
-          "byte_size": 1030
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f1/content_parsing.json",
-          "sha256": "6c5c8377447d60f77fb950d1a535b85056582cf18f6a7c1df2e7c0ec205d51fa",
-          "byte_size": 2842
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f1/document_reference_linking.json",
-          "sha256": "e4bd45ede2ea3e69d8a45dae9673576fa735d335dfcea95b145f6ba91079f60a",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f1/document_structure.json",
-          "sha256": "7746ff81682815dba575e4777efd9924a41b53bf4fd59d5b7785d95bcfea3aec",
-          "byte_size": 2045
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f1/heading_evidence_parsing.json",
-          "sha256": "349b146c0619a83ce2ef76f02f16769a4cd47a3c061c450032d59eb3e6b551e2",
-          "byte_size": 3083
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f1/hierarchy_inference.json",
-          "sha256": "e757dcae29b8808e591d1d4ce90748afc1259d51ef149490688910082e042d2d",
-          "byte_size": 1261
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f1/record_mapping.json",
-          "sha256": "c60c6a574cf0acab4c074263a3336f12af54c603ad4b3f63f9a11b97df502df3",
-          "byte_size": 1031
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f2/content_parsing.json",
-          "sha256": "d31816c1ec1e34ddb4a382c9d58db8504a2adb5d1222b89a41d78820a5721966",
-          "byte_size": 2837
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f2/document_reference_linking.json",
-          "sha256": "c8d154b566c896918a13f2163d5c0046c91fa30417439a4637c3e9047dc5a82c",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f2/document_structure.json",
-          "sha256": "94338c285beb45e7c0aa6e995d46438a9ed414d88ffe9efe7402b9eacbb702f2",
-          "byte_size": 2045
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f2/heading_evidence_parsing.json",
-          "sha256": "b4909cfcbdf162114751d1dac5e3be46924181e826b84c5e97d62c35b9d818a9",
-          "byte_size": 3078
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f2/hierarchy_inference.json",
-          "sha256": "5428d1b00f61b205098d04d68cb86a83f7dbe4674fadfbf11f7ccb0f49731fce",
-          "byte_size": 1256
-        },
-        {
-          "path": "configs/task03h/deir_appendix_f2/record_mapping.json",
-          "sha256": "e6a221596f0e5b7e32e68dcffafbb4e98c67d79d8d99e41f739d283bb4216c63",
-          "byte_size": 1031
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g1/content_parsing.json",
-          "sha256": "b93c3520a464b73fcec32e35a8c0701ba2913d55162a586586315f6b829a3120",
-          "byte_size": 2841
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g1/document_reference_linking.json",
-          "sha256": "6a7450fb8a8652d72f56ab60eb61228b426123efbe98d971f7a5d01b6226907b",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g1/document_structure.json",
-          "sha256": "532872d42a5d7889b4eaab99dd0f3d5a54c17ff69b13160419a1a3541245c4f0",
-          "byte_size": 2047
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g1/heading_evidence_parsing.json",
-          "sha256": "058386378d9618d4db61cd22a030be6480b75eaf1968a48668de140b62ddd300",
-          "byte_size": 3082
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g1/hierarchy_inference.json",
-          "sha256": "c5047fad150eb6c4f63412abbb78fc4b298020af781ffef2c35039b2612a3e77",
-          "byte_size": 1260
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g1/record_mapping.json",
-          "sha256": "05b4cc8b53438b80c561fb934901890183fdbb9790ae830692b0059fe60b6ff7",
-          "byte_size": 1033
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g2/content_parsing.json",
-          "sha256": "c7e81022d9743e1b911379b6e70735a0799b2ffe42f841a2e1957bc9ea39e5c3",
-          "byte_size": 2835
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g2/document_reference_linking.json",
-          "sha256": "c84ad58e16f3fb019465261100591417c714fd3702362ad7b2764b0339d0c459",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g2/document_structure.json",
-          "sha256": "eb2c71bf31d83bd62972b2538c73f3d902027892b97fdb53636b8b83f6424eb3",
-          "byte_size": 2047
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g2/heading_evidence_parsing.json",
-          "sha256": "a3e7cda87dfe9d9564980b1c57b5e21fee397b9555cad76251ed824937adfcef",
-          "byte_size": 3076
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g2/hierarchy_inference.json",
-          "sha256": "3e03ae81f47c5b3257a58d5f9df27b5ec061ff4241c4a51c6379a201082516b4",
-          "byte_size": 1254
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g2/record_mapping.json",
-          "sha256": "efb385bbccb6c6139d2ce7791a655669e0d753d198a277fede21cba0f1d704eb",
-          "byte_size": 1033
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g3/content_parsing.json",
-          "sha256": "4d286a96f315e8b04468d8cb0698129d68911db62e70ec9b76f1e6c65f9c7cab",
-          "byte_size": 2863
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g3/document_reference_linking.json",
-          "sha256": "dadac08011d0f1cd3b407f8cd49d7e5a7755eb885ce26c050ba040cae7614498",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g3/document_structure.json",
-          "sha256": "614bc64d921c3ecb73c4889c2bb50f6e179ebd044ea2b66cdbc333b864f5c656",
-          "byte_size": 2047
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g3/heading_evidence_parsing.json",
-          "sha256": "e1faedd34466091128b17f2f07b63d8cfd368824f9219a64fde471895fa8dd04",
-          "byte_size": 3104
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g3/hierarchy_inference.json",
-          "sha256": "b76f34cc85480582ff8d0b3a9cd1f28e25dc4ef183de20f3bf837b8c99b2b505",
-          "byte_size": 1282
-        },
-        {
-          "path": "configs/task03h/deir_appendix_g3/record_mapping.json",
-          "sha256": "9c131e7d1271f1a63e1a1c1ed8ad335620186fb98a559bc7affbd5463acb0569",
-          "byte_size": 1033
-        },
-        {
-          "path": "configs/task03h/deir_appendix_h/content_parsing.json",
-          "sha256": "3b547e4a44673ae8e88b7e7fa698847601d4c1289bbd87d0abb98d6c5773b7c8",
-          "byte_size": 2850
-        },
-        {
-          "path": "configs/task03h/deir_appendix_h/document_reference_linking.json",
-          "sha256": "f1a12e7f3181c1b23e3a174da65b04a99d59f7755d65db0014210cae09298c9f",
-          "byte_size": 1170
-        },
-        {
-          "path": "configs/task03h/deir_appendix_h/document_structure.json",
-          "sha256": "e0ff38f8972fc065f39403e38f6637c91c0ffe8d691ec8b6d132dfa9ed4206be",
-          "byte_size": 2045
-        },
-        {
-          "path": "configs/task03h/deir_appendix_h/heading_evidence_parsing.json",
-          "sha256": "95624f317e09997bb4b9d6a1e92ad17cacc37f714c972c021709d8983dabb83a",
-          "byte_size": 3091
-        },
-        {
-          "path": "configs/task03h/deir_appendix_h/hierarchy_inference.json",
-          "sha256": "a9b8156ed7d8e939915288d22e344c9b8b87a2ee394addfe136f311934ceac40",
-          "byte_size": 1269
-        },
-        {
-          "path": "configs/task03h/deir_appendix_h/record_mapping.json",
-          "sha256": "844534a5ea3aefe78fdbc9de352221de72c8a4b017764d759b128a406e1849ed",
-          "byte_size": 1031
-        },
-        {
-          "path": "configs/task03h/deir_appendix_i/content_parsing.json",
-          "sha256": "ed5d6b6402f3c9cdd0e78e0751a90eae101acbf38f8ea563cabb2b293ce5992e",
-          "byte_size": 2842
-        },
-        {
-          "path": "configs/task03h/deir_appendix_i/document_reference_linking.json",
-          "sha256": "09ee46f9e0bd1840d94ad82580f33c1b568779d9a67722e7311e938de1005806",
-          "byte_size": 1170
-        },
-        {
-          "path": "configs/task03h/deir_appendix_i/document_structure.json",
-          "sha256": "ff061d96933cb0385e9368dad9cf1e282ce48db1bc2186725c76a390e2c55e0f",
-          "byte_size": 2045
-        },
-        {
-          "path": "configs/task03h/deir_appendix_i/heading_evidence_parsing.json",
-          "sha256": "7f00ea11c6f2931f110e76963e205e05c3b4a479a79b4171ff44d38496d613d7",
-          "byte_size": 3083
-        },
-        {
-          "path": "configs/task03h/deir_appendix_i/hierarchy_inference.json",
-          "sha256": "85d555d82a529f0d4fb2151c6656b10200ba03075a2863b64f5c26a91ba01c58",
-          "byte_size": 1261
-        },
-        {
-          "path": "configs/task03h/deir_appendix_i/record_mapping.json",
-          "sha256": "83e0a96325524ca733d01aaa6d278145e679151dba62342202c1854849410936",
-          "byte_size": 1031
-        },
-        {
-          "path": "configs/task03h/deir_appendix_j/content_parsing.json",
-          "sha256": "e5abe85ede6c0d69e3c0c0fd273375a2effeae227a8dca385fcdbec8e2ddcd5c",
-          "byte_size": 2830
-        },
-        {
-          "path": "configs/task03h/deir_appendix_j/document_reference_linking.json",
-          "sha256": "2ff4da32ebb312dfcf32b1072d9795ee929c6537b1ad7c304289a02c40eefe72",
-          "byte_size": 1170
-        },
-        {
-          "path": "configs/task03h/deir_appendix_j/document_structure.json",
-          "sha256": "bec7bceb72d68fefd62a6bd509ae19cd16a08f4691f75e664da8fba2e3663dee",
-          "byte_size": 2044
-        },
-        {
-          "path": "configs/task03h/deir_appendix_j/heading_evidence_parsing.json",
-          "sha256": "1f1f584daa8795178313bd8f37880dc3a5adf4403f59a0dbf31fe253738cd235",
-          "byte_size": 3071
-        },
-        {
-          "path": "configs/task03h/deir_appendix_j/hierarchy_inference.json",
-          "sha256": "158a7a3089857879c3d048ddde86c801f4787298ab82b84f3fd4b599175cec60",
-          "byte_size": 1249
-        },
-        {
-          "path": "configs/task03h/deir_appendix_j/record_mapping.json",
-          "sha256": "b3ec6bf73ca868fb0d438d665ea8729b1e8bb74abcbed98a2c8c887c5b9dfb80",
-          "byte_size": 1030
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/content_parsing.json",
-          "sha256": "bbb6f3bca76cf98eb8b8b28ed640c57836601d24cc0a86f89d152f8e48d66977",
-          "byte_size": 2852
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/document_reference_linking.json",
-          "sha256": "268424a1862655c83d06cf775b790d8523ebec2d7ab9f18126225eb2f0432f33",
-          "byte_size": 1196
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/document_structure.json",
-          "sha256": "76fa72af9b2da9128389b0fe0bd2b83b121e0b538913e93d8a3b78d84e26647b",
-          "byte_size": 2070
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/heading_evidence_parsing.json",
-          "sha256": "7a067cec18cec8d57de474d5fe6689a8938331929e54ae53dd748acc3cf63f9e",
-          "byte_size": 3093
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/hierarchy_inference.json",
-          "sha256": "39e117221df159026559b5280ea2acb6be575f6e388fa469a67333f0ae5c840c",
-          "byte_size": 1271
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/record_mapping.json",
-          "sha256": "a312330f07714841088ee7a2bfa75692ab68ef6d6531bfbd4fe5241c0a7a542e",
-          "byte_size": 1056
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/content_parsing.json",
-          "sha256": "d35e41e7b10ce545686b211b5a9ca1b06f9391e0bf7cd6b0e6765e9189739bd8",
-          "byte_size": 2853
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/document_reference_linking.json",
-          "sha256": "67b6746934af893c8b9436c660f027217ba041972aa4ad87daa6c24399d31698",
-          "byte_size": 1196
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/document_structure.json",
-          "sha256": "ce74c26e6c558876c3d38409249d8cab46d78ccf6ac3db31c6586b225e2e524b",
-          "byte_size": 2071
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/heading_evidence_parsing.json",
-          "sha256": "6878b8e043e5c98902eee363f96b2e084470ec1f3514da76098ba90dd3a8204a",
-          "byte_size": 3094
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/hierarchy_inference.json",
-          "sha256": "7bf8f526f5542cf458b1c168f302cf09f114887aadc3638440a27d21fcc78cbd",
-          "byte_size": 1272
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/record_mapping.json",
-          "sha256": "fccd9d87e152116ade8e07d9c53b255d23e7dba14e7c6e717954c3395a808ee8",
-          "byte_size": 1057
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/content_parsing.json",
-          "sha256": "11876460a44df395bfbccf06bc83c8d9df4d04ce44be61dc9d5563e01e32d811",
-          "byte_size": 2853
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/document_reference_linking.json",
-          "sha256": "cf1e15411b9183314097c7e8d7f41fbd3df87020979fa1e90e9e79e98f8b05df",
-          "byte_size": 1196
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/document_structure.json",
-          "sha256": "ec9254d424042e8732b0597f1323272f26141ba4d8482d25b4d5c6b79854fb32",
-          "byte_size": 2071
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/heading_evidence_parsing.json",
-          "sha256": "18d62017c9d7f6a9bd643a3006697145f3941dde744d94e2efd4775a0bc6131c",
-          "byte_size": 3094
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/hierarchy_inference.json",
-          "sha256": "389ac845de9d8e9c26bd1d9f331956b40dde6bd1f15ff9b69171d4a3e2ebf7bb",
-          "byte_size": 1272
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/record_mapping.json",
-          "sha256": "1bc6384f04595a824609ce0c07f25b867ebccd9fd466bdccda2341cc3c906415",
-          "byte_size": 1057
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/content_parsing.json",
-          "sha256": "13fe5fdd5fa86b95ece0072cf25e75df59a3408793136954c19d8e0c32bc8533",
-          "byte_size": 2853
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/document_reference_linking.json",
-          "sha256": "f0eabafa7424c813d5377af1aea6a62403c50a9001eaba05766d376ad58e0f44",
-          "byte_size": 1196
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/document_structure.json",
-          "sha256": "7a8edd60a03f5392dcc1269f86eefa57a7d2cd269e3bbfa951354a3a2ef61e1b",
-          "byte_size": 2071
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/heading_evidence_parsing.json",
-          "sha256": "be2011b24d16ad29cfce06e351ed1fc1061ea9ed9c773467f474275b3015b3ed",
-          "byte_size": 3094
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/hierarchy_inference.json",
-          "sha256": "d3e4766f91780bb09bdb1d366bed004e8c1b0f37524430b9002d7e02d0a45722",
-          "byte_size": 1272
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/record_mapping.json",
-          "sha256": "f97e7e11f29ab165abb478d6fa5bdcf462a0fde05b195c1601af988c14c44d74",
-          "byte_size": 1057
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/content_parsing.json",
-          "sha256": "32329e6dc97111ca298ec4883ace50eb6aa9951b1f95bcc275fa1c18b8fc453c",
-          "byte_size": 2853
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/document_reference_linking.json",
-          "sha256": "cda618dda95a8df36884cf7bae7105b931ead43c55bad36d921e775a981baf86",
-          "byte_size": 1196
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/document_structure.json",
-          "sha256": "2184bbe670854f928c83c6a3aea5fca37e79bb74807d732d8aa9f54253a08da7",
-          "byte_size": 2071
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/heading_evidence_parsing.json",
-          "sha256": "7bc91b0a2ef9a66254732b91583415c4ab0b5ed4bcec6b7941995ec0ef9eb1e9",
-          "byte_size": 3094
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/hierarchy_inference.json",
-          "sha256": "9523f4e005d2a0d47d6dec07daef0e6235e5a8106be93d64265283f412a3fb98",
-          "byte_size": 1272
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/record_mapping.json",
-          "sha256": "86c2e761dc38870578150ed1168ca6fbbccf50999b5cfab6c85aa61b88b6eaf0",
-          "byte_size": 1057
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/content_parsing.json",
-          "sha256": "3cbd92970b0ea96c183e4b5b288fc324c8e67d843c650cdeafdb9b6e2375924f",
-          "byte_size": 2852
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/document_reference_linking.json",
-          "sha256": "f615a4156fa63aa8dff93e773fb8b420c45be3785d11f1549159d5e69d3373f2",
-          "byte_size": 1196
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/document_structure.json",
-          "sha256": "6564a95b74ff0ebf145c9512181dfb2712ab37f2b01e5b0106b77d4f3785349a",
-          "byte_size": 2071
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/heading_evidence_parsing.json",
-          "sha256": "f62350cbcfdacda8f606598d350648f26dd59dd9707214c947ec23c7593f33db",
-          "byte_size": 3093
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/hierarchy_inference.json",
-          "sha256": "68a68d7e8f075f67ae6205767e8a908097da02c678c24e7c1ae0d2e604dde4d9",
-          "byte_size": 1271
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/record_mapping.json",
-          "sha256": "b7427d92f38d5e05922730ec98176064ef2e33df661458eb6ee3cd2db0668461",
-          "byte_size": 1057
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/content_parsing.json",
-          "sha256": "5018ba4923d92fe811db94c799b4470817d5e435008602343a12919630c0c60f",
-          "byte_size": 2853
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/document_reference_linking.json",
-          "sha256": "cff215e27facb7cc2a401d92f58baab10ddbd49e8fd18ce2a665b13d184a2bc4",
-          "byte_size": 1196
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/document_structure.json",
-          "sha256": "16bb392552a79fee858df19fe64798f97d15a82a62dcabb36b74aff5d7fed7b6",
-          "byte_size": 2071
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/heading_evidence_parsing.json",
-          "sha256": "bae4ff808f8ca2ca26e2601088052eefb0667983bbdbb1012932e43d1b40ae2c",
-          "byte_size": 3094
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/hierarchy_inference.json",
-          "sha256": "da905fc5bce950aff86f67a3f6ea1c5021f9639fc5024ed2dcc7e01ee2fc6c7f",
-          "byte_size": 1272
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/record_mapping.json",
-          "sha256": "307fb36a315295b3a65d7244f1117462db6cbeb3d9477707801484959eae56b6",
-          "byte_size": 1057
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/content_parsing.json",
-          "sha256": "5dd3f2f9f415f192682ab2343626235fb8daadf956b103dbe1ffbc62d05e1870",
-          "byte_size": 2853
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/document_reference_linking.json",
-          "sha256": "5769b23c4ea48ea023099a85823b0715b6a648de20a2473d730e7b2f7f617f51",
-          "byte_size": 1196
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/document_structure.json",
-          "sha256": "d2b2d11887dff5eeacef6feb000f32be223a504ac41bb1d5f535810bc8aa87f7",
-          "byte_size": 2071
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/heading_evidence_parsing.json",
-          "sha256": "159e7242fe13892ec9d6cce1a5537b82b815124f3419c6e462d4b1e11c73e22f",
-          "byte_size": 3094
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/hierarchy_inference.json",
-          "sha256": "3036808a8c2de10e78db49c04114b2b6640ceb27a0cd24d8f7da6ccad6dfd675",
-          "byte_size": 1272
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/record_mapping.json",
-          "sha256": "4a329102dcc1da1c6c6a0b02f4e6b8ef311725e2dccd164a1df2f204a4e1d766",
-          "byte_size": 1057
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/content_parsing.json",
-          "sha256": "a1062860ccd49564a2c31042724e43b3488b91decaf0f7a25835f5b1597fa30b",
-          "byte_size": 2852
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/document_reference_linking.json",
-          "sha256": "9d7a874ce7e71061f238fbcabb0ce7987d5a8545ea8f5ee8154d00de341af54f",
-          "byte_size": 1196
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/document_structure.json",
-          "sha256": "7e5f5cf4f8ccf5f8000b8d44a3605318fbb4b615776267107edcafb84ee1b656",
-          "byte_size": 2071
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/heading_evidence_parsing.json",
-          "sha256": "0f402ad778d8a27f45c5c234ec877871f27ba1a4e9a4fa2e74176c2d4cced0c2",
-          "byte_size": 3093
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/hierarchy_inference.json",
-          "sha256": "744bc2c718132c3ec37b25c019de5f3ff084c2d8669f4b1255880ca6599b0549",
-          "byte_size": 1271
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/record_mapping.json",
-          "sha256": "5513fc91eb51da61d6819c2c857eb3fb2277e77501d3136cbbecf9b99f9c51cd",
-          "byte_size": 1057
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k3/content_parsing.json",
-          "sha256": "0be8cef99c4da7dc5bde90fb63baede4f402d383148e1dd0b97da8ce3ae91442",
-          "byte_size": 2885
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k3/document_reference_linking.json",
-          "sha256": "95e35537e369a354cb1e365f6c1299ba2e8a1b392dd70b66e94ed632e27531a6",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k3/document_structure.json",
-          "sha256": "148d3f9a43964163cd8f55c62ad8b5e2d678d4815bef44417efd1c0c5d31ed78",
-          "byte_size": 2047
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k3/heading_evidence_parsing.json",
-          "sha256": "69a554fcb43a44d32730d77124b0b2eba4e9e1772cfe6170e24c205a469d1b76",
-          "byte_size": 3126
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k3/hierarchy_inference.json",
-          "sha256": "e8443c8b7d35f19f66d8cf80ce21edd6a99b2389ff08e6a121b1743229c25649",
-          "byte_size": 1304
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k3/record_mapping.json",
-          "sha256": "6b4b9f20b9a4552ac1a80e9413fc45e54f087e136cccfe45b4588df5b9418fbd",
-          "byte_size": 1033
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k4/content_parsing.json",
-          "sha256": "fa54c07d95ffc28e3f062a2ad84ff2366a10f9ebf4f0c60c11ea52d63af08b90",
-          "byte_size": 2829
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k4/document_reference_linking.json",
-          "sha256": "4de3bfb66638c1a2262822dadeeeb01ad23f695c1045cd736b528c810b32ea2e",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k4/document_structure.json",
-          "sha256": "1deca79706c6db2a1fb73cc439a99e982c4c009b718fbf5d46b0ffbb1d935708",
-          "byte_size": 2044
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k4/heading_evidence_parsing.json",
-          "sha256": "20740015fe395fbf9a592cd3126575700e23dce8a24a4a2952918a2f8f912e45",
-          "byte_size": 3070
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k4/hierarchy_inference.json",
-          "sha256": "e038b5e6d90b5f5969fb15029e0486b1987440648cf4d0dd0c6344a52d0379a5",
-          "byte_size": 1248
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k4/record_mapping.json",
-          "sha256": "a1acb68d0f186cd85f769d4a43fee250f678491ade7dabd13c2c7ad7dbba5e2b",
-          "byte_size": 1030
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k5/content_parsing.json",
-          "sha256": "92ac68702ab773fa9829617fa8cf70635ed4a224475a0daff90ca7b9a004e1ea",
-          "byte_size": 2829
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k5/document_reference_linking.json",
-          "sha256": "d95ab6831742210eb62a0d4130f917019c3408f74effd7b27a18c6fb9b9a8cec",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k5/document_structure.json",
-          "sha256": "6eb5172699de9568d21f3f37ec52540a5c48bab086603abe1a978bff207b6391",
-          "byte_size": 2045
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k5/heading_evidence_parsing.json",
-          "sha256": "4572bcdf672ca03efa1713cd26a7a3d5235455c516f08e0d29618aab66ca98f3",
-          "byte_size": 3070
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k5/hierarchy_inference.json",
-          "sha256": "6477f5a297a84cc415a835caa1f7fe57d4abb24f50210721efe31754f857f2af",
-          "byte_size": 1248
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k5/record_mapping.json",
-          "sha256": "a65a7c4ffb6dd75db9c977922086d4f5ed26180f8a34cf0d15ad88a2152531b1",
-          "byte_size": 1031
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k6/content_parsing.json",
-          "sha256": "e5fd099607316a049ec211a158551699696db7cad91b49a7fc3b36b87f6ee392",
-          "byte_size": 2863
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k6/document_reference_linking.json",
-          "sha256": "e55a60cb5e7c0cb6cbc7a2afdc056cc272162a5f280f5ad0cc81d1f46cd50e13",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k6/document_structure.json",
-          "sha256": "cd6491e641a9c53c310a2580ad4583d5d39475e29e5a088d32c3f61633b65a12",
-          "byte_size": 2045
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k6/heading_evidence_parsing.json",
-          "sha256": "902e838ea2dff830f5a4c8eadbcd98a5740f14dd9fc1fe30c8fabf25fda01e49",
-          "byte_size": 3104
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k6/hierarchy_inference.json",
-          "sha256": "8c09a824a31eb6b0037a6b33022f805d3d59984210d630d93ad6db4546286e28",
-          "byte_size": 1282
-        },
-        {
-          "path": "configs/task03h/deir_appendix_k6/record_mapping.json",
-          "sha256": "1e131eb8a0c13231ffec3367b1be633b9cf103e91f77562b8aa874544d847216",
-          "byte_size": 1031
-        },
-        {
-          "path": "configs/task03h/deir_appendix_l/content_parsing.json",
-          "sha256": "9c648cb7e4ea6d240b69d20a09b02fc9fdf30d5e5947e7f15493feb7315ee635",
-          "byte_size": 2838
-        },
-        {
-          "path": "configs/task03h/deir_appendix_l/document_reference_linking.json",
-          "sha256": "726b9003e567f00d734996361276c28a834effa2fe00a1ed3e0929b9d246d923",
-          "byte_size": 1170
-        },
-        {
-          "path": "configs/task03h/deir_appendix_l/document_structure.json",
-          "sha256": "225d1c39a51dac7b44e238070b8cdfefab59a4390798120054605c46e5c6c314",
-          "byte_size": 2043
-        },
-        {
-          "path": "configs/task03h/deir_appendix_l/heading_evidence_parsing.json",
-          "sha256": "24082e5ad1f5233cfe9efa92f2eef0db03010301e2614826a39bc802097cb275",
-          "byte_size": 3079
-        },
-        {
-          "path": "configs/task03h/deir_appendix_l/hierarchy_inference.json",
-          "sha256": "55fbecb2cc47afdc845ad5680e29356e8b48703d3e72ad75d2c88db6c41e61f1",
-          "byte_size": 1257
-        },
-        {
-          "path": "configs/task03h/deir_appendix_l/record_mapping.json",
-          "sha256": "9456961d1dc98a091dc66d2e1458ad5b3a854eeb995114ae477014ccb08bf714",
-          "byte_size": 1029
-        },
-        {
-          "path": "configs/task03h/deir_appendix_m1/content_parsing.json",
-          "sha256": "f7f414d815034e119b37b09badf050915cc1f4bde043aaf12efdd21b6c79e1f7",
-          "byte_size": 2865
-        },
-        {
-          "path": "configs/task03h/deir_appendix_m1/document_reference_linking.json",
-          "sha256": "77db84c15afcde65b122f68219f7cc7242af0340d51a06224e9c8f29f974cf5a",
-          "byte_size": 1172
-        },
-        {
-          "path": "configs/task03h/deir_appendix_m1/document_structure.json",
-          "sha256": "600623a9027e8a0f2301b3a5fa36b2e9c4a6bb59929892e245b8dc5f349e8e52",
-          "byte_size": 2046
-        },
-        {
-          "path": "configs/task03h/deir_appendix_m1/heading_evidence_parsing.json",
-          "sha256": "adcc9e36f526d260ddfc27256d6fc4624ae4db71c44333228bf4039ea149bde9",
-          "byte_size": 3106
-        },
-        {
-          "path": "configs/task03h/deir_appendix_m1/hierarchy_inference.json",
-          "sha256": "1e33c904cc75cbf3c8f95dd9b5de4fd5ca3ab3a2fe669dc6416794ec110f9b84",
+          "path": "configs/task03h/deir_appendix_a/hierarchy_inference.json",
+          "sha256": "eafed6a2e6fbca4da2e5e2bd7bbf88e7db942ed84dea44f1ed7380da38b35efd",
           "byte_size": 1284
         },
         {
-          "path": "configs/task03h/deir_appendix_m1/record_mapping.json",
-          "sha256": "8f3d24ce32db92afda9d95069107086a05add14154e93d94da6f6317dd9023db",
-          "byte_size": 1032
+          "path": "configs/task03h/deir_appendix_a/record_mapping.json",
+          "sha256": "47782e8ea366f6c0f8368d1f05dc643b4d6cafbd6a23692788118a10147e6997",
+          "byte_size": 1058
         },
         {
-          "path": "configs/task03h/deir_appendix_m2/content_parsing.json",
-          "sha256": "4f7c554ce1ee857684852fb8ac9580d9881ea3fd715e00432fb76275d38d199e",
+          "path": "configs/task03h/deir_appendix_b/content_parsing.json",
+          "sha256": "43390551a3a448caac938bf465a9b65a5575da8517031b4c9973a206adc3f691",
+          "byte_size": 2865
+        },
+        {
+          "path": "configs/task03h/deir_appendix_b/document_reference_linking.json",
+          "sha256": "05870a44f422d45d53908d9a5e2ca0c038a2a047814e763d709d2ff60da425ab",
+          "byte_size": 1198
+        },
+        {
+          "path": "configs/task03h/deir_appendix_b/document_structure.json",
+          "sha256": "c009ae5ab8518058069f8a30d74d667bb31ea196c90e0b3de05ed3568c60808b",
+          "byte_size": 2114
+        },
+        {
+          "path": "configs/task03h/deir_appendix_b/heading_evidence_parsing.json",
+          "sha256": "954dcdf3d867933e0289b2ae0b37047a010a350097806ef875264451e3b7e68b",
+          "byte_size": 3106
+        },
+        {
+          "path": "configs/task03h/deir_appendix_b/hierarchy_inference.json",
+          "sha256": "164a7a85395406e5fd1912d24a18d0706d255f93516be3023c85e1a8c2380a1c",
+          "byte_size": 1298
+        },
+        {
+          "path": "configs/task03h/deir_appendix_b/record_mapping.json",
+          "sha256": "7ce7dfd5b90e773d366b3cb54cd16715b2980b92e128e5ed15e3486cb6eb0c67",
+          "byte_size": 1058
+        },
+        {
+          "path": "configs/task03h/deir_appendix_c/content_parsing.json",
+          "sha256": "793a284683fc11fe3f9c0bc343ab783daa6f871875df352ea76a8fdb8ccd0bf4",
+          "byte_size": 2849
+        },
+        {
+          "path": "configs/task03h/deir_appendix_c/document_reference_linking.json",
+          "sha256": "cf72771f61852df95d78edebfe7e74f54e2d39f1f1e05a024e1f0d9000d34c66",
+          "byte_size": 1198
+        },
+        {
+          "path": "configs/task03h/deir_appendix_c/document_structure.json",
+          "sha256": "766516e4e32e9ae590d5399ebaf648a113009488e77a0ff38e6c6bab7ec32086",
+          "byte_size": 2113
+        },
+        {
+          "path": "configs/task03h/deir_appendix_c/heading_evidence_parsing.json",
+          "sha256": "93168fa8c6d84a3f62a8cc881f552e99bc0d26df6510a0b2e3d752223b1bf7dc",
+          "byte_size": 3090
+        },
+        {
+          "path": "configs/task03h/deir_appendix_c/hierarchy_inference.json",
+          "sha256": "5db88d081a3999100c511458fc532e2b17023c8de6d6bc2d7382a346a85e6e95",
+          "byte_size": 1282
+        },
+        {
+          "path": "configs/task03h/deir_appendix_c/record_mapping.json",
+          "sha256": "04b91561f29f39b86561bb4456eacf921b5d96db2ee039a403df0adf930f0236",
+          "byte_size": 1057
+        },
+        {
+          "path": "configs/task03h/deir_appendix_d/content_parsing.json",
+          "sha256": "4d56d14198d8256ea46c4dcdad350b10f0ff14a3ea53e5d5af614d655e1d49c8",
+          "byte_size": 2860
+        },
+        {
+          "path": "configs/task03h/deir_appendix_d/document_reference_linking.json",
+          "sha256": "d20c2983625f9c5b817da67d7dacb6a6381205317df433ccdbbe7b448c51f77c",
+          "byte_size": 1198
+        },
+        {
+          "path": "configs/task03h/deir_appendix_d/document_structure.json",
+          "sha256": "369a77268882e6dfdfaa1bba3e04e4df43d2cf7bb31e9fd135c28b56d68505be",
+          "byte_size": 2114
+        },
+        {
+          "path": "configs/task03h/deir_appendix_d/heading_evidence_parsing.json",
+          "sha256": "77c18cdb247d44ab285b39e1290a1d20c749a6b4f0c0551401df3e532e16107e",
+          "byte_size": 3101
+        },
+        {
+          "path": "configs/task03h/deir_appendix_d/hierarchy_inference.json",
+          "sha256": "27549e5256365eee18c0a2e3d6ddaed200e4fd9ce2fc7cbff4e11989e6ee5327",
+          "byte_size": 1293
+        },
+        {
+          "path": "configs/task03h/deir_appendix_d/record_mapping.json",
+          "sha256": "d261d617ff8af95f4bb5c5d322900337bd3e4b7d6a2779577c633f6fdea76073",
+          "byte_size": 1058
+        },
+        {
+          "path": "configs/task03h/deir_appendix_e/content_parsing.json",
+          "sha256": "6446409fc85d18103e9bb412a0a41bdb78529afe5d8a88c3f5301669e56ade3e",
+          "byte_size": 2858
+        },
+        {
+          "path": "configs/task03h/deir_appendix_e/document_reference_linking.json",
+          "sha256": "089d11d78889eb00fa7c3e1766d70cdd3291294dc7e0c01e2da80d8479d4388a",
+          "byte_size": 1198
+        },
+        {
+          "path": "configs/task03h/deir_appendix_e/document_structure.json",
+          "sha256": "bcf04653312b191b5959dbb99bdcbfcacac845bb2188efa99b2c3bed9323502c",
+          "byte_size": 2114
+        },
+        {
+          "path": "configs/task03h/deir_appendix_e/heading_evidence_parsing.json",
+          "sha256": "4d4cec89380afad29ba32f7316c65a5b6e3464597d28e877fb49804b1c2593e4",
+          "byte_size": 3099
+        },
+        {
+          "path": "configs/task03h/deir_appendix_e/hierarchy_inference.json",
+          "sha256": "f82c564d5d2db21c863359418ee4bfa580f5a13e541d673bbb00212546aefd25",
+          "byte_size": 1291
+        },
+        {
+          "path": "configs/task03h/deir_appendix_e/record_mapping.json",
+          "sha256": "47a78af286ae9c0ae6db3501bd12ed5f3f9492edaf4c5457442ba64c514b6723",
+          "byte_size": 1058
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f1/content_parsing.json",
+          "sha256": "01d210bd8c7c9bdf5a8109a7eb7010f4c342d96a8eeff8113a2f67d74059c568",
+          "byte_size": 2856
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f1/document_reference_linking.json",
+          "sha256": "2c8a9bc3bb56f2f74ccbffc42691f1bd5a473d1636fd9633b54e99d1a6cbecd7",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f1/document_structure.json",
+          "sha256": "7001278200c4bb2a54a077c3b0b05c5b81fbf88d444feaea8b7d4fb09f69da52",
+          "byte_size": 2115
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f1/heading_evidence_parsing.json",
+          "sha256": "c550f23e3115d413d32101900818cc2b604c8d3d98e0b86a8b1767c27fe6b1e6",
+          "byte_size": 3097
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f1/hierarchy_inference.json",
+          "sha256": "95f0bd4b7ac963ffd49d558c8a09ce07e8f79e93374425984b42f8bd269b86fe",
+          "byte_size": 1289
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f1/record_mapping.json",
+          "sha256": "88dfc5df8875a6a131b27f96cd942c38aeab558bd2d7c906e7895676ea713974",
+          "byte_size": 1059
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f2/content_parsing.json",
+          "sha256": "63aa3144669c6d88777de0f10b24b971f3df5c7fe8242abec2021e07cc24b0c3",
+          "byte_size": 2851
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f2/document_reference_linking.json",
+          "sha256": "1c70d9ceee32ced8d056898a3dd754119f20e7763bac6ab46a8ad6545280b32a",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f2/document_structure.json",
+          "sha256": "7fd12f3f1f5ba2bca96a659d4a9e09c5282f15586fde2493ba03da4d808e6c56",
+          "byte_size": 2115
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f2/heading_evidence_parsing.json",
+          "sha256": "37c5c43bfd8f0356061c81fe2e3a74a82e3844a963a2db333233391e75cb512f",
+          "byte_size": 3092
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f2/hierarchy_inference.json",
+          "sha256": "c84c9cd982ab1e800f8472955b2552e31c15609187e7f028d335cbec239bc089",
+          "byte_size": 1284
+        },
+        {
+          "path": "configs/task03h/deir_appendix_f2/record_mapping.json",
+          "sha256": "0a15a7118f9f5bd52cf254a020be8e6d1acb5ef6e2fcced165059b69d6731436",
+          "byte_size": 1059
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g1/content_parsing.json",
+          "sha256": "ac8e419a12806d58bfa7dfa4029bf73c291c194368e389505f9e695df501a666",
+          "byte_size": 2855
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g1/document_reference_linking.json",
+          "sha256": "b0c91d49f7b34419aafd5684df05984d1f684af28f3914358722a7c7c1197cb5",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g1/document_structure.json",
+          "sha256": "cf6e88501044235a13a8d937a6bb02838759a7ce6adaff507a656baeea7deeb9",
+          "byte_size": 2117
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g1/heading_evidence_parsing.json",
+          "sha256": "5a028dcfc285dbf95f128c158a5e3cf9370a246828094f991fdeb9f3ae83a7dd",
+          "byte_size": 3096
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g1/hierarchy_inference.json",
+          "sha256": "9bb8d2d17a942bcbf06a51e73ed53e4d8dfb40548291476cabd8b2099591c87c",
+          "byte_size": 1288
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g1/record_mapping.json",
+          "sha256": "61e6593219117081bd048423a1f94c81f09fdeb4aa70978713e1cff070f3eed3",
+          "byte_size": 1061
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g2/content_parsing.json",
+          "sha256": "4c93903a0fc1c4a6d7d85d7ab1fa43225fa5e30aa7404534ff0fe297a5050ba0",
+          "byte_size": 2849
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g2/document_reference_linking.json",
+          "sha256": "f8fdc3ab9fe3d23f560308965e9cc78f54dc5f705697b51d027d2e0100b883dc",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g2/document_structure.json",
+          "sha256": "140651cb86717ec04f5c1e2c1288cc44416fe51e8e45a2ccbf24023c0af1c9fc",
+          "byte_size": 2117
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g2/heading_evidence_parsing.json",
+          "sha256": "b6d644d41dd4ce4bbf1ad8db953888aaf77aa5deb8c38118c1d80975f3dda107",
+          "byte_size": 3090
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g2/hierarchy_inference.json",
+          "sha256": "cfd53c84e65526e10025b96a5aeb7a04177e0432b933ed61db6d64a85ce6c395",
+          "byte_size": 1282
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g2/record_mapping.json",
+          "sha256": "a468400185aa743adedc692e16e83d5182c635589b65741c1cde249200065e56",
+          "byte_size": 1061
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g3/content_parsing.json",
+          "sha256": "65e07d6ba814514a222c4e4bf898edaeef8e134ba2abe5653ea0e5edbe0e6751",
+          "byte_size": 2877
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g3/document_reference_linking.json",
+          "sha256": "7571c623a932f2dab4422948590c4ad2dab3aea790bf4e296a45e605ccf3b754",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g3/document_structure.json",
+          "sha256": "d748f82567b6950b0e846bb6cf2a3d95e3b836a55586b1e778e03c794acc2142",
+          "byte_size": 2117
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g3/heading_evidence_parsing.json",
+          "sha256": "aad391aba08c35e621ebe17258467e2fc8c35bf6c1075db8e6359edd882b35db",
+          "byte_size": 3118
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g3/hierarchy_inference.json",
+          "sha256": "2e12e1774ea35a8ed4b0d2aa9be0bae8a25e48a1cb22ec7e157c00f4df47a3bf",
+          "byte_size": 1310
+        },
+        {
+          "path": "configs/task03h/deir_appendix_g3/record_mapping.json",
+          "sha256": "88c58cda6b2a8302669085ff752dd2ecf95e4fd4f4eb86cd5529b213bc0016df",
+          "byte_size": 1061
+        },
+        {
+          "path": "configs/task03h/deir_appendix_h/content_parsing.json",
+          "sha256": "f4dcea3b47e9daf277a6fb910bd34da015917d1d56b2b23e1b2bc33d559e2f7f",
+          "byte_size": 2864
+        },
+        {
+          "path": "configs/task03h/deir_appendix_h/document_reference_linking.json",
+          "sha256": "1071c15964d66d4a83a137120fff8459c224efd27a5a55c20617e48ecd2a0334",
+          "byte_size": 1198
+        },
+        {
+          "path": "configs/task03h/deir_appendix_h/document_structure.json",
+          "sha256": "12fe7f99195304f052439d8cbbe5dd39d33baba2fca0a6d1443c37f10f6b4c10",
+          "byte_size": 2115
+        },
+        {
+          "path": "configs/task03h/deir_appendix_h/heading_evidence_parsing.json",
+          "sha256": "6c396305840d530959358204c13f12cede48cca29bd82e6fd00bdcad88e496ad",
+          "byte_size": 3105
+        },
+        {
+          "path": "configs/task03h/deir_appendix_h/hierarchy_inference.json",
+          "sha256": "89bfb285ec7f54d242b5f3a881ba492b1be2429baf3d30ec0f4a9f08c516f3f3",
+          "byte_size": 1297
+        },
+        {
+          "path": "configs/task03h/deir_appendix_h/record_mapping.json",
+          "sha256": "84d8a19afe91cfcda522d94851803315f305e2cf999790edd7ad4b114bd554d4",
+          "byte_size": 1059
+        },
+        {
+          "path": "configs/task03h/deir_appendix_i/content_parsing.json",
+          "sha256": "e62aee546d9ce3f82c707be311f1ca4f11b803f3b6b898f976cb533caf236b70",
+          "byte_size": 2856
+        },
+        {
+          "path": "configs/task03h/deir_appendix_i/document_reference_linking.json",
+          "sha256": "68a8bfed2d04678e55e18ad0b909749776605f1cded3869a23f86641501f812c",
+          "byte_size": 1198
+        },
+        {
+          "path": "configs/task03h/deir_appendix_i/document_structure.json",
+          "sha256": "37daaa4f469b698fc11e3309fdc3b2f64a8ced153036a42dac20d85e04e6b381",
+          "byte_size": 2115
+        },
+        {
+          "path": "configs/task03h/deir_appendix_i/heading_evidence_parsing.json",
+          "sha256": "066f44808d2276011021b36d1a4c71d27e6b66bd6c1d5297fe263a0f6559b370",
+          "byte_size": 3097
+        },
+        {
+          "path": "configs/task03h/deir_appendix_i/hierarchy_inference.json",
+          "sha256": "337f937e4bea31a8b2c5cc3457dcc08d2e13cf3db77205445c3cedb8f8e53bb3",
+          "byte_size": 1289
+        },
+        {
+          "path": "configs/task03h/deir_appendix_i/record_mapping.json",
+          "sha256": "324fb9b6fe6bf4a38e71aeed6f50e56d456dd01367bfc1a84c12175fdbe69a38",
+          "byte_size": 1059
+        },
+        {
+          "path": "configs/task03h/deir_appendix_j/content_parsing.json",
+          "sha256": "eb9754da08ebfb6309f3b7ede923a7487b3dc32df959c6a738aee3ef17ced88c",
+          "byte_size": 2844
+        },
+        {
+          "path": "configs/task03h/deir_appendix_j/document_reference_linking.json",
+          "sha256": "3bb3b5067788e3049b103585cdabddf68c0d73bacb2190cf8bbdb117df10beba",
+          "byte_size": 1198
+        },
+        {
+          "path": "configs/task03h/deir_appendix_j/document_structure.json",
+          "sha256": "2c82705ec5ff7d24e454e19bd32f27e0118f55c276831451828b97a45125ad97",
+          "byte_size": 2114
+        },
+        {
+          "path": "configs/task03h/deir_appendix_j/heading_evidence_parsing.json",
+          "sha256": "d446388f0fc923b74dcfab008b887e1740dfa5e4329b8ac2cb5a8590f0892200",
+          "byte_size": 3085
+        },
+        {
+          "path": "configs/task03h/deir_appendix_j/hierarchy_inference.json",
+          "sha256": "c6c479ab3949a7430cdd096d5d418c8d70b1d826e4ac37fd14faf4c0c259c5a1",
+          "byte_size": 1277
+        },
+        {
+          "path": "configs/task03h/deir_appendix_j/record_mapping.json",
+          "sha256": "8ac5ac0609a47fc3653eb219b88bb2dd2d08af4609035e3810a65643cfe24ef7",
+          "byte_size": 1058
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/content_parsing.json",
+          "sha256": "67a96e0d24b9c3a76d0ca86f930ce24ed70d38ff0704264da345a947fe5a5ae0",
           "byte_size": 2866
         },
         {
-          "path": "configs/task03h/deir_appendix_m2/document_reference_linking.json",
-          "sha256": "6701f447dab73d8630a3b4343b5d3bc553be61a6f0f195ca4bd488d7e67c0360",
-          "byte_size": 1172
+          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/document_reference_linking.json",
+          "sha256": "d566839dd0cb480773dd21d0a7e414e5025238391809cd3a4680cd069ae882a4",
+          "byte_size": 1224
         },
         {
-          "path": "configs/task03h/deir_appendix_m2/document_structure.json",
-          "sha256": "8bad907350ceece1b71cd6520fb723a4c32ed8514596bc2fce68eb42604acce9",
-          "byte_size": 2047
+          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/document_structure.json",
+          "sha256": "535c256539a3325240247350e02808fdbbf3c8b0cfe8044f48d670da1f479a8d",
+          "byte_size": 2140
         },
         {
-          "path": "configs/task03h/deir_appendix_m2/heading_evidence_parsing.json",
-          "sha256": "0313d518189d2a722c44982890e7947ef8ade6e1cd94a49e267fb449f20eab51",
+          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/heading_evidence_parsing.json",
+          "sha256": "36e7f1cb5a617db9fea9d5cbf60fc89910f9a25515061f9c6c1aac172d85e3ad",
           "byte_size": 3107
         },
         {
-          "path": "configs/task03h/deir_appendix_m2/hierarchy_inference.json",
-          "sha256": "db64702154f8612a989dc40dd838762a67e9e3372e6601ec07b7ea0dbf61084e",
+          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/hierarchy_inference.json",
+          "sha256": "806b846278d68491c4f1d7a8c968d512acc1632dad6dd62ef0c663f7e254357d",
+          "byte_size": 1299
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_1_of_4/record_mapping.json",
+          "sha256": "4652bf0cce55175534dbeec4f5f062392a0cfdbecee2517ed162a0888a6db74a",
+          "byte_size": 1084
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/content_parsing.json",
+          "sha256": "979e79e310dd71e481f367f8e57f4cc76f0429e7c9d0704805bb742afd90a0a0",
+          "byte_size": 2867
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/document_reference_linking.json",
+          "sha256": "f45361f3527464266f60558692f9a0d82d45629eeda469ed5ed282cc64ea2cb1",
+          "byte_size": 1224
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/document_structure.json",
+          "sha256": "33776a470eb766a78b521447fd28e98ea1a0af3e2906a59020fb4b20e9d8ee06",
+          "byte_size": 2141
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/heading_evidence_parsing.json",
+          "sha256": "731e6c5602be72cb8c946a6257305e1cbc2ce223a6d745ff5cec698e29463ef3",
+          "byte_size": 3108
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/hierarchy_inference.json",
+          "sha256": "85b868d4ea83cec1176dd788b3f1783e720d59c3a5e97273d4a1fff8fa69c4da",
+          "byte_size": 1300
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_2_of_4/record_mapping.json",
+          "sha256": "5c22ee0efe9d3652d2afd3820c9c1becd5f692506ff173d914e7489930400021",
+          "byte_size": 1085
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/content_parsing.json",
+          "sha256": "4c37e8c47c41e23f328421c05b2691208ca23bfb999c4c35ec5759383dcde339",
+          "byte_size": 2867
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/document_reference_linking.json",
+          "sha256": "36ba56a4514d8b01dcb8048fbf082fd629a9687341f415f1f7851ceef12be355",
+          "byte_size": 1224
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/document_structure.json",
+          "sha256": "e33f08016602d18ebec6564b1e7aaa52c876a1dd215155575a58658925bd2113",
+          "byte_size": 2141
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/heading_evidence_parsing.json",
+          "sha256": "a2a7f9edddc6e53c73dd2905518bf3f6b827d8ad42ef0db663e3902b27ddd419",
+          "byte_size": 3108
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/hierarchy_inference.json",
+          "sha256": "0ea241e99bb026987d4642b2512889e4d07267c0020234890949114534be4220",
+          "byte_size": 1300
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_3_of_4/record_mapping.json",
+          "sha256": "8038efde2847c44df4781152c23c717f0a708762a890ad04a3c2d27ead6c7816",
+          "byte_size": 1085
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/content_parsing.json",
+          "sha256": "fbfda1a959ee7dbba4045798ec805ee5336a1e14bcba8204120cd5d6ef33aab4",
+          "byte_size": 2867
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/document_reference_linking.json",
+          "sha256": "96b0759bde6a6955f091bed6a21326299469d3eab2e33d567acba4a159db0603",
+          "byte_size": 1224
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/document_structure.json",
+          "sha256": "3a9d5d5643ea80955eb0ea2efe43ad38ec32c9b225b846f4e1ce7ecc373ef9e0",
+          "byte_size": 2141
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/heading_evidence_parsing.json",
+          "sha256": "b3e67f7da41fe42f62007e0cd3a17c1b3fcfb517eeddbe7a48cb813bd06f31bf",
+          "byte_size": 3108
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/hierarchy_inference.json",
+          "sha256": "635febd209a4470ec1a4079eb334475d5209a700f6ab12b80d28e2449fd9a04d",
+          "byte_size": 1300
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k1_part_4_of_4/record_mapping.json",
+          "sha256": "10795e18d246addc1449d3c8ae1f1d7f242e8910b46fc95af8cef47ba415c51c",
+          "byte_size": 1085
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/content_parsing.json",
+          "sha256": "8857ccf64eed0698803d0779e170b5c3518c4943c0a767f3d7568327d0418b21",
+          "byte_size": 2867
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/document_reference_linking.json",
+          "sha256": "57f7da061e66df25a360e88043a3d9f1f28b416560ff451bd75f9d85921c8646",
+          "byte_size": 1224
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/document_structure.json",
+          "sha256": "292cb5cef59e0d2e57dfe88162aa7ffae4574fa854d7a7c5987a119ece857d8b",
+          "byte_size": 2141
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/heading_evidence_parsing.json",
+          "sha256": "21defb2dfcb1a5582cb3a85d45e6eaddaf87758fa8d4091f994daa29cd2381c6",
+          "byte_size": 3108
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/hierarchy_inference.json",
+          "sha256": "8e33c4fb5b26fc8d5bddf85a7131bbca654a29c6de7f481e73685816267bccc6",
+          "byte_size": 1300
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_1_of_5/record_mapping.json",
+          "sha256": "4aae1a747c197d16302373807b44227fc2a8d483592b781bac4d044f81a1f5e3",
+          "byte_size": 1085
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/content_parsing.json",
+          "sha256": "106617f95179426add12accb74cf5b6e151c49815147c6ea8d0693223279f89c",
+          "byte_size": 2866
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/document_reference_linking.json",
+          "sha256": "988c665cae38dcc1958164a5fc9c109360099f366d435f6b1c637fc4097f4cea",
+          "byte_size": 1224
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/document_structure.json",
+          "sha256": "3021a5ca0331939687cca5cdb633b79e977f0eeda47eb623f78632cf0354616e",
+          "byte_size": 2141
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/heading_evidence_parsing.json",
+          "sha256": "3ac2d863386c21a895112dca9177ec47fd4b3ae8357707fc73dcaf73e1cb854c",
+          "byte_size": 3107
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/hierarchy_inference.json",
+          "sha256": "1e544723493b0d34e1bfc339a82d90516997a462c4aab5fc77b443b2b14376cb",
+          "byte_size": 1299
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_2_of_5/record_mapping.json",
+          "sha256": "c8d100c59b55f4ab34ad2b5e8425f0ff364fc8d20cdc23b0bca0e89c56a1e66e",
+          "byte_size": 1085
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/content_parsing.json",
+          "sha256": "321921b9c4b8d5b531915ccd83a1e7925cd181a39347cbbf899997d31f21c02c",
+          "byte_size": 2867
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/document_reference_linking.json",
+          "sha256": "786da30435fb9887730306cbce630cb77cfd915daf2363e2c2f0da9ca8c37f63",
+          "byte_size": 1224
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/document_structure.json",
+          "sha256": "f937320d4c6c78056bb55be28307f3d694876ff107d25cfd2d150bf87cb6005b",
+          "byte_size": 2141
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/heading_evidence_parsing.json",
+          "sha256": "729a670e5a1298d44bc526b8d6838eb0fed1fdb49ac5dff643cd69cc272dd333",
+          "byte_size": 3108
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/hierarchy_inference.json",
+          "sha256": "655059af9d8a546ce79915cebf7e97b31d9e8a5db76b192bc5d48066b2fb9b51",
+          "byte_size": 1300
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_3_of_5/record_mapping.json",
+          "sha256": "41137fffb668f57f7f70e0916c29cf7a912373567e91ca674be0e34ecfa20653",
+          "byte_size": 1085
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/content_parsing.json",
+          "sha256": "8bba76a3c81ea98723648a7d9a7520b3ea999d21775a2916ff6373bece0ab3ce",
+          "byte_size": 2867
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/document_reference_linking.json",
+          "sha256": "b3fff6fd0f43d9f4ec19ab4273463241c1910e0c50ced5744d76802b0f6f617f",
+          "byte_size": 1224
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/document_structure.json",
+          "sha256": "f822562598c33d81d6777802d44661372b044263d81254f01fc4fd7bb87db23a",
+          "byte_size": 2141
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/heading_evidence_parsing.json",
+          "sha256": "eb1ad72925b684185482b90b3a74d340476150a7a1276bb1117fa3257cb1d20b",
+          "byte_size": 3108
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/hierarchy_inference.json",
+          "sha256": "616303caec87752b3343544d050fc4328b72302d962b61014da1b77f4b3aea31",
+          "byte_size": 1300
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_4_of_5/record_mapping.json",
+          "sha256": "fe7247dc9754257b2655dcfa8e927085543c0fab556c78f482e15b3664878d6b",
+          "byte_size": 1085
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/content_parsing.json",
+          "sha256": "cce68fb95b88386094d430c1b8140a8a0839368d33108dc924eb842599068faf",
+          "byte_size": 2866
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/document_reference_linking.json",
+          "sha256": "183a370fd29f0656a4b4a8324d568517b9aeb72f3512bef55543f978f6bd8536",
+          "byte_size": 1224
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/document_structure.json",
+          "sha256": "5ccfac5d59ad0cfc16d8e89e23df3aaa6eb139a8f03c31990bec4e5b28ab2765",
+          "byte_size": 2141
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/heading_evidence_parsing.json",
+          "sha256": "d78ea0bfee0d624310c1a16aed1d362853a1d4ccfa1cc934d60c1dc3ccaf87d6",
+          "byte_size": 3107
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/hierarchy_inference.json",
+          "sha256": "4f9a0a935a33a5ba4b0f1731812839812c3cec5ddce076c393341799c9baf8e5",
+          "byte_size": 1299
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k2_part_5_of_5/record_mapping.json",
+          "sha256": "7317bd7dc94103c90d07b9ca0a96e8ecf578f78f9e1d36e55261b902bedf5187",
+          "byte_size": 1085
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k3/content_parsing.json",
+          "sha256": "69ea8f7c3e02503889513cef22a01b7f0ed4fe204cc1e8cb4ff1b050489f487f",
+          "byte_size": 2899
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k3/document_reference_linking.json",
+          "sha256": "965ba32572272acd006c3088a4120d1cc0e2b5188f39310c09b0c7132ccbeffe",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k3/document_structure.json",
+          "sha256": "3420a23f55980268d651f5d64b685e902ffa90f461e5517c38458b3ab883ce39",
+          "byte_size": 2117
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k3/heading_evidence_parsing.json",
+          "sha256": "b0db3e1f57eddecbf88f93ac0cf73701ca85a4842cc66b160376235b6d7bc768",
+          "byte_size": 3140
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k3/hierarchy_inference.json",
+          "sha256": "de37d10b1f9c832065197183c51d62e48ed9347fec4450dd6653cf095ea39a71",
+          "byte_size": 1332
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k3/record_mapping.json",
+          "sha256": "c8a24a67cd1e97eb3bd2cde5b6a183550cee175d67968eaa9e2ad27ff5c7af23",
+          "byte_size": 1061
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k4/content_parsing.json",
+          "sha256": "f572f96941d92bfd275b6e8f27bf2a6c791160d0b9734ee65d0280a4111200d3",
+          "byte_size": 2843
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k4/document_reference_linking.json",
+          "sha256": "452d28470413802f55a77faf9887f59602615f48c5773709dea510a2390e031f",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k4/document_structure.json",
+          "sha256": "1f76ae3ce6f7e85d6fed235d314d10da57e177c6870cb631562095180e9a1bb7",
+          "byte_size": 2114
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k4/heading_evidence_parsing.json",
+          "sha256": "5bcd84b3b98fbae14a1be5733fd4045bfbb9f6b185dc775baf1c963553b70e02",
+          "byte_size": 3084
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k4/hierarchy_inference.json",
+          "sha256": "dccc7bf30ae36d073c7f7d847df56307a584ede74ad4a5e9c04f268f22659d7d",
+          "byte_size": 1276
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k4/record_mapping.json",
+          "sha256": "32b92cd3d07251c2da9c086239fa4143a4643798888591da22173dd8c01ed304",
+          "byte_size": 1058
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k5/content_parsing.json",
+          "sha256": "e3c72e15ccd1db58bf3dd855afd6055d97f7a9e2aa983943c4c724e51d0cac55",
+          "byte_size": 2843
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k5/document_reference_linking.json",
+          "sha256": "fa92232175d39ab2b74287c5ef68c565b1c63916bb35f06a3cb172ae6367b3ab",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k5/document_structure.json",
+          "sha256": "9bd40b11e6045e059636e4923b4860d09fa1bbafdc6f5e916871c3c1ca9e3d2c",
+          "byte_size": 2115
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k5/heading_evidence_parsing.json",
+          "sha256": "28ea074cd41c7fb3116d9abefe529e3c92ff5e04bb3c5f231922a952b30aba45",
+          "byte_size": 3084
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k5/hierarchy_inference.json",
+          "sha256": "fae781b7548b40dd4366ce9f52423f7007077cc1d7c8bdbde393fecc937a0c20",
+          "byte_size": 1276
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k5/record_mapping.json",
+          "sha256": "fef2c74e849165d37e8ef0260c217e6876b57769bf2df6af781a52f4c03c0a4e",
+          "byte_size": 1059
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k6/content_parsing.json",
+          "sha256": "522786639085225e169777573184bef76b8748a8e3ab0a535454141387ed4d3d",
+          "byte_size": 2877
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k6/document_reference_linking.json",
+          "sha256": "f3eba3638be58fb79fd967ee94ce69f009569eda6e28ae4664207822bdc32790",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k6/document_structure.json",
+          "sha256": "58bd3e9a86fb060d821b06c671402d66b76f945a46385421cb3f300e944ad285",
+          "byte_size": 2115
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k6/heading_evidence_parsing.json",
+          "sha256": "62e37a5c7335b0da4586b3738c4759a588bc5eae468d84308a4a516feee65a07",
+          "byte_size": 3118
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k6/hierarchy_inference.json",
+          "sha256": "4f9ca508d4b2919b1d31682073d473fe19542c349d8016d0131652ab06e9b6b9",
+          "byte_size": 1310
+        },
+        {
+          "path": "configs/task03h/deir_appendix_k6/record_mapping.json",
+          "sha256": "ef1a3e89e28d8beb4ff8f2b0ccb94a0a62b3f0e3a97b96f1ba90ea8179be0730",
+          "byte_size": 1059
+        },
+        {
+          "path": "configs/task03h/deir_appendix_l/content_parsing.json",
+          "sha256": "92e65a87e20ef8356af40fbfcef8b8e507311de37429fdde046fd50da37f8e25",
+          "byte_size": 2852
+        },
+        {
+          "path": "configs/task03h/deir_appendix_l/document_reference_linking.json",
+          "sha256": "62a3e47b0032a0e4b0ccd0877138b35683c32ce354930804005b469d2e42fcf4",
+          "byte_size": 1198
+        },
+        {
+          "path": "configs/task03h/deir_appendix_l/document_structure.json",
+          "sha256": "42fd11a4834200223281f601d083258fc99dc306eb45e01613b506caf502c4b3",
+          "byte_size": 2113
+        },
+        {
+          "path": "configs/task03h/deir_appendix_l/heading_evidence_parsing.json",
+          "sha256": "19fe09f2cec5ddd7ff3a8c6494ae10137634510ee7ed81fc4846fa64fb77e3eb",
+          "byte_size": 3093
+        },
+        {
+          "path": "configs/task03h/deir_appendix_l/hierarchy_inference.json",
+          "sha256": "4d8c61d90afe6c5f724d579ddd4bdc9fcb0a3b84f377bb92508b466f61436795",
           "byte_size": 1285
         },
         {
+          "path": "configs/task03h/deir_appendix_l/record_mapping.json",
+          "sha256": "835d35577d5f19c9cf522fdeba53c16618639dd9f8d1bfe059249f086a32b3f3",
+          "byte_size": 1057
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m1/content_parsing.json",
+          "sha256": "e9d772094487b59895b15c07002e6e7199cd807ac09888c9297c69dd89809976",
+          "byte_size": 2879
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m1/document_reference_linking.json",
+          "sha256": "5bbaa91686751c37ed9d7de4643ea2cf1a33275d7b9a5ea44c89096812521d97",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m1/document_structure.json",
+          "sha256": "43041e3517e1fa15d6c509968467237e4e1aab5e3fb36d5535c4de3a6fe30409",
+          "byte_size": 2116
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m1/heading_evidence_parsing.json",
+          "sha256": "a11224b0dce3c4164a99122c3f140a28c20950311f3f555c79fcd4d7a6e58003",
+          "byte_size": 3120
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m1/hierarchy_inference.json",
+          "sha256": "363db38987b31bd9b8ec4fd57600ba128c049587f6d11ac35d8031fbe210966d",
+          "byte_size": 1312
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m1/record_mapping.json",
+          "sha256": "63525692ef6693585dbf42cd51f584cdb6ef83782f576bcfafefecd9dcc85ec5",
+          "byte_size": 1060
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m2/content_parsing.json",
+          "sha256": "ce0e7a36c01e41a22c6d33e614773ba647ca4096a0d312301419d5fb5c89f711",
+          "byte_size": 2880
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m2/document_reference_linking.json",
+          "sha256": "6e34aa4056814655d0e60a5874833540d535a4e9c5584f2f795ed9f9bad720ee",
+          "byte_size": 1200
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m2/document_structure.json",
+          "sha256": "a3c0c7c4a1d04a800ecee0bfc385597470b504ead89c1682c306be17c2b7bd62",
+          "byte_size": 2117
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m2/heading_evidence_parsing.json",
+          "sha256": "a3cd2fb258f7286e62556cdfbbb67c2271f36c98d8d01a5435a8bf17956eb641",
+          "byte_size": 3121
+        },
+        {
+          "path": "configs/task03h/deir_appendix_m2/hierarchy_inference.json",
+          "sha256": "6bd98213ad7325f7a2607423f698275b4d85a09b8e1dfbbe32376008744894fc",
+          "byte_size": 1313
+        },
+        {
           "path": "configs/task03h/deir_appendix_m2/record_mapping.json",
-          "sha256": "efe881dc626cc4d4750ad99ebef9cbc6bba3a4dfbd60f4e12d5b32b7e972371c",
-          "byte_size": 1033
+          "sha256": "46fd88d4d9c59c4b4f1389465b1c7cbf3477d05c0264c0df7ec849f172ad1959",
+          "byte_size": 1061
         },
         {
           "path": "configs/task03h/deir_appendix_m3/content_parsing.json",
-          "sha256": "e3c318853c9c00acafe470e1f25e261de86a9dda7f632b6f12814cc832acdfe1",
-          "byte_size": 2841
+          "sha256": "3b654932ebdba19797905fa8ebe78eff4544605a9c80a7085aed9968343bd7d4",
+          "byte_size": 2855
         },
         {
           "path": "configs/task03h/deir_appendix_m3/document_reference_linking.json",
-          "sha256": "2625b47135a7845db34d6d2dca572c54a6c43c866ad39b5e1dcc15beff5cb80b",
-          "byte_size": 1172
+          "sha256": "deb62071623d25c69eb36064b513f3e88fbdbe7be78dc259506bd45b395daadf",
+          "byte_size": 1200
         },
         {
           "path": "configs/task03h/deir_appendix_m3/document_structure.json",
-          "sha256": "d01e1579ca3cef2631b5c868f1efb61640fc6543ea15bad53834a839a665ad7a",
-          "byte_size": 2045
+          "sha256": "8edf62c4f103eac0644a148a7e245a3990cf82ee1a249ae2da97a0761f8fddf9",
+          "byte_size": 2115
         },
         {
           "path": "configs/task03h/deir_appendix_m3/heading_evidence_parsing.json",
-          "sha256": "e657d37835fcd1205340dc17182497280c8f859bcf1d245477bce26fb35dfa72",
-          "byte_size": 3082
+          "sha256": "8486589f853f996fd8bfe1583379005980069f7eebc1fcf1d457b79c60fa94ad",
+          "byte_size": 3096
         },
         {
           "path": "configs/task03h/deir_appendix_m3/hierarchy_inference.json",
-          "sha256": "d76bb7672eb8b821433d9c4169cabae487e7a3d2a7e649301b4ba4a20d65424c",
-          "byte_size": 1260
+          "sha256": "0679e84da23ea98dcb59845613a5ef910730ee465fc74fcfe53cceb1c643077a",
+          "byte_size": 1288
         },
         {
           "path": "configs/task03h/deir_appendix_m3/record_mapping.json",
-          "sha256": "28b546b8bfb0558b486035990902b95bafa1b9e148ded4e13d245a82ef160604",
-          "byte_size": 1031
+          "sha256": "43d71ae791312e339498f59ce568c391e04b8b81a712a3fe6784f6184049f3b9",
+          "byte_size": 1059
         },
         {
           "path": "configs/task03h/deir_appendix_n1/content_parsing.json",
-          "sha256": "b885a64af439f34012a007b5d8a4cb5abedeeb204f47f513499f8097fb4e769f",
-          "byte_size": 2841
+          "sha256": "17cd393d7b281f9c20e391c68bd1a8db507fd6395fdf4effa647e89b8407b05b",
+          "byte_size": 2855
         },
         {
           "path": "configs/task03h/deir_appendix_n1/document_reference_linking.json",
-          "sha256": "5b74f5db2e6e637352947c50803089b45dfcd226ef79eeee71c42cab27e84137",
-          "byte_size": 1172
+          "sha256": "bdcf5297e136b7d6edac3b659dfaef72de05eba056ad52cc2620a461c2e7d41c",
+          "byte_size": 1200
         },
         {
           "path": "configs/task03h/deir_appendix_n1/document_structure.json",
-          "sha256": "61601d4ea2dba2af3d3a9d7d4a95a1862ad9a781c54b073784ab6bb360b6c018",
-          "byte_size": 2044
+          "sha256": "b5362a1f47df2d331eda3f8f0421936cc85f7df01b97caad5805e9cb3ecf0dbc",
+          "byte_size": 2114
         },
         {
           "path": "configs/task03h/deir_appendix_n1/heading_evidence_parsing.json",
-          "sha256": "f4e6485c084d9294b365301bb9e8caaa12396c6d7bbcae6f8845ea03b7da5d01",
-          "byte_size": 3082
+          "sha256": "f01b52d82fb8614e84f6ba674de626edff364b6db7b916befb786b6b3f89263e",
+          "byte_size": 3096
         },
         {
           "path": "configs/task03h/deir_appendix_n1/hierarchy_inference.json",
-          "sha256": "7744b121ccb49994a8dfe45ac8489b11a4f91f2a58fcca347468c761c34cc664",
-          "byte_size": 1260
+          "sha256": "d8b672b75aca69eda218a68d9ceaefd6477583dd1d2e1407e61ffd94af0f5431",
+          "byte_size": 1288
         },
         {
           "path": "configs/task03h/deir_appendix_n1/record_mapping.json",
-          "sha256": "80a1937961ab18a3e07b8d845a4bf8de62960879ce5fd8d5b279ac4e40aaba9b",
-          "byte_size": 1030
+          "sha256": "17b643b41e59c97f6bb7b3e85a775bc39540b14ba90ddf66facd340da2672f95",
+          "byte_size": 1058
         },
         {
           "path": "configs/task03h/deir_appendix_n2/content_parsing.json",
-          "sha256": "b0b5268818009f05470b44f25a79fce23ea7f3531de3800a1bcd0b91e13a413a",
-          "byte_size": 2839
+          "sha256": "38e1b57c7927b2e81e09a6d4de9367c52e4a65d69bd1518b2a54ca71622fbaed",
+          "byte_size": 2853
         },
         {
           "path": "configs/task03h/deir_appendix_n2/document_reference_linking.json",
-          "sha256": "5dae04b4683f6c96738d5ee5b8b936a84f9b339a629f79a0f10c88f6979d26a9",
-          "byte_size": 1172
+          "sha256": "fc0f77892bb4945e7a7e8f8d8c3ac03889c8c3b59fbcd53338a85e311ab6af03",
+          "byte_size": 1200
         },
         {
           "path": "configs/task03h/deir_appendix_n2/document_structure.json",
-          "sha256": "157d147082fb00f81e94d197bcbabc77620ebb371cc5b80c1392d902b4e05e7e",
-          "byte_size": 2045
+          "sha256": "5e0626776ca3b0c7569458b6afd88d215766a8b8f8b7700d60a088ffc3d4d0a7",
+          "byte_size": 2115
         },
         {
           "path": "configs/task03h/deir_appendix_n2/heading_evidence_parsing.json",
-          "sha256": "95bd6f56053466287e07dac207c9c219877b8ccea6054b9d2dd615d267c17278",
-          "byte_size": 3080
+          "sha256": "7d18bae9f59e875dbf8e9599caf55e939c6dd63d66f84e34e31f8ddfe6bcfa9d",
+          "byte_size": 3094
         },
         {
           "path": "configs/task03h/deir_appendix_n2/hierarchy_inference.json",
-          "sha256": "7cf5c5b637d9c508ea2458f0a2f4f06a57f23625ef1476306388766c4ca096c7",
-          "byte_size": 1258
+          "sha256": "a88076cac84318c3563824bb1a1ea3c96aa0d59958a43d1bc499a06f64dca725",
+          "byte_size": 1286
         },
         {
           "path": "configs/task03h/deir_appendix_n2/record_mapping.json",
-          "sha256": "522c03e6240a03de4ba9fe743653abd5f71befd636bd7c394426a1e2f4daa25e",
-          "byte_size": 1031
+          "sha256": "709acd4146dcdf0eeafb451c9d6370a1e7929f2eea9d0aa24e906157ee692b88",
+          "byte_size": 1059
         },
         {
           "path": "configs/task03h/deir_appendix_o/content_parsing.json",
-          "sha256": "ab30978467d8f8c1cd8e5a7aab09f6f02a0a077ecf0ac6a5b57c7fb3411ab2a7",
-          "byte_size": 2821
+          "sha256": "6995c8a82d973920922cd46ee527a110d2118f1f9e854591b427b50a530320d6",
+          "byte_size": 2835
         },
         {
           "path": "configs/task03h/deir_appendix_o/document_reference_linking.json",
-          "sha256": "0a8946521c15cd7482ee0c7d5c8e2868a2e675201820562d9ec74b9e7063f33f",
-          "byte_size": 1170
+          "sha256": "034aa802560483aa2684bae32556a438b0311f520c9e2165f0b98998842f4185",
+          "byte_size": 1198
         },
         {
           "path": "configs/task03h/deir_appendix_o/document_structure.json",
-          "sha256": "008d537a7e0a1e9fbbe3fef580b78cd61d1254c9e2e5d4c16b80f5716de32736",
-          "byte_size": 2043
+          "sha256": "5a4e59bbffcabbe8c001538cbfbc4eee2d2a58f6114836f77255586b2986607c",
+          "byte_size": 2113
         },
         {
           "path": "configs/task03h/deir_appendix_o/heading_evidence_parsing.json",
-          "sha256": "c9903ec1e9fd9d5df93d3e97c84be53340a7ab0094d6665f1ffef00f28dc8a80",
-          "byte_size": 3062
+          "sha256": "23847a869af158b749435d4421fccba4b700e52180e76092f93573b863c9c024",
+          "byte_size": 3076
         },
         {
           "path": "configs/task03h/deir_appendix_o/hierarchy_inference.json",
-          "sha256": "f03d2e20164d8507b3fef6d270e4435df716fd8c926e64663901bfc3a9c0d6b3",
-          "byte_size": 1240
+          "sha256": "309492cd19b3b1060ae5e73d811b42ca9a80d358d3cdb4356b3038426af0f984",
+          "byte_size": 1268
         },
         {
           "path": "configs/task03h/deir_appendix_o/record_mapping.json",
-          "sha256": "ac0dacbe90f1d4af8596fde1f1eb3b1ffd75209bddf01dcce851b44c3cf3c2a9",
-          "byte_size": 1029
+          "sha256": "bd5d5e209c44c22ce97b62acb0b1d9d3adca3aeefe3cab08b84acc9052b28c1a",
+          "byte_size": 1057
         },
         {
           "path": "configs/task03h/deir_appendix_p/content_parsing.json",
-          "sha256": "1948233b9acf1db1c2b9b45efa9944fa61ce2972a42a77495a8035a3f711e68d",
-          "byte_size": 2831
+          "sha256": "83776ed278c5667c14e6a513b680314c83685f6d0fecfc7ebe9c38d93012325f",
+          "byte_size": 2845
         },
         {
           "path": "configs/task03h/deir_appendix_p/document_reference_linking.json",
-          "sha256": "7274bc2ccdebc4821b98f49a23653d117fca69279001d2cffd4f8a0b3f96d124",
-          "byte_size": 1170
+          "sha256": "1925f714be1d03fd690d28deaacc4110097a566f68325d34d4835f9daf40cedc",
+          "byte_size": 1198
         },
         {
           "path": "configs/task03h/deir_appendix_p/document_structure.json",
-          "sha256": "a48b1283344959965e86fafa9b892f052e497235d923f7f9e23641b992244459",
-          "byte_size": 2044
+          "sha256": "9ed9a2e7301668637dc0bfcea21dd61033a608f835b88abc7af234448f174fc7",
+          "byte_size": 2114
         },
         {
           "path": "configs/task03h/deir_appendix_p/heading_evidence_parsing.json",
-          "sha256": "6c5b869e4abee6b9a93be531bb982a7e1b4ce42a19338f1c6ec191310aac156b",
-          "byte_size": 3072
+          "sha256": "104511f00c72cd313f790c6d7a94eed74aceb9d066986b26cbe3df6ed4c8df2f",
+          "byte_size": 3086
         },
         {
           "path": "configs/task03h/deir_appendix_p/hierarchy_inference.json",
-          "sha256": "c8a4c4dc58ee0940eb4a520315c68ce12ba5465106a9c111615cccffe7ac6064",
-          "byte_size": 1250
+          "sha256": "091373e04a74289a1c8d9ff1678336fc6ec49dd75ca05791943ddbcf3c1282be",
+          "byte_size": 1278
         },
         {
           "path": "configs/task03h/deir_appendix_p/record_mapping.json",
-          "sha256": "dca26ff2a0d63714eacbc3a67ab0755056231ae640484ae5986915d4182308dc",
-          "byte_size": 1030
+          "sha256": "18c8353ec43355eb265fb2e3088d771fb6416c39884d68b09c1589fddcf88197",
+          "byte_size": 1058
         },
         {
           "path": "configs/task03h/deir_main/content_parsing.json",
-          "sha256": "aaa976862f70fcdb9610ef479ff50f6cc6cac3f2c7eda84089988cd0de3d413f",
-          "byte_size": 2826
+          "sha256": "4c3adc8dc6c4e099c2e7e3433abc24424fbe1dcd18dc8ed8b44bd07614e222ca",
+          "byte_size": 2840
         },
         {
           "path": "configs/task03h/deir_main/document_reference_linking.json",
-          "sha256": "6d96d32e9d6cf2e239cf164712ceb0135159a271bdebd8d4da951b0e874475b9",
-          "byte_size": 1158
+          "sha256": "52b838352380863c1e435a525c574f1adcb0a4be4e2a35f5f57232e7dfc9e9f2",
+          "byte_size": 1186
         },
         {
           "path": "configs/task03h/deir_main/document_structure.json",
-          "sha256": "5e090f3c72c00dbea1881673286ffe7a3b338e9759a9dc6fd88ddc9932b22870",
-          "byte_size": 2033
+          "sha256": "90a8e7185ee7755e8e6d6fe412e042b74a4382bbb2b167f54b3ca09548e05962",
+          "byte_size": 2103
         },
         {
           "path": "configs/task03h/deir_main/heading_evidence_parsing.json",
-          "sha256": "a2e4d9facea5667f8e5d64b1fdafac96c84b1b80f8a128f7bbcc3a1232854d82",
-          "byte_size": 3067
+          "sha256": "090ad13aa6f427708860da353a5db0d2789de5be179999978b0e3a248d950bf2",
+          "byte_size": 3081
         },
         {
           "path": "configs/task03h/deir_main/hierarchy_inference.json",
-          "sha256": "0294c5b93838a8f27ea1ed73fd4fdbe81604ebc3f342d10ec1b39a482e514ce0",
-          "byte_size": 1245
+          "sha256": "888e06ffdfdd9c9bfdb4840ad952bad731f71f7d17acafc98cd064b15a22cf80",
+          "byte_size": 1273
         },
         {
           "path": "configs/task03h/deir_main/record_mapping.json",
-          "sha256": "336c65426ae48ce5ecc392d47646bfb533ec579dd96a49b604b8283757e7e4cf",
-          "byte_size": 1019
+          "sha256": "0c1211452a13cfe768e26b5ebf105da936b2706cf23fce3e1c47ad11864798ea",
+          "byte_size": 1047
         },
         {
           "path": "docs/specs/cross_references_v3.md",
@@ -1148,8 +1148,8 @@
         },
         {
           "path": "docs/specs/hierarchy_correction_v1.md",
-          "sha256": "28cbd2b00c2cf6a0fa4fc6bd8dc699430f0ed500d6d784860665ad1b52893834",
-          "byte_size": 35722
+          "sha256": "4443ab2ceac7ca71a9ea87b6a4e698e10a7b4a394c93f9345e15d6d089be979a",
+          "byte_size": 38761
         },
         {
           "path": "docs/specs/semantic_structure_v2.md",
@@ -1260,8 +1260,8 @@
         },
         {
           "path": "src/er_commons/document_parsing/content_parsing/references.py",
-          "sha256": "44829bcd7e7ea557086dbaf33665c66338b55976cc97e12c98bdfb1f3096e974",
-          "byte_size": 6439
+          "sha256": "a2175d968b20b0cdcca4a3d4485b3fb3fcd1f0f7ac43749af41823adb4cccb61",
+          "byte_size": 5951
         },
         {
           "path": "src/er_commons/document_parsing/content_parsing/routing.py",
@@ -1335,8 +1335,8 @@
         },
         {
           "path": "src/er_commons/document_parsing/heading_evidence_parsing/pdf_observations.py",
-          "sha256": "74eee6607948a4c20d92e88136065065f18b1952a077d10f2da7bf1f946117d5",
-          "byte_size": 14066
+          "sha256": "af4eba2b204ba1da31bdcc0dae93d256c6a9064abd8633f62651999f5a220981",
+          "byte_size": 28740
         },
         {
           "path": "src/er_commons/document_parsing/heading_evidence_parsing/source_features.py",
@@ -1600,8 +1600,8 @@
         },
         {
           "path": "src/er_commons/document_publication/task03h_preparation.py",
-          "sha256": "48ed29e14062c651cc4e5a56ff4cd2ba2665320216400d66484d89d0ef67fe64",
-          "byte_size": 11379
+          "sha256": "ce21ad5b85861cba83edf88b84877a215b979fe79a0b8e238eb78f779bad7aab",
+          "byte_size": 11392
         },
         {
           "path": "src/er_commons/document_publication/worker.py",
@@ -1830,8 +1830,8 @@
         },
         {
           "path": "src/er_commons/document_records/document_structure/replacement_evidence.py",
-          "sha256": "a2a553080012d56eaddc7e4517b7b4339e66d16f1405978f33bf0b3873109432",
-          "byte_size": 4912
+          "sha256": "06ee99933634c5c0088667fb6a0a846352af3421c3fa5a413158c3a69ad20d82",
+          "byte_size": 4972
         },
         {
           "path": "src/er_commons/document_records/document_structure/runtime.py",
@@ -1945,8 +1945,8 @@
         },
         {
           "path": "src/er_commons/document_records/record_mapping/inputs.py",
-          "sha256": "555d37e861617922e0ae6419c3ef2654284542d792c494a027b1463d14ba75b2",
-          "byte_size": 11429
+          "sha256": "680edf1ab70399542c21992d1bea4de3cf4469ad6e8b829f3b1fc0d90163a406",
+          "byte_size": 11484
         },
         {
           "path": "src/er_commons/document_records/record_mapping/layout.py",
@@ -2105,8 +2105,8 @@
         },
         {
           "path": "src/er_commons/hierarchy_inference/constants.py",
-          "sha256": "f38ceda5080cffaf791627c57de5e917e0b153dca4b6a2d3492bec2405b500b7",
-          "byte_size": 1609
+          "sha256": "0966999b056cc66f1657451ea1abbfcbec54f840de8039836b3308c8cee4eb48",
+          "byte_size": 1632
         },
         {
           "path": "src/er_commons/hierarchy_inference/correction_policy.py",
@@ -2150,13 +2150,13 @@
         },
         {
           "path": "src/er_commons/hierarchy_inference/inputs.py",
-          "sha256": "812f36ce27cee1e050df870a069cff5a9d50014308ab6435390da5d7d1c64b0b",
-          "byte_size": 6352
+          "sha256": "3b875021339831a617b7e7fe35c087b3c79dc660d31f32fa4de5b0cc6bdaaef1",
+          "byte_size": 6424
         },
         {
           "path": "src/er_commons/hierarchy_inference/level_evidence.py",
-          "sha256": "83c6dbf283271b0bc0bc4537588785e9127556f1e9ab66199f9dda37b28da66c",
-          "byte_size": 6559
+          "sha256": "c826868fb5c564ff0da2dea18246edea5ba9f8f6ecaa8aff2b72cacac041da58",
+          "byte_size": 6814
         },
         {
           "path": "src/er_commons/hierarchy_inference/numbering_scopes.py",
@@ -2195,18 +2195,18 @@
         },
         {
           "path": "src/er_commons/hierarchy_inference/rule_applications.py",
-          "sha256": "0798f14b246be83ecee8e069f4c59528acd949d60295204b32eae9db79247a48",
-          "byte_size": 7550
+          "sha256": "ac0a295f80b95fa3ab8876b2bc80772539e6d95b4d151bf32a5abc9030d354d7",
+          "byte_size": 7763
         },
         {
           "path": "src/er_commons/hierarchy_inference/rule_context.py",
-          "sha256": "0e80bb951a6becfc68909d9fdd461c3904102c53777118d33463ffdeebb8549e",
-          "byte_size": 8190
+          "sha256": "80ecd4e87a905c1b8bcfd6cc8328f27677a426ead2cae5c30041677a73700053",
+          "byte_size": 9229
         },
         {
           "path": "src/er_commons/hierarchy_inference/rules.py",
-          "sha256": "95dfac427c9fa9841c6d3235fafd83813e9578106223b3cd7d0e1d113f1b8e63",
-          "byte_size": 9677
+          "sha256": "65ad15c8e06494ab80bcf6305234b606124ebbff381746c9a31c77f4aec840b9",
+          "byte_size": 10237
         },
         {
           "path": "src/er_commons/hierarchy_inference/scope_lifecycle.py",
@@ -2330,8 +2330,8 @@
         },
         {
           "path": "configs/brisbane_baylands_2025_deir_task03h_collection_v2.json",
-          "sha256": "ca2d4f9ca6caadfac5a6a8847c39ff37b54344a4b8e6b09f02f0fadde7dfc60d",
-          "byte_size": 1587
+          "sha256": "06a5ceb78ee73c4a35fd283f1ccc336b0f561e93142cfecaa2eda6fd8d6c4649",
+          "byte_size": 1601
         },
         {
           "path": "configs/brisbane_baylands_2025_deir_task03h_source_family_catalog_v1.json",

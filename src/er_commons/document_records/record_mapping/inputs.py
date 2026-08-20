@@ -123,7 +123,9 @@ class PreparedRecordMappingInputs:
             ),
             producer_completion_record=self.producer_completion,
             document=load_conversion_document(
-                self.conversion, source_id=self.selected_source.source_id
+                self.conversion,
+                source_id=self.selected_source.source_id,
+                document_view="base",
             ),
             conversion_observation_record=ConversionObservation.model_validate_json(
                 (self.conversion_producer_root / "docling/conversion_observation.json").read_bytes()

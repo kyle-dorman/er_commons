@@ -135,17 +135,42 @@ def _raw_heading_neighbor_indexes(
 def _previous_numbering_levels(
     features: tuple[ScopedItem, ...], numbering_levels: dict[str, int]
 ) -> dict[str, int | None]:
-    """Index the previous numbered level inside each regime for R05."""
+    """Index the nearest comparable numbered level inside each regime for R05."""
     previous_by_key: dict[str, int | None] = {}
     latest_by_regime: dict[str, int] = {}
+    latest_decimal_peer: dict[tuple[str, tuple[int, ...]], int] = {}
     for feature in features:
         key = feature["stable_item_key"]
         if key not in numbering_levels:
             continue
         regime_id = feature["regime_id"]
-        previous_by_key[key] = latest_by_regime.get(regime_id)
-        latest_by_regime[regime_id] = numbering_levels[key]
+        peer_key = _decimal_peer_key(feature)
+        previous_by_key[key] = (
+            latest_decimal_peer.get((regime_id, peer_key))
+            if peer_key is not None
+            else latest_by_regime.get(regime_id)
+        )
+        if previous_by_key[key] is None:
+            previous_by_key[key] = latest_by_regime.get(regime_id)
+        level = numbering_levels[key]
+        latest_by_regime[regime_id] = level
+        if peer_key is not None:
+            latest_decimal_peer[(regime_id, peer_key)] = level
     return previous_by_key
+
+
+def _decimal_peer_key(feature: ScopedItem) -> tuple[int, ...] | None:
+    """Return the parent-number prefix for a multi-part decimal heading."""
+    if feature["numbering_kind"] != "decimal":
+        return None
+    token = feature["numbering_token"]
+    depth = feature["numbering_depth"]
+    if not isinstance(token, str) or not isinstance(depth, int) or depth < 2:
+        return None
+    parts = token.split(".")
+    if len(parts) != depth or not all(part.isdigit() for part in parts):
+        return None
+    return tuple(int(part) for part in parts[:-1])
 
 
 def structural_sibling_pattern(
