@@ -412,12 +412,27 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    four-hour loss.
 7. Active [Task
    03H.2](../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md)
-   owns the resulting source-general scaling experiment. First preserve the complete
-   approved Task 03H repair baseline on a dedicated branch and commit. Then prove a
-   deterministic, reference-closed recomposition against sealed G1 without reading a
-   PDF or constructing Docling. Check in before any bounded split-versus-contiguous
-   PDF/model comparison, document-driven G2 range inspection, concurrency benchmark,
-   or G2 rerun. Task 03H remains paused before G2; no later source or collection work
+   owns the resulting source-general scaling experiment. Gate 0 preserved the reviewed
+   baseline at `47560a1`. Gate A then sealed eight source-free G1 ranges and reproduced
+   the stable document, heading overlay, alignment, and asset-inventory bytes in
+   forward, reverse, and randomized completion order under plan
+   `dplan1-90ae46...97aef`. Semantic overlap projections, independent child checks, a
+   real-G1 mutation matrix, and three-retained/five-selected resume simulation pass.
+   Gate B passed under `gateb1-c70b2b...dbabfb` across four isolated G1 seam
+   experiments. Gate C passed under `gatec1-53d220...fe1124`: 12 independently sealed
+   document-driven ranges resumed without recomputing the retained child, aggregate
+   `dconv1-08a9a7...a2a25b` reproduced all four stable monolithic G1 outputs byte for
+   byte, and the full isolated routing/table/record/hierarchy/publication path closed
+   semantically against accepted G1. Range and aggregate peaks were 7.17 GB and 8.89
+   GB. A projected two-worker peak of 14.35 GB exceeds the 10 GiB concurrent ceiling,
+   so concurrency remains one and no unsafe parallel trial ran. A source-free
+   human-ownership refactor replaced the large runners with short application shells
+   and named package owners, hardened exact completion, lineage, and recovery checks,
+   passed 835 repository tests, and rehashed all accepted Gate A–C managed evidence
+   without a PDF/model run. Gates A–C now meet the human-maintainability bar. Task
+   03H.2 is stopped before Gate D and all G2 inspection. Keep the work unstaged and
+   uncommitted for review as requested; check in before G2 source inspection, planning,
+   or execution. Task 03H remains paused before G2; no later source or collection work
    may start.
 8. Independently review usability and freeze the accepted extraction release
    in Task 04.

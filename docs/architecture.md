@@ -86,6 +86,25 @@ rasters are then removed and explicitly accounted for in `asset_inventory.json`.
 Large document and conversion-page JSON records are written atomically through
 streaming encoders so artifact size does not become a second in-memory copy.
 
+Task 03H.2's accepted chunk contract retains pre-global page evidence in independently
+sealed ranges, reconciles overlap ownership, then runs reading order, cross-page text
+merging, and heading inference once over canonical physical-page order. Page evidence
+must preserve concrete assembled-element types and shared body/header membership;
+plain Pydantic union JSON can otherwise restore a container as a figure. Finalized
+range `DoclingDocument` objects are never concatenated, and child-local heading levels
+are noncanonical because level compression depends on the whole document.
+
+The maintained qualification path uses short CLI shells over one-way package owners.
+Contracts and diagnostics are leaf modules. Input and identity services bind source,
+runtime, package, model, and implementation semantics. Worker services own one
+isolated conversion; converted-range storage owns completion-last publication and
+deep reuse; aggregation owns canonical page selection and global assembly; reporting
+owns terminal claims. Docling private APIs are isolated behind the adapter, and
+downstream configuration, stages, difference policy, publication, report, and evidence
+audit are separate owners. Tests call package seams directly rather than importing
+runner scripts. Expensive child identity excludes CLI, help, and report bytes, while
+worker and aggregate semantic code remain independently code-bound.
+
 Hierarchy candidates follow a completion-last immutable-publication boundary. Normal
 restart lookup verifies the completion-to-inventory seal, exact managed path set and
 file sizes, and every small identity and terminal record; it derives semantic

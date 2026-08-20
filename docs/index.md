@@ -373,9 +373,33 @@ could publish a conversion seal. The table stage never began, and the automatic
 monolithic retry was stopped near the start. Active [Task
 03H.2](../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md)
 now owns a source-independent, restartable chunk-conversion experiment. It must first
-preserve the reviewed baseline on a branch, prove source-free recomposition against
-sealed G1, and check in before any bounded PDF/model comparison or G2 rerun. Task 03H
-remains paused before G2.
+preserve the reviewed baseline on a branch and prove source-free recomposition against
+sealed G1. Gate A passed under plan `dplan1-90ae46...97aef`: eight independently sealed
+ranges reproduced the stable document, heading overlay, alignment, and asset inventory
+metadata bytes in forward, reverse, and randomized completion order. The reviewed
+proof includes duplicated semantic overlap projections, independent child validation,
+a real-G1 corruption matrix, three-retained/five-selected resume simulation, and
+separate code-bound child/aggregate invalidation. The accepted
+[chunk-conversion specification](specs/chunked_docling_conversion_v1.md) requires
+page-level range evidence followed by whole-document reading-order/text-merge and
+heading passes; final Docling JSON concatenation is rejected. Gate B passed four
+isolated G1 seam experiments under `gateb1-c70b2b...dbabfb`. Gate C then passed the
+complete G1 chunked path under `gatec1-53d220...fe1124`: 12 independently sealed
+ranges resumed without recomputing the retained child, and aggregate
+`dconv1-08a9a7...a2a25b` reproduced the four stable monolithic G1 outputs byte for
+byte. The largest range and aggregate process-tree peaks were 7.17 GB and 8.89 GB;
+projected two-worker memory exceeded the 10 GiB concurrent ceiling, so concurrency
+remains one. The isolated downstream qualification reproduced routing byte for byte,
+all 17,068 table files semantically, and all canonical/support document artifacts
+semantically after only verified identity, observation, artifact-root, and lineage-seal
+normalization. A source-free human-ownership refactor then reduced all four runners to
+short shells, separated workflow, storage, aggregation, and downstream owners, added
+strict lineage and recovery tests, and passed 835 repository tests plus a full-byte
+read-only audit of the immutable Gate A–C evidence. Gates A–C now meet the
+human-maintainability bar. Task 03H.2 is stopped before Gate D and all G2 inspection.
+The current work remains unstaged and uncommitted for review as requested. G2
+inspection or execution requires separate approval.
+Task 03H remains paused before G2.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

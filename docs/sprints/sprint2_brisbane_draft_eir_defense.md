@@ -571,9 +571,24 @@ The clean Task 03H run subsequently published the main report and Appendices A
 through G1. Appendix G2's first monolithic 3,736-page Docling conversion was killed
 after 14,940.61 seconds during system-wide memory pressure before it could seal, and
 its automatic retry was stopped near the start. Active Task 03H.2 now owns the
-source-general chunked-conversion experiment, beginning with branch preservation and
-a source-free G1 recomposition proof. Task 03H remains paused before G2, and Task
-03H.2 must check in before any PDF/model comparison or G2 rerun. Corpus execution,
+source-general chunked-conversion experiment. Its source-free Gate A sealed eight G1
+ranges and reproduced all four stable outputs byte-for-byte independent of completion
+order under plan `dplan1-90ae46...97aef`. Its reviewed evidence also closes semantic
+overlap projections, child verification, mutation rejection, and resume selection;
+Gate B then passed four isolated G1 seam comparisons under
+`gateb1-c70b2b...dbabfb`. Gate C passed the complete G1 qualification under
+`gatec1-53d220...fe1124`. Twelve independently sealed ranges resumed without
+recomputing the retained child, aggregate `dconv1-08a9a7...a2a25b` reproduced all
+four stable monolithic outputs byte for byte, and the isolated downstream path closed
+semantically against accepted G1. The measured 7.17 GB range and 8.89 GB aggregate
+peaks support one worker; projected two-worker memory exceeds the 10 GiB concurrent
+ceiling, so no parallel trial ran. Task 03H remains paused before G2, and Task 03H.2
+then passed a source-free human-ownership refactor: the large runners became short
+shells over named package owners, recovery and lineage tests were strengthened, 835
+repository tests passed, and the immutable evidence was fully rehashed without a
+PDF/model run. Gates A–C meet the human-maintainability bar. Task 03H.2 is stopped
+before Gate D and all G2 inspection. The current work remains unstaged and uncommitted
+for review as requested. No G2 inspection or rerun is authorized. Corpus execution,
 collection assembly, and deletion are not Task 03H.1 or source-free Task 03H.2 work. The
 numbers below are routing
 labels, not a promise
