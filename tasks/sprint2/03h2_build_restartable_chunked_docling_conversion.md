@@ -147,6 +147,29 @@ Before experimental implementation:
 No force reset, destructive checkout, artifact deletion, or history rewrite is
 permitted.
 
+### Gate 0 outcome: 2026-08-20
+
+Gate 0 is complete. The reviewed baseline is recoverable on branch
+`codex/task03h2-chunked-docling-conversion` at commit `47560a1` (`Preserve Task
+03H repair baseline`). The inventory contained 242 Task-03H-owned paths: the approved
+clean-run namespace and production recipes, source-independent execution repairs,
+their schemas/tests/specifications, synchronized G1/G2 status records, and this task
+activation contract. Independent code and documentation reviews found no unrelated
+user work in that scope.
+
+The source-free gate passed `make fix`, `make check` with Ruff, strict mypy across 316
+source files, and 744 tests, `uv run python scripts/generate_task03h_configs.py
+--check`, and `git diff --check`. The deterministic non-executed production recipe is
+`exv1-1594625ce741a9db1a883ceb58c70396b55eba50b43d03a33bbd47cb3604642e`.
+No source PDF was read and no Docling object or model was constructed.
+
+The review retained one non-blocking source-free follow-up: malformed-outline
+normalization currently assumes one extraction call on a fresh `PdfReader`; a second
+call on the same reader is not idempotent. Production already creates a fresh reader
+and calls once. Gate A must either make that in-memory normalization idempotent or
+encode and test fresh-reader ownership before the adapter becomes part of the chunked
+conversion design.
+
 ## Gate A: Source-free G1 recomposition proof
 
 Use only G1's sealed conversion and derived evidence. Do not read the G1 PDF or
