@@ -21,13 +21,13 @@ from .shared import (
 
 
 def model_sources(manifest: dict[str, Any]) -> list[dict[str, Any]]:
-    """Select and verify the sealed 35-source production-full scope."""
+    """Select the sealed scope in deterministic shortest-to-longest order."""
     sources = [
         source for source in manifest["sources"] if source.get("source_role") == "model_corpus"
     ]
     if len(sources) != 35 or sum(source["pdf_page_count"] for source in sources) != 48_341:
         raise ValueError("sealed Task 03H scope is not the expected 35 sources / 48,341 pages")
-    return sources
+    return sorted(sources, key=lambda source: (int(source["pdf_page_count"]), source["source_id"]))
 
 
 def source_titles() -> dict[str, str]:

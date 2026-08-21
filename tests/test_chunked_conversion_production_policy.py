@@ -67,9 +67,9 @@ def _policy(path: Path) -> Path:
             "target_range_size": 225,
             "hard_maximum": 275,
             "overlap_pages": 1,
-            "max_range_rss_bytes": 8 * 1024**3,
-            "max_aggregate_rss_bytes": 10 * 1024**3,
-            "max_wall_seconds": 2700.0,
+            "max_range_rss_bytes": 20 * 1024**3,
+            "max_aggregate_rss_bytes": 16 * 1024**3,
+            "max_wall_seconds": 14400.0,
         },
     )
     return path
@@ -93,9 +93,9 @@ def test_generated_policy_records_maintained_threshold() -> None:
             "target_range_size": 225,
             "hard_maximum": 275,
             "overlap_pages": 1,
-            "max_range_rss_bytes": 8 * 1024**3,
-            "max_aggregate_rss_bytes": 10 * 1024**3,
-            "max_wall_seconds": 2700.0,
+            "max_range_rss_bytes": 20 * 1024**3,
+            "max_aggregate_rss_bytes": 16 * 1024**3,
+            "max_wall_seconds": 14400.0,
         }
     )
 

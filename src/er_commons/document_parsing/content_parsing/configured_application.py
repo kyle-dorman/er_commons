@@ -40,9 +40,9 @@ class ChunkedExecutionPolicy(BaseModel):
     target_range_size: int = Field(default=225, gt=0)
     hard_maximum: int = Field(default=275, gt=0)
     overlap_pages: Literal[1] = 1
-    max_range_rss_bytes: int = Field(default=8 * 1024**3, gt=0)
-    max_aggregate_rss_bytes: int = Field(default=10 * 1024**3, gt=0)
-    max_wall_seconds: float = Field(default=2700.0, gt=0)
+    max_range_rss_bytes: int = Field(default=20 * 1024**3, gt=0)
+    max_aggregate_rss_bytes: int = Field(default=16 * 1024**3, gt=0)
+    max_wall_seconds: float = Field(default=14400.0, gt=0)
 
     @model_validator(mode="after")
     def validate_sizes(self) -> ChunkedExecutionPolicy:

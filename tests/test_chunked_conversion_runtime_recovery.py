@@ -239,6 +239,13 @@ def _services(
         path.write_text("{}\n")
         return path
 
+    def pre_aggregate(context: Any) -> Path:
+        calls.append("pre_aggregate")
+        path = context.child_root / "records/ordering_projection.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        write_json_atomic(path, {"pages": []})
+        return path
+
     return ChunkedConversionServices(
         verify_inputs=lambda _config, _plan_path, _data, _code: VerifiedChunkInputs(prepared, plan),
         code_identity=lambda _root: RuntimeCodeIdentity(
@@ -248,6 +255,7 @@ def _services(
         run_range=run_range,
         run_aggregate=run_aggregate,
         publish_completion=publish,
+        pre_aggregate=pre_aggregate,
     )
 
 
@@ -266,6 +274,11 @@ def test_resume_rejects_corrupt_or_transplanted_child(tmp_path: Path, foreign_st
     assert str(child) in str(caught.value)
 
 
+def test_live_workflow_requires_pre_aggregate_callback(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="pre-aggregate projection callback"):
+        ChunkedConversionWorkflow(project_root=tmp_path)
+
+
 def test_aggregate_retry_reuses_all_ranges_without_range_execution(tmp_path: Path) -> None:
     states: dict[str, str] = {}
     calls: list[str] = []
@@ -281,7 +294,7 @@ def test_aggregate_retry_reuses_all_ranges_without_range_execution(tmp_path: Pat
 
     calls.clear()
     completion = workflow.run(_request(tmp_path))
-    assert calls == ["aggregate", "publish"]
+    assert calls == ["pre_aggregate", "aggregate", "publish"]
     assert completion.name == "completion_record.json"
 
 
@@ -322,6 +335,7 @@ def test_aggregate_only_variant_reuses_shared_children(tmp_path: Path) -> None:
         run_range=second_services.run_range,
         run_aggregate=second_services.run_aggregate,
         publish_completion=second_services.publish_completion,
+        pre_aggregate=second_services.pre_aggregate,
     )
 
     completion = ChunkedConversionWorkflow(project_root=tmp_path, services=second_services).run(
@@ -330,7 +344,7 @@ def test_aggregate_only_variant_reuses_shared_children(tmp_path: Path) -> None:
 
     assert second_plan.plan_id == _plan().plan_id
     assert second_plan.ranges == _plan().ranges
-    assert second_calls == ["aggregate", "publish"]
+    assert second_calls == ["pre_aggregate", "aggregate", "publish"]
     assert completion.name == "completion_record.json"
     variants = tmp_path / "output/plans" / second_plan.plan_id / "records/plan_variants"
     assert len(list(variants.glob("*.json"))) == 2

@@ -10,6 +10,7 @@ from typing import cast
 
 import pytest
 
+from er_commons.chunked_conversion.runtime.aggregate import figure_asset_relative_path
 from er_commons.document_records.record_mapping.assets import materialize_assets
 from er_commons.document_records.record_mapping.context import (
     RecordIds,
@@ -95,7 +96,7 @@ def _fixture(
     _write(tables_root / "table_families.json", b'{"families":[]}\n')
 
     picture_bytes = b"\x89PNG\r\nfixture"
-    picture_relative = "documents/deir_appendix_p/assets/figures/p00001.png"
+    picture_relative = figure_asset_relative_path("deir_appendix_p", 1).as_posix()
     _write(conversion_run_root / picture_relative, picture_bytes)
 
     clean_csv_sha256 = _sha256(b"cell\n")

@@ -69,7 +69,13 @@ def test_derived_failure_retains_standard_producer_attempt(
     monkeypatch.setattr(chunked_application, "build_and_publish_derived", fail_derived)
     monkeypatch.setattr(chunked_application, "preserve_failed_attempt", retain)
 
-    request = cast(Any, SimpleNamespace(plan_path=plan_path))
+    request = cast(
+        Any,
+        SimpleNamespace(
+            plan_path=plan_path,
+            output_root=tmp_path / "chunked-runs",
+        ),
+    )
     with pytest.raises(RuntimeError, match="routing failed"):
         chunked_application.run_chunked_document_parsing(
             tmp_path,

@@ -24,14 +24,16 @@ from er_commons.document_publication.production_identity import validate_product
 from er_commons.source_family_catalog import SourceFamilyCatalog
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-DOCUMENT_SPEC = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03h_document_v2.json"
-COLLECTION_SPEC = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03h_collection_v2.json"
-CATALOG = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03h_source_family_catalog_v1.json"
+DOCUMENT_SPEC = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03h_document_v3.json"
+COLLECTION_SPEC = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03h_collection_v3.json"
+CATALOG = PROJECT_ROOT / (
+    "configs/brisbane_baylands_2025_deir_task03h_v3_source_family_catalog_v1.json"
+)
 TARGET_POLICY = PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03g2_target_policy_v1.json"
 RESOLUTION_POLICY = (
     PROJECT_ROOT / "configs/brisbane_baylands_2025_deir_task03g2_resolution_policy_v1.json"
 )
-TASK_ROOT = Path("pipelines/brisbane_baylands/task_03h_clean_full_v1")
+TASK_ROOT = Path("pipelines/brisbane_baylands/task_03h_clean_full_v3")
 SCHEMAS = {
     "document": PROJECT_ROOT
     / "benchmarks/er_bench/schemas/document_publication/v2/document_run_spec.schema.json",
@@ -100,7 +102,7 @@ def prepare_task03h(data_root: Path) -> Path:
     if completion_markers:
         raise ValueError("Task 03H namespace already contains completed candidates")
 
-    source_scope = _source_scope(data_root / document.source_manifest_relative_path)
+    source_scope = _source_scope(data_root / document.source_manifest_relative_path, source_ids)
     if source_scope.ordered_source_ids != source_ids:
         raise ValueError("Task 03H readiness scope differs from production scope")
     report_path = staged_catalog.parent / "task03h_preparation_readiness.json"
@@ -197,7 +199,7 @@ def _completed_candidate_markers(data_root: Path) -> list[str]:
     )
 
 
-def _source_scope(manifest_path: Path) -> SourceScope:
+def _source_scope(manifest_path: Path, ordered_source_ids: list[str]) -> SourceScope:
     manifest = _object(manifest_path)
     sources = [
         source for source in manifest["sources"] if source.get("source_role") == "model_corpus"
@@ -211,7 +213,7 @@ def _source_scope(manifest_path: Path) -> SourceScope:
         warning for warning in edition_warnings if warning.startswith("source_edition_override:")
     )
     return SourceScope(
-        ordered_source_ids=[source["source_id"] for source in sources],
+        ordered_source_ids=ordered_source_ids,
         page_count=sum(source["pdf_page_count"] for source in sources),
         byte_count=sum(source["byte_size"] for source in sources),
         warning_count=sum(len(source.get("warnings", [])) for source in sources),

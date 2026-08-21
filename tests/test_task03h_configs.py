@@ -40,16 +40,16 @@ try:
     TASK_TEMPLATE_ROOT = importlib.import_module("task03h_generation.shared").TASK_TEMPLATE_ROOT
 finally:
     sys.path.remove(str(SCRIPT_ROOT))
-DOCUMENT_SPEC = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03h_document_v2.json"
-COLLECTION_SPEC = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03h_collection_v2.json"
-CATALOG = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03h_source_family_catalog_v1.json"
+DOCUMENT_SPEC = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03h_document_v3.json"
+COLLECTION_SPEC = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03h_collection_v3.json"
+CATALOG = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03h_v3_source_family_catalog_v1.json"
 ZERO_SHA = "0" * 64
 ZERO_PRV1 = f"prv1-{ZERO_SHA}"
 ZERO_EXV1 = f"exv1-{ZERO_SHA}"
 ZERO_HCORV1 = f"hcorv1-{ZERO_SHA}"
 
 
-def test_task03h_specs_and_identity_are_strict_native_v2() -> None:
+def test_task03h_v3_specs_and_identity_are_strict_native_v2() -> None:
     document, _ = load_document_run_spec(DOCUMENT_SPEC)
     collection, _ = load_collection_run_spec(COLLECTION_SPEC)
     identity_path = ROOT / document.production_identity_relative_path
@@ -77,9 +77,11 @@ def test_task03h_specs_and_identity_are_strict_native_v2() -> None:
     assert [selection.source_id for selection in document.document_processes] == source_ids
     assert [item.source_id for item in document.hierarchy_dispositions] == source_ids
     assert list(collection.source_ids) == source_ids
+    page_counts = [source["source"]["pdf_page_count"] for source in catalog_value["sources"]]
+    assert page_counts == sorted(page_counts)
     assert document.scope_kind == "production_full"
     assert document.artifact_relative_root == Path(
-        "pipelines/brisbane_baylands/task_03h_clean_full_v2/document_publications"
+        "pipelines/brisbane_baylands/task_03h_clean_full_v3/document_publications"
     )
     assert all(selection.lineage_mode == "fresh_build" for selection in document.document_processes)
     assert all(item.authority == "machine_validation" for item in document.hierarchy_dispositions)
@@ -185,7 +187,10 @@ def test_task03h_catalog_is_exact_and_multipart_aliases_are_conservative() -> No
     catalog = SourceFamilyCatalog.load(CATALOG)
     value = json.loads(catalog.raw_bytes)
     sources = value["sources"]
-    assert [source["source"]["source_id"] for source in sources][0] == "deir_main"
+    assert [source["source"]["source_id"] for source in sources][0] == "deir_appendix_k4"
+    assert [source["source"]["pdf_page_count"] for source in sources] == sorted(
+        source["source"]["pdf_page_count"] for source in sources
+    )
     assert all(source["family_root_source_id"] == "deir_main" for source in sources)
     multipart = [source for source in sources if "_part_" in source["source"]["source_id"]]
     assert len(multipart) == 9
@@ -272,6 +277,12 @@ def test_task03h_readiness_stages_catalog_without_pdf_or_model_reads(
     )
     historical_completion.parent.mkdir(parents=True)
     historical_completion.write_text("{}\n")
+    historical_v1_completion = (
+        tmp_path / "pipelines/brisbane_baylands/task_03h_clean_full_v1/"
+        "document_publications/historical/records/completion_record.json"
+    )
+    historical_v1_completion.parent.mkdir(parents=True)
+    historical_v1_completion.write_text("{}\n")
 
     def fake_source_hash(path: Path) -> str:
         if path == manifest_path:
@@ -298,7 +309,31 @@ def test_task03h_readiness_stages_catalog_without_pdf_or_model_reads(
     assert report["model_files_read"] is False
     assert report["producer_identity_derivation_run"] is False
     assert report["freshness"]["task_root"] == (
-        "pipelines/brisbane_baylands/task_03h_clean_full_v1"
+        "pipelines/brisbane_baylands/task_03h_clean_full_v3"
     )
     assert report["freshness"]["completed_candidate_markers"] == []
     assert (report_path.parent / CATALOG.name).read_bytes() == CATALOG.read_bytes()
+
+
+def test_task03h_readiness_scans_only_the_v3_namespace(tmp_path: Path) -> None:
+    """Historical completions are ignored while a v3 completion blocks readiness."""
+    from er_commons.document_publication import task03h_preparation as preparation
+
+    historical = (
+        tmp_path / "pipelines/brisbane_baylands/task_03h_clean_full_v1/"
+        "document_publications/old/records/completion_record.json"
+    )
+    historical.parent.mkdir(parents=True)
+    historical.write_text("{}\n")
+    assert preparation._completed_candidate_markers(tmp_path) == []
+
+    current = (
+        tmp_path / "pipelines/brisbane_baylands/task_03h_clean_full_v3/"
+        "document_publications/current/records/completion_record.json"
+    )
+    current.parent.mkdir(parents=True)
+    current.write_text("{}\n")
+    assert preparation._completed_candidate_markers(tmp_path) == [
+        "pipelines/brisbane_baylands/task_03h_clean_full_v3/"
+        "document_publications/current/records/completion_record.json"
+    ]

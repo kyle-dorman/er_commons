@@ -41,9 +41,14 @@ def prepare_collection_run(data_root: Path, run_spec_path: Path) -> CollectionRu
         for record in manifest.sources
         if record.source_role == SourceRole.MODEL_CORPUS
     ]
-    positions = [model_sources.index(source_id) for source_id in collection_spec.source_ids]
-    if positions != sorted(positions):
-        raise ValueError("collection sources are not in sealed manifest order")
+    if document_spec.scope_kind == "representative_pilot":
+        positions = [model_sources.index(source_id) for source_id in collection_spec.source_ids]
+        if positions != sorted(positions):
+            raise ValueError("collection sources are not in sealed manifest order")
+    elif len(collection_spec.source_ids) != len(set(collection_spec.source_ids)) or set(
+        collection_spec.source_ids
+    ) != set(model_sources):
+        raise ValueError("production-full collection must contain every model source once")
     process_ids = [process.source_id for process in document_spec.document_processes]
     if list(collection_spec.source_ids) != process_ids:
         raise ValueError("collection source IDs differ from the document run specification")

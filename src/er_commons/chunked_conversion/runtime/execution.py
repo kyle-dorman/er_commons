@@ -21,10 +21,14 @@ from er_commons.chunked_conversion.runtime.publication import (
 )
 from er_commons.chunked_conversion.runtime.range_store import ConvertedRangeStore
 from er_commons.chunked_conversion.runtime.supervision import ProcessSupervisor
-from er_commons.chunked_conversion.runtime.workflow import ChunkedConversionServices
+from er_commons.chunked_conversion.runtime.workflow import ChunkedConversionServices, PreAggregate
 
 
-def live_workflow_services(project_root: Path) -> ChunkedConversionServices:
+def live_workflow_services(
+    project_root: Path,
+    *,
+    pre_aggregate: PreAggregate,
+) -> ChunkedConversionServices:
     """Bind the coordinator to isolated child processes and maintained stores."""
     supervisor = ProcessSupervisor()
     script = project_root / "scripts/run_chunked_conversion.py"
@@ -56,6 +60,7 @@ def live_workflow_services(project_root: Path) -> ChunkedConversionServices:
         run_range=run_range,
         run_aggregate=run_aggregate,
         publish_completion=_publish_completion,
+        pre_aggregate=pre_aggregate,
     )
 
 

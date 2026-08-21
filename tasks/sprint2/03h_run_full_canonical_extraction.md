@@ -1,15 +1,11 @@
 # Task 03H: Publish and Validate the Full Document Collection
 
-Status: **ready for a new-chat fresh 35-document restart; PDF/model execution remains
-pending user authorization**. Completed [Task
-03H.2](03h2_build_restartable_chunked_docling_conversion.md) landed the source-neutral
-restartable chunked Docling production path after Appendix G1 validation; no separate G2 rehearsal or
-Gate D is required. Appendix B published after its transparent-container repair,
-Appendices C through F2 published serially, and Appendix G1 published after its
-malformed-outline and deduplication repair. Appendix G2's first clean monolithic
-Docling attempt ran for 14,940.61 seconds and was killed during system-wide memory
-pressure before a conversion seal or table-stage invocation. Its automatic retry was
-stopped near the start. No Appendix G3 or later source has begun.
+Status: **v3 clean run prepared source-free; awaiting explicit approval for
+source-PDF/model execution**. Completed [Task
+03H.2](03h2_build_restartable_chunked_docling_conversion.md) is closed and its v2
+artifacts remain immutable evidence. Task 03H.3 completed the deferred-reading-order
+implementation and qualification. The v3 run will process all 35 documents serially
+from shortest to longest by physical page count, with source ID as the tie-breaker.
 Task 03H was originally activated by user direction on 2026-08-18. Tasks 03G.1,
 03G.2, all observed-failure remediation, and the [Task
 03G.3](03g3_align_pipeline_responsibilities_and_names.md) architecture and
@@ -20,22 +16,101 @@ source-PDF or model execution.
 
 ## New-chat entrypoint: 2026-08-20
 
+## v3 clean-run preparation: 2026-08-21
+
+Task 03H.2 is closed. The v2 namespace and its nine completed documents remain
+historical evidence and are not inputs to this run. A distinct v3 namespace was
+generated without reading source PDFs or model files:
+
+- run root: `pipelines/brisbane_baylands/task_03h_clean_full_v3/`;
+- document spec: `configs/brisbane_baylands_2025_deir_task03h_document_v3.json`;
+- collection spec: `configs/brisbane_baylands_2025_deir_task03h_collection_v3.json`;
+- source catalog: `configs/brisbane_baylands_2025_deir_task03h_v3_source_family_catalog_v1.json`;
+- identity: `exv1-8843a1278c820d7b4b9cc2e04d80685ddb03897166a55c2520530604d70ef6d3`;
+- external v3 root: verified absent before preparation; and
+- ordering policy: ascending physical page count, then ascending source ID.
+
+The v3 source order is fixed as follows:
+
+| # | Source | Pages |
+| ---: | --- | ---: |
+| 1 | `deir_appendix_k4` | 4 |
+| 2 | `deir_appendix_n1` | 8 |
+| 3 | `deir_appendix_k5` | 10 |
+| 4 | `deir_appendix_n2` | 14 |
+| 5 | `deir_appendix_f2` | 16 |
+| 6 | `deir_appendix_k6` | 20 |
+| 7 | `deir_appendix_m3` | 32 |
+| 8 | `deir_appendix_l` | 36 |
+| 9 | `deir_appendix_o` | 54 |
+| 10 | `deir_appendix_f1` | 75 |
+| 11 | `deir_appendix_c` | 86 |
+| 12 | `deir_appendix_j` | 188 |
+| 13 | `deir_appendix_p` | 222 |
+| 14 | `deir_appendix_m1` | 246 |
+| 15 | `deir_appendix_b` | 258 |
+| 16 | `deir_appendix_d` | 356 |
+| 17 | `deir_appendix_e` | 362 |
+| 18 | `deir_appendix_a` | 514 |
+| 19 | `deir_appendix_k1_part_1_of_4` | 732 |
+| 20 | `deir_appendix_m2` | 1,042 |
+| 21 | `deir_appendix_k2_part_2_of_5` | 1,048 |
+| 22 | `deir_appendix_k3` | 1,250 |
+| 23 | `deir_appendix_k1_part_2_of_4` | 1,422 |
+| 24 | `deir_appendix_k2_part_1_of_5` | 1,454 |
+| 25 | `deir_main` | 2,092 |
+| 26 | `deir_appendix_k2_part_5_of_5` | 2,328 |
+| 27 | `deir_appendix_i` | 2,408 |
+| 28 | `deir_appendix_g1` | 2,488 |
+| 29 | `deir_appendix_k1_part_4_of_4` | 2,558 |
+| 30 | `deir_appendix_h` | 2,572 |
+| 31 | `deir_appendix_k1_part_3_of_4` | 2,790 |
+| 32 | `deir_appendix_g2` | 3,736 |
+| 33 | `deir_appendix_k2_part_4_of_5` | 3,882 |
+| 34 | `deir_appendix_g3` | 6,104 |
+| 35 | `deir_appendix_k2_part_3_of_5` | 7,934 |
+
+The generated v3 policy retains one document worker, one-page overlap, 225-page
+cores, a 275-page hard maximum, 20 GiB range RSS, 16 GiB aggregate RSS, and a
+14,400-second per-process wall limit. The source-free preparation command is:
+
+```bash
+uv run python scripts/prepare_task03h.py
+```
+
+It stages only the checked-in v3 catalog and readiness report under the external
+v3 root. It must be run and reviewed before the first production document command.
+No PDF/model-capable command is authorized until the user explicitly approves the
+v3 execution wave. After approval, process the table above serially, verify each
+document's completion and reuse checkpoint, and stop on any resource, identity,
+publication, or semantic-loss anomaly.
+
+The source-free preparation completed on 2026-08-21. The readiness report is
+`pipelines/brisbane_baylands/task_03h_clean_full_v3/inputs/task03h_preparation_readiness.json`
+under the external data root. It reports all 35 sources, 48,341 pages, 1,519,926,399
+source bytes, no completed-candidate markers, and `false` for both source-PDF and
+model-file reads. The v3 root contains only the staged catalog and readiness report;
+the next step is the user's explicit approval for the first PDF/model execution.
+
 Start the new chat from local `main` after the fresh-lineage preparation commit. The
 new run root is `pipelines/brisbane_baylands/task_03h_clean_full_v2/`. The previous
 `task_03h_clean_full_v1` tree and all earlier Task 03H artifacts are historical
 evidence only: preserve them physically, but do not reference, import, or reuse any
 conversion, producer, downstream, document, or collection completion from them.
 The generated v2 production identity is
-`exv1-8402a88c5fff3860164f0c75cd0a5f49b71f16718170a9a0baa14a2efa822a51`.
-The external v2 root was verified absent during preparation on 2026-08-20; no v2
-attempt, completion, or other artifact exists yet.
+`exv1-035d99c459c7cc6d2eb7ac3977ead85ca799e425318de282953bbf49963a95e3`.
+The external v2 root was verified absent before current-run input staging on
+2026-08-20. It now contains the source-free inputs, nine terminal document
+completions through `deir_appendix_g1`, twelve sealed G1 ranges, and retained G2
+range failure evidence. No G2 range seal, downstream G2 artifact, or collection
+artifact exists.
 
 “Restart from scratch” means process all 35 ordered sources again, beginning with
 `deir_main`, under the new v2 namespace and newly generated production identity. Reuse
 is allowed only among attempts created inside this new v2 run after its first command.
 The main report and every document above 300 pages use the generated chunk policy:
-225-page cores, a 275-page hard maximum, one-page overlap, one worker, an 8 GiB range
-RSS limit, a 10 GiB aggregate RSS limit, and a 2,700-second per-process wall limit.
+225-page cores, a 275-page hard maximum, one-page overlap, one worker, a 20 GiB range
+RSS limit, a 16 GiB aggregate RSS limit, and a 14,400-second (4-hour) per-process wall limit.
 
 The first new-chat turn is source-free orientation only: read `AGENTS.md`,
 `docs/index.md`, `docs/todo.md`, this task, the completed Task 03H.2 record, the
@@ -47,6 +122,157 @@ target, and stop/resume behavior. Do not run `make publish-document` or any othe
 PDF/model-capable command until the user explicitly approves it. After approval,
 complete `deir_main` end to end and verify exact within-v2-run reuse before starting
 the second source, then continue serially through all 35 sources.
+
+### Source-free activation outcome: 2026-08-20
+
+The new-chat activation found and repaired one source-free freshness defect before
+running the readiness preflight: the preparation owner still scanned the historical
+v1 namespace for completion markers while staging inputs under v2. The corrected
+owner scans only `task_03h_clean_full_v2`; a focused regression proves historical v1
+completions are ignored and any v2 completion is detected. Regenerating the code-bound
+specification produced the v2 identity above.
+
+Before staging current-run inputs, the external v2 root was absent with zero completion
+markers. The source-free preparation then staged only the checked-in source-family
+catalog and `task03h_preparation_readiness.json` below the v2 `inputs/` directory. The
+readiness record reports 35 sources, 48,341 pages, 210 unique process configs, no
+completed candidate markers, no historical lineage pins, and false values for PDF
+bytes, model files, and producer identity derivation. At that checkpoint, PDF/model
+execution remained pending explicit user approval.
+
+### Fresh main-report execution blocker: 2026-08-20
+
+The user authorized the fresh `deir_main` run and serial continuation only if the main
+checkpoint worked. All ten deterministic main-report ranges converted and published
+completion-last seals under v2. Their largest process-tree peak was 6,285,180,928
+bytes, below the 8 GiB range limit; every recorded range observed zero swap growth.
+
+The aggregate worker then failed before semantic assembly with `FileNotFoundError`
+while creating `document_parse_evidence/docling_conversions/attempts`: on the genuinely
+empty v2 namespace, its parent `docling_conversions/` did not yet exist and the
+publisher called `attempts.mkdir(exist_ok=True)` without parent creation. The bounded
+automatic retry deep-verified and reused all ten sealed ranges, made no new range
+Docling/model calls, and reproduced the same aggregate failure after 22.80 seconds.
+Both document attempts and the aggregate failure are retained. No aggregate conversion,
+derived producer, downstream process, document completion, Appendix A attempt, or
+collection artifact exists.
+
+This is a fresh-root aggregate-publication defect rather than a conversion, source,
+memory, or retry-reuse failure. Task 03H is stopped at its material main-report gate.
+Repair and offline regression require explicit authorization before another aggregate
+or PDF/model-capable invocation.
+
+The user authorized that repair. Aggregate staging now creates the absent conversion
+root and `attempts/` parent chain. A fresh-root regression reaches child verification,
+retains staged failure evidence, and proves the original `FileNotFoundError` cannot
+recur. Independent identity review confirms the aggregate-only change preserves the
+existing child plan and all ten range IDs while rebinding the aggregate, coordinator,
+producer, and downstream identities. Deterministic regeneration produced the current
+production identity above. Offline validation must pass before resuming the aggregate.
+
+Offline validation passed Ruff, strict mypy across 337 source files, all 811 tests,
+deterministic Task 03H generation, and `git diff --check`. The resumed main invocation
+selected zero child executions, verified and reused all ten range seals, and recorded
+zero Docling calls for reused children. The repaired aggregate then sealed as
+`dconv1-d25473dc456d8227942978e07be19e099d8a35735d136ace4480b00c8850c1b0`.
+Derived content parsing completed in 675.64 seconds and published producer
+`prv1-042ed6a96725fd5cb663b382b3b633dca23052c739bf455dc1839aa334257729`;
+heading-evidence parsing reused it in 2.78 seconds.
+
+Record mapping then failed before candidate publication because the chunked aggregate
+asset inventory records figure paths such as `assets/figures/figure-0003.png`, while
+the mapping contract resolves inventory paths from the conversion root. The exact
+figure exists instead at
+`documents/deir_main/assets/figures/figure-0003.png`; its byte size and SHA-256 match
+the inventory, and the same is structurally true for the 274 aggregate figure records.
+The automatic document retry reused the aggregate and producer, reached record mapping
+in 7.54 seconds, and failed identically without PDF, Docling, model, aggregate, or
+table recomputation. No record-mapping candidate or later process exists.
+
+This second blocker is a relative-path contract defect in chunked aggregate asset
+publication, not missing asset bytes. Task 03H remains stopped at the material main
+gate. Repair requires a reviewed aggregate-only path change, a downstream integration
+regression, deterministic identity regeneration, and proof that the ten child seals
+remain reusable before another main invocation.
+
+The user authorized this second repair. Chunked aggregate publication now records each
+figure crop at its conversion-root-relative path,
+`documents/<source_id>/assets/figures/<name>.png`, while preserving the same contained
+output file and bytes. The aggregate path helper is shared by a focused aggregate test
+and the record-mapping asset fixture, closing the producer/consumer integration gap.
+The change is aggregate-only: it preserves the child plan and range IDs, but correctly
+rebinds aggregate and downstream identities. Deterministic regeneration produced the
+current production identity above; full offline validation must pass before resuming.
+
+### Fresh serial execution through Appendix G1: 2026-08-20
+
+Full offline validation passed Ruff, strict mypy across 337 source files, all 812
+tests, deterministic Task 03H generation, and `git diff --check`. The resumed main
+run checksum-reused all ten ranges with zero child executions and zero Docling calls,
+then sealed corrected aggregate
+`dconv1-cda47e4ab95030472dcaeae2afee943fdb3a13fe78f9cc1460c587f49fbfba36`.
+Real record mapping successfully resolved all corrected aggregate asset paths, and the
+complete main document published as
+`docv1-e7e3bc478725f651fd4355cf124b597a3885181e8421adc6f20490a689b89d97`.
+Its mandatory identical invocation returned the same completion in 0.88 seconds
+without rerunning conversion or downstream work.
+
+Serial execution then published Appendix A as `docv1-ac9af86a...ba3ebf`, B as
+`docv1-e1d43296...716253d`, C as `docv1-7a75c266...38cf02`, D as
+`docv1-f14ef303...5c34bf9`, E as `docv1-fd133262...000abd`, F1 as
+`docv1-3d3a618a...5413dc`, and F2 as `docv1-3838e4ed...68c5cf`. These are the first
+eight ordered v2 terminal documents; no historical Task 03H artifact contributed to
+them.
+
+Appendix G1 then sealed all twelve deterministic ranges for its 2,488 pages. Aggregate
+publication exceeded the former fixed 10 GiB RSS limit twice: the first attempt reached
+10,778,853,376 bytes, 41,435,136 bytes above the limit, and the bounded retry reached
+10,768,334,848 bytes, 30,916,608 bytes above it. The retry checksum-reused all twelve
+range seals and launched only the aggregate worker, with no range Docling/model
+execution. Both failures are retained; no G1 aggregate conversion or downstream stage
+sealed. The user then authorized a corpus-wide increase to the generated 16 GiB
+aggregate RSS limit. Deterministic regeneration produced the current identity above;
+the retained range seals remain eligible for operational-limit reuse.
+
+### Appendix G2 range resource blocker: 2026-08-20
+
+After the user authorized the corpus-wide 16 GiB aggregate policy, G1 resumed under
+the regenerated identity and completed as
+`docv1-7d7dfb47e425df05680c03b91cfc2abd0299352b9f739c842658a2a77ea230be`. Its twelve
+sealed ranges were reused, aggregate RSS peaked at roughly 10 GiB, and all downstream
+stages including record mapping completed successfully.
+
+G2 then began fresh chunk conversion. Its first 225-page range exceeded the former
+8 GiB range RSS guard twice: the first attempt reached 8,596,865,024 bytes, and the
+bounded retry reached 8,590,131,200 bytes against an 8,589,934,592-byte limit. No G2
+range seal was published and no later G2 stage ran. Both attempts are retained. The
+user then authorized the corpus-wide range RSS increase to 16 GiB; regenerated configs
+and identity now carry matching 16 GiB range and aggregate limits. G2 resumed under
+that policy, but its bounded retry tripped the separate swap-growth guard described
+below.
+
+### Appendix G2 range swap-growth blocker: 2026-08-21
+
+G2 was retried twice under the regenerated 16 GiB range and aggregate RSS policy.
+Both attempts stayed below the new RSS ceiling, but the second attempt reached
+541,917,184 bytes of swap growth against the unchanged 512 MiB safety guard
+(536,870,912 bytes). No range seal was published and no downstream stage ran. After
+the worker exited, the machine reported only 514.44 MiB of free swap, so the swap
+guard was then authorized for a corpus-wide increase to 1 GiB. Configs and identity
+were regenerated; G2 may retry under the new guard after the failed attempt remains
+retained.
+
+### Appendix G2 range RSS blocker after swap-policy retry: 2026-08-21
+
+The 1 GiB swap-growth policy was regenerated and G2 was retried twice. Neither attempt
+exceeded the new swap guard, but both exceeded the unchanged 16 GiB range RSS cap:
+17,213,833,216 bytes on the first attempt and 17,204,510,720 bytes on the bounded
+retry. No G2 range seal or downstream stage exists. The run is paused pending explicit
+authorization for a separate range-RSS increase. The user then authorized the
+corpus-wide range-RSS increase to 20 GiB; configs and identity were regenerated before
+retrying G2 again. The second range then hit the former 2,700-second wall limit once;
+the user authorized a corpus-wide increase to 14,400 seconds (4 hours), and configs
+and identity were regenerated before the next retry.
 
 ## Historical Appendix G2 chunked-production handoff: 2026-08-20
 
@@ -325,6 +551,93 @@ non-Docling artifacts. Before collection handoff, it must run the explicit deep 
 over every hierarchy candidate selected for the collection; ordinary restart lookup
 trusts completion-sealed inventories and immutable published files without rehashing
 large semantic payloads. None of this work is required to close Task 03H.1.
+
+## Accepted execution DAG for the clean full run
+
+The clean `task_03h_clean_full_v2` run uses the following source-free orchestration
+plan. Routing and project table extraction remain separate responsibilities; the
+existing Camelot/OpenCV and low-level TableFormer fallback implementation is not
+changed by this plan.
+
+```text
+[1] Verify source manifest, models, configs, and identities
+                         |
+                         v
+[2] Build deterministic page-range plan
+                         |
+                         v
+[3] Per-range Docling conversion group
+    +----------------------------------------------+
+    | Docling PDFium native text/cells             |
+    | Docling Heron layout detection               |
+    | Capture lossless raw range evidence          |
+    +----------------------------------------------+
+                         |
+                         v
+[4] Per-range project routing
+    +----------------------------------------------+
+    | Source-native full_page_numeric routing      |
+    | Heron-region layout_regions routing          |
+    +----------------------------------------------+
+                         |
+                         v
+[5] Per-range project table extraction
+    +----------------------------------------------+
+    | Camelot/OpenCV extraction                    |
+    | Low-level TableFormer fallback if unmatched |
+    | Preserve explicit success/failure evidence   |
+    +----------------------------------------------+
+                         |
+                         v
+[6] Seal each range bundle
+    +----------------------------------------------+
+    | Raw Docling evidence                         |
+    | Heron layout evidence                        |
+    | Routing decisions                             |
+    | Page-local table artifacts                    |
+    +----------------------------------------------+
+                         |
+                         v
+[7] Aggregate all verified range evidence
+                         |
+                 +-------+------------------+
+                 v                          v
+[8] Build reduced reading-order      [9] Reconcile tables globally
+    projection                            +------------------------+
+    +----------------------------+        | Continuation seams    |
+    | Suppress known table text  |        | Table families        |
+    | only in ordering view      |        | Logical table manifests|
+    | Keep raw evidence intact  |        +------------------------+
+    +----------------------------+
+                 |
+                 v
+[10] Aggregate Docling interpretation group
+     +--------------------------------------------+
+     | Docling reading_order once                  |
+     | Docling heading hierarchy once             |
+     | No TableFormer PDF stage                    |
+     +--------------------------------------------+
+                 |
+                 +-------------------+--------------+
+                                     v
+[11] Merge and publish canonical document package
+     +--------------------------------------------+
+     | Ordered non-table Docling content           |
+     | Canonical custom tables                     |
+     | Explicit table failures/fallbacks           |
+     | Raw evidence references                     |
+     | Final validation and collection sealing     |
+     +--------------------------------------------+
+```
+
+The reduced projection is an ordering input only: it may suppress text confirmed
+by page-local table artifacts, but it never deletes or rewrites raw Docling
+evidence. A routing decision alone is not sufficient to suppress text. If table
+extraction fails or is incomplete, the range bundle retains the failure and the
+ordering projection retains the unresolved source text (or an explicitly bounded
+fallback representation); no table content may disappear silently. Global table
+continuation and family reconciliation consume the existing page-local artifacts
+and remain independent of the single aggregate Docling interpretation pass.
 
 ## Preparation checkpoint: 2026-08-18
 

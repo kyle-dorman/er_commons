@@ -422,17 +422,59 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    Human-ownership review established named package owners, strict recovery and
    lineage checks, and verified immutable evidence. No Gate D or G2
    rehearsal remains. Active [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is ready to restart all
-   35 sources from scratch in a new chat under
-   `pipelines/brisbane_baylands/task_03h_clean_full_v2/`. Preserve the earlier v1 and
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is prepared for a
+   distinct v3 clean run to process all 35 sources from scratch under
+   `pipelines/brisbane_baylands/task_03h_clean_full_v3/`. Preserve the v2 and earlier
    historical trees as evidence, but do not reuse or reference any of their completed
-   work. The generated production identity is
-   `exv1-8402a88c5fff3860164f0c75cd0a5f49b71f16718170a9a0baa14a2efa822a51`.
-   Begin with source-free verification of the new empty namespace, generated
-   identity, exact source order, chunk selections, resource policy, duration forecast,
-   collection target, and stop/resume behavior; check in before any PDF/model command.
-   After approval, start with a fresh `deir_main`, verify within-v2-run reuse, and then
-   process the remaining sources serially.
+   work. The generated v3 production identity is
+   `exv1-8843a1278c820d7b4b9cc2e04d80685ddb03897166a55c2520530604d70ef6d3`.
+   The v3 source order is shortest-to-longest by physical page count, then source ID;
+   explicit user approval remains required before any PDF/model command. The following
+   paragraphs retain historical v2 execution evidence for audit; they are not the
+   current run plan and are not eligible inputs to v3.
+   Source-free activation is complete. It repaired the readiness owner's stale v1
+   completion scan, verified the v2 root absent before staging, and prepared the v2
+   catalog/readiness record, exact source order, chunk selections, resource policy,
+   duration forecast, collection target, and stop/resume behavior. The user approved
+   the fresh main checkpoint. All ten main ranges
+   sealed within resource bounds, but the aggregate publisher failed on the genuinely
+   empty v2 root because the `docling_conversions` parent did not yet exist. Its retry
+   reused all ten ranges without new Docling/model calls and failed identically. Task
+   03H is paused for an explicitly authorized aggregate-publication repair; Appendix A
+   has not started. The user authorized that repair; parent-safe staging passed the
+   full gate, and the resumed run reused all ten ranges without Docling calls, sealed
+   the aggregate, and published the derived producer. Record mapping then failed on a
+   relative-path contract mismatch: all 274 figure crops exist and verify, but their
+   inventory paths omit the conversion-root-relative `documents/deir_main/` prefix.
+   Task 03H is paused for a reviewed aggregate-only asset-path repair and downstream
+   integration regression. Appendix A has not started.
+   The user authorized that repair. Aggregate asset records now use the exact
+   conversion-root-relative path consumed by record mapping, and one shared fixture
+   locks the producer/consumer convention. Full offline validation passed. Main then
+   reused all ten ranges with zero Docling calls, published end to end, and passed its
+   mandatory identical reuse checkpoint in 0.88 seconds. Appendices A through F2 also
+   published serially, giving eight ordered v2 terminal documents. Appendix G1 then
+   completed under the regenerated identity as a ninth ordered v2 terminal document
+   after all twelve ranges and downstream stages succeeded. G2 began fresh conversion,
+   but its first range exceeded the unchanged 8 GiB range RSS guard twice: 8,596,865,024
+   bytes, then 8,590,131,200 bytes against 8,589,934,592. No G2 range seal or later
+   stage exists. The user authorized a corpus-wide increase of the range RSS guard to
+   16 GiB, matching the aggregate limit. Configs and identity were regenerated, and
+   the failed G2 first range may resume as a fresh attempt under the new policy.
+   The retry stayed below the 16 GiB RSS cap but exceeded the unchanged 512 MiB
+   swap-growth guard at 541,917,184 bytes; with only 514.44 MiB free swap afterward,
+   leave that safety guard unchanged pending recovery or explicit authorization. The
+   user then authorized increasing it corpus-wide to 1 GiB; configs and identity were
+   regenerated before retrying G2. Neither retry hit the new swap guard, but both
+   exceeded the unchanged 16 GiB range RSS cap at 17,213,833,216 and 17,204,510,720
+   bytes. A separate range-RSS increase is now required.
+   Completed [Task 03H.3](../tasks/sprint2/03h3_defer_reading_order_until_table_evidence.md)
+   implements and independently reviews the accepted 11-stage DAG: routing and
+   custom table extraction remain separate, raw range evidence is preserved, and
+   aggregate Docling reading order is deferred until after confirmed table evidence.
+   Its authorized Appendix C/O qualification, restart checks, downstream comparison,
+   and complete offline gates passed. The parent Task 03H remains paused at the
+   separate G2 range-RSS stop condition.
 8. Independently review usability and freeze the accepted extraction release
    in Task 04.
 9. Continue through the separately identified curator-only response inventory,

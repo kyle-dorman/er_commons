@@ -9,29 +9,31 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_ROOT = ROOT / "configs"
-TASK_CONFIG_ROOT = CONFIG_ROOT / "task03h"
 TASK_TEMPLATE_ROOT = CONFIG_ROOT / "task03h_templates"
 CHUNKED_PAGE_THRESHOLD = 300
+RUN_VERSION = "v3"
 MANIFEST_RELATIVE = Path(
     "datasets/ceqa/raw/brisbane_baylands/"
     "brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json"
 )
 MANIFEST_SHA256 = "fede3e4af815378b77a7f7f54c863ef095328da789859d4f4b25a524f3408f38"
 COMPLETION_SHA256 = "d1175d6bf54d2c557293cb7bb0e1191250a9b5db2aef5c9e563ebe01e58767a6"
-TASK_ROOT = "pipelines/brisbane_baylands/task_03h_clean_full_v2"
+TASK_ROOT = f"pipelines/brisbane_baylands/task_03h_clean_full_{RUN_VERSION}"
 PARSE_ROOT = f"{TASK_ROOT}/document_parse_evidence"
 RECORD_ROOT = f"{TASK_ROOT}/document_records"
 HIERARCHY_ROOT = f"{TASK_ROOT}/hierarchy_inference"
 PUBLICATION_ROOT = f"{TASK_ROOT}/document_publications"
-CATALOG_NAME = "brisbane_baylands_2025_deir_task03h_source_family_catalog_v1.json"
+TASK_CONFIG_ROOT = CONFIG_ROOT / "task03h" / RUN_VERSION
+CATALOG_NAME = f"brisbane_baylands_2025_deir_task03h_{RUN_VERSION}_source_family_catalog_v1.json"
 CATALOG_PROJECT_PATH = CONFIG_ROOT / CATALOG_NAME
 CATALOG_DATA_RELATIVE = Path(f"{TASK_ROOT}/inputs/{CATALOG_NAME}")
-DOCUMENT_SPEC_NAME = "brisbane_baylands_2025_deir_task03h_document_v2.json"
-COLLECTION_SPEC_NAME = "brisbane_baylands_2025_deir_task03h_collection_v2.json"
+DOCUMENT_SPEC_NAME = f"brisbane_baylands_2025_deir_task03h_document_{RUN_VERSION}.json"
+COLLECTION_SPEC_NAME = f"brisbane_baylands_2025_deir_task03h_collection_{RUN_VERSION}.json"
 DOCUMENT_SPEC_PATH = CONFIG_ROOT / DOCUMENT_SPEC_NAME
 COLLECTION_SPEC_PATH = CONFIG_ROOT / COLLECTION_SPEC_NAME
 IDENTITY_RELATIVE = Path(
-    "benchmarks/er_bench/fixtures/document_publication/v2/task03h_production_identity.json"
+    f"benchmarks/er_bench/fixtures/document_publication/{RUN_VERSION}/"
+    "task03h_production_identity.json"
 )
 IDENTITY_PATH = ROOT / IDENTITY_RELATIVE
 TARGET_POLICY = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03g2_target_policy_v1.json"

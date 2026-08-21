@@ -7,6 +7,7 @@ from typing import Any
 
 from er_commons.artifact_io import write_json_atomic, write_jsonl
 from er_commons.document_parsing.content_parsing.config import ContentParsingConfig
+from er_commons.document_parsing.content_parsing.page_projection import PageEvidenceProjection
 from er_commons.document_parsing.content_parsing.records import (
     PageRouteRecord,
     RoutingSummary,
@@ -25,6 +26,35 @@ ROUTES: tuple[TableRoute, ...] = (
     "layout_regions",
     "full_page_numeric",
 )
+
+
+def route_page_projections(
+    projections: list[PageEvidenceProjection],
+    config: ContentParsingConfig,
+) -> list[PageRouteRecord]:
+    """Route sealed page evidence without constructing an aggregate payload."""
+    records: list[PageRouteRecord] = []
+    for projection in sorted(projections, key=lambda item: item.physical_pdf_page):
+        decision = classify_page(
+            projection.features,
+            [item["bbox_pdf_points_bottom_left"] for item in projection.layout_table_observations],
+            config.strict_table_dominant_thresholds,
+            config.numeric_table_bearing_thresholds,
+        )
+        records.append(
+            PageRouteRecord.model_validate(
+                {
+                    **decision,
+                    "source_id": projection.source_id,
+                    "layout_table_observations": projection.layout_table_observations,
+                    "boundary_markers_before_first_table": (
+                        projection.boundary_markers_before_first_table
+                    ),
+                    "status": "complete",
+                }
+            )
+        )
+    return records
 
 
 def route_complete_document(
@@ -78,7 +108,7 @@ def write_routing_artifacts(
     records: list[PageRouteRecord],
 ) -> RoutingSummary:
     """Persist complete route evidence and its compact summary."""
-    routing_root.mkdir(parents=True, exist_ok=False)
+    routing_root.mkdir(parents=True, exist_ok=True)
     write_jsonl(
         routing_root / "page_routes.jsonl",
         [record.model_dump(mode="json") for record in records],

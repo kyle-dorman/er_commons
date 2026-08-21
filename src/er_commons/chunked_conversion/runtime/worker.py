@@ -31,6 +31,7 @@ class RangeWorker:
         conversion = self.adapter.convert_range(
             verified.prepared,
             planned.read,
+            range_id=planned.range_id,
             data_root=spec.data_root,
             log_path=spec.run_root / "logs" / planned.range_id / "worker.log",
         )

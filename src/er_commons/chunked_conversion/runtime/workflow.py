@@ -18,6 +18,7 @@ from er_commons.chunked_conversion.runtime.contracts import (
     AggregateWorkerSpec,
     ChunkedConversionRequest,
     ExpectedChunkedConversionCompletion,
+    PreAggregateContext,
     RangeWorkerSpec,
     ResourceLimits,
     ResourceObservation,
@@ -44,6 +45,7 @@ class RangeRepository(Protocol):
 
 
 PublishCompletion = Callable[[Path, str, RangePlan, ResourceObservation, int, bool], Path]
+PreAggregate = Callable[[PreAggregateContext], Path]
 
 
 @dataclass(frozen=True)
@@ -56,6 +58,7 @@ class ChunkedConversionServices:
     run_range: Callable[[RangeWorkerSpec, ResourceLimits], ResourceObservation]
     run_aggregate: Callable[[AggregateWorkerSpec, ResourceLimits], ResourceObservation]
     publish_completion: PublishCompletion
+    pre_aggregate: PreAggregate
 
 
 class ChunkedConversionWorkflow:
@@ -66,14 +69,21 @@ class ChunkedConversionWorkflow:
         *,
         project_root: Path,
         services: ChunkedConversionServices | None = None,
+        pre_aggregate: PreAggregate | None = None,
     ) -> None:
         self.project_root = project_root
         if services is None:
+            if pre_aggregate is None:
+                raise ValueError("a pre-aggregate projection callback is required")
             from er_commons.chunked_conversion.runtime.execution import (
                 live_workflow_services,
             )
 
-            services = live_workflow_services(project_root)
+            services = live_workflow_services(project_root, pre_aggregate=pre_aggregate)
+        elif pre_aggregate is not None:
+            raise ValueError(
+                "pre-aggregate callback belongs in services when services are supplied"
+            )
         self.services = services
 
     def run(self, request: ChunkedConversionRequest) -> Path:
@@ -110,7 +120,19 @@ class ChunkedConversionWorkflow:
                 return self._write_interruption(run_root, run_id, plan, executed)
             self._validate_resume_checkpoint(run_root, reused)
             self._write_range_report(run_root, run_id, plan, executed, reused)
-            aggregate_observation = self._run_aggregate(request, run_root, run_id, plan)
+            ordering_projection = self.services.pre_aggregate(
+                PreAggregateContext(
+                    child_root=child_root,
+                    data_root=request.data_root,
+                    config_path=request.config_path,
+                    plan_path=run_root / "records/range_plan.json",
+                    run_id=run_id,
+                    plan_id=plan.plan_id,
+                )
+            )
+            aggregate_observation = self._run_aggregate(
+                request, run_root, run_id, plan, ordering_projection
+            )
             self._record_aggregate_creation_observation(run_root)
             checkpoint_exists = (run_root / "records/interruption_checkpoint.json").is_file()
             return self.services.publish_completion(
@@ -303,7 +325,12 @@ class ChunkedConversionWorkflow:
         )
 
     def _run_aggregate(
-        self, request: ChunkedConversionRequest, run_root: Path, run_id: str, plan: RangePlan
+        self,
+        request: ChunkedConversionRequest,
+        run_root: Path,
+        run_id: str,
+        plan: RangePlan,
+        ordering_projection: Path,
     ) -> ResourceObservation:
         spec = AggregateWorkerSpec(
             run_id=run_id,
@@ -312,6 +339,7 @@ class ChunkedConversionWorkflow:
             data_root=request.data_root,
             config_path=request.config_path,
             plan_path=run_root / "records/range_plan.json",
+            ordering_projection_path=ordering_projection,
         )
         write_json_atomic(run_root / "records/aggregate_spec.json", spec.model_dump(mode="json"))
         try:

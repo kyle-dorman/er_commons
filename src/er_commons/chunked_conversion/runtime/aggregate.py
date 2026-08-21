@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
@@ -40,6 +41,9 @@ from er_commons.document_parsing.content_parsing.conversion_seal import (
     deep_audit_conversion_bundle,
 )
 from er_commons.document_parsing.content_parsing.evidence import verify_inventory
+from er_commons.document_parsing.content_parsing.ordering_projection import (
+    OrderingProjectionArtifact,
+)
 from er_commons.document_parsing.content_parsing.preparation import PreparedContentParsing
 from er_commons.document_parsing.content_parsing.records import ConversionObservation
 from er_commons.document_parsing.heading_evidence_parsing.heading_overlay import (
@@ -55,20 +59,34 @@ class AggregatePublisher:
 
     def run(self, spec: AggregateWorkerSpec) -> Path:
         """Publish or deep-verify the aggregate named by the typed worker spec."""
+        if not spec.ordering_projection_path.is_file():
+            raise ChunkedConversionError(
+                "ordering_projection_missing",
+                stage="aggregate",
+                path=spec.ordering_projection_path.as_posix(),
+            )
+        projection_sha256 = sha256_file(spec.ordering_projection_path)
+        projection = OrderingProjectionArtifact.model_validate_json(
+            spec.ordering_projection_path.read_bytes()
+        )
         plan = RangePlan.model_validate_json(spec.plan_path.read_bytes())
         verified = verify_chunk_inputs(spec.config_path, spec.plan_path, spec.data_root)
-        aggregate_identity = self._identity(verified.prepared.conversion_identity.payload, plan)
+        aggregate_identity = self._identity(
+            verified.prepared.conversion_identity.payload,
+            plan,
+            projection_sha256=projection_sha256,
+        )
         aggregate_id = f"dconv1-{canonical_json_sha256(aggregate_identity)}"
         final = spec.conversion_root / aggregate_id
         if final.exists():
             deep_audit_conversion_bundle(final, aggregate_id)
             return self._publish_reference(spec.run_root, aggregate_id, final)
         attempts = spec.conversion_root / "attempts"
-        attempts.mkdir(exist_ok=True)
+        attempts.mkdir(parents=True, exist_ok=True)
         staging = Path(tempfile.mkdtemp(prefix=f"{aggregate_id}.", dir=attempts))
         try:
             children = self._verified_children(spec.run_root, plan)
-            pages, outline = self._global_inputs(children)
+            pages, outline = self._global_inputs(children, projection)
             assembly = self.adapter.assemble_global(
                 verified.prepared,
                 pages,
@@ -84,6 +102,7 @@ class AggregatePublisher:
                 aggregate_identity,
                 verified.prepared,
                 assembly,
+                projection,
             )
             deep_audit_conversion_bundle(staging, aggregate_id)
             final.parent.mkdir(parents=True, exist_ok=True)
@@ -94,7 +113,13 @@ class AggregatePublisher:
             retain_failure(staging, error, stage="aggregate")
             raise
 
-    def _identity(self, conversion_identity: dict[str, Any], plan: RangePlan) -> dict[str, Any]:
+    def _identity(
+        self,
+        conversion_identity: dict[str, Any],
+        plan: RangePlan,
+        *,
+        projection_sha256: str,
+    ) -> dict[str, Any]:
         return {
             **conversion_identity,
             "conversion_invocation": {
@@ -103,6 +128,7 @@ class AggregatePublisher:
                 "ordered_range_ids": [item.range_id for item in plan.ranges],
                 "merge_identity": plan.inputs.aggregate_merge_identity,
                 "global_interpretation": plan.inputs.global_interpretation_policy_identity,
+                "ordering_projection_sha256": projection_sha256,
             },
         }
 
@@ -113,9 +139,12 @@ class AggregatePublisher:
         return tuple(store.verify(planned.range_id) for planned in plan.ranges)
 
     def _global_inputs(
-        self, children: tuple[VerifiedConvertedRange, ...]
+        self,
+        children: tuple[VerifiedConvertedRange, ...],
+        projection: OrderingProjectionArtifact,
     ) -> tuple[list[Any], tuple[dict[str, Any], ...]]:
         pages: list[Any] = []
+        by_page = {int(item["page_no"]): item for item in projection.pages}
         outline: tuple[dict[str, Any], ...] | None = None
         previous: VerifiedConvertedRange | None = None
         for child in children:
@@ -128,9 +157,13 @@ class AggregatePublisher:
                         current_pages[page_no],
                         path=f"aggregate.overlap[{page_no}]",
                     )
-            by_page = {page.page_no: page for page in child.pages}
+            child_by_page = {page.page_no: page for page in child.pages}
             pages.extend(
-                restore_global_page(by_page[page_no]) for page_no in child.planned.core.pages
+                _ordering_page(
+                    restore_global_page(child_by_page[page_no]),
+                    by_page.get(page_no),
+                )
+                for page_no in child.planned.core.pages
             )
             previous = child
             if outline is None:
@@ -151,16 +184,34 @@ class AggregatePublisher:
         aggregate_identity: dict[str, Any],
         prepared: PreparedContentParsing,
         assembly: GlobalAssembly,
+        projection: OrderingProjectionArtifact,
     ) -> None:
         source_id = prepared.source.source_id
         page_count = prepared.source.source_page_count
         producer_root = staging / "documents" / source_id / "producer"
         docling_root = producer_root / "docling"
         docling_root.mkdir(parents=True)
-        assets = _write_streamed_assets(assembly.document, children, producer_root)
+        assets = _write_streamed_assets(assembly.document, children, staging, source_id)
         document_payload, overlay = split_heading_overlay(assembly.document.export_to_dict())
         write_json_atomic_streaming(docling_root / "document.json", document_payload)
         write_jsonl(docling_root / "heading_overlay.jsonl", overlay)
+        self._write_ordering_publication(
+            staging=staging,
+            source_id=source_id,
+            projection=projection,
+            plan=plan,
+        )
+        projection_path = staging / "records/ordering_projection.json"
+        write_json_atomic(projection_path, projection.model_dump(mode="json"))
+        table_root = Path(projection.table_stage_root)
+        if not table_root.is_dir():
+            raise ChunkedConversionError(
+                "canonical_table_artifacts_missing",
+                stage="aggregate",
+                path="ordering_projection.table_stage_root",
+            )
+        published_tables = staging / "tables"
+        shutil.copytree(table_root, published_tables)
         alignment = core_alignment_records(children)
         _write_alignment_records(docling_root / "alignment_pages.jsonl", alignment)
         captured_warnings, warning_evidence = collect_warning_evidence(
@@ -180,6 +231,7 @@ class AggregatePublisher:
                 },
             },
         )
+
         observation = ConversionObservation(
             source_id=source_id,
             raw_status="success",
@@ -240,6 +292,39 @@ class AggregatePublisher:
             staging / "records/completion_record.json", completion.model_dump(mode="json")
         )
 
+    def _write_ordering_publication(
+        self,
+        *,
+        staging: Path,
+        source_id: str,
+        projection: OrderingProjectionArtifact,
+        plan: RangePlan,
+    ) -> None:
+        """Publish ordered content, canonical tables, fallbacks, and raw references."""
+        fallback_pages = [
+            decision.physical_pdf_page
+            for decision in projection.decisions
+            if not decision.may_suppress_table_text
+        ]
+        write_json_atomic(
+            staging / "records/ordering_publication.json",
+            {
+                "schema_version": "er_commons.ordering_publication.v1",
+                "source_id": source_id,
+                "plan_id": plan.plan_id,
+                "ordered_non_table_content": (
+                    f"documents/{source_id}/producer/docling/document.json"
+                ),
+                "canonical_tables": "tables",
+                "fallback_pages": fallback_pages,
+                "fallback_policy": "retain_unresolved_page_content",
+                "raw_evidence": "ranges/<range_id>/pages",
+                "table_evidence_decisions": [
+                    decision.as_record() for decision in projection.decisions
+                ],
+            },
+        )
+
     def _publish_reference(self, run_root: Path, aggregate_id: str, final: Path) -> Path:
         path = run_root / "records/aggregate_reference.json"
         write_json_atomic(path, {"conversion_id": aggregate_id, "path": final.as_posix()})
@@ -249,7 +334,8 @@ class AggregatePublisher:
 def _write_streamed_assets(
     document: Any,
     children: tuple[VerifiedConvertedRange, ...],
-    producer_root: Path,
+    conversion_root: Path,
+    source_id: str,
 ) -> list[dict[str, Any]]:
     from docling_core.types.doc.items.picture.picture import PictureItem
 
@@ -257,7 +343,7 @@ def _write_streamed_assets(
     for index, (item, _level) in enumerate(document.iterate_items(), start=1):
         if isinstance(item, PictureItem) and item.prov:
             indexed.setdefault(int(item.prov[0].page_no), []).append((index, item))
-    assets_root = producer_root.parent / "assets" / "figures"
+    assets_root = conversion_root / "documents" / source_id / "assets" / "figures"
     assets_root.mkdir(parents=True)
     assets: list[dict[str, Any]] = []
     for child in children:
@@ -276,8 +362,8 @@ def _write_streamed_assets(
                     )
                 )
                 crop = image.crop(crop_bbox.as_tuple())
-                relative = Path("assets/figures") / f"figure-{iteration_index:04d}.png"
-                output = producer_root.parent / relative
+                relative = figure_asset_relative_path(source_id, iteration_index)
+                output = conversion_root / relative
                 crop.save(output, format="PNG")
                 picture.image = None
                 assets.append(
@@ -292,6 +378,13 @@ def _write_streamed_assets(
                     }
                 )
     return assets
+
+
+def figure_asset_relative_path(source_id: str, iteration_index: int) -> Path:
+    """Return the conversion-root-relative path consumed by downstream mapping."""
+    return (
+        Path("documents") / source_id / "assets" / "figures" / f"figure-{iteration_index:04d}.png"
+    )
 
 
 def core_alignment_records(
@@ -363,9 +456,38 @@ def _write_alignment_records(path: Path, records: tuple[dict[str, Any], ...]) ->
             stream.write("\n")
 
 
+def _ordering_page(page: Any, projection: dict[str, Any] | None) -> Any:
+    """Apply confirmed table suppression to a temporary ordering-only page."""
+    if projection is None:
+        raise ChunkedConversionError(
+            "ordering_projection_page_missing",
+            stage="aggregate",
+            path=f"ordering_projection.pages[{page.page_no}]",
+        )
+    suppressed = projection.get("ordering_suppressed_table_refs", [])
+    if not isinstance(suppressed, list):
+        raise ChunkedConversionError(
+            "ordering_projection_suppression",
+            stage="aggregate",
+            path=f"ordering_projection.pages[{page.page_no}]",
+        )
+    if not suppressed:
+        return page
+    from docling.datamodel.base_models import AssembledUnit, Table
+
+    elements = [item for item in page.assembled.elements if not isinstance(item, Table)]
+    page.assembled = AssembledUnit(
+        elements=elements,
+        body=[item for item in page.assembled.body if not isinstance(item, Table)],
+        headers=[item for item in page.assembled.headers if not isinstance(item, Table)],
+    )
+    return page
+
+
 __all__ = [
     "AggregatePublisher",
     "collect_warning_evidence",
     "core_alignment_records",
+    "figure_asset_relative_path",
     "raster_memory_evidence",
 ]

@@ -30,6 +30,10 @@ from er_commons.chunked_conversion.range_contract import (
 from er_commons.chunked_conversion.runtime.diagnostics import ChunkedConversionError
 from er_commons.chunked_conversion.runtime.docling_adapter import RangeConversion
 from er_commons.document_parsing.content_parsing.evidence import verify_inventory
+from er_commons.document_parsing.content_parsing.page_projection import (
+    PageEvidenceProjection,
+    project_page_evidence,
+)
 
 
 @dataclass(frozen=True)
@@ -44,6 +48,7 @@ class VerifiedConvertedRange:
     observation: dict[str, Any]
     completion: RangeCompletion
     root: Path
+    projections: tuple[PageEvidenceProjection, ...]
 
 
 class ConvertedRangeStore:
@@ -103,6 +108,31 @@ class ConvertedRangeStore:
             outline = _dict_tuple(root / "records/outline.json", "outline", stage=stage)
             warning_rows = _string_tuple(root / "records/warnings.json", "warnings", stage=stage)
             observation = read_json_object(root / "records/range_observation.json")
+            projection_value = read_json_object(root / "records/page_projections.json").get("pages")
+            if not isinstance(projection_value, list):
+                raise ValueError("page projections must be a list")
+            projection_rows = cast(list[dict[str, Any]], projection_value)
+            projections = tuple(
+                project_page_evidence(
+                    source_id=cast(str, row["source_id"]),
+                    range_id=cast(str, row["range_id"]),
+                    page_number=cast(int, row["physical_pdf_page"]),
+                    features=cast(dict[str, Any], row["features"]),
+                    layout_table_observations=cast(
+                        list[dict[str, Any]], row["layout_table_observations"]
+                    ),
+                    boundary_markers_before_first_table=cast(
+                        list[dict[str, Any]], row["boundary_markers_before_first_table"]
+                    ),
+                )
+                for row in projection_rows
+            )
+            if tuple(item.physical_pdf_page for item in projections) != planned.read.pages:
+                raise ValueError("page projection coverage differs")
+            if any(item.range_id != range_id for item in projections):
+                raise ValueError("page projection range identity differs")
+            if any(item.source_id != self.plan.inputs.source.source_id for item in projections):
+                raise ValueError("page projection source identity differs")
             if observation.get("range_id") != range_id:
                 raise ChunkedConversionError(
                     "range_observation_identity",
@@ -120,6 +150,7 @@ class ConvertedRangeStore:
                 observation=observation,
                 completion=completion,
                 root=root,
+                projections=projections,
             )
         except ChunkedConversionError:
             raise
@@ -161,6 +192,10 @@ class ConvertedRangeStore:
                     "peak_worker_rss_bytes": conversion.peak_rss_bytes,
                     "warning_count": len(conversion.warnings),
                 },
+            )
+            write_json_atomic(
+                staging / "records/page_projections.json",
+                {"pages": [projection.as_record() for projection in conversion.projections]},
             )
             inventory_path = staging / "records/artifact_inventory.json"
             inventory = artifact_inventory(

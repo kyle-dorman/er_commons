@@ -382,15 +382,57 @@ the isolated downstream pipeline. Measured 7.17 GB range and 8.89 GB aggregate p
 select one worker because projected two-worker memory exceeds the 10 GiB concurrent
 ceiling. The final human-ownership review established named package owners, strict
 lineage/recovery checks, and a full-byte audit of immutable evidence.
-No Gate D or G2 rehearsal will run. Task 03H is ready to restart all 35 sources from
-scratch in a new chat under the isolated
+No Gate D or G2 rehearsal will run. Task 03H is active with its source-free plan
+prepared to restart all 35 sources from scratch under the isolated
 `pipelines/brisbane_baylands/task_03h_clean_full_v2/` namespace. Earlier v1 and
 historical artifacts remain preserved evidence but are ineligible for reuse. The new
 production identity is
-`exv1-8402a88c5fff3860164f0c75cd0a5f49b71f16718170a9a0baa14a2efa822a51`.
-The new chat begins with source-free verification of the empty namespace, exact source
-order, chunk selections, resource forecast, and restart behavior, and it requires
-separate user authorization before the fresh `deir_main` PDF/model run.
+`exv1-035d99c459c7cc6d2eb7ac3977ead85ca799e425318de282953bbf49963a95e3`.
+The new chat completed source-free verification and repaired the readiness owner's
+stale v1 completion scan before staging only the v2 catalog and readiness record. The
+exact source order, chunk selections, resource forecast, and restart behavior are now
+prepared; separate user authorization is still required before the fresh `deir_main`
+PDF/model run. The user subsequently authorized that checkpoint. All ten main-report
+ranges sealed within resource bounds, but aggregate publication failed because the
+fresh v2 `docling_conversions` parent did not exist. The automatic retry reused every
+range and failed identically without new Docling/model calls. Task 03H is paused at
+this main-report hard stop; Appendix A has not started.
+The user authorized the aggregate fresh-root repair. The parent-safe staging fix passed
+the full gate; the resumed run reused all ten ranges without Docling calls, sealed the
+aggregate, and published the derived producer. Record mapping then stopped because the
+aggregate's 274 valid figure files are recorded relative to the document root while
+the downstream contract resolves them from the conversion root. Task 03H is paused at
+this second main-report hard stop; Appendix A has not started.
+The user authorized the aggregate asset-path repair. The producer now emits the
+conversion-root-relative path required by record mapping, with a shared integration
+regression. Full offline validation passed; main then reused all ten ranges with zero
+Docling calls, published end to end, and returned the exact same completion on its
+mandatory 0.88-second reuse invocation. Appendices A through F2 also published
+serially, producing eight ordered v2 terminal documents. Appendix G1 sealed all twelve
+fresh ranges, but aggregate publication exceeded the fixed 10 GiB RSS limit twice at
+10,778,853,376 and 10,768,334,848 bytes. The second attempt ran only the aggregate
+worker and reused every range seal. The user then authorized a corpus-wide increase
+of the generated aggregate RSS limit from 10 GiB to 16 GiB; configs and production
+identity were regenerated, and the sealed range evidence remains eligible for reuse.
+G1 then completed as the ninth ordered v2 document under the regenerated identity,
+with all downstream stages passing. G2 began fresh conversion, but its first range
+exceeded the former 8 GiB range RSS limit twice at 8,596,865,024 and 8,590,131,200
+bytes. No G2 range seal or later stage exists. The user then authorized a corpus-wide
+increase of the range RSS limit to 16 GiB, matching the aggregate limit; regenerated
+configs and identity now carry both 16 GiB guards, and collection work has not started.
+G2 was then retried twice under that policy; both attempts stayed below the RSS cap but
+the second reached 541,917,184 bytes of swap growth against the unchanged 512 MiB
+safety guard. No G2 range seal exists. The host then reported only 514.44 MiB of free
+swap. The user then authorized a corpus-wide increase of the swap-growth guard to
+1 GiB; configs and identity were regenerated before retrying G2. Neither retry hit
+that swap guard, but both exceeded the unchanged 16 GiB range RSS cap at 17,213,833,216
+and 17,204,510,720 bytes. No G2 range seal exists; a separate range-RSS increase is
+now required.
+On 2026-08-21, Task 03H.2 was confirmed closed and a distinct v3 clean-run namespace
+was prepared source-free. Its 35 documents are ordered shortest-to-longest by
+physical page count, with source ID as the tie-breaker. The v3 root was verified
+absent, the v3 catalog/specifications/identity were generated, and explicit approval
+is still required before the first PDF/model command.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

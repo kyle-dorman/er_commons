@@ -18,7 +18,15 @@ from er_commons.chunked_conversion.runtime.diagnostics import ChunkedConversionE
 from er_commons.document_parsing.content_parsing.conversion_identity import (
     COMMON_HEADING_HIERARCHY,
 )
+from er_commons.document_parsing.content_parsing.page_projection import (
+    PageEvidenceProjection,
+    project_page_evidence,
+)
 from er_commons.document_parsing.content_parsing.preparation import PreparedContentParsing
+from er_commons.document_parsing.content_parsing.routing import (
+    layout_table_observations,
+    page_features,
+)
 from er_commons.document_parsing.content_parsing.runtime import (
     MemorySampler,
     build_converter_options,
@@ -26,6 +34,7 @@ from er_commons.document_parsing.content_parsing.runtime import (
     run_log,
     verify_model_files,
 )
+from er_commons.document_parsing.content_parsing.table_markers import markers_before_first_table
 
 
 @dataclass(frozen=True)
@@ -39,6 +48,7 @@ class RangeConversion:
     wall_seconds: float
     cpu_seconds: float
     peak_rss_bytes: int
+    projections: tuple[PageEvidenceProjection, ...]
 
 
 @dataclass(frozen=True)
@@ -60,6 +70,7 @@ class DoclingAdapter:
         prepared: PreparedContentParsing,
         interval: PageInterval,
         *,
+        range_id: str,
         data_root: Path,
         log_path: Path,
     ) -> RangeConversion:
@@ -94,7 +105,83 @@ class DoclingAdapter:
             wall_seconds=time.monotonic() - started,
             cpu_seconds=time.process_time() - cpu_started,
             peak_rss_bytes=sampler.peak_rss_bytes,
+            projections=tuple(
+                self._projection(
+                    prepared.source.source_id,
+                    prepared.source.source_path,
+                    live_page,
+                    range_id=range_id,
+                )
+                for live_page in result.pages
+            ),
         )
+
+    def _projection(
+        self,
+        source_id: str,
+        source_path: Path,
+        page: Any,
+        *,
+        range_id: str,
+    ) -> PageEvidenceProjection:
+        """Build page-local routing evidence from the captured range page."""
+        assembled = getattr(page, "assembled", None)
+        elements = list(getattr(assembled, "elements", ())) if assembled is not None else []
+        element_payloads = [
+            item.model_dump(mode="json") if hasattr(item, "model_dump") else item
+            for item in elements
+        ]
+        page_height = float(getattr(getattr(page, "size", None), "height", 0.0))
+        normalized_elements = [
+            self._normalize_live_element(item, page_height=page_height) for item in element_payloads
+        ]
+        table_payloads = [
+            item for item in normalized_elements if item.get("label") in {"table", "document_index"}
+        ]
+        document_payload = {
+            "tables": table_payloads,
+            "texts": [
+                item
+                for item in normalized_elements
+                if item.get("label") not in {"table", "document_index"}
+            ],
+        }
+        observations = layout_table_observations(document_payload, page.page_no)
+        return project_page_evidence(
+            source_id=source_id,
+            range_id=str(range_id),
+            page_number=page.page_no,
+            features=page_features(
+                source_path,
+                page.page_no,
+            ),
+            layout_table_observations=observations,
+            boundary_markers_before_first_table=markers_before_first_table(
+                document_payload, page.page_no, observations
+            ),
+        )
+
+    @staticmethod
+    def _normalize_live_element(element: dict[str, Any], *, page_height: float) -> dict[str, Any]:
+        """Expose live pre-global clusters as router-compatible provenance."""
+        if element.get("prov") or not isinstance(element.get("cluster"), dict):
+            return element
+        bbox = element["cluster"].get("bbox")
+        if not isinstance(bbox, dict) or page_height <= 0:
+            return element
+        normalized = dict(element)
+        normalized["prov"] = [
+            {
+                "page_no": int(element["page_no"]),
+                "bbox": {
+                    "l": float(bbox["l"]),
+                    "b": page_height - float(bbox["b"]),
+                    "r": float(bbox["r"]),
+                    "t": page_height - float(bbox["t"]),
+                },
+            }
+        ]
+        return normalized
 
     def assemble_global(
         self,

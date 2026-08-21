@@ -19,7 +19,7 @@ class ResourceLimits(RuntimeRecord):
     max_rss_bytes: int = Field(gt=0)
     max_wall_seconds: float = Field(gt=0)
     minimum_available_bytes: int = Field(default=4 * 1024**3, gt=0)
-    max_swap_growth_bytes: int = Field(default=512 * 1024**2, ge=0)
+    max_swap_growth_bytes: int = Field(default=1024 * 1024**2, ge=0)
     sample_interval_seconds: float = Field(default=0.1, gt=0, le=1.0)
     termination_grace_seconds: float = Field(default=15.0, gt=0)
 
@@ -82,12 +82,38 @@ class AggregateWorkerSpec(RuntimeRecord):
     data_root: Path
     config_path: Path
     plan_path: Path
+    ordering_projection_path: Path
 
-    @field_validator("run_root", "conversion_root", "data_root", "config_path", "plan_path")
+    @field_validator(
+        "run_root",
+        "conversion_root",
+        "data_root",
+        "config_path",
+        "plan_path",
+        "ordering_projection_path",
+    )
     @classmethod
     def require_absolute_paths(cls, value: Path) -> Path:
         if not value.is_absolute():
             raise ValueError("worker paths must be absolute")
+        return value
+
+
+class PreAggregateContext(RuntimeRecord):
+    """Verified source-free context supplied to pre-aggregate orchestration."""
+
+    child_root: Path
+    data_root: Path
+    config_path: Path
+    plan_path: Path
+    run_id: str
+    plan_id: str
+
+    @field_validator("child_root", "data_root", "config_path", "plan_path")
+    @classmethod
+    def require_absolute_paths(cls, value: Path) -> Path:
+        if not value.is_absolute():
+            raise ValueError("pre-aggregate paths must be absolute")
         return value
 
 

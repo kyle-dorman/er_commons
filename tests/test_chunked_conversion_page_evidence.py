@@ -16,6 +16,7 @@ from er_commons.chunked_conversion.page_evidence import (
     validate_conversion_result,
 )
 from er_commons.chunked_conversion.range_contract import PageInterval
+from er_commons.chunked_conversion.runtime.docling_adapter import DoclingAdapter
 
 
 def _page(page_no: int, *, color: tuple[int, int, int] = (10, 20, 30)) -> Any:
@@ -107,6 +108,23 @@ def test_conversion_validation_requires_clean_ordered_read_coverage() -> None:
             PageInterval(start=12, end=15),
             path="contiguous",
         )
+
+
+def test_live_cluster_is_normalized_to_ordered_bottom_left_bbox() -> None:
+    table = {
+        "label": "table",
+        "page_no": 42,
+        "cluster": {"bbox": {"l": 157.0, "t": 277.0, "r": 454.0, "b": 358.0}},
+    }
+
+    normalized = DoclingAdapter._normalize_live_element(table, page_height=792.0)
+
+    assert normalized["prov"] == [
+        {
+            "page_no": 42,
+            "bbox": {"l": 157.0, "b": 434.0, "r": 454.0, "t": 515.0},
+        }
+    ]
 
 
 class _OutlineItem(BaseModel):

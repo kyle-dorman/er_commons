@@ -158,16 +158,19 @@ def build_production_scope_evidence(
         if positions != sorted(positions):
             raise ValueError("representative pilot sources differ from sealed manifest order")
     else:
-        source_ids = model_source_ids
+        source_ids = [owner.source_id for owner in spec.document_processes]
+        if len(source_ids) != len(set(source_ids)) or set(source_ids) != set(model_source_ids):
+            raise ValueError("production-full source scope must contain every model source once")
     selected_source_ids = set(source_ids)
+    records_by_id = {item["source_id"]: item for item in model_source_records}
     ordered_source_records = [
         {
-            "source_id": item["source_id"],
-            "sha256": item["sha256"],
-            "pdf_page_count": item["pdf_page_count"],
+            "source_id": source_id,
+            "sha256": records_by_id[source_id]["sha256"],
+            "pdf_page_count": records_by_id[source_id]["pdf_page_count"],
         }
-        for item in model_source_records
-        if item["source_id"] in selected_source_ids
+        for source_id in source_ids
+        if source_id in selected_source_ids
     ]
     evidence = {
         "source_release_version": manifest["source_release_version"],

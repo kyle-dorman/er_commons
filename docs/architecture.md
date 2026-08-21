@@ -94,6 +94,18 @@ plain Pydantic union JSON can otherwise restore a container as a figure. Finaliz
 range `DoclingDocument` objects are never concatenated, and child-local heading levels
 are noncanonical because level compression depends on the whole document.
 
+For the clean Task 03H full run, the range contract is extended by orchestration only:
+each range performs Docling PDFium/Heron conversion and lossless evidence capture,
+then invokes the existing project routing and table-extraction stages before sealing
+raw evidence, layout evidence, routing, and page-local table artifacts together.
+After all ranges are verified, aggregation branches into a reduced ordering projection
+and the existing global table continuation/family reconciliation. The projection may
+suppress only table text confirmed by extraction artifacts; raw evidence is untouched.
+One aggregate Docling interpretation group then performs `reading_order` and heading
+hierarchy once, without the Docling TableFormer PDF stage. Publication merges ordered
+non-table content, canonical custom tables, explicit failures/fallbacks, and raw
+evidence references. The custom table extractor remains a separate responsibility.
+
 The maintained production path uses one-way package owners. Contracts and diagnostics
 are leaf modules. Input and identity services bind source, runtime, package, model, and
 implementation semantics. Planning owns exact core and overlap coverage; one isolated

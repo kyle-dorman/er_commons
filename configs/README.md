@@ -68,16 +68,19 @@ The checked examples are fixtures, not production recipes:
 
 Their schemas live beside the corresponding package name under
 `benchmarks/er_bench/schemas/`. Run `make validate-collection-contract` for the
-collection fixture gate. Task 03H owns the first real all-source v2 specifications:
+collection fixture gate. Task 03H.2's v2 specifications and completed documents remain
+historical immutable evidence. The prepared Task 03H v3 specifications are the current
+source-free execution inputs, with all 35 sources ordered shortest-to-longest by
+physical page count, ties by source ID:
 
-- `brisbane_baylands_2025_deir_task03h_document_v2.json` selects the exact ordered
+- `brisbane_baylands_2025_deir_task03h_document_v3.json` selects the exact ordered
   35-source production scope;
-- `brisbane_baylands_2025_deir_task03h_collection_v2.json` selects the matching
+- `brisbane_baylands_2025_deir_task03h_collection_v3.json` selects the matching
   collection handoff policy;
-- `brisbane_baylands_2025_deir_task03h_source_family_catalog_v1.json` contains the
+- `brisbane_baylands_2025_deir_task03h_v3_source_family_catalog_v1.json` contains the
   exact full-scope source identities and reviewed conservative aliases; and
 - `task03h_templates/` contains the six current source-neutral owner templates; and
-- `task03h/<source_id>/` contains the 210 generated source-specialized process configs.
+- `task03h/v3/<source_id>/` contains the 210 generated source-specialized process configs.
 
 Generate or byte-check the 210 templates, catalog, specs, and native-v2 identity with:
 

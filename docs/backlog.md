@@ -31,9 +31,27 @@ scope, replace a numbered task, or record a completed experiment.
   withheld until isolated scoring; and can every task pass both a gold-success
   check and a no-op-failure check? Also examine reward false negatives, where a
   substantively correct but unanticipated answer fails an overly specific
-  grader. The possible project use is intentionally unresolved; revisit only
-  after the first benchmark and evaluation loop make a concrete environment,
-  reward, or training need visible.
+  grader. When this investigation becomes active, review Castform's Benchmax
+  examples, starting from the inspected
+  [`a78bf1e`](https://github.com/castform-ai/benchmax/tree/a78bf1e3ed67eb9cdee3c969434e15b4fa2c1779/examples)
+  snapshot: use
+  [`neon_rag`](https://github.com/castform-ai/benchmax/tree/a78bf1e3ed67eb9cdee3c969434e15b4fa2c1779/examples/neon_rag)
+  and
+  [`turbopuffer_rag`](https://github.com/castform-ai/benchmax/tree/a78bf1e3ed67eb9cdee3c969434e15b4fa2c1779/examples/turbopuffer_rag)
+  as directional references for versioned retrieval environments and narrow
+  search adapters; use
+  [`math`](https://github.com/castform-ai/benchmax/tree/a78bf1e3ed67eb9cdee3c969434e15b4fa2c1779/examples/math)
+  as the minimal environment/tool/reward boundary; and use
+  [`sft/pii_masking`](https://github.com/castform-ai/benchmax/tree/a78bf1e3ed67eb9cdee3c969434e15b4fa2c1779/examples/sft/pii_masking)
+  for later training-data provenance and prepare-before-launch patterns. Treat
+  them as references rather than an accepted dependency or evaluation
+  contract. Preserve fixed BM25 and exact evidence anchors across the v1/v2
+  comparison, expose opaque `search`/`open` results without scores or grading
+  data, keep retrieval, citation, and defense-quality measurements separate,
+  and reserve leakage-separated synthetic data from non-Brisbane projects for
+  a later training proof of concept. The possible project use is intentionally
+  unresolved; revisit only after the first benchmark and evaluation loop make
+  a concrete environment, reward, or training need visible.
 - After the OCR-free Task 03E.5 first pass, measure the cost of deliberately
   unresolved figure mentions before selecting a figure-linking design. Review
   mention counts, representative failures such as Appendix P Figures 1 and 4,

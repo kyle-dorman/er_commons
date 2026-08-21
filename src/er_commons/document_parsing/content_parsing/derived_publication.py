@@ -6,8 +6,15 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from er_commons.artifact_io import directory_bytes, sha256_file, write_json_atomic
+from er_commons.chunked_conversion.range_contract import RangePlan
+from er_commons.chunked_conversion.runtime.range_store import ConvertedRangeStore
 from er_commons.document_parsing.content_parsing.conversion import ConversionOutput
 from er_commons.document_parsing.content_parsing.conversion_seal import SealedConversion
+from er_commons.document_parsing.content_parsing.derived_publication_support import (
+    producer_warnings,
+    rebind_aggregate_references,
+    write_conversion_reference,
+)
 from er_commons.document_parsing.content_parsing.evidence import (
     verify_completed_run,
     write_inventory,
@@ -28,10 +35,10 @@ from er_commons.document_parsing.content_parsing.records import (
 )
 from er_commons.document_parsing.content_parsing.routing_execution import (
     route_complete_document,
+    route_page_projections,
     write_routing_artifacts,
 )
 from er_commons.document_parsing.content_parsing.services import ContentParsingServices
-from er_commons.document_parsing.content_parsing.sources import CompleteResolvedSource
 from er_commons.document_parsing.content_parsing.table_processing import run_complete_table_stage
 
 
@@ -59,6 +66,8 @@ def build_and_publish_derived(
     config_path: Path,
     prepared: PreparedContentParsing,
     sealed_conversion: SealedConversion,
+    range_run_root: Path | None = None,
+    range_plan_path: Path | None = None,
     services: ContentParsingServices,
     started: float,
     progress: DerivedPublicationProgress,
@@ -75,6 +84,8 @@ def build_and_publish_derived(
         data_root=data_root,
         prepared=prepared,
         sealed_conversion=sealed_conversion,
+        range_run_root=range_run_root,
+        range_plan_path=range_plan_path,
         workspace=workspace,
         services=services,
         progress=progress,
@@ -123,6 +134,8 @@ def _run_derived_stages(
     data_root: Path,
     prepared: PreparedContentParsing,
     sealed_conversion: SealedConversion,
+    range_run_root: Path | None,
+    range_plan_path: Path | None,
     workspace: ProducerWorkspace,
     services: ContentParsingServices,
     progress: DerivedPublicationProgress,
@@ -130,13 +143,32 @@ def _run_derived_stages(
     """Consume sealed conversion evidence, then route and reconstruct tables."""
     producer_root = workspace.staging_root / "documents" / prepared.source.source_id / "producer"
     producer_root.mkdir(parents=True, exist_ok=False)
-    _write_conversion_reference(data_root, prepared, sealed_conversion, workspace)
+    write_conversion_reference(data_root, prepared, sealed_conversion, workspace)
     progress.stage = "route"
-    routes = route_complete_document(
-        prepared.source,
-        sealed_conversion.output.document_payload,
-        prepared.config,
-    )
+    if range_run_root is None or range_plan_path is None:
+        routes = route_complete_document(
+            prepared.source,
+            sealed_conversion.output.document_payload,
+            prepared.config,
+        )
+    else:
+        plan = RangePlan.model_validate_json(range_plan_path.read_bytes())
+        ranges = ConvertedRangeStore(range_run_root / plan.plan_id, plan)
+        verified_ranges = tuple(ranges.verify(item.range_id) for item in plan.ranges)
+        projections = [
+            projection
+            for item in verified_ranges
+            for projection in item.projections
+            if item.planned.core.contains(projection.physical_pdf_page)
+        ]
+        routes = route_page_projections(projections, prepared.config)
+        routes = rebind_aggregate_references(
+            routes,
+            sealed_conversion.output.document_payload,
+        )
+        expected_pages = list(range(1, prepared.source.source_page_count + 1))
+        if [record.physical_pdf_page for record in routes] != expected_pages:
+            raise ValueError("page projections do not cover the complete source")
     routing = write_routing_artifacts(producer_root / "routing", routes)
     progress.stage = "tables"
     tables = run_complete_table_stage(
@@ -155,39 +187,6 @@ def _run_derived_stages(
     return _DerivedStages(sealed_conversion.output, routing, tables)
 
 
-def _write_conversion_reference(
-    data_root: Path,
-    prepared: PreparedContentParsing,
-    sealed: SealedConversion,
-    workspace: ProducerWorkspace,
-) -> None:
-    """Persist the exact immutable conversion seal consumed by derived stages."""
-    write_json_atomic(
-        workspace.records_root / "conversion_input.json",
-        {
-            "schema_version": "er_commons.conversion_input_reference.v1",
-            **sealed.reference,
-            "document_view": (
-                "heading" if prepared.config.heading_hierarchy_options is not None else "base"
-            ),
-            "path": sealed.root.relative_to(data_root.resolve()).as_posix(),
-            "completion_path": sealed.completion_path.relative_to(data_root.resolve()).as_posix(),
-            "inventory_path": sealed.inventory_path.relative_to(data_root.resolve()).as_posix(),
-        },
-    )
-
-
-def _producer_warnings(
-    source: CompleteResolvedSource,
-    python_warnings: list[str],
-    zero_table_pages: list[int],
-) -> list[str]:
-    warnings_out = [*source.warnings, *python_warnings]
-    if zero_table_pages:
-        warnings_out.append(f"routed pages with zero reconstructed tables: {zero_table_pages}")
-    return warnings_out
-
-
 def _seal_and_publish(
     *,
     prepared: PreparedContentParsing,
@@ -199,7 +198,7 @@ def _seal_and_publish(
 ) -> Path:
     """Write summary and completion last, then atomically publish the workspace."""
     progress.stage = "reconcile"
-    warnings_out = _producer_warnings(
+    warnings_out = producer_warnings(
         prepared.source,
         stages.conversion.observation.captured_python_warnings,
         stages.tables.zero_table_pages,

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
 
 from er_commons.artifact_io import read_json_object
@@ -9,6 +10,7 @@ from er_commons.chunked_conversion.runtime.aggregate import AggregatePublisher
 from er_commons.chunked_conversion.runtime.contracts import (
     AggregateWorkerSpec,
     ChunkedConversionRequest,
+    PreAggregateContext,
     RangeWorkerSpec,
 )
 from er_commons.chunked_conversion.runtime.worker import RangeWorker
@@ -19,18 +21,31 @@ from er_commons.document_parsing.content_parsing.conversion_seal import (
 )
 
 
-def run_chunked_conversion(request: ChunkedConversionRequest, *, project_root: Path) -> Path:
+def run_chunked_conversion(
+    request: ChunkedConversionRequest,
+    *,
+    project_root: Path,
+    pre_aggregate: Callable[[PreAggregateContext], Path],
+) -> Path:
     """Run the public workflow and return its completion or interruption checkpoint."""
-    return ChunkedConversionWorkflow(project_root=project_root).run(request)
+    from er_commons.chunked_conversion.runtime.execution import live_workflow_services
+
+    return ChunkedConversionWorkflow(
+        project_root=project_root,
+        services=live_workflow_services(project_root, pre_aggregate=pre_aggregate),
+    ).run(request)
 
 
 def ensure_chunked_conversion_bundle(
     request: ChunkedConversionRequest,
     *,
     project_root: Path,
+    pre_aggregate: Callable[[PreAggregateContext], Path],
 ) -> SealedConversion:
     """Run/reuse chunking and return the ordinary sealed-conversion interface."""
-    completion_path = run_chunked_conversion(request, project_root=project_root)
+    completion_path = run_chunked_conversion(
+        request, project_root=project_root, pre_aggregate=pre_aggregate
+    )
     completion = read_json_object(completion_path)
     if completion.get("status") != "complete":
         raise RuntimeError(f"chunk conversion stopped before completion: {completion_path}")

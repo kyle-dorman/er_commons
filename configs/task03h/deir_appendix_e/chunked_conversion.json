@@ -7,7 +7,7 @@
   "target_range_size": 225,
   "hard_maximum": 275,
   "overlap_pages": 1,
-  "max_range_rss_bytes": 8589934592,
-  "max_aggregate_rss_bytes": 10737418240,
-  "max_wall_seconds": 2700.0
+  "max_range_rss_bytes": 21474836480,
+  "max_aggregate_rss_bytes": 17179869184,
+  "max_wall_seconds": 14400.0
 }
