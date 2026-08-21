@@ -422,11 +422,14 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    Human-ownership review established named package owners, strict recovery and
    lineage checks, and verified immutable evidence. No Gate D or G2
    rehearsal remains. Active [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is paused before the
-   first real Appendix G2 production run. Check in before any G2 PDF/model action with
-   the exact range plan, production identity, one-worker resource policy, duration
-   forecast, and stop/resume behavior. Do not start Appendix G3 or later collection
-   work until G2 verifies and completes downstream processing.
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is ready to restart in
+   a new chat from local `main` commit `91c71a6` and production identity
+   `exv1-f37f8f77180fc2eff7f5306a2ab2ce6048b5cd589ecd92751a2fe50cdeb3d5ae`.
+   Preserve completed clean-run work through G1. Begin with source-free review of the
+   exact 17-range G2 plan, one-worker resource policy, duration forecast, aggregate
+   target, and stop/resume behavior; check in before any G2 PDF/model command. Do not
+   start Appendix G3 or later collection work until G2 verifies and completes
+   downstream processing.
 8. Independently review usability and freeze the accepted extraction release
    in Task 04.
 9. Continue through the separately identified curator-only response inventory,
