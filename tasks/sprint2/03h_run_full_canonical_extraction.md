@@ -1,6 +1,6 @@
 # Task 03H: Publish and Validate the Full Document Collection
 
-Status: **ready for a new-chat Appendix G2 restart; PDF/model execution remains
+Status: **ready for a new-chat fresh 35-document restart; PDF/model execution remains
 pending user authorization**. Completed [Task
 03H.2](03h2_build_restartable_chunked_docling_conversion.md) landed the source-neutral
 restartable chunked Docling production path after Appendix G1 validation; no separate G2 rehearsal or
@@ -15,38 +15,40 @@ Task 03H was originally activated by user direction on 2026-08-18. Tasks 03G.1,
 03G.3](03g3_align_pipeline_responsibilities_and_names.md) architecture and
 naming refactor are accepted and closed. The conversion restart boundary is now
 implemented and offline-validated. The only current activation step is the source-free
-G2 plan and run briefing described below. Check in with the user before source-PDF or
-model execution.
+full-corpus plan and run briefing described below. Check in with the user before
+source-PDF or model execution.
 
 ## New-chat entrypoint: 2026-08-20
 
-Start the new chat from local `main` at `91c71a6` or later. The current generated
-production identity is
-`exv1-f37f8f77180fc2eff7f5306a2ab2ce6048b5cd589ecd92751a2fe50cdeb3d5ae`.
-The repository-wide offline gate passes 809 tests, and
-`uv run python scripts/generate_task03h_configs.py --check` passes. An unrelated
-uncommitted `docs/backlog.md` edit belongs to another chat and must remain untouched.
+Start the new chat from local `main` after the fresh-lineage preparation commit. The
+new run root is `pipelines/brisbane_baylands/task_03h_clean_full_v2/`. The previous
+`task_03h_clean_full_v1` tree and all earlier Task 03H artifacts are historical
+evidence only: preserve them physically, but do not reference, import, or reuse any
+conversion, producer, downstream, document, or collection completion from them.
+The generated v2 production identity is
+`exv1-8402a88c5fff3860164f0c75cd0a5f49b71f16718170a9a0baa14a2efa822a51`.
+The external v2 root was verified absent during preparation on 2026-08-20; no v2
+attempt, completion, or other artifact exists yet.
 
-“Restart” means resume this task in a clean chat, not erase or recompute the accepted
-clean-run lineage. Preserve every verified result from `deir_main` through Appendix
-G1. Appendix G2 is the first unfinished source. Its generated policy selects 225-page
-cores, a 275-page hard maximum, one-page overlap, one worker, an 8 GiB range RSS
-limit, a 10 GiB aggregate RSS limit, and a 2,700-second per-process wall limit. Its
-3,736 pages deterministically produce 17 core ranges. Operational limits may be
-reviewed before execution without changing already sealed semantic child identities.
+“Restart from scratch” means process all 35 ordered sources again, beginning with
+`deir_main`, under the new v2 namespace and newly generated production identity. Reuse
+is allowed only among attempts created inside this new v2 run after its first command.
+The main report and every document above 300 pages use the generated chunk policy:
+225-page cores, a 275-page hard maximum, one-page overlap, one worker, an 8 GiB range
+RSS limit, a 10 GiB aggregate RSS limit, and a 2,700-second per-process wall limit.
 
 The first new-chat turn is source-free orientation only: read `AGENTS.md`,
 `docs/index.md`, `docs/todo.md`, this task, the completed Task 03H.2 record, the
 chunked-conversion specification, `docs/architecture.md`, and
-`docs/data_artifacts.md`; verify Git and generated-identity state; then present the
-exact 17-range plan, duration forecast, disk and memory guards, aggregate target, and
-stop/resume behavior. Do not run
-`make publish-document DOCUMENT_SPEC=configs/brisbane_baylands_2025_deir_task03h_document_v2.json SOURCE_ID=deir_appendix_g2`
-or any other PDF/model-capable command until the user explicitly approves it. After
-approval, complete and verify G2 through its ordinary downstream stages before
-starting Appendix G3.
+`docs/data_artifacts.md`; verify Git and generated-identity state; verify that the new
+v2 namespace has no completion markers; then present the exact 35-source order,
+per-source chunk selection, duration forecast, disk and memory guards, collection
+target, and stop/resume behavior. Do not run `make publish-document` or any other
+PDF/model-capable command until the user explicitly approves it. After approval,
+complete `deir_main` end to end and verify exact within-v2-run reuse before starting
+the second source, then continue serially through all 35 sources.
 
-## Appendix G2 chunked-production handoff: 2026-08-20
+## Historical Appendix G2 chunked-production handoff: 2026-08-20
 
 Task 03H.2 closed on the complete G1 proof rather than spending another PDF/model run
 on a G2 rehearsal. Its maintained path sealed 12 G1 ranges independently, reused a
@@ -55,13 +57,11 @@ and passed the isolated downstream pipeline. Measured 7.17 GB range and 8.89 GB
 aggregate peaks select one worker; projected two-worker memory exceeds the accepted
 concurrent ceiling.
 
-The next action is the real Appendix G2 production run. Before reading G2 or
-constructing Docling/models, present the exact deterministic fixed-size range plan, code-bound
-production identity, expected range count and duration, one-worker resource policy,
-completion-last aggregate target, and stop/resume behavior for user approval. Every
-verified range remains reusable after interruption. Do not start Appendix G3 or any
-later source until the G2 aggregate verifies and its existing downstream stages
-complete.
+This was the intended next action before the later decision to restart all 35 sources
+from scratch. It remains evidence for the accepted chunk policy and resource bounds,
+but it is not the current execution queue and does not authorize reuse of the v1 G1
+or G2 artifacts. The authoritative v2 restart boundary is the new-chat entrypoint
+above.
 
 ## Restart activation checkpoint: 2026-08-19
 

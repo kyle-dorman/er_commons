@@ -578,8 +578,10 @@ and the isolated downstream path closed semantically. Measured 7.17 GB range and
 GB aggregate peaks support one worker, while projected two-worker memory exceeds the
 10 GiB concurrent ceiling. Human-ownership review established named package owners,
 strict recovery and lineage checks, and fully rehashed immutable evidence. No Gate D
-or G2 rehearsal remains. Task 03H is paused before the first real
-G2 production run, which requires an exact range plan and separate user authorization.
+or G2 rehearsal remains. By user decision on 2026-08-20, Task 03H will restart all 35
+sources from scratch under `task_03h_clean_full_v2`; the earlier v1 lineage remains
+preserved but is ineligible for reuse. Source-free preparation and separate user
+authorization precede the fresh `deir_main` PDF/model run.
 Corpus execution,
 collection assembly, and deletion are not Task 03H.1 or source-free Task 03H.2 work. The
 numbers below are routing

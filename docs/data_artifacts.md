@@ -219,14 +219,14 @@ successful document candidates read-only without rebuilding them.
 The restarted Task 03H full-corpus run uses a clean external namespace:
 
 ```text
-pipelines/brisbane_baylands/task_03h_clean_full_v1/
+pipelines/brisbane_baylands/task_03h_clean_full_v2/
 ```
 
-The historical `task_03h/` tree remains immutable diagnostic and scaling evidence.
-The clean run does not search that tree for Docling conversion, producer, document,
-or collection completions. Its first pass creates fresh Docling seals for all 35
-ordered sources; restart reuse is allowed only for seals created inside the clean
-namespace.
+The historical `task_03h/` and `task_03h_clean_full_v1/` trees remain immutable
+diagnostic, validation, and scaling evidence. The v2 run does not search either tree
+for Docling conversion, producer, document, or collection completions. Its first pass
+creates fresh Docling seals for all 35 ordered sources; restart reuse is allowed only
+for seals created inside the v2 namespace.
 
 Task 03G.1 adds a separate diagnostic-only namespace:
 

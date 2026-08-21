@@ -382,12 +382,15 @@ the isolated downstream pipeline. Measured 7.17 GB range and 8.89 GB aggregate p
 select one worker because projected two-worker memory exceeds the 10 GiB concurrent
 ceiling. The final human-ownership review established named package owners, strict
 lineage/recovery checks, and a full-byte audit of immutable evidence.
-No Gate D or G2 rehearsal will run. Task 03H is ready to restart in a new chat from
-local `main` commit `91c71a6` and generated production identity
-`exv1-f37f8f77180fc2eff7f5306a2ab2ce6048b5cd589ecd92751a2fe50cdeb3d5ae`.
-The new chat preserves completed clean-run work through G1, begins with source-free
-review of the exact 17-range G2 plan, and requires separate user authorization before
-the first real G2 PDF/model execution.
+No Gate D or G2 rehearsal will run. Task 03H is ready to restart all 35 sources from
+scratch in a new chat under the isolated
+`pipelines/brisbane_baylands/task_03h_clean_full_v2/` namespace. Earlier v1 and
+historical artifacts remain preserved evidence but are ineligible for reuse. The new
+production identity is
+`exv1-8402a88c5fff3860164f0c75cd0a5f49b71f16718170a9a0baa14a2efa822a51`.
+The new chat begins with source-free verification of the empty namespace, exact source
+order, chunk selections, resource forecast, and restart behavior, and it requires
+separate user authorization before the fresh `deir_main` PDF/model run.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

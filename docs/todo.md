@@ -422,14 +422,17 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    Human-ownership review established named package owners, strict recovery and
    lineage checks, and verified immutable evidence. No Gate D or G2
    rehearsal remains. Active [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is ready to restart in
-   a new chat from local `main` commit `91c71a6` and production identity
-   `exv1-f37f8f77180fc2eff7f5306a2ab2ce6048b5cd589ecd92751a2fe50cdeb3d5ae`.
-   Preserve completed clean-run work through G1. Begin with source-free review of the
-   exact 17-range G2 plan, one-worker resource policy, duration forecast, aggregate
-   target, and stop/resume behavior; check in before any G2 PDF/model command. Do not
-   start Appendix G3 or later collection work until G2 verifies and completes
-   downstream processing.
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is ready to restart all
+   35 sources from scratch in a new chat under
+   `pipelines/brisbane_baylands/task_03h_clean_full_v2/`. Preserve the earlier v1 and
+   historical trees as evidence, but do not reuse or reference any of their completed
+   work. The generated production identity is
+   `exv1-8402a88c5fff3860164f0c75cd0a5f49b71f16718170a9a0baa14a2efa822a51`.
+   Begin with source-free verification of the new empty namespace, generated
+   identity, exact source order, chunk selections, resource policy, duration forecast,
+   collection target, and stop/resume behavior; check in before any PDF/model command.
+   After approval, start with a fresh `deir_main`, verify within-v2-run reuse, and then
+   process the remaining sources serially.
 8. Independently review usability and freeze the accepted extraction release
    in Task 04.
 9. Continue through the separately identified curator-only response inventory,

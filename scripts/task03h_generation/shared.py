@@ -18,7 +18,7 @@ MANIFEST_RELATIVE = Path(
 )
 MANIFEST_SHA256 = "fede3e4af815378b77a7f7f54c863ef095328da789859d4f4b25a524f3408f38"
 COMPLETION_SHA256 = "d1175d6bf54d2c557293cb7bb0e1191250a9b5db2aef5c9e563ebe01e58767a6"
-TASK_ROOT = "pipelines/brisbane_baylands/task_03h_clean_full_v1"
+TASK_ROOT = "pipelines/brisbane_baylands/task_03h_clean_full_v2"
 PARSE_ROOT = f"{TASK_ROOT}/document_parse_evidence"
 RECORD_ROOT = f"{TASK_ROOT}/document_records"
 HIERARCHY_ROOT = f"{TASK_ROOT}/hierarchy_inference"

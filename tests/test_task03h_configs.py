@@ -79,7 +79,7 @@ def test_task03h_specs_and_identity_are_strict_native_v2() -> None:
     assert list(collection.source_ids) == source_ids
     assert document.scope_kind == "production_full"
     assert document.artifact_relative_root == Path(
-        "pipelines/brisbane_baylands/task_03h_clean_full_v1/document_publications"
+        "pipelines/brisbane_baylands/task_03h_clean_full_v2/document_publications"
     )
     assert all(selection.lineage_mode == "fresh_build" for selection in document.document_processes)
     assert all(item.authority == "machine_validation" for item in document.hierarchy_dispositions)

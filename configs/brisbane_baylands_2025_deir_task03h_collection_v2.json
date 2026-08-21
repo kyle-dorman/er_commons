@@ -38,7 +38,7 @@
     "deir_appendix_o",
     "deir_appendix_p"
   ],
-  "source_family_catalog_relative_path": "pipelines/brisbane_baylands/task_03h_clean_full_v1/inputs/brisbane_baylands_2025_deir_task03h_source_family_catalog_v1.json",
+  "source_family_catalog_relative_path": "pipelines/brisbane_baylands/task_03h_clean_full_v2/inputs/brisbane_baylands_2025_deir_task03h_source_family_catalog_v1.json",
   "blocking_policy": "all_sources_successful",
   "document_evidence_mode": "document_attempt",
   "target_policy_sha256": "981b4ff1783286bacaa7cdfa5d10c38920e1575e573757a869e85bf57a241f81",
