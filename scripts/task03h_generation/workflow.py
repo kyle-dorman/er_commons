@@ -9,12 +9,14 @@ from .process_templates import generate_process_configs
 from .production_identity import production_identity
 from .shared import (
     CATALOG_PROJECT_PATH,
+    CHUNKED_PAGE_THRESHOLD,
     COLLECTION_SPEC_PATH,
     COMPLETION_SHA256,
     DOCUMENT_SPEC_PATH,
     IDENTITY_PATH,
     MANIFEST_RELATIVE,
     MANIFEST_SHA256,
+    chunked_policy_paths,
     json_sha256,
     load_object,
     require_digest,
@@ -42,6 +44,7 @@ def generate_task03h(data_root: Path, *, check: bool) -> None:
     initial: dict[Path, dict[str, Any]] = {
         CATALOG_PROJECT_PATH: catalog,
         COLLECTION_SPEC_PATH: collection_spec(sources),
+        **{path: _chunked_policy() for path in chunked_policy_paths(sources)},
         **process_values,
     }
     write_or_check(initial, check=check)
@@ -59,3 +62,18 @@ def generate_task03h(data_root: Path, *, check: bool) -> None:
         },
         check=check,
     )
+
+
+def _chunked_policy() -> dict[str, Any]:
+    """Return the maintained source-neutral policy for sources over 300 pages."""
+    return {
+        "schema_version": "er_commons.chunked_execution_policy.v1",
+        "mode": "fixed_size",
+        "source_selection": {"pdf_page_count_greater_than": CHUNKED_PAGE_THRESHOLD},
+        "target_range_size": 225,
+        "hard_maximum": 275,
+        "overlap_pages": 1,
+        "max_range_rss_bytes": 8 * 1024**3,
+        "max_aggregate_rss_bytes": 10 * 1024**3,
+        "max_wall_seconds": 2700.0,
+    }

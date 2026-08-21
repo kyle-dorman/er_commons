@@ -1,13 +1,15 @@
 # Task 03H: Publish and Validate the Full Document Collection
 
-Status: **paused while active Task
-[03H.2](03h2_build_restartable_chunked_docling_conversion.md) repairs the conversion
-boundary exposed by Appendix G2**. Appendix B published after its transparent-container
-repair, Appendices C through F2 published serially, and Appendix G1 published after its
-malformed-outline and deduplication repair. Appendix G2's first clean Docling attempt
-ran for 14,940.61 seconds and was killed during system-wide memory pressure before a
-conversion seal or table-stage invocation. Its automatic retry was stopped near the
-start. No Appendix G3 or later source has begun.
+Status: **paused before the first production Appendix G2 chunked run, pending user
+authorization**. Completed [Task
+03H.2](03h2_build_restartable_chunked_docling_conversion.md) landed the source-neutral
+restartable chunked Docling production path after Appendix G1 validation; no separate G2 rehearsal or
+Gate D is required. Appendix B published after its transparent-container repair,
+Appendices C through F2 published serially, and Appendix G1 published after its
+malformed-outline and deduplication repair. Appendix G2's first clean monolithic
+Docling attempt ran for 14,940.61 seconds and was killed during system-wide memory
+pressure before a conversion seal or table-stage invocation. Its automatic retry was
+stopped near the start. No Appendix G3 or later source has begun.
 Task 03H was originally activated by user direction on 2026-08-18. Tasks 03G.1,
 03G.2, all observed-failure remediation, and the [Task
 03G.3](03g3_align_pipeline_responsibilities_and_names.md) architecture and
@@ -15,6 +17,23 @@ naming refactor are accepted and closed. Activation begins with the no-PDF
 preparation phase: implement and offline-validate the independently sealed
 content-parsing restart boundary and write the short run plan required below.
 Check in with the user before source-PDF or model execution.
+
+## Appendix G2 chunked-production handoff: 2026-08-20
+
+Task 03H.2 closed on the complete G1 proof rather than spending another PDF/model run
+on a G2 rehearsal. Its maintained path sealed 12 G1 ranges independently, reused a
+retained child without recomputation, reproduced the stable monolithic aggregate bytes,
+and passed the isolated downstream pipeline. Measured 7.17 GB range and 8.89 GB
+aggregate peaks select one worker; projected two-worker memory exceeds the accepted
+concurrent ceiling.
+
+The next action is the real Appendix G2 production run. Before reading G2 or
+constructing Docling/models, present the exact deterministic fixed-size range plan, code-bound
+production identity, expected range count and duration, one-worker resource policy,
+completion-last aggregate target, and stop/resume behavior for user approval. Every
+verified range remains reusable after interruption. Do not start Appendix G3 or any
+later source until the G2 aggregate verifies and its existing downstream stages
+complete.
 
 ## Restart activation checkpoint: 2026-08-19
 
@@ -617,7 +636,10 @@ Write a short run plan immediately before execution. Confirm:
    ordered source starts;
 8. after the main-report checkpoint passes, a serial work queue that completes each
    source through the document pipeline before starting the next source, without
-   weakening resource limits;
+   weakening resource limits. For Appendix G2, replace the failed monolithic boundary
+   with Task 03H.2's accepted chunk contract: deterministic fixed-size ranges, one worker,
+   independently verified child seals, one whole-document aggregate pass, and no
+   downstream stage before aggregate completion verifies;
 9. stage-specific invalidation and restart behavior:
    - record-mapping or later-process changes reuse sealed Docling and derived parsing
      evidence when their identities still verify;
@@ -714,6 +736,9 @@ git diff --check
 - Every successful required Docling conversion has its own verified immutable
   completion, and routing/table or downstream remediation can reuse it without
   model execution when conversion-owned inputs are unchanged.
+- Appendix G2 uses the accepted chunked path rather than repeating the failed
+  monolithic conversion; interruption retains every verified range and aggregate
+  publication remains completion-last.
 - The main report completes end to end from a fresh Docling conversion and passes an
   exact within-run reuse invocation before the second ordered source starts.
 - No completed main-document raw conversion runs twice under the same frozen

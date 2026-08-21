@@ -1,0 +1,13 @@
+{
+  "schema_version": "er_commons.chunked_execution_policy.v1",
+  "mode": "fixed_size",
+  "source_selection": {
+    "pdf_page_count_greater_than": 300
+  },
+  "target_range_size": 225,
+  "hard_maximum": 275,
+  "overlap_pages": 1,
+  "max_range_rss_bytes": 8589934592,
+  "max_aggregate_rss_bytes": 10737418240,
+  "max_wall_seconds": 2700.0
+}

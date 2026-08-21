@@ -13,6 +13,7 @@ from .shared import (
     RESOLUTION_POLICY,
     ROOT,
     TARGET_POLICY,
+    chunked_policy_paths,
     sha256,
 )
 
@@ -29,12 +30,14 @@ def production_identity(
     process_artifacts = sorted(path for paths in process_paths.values() for path in paths.values())
     document_artifacts = [
         *process_artifacts,
+        *(path.relative_to(ROOT).as_posix() for path in chunked_policy_paths(sources)),
         "benchmarks/er_bench/schemas/document_publication/v2/document_run_spec.schema.json",
         "benchmarks/er_bench/schemas/document_publication/v2/production_identity.schema.json",
         "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
         "benchmarks/er_bench/schemas/canonical_extraction/v2/semantic_structure.schema.json",
         "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json",
         "docs/specs/task03d_appendix_p_mapping_v1.md",
+        "docs/specs/chunked_docling_conversion_v1.md",
         "docs/specs/hierarchy_correction_v1.md",
         "docs/specs/semantic_structure_v2.md",
         "docs/specs/cross_references_v3.md",
@@ -61,6 +64,7 @@ def production_identity(
             "task03h-six-process-fresh-document-v1",
             document_artifacts,
             (
+                "src/er_commons/chunked_conversion",
                 "src/er_commons/document_parsing",
                 "src/er_commons/hierarchy_inference",
                 "src/er_commons/document_records",
@@ -69,6 +73,7 @@ def production_identity(
             ),
             (
                 "scripts/prepare_task03h.py",
+                "scripts/run_chunked_conversion.py",
                 "src/er_commons/artifact_io.py",
                 "src/er_commons/source_family_catalog.py",
             ),

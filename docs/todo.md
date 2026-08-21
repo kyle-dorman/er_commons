@@ -410,30 +410,23 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    during system-wide memory pressure before conversion sealing or table extraction.
    Its automatic retry was stopped near the start rather than risk repeating the same
    four-hour loss.
-7. Active [Task
+7. Completed [Task
    03H.2](../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md)
-   owns the resulting source-general scaling experiment. Gate 0 preserved the reviewed
-   baseline at `47560a1`. Gate A then sealed eight source-free G1 ranges and reproduced
-   the stable document, heading overlay, alignment, and asset-inventory bytes in
-   forward, reverse, and randomized completion order under plan
-   `dplan1-90ae46...97aef`. Semantic overlap projections, independent child checks, a
-   real-G1 mutation matrix, and three-retained/five-selected resume simulation pass.
-   Gate B passed under `gateb1-c70b2b...dbabfb` across four isolated G1 seam
-   experiments. Gate C passed under `gatec1-53d220...fe1124`: 12 independently sealed
-   document-driven ranges resumed without recomputing the retained child, aggregate
-   `dconv1-08a9a7...a2a25b` reproduced all four stable monolithic G1 outputs byte for
-   byte, and the full isolated routing/table/record/hierarchy/publication path closed
-   semantically against accepted G1. Range and aggregate peaks were 7.17 GB and 8.89
-   GB. A projected two-worker peak of 14.35 GB exceeds the 10 GiB concurrent ceiling,
-   so concurrency remains one and no unsafe parallel trial ran. A source-free
-   human-ownership refactor replaced the large runners with short application shells
-   and named package owners, hardened exact completion, lineage, and recovery checks,
-   passed 835 repository tests, and rehashed all accepted Gate A–C managed evidence
-   without a PDF/model run. Gates A–C now meet the human-maintainability bar. Task
-   03H.2 is stopped before Gate D and all G2 inspection. Keep the work unstaged and
-   uncommitted for review as requested; check in before G2 source inspection, planning,
-   or execution. Task 03H remains paused before G2; no later source or collection work
-   may start.
+   landed the source-neutral restartable chunked Docling production path, validated
+   against G1. Twelve
+   independently sealed document-driven ranges resumed without recomputing a retained
+   child, aggregate `dconv1-08a9a7...a2a25b` reproduced the four stable monolithic
+   outputs byte for byte, and the isolated downstream path closed semantically. The
+   accepted one-worker setting is grounded in measured 7.17 GB range and 8.89 GB
+   aggregate peaks; projected two-worker memory exceeds the 10 GiB concurrent ceiling.
+   Human-ownership review established named package owners, strict recovery and
+   lineage checks, and verified immutable evidence. No Gate D or G2
+   rehearsal remains. Active [Task
+   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is paused before the
+   first real Appendix G2 production run. Check in before any G2 PDF/model action with
+   the exact range plan, production identity, one-worker resource policy, duration
+   forecast, and stop/resume behavior. Do not start Appendix G3 or later collection
+   work until G2 verifies and completes downstream processing.
 8. Independently review usability and freeze the accepted extraction release
    in Task 04.
 9. Continue through the separately identified curator-only response inventory,

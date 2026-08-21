@@ -570,25 +570,17 @@ P1 finding. The user approved the reviewed scope and closed Task 03H.1 on 2026-0
 The clean Task 03H run subsequently published the main report and Appendices A
 through G1. Appendix G2's first monolithic 3,736-page Docling conversion was killed
 after 14,940.61 seconds during system-wide memory pressure before it could seal, and
-its automatic retry was stopped near the start. Active Task 03H.2 now owns the
-source-general chunked-conversion experiment. Its source-free Gate A sealed eight G1
-ranges and reproduced all four stable outputs byte-for-byte independent of completion
-order under plan `dplan1-90ae46...97aef`. Its reviewed evidence also closes semantic
-overlap projections, child verification, mutation rejection, and resume selection;
-Gate B then passed four isolated G1 seam comparisons under
-`gateb1-c70b2b...dbabfb`. Gate C passed the complete G1 qualification under
-`gatec1-53d220...fe1124`. Twelve independently sealed ranges resumed without
-recomputing the retained child, aggregate `dconv1-08a9a7...a2a25b` reproduced all
-four stable monolithic outputs byte for byte, and the isolated downstream path closed
-semantically against accepted G1. The measured 7.17 GB range and 8.89 GB aggregate
-peaks support one worker; projected two-worker memory exceeds the 10 GiB concurrent
-ceiling, so no parallel trial ran. Task 03H remains paused before G2, and Task 03H.2
-then passed a source-free human-ownership refactor: the large runners became short
-shells over named package owners, recovery and lineage tests were strengthened, 835
-repository tests passed, and the immutable evidence was fully rehashed without a
-PDF/model run. Gates A–C meet the human-maintainability bar. Task 03H.2 is stopped
-before Gate D and all G2 inspection. The current work remains unstaged and uncommitted
-for review as requested. No G2 inspection or rerun is authorized. Corpus execution,
+its automatic retry was stopped near the start. Completed Task 03H.2 landed the
+source-neutral chunked-conversion production path, validated against G1. Twelve independently sealed,
+document-driven ranges resumed without recomputing a retained child; aggregate
+`dconv1-08a9a7...a2a25b` reproduced all four stable monolithic outputs byte for byte;
+and the isolated downstream path closed semantically. Measured 7.17 GB range and 8.89
+GB aggregate peaks support one worker, while projected two-worker memory exceeds the
+10 GiB concurrent ceiling. Human-ownership review established named package owners,
+strict recovery and lineage checks, and fully rehashed immutable evidence. No Gate D
+or G2 rehearsal remains. Task 03H is paused before the first real
+G2 production run, which requires an exact range plan and separate user authorization.
+Corpus execution,
 collection assembly, and deletion are not Task 03H.1 or source-free Task 03H.2 work. The
 numbers below are routing
 labels, not a promise
@@ -681,9 +673,10 @@ validation boundary.
    - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
      all 35 sources, preserve explicit terminal failures, and publish the
      candidate extraction and accounting handoff for Task 04; and
-   - [Task 03H.2](../../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md):
-     prove and implement independently sealed, deterministic, document-driven
-     Docling ranges before Task 03H retries Appendix G2.
+   - completed [Task
+     03H.2](../../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md):
+     proved and productionized independently sealed, deterministic, fixed-size
+     Docling ranges before Task 03H's first real chunked Appendix G2 run.
    Tasks 03A through 03D are complete. Task 03C published the checksum-verified
    222-page Appendix P producer run with 19 clean tables and 19
    complete-document families. [Task

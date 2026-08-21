@@ -6,7 +6,9 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
-from er_commons.document_parsing import run_document_parsing
+from er_commons.document_parsing.content_parsing.configured_application import (
+    run_configured_document_parsing,
+)
 from er_commons.document_publication.fresh_lineage import FreshLineageBinder
 from er_commons.document_publication.process_diagnostics import run_process_stage
 from er_commons.document_publication.process_inputs import ProcessConfigs
@@ -69,12 +71,22 @@ class DocumentProcessSequence:
         baseline = self._stage(
             "content_parsing",
             1,
-            lambda: run_document_parsing(self.data_root, baseline_config),
+            lambda: run_configured_document_parsing(
+                self.data_root,
+                baseline_config,
+                policy_path=self.configs.content_parsing.with_name("chunked_conversion.json"),
+            ),
         )
         hierarchy = self._stage(
             "heading_evidence_parsing",
             2,
-            lambda: run_document_parsing(self.data_root, hierarchy_config),
+            lambda: run_configured_document_parsing(
+                self.data_root,
+                hierarchy_config,
+                policy_path=self.configs.heading_evidence_parsing.with_name(
+                    "chunked_conversion.json"
+                ),
+            ),
         )
         canonical_config = (
             self.binder.canonical_config(baseline) if self.binder else self.configs.record_mapping

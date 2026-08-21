@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CONFIG_ROOT = ROOT / "configs"
 TASK_CONFIG_ROOT = CONFIG_ROOT / "task03h"
 TASK_TEMPLATE_ROOT = CONFIG_ROOT / "task03h_templates"
+CHUNKED_PAGE_THRESHOLD = 300
 MANIFEST_RELATIVE = Path(
     "datasets/ceqa/raw/brisbane_baylands/"
     "brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json"
@@ -39,6 +40,15 @@ ZERO_SHA256 = "0" * 64
 ZERO_EXV1 = f"exv1-{ZERO_SHA256}"
 ZERO_PRV1 = f"prv1-{ZERO_SHA256}"
 ZERO_HCORV1 = f"hcorv1-{ZERO_SHA256}"
+
+
+def chunked_policy_paths(sources: list[dict[str, Any]]) -> tuple[Path, ...]:
+    """Return explicit chunk-policy paths for every source above the maintained threshold."""
+    return tuple(
+        TASK_CONFIG_ROOT / str(source["source_id"]) / "chunked_conversion.json"
+        for source in sources
+        if int(source["pdf_page_count"]) > CHUNKED_PAGE_THRESHOLD
+    )
 
 
 def write_or_check(values: dict[Path, dict[str, Any]], *, check: bool) -> None:

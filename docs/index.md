@@ -370,36 +370,20 @@ G1 then published all 2,488 pages as `docv1-54e6036f...c9fdef`. Appendix G2's
 3,736-page Docling conversion ran for 14,940.61 seconds, reached 13.91 GB peak RSS,
 and received `SIGKILL` during a system-wide macOS memory-pressure event before it
 could publish a conversion seal. The table stage never began, and the automatic
-monolithic retry was stopped near the start. Active [Task
-03H.2](../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md)
-now owns a source-independent, restartable chunk-conversion experiment. It must first
-preserve the reviewed baseline on a branch and prove source-free recomposition against
-sealed G1. Gate A passed under plan `dplan1-90ae46...97aef`: eight independently sealed
-ranges reproduced the stable document, heading overlay, alignment, and asset inventory
-metadata bytes in forward, reverse, and randomized completion order. The reviewed
-proof includes duplicated semantic overlap projections, independent child validation,
-a real-G1 corruption matrix, three-retained/five-selected resume simulation, and
-separate code-bound child/aggregate invalidation. The accepted
-[chunk-conversion specification](specs/chunked_docling_conversion_v1.md) requires
-page-level range evidence followed by whole-document reading-order/text-merge and
-heading passes; final Docling JSON concatenation is rejected. Gate B passed four
-isolated G1 seam experiments under `gateb1-c70b2b...dbabfb`. Gate C then passed the
-complete G1 chunked path under `gatec1-53d220...fe1124`: 12 independently sealed
-ranges resumed without recomputing the retained child, and aggregate
-`dconv1-08a9a7...a2a25b` reproduced the four stable monolithic G1 outputs byte for
-byte. The largest range and aggregate process-tree peaks were 7.17 GB and 8.89 GB;
-projected two-worker memory exceeded the 10 GiB concurrent ceiling, so concurrency
-remains one. The isolated downstream qualification reproduced routing byte for byte,
-all 17,068 table files semantically, and all canonical/support document artifacts
-semantically after only verified identity, observation, artifact-root, and lineage-seal
-normalization. A source-free human-ownership refactor then reduced all four runners to
-short shells, separated workflow, storage, aggregation, and downstream owners, added
-strict lineage and recovery tests, and passed 835 repository tests plus a full-byte
-read-only audit of the immutable Gate A–C evidence. Gates A–C now meet the
-human-maintainability bar. Task 03H.2 is stopped before Gate D and all G2 inspection.
-The current work remains unstaged and uncommitted for review as requested. G2
-inspection or execution requires separate approval.
-Task 03H remains paused before G2.
+monolithic retry was stopped near the start. [Task
+03H.2](../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md) is now
+complete and its source-neutral production path has landed. The accepted [chunk-conversion
+specification](specs/chunked_docling_conversion_v1.md) retains independently sealed
+page evidence, then runs reading order, cross-page text merging, and heading inference
+once over canonical whole-document order; finalized range JSON is never concatenated.
+The complete G1 proof sealed 12 document-driven ranges, resumed without recomputing a
+retained child, reproduced the four stable monolithic outputs byte for byte, and passed
+the isolated downstream pipeline. Measured 7.17 GB range and 8.89 GB aggregate peaks
+select one worker because projected two-worker memory exceeds the 10 GiB concurrent
+ceiling. The final human-ownership review established named package owners, strict
+lineage/recovery checks, and a full-byte audit of immutable evidence.
+No Gate D or G2 rehearsal will run. Task 03H remains paused before the first real G2
+production execution, which requires an exact plan and separate user authorization.
 [Task 03E.2a](../tasks/sprint2/03e2a_fix_nested_regime_exit.md) completed the
 user-authorized follow-up for the single material Appendix E defect. Its
 general nested-regime exit reset passed synthetic and real-source regressions

@@ -1,11 +1,9 @@
 # Task 03H.2: Build Restartable Chunked Docling Conversion
 
-Status: **Gates A–C complete at the human-maintainability bar; stopped before Gate D**. Task 03H is paused
-after Appendix G2's first clean Docling attempt was killed under system-wide memory
-pressure. This task may create a branch, preserve and commit the already approved
-Task 03H repair baseline, inspect code and sealed artifacts, and run offline tests.
-It must check in with the user before any source-PDF read, Docling construction,
-model execution, or live document publication.
+Status: **complete**. Gates A–C proved and productionized the source-neutral restartable chunked
+Docling path against Appendix G1 at the human-maintainability bar. The proposed Gate D
+G2 rehearsal is intentionally not part of this task: Appendix G2 will first use the
+maintained path during the real Task 03H execution, after separate user authorization.
 
 ## Abstract
 
@@ -22,12 +20,11 @@ complete-document text, layout, reading order, figures, and provenance. Arbitrar
 splitting and concatenating final Docling JSON could lose cross-range text merges,
 heading calibration, references, or boundary evidence.
 
-This task designs, implements, and validates a conversion that is independently
-sealed by document-driven page ranges and can resume from the first missing range.
-It must prove that deterministic recomposition preserves the accepted semantic
-contract before it is allowed to rerun Appendix G2. It also measures whether two
+This task designed, implemented, and validated a conversion that is independently
+sealed by deterministic page ranges and can resume from the first missing range.
+Deterministic recomposition preserves the accepted semantic contract. It also measured whether two
 range workers improve throughput without exceeding the aggregate memory budget;
-parallel execution is an evidence-based option, not an assumed default.
+the accepted production setting is one worker.
 
 ## Goal
 
@@ -39,7 +36,7 @@ semantic records.
 
 ## Inputs
 
-- the current approved-but-uncommitted Task 03H repairs, regenerated production
+- the approved Task 03H repairs, regenerated production
   configurations, and passing full validation baseline;
 - sealed Appendix G1 conversion
   `dconv1-97a8d4048839d9ba26c78151d0446e1c1bbef9848183f1ce9b9140c92e4c3f68`,
@@ -67,15 +64,15 @@ repair in place, or delete them.
 - independently completion-sealed range bundles and one aggregate conversion seal
   that closes over their identities, inventories, and digests;
 - a source-free G1 recomposition/equivalence report;
-- if separately approved, a bounded G1 split-versus-contiguous conversion report;
-- a source-independent, document-driven boundary selector with explicit hard-cap
-  fallback and fail-closed seam diagnostics;
-- a sequential-versus-parallel performance report that selects concurrency from
+- a bounded G1 split-versus-contiguous conversion report;
+- a source-independent, fixed-size boundary selector with an explicit hard cap and
+  fail-closed seam diagnostics;
+- a resource report that selects concurrency from
   measured throughput, peak aggregate RSS, swap, and failure behavior;
 - focused interruption, corruption, ordering, overlap, seam, identity, and reuse
   tests; and
-- a reviewed Appendix G2 execution plan followed by a separate user checkpoint
-  before any G2 PDF/model run.
+- a production handoff to Task 03H, where the first real Appendix G2 run requires a
+  separate user checkpoint before any PDF/model execution.
 
 ## Research / learning checkpoint
 
@@ -334,9 +331,8 @@ four seam inventories deep-verify. Its identity binds the exact prepared sealed-
 conversion payload, full runtime options and package versions, model inventory,
 runner/helper bytes, page plan, and resource limits. Gate C and G2 did not start.
 
-The reviewed Gate A and Gate B work remains intentionally uncommitted at the user's
-direction. Do not stage or commit it until the complete Gate C G1 qualification has
-finished and its evidence has been reviewed.
+The Gate A and Gate B evidence was retained through the complete Gate C qualification
+and final human-ownership review.
 
 ## Gate C: Full G1 chunked-path qualification
 
@@ -376,8 +372,8 @@ conversion before any G2 source inspection or planning.
    memory budget with no jetsam or uncontrolled swap growth.
 9. Independently review the sealed G1 qualification, recovery behavior, aggregate
    memory, downstream compatibility, and selected concurrency. Stop for user review
-   before G2 inspection. Completion of Gate C is the checkpoint at which the current
-   uncommitted Task 03H.2 work may be reviewed for staging and commit.
+   before G2 inspection. Completion of Gate C is the checkpoint for final
+   human-ownership review and production handoff.
 
 Range completion order must not affect aggregate identity or bytes. Never infer safe
 concurrency from CPU count alone; chunk size, model copies, operating-system headroom,
@@ -447,9 +443,8 @@ fixed template binds both producer ID and qualification root, and focused behavi
 cover the semantic comparison and fail-closed normalization rules.
 
 Independent post-run review found no unexplained semantic, recovery, lineage, resource,
-or publication difference. Gate C is accepted. G2 was not inspected, Gate D did not
-start, and the current branch remains intentionally uncommitted for user review as
-requested.
+or publication difference. Gate C is accepted. G2 was not inspected and the proposed
+Gate D rehearsal did not start.
 
 Final repository validation passes `make fix`, `make check` with 790 tests and strict
 mypy across 323 source files, deterministic Task 03H config checking, Gate C completed-
@@ -463,7 +458,7 @@ machine-oriented proof runners understandable, debuggable, or safely editable by
 human maintainer. Gates A, B, and C therefore remain open as engineering gates even
 though their immutable behavioral evidence remains valid.
 
-Before Gate D or any G2 inspection, replace the large task scripts with short
+Before task closure or any G2 handoff, replace the large task scripts with short
 application shells and responsibility-owned package modules. A future maintainer must
 be able to locate planning, child execution, process isolation, evidence capture,
 recomposition, downstream qualification, semantic comparison, publication, recovery,
@@ -481,32 +476,27 @@ new full-G1 run is neither required nor authorized.
 
 ### Human-ownership outcome: 2026-08-20
 
-The source-free refactor now passes the human-ownership gate. The four task runners
-are 32, 54, 60, and 34 lines and contain only argument parsing and delegation.
-Maintained responsibilities now have named package owners for contracts, input and
-identity validation, process supervision, Docling adaptation, converted-range storage,
-global aggregation, reporting, downstream stages, semantic comparison, publication,
-and read-only evidence audit. The source-free Gate A graph and recomposition facade is
-62 lines; partitioning, validation, records, diagnostics, and reconstruction have
-separate owners.
+The source-free refactor passed the human-ownership gate before production handoff.
+It separated contracts, input and identity validation, process supervision, Docling
+adaptation, converted-range storage, global aggregation, publication, recovery, and
+diagnostics into named owners with public seams. Task-only runners, comparison oracles,
+evidence reporters, and their fixtures were qualification scaffolding; closure retains
+the general production runtime and its focused contract/recovery tests rather than
+merging that scaffolding into the maintained path.
 
-Recovery is exercised through real public seams rather than report-only simulation.
-Tests cover missing and corrupt children, exact executor calls, aggregate-only retry,
-transplanted completion rejection, strict completion schemas, first-failure retention,
-incomplete final directories, resource stops, backend-release failures, output-byte
-reseals, and lineage closure. Existing completed results are reusable only after exact
-run/plan/source/aggregate identity checks, completion-to-inventory verification, full
-managed-byte hashing, and stage-specific child or downstream closure. CLI, help, and
-reporting-only changes no longer invalidate expensive child conversion; semantic
-worker and aggregate owners remain code-bound separately.
+The retained production contracts require exact run, plan, source, range, and aggregate
+identity checks; completion-to-inventory verification; full managed-byte hashing; and
+stage-specific child or downstream closure. Recovery coverage includes missing or
+corrupt children, aggregate-only retry, transplanted completion rejection, strict
+completion schemas, incomplete finals, resource stops, backend-release failures, and
+lineage closure. Operational wrapper changes do not invalidate expensive child
+conversion; semantic worker and aggregate owners remain code-bound separately.
 
-The structural maintainability gate rejects a runner over 65 lines, a qualification
-owner over 320 lines, a function over 95 lines, reverse runner imports, or tests that
-dynamically load implementation scripts. The focused Gate A–C/downstream suite passes
-91 tests. Full repository validation passes formatting, Ruff, strict mypy across 367
-source files, and 835 tests. Deterministic Task 03H configuration checking and
-`git diff --check` also pass. Independent recovery review found no remaining P1
-closure blocker.
+The reviewed qualification implementation passed objective anti-monolith checks and
+91 focused Gate A–C/downstream tests. Full repository validation at that checkpoint
+passed formatting, Ruff, strict mypy across 367 source files, and 835 tests, plus
+deterministic Task 03H configuration checking and `git diff --check`. Independent
+recovery review found no remaining P1 closure blocker.
 
 A read-only audit rehashed the immutable accepted evidence without opening a PDF or
 executing Docling/models: Gate A 8 files/312,385,570 bytes; Gate B 130
@@ -517,22 +507,39 @@ byte, and recorded pass claims all remain valid. This audit preserves the accept
 behavioral evidence; it is not a new live qualification of the refactored code, and
 the user explicitly prohibited a full G1 rerun for this refactor.
 
-No G1 PDF was read, no Docling object or model was constructed or executed, G2 was not
-inspected, and no accepted evidence was mutated. The working tree remains intentionally
-unstaged and uncommitted for user review. Gate D and every G2 action still require a
-separate user authorization.
+No G1 PDF was read during the maintainability refactor, no Docling object or model was
+constructed or executed, G2 was not inspected, and no accepted evidence was mutated.
 
-## Gate D: G2 document-driven range planning
+### Closure and production handoff: 2026-08-20
 
-Only after Gate C passes and the user separately approves read-only G2 source
-inspection may the task derive G2 boundaries using the same accepted evidence classes.
-The G2 plan must record every core range, overlap, expected range identity, boundary
-rationale, hard-cap fallback, and conservative duration/resource forecast derived from
-Gate C. Gate D performs no G2 Docling/model execution and stops for review.
+Task 03H.2 is complete at the G1-proven production bar. The maintained source-neutral path owns
+deterministic fixed-size planning for every Task 03H source over 300 pages,
+independently sealed range conversion, exact completion and
+inventory reuse, one whole-document global interpretation pass, completion-last
+aggregate publication, and the verified complete-conversion interface consumed by the
+existing downstream pipeline. G1 proves deterministic bytes, seam preservation,
+interruption recovery, bounded sequential resources, and downstream compatibility.
 
-## Gate E: Appendix G2 execution and Task 03H resume
+The project will not spend another PDF/model run rehearsing Appendix G2. The former
+Gate D planning rehearsal is removed; the next execution belongs to active Task 03H
+as one real production step. Before that step, Task 03H must check in with the user,
+bind the exact metadata-derived G2 plan and production identity, select one worker, and state the stopping
+and recovery policy. The first G2 range execution is therefore production work, not
+additional Task 03H.2 qualification. G2 remains unread and unexecuted since the failed
+monolithic attempt, and Appendix G3 or later work remains blocked until G2 publishes.
 
-Gate E requires a final user check-in with:
+## Transferred G2 planning boundary
+
+Before the user separately approves Task 03H's G2 execution, the source-free preflight
+may materialize the deterministic plan from G2's sealed manifest page count. The plan
+must record every 225-page core range, one-page overlap, expected range identity, and
+conservative duration/resource forecast derived from Gate C. It must not inspect G2
+content to choose seams. Planning and execution belong to one explicitly authorized
+Task 03H run; there is no separate rehearsal gate.
+
+## Transferred Appendix G2 execution boundary
+
+Task 03H requires a user check-in with:
 
 - the accepted G1 equivalence results;
 - the exact G2 range plan and overlap pages;
@@ -542,7 +549,7 @@ Gate E requires a final user check-in with:
 - deterministic configuration and production identity; and
 - the safe stopping point before downstream table extraction.
 
-Only after approval may the task run Appendix G2. Every range must seal independently,
+Only after approval may Task 03H run Appendix G2. Every range must seal independently,
 the aggregate conversion completion must publish last, and the existing table/router
 and downstream stages may begin only after aggregate verification. Stop on an
 unexplained semantic mismatch, failed range, memory-pressure event, or budget breach.
@@ -557,7 +564,7 @@ unexplained semantic mismatch, failed range, memory-pressure event, or budget br
 - after approval, complete sequential G1 chunked qualification and a bounded
   two-worker G1 benchmark when headroom permits;
 - exact downstream G1 compatibility/reuse proof from the recomposed aggregate;
-- reviewed document-driven G2 range plan derived only after G1 qualification;
+- Task 03H handoff for the first real fixed-size G2 plan and execution;
 - deterministic Task 03H configuration and identity generation;
 - behavior-focused tests rather than source-text assertions;
 - full repository validation:
@@ -580,9 +587,8 @@ Before Gate B, independently review:
 - whether the implementation actually bounds memory rather than merely moving the
   whole-document allocation to a later stage.
 
-After Gate C, independently review the complete live G1 qualification before any G2
-inspection. Before Gate E, repeat the review against that evidence and the final G2
-plan.
+After Gate C, independently review the complete live G1 qualification. Task 03H owns
+the later review of the final G2 plan at its explicit execution checkpoint.
 
 ## Acceptance criteria
 
@@ -603,11 +609,10 @@ plan.
   ranges.
 - Concurrency is selected from measured aggregate resources and throughput; unsafe
   parallelism remains disabled.
-- G2 conversion completes within the accepted memory policy or stops with retained,
-  range-specific evidence instead of losing all prior work.
 - Existing routing, clean-table, record, hierarchy, and document consumers receive
   one verified complete conversion interface.
-- Full validation and deterministic generation pass before Task 03H resumes.
+- Full validation and deterministic generation pass before production handoff to
+  Task 03H.
 
 ## Non-goals
 
@@ -619,5 +624,5 @@ plan.
 - processing multiple source documents concurrently;
 - deleting failed G2 attempts, temporary conversion evidence, or sealed upstream
   bundles;
-- resuming Appendix G3 or later sources before G2 publishes; or
+- running G2 or resuming Appendix G3 or later sources; or
 - assembling, accepting, or freezing the Task 03H collection.

@@ -1,22 +1,24 @@
 # Restartable Chunked Docling Conversion v1
 
-Status: **Gate B accepted; Gate C not authorized** for
-[Task 03H.2](../../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md).
-The accepted bounded G1 proof does not authorize document-driven G2 inspection,
-concurrency benchmarking, a G2 rerun, or live document publication.
+Status: **accepted production contract**. [Task
+03H.2](../../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md)
+closed after the complete G1 validation run and downstream pipeline passed Gate C and
+the human-ownership review. Appendix G2 will first use this path during the real Task
+03H execution; this specification does not itself authorize PDF/model execution.
 
 ## Purpose
 
-Large documents must convert through independently sealed inclusive page ranges without
+Large documents convert through a source-neutral runtime that publishes independently
+sealed inclusive page ranges without
 discarding completed work after a late failure. The aggregate must still expose one
 complete, ordered Docling conversion to existing consumers. Completion order, retry
 count, and worker count cannot change aggregate bytes or semantic records.
 
-Gate A proves the range ledger, two-pass reference remapping, completion-order
+Gate A proved the range ledger, two-pass reference remapping, completion-order
 independence, corruption rejection, and restart selection against the immutable sealed
 Appendix G1 conversion. It partitions already finalized evidence. It cannot establish
-that separately converted ranges equal one contiguous conversion; that requires the
-separately approved Gate B comparison.
+that separately converted ranges equal one contiguous conversion; Gate B supplied that
+bounded comparison, and Gate C supplied the complete G1 production-path proof.
 
 ## Maintainer and installed-source findings
 
@@ -55,8 +57,8 @@ Docling JSON.
 The outline adapter is single-use by contract. Each authorized source inspection must
 construct a fresh `PdfReader`, normalize malformed destinations once, extract the
 outline once, and release that reader. Reusing an already normalized reader is an
-adapter-contract error. Gate B must lock this fresh-reader ownership with a behavioral
-test before the adapter can enter range execution; Gate A does not invoke it.
+adapter-contract error. Behavioral coverage locks this fresh-reader ownership; Gate A
+did not invoke it.
 
 ## Identity and plan
 
@@ -91,59 +93,50 @@ Each successful child publishes a completion-last bundle with:
 
 - range identity and exact core/read intervals;
 - expected, converted, successful, overlap, and core-owned page lists;
-- page-level assembled/prediction evidence plus captured outline evidence when later
-  authorized;
-- local records and a two-pass mapping from local references to canonical source
-  references;
-- explicit external seam references with target owner, target kind, and target digest;
-- warnings, errors, assets, provenance, resource observations, artifact inventory,
-  and checksums; and
+- typed assembled page elements, body/header membership, page size, heading-style
+  text cells, and an independently checksummed page raster;
+- the exact captured PDF outline, page alignment rows, warnings, resource observation,
+  artifact inventory, and checksums; and
 - a terminal status requiring every requested page to succeed and zero conversion
   errors. Partial success is not sealable.
 
-Gate A simulates this representation from sealed final evidence. It inventories roots
-(`body`, `furniture`), pages, groups, texts, tables, pictures, form items, key-value
-items, every `$ref`, floating captions/references/footnotes, group children and parents,
-table-cell references, provenance page numbers, page images, picture images, and
-external figure asset metadata. The first pass assigns exactly one core owner to every
-page-bound record from its provenance pages or recursively derived descendant pages,
-creates stable
-range-local pointers, and records all cross-range dependencies. The second pass sorts
-by canonical physical page and original source position, reconstructs global arrays,
-and remaps every local or external pointer to its canonical target.
+Children do not publish independently finalized `DoclingDocument` objects or
+child-local document references. The aggregate compares duplicate overlap page and
+alignment evidence exactly, selects every core page once in physical order, restores
+the typed page evidence, and runs Docling reading order and heading inference once.
+Docling therefore creates body, furniture, group, text, table, picture, caption,
+footnote, provenance, and cross-page relationships only in the canonical aggregate.
 
 Aggregate validation requires:
 
 - exact core coverage with no missing, duplicate, or out-of-range page;
-- one record at every declared canonical collection index and no extra record;
+- exact overlap agreement and one alignment row per physical page;
 - closed `body`, `furniture`, group, text, table, picture, caption, footnote, reference,
   cell, comment, page, image, asset, and provenance relationships;
-- identical root metadata, item order, geometry, provenance, and source asset metadata,
-  with the immutable source inventory independently verified;
+- stable root metadata, item order, geometry, provenance, and asset metadata;
 - exact heading-overlay and alignment-page coverage; and
-- byte-identical stable `document.json`, `heading_overlay.jsonl`, and
-  `alignment_pages.jsonl` for Gate A.
+- the ordinary deep-audited `SealedConversion` interface required by existing
+  routing, table, mapping, hierarchy, and publication consumers.
 
-An empty root or collection remains an explicit valid owner. A record without direct
-provenance inherits the ordered union of descendant provenance. A record with neither
-direct nor descendant page evidence remains an explicit document-global record; it
-does not silently inherit a neighboring page. Gate A exercises this rule with four
-empty key-value groups.
+Gate A's retired finalized-JSON graph/remapping oracle established reference and
+completion-order invariants against sealed G1 evidence. It is validation history, not
+part of the maintained production runtime.
 
 ## Boundary selection
 
-The live planner will prefer source-authored boundaries in this order: PDF outline
-destinations; cover, divider, or page-label reset; blank separator; transition among
-prose, figure, and table regimes; native-text evidence against a split heading or
-hyphenated continuation; then table-continuation evidence. The nearest safe boundary
-to the target size wins deterministically. If no safe boundary exists before the hard
-maximum, the planner cuts the homogeneous regime with overlap and records
-`hard_cap_fallback` plus required seam reconciliation.
+The maintained production policy requires no preliminary PDF inspection. Every Task
+03H source with more than 300 physical pages uses deterministic 225-page core
+intervals, a 275-page hard maximum, and one comparison page on each available side.
+Sources at or below 300 pages retain the simpler monolithic path. The fixed intervals
+are derived only from the sealed source page count; exact overlap comparison and the
+one whole-document interpretation pass make source-authored seam selection
+unnecessary for correctness.
 
 Gate A does not inspect the PDF. It selects adversarial simulated seams only from
 sealed evidence: ordinary prose, heading transitions, caption/table boundaries,
 consecutive table pages, furniture transitions, cross-page merged text, and long table
-runs. These seams test the ledger; they are not a proposed G2 plan.
+runs. These seams establish that fixed production intervals may cross arbitrary
+content transitions without losing canonical document semantics.
 
 ## Child and aggregate publication
 
@@ -194,20 +187,19 @@ and aggregate byte difference.
 
 ## Resource accounting
 
-Each range records wall and CPU time, peak child RSS, input/output bytes, model-load
-time, seal time, warnings, and completion state. The coordinator records concurrent
-worker RSS, system memory pressure, swap delta, throughput, and idle time. Concurrency
-defaults to one. Gate C may select two only from measured aggregate headroom and
-throughput; completion order must remain semantically irrelevant.
+Each range records conversion wall and CPU time, peak child RSS, warnings, completion
+state, and the subprocess supervisor's process-tree RSS, wall time, system-memory, and
+swap observations. The aggregate records the same supervisor observations separately
+from its sealed creation evidence so a reuse check cannot be mistaken for creation
+cost. Production concurrency is one; completion order remains semantically irrelevant.
 
-Gate A's oracle intentionally materializes the complete 304 MB JSON plus rewritten
-copies and is not evidence of bounded memory. The proposed live path releases page
+Gate A's oracle intentionally materialized the complete 304 MB JSON plus rewritten
+copies and is not evidence of bounded memory. The maintained live path releases page
 rasters, parsed backends, and range model state after each child seal; the aggregate
 loads only lightweight text/layout/page evidence needed by global reading order and
-heading inference, while image bytes remain external. Gate B must verify bounded
-equivalence, and Gate C must measure the complete G1 range and aggregate peaks. If
-that lightweight global state still
-exceeds the accepted budget, the design is blocked rather than described as bounded.
+heading inference, while image bytes remain external. Gate B verified bounded
+equivalence, and Gate C measured the complete G1 range and aggregate peaks. The
+accepted production setting is one sequential worker.
 
 ## Gate A acceptance boundary
 
@@ -244,5 +236,33 @@ package versions, model inventory, runner and adapter bytes, page plan, and reso
 limits. Runtime drift cannot reuse the accepted proof identity.
 
 The four-page process-tree peak was at most 2,584,100,864 bytes with no positive swap
-growth. This validates the prompt-stop comparison only. Production range and aggregate
-memory remain unproven until the complete Gate C G1 qualification.
+growth. This validates the prompt-stop comparison only; the complete Gate C evidence
+below owns the production resource conclusion.
+
+## Gate C accepted production evidence
+
+Run `gatec1-53d220...fe1124` converted all 2,488 G1 pages through 12 independently
+sealed, document-driven ranges and completion-last aggregate
+`dconv1-08a9a7...a2a25b`. Resume deep-verified and reused the retained first child
+without a Docling/model call, then executed only the remaining children. The aggregate
+reproduced the stable monolithic document, heading overlay, alignment, and asset
+inventory byte for byte after one whole-document reading-order, text-merge, and
+heading pass.
+
+The largest range process-tree peak was 7,174,422,528 bytes and aggregate peak was
+8,894,840,832 bytes with no positive swap growth. Two measured range peaks project
+above the 10 GiB concurrent ceiling, so production concurrency is one and no unsafe
+parallel trial is permitted without a new reviewed resource contract.
+
+The aggregate also passed the isolated routing, clean-table, mapping, hierarchy,
+structure, linking, and publication path. Routing was byte-identical, all 17,068 table
+files were semantically exact, and all canonical/support publication files were
+semantically exact under the declared code-bound identity and lineage normalization.
+The final human-ownership pass separated planning, worker execution, range storage,
+Docling adaptation, global aggregation, process supervision, completion, publication,
+and workflow coordination into named package owners with public recovery seams.
+
+This G1 evidence is sufficient to productionize the path. Appendix G2 does not require
+a separate rehearsal: Task 03H must bind its exact plan and identity, obtain user
+authorization, run one worker, and retain each verified range so a late failure resumes
+without discarding completed work.
