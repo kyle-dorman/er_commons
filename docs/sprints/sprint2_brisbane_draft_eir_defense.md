@@ -578,10 +578,11 @@ and the isolated downstream path closed semantically. Measured 7.17 GB range and
 GB aggregate peaks support one worker, while projected two-worker memory exceeds the
 10 GiB concurrent ceiling. Human-ownership review established named package owners,
 strict recovery and lineage checks, and fully rehashed immutable evidence. No Gate D
-or G2 rehearsal remains. By user decision on 2026-08-20, Task 03H was to restart all 35
-sources from scratch under `task_03h_clean_full_v2`; the earlier v1 lineage remains
-preserved but is ineligible for reuse. Source-free preparation and separate user
-authorization precede the fresh `deir_main` PDF/model run.
+or G2 rehearsal remains. By user decision on 2026-08-20, Task 03H subsequently
+restarted all 35 sources from scratch under the distinct `task_03h_clean_full_v3`
+namespace; the earlier v1 and v2 lineages remain preserved but are ineligible for
+reuse. The current v3 evidence is diagnostic only, and source-free preparation plus
+separate user authorization preceded its PDF/model execution.
 Corpus execution,
 collection assembly, and deletion are not Task 03H.1 or source-free Task 03H.2 work. The
 numbers below are routing
@@ -824,10 +825,13 @@ Docling Serve's UI is a convenience for conversion spot checks. Keep three
 artifact layers explicit: preserved producer output, immutable canonical
 records, and regenerable review cache. Canonical extraction evidence is the
 saved producer and canonical output plus machine validation records, not the
-presence of renders. Label Studio is the human-review surface; a deterministic
-export converter produces benchmark JSONL pinned to accepted artifact
-identities. Raw PDFs, converted text, renders, indices, local models, and runs
-remain under `ER_COMMONS_DATA_ROOT`, not Git.
+presence of renders. Task 04's extraction review uses its small read-only local
+HTML workspace and durable finding register. Label Studio remains the planned
+human-review surface for the later benchmark annotation/evaluation contract; it
+does not replace Task 04's extraction-review workspace. A deterministic export
+converter produces benchmark JSONL pinned to accepted artifact identities. Raw
+PDFs, converted text, renders, indices, local models, and runs remain under
+`ER_COMMONS_DATA_ROOT`, not Git.
 
 ## Human evaluation boundary
 

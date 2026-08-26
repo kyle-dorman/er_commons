@@ -9,6 +9,11 @@ read only that task and the documents it names. If no task is active, use the
 current sprint plan to write the next bounded contract before implementation.
 Do not scan every historical task to begin work.
 
+Completed task records may preserve commands and paths from the implementation
+state they documented. Treat those examples as historical unless the task is
+explicitly current; use the repository `Makefile` and active task contract for
+the supported interface.
+
 When a user explicitly requests that one large stage be decomposed in advance,
 later subtask files may be written as provisional contracts. Mark them
 provisional, keep only the first subtask active, and revise each next contract

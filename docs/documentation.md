@@ -28,6 +28,10 @@ before creating or editing durable docs, task outcomes, or decision notes.
   choice. Link to the primary or maintainers' guidance in the task outcome or
   decision note.
 - Update routing links when a document moves or a new durable owner is added.
+- Commands preserved in completed task records are historical evidence unless the
+  record explicitly identifies them as the current interface. Use the repository
+  `Makefile` and the active task contract for current commands; do not infer a
+  live target from an old task transcript.
 
 ## Docs-change checklist
 

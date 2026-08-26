@@ -99,8 +99,12 @@ source bytes, no completed-candidate markers, and `false` for both source-PDF an
 model-file reads. The v3 root contains only the staged catalog and readiness report;
 the next step is the user's explicit approval for the first PDF/model execution.
 
-Start the new chat from local `main` after the fresh-lineage preparation commit. The
-new run root is `pipelines/brisbane_baylands/task_03h_clean_full_v2/`. The previous
+## Historical v2 execution record: 2026-08-20
+
+The following paragraphs preserve the earlier v2 execution evidence. They are not
+the current run plan and are not eligible inputs to Task 04 or Task 03J. The v2 run
+started from local `main` after its fresh-lineage preparation commit. Its run root
+was `pipelines/brisbane_baylands/task_03h_clean_full_v2/`. The previous
 `task_03h_clean_full_v1` tree and all earlier Task 03H artifacts are historical
 evidence only: preserve them physically, but do not reference, import, or reuse any
 conversion, producer, downstream, document, or collection completion from them.

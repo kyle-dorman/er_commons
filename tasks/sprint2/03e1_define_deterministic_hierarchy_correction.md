@@ -226,8 +226,8 @@ and hierarchy integrity.
 
 The initial 595-line dictionary-oriented validator was retained only long
 enough to serve as an executable reference. It was replaced by the
-human-oriented [`hierarchy_correction`](../../src/er_commons/hierarchy_correction)
-package: a readable indexed bundle view, responsibility-owned policy modules,
+human-oriented [`hierarchy_inference`](../../src/er_commons/hierarchy_inference)
+successor package: a readable indexed bundle view, responsibility-owned policy modules,
 named rule validators, explicit regime intervals and open-heading records, and
 a thin ordered validation shell. Tests are separated into schema/evidence,
 cross-record policy, and held-out review responsibilities.

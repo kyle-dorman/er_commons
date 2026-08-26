@@ -19,7 +19,10 @@ affect the Task 03 extraction, with bounded repairs and regressions where needed
 
 ## Inputs
 
-- Task 04's user-approved first-pass finding register and exact evidence anchors
+- Task 04's user-approved first-pass `records/finding_register.json` and
+  `records/task03i_handoff.json` from
+  `pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`, including the
+  handoff digest and exact evidence anchors
 - the completed [Task 03H](03h_run_full_canonical_extraction.md) outcome
 - the maintained source-free pipeline and tests at Task 03I activation
 - accepted Task 03 contracts and durable decisions implicated by a finding
@@ -31,6 +34,8 @@ affect the Task 03 extraction, with bounded repairs and regressions where needed
 - source-general code, configuration, contract, and regression changes for every
   accepted repair
 - an identity-impact inventory stating which Task 03J stages must be fresh
+- a checksummed disposition record that names the input handoff and finding-register
+  digests
 - an outcome that either records the validated repairs or explicitly closes no-op
 
 ## Research / learning checkpoint

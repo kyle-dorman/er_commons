@@ -40,12 +40,14 @@ Frozen tracked contract inputs:
   and [Decision 003](../../docs/decisions/003_deterministic_hierarchy_correction.md)
 - accepted
   [`records.schema.json`](../../benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json),
-  [`review.schema.json`](../../benchmarks/er_bench/schemas/hierarchy_correction/v1/review.schema.json),
+  the historical `review.schema.json` contract (removed after invariant transfer),
+  and the maintained [hierarchy-correction specification](../../docs/specs/hierarchy_correction_v1.md),
   development cases, fixture manifest, held-out manifest, valid bundle, and
   invalid mutations under the tracked
   [`hierarchy_correction/v1`](../../benchmarks/er_bench/fixtures/hierarchy_correction/v1/)
-- accepted human-oriented cross-record validator and held-out comparator in
-  [`src/er_commons/hierarchy_correction`](../../src/er_commons/hierarchy_correction)
+- the maintained successor package,
+  [`src/er_commons/hierarchy_inference`](../../src/er_commons/hierarchy_inference),
+  with the historical `hierarchy_correction` path preserved only in this task record
 
 Candidate-producing external inputs:
 

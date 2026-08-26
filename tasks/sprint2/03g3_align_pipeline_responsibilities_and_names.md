@@ -323,9 +323,10 @@ run the narrow checks that prove the changed responsibilities.
   caller or artifact requirement.
 - The code leaves a clear content-parsing boundary for Task 03H's independently
   sealed Docling conversion work without claiming that boundary is implemented.
-- The provisional Task 03H contract is revised to the accepted vocabulary and
-  architecture and remains inactive pending separate activation.
-- The user accepts Task 03G.3 before Task 03G closes or Task 03H can activate.
+- The provisional Task 03H contract was revised to the accepted vocabulary and
+  architecture and remained inactive pending separate activation at that time.
+- The user accepted Task 03G.3 before the separately authorized Task 03H
+  activation.
 
 ## Non-goals
 

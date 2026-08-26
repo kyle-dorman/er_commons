@@ -20,6 +20,13 @@ the extraction findings from that review and may close as a no-op. [Task
 resumed usability decision and release freeze. No Task 03H production artifact is
 eligible for Task 03J reuse.
 
+The current retained Task 03H diagnostic root is
+`pipelines/brisbane_baylands/task_03h_clean_full_v3/` under
+`ER_COMMONS_DATA_ROOT`. Task 04 inventories its managed attempt and retry streams;
+the retained `.trash/` subtree is recorded but excluded from normative populations
+unless Gate A explicitly promotes a subtree with a separate identity. Task 04
+durable records use `pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`.
+
 Previously completed: [Task
 03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md). Its
 checksum-verified semantic v2 MVP candidate
@@ -193,8 +200,9 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    `exv1-1bd71e02...c1fcc4` completed Appendix P as
    `docv1-532b14da...8df40`. The hierarchy authorization remains bounded to
    Appendix P.
-2. [Task 03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) is an
-   open umbrella. [Task
+2. [Task 03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) remains an
+   open historical umbrella for its completed pilot subtasks; it does not block
+   Task 04. [Task
    03G.1](../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md) is complete
    and accepted as an MVP diagnostic: all 342 requested pages across 35 sources
    have terminal outcomes, all sources were inspected, and the separate

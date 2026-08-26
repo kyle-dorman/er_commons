@@ -23,6 +23,16 @@ closes 03I without code changes. Provisional [Task
 Retained Task 03H production artifacts are diagnostic evidence and are ineligible
 for 03J reuse.
 
+The current retained Task 03H evidence root is
+`pipelines/brisbane_baylands/task_03h_clean_full_v3/` under
+`ER_COMMONS_DATA_ROOT`. Its managed attempt and retry streams are available for
+Task 04's diagnostic inventory; its `.trash/` subtree is retained evidence but is
+excluded from normative queue populations unless Gate A explicitly promotes a
+subtree with a separate identity. The v1 and v2 roots are historical and must not
+be used as current inputs. Each Task 04 pass writes durable records under
+`pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`; the exact record
+contract is owned by the Task 04 task file.
+
 Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
 task. Sprint 2 is current. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) completed the
@@ -300,7 +310,15 @@ validated: current execution uses native v2 records/identities, application shel
 runtime seams are responsibility-owned and typed, recovery diagnostics name corrupt
 evidence, and behavior-focused gates pass all 595 tests plus strict mypy across 287
 source files. The user accepted the human-maintainability result and closed Task
-03G.3 on 2026-08-18. The next historical stage, [Task
+03G.3 on 2026-08-18.
+
+## Historical Task 03H execution record
+
+The following timeline preserves prior Task 03H execution evidence. Its v2
+namespace and identities are historical; the current retained diagnostic root and
+Task 04 handoff are defined in the current-status section above.
+
+[Task
 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was reactivated on
 2026-08-19. Clean source-free preparation completed, and the user approved a fresh
 `deir_main` run. The historical first five-source wave is complete, and K2

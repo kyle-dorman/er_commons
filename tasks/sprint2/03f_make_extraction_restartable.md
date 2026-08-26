@@ -1,8 +1,8 @@
 # Task 03F: Make Two-Stage Corpus Extraction Restartable
 
-Status: **Tasks 03F.1–03F.3 complete; Task 03F.4 Gate B implemented and awaiting
-review as of 2026-08-04**. This umbrella closes only after Task 03F.4 is
-separately accepted. Task 03G and Task 03H remain inactive and provisional.
+Status: **historical umbrella; Tasks 03F.1–03F.4 are complete and accepted**.
+Task 03G and Task 03H are subsequent stages and are no longer inactive or
+provisional.
 
 ## Abstract
 

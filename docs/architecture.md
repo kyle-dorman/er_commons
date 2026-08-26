@@ -152,12 +152,13 @@ typed source specification, role isolation, no-clobber publication, manifest,
 and verification contracts rather than reimplementing those packages.
 
 For the accepted Brisbane vertical slice, the planned implementation stack is
-Docling for conversion, Label Studio Community for human review, BM25S for the
-first retriever, and distinct local Ollama models for reference-case curation,
-target generation, and rubric judging. These are selected contracts, not yet
-installed runtime dependencies: each is added only by the task that implements
-its narrow boundary. The benchmark must retain the exact tool/model version and
-resolved model digest in its artifacts.
+Docling for conversion, Label Studio Community for later benchmark annotation,
+BM25S for the first retriever, and distinct local Ollama models for reference-case
+curation, target generation, and rubric judging. Task 04's extraction review is a
+separate read-only local HTML workspace and does not require Label Studio. These
+are selected contracts, not yet installed runtime dependencies: each is added
+only by the task that implements its narrow boundary. The benchmark must retain
+the exact tool/model version and resolved model digest in its artifacts.
 
 ## External data and artifact layout
 

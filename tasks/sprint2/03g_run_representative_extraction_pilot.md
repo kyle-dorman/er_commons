@@ -1,10 +1,11 @@
 # Task 03G: Test Extraction Breadth and a Representative Full Pilot
 
-Status: **open umbrella; all subtasks through Task 03G.3 are complete and
-accepted**. [Task
+Status: **open historical umbrella; all subtasks through Task 03G.3 are complete
+and accepted, and this umbrella does not block Task 04**. [Task
 03G.3](03g3_align_pipeline_responsibilities_and_names.md) completed its accepted
-Gate A and human-maintainability Gate B on 2026-08-18. Closing this umbrella or
-activating Task 03H still requires separate user authorization.
+Gate A and human-maintainability Gate B on 2026-08-18. Task 03H was subsequently
+activated and completed under its own authorization. Formal umbrella closure is
+historical housekeeping, not a prerequisite for the current queue.
 
 ## Abstract
 

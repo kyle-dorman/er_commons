@@ -40,7 +40,8 @@ either freezes the accepted release or stops on a material defect.
 ## Inputs
 
 - the immutable Task 02 source release and all 35 source identities;
-- retained Task 03H evidence, including successful, partial, failed, retried,
+- the current retained Task 03H evidence root
+  `pipelines/brisbane_baylands/task_03h_clean_full_v3/`, including successful, partial, failed, retried,
   and incomplete document attempts; available canonical records; warnings;
   tables and table families; mappings; source PDFs; and render recipes;
 - the completed Task 03H outcome and accepted Task 03 contracts;
@@ -93,6 +94,39 @@ Bulk HTML, renders, and generated review artifacts remain under
 `ER_COMMONS_DATA_ROOT` and outside Git. Gate A must document their exact
 artifact-relative root and lifecycle before implementation. Only compact
 contracts, schemas, tests, and summary documentation belong in the repository.
+
+The durable first-pass and final-pass records use one immutable review-run root per
+pass:
+
+```text
+pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/
+  records/
+    input_inventory.json
+    selection_manifest.json
+    review_bundle_manifest.json
+    finding_register.json
+    task03i_handoff.json       # first pass only
+    usability_registry.json    # final pass only
+    release_freeze.json        # final pass only
+  html/
+  review_cache/
+```
+
+Gate A must add and validate the compact schemas under
+`benchmarks/er_bench/schemas/task04_review/v1/` for the input inventory, selection
+manifest, review-bundle manifest, finding register, Task 03I handoff, usability
+registry, and release-freeze record. Each JSON record is written completion-last and
+contains the schema version, review-run identity, upstream identities, input/output
+checksums, and relative paths. The HTML and render directories are disposable
+derivatives of the records and never become authoritative review state.
+
+A `reviewv1-` identity binds the pass (`task03h_first` or `task03j_final`), source or
+candidate identities, selection-policy digest, schema versions, and implementation
+identity. Review-item IDs are deterministic within that run from the source identity,
+queue, selection-policy digest, and exact evidence anchor. Finding IDs are stable once
+registered and bind the review-item ID, finding class, and register sequence. A final
+pass allocates a new review run and re-resolves every item against Task 03J checksums;
+first-pass IDs and anchors are references only, never transferable evidence.
 
 ## Task 03 / Task 04 coupling
 
@@ -234,6 +268,13 @@ Every finding must have:
 Before Task 04 pauses, reconcile every issue discussed in Codex into the
 register and obtain user approval of the exact extraction-finding subset sent
 to Task 03I. Conversation alone is not a durable handoff.
+
+The first-pass `task03i_handoff.json` is a checksummed projection of that approved
+register. It contains only `extraction_defect` findings, their exact evidence anchors,
+the finding-register digest, and the upstream Task 03H identities/checksums. Tool,
+source-authored, and usability findings remain in the register but are excluded from
+the handoff. Task 03I records its disposition against this handoff; Task 03J receives
+the closed disposition and its digest before allocating a fresh production identity.
 
 ## Research / learning checkpoint
 

@@ -1,6 +1,7 @@
 # Task 03H.3: Defer Aggregate Reading Order Until Table Evidence
 
-Status: **complete; parent Task 03H remains paused at the separate G2 range-RSS gate**.
+Status: **complete; the parent Task 03H later closed as the first end-to-end
+attempt without publishing the final corpus candidate**.
 
 ## Abstract
 
@@ -47,8 +48,9 @@ repository or this task file.
 - Existing source-native routing implementation.
 - Existing Camelot/OpenCV and low-level TableFormer fallback pipeline.
 - Existing aggregate Docling adapter and publication contracts.
-- The accepted clean-run namespace and identity rules for
-  `task_03h_clean_full_v2`.
+- The accepted clean-run namespace and identity rules for the then-current
+  `task_03h_clean_full_v2` run. That namespace is now historical; Task 03H's v3
+  run is the current retained diagnostic evidence.
 - Official Docling documentation/source for pipeline stages, reading-order
   invocation, and profiling hooks:
   <https://docling-project.github.io/docling/reference/pipeline_options/> and
@@ -272,5 +274,7 @@ heading interpretation once; and publication includes ordered non-table content,
 canonical tables, explicit fallback decisions, and raw-evidence references. The
 implementation passed the authorized two-document qualification, its restart and
 downstream checks, the independent maintainability/recovery review, and the complete
-offline gate. Parent Task 03H remains open and paused independently at its G2
-range-RSS stop condition.
+offline gate. At the time of this task's outcome, parent Task 03H remained open
+and paused independently at its G2 range-RSS stop condition. The later v3
+execution and maintainability outcome closed Task 03H as a diagnostic first
+end-to-end attempt.

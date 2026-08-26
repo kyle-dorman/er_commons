@@ -216,17 +216,58 @@ identity, completeness, publication, acceptance, or Task 04 status.
 `collections validate-handoff` verifies a published native-v2 handoff and
 successful document candidates read-only without rebuilding them.
 
-The restarted Task 03H full-corpus run uses a clean external namespace:
+The current retained Task 03H diagnostic evidence uses the v3 external namespace:
 
 ```text
-pipelines/brisbane_baylands/task_03h_clean_full_v2/
+pipelines/brisbane_baylands/task_03h_clean_full_v3/
 ```
 
-The historical `task_03h/` and `task_03h_clean_full_v1/` trees remain immutable
-diagnostic, validation, and scaling evidence. The v2 run does not search either tree
-for Docling conversion, producer, document, or collection completions. Its first pass
-creates fresh Docling seals for all 35 ordered sources; restart reuse is allowed only
-for seals created inside the v2 namespace.
+The historical `task_03h/`, `task_03h_clean_full_v1/`, and
+`task_03h_clean_full_v2/` trees remain immutable diagnostic, validation, and scaling
+evidence. The v3 run does not search any historical tree for Docling conversion,
+producer, document, or collection completions. No Task 03H completion is an accepted
+corpus release or an eligible Task 03J input.
+
+Task 04's normative first-pass inventory includes managed evidence under the v3 root,
+including retained `attempts/` and stage-level retry streams. It excludes
+`task_03h_clean_full_v3/.trash/` from population counts because that directory holds
+superseded or reset trees. Gate A must record the `.trash/` entries, their exclusion
+rationale, and checksums in the input inventory; a subtree may be promoted into a
+review population only with its own identity and explicit selection reason. Directory
+presence alone never establishes a successful candidate or a completed source.
+
+Task 04 durable review records use a separate, versioned namespace. Each first or
+final pass allocates one immutable review run under:
+
+```text
+pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/
+  records/
+    input_inventory.json
+    selection_manifest.json
+    review_bundle_manifest.json
+    finding_register.json
+    task03i_handoff.json          # first pass only
+    usability_registry.json       # final pass only
+    release_freeze.json           # final pass only
+  html/                           # generated read-only bundle
+  review_cache/                   # selected renders and overlays
+```
+
+The `records/` files are completion-last, checksummed JSON artifacts. Their compact
+schemas are tracked under
+`benchmarks/er_bench/schemas/task04_review/v1/`; bulk HTML, renders, and source
+evidence remain external. A review-run identity binds the pass (`task03h_first` or
+`task03j_final`), source/candidate identities, selection policy, schema versions, and
+implementation identity. A final pass must allocate a new review run and resolve
+selections against Task 03J checksums; it cannot copy first-pass IDs or anchors.
+
+Review item IDs are content-bound within a review run to the source identity, queue,
+selection-policy digest, and exact evidence anchor. Finding IDs are content-bound to
+the review item, finding class, and register sequence. The finding register is the
+authoritative user-disposition record; `task03i_handoff.json` is a projection containing
+only accepted extraction findings plus the register digest and evidence checksums.
+The usability registry and release-freeze record are separate from all Task 03 machine
+records and from the first-pass finding register.
 
 Task 03G.1 adds a separate diagnostic-only namespace:
 

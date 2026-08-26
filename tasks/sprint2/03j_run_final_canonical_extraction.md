@@ -18,8 +18,10 @@ from the post-Task-03I code and configuration baseline.
 
 - the closed [Task 03H](03h_run_full_canonical_extraction.md) first-attempt outcome
 - the paused [Task 04](04_review_extraction_and_freeze_release.md) first-pass
-  finding register and the closed [Task 03I](03i_remediate_task04_review_findings.md)
-  disposition, including a possible no-op outcome
+  `records/finding_register.json` and `records/task03i_handoff.json` from
+  `pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`, plus the closed
+  [Task 03I](03i_remediate_task04_review_findings.md) disposition and its digests,
+  including a possible no-op outcome
 - the immutable Task 02 source freeze and accepted Task 03 contracts
 - a newly generated source-free run specification, namespace, and identity
 
@@ -32,6 +34,9 @@ from the post-Task-03I code and configuration baseline.
   evidence
 - the machine-candidate and review-cache handoff required for Task 04's final
   usability decision and release freeze
+- a checksummed machine handoff that names the Task 03J corpus identity and the
+  Task 03I disposition digest; Task 04 must use these to allocate a new final
+  review-run namespace
 
 ## Research / learning checkpoint
 
