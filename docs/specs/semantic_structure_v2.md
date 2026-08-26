@@ -149,11 +149,15 @@ unexpected change.
 All 246 accepted headings map uniquely to canonical blocks. Of 4,571 direct
 members, 2,255 map to blocks and 2,316 require an explicit disposition: 2,314
 are descendants of the 19 Docling tables replaced by clean canonical tables,
-and two are picture-suppressed list items. The only permitted unmapped
-dispositions are therefore:
+and two are picture-suppressed list items. Those accepted Appendix P counts use
+the first and third dispositions below. The maintained source-general bridge
+policy permits:
 
-- `canonical_table_replacement_descendant`; and
-- `canonical_figure_suppressed_descendant`.
+- `canonical_table_replacement_descendant`;
+- `canonical_table_geometry_owned_text`, for native body text whose every valid
+  region is owned by exactly one validated full-page canonical table; and
+- `canonical_figure_suppressed_descendant`; and
+- `canonical_invalid_provenance_suppressed`.
 
 Missing keys, duplicate stable keys, pointer disagreement, incompatible target
 type, target collision, changed producer evidence, or any generic unmapped

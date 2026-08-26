@@ -17,6 +17,7 @@ TableParser = Literal[
     "camelot_network",
     "tableformer_accurate",
 ]
+TableRoute = Literal["full_page_numeric", "layout_regions"]
 FamilyEvidence = Literal[
     "footer_run",
     "exact_cleaned_header",
@@ -95,6 +96,11 @@ class ProducerTable:
     cells_path: str
     table_record_path: str
     family_id: str
+
+    @property
+    def route(self) -> TableRoute:
+        """Return the validated producer route represented by this placement."""
+        return "full_page_numeric" if self.region_id is None else "layout_regions"
 
 
 @dataclass(frozen=True)

@@ -389,7 +389,16 @@ def test_bridge_requires_coverage_unique_keys_targets_and_exact_producers() -> N
         validate_document_structure_contract(changed_pointers)
 
 
-def test_bridge_permitted_replacement_dispositions_are_closed() -> None:
+@pytest.mark.parametrize(
+    "permitted_disposition",
+    [
+        "canonical_table_replacement_descendant",
+        "canonical_table_geometry_owned_text",
+    ],
+)
+def test_bridge_permitted_replacement_dispositions_are_closed(
+    permitted_disposition: str,
+) -> None:
     bridge = copy.deepcopy(BUNDLE)
     entry = copy.deepcopy(record_with(bridge["bridge_entries"], "stable_item_key", "0" * 64))
     entry["stable_item_key"] = "8" * 64
@@ -397,7 +406,7 @@ def test_bridge_permitted_replacement_dispositions_are_closed() -> None:
     entry["baseline_raw_pointer"] = "#/texts/800"
     entry["status"] = "permitted_unmapped"
     entry["canonical_record_ids"] = []
-    entry["disposition"] = "canonical_table_replacement_descendant"
+    entry["disposition"] = permitted_disposition
     bridge["bridge_entries"].append(entry)
     evidence = dict(BRIDGE_EVIDENCE)
     evidence[entry["stable_item_key"]] = BridgeSourceEvidence(

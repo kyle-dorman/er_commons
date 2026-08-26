@@ -12,7 +12,13 @@ from er_commons.document_records.record_mapping.context_types import (
 )
 from er_commons.document_records.record_mapping.errors import MappingContractError
 from er_commons.document_records.record_mapping.inputs import RecordMappingInputs
-from er_commons.document_records.record_mapping.provenance import project_regions
+from er_commons.document_records.record_mapping.provenance import (
+    ProvenanceProjection,
+    project_regions,
+)
+from er_commons.document_records.record_mapping.table_text_ownership import (
+    assign_table_text_ownership,
+)
 from er_commons.document_records.record_mapping.tables import (
     ProducerTable,
     ProducerTableBundle,
@@ -195,6 +201,7 @@ def build_traversal_context(
     if not isinstance(texts, list):
         raise MappingContractError("saved Docling document has no text collection")
     all_text = frozenset(f"#/texts/{index}" for index in range(len(texts)))
+    projections: dict[str, ProvenanceProjection] = {}
     invalid_pointers: set[str] = set()
     rejected: list[dict[str, Any]] = []
     for index, item in enumerate(texts):
@@ -202,6 +209,7 @@ def build_traversal_context(
         projection = project_regions(
             item=item, pointer=pointer, page_ids=page_ids, page_sizes=sizes
         )
+        projections[pointer] = projection
         if projection.regions:
             continue
         if not projection.rejected:
@@ -219,11 +227,30 @@ def build_traversal_context(
         if mapping.unmapped_reason == "full_page_numeric_route"
         and mapping.raw_object_ref is not None
     }
+    docling_tables = inputs.document.get("tables")
+    if not isinstance(docling_tables, list):
+        raise MappingContractError("saved Docling document has no table collection")
+    document_index_descendants: set[str] = set()
+    for item in docling_tables:
+        if not isinstance(item, dict):
+            raise MappingContractError("invalid Docling table object")
+        if item.get("label") == "document_index":
+            document_index_descendants.update(
+                _descendant_text_pointers(inputs.document, item.get("children", []))
+            )
+    table_text_ownership = assign_table_text_ownership(
+        document=inputs.document,
+        tables=table_bundle.tables,
+        projections=projections,
+        page_ids=page_ids,
+        document_index_descendants=document_index_descendants,
+    )
     traversal = traverse_docling_document(
         inputs.document,
         mapped_tables,
-        invalid_pointers,
-        suppressed_tables,
+        invalid_geometry_text_pointers=invalid_pointers,
+        suppressed_table_pointers=suppressed_tables,
+        table_text_ownership=table_text_ownership,
     )
     traversal = _attach_missing_table_events(inputs.document, traversal, table_bundle.tables)
     accounted = traversal.emitted_text_pointers | traversal.suppressed_text_pointers
@@ -233,26 +260,17 @@ def build_traversal_context(
             "Docling text traversal accounting is incomplete: "
             f"overlap={len(overlap)} unaccounted={len(all_text - accounted)}"
         )
-    tables = inputs.document.get("tables")
-    if not isinstance(tables, list):
-        raise MappingContractError("saved Docling document has no table collection")
-    descendants: set[str] = set()
-    for item in tables:
-        if not isinstance(item, dict):
-            raise MappingContractError("invalid Docling table object")
-        if item.get("label") == "document_index":
-            descendants.update(_descendant_text_pointers(inputs.document, item.get("children", [])))
     index_accounted = traversal.emitted_text_pointers | traversal.invalid_geometry_text_pointers
-    if not descendants <= index_accounted:
+    if not document_index_descendants <= index_accounted:
         raise MappingContractError(
             "document-index descendants were not emitted: "
-            f"missing={sorted(descendants - index_accounted)}"
+            f"missing={sorted(document_index_descendants - index_accounted)}"
         )
     return TraversalContext(
         traversal=traversal,
         block_events=tuple(event for event in traversal.events if event.kind == "text"),
         figure_pointers=_figure_pointers(inputs.document),
-        document_index_descendants=frozenset(descendants),
+        document_index_descendants=frozenset(document_index_descendants),
         all_text_pointers=all_text,
         accounted_text_pointers=accounted,
         invalid_text_provenance=tuple(rejected),

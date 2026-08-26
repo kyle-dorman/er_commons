@@ -69,14 +69,14 @@ machine-derived content, provenance, and stage statuses only. Conversion,
 routing, table-stage, and canonicalization statuses remain distinct and do not
 constitute usability judgments.
 
-Task 04 maintains a separate usability registry for every Task 03 source,
+Task 04A maintains a separate usability registry for every Task 03 source,
 including sources whose terminal failure leaves no canonical document ID.
 Registry rows therefore retain the corpus candidate and source IDs and add
 canonical IDs only when those entities exist. Page, table, and table-family
 records identify their entity type, human review status, exclusion reason when
 present, reviewer, review date, and links to applicable canonical content and
 requested review-cache renders. This granularity permits one table in a family
-to pass while another does not. Task 04 also records sampled or
+to pass while another does not. Task 04A also records sampled or
 anomaly-triggered observations for body/furniture classification, hierarchy,
 printed labels, aliases, and cross-references. It rolls page statuses up into
 document dispositions such as `usable`, `usable_with_exclusions`, and
@@ -97,7 +97,7 @@ silently skipped under this policy; a material native-extraction failure there
 is a stop condition requiring a new decision.
 
 First-pass retrieval and generation may use a table only when the clean table
-pipeline produces a canonical structured or textual representation and Task 04
+pipeline produces a canonical structured or textual representation and Task 04A
 human review verifies it against a corresponding review-cache render. For a
 multi-table family, review must make the family membership, per-table content,
 and any one-to-many Docling-region mapping visible; verification of one member
@@ -329,7 +329,7 @@ hash, and corpus version that define each extraction. An identical rerun must
 reproduce the same IDs; a
 changed converter or configuration creates a new corpus version and new
 low-level anchors. Pin reviewed evidence and benchmark cases to the exact
-accepted Task 03 extraction identity, Task 04 usability-registry version,
+accepted Task 03 extraction identity, Task 04A usability-registry version,
 Task 05 inventory version, and Task 07 case/split versions. Human-readable
 document and section slugs may remain recognizable across versions, but they
 do not replace content and configuration checksums.
@@ -397,7 +397,7 @@ Use whole leaf sections—the smallest heading-defined sections in the canonical
 hierarchy—as the preferred BM25 retrieval units. Preserve paragraph and
 list-item boundaries within them, keep verified tables as distinct structured
 units, carry the full heading path as metadata, and retain exact canonical
-anchors. Build units only from Task 04-approved body content and tables; never
+anchors. Build units only from Task 04A-approved body content and tables; never
 span excluded content. Before building the development index, analyze and
 report the leaf-section length distribution by source document, including
 outliers and the combined size of five large results relative to the target
@@ -482,7 +482,7 @@ the recorded evidence shows inadequate recall.
 Materialize a deterministic traversal/index view over the accepted Task 03
 cross-reference records; Task 06 does not re-extract or re-resolve references.
 Use Task 05 official-response references as curator-only seeds and traverse
-only resolved edges whose targets remain usable under Task 04. Unresolved
+only resolved edges whose targets remain usable under Task 04A. Unresolved
 mentions remain lexical-search or manual-review signals, not graph edges.
 Semantic section or printed-label references seed search, but accepted evidence
 still requires exact block or table anchors. Preserve the complete discovery
@@ -678,14 +678,15 @@ validation boundary.
      all-source end-to-end attempt, which exercised and repaired the production
      path but did not claim final corpus publication after closing identity changes
      required a fresh run;
-   - provisional [Task
+   - completed [Task
      03I](../../tasks/sprint2/03i_remediate_task04_review_findings.md): disposition
      accepted extraction findings from the intervening Task 04 review, including a
-     valid no-op outcome; and
+     valid no-op outcome; its first repair, committed disposition, and independent
+     maintainability gate are complete; and
    - provisional [Task
      03J](../../tasks/sprint2/03j_run_final_canonical_extraction.md): rerun all 35
      sources under a fresh namespace and identity and publish the final machine
-     candidate and accounting handoff for Task 04; and
+     candidate and accounting handoff for Task 04A; and
    - completed [Task
      03H.2](../../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md):
      proved and productionized independently sealed, deterministic, fixed-size
@@ -754,7 +755,9 @@ validation boundary.
    user direction on 2026-08-18; source-PDF and model execution remain behind
    the task's explicit user check-in.
 3. **[Task 04](../../tasks/sprint2/04_review_extraction_and_freeze_release.md)
-   — Pilot extraction review and freeze the accepted release.** First use the
+   and [Task 04A](../../tasks/sprint2/04a_regenerate_review_and_freeze_release.md)
+   — Pilot extraction review, then review and freeze the final candidate.** Task
+   04 completed its first-pass review and independent maintainability gate using the
    mostly but not fully extracted Task 03H evidence to qualify a small read-only
    local HTML review workspace and conduct a user-led diagnostic pass. Cover all
    35 sources, review every retained document-processing failure, spot-check
@@ -764,19 +767,20 @@ validation boundary.
    benchmark evidence; preserve complete source coverage and describe this as
    importance-weighted risk review rather than statistical estimation. Record
    observations outside the UI as exact, versioned findings. Route only accepted
-   extraction defects to Task 03I, pause Task 04, then let Task 03J run all 35
-   sources under a fresh identity. Resume Task 04 against the Task 03J handoff,
-   recheck repairs and fresh risk samples, validate machine integrity, and either
-   publish the separate usability registry and freeze the accepted extraction
-   release or stop on a material defect. Keep Task 03 records immutable and
-   renders regenerable outside extraction identity.
+   extraction defects to Task 03I and close Task 04, then let Task 03J run all 35
+   sources under a fresh identity. After that handoff exists, revise and activate
+   provisional Task 04A to generate a new review dataset, recheck repairs and fresh
+   risk samples, validate machine integrity, and either publish the separate
+   usability registry and freeze the accepted extraction release or stop on a
+   material defect. Keep Task 03 records immutable and renders regenerable outside
+   extraction identity.
 4. **Task 05 — Build the complete curator-only response inventory.** Use a
    bounded, separately identified transcription/extraction route for Final EIR
    Volume 4; do not add it to the Task 03 model corpus. Enumerate every comment,
    individual response, general response, relationship, orphan, and official
    Draft EIR reference. Build the curator-only response graph and resolve its
    Draft EIR references against the frozen Task 03 target/alias index subject
-   to Task 04 usability.
+   to Task 04A usability.
 5. **Task 06 — Pilot reference-case authoring.** Implement deterministic
    high-recall curator search, a two-hop traversal/index view over the accepted
    Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence
@@ -795,10 +799,10 @@ validation boundary.
 7. **Task 08 — Build and freeze human evaluation.** Implement the staged,
    blinded evidence-support, responsiveness, and reference-coverage forms and
    anchored `0`/`1`/`2` rubric. Pin exports and forms to the accepted Task 03
-   extraction, Task 04 registry, and Task 07 case/split versions; link requested
+   extraction, Task 04A registry, and Task 07 case/split versions; link requested
    render cache separately.
 8. **Task 09 — Build and freeze BM25 retrieval.** Build units from accepted
-   hierarchy and Task 04-approved body content and tables. Analyze leaf-section
+   hierarchy and Task 04A-approved body content and tables. Analyze leaf-section
    lengths, choose whole sections or a documented contiguous fallback that
    never spans excluded content, run the lexical preprocessing pilot, freeze
    the index, and report development-only evidence-coverage curves. Do not
@@ -825,10 +829,10 @@ Docling Serve's UI is a convenience for conversion spot checks. Keep three
 artifact layers explicit: preserved producer output, immutable canonical
 records, and regenerable review cache. Canonical extraction evidence is the
 saved producer and canonical output plus machine validation records, not the
-presence of renders. Task 04's extraction review uses its small read-only local
+presence of renders. Task 04 and Task 04A use the small read-only local
 HTML workspace and durable finding register. Label Studio remains the planned
 human-review surface for the later benchmark annotation/evaluation contract; it
-does not replace Task 04's extraction-review workspace. A deterministic export
+does not replace their extraction-review workspace. A deterministic export
 converter produces benchmark JSONL pinned to accepted artifact identities. Raw
 PDFs, converted text, renders, indices, local models, and runs remain under
 `ER_COMMONS_DATA_ROOT`, not Git.

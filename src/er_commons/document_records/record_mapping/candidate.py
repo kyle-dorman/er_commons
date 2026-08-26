@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 from collections.abc import Callable
 from pathlib import Path
 
@@ -93,6 +94,7 @@ def build_summary(
     """Build the canonical mapping accounting summary from named projections."""
     mapped_regions = sum(bool(mapping.clean_table_ids) for mapping in table_bundle.region_mappings)
     zero_regions = sum(not mapping.clean_table_ids for mapping in table_bundle.region_mappings)
+    ownership_reason_counts = Counter(decision.reason for decision in report.table_text_ownership)
     summary: JsonRecord = {
         "schema_version": "er_commons.canonicalization_summary.v1",
         "candidate_id": candidate_id,
@@ -111,6 +113,8 @@ def build_summary(
             "producer_item_count": report.producer_text_count,
             "emitted_count": report.emitted_text_count,
             "suppressed_count": report.suppressed_text_count,
+            "table_owned_count": len(report.table_text_ownership),
+            "table_owned_by_reason": dict(sorted(ownership_reason_counts.items())),
             "unaccounted_count": (
                 report.producer_text_count
                 - report.emitted_text_count
@@ -130,6 +134,11 @@ def build_summary(
         "invalid_provenance": {
             "record_count": len(report.invalid_provenance),
             "path": "observations/invalid_provenance.jsonl",
+        },
+        "table_text_ownership": {
+            "record_count": len(report.table_text_ownership),
+            "path": "observations/table_text_ownership.jsonl",
+            "reason_counts": dict(sorted(ownership_reason_counts.items())),
         },
         "producer_warnings": list(inputs.producer_summary_record.warnings),
         "errors": [],
@@ -212,6 +221,10 @@ def write_validate_and_seal_candidate(
     write_json(root / "records" / "extraction_identity.json", identity)
     write_jsonl(root / "records/substage_observations.jsonl", substage_observations)
     write_jsonl(root / "observations/invalid_provenance.jsonl", report.invalid_provenance)
+    write_jsonl(
+        root / "observations/table_text_ownership.jsonl",
+        (decision.as_json() for decision in report.table_text_ownership),
+    )
     record_files = write_record_files(root, records)
     warnings = canonicalization_warnings(inputs, table_bundle, report)
     manifest = build_manifest(

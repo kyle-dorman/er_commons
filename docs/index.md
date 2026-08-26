@@ -11,15 +11,21 @@ This section is the source of record for the current sprint and active task.
 [Task 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is complete as
 the first full-corpus end-to-end attempt. It exercised and repaired the production
 path but intentionally did not claim the final corpus after its closing identity
-and maintainability corrections made a fresh run necessary. Prepared [Task
-04](../tasks/sprint2/04_review_extraction_and_freeze_release.md) is next but is
-not activated. Its first pass uses the mostly but not fully extracted Task 03H
-evidence to qualify a read-only local HTML review workspace and produce anchored
-extraction findings. Those findings, if any, feed provisional [Task
-03I](../tasks/sprint2/03i_remediate_task04_review_findings.md); a no-finding outcome
-closes 03I without code changes. Provisional [Task
+and maintainability corrections made a fresh run necessary. Completed [Task
+04](../tasks/sprint2/04_review_extraction_and_freeze_release.md) completed its
+first-pass user review and independent human-maintainability gate. It used the
+mostly but not fully extracted Task 03H evidence to qualify a read-only local HTML review workspace and
+produce anchored extraction findings. Those findings feed active [Task
+03I](../tasks/sprint2/03i_remediate_task04_review_findings.md), whose first repair
+and independent maintainability gate are complete. Its committed task outcome is
+the durable disposition of the approved Task 04 finding.
+Provisional [Task
 03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) then owns the fresh
-35-source attempt and machine handoff for Task 04's resumed final release decision.
+35-source attempt and machine handoff. Provisional [Task
+04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) owns the new
+Task 03J-bound review dataset, rechecks, usability registry, and final release
+decision. Its exact identities, paths, checksums, and handoff fields must be filled
+from the completed Task 03J outcome rather than guessed in Task 04.
 Retained Task 03H production artifacts are diagnostic evidence and are ineligible
 for 03J reuse.
 
@@ -30,8 +36,8 @@ Task 04's diagnostic inventory; its `.trash/` subtree is retained evidence but i
 excluded from normative queue populations unless Gate A explicitly promotes a
 subtree with a separate identity. The v1 and v2 roots are historical and must not
 be used as current inputs. Each Task 04 pass writes durable records under
-`pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`; the exact record
-contract is owned by the Task 04 task file.
+`pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`; Task 04 owns the
+first-pass record contract and Task 04A owns the post-03J record contract.
 
 Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
 task. Sprint 2 is current. [Task
@@ -494,6 +500,8 @@ validation authority used by completed Task 03E.4.
   boundaries. Read for technical design or implementation shape.
 - `docs/data_artifacts.md`: external data root, artifact layout, Git policy,
   and provenance expectations. Read for any data or generated output work.
+- `docs/task04_maintainer_runbook.md`: Task 04 build, local serving, finding
+  edits, source-free validation, retry, and transaction-recovery procedures.
 - `docs/documentation.md`: documentation ownership and change checklist. Read
   before editing or creating durable docs.
 - `docs/todo.md`: active queue and next action. Read to select work; it does

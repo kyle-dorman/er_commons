@@ -236,8 +236,8 @@ rationale, and checksums in the input inventory; a subtree may be promoted into 
 review population only with its own identity and explicit selection reason. Directory
 presence alone never establishes a successful candidate or a completed source.
 
-Task 04 durable review records use a separate, versioned namespace. Each first or
-final pass allocates one immutable review run under:
+Task 04 durable review records use a separate, versioned namespace. The first pass
+allocates one immutable review run under:
 
 ```text
 pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/
@@ -247,8 +247,6 @@ pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/
     review_bundle_manifest.json
     finding_register.json
     task03i_handoff.json          # first pass only
-    usability_registry.json       # final pass only
-    release_freeze.json           # final pass only
   html/                           # generated read-only bundle
   review_cache/                   # selected renders and overlays
 ```
@@ -256,18 +254,23 @@ pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/
 The `records/` files are completion-last, checksummed JSON artifacts. Their compact
 schemas are tracked under
 `benchmarks/er_bench/schemas/task04_review/v1/`; bulk HTML, renders, and source
-evidence remain external. A review-run identity binds the pass (`task03h_first` or
-`task03j_final`), source/candidate identities, selection policy, schema versions, and
-implementation identity. A final pass must allocate a new review run and resolve
-selections against Task 03J checksums; it cannot copy first-pass IDs or anchors.
+evidence remain external. The first-pass review identity binds `task03h_first`,
+source and verified candidate identities, selected-candidate terminal seals, source
+PDF checksums, selection policy, schemas, renderer, and maintained implementation.
+[Task 04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) owns the
+separate post-03J review contract under
+`benchmarks/er_bench/schemas/task04a_review/v1/`. It must allocate a new review run
+and resolve selections against Task 03J checksums; it cannot copy first-pass IDs or
+anchors.
 
 Review item IDs are content-bound within a review run to the source identity, queue,
 selection-policy digest, and exact evidence anchor. Finding IDs are content-bound to
-the review item, finding class, and register sequence. The finding register is the
+the review item, finding class, finding description, consequence, and evidence
+anchors, while a later human status change preserves the same finding ID. The finding register is the
 authoritative user-disposition record; `task03i_handoff.json` is a projection containing
 only accepted extraction findings plus the register digest and evidence checksums.
-The usability registry and release-freeze record are separate from all Task 03 machine
-records and from the first-pass finding register.
+Task 04A's usability registry and release-freeze record are separate from all Task
+03 machine records and from the first-pass finding register.
 
 Task 03G.1 adds a separate diagnostic-only namespace:
 

@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04_review/v1/task03i_handoff.schema.json",
+  "title": "ER Commons Task 03I handoff from Task 04 v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_run_id",
+    "pass",
+    "status",
+    "finding_register_sha256",
+    "input_inventory_sha256",
+    "selection_manifest_sha256",
+    "review_bundle_manifest_sha256",
+    "extraction_findings"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04_review.v1.task03i_handoff"},
+    "review_run_id": {"$ref": "#/$defs/review_run_id"},
+    "pass": {"const": "task03h_first"},
+    "status": {"enum": ["empty_pending_review", "approved"]},
+    "finding_register_sha256": {"$ref": "#/$defs/digest"},
+    "input_inventory_sha256": {"$ref": "#/$defs/digest"},
+    "selection_manifest_sha256": {"$ref": "#/$defs/digest"},
+    "review_bundle_manifest_sha256": {"$ref": "#/$defs/digest"},
+    "extraction_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "finding_id",
+          "class",
+          "review_item_id",
+          "status",
+          "expected_behavior",
+          "observed_behavior",
+          "downstream_consequence",
+          "evidence_anchors"
+        ],
+        "properties": {
+          "finding_id": {"type": "string", "pattern": "^finding-[a-f0-9]{24}$"},
+          "class": {"const": "extraction_defect"},
+          "review_item_id": {"type": "string", "pattern": "^reviewitem-[a-f0-9]{24}$"},
+          "status": {"const": "accepted_for_task03i"},
+          "expected_behavior": {"type": "string", "minLength": 1},
+          "observed_behavior": {"type": "string", "minLength": 1},
+          "downstream_consequence": {"type": "string", "minLength": 1},
+          "evidence_anchors": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/anchor"}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "review_run_id": {"type": "string", "pattern": "^reviewv1-task03h-first-[a-f0-9]{16}$"},
+    "anchor": {
+      "oneOf": [
+        {"$ref": "#/$defs/page_anchor"},
+        {"$ref": "#/$defs/table_family_anchor"},
+        {"$ref": "#/$defs/warning_anchor"},
+        {"$ref": "#/$defs/failure_anchor"},
+        {"$ref": "#/$defs/canonical_table_anchor"},
+        {"$ref": "#/$defs/canonical_block_anchor"},
+        {"$ref": "#/$defs/observation_anchor"}
+      ]
+    },
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "catalog_sha256", "source_pdf_sha256"],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "catalog_sha256": {"$ref": "#/$defs/digest"},
+        "source_pdf_sha256": {
+          "oneOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]
+        }
+      }
+    },
+    "candidate_binding": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidate_id", "completion_sha256", "inventory_sha256"],
+          "properties": {
+            "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]+$"},
+            "completion_sha256": {"$ref": "#/$defs/digest"},
+            "inventory_sha256": {"$ref": "#/$defs/digest"}
+          }
+        },
+        {"type": "null"}
+      ]
+    },
+    "page_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source", "candidate", "physical_page"],
+      "properties": {
+        "kind": {"const": "page"},
+        "source": {"$ref": "#/$defs/source_binding"},
+        "candidate": {"$ref": "#/$defs/candidate_binding"},
+        "physical_page": {"type": "integer", "minimum": 1}
+      }
+    },
+    "table_family_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source", "candidate", "table_family_id", "physical_pages"],
+      "properties": {
+        "kind": {"const": "table_family"},
+        "source": {"$ref": "#/$defs/source_binding"},
+        "candidate": {"$ref": "#/$defs/candidate_binding"},
+        "table_family_id": {"type": "string", "minLength": 1},
+        "physical_pages": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "warning_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source", "candidate", "warning_fingerprint", "physical_page"],
+      "properties": {
+        "kind": {"const": "warning"},
+        "source": {"$ref": "#/$defs/source_binding"},
+        "candidate": {"$ref": "#/$defs/candidate_binding"},
+        "warning_fingerprint": {"type": "string", "minLength": 1},
+        "physical_page": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "failure_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source", "candidate", "attempt_ids"],
+      "properties": {
+        "kind": {"const": "failure"},
+        "source": {"$ref": "#/$defs/source_binding"},
+        "candidate": {"$ref": "#/$defs/candidate_binding"},
+        "attempt_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "canonical_table_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source", "candidate", "table_id", "physical_page", "bbox", "coordinate_space", "table_family_id"],
+      "properties": {
+        "kind": {"const": "canonical_table"},
+        "source": {"$ref": "#/$defs/source_binding"},
+        "candidate": {"$ref": "#/$defs/candidate_binding"},
+        "table_id": {"type": "string", "minLength": 1},
+        "physical_page": {"type": "integer", "minimum": 1},
+        "bbox": {"$ref": "#/$defs/nullable_bbox"},
+        "coordinate_space": {"const": "displayed_page"},
+        "table_family_id": {"type": ["string", "null"], "minLength": 1}
+      }
+    },
+    "canonical_block_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source", "candidate", "block_id", "physical_page", "bbox", "coordinate_space"],
+      "properties": {
+        "kind": {"const": "canonical_block"},
+        "source": {"$ref": "#/$defs/source_binding"},
+        "candidate": {"$ref": "#/$defs/candidate_binding"},
+        "block_id": {"type": "string", "minLength": 1},
+        "physical_page": {"type": "integer", "minimum": 1},
+        "bbox": {"$ref": "#/$defs/nullable_bbox"},
+        "coordinate_space": {"const": "displayed_page"}
+      }
+    },
+    "observation_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source", "candidate", "observation_kind", "observation_id"],
+      "properties": {
+        "kind": {"const": "observation"},
+        "source": {"$ref": "#/$defs/source_binding"},
+        "candidate": {"$ref": "#/$defs/candidate_binding"},
+        "observation_kind": {"enum": ["warning_observation", "failure_observation"]},
+        "observation_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "nullable_bbox": {
+      "oneOf": [
+        {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"type": "number"}
+        },
+        {"type": "null"}
+      ]
+    }
+  }
+}

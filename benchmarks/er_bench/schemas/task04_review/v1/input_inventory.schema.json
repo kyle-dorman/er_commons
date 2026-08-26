@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04_review/v1/input_inventory.schema.json",
+  "title": "ER Commons Task 04 input inventory v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_run_id", "pass", "input_sha256", "upstream", "scope", "sources", "populations"],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04_review.v1.input_inventory"},
+    "review_run_id": {"$ref": "#/$defs/review_run_id"},
+    "pass": {"const": "task03h_first"},
+    "input_sha256": {"$ref": "#/$defs/digest"},
+    "upstream": {"$ref": "#/$defs/upstream"},
+    "scope": {"type": "object", "required": ["source_count", "page_count", "byte_count"], "properties": {"source_count": {"type": "integer", "minimum": 1}, "page_count": {"type": "integer", "minimum": 1}, "byte_count": {"type": "integer", "minimum": 1}}, "additionalProperties": true},
+    "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source"}},
+    "populations": {"$ref": "#/$defs/populations"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "relative_path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+    "review_run_id": {"type": "string", "pattern": "^reviewv1-task03h-first-[a-f0-9]{16}$"},
+    "upstream": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retained_root_relative_path", "readiness_relative_path", "readiness_sha256", "catalog_relative_path", "catalog_sha256"],
+      "properties": {
+        "retained_root_relative_path": {"$ref": "#/$defs/relative_path"},
+        "readiness_relative_path": {"$ref": "#/$defs/relative_path"},
+        "readiness_sha256": {"$ref": "#/$defs/digest"},
+        "catalog_relative_path": {"$ref": "#/$defs/relative_path"},
+        "catalog_sha256": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "document_role", "parent_source_id", "sha256", "byte_size", "pdf_page_count", "source_relative_path", "source_exists", "source_pdf_sha256", "candidate_ids", "selected_candidate_id", "selected_completion_sha256", "selected_inventory_sha256", "evidence_status"],
+      "properties": {
+        "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+        "document_role": {"type": ["string", "null"]},
+        "parent_source_id": {"type": ["string", "null"]},
+        "sha256": {"$ref": "#/$defs/digest"},
+        "byte_size": {"type": "integer", "minimum": 1},
+        "pdf_page_count": {"type": "integer", "minimum": 1},
+        "source_relative_path": {"$ref": "#/$defs/relative_path"},
+        "source_exists": {"type": "boolean"},
+        "source_pdf_sha256": {"oneOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+        "candidate_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^docv1-[a-f0-9]+$"}},
+        "selected_candidate_id": {"type": ["string", "null"], "pattern": "^docv1-[a-f0-9]+$"},
+        "selected_completion_sha256": {"oneOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+        "selected_inventory_sha256": {"oneOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+        "evidence_status": {"enum": ["available", "missing_publication_evidence"]}
+      }
+    },
+    "populations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_workspace_count", "failed_or_incomplete_review_count", "raw_failed_or_incomplete_attempt_count", "failure_source_group_count", "missing_publication_source_count", "candidate_source_count", "candidate_identity_count", "available_page_count", "raw_producer_warning_count", "raw_canonicalization_warning_count", "raw_warning_count", "normalized_warning_class_count"],
+      "properties": {
+        "attempt_workspace_count": {"type": "integer", "minimum": 0},
+        "failed_or_incomplete_review_count": {"type": "integer", "minimum": 0},
+        "raw_failed_or_incomplete_attempt_count": {"type": "integer", "minimum": 0},
+        "failure_source_group_count": {"type": "integer", "minimum": 0},
+        "missing_publication_source_count": {"type": "integer", "minimum": 0},
+        "candidate_source_count": {"type": "integer", "minimum": 0},
+        "candidate_identity_count": {"type": "integer", "minimum": 0},
+        "available_page_count": {"type": "integer", "minimum": 0},
+        "raw_producer_warning_count": {"type": "integer", "minimum": 0},
+        "raw_canonicalization_warning_count": {"type": "integer", "minimum": 0},
+        "raw_warning_count": {"type": "integer", "minimum": 0},
+        "normalized_warning_class_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

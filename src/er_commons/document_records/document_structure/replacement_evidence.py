@@ -10,13 +10,20 @@ from er_commons.document_records.document_structure.errors import (
     DocumentStructureInvariantError,
 )
 from er_commons.document_records.record_mapping.provenance import (
+    ProvenanceProjection,
     descendant_text_pointers,
     project_regions,
 )
 from er_commons.document_records.record_mapping.table_projection import (
     project_canonical_table_bundle,
 )
-from er_commons.document_records.record_mapping.tables import load_producer_table_bundle
+from er_commons.document_records.record_mapping.table_text_ownership import (
+    assign_table_text_ownership,
+)
+from er_commons.document_records.record_mapping.tables import (
+    ProducerTable,
+    load_producer_table_bundle,
+)
 
 JsonObject = dict[str, Any]
 
@@ -44,6 +51,9 @@ def replacement_dispositions(
     table_bundle = project_canonical_table_bundle(
         baseline_document, load_producer_table_bundle(producer_root)
     )
+    page_sizes = _page_sizes(baseline_document)
+    page_ids = {page: str(page) for page in page_sizes}
+    text_projections = _text_projections(baseline_document, page_ids, page_sizes)
     replaced_table_refs = {
         mapping.raw_object_ref
         for mapping in table_bundle.region_mappings
@@ -74,11 +84,72 @@ def replacement_dispositions(
             "canonical_figure_suppressed_descendant",
         )
     )
-    for pointer in _invalid_geometry_text_pointers(baseline_document):
+    dispositions.update(
+        _dispositions_for_pointers(
+            set(
+                _geometry_owned_text_by_pointer(
+                    baseline_document=baseline_document,
+                    tables=table_bundle.tables,
+                    projections=text_projections,
+                    page_ids=page_ids,
+                )
+            ),
+            key_by_pointer,
+            relevant_keys,
+            "canonical_table_geometry_owned_text",
+        )
+    )
+    for pointer in _invalid_geometry_text_pointers(text_projections):
         key = key_by_pointer[pointer]
         if key in relevant_keys:
             dispositions.setdefault(key, "canonical_invalid_provenance_suppressed")
     return dispositions
+
+
+def _geometry_owned_text_by_pointer(
+    *,
+    baseline_document: JsonObject,
+    tables: tuple[ProducerTable, ...],
+    projections: dict[str, ProvenanceProjection],
+    page_ids: dict[int, str],
+) -> dict[str, str]:
+    """Reuse canonical table ownership policy for downstream bridge evidence."""
+    return dict(
+        assign_table_text_ownership(
+            document=baseline_document,
+            tables=tables,
+            projections=projections,
+            page_ids=page_ids,
+            document_index_descendants=_document_index_descendants(baseline_document),
+        ).table_id_by_text_pointer
+    )
+
+
+def _text_projections(
+    document: JsonObject,
+    page_ids: dict[int, str],
+    page_sizes: dict[int, tuple[float, float]],
+) -> dict[str, ProvenanceProjection]:
+    """Project all baseline text once for the shared ownership classifier."""
+    projections: dict[str, ProvenanceProjection] = {}
+    for index, item in enumerate(document.get("texts", [])):
+        pointer = f"#/texts/{index}"
+        projections[pointer] = project_regions(
+            item=item,
+            pointer=pointer,
+            page_ids=page_ids,
+            page_sizes=page_sizes,
+        )
+    return projections
+
+
+def _document_index_descendants(document: JsonObject) -> set[str]:
+    """Identify index text excluded from geometry-based table ownership."""
+    pointers: set[str] = set()
+    for table in document.get("tables", []):
+        if table.get("label") == "document_index":
+            pointers.update(descendant_text_pointers(document, table.get("children", [])))
+    return pointers
 
 
 def _replacement_text_pointers(document: JsonObject, owners: Iterable[JsonObject]) -> set[str]:
@@ -103,18 +174,11 @@ def _dispositions_for_pointers(
     }
 
 
-def _invalid_geometry_text_pointers(document: JsonObject) -> set[str]:
-    page_sizes = _page_sizes(document)
-    page_ids = {page: str(page) for page in page_sizes}
-    invalid: set[str] = set()
-    for index, item in enumerate(document.get("texts", [])):
-        pointer = f"#/texts/{index}"
-        projection = project_regions(
-            item=item, pointer=pointer, page_ids=page_ids, page_sizes=page_sizes
-        )
-        if not projection.regions:
-            invalid.add(pointer)
-    return invalid
+def _invalid_geometry_text_pointers(
+    projections: dict[str, ProvenanceProjection],
+) -> set[str]:
+    """Return text with no valid canonical region from shared projections."""
+    return {pointer for pointer, projection in projections.items() if not projection.regions}
 
 
 def _page_sizes(document: JsonObject) -> dict[int, tuple[float, float]]:

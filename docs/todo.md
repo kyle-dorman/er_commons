@@ -8,17 +8,22 @@ Current routing: [Task
 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is complete as the
 first full-corpus end-to-end attempt. It closed with a maintained and
 source-free-validated pipeline, but not a final corpus candidate, because its final
-identity corrections require a completely fresh run. Prepared [Task
-04](../tasks/sprint2/04_review_extraction_and_freeze_release.md) is next but is
-not activated. Its first pass will use the retained, mostly but not fully extracted
-Task 03H evidence to qualify a read-only local HTML review workspace and create an
-evidence-anchored finding register. [Task
-03I](../tasks/sprint2/03i_remediate_task04_review_findings.md) will disposition only
-the extraction findings from that review and may close as a no-op. [Task
+identity corrections require a completely fresh run. Completed [Task
+04](../tasks/sprint2/04_review_extraction_and_freeze_release.md) is complete. It
+qualified the read-only local
+HTML review workspace and produced evidence-anchored findings from retained Task
+03H evidence. [Task
+03I](../tasks/sprint2/03i_remediate_task04_review_findings.md) owns disposition and
+bounded repair of accepted extraction findings. Its first repair and independent
+human-maintainability gate are complete, and the committed task outcome records
+the approved Task 04 register and handoff checksums. [Task
 03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) then owns the next fresh
-35-source end-to-end attempt and final machine handoff back to Task 04 for its
-resumed usability decision and release freeze. No Task 03H production artifact is
-eligible for Task 03J reuse.
+35-source end-to-end attempt and final machine handoff. Provisional [Task
+04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) will use that
+completed handoff to define and generate a new review dataset, perform rechecks,
+record usability, and make the release-freeze decision. Its final dependencies
+must be captured after Task 03J runs. No Task 03H production artifact is eligible
+for Task 03J or Task 04A reuse.
 
 The current retained Task 03H diagnostic root is
 `pipelines/brisbane_baylands/task_03h_clean_full_v3/` under
@@ -501,19 +506,16 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    separate G2 range-RSS stop condition. Subsequent v3 execution and remediation are
    preserved in the task outcome. Task 03H is now closed as the first end-to-end
    attempt; it did not publish the final corpus candidate.
-8. Explicitly activate prepared [Task
-   04](../tasks/sprint2/04_review_extraction_and_freeze_release.md), inventory the
-   retained Task 03H evidence, and freeze its four-queue selection and workload
-   before source-dependent implementation or source-PDF rendering. The first pass
-   tests the read-only HTML review workspace and reviews all document-processing
-   failures, deterministic warning samples, valid pages from every source with
-   evidence, and bounded table samples, with the main report oversampled relative
-   to the median appendix allocation. Route any accepted extraction defects
-   through [Task
-   03I](../tasks/sprint2/03i_remediate_task04_review_findings.md), which may close
-   no-op, then run the fresh all-source [Task
-   03J](../tasks/sprint2/03j_run_final_canonical_extraction.md). Task 04 retains the
-   resumed final usability and release-freeze decision after the Task 03J handoff.
+8. Complete [Task
+   04](../tasks/sprint2/04_review_extraction_and_freeze_release.md) as the Task
+   03H-backed first-pass review and route accepted extraction findings through
+   [Task 03I](../tasks/sprint2/03i_remediate_task04_review_findings.md). Then run
+   the fresh all-source [Task
+   03J](../tasks/sprint2/03j_run_final_canonical_extraction.md). After its handoff
+   exists, revise and activate provisional [Task
+   04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) to generate
+   the Task 03J-bound review dataset, recheck findings, record usability, and make
+   the release-freeze decision.
 9. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
 10. Freeze human evaluation before BM25 retrieval, target generation, and judge

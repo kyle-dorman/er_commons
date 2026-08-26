@@ -9,6 +9,9 @@ from typing import Any
 from er_commons.document_records.document_structure.baseline import load_baseline_candidate
 from er_commons.document_records.document_structure.comparison import compare_baseline_collections
 from er_commons.document_records.document_structure.config import DocumentStructureExpectations
+from er_commons.document_records.document_structure.constants import (
+    TABLE_REPLACEMENT_DISPOSITIONS,
+)
 from er_commons.document_records.document_structure.construction import DocumentStructureBuild
 from er_commons.document_records.document_structure.errors import (
     DocumentStructureInvariantError,
@@ -156,8 +159,7 @@ def _bridge_payload(
     build: DocumentStructureBuild, control: JsonObject, expectations: DocumentStructureExpectations
 ) -> JsonObject:
     table_replacements = sum(
-        item["disposition"] == "canonical_table_replacement_descendant"
-        for item in build.bridge_entries
+        item["disposition"] in TABLE_REPLACEMENT_DISPOSITIONS for item in build.bridge_entries
     )
     figure_suppressions = sum(
         item["disposition"] == "canonical_figure_suppressed_descendant"

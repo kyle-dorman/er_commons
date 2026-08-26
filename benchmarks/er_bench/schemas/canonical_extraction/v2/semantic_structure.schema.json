@@ -150,7 +150,7 @@
         "baseline_raw_pointer": {"type": "string", "pattern": "^#/"},
         "status": {"enum": ["mapped", "permitted_unmapped"]},
         "canonical_record_ids": {"type": "array", "items": {"$ref": "#/$defs/record_id"}, "maxItems": 1, "uniqueItems": true},
-        "disposition": {"type": ["string", "null"], "enum": ["canonical_table_replacement_descendant", "canonical_figure_suppressed_descendant", "canonical_invalid_provenance_suppressed", null]}
+        "disposition": {"type": ["string", "null"], "enum": ["canonical_table_replacement_descendant", "canonical_table_geometry_owned_text", "canonical_figure_suppressed_descendant", "canonical_invalid_provenance_suppressed", null]}
       },
       "additionalProperties": false
     },

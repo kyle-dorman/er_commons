@@ -3,8 +3,8 @@
   "schema_version": "er_commons.document_publication_identity.v2",
   "fixture_status": "identity_recipe",
   "execution_status": "not_executed",
-  "extraction_id": "exv1-42295c40af2f58c313201140f340bd18e090fb136d6f06ac10b25ccd2882866e",
-  "identity_sha256": "42295c40af2f58c313201140f340bd18e090fb136d6f06ac10b25ccd2882866e",
+  "extraction_id": "exv1-dc215a29286198af33a31c708e431b65cd5e445adb82f4543270335d2094dba9",
+  "identity_sha256": "dc215a29286198af33a31c708e431b65cd5e445adb82f4543270335d2094dba9",
   "preimage": {
     "schema_version": "er_commons.document_publication_identity_preimage.v2",
     "contract_revision": "task_03h_production_full_v1",
@@ -68,8 +68,8 @@
       "artifacts": [
         {
           "path": "benchmarks/er_bench/schemas/canonical_extraction/v2/semantic_structure.schema.json",
-          "sha256": "ab27578dd3c87e573392d19fcd7193de473ba940003c8569cfb60e8b69b150e3",
-          "byte_size": 18585
+          "sha256": "6d9fd6bbca2f6a4c16480de2f82883b16a60794972980845fff8b9eb4af3e758",
+          "byte_size": 18624
         },
         {
           "path": "benchmarks/er_bench/schemas/canonical_extraction/v3/cross_references.schema.json",
@@ -1258,13 +1258,13 @@
         },
         {
           "path": "docs/specs/semantic_structure_v2.md",
-          "sha256": "a0b5b1195e24b9d8017a4aa9f04f395b6bf87a45575674434cb2e2b9c68ec30b",
-          "byte_size": 12569
+          "sha256": "daedecd575214634ecb36dc9b3b7cfe1b398c0bd69bec40ef1bb4f827205c7ab",
+          "byte_size": 12842
         },
         {
           "path": "docs/specs/task03d_appendix_p_mapping_v1.md",
-          "sha256": "8f5ed4aa9d4c318bdf7dd377ac18a74067276303f199eea9f978be4d800427d2",
-          "byte_size": 11262
+          "sha256": "50cd1b0e462af75653e32ecad51f59e27478a36aa92277da98e55b1a02839329",
+          "byte_size": 12934
         }
       ],
       "owned_code": [
@@ -2095,8 +2095,8 @@
         },
         {
           "path": "src/er_commons/document_records/document_structure/constants.py",
-          "sha256": "f2f2304b05be1386c85a4341627bd8f2be670f8ed98f3f7650d15a850b2b5d8d",
-          "byte_size": 872
+          "sha256": "f4dba1f33d9f78d97c470002ca4ebad1ab22f20b7feb701cdaaeb00f3939c127",
+          "byte_size": 1019
         },
         {
           "path": "src/er_commons/document_records/document_structure/construction.py",
@@ -2140,8 +2140,8 @@
         },
         {
           "path": "src/er_commons/document_records/document_structure/parser_evidence.py",
-          "sha256": "a2819952ca7f8a86ff0d84a282b5c4da49b85d96041670c659c2fcf64d3ad4a1",
-          "byte_size": 7735
+          "sha256": "1a67e520d34dfa6de0a4db65920c46bf6022409248467a3513628740bab25647",
+          "byte_size": 7834
         },
         {
           "path": "src/er_commons/document_records/document_structure/policies/__init__.py",
@@ -2190,8 +2190,8 @@
         },
         {
           "path": "src/er_commons/document_records/document_structure/replacement_evidence.py",
-          "sha256": "9d0b7a8c6d1bac951a4493a746f52eaf78436c01e652765f456b3d2a42ce0087",
-          "byte_size": 5021
+          "sha256": "c4440b2ff6f94b35ceeeca42ac642b78ccb821019e5e16e4c2ddfe924679368b",
+          "byte_size": 7211
         },
         {
           "path": "src/er_commons/document_records/document_structure/runtime.py",
@@ -2210,8 +2210,8 @@
         },
         {
           "path": "src/er_commons/document_records/document_structure/support.py",
-          "sha256": "e30dd4f1194f072a1ecd000cf80da68858cfcf07673435a78279cc821a5aa21a",
-          "byte_size": 6623
+          "sha256": "91c3155aacb91a87cfc8b55587c65aaaee85df0a41cefaddfd469990769bbabf",
+          "byte_size": 6714
         },
         {
           "path": "src/er_commons/document_records/document_structure/validation.py",
@@ -2240,8 +2240,8 @@
         },
         {
           "path": "src/er_commons/document_records/record_mapping/candidate.py",
-          "sha256": "3b94548269bf7a49f9b06a0c37b7b0a79c22c04dfaeb67d1fa95ecc837a3c26e",
-          "byte_size": 10665
+          "sha256": "95c1ba6e2d5f4e520f525d43dc1e9f689c60b3a235f4a27b06a4afd16ac20f7a",
+          "byte_size": 11348
         },
         {
           "path": "src/er_commons/document_records/record_mapping/candidate_identity.py",
@@ -2260,8 +2260,8 @@
         },
         {
           "path": "src/er_commons/document_records/record_mapping/content_records.py",
-          "sha256": "ba035aa40364d0f4e2e40ee8e771e290fdcb04327b54fb373d5fd6a4853d3536",
-          "byte_size": 14922
+          "sha256": "18a340c8ff6da423b56ef3b8d1add1d12968db110e398caeccff57dfccb06d65",
+          "byte_size": 15001
         },
         {
           "path": "src/er_commons/document_records/record_mapping/context.py",
@@ -2275,8 +2275,8 @@
         },
         {
           "path": "src/er_commons/document_records/record_mapping/context_preparation.py",
-          "sha256": "9ddc46550bb4d0622f8194f82c22b9ac6ec59fc1c650a944cc2f1327cf60defa",
-          "byte_size": 11419
+          "sha256": "fa25df5d3bbc7df85be5c76d2076c5dfc3a237a14971ea5690f56e0f44e15049",
+          "byte_size": 12155
         },
         {
           "path": "src/er_commons/document_records/record_mapping/context_types.py",
@@ -2355,8 +2355,8 @@
         },
         {
           "path": "src/er_commons/document_records/record_mapping/record_sets.py",
-          "sha256": "3aaa86f816897065e271d69cd658aa9ae6b10f04bd6c690c972cf75b0c7bc83f",
-          "byte_size": 3586
+          "sha256": "f58ebf0b096433cdd06868e8e7dc56ad369f1a16598800858beb8d2e1bc54595",
+          "byte_size": 3809
         },
         {
           "path": "src/er_commons/document_records/record_mapping/support_records.py",
@@ -2385,8 +2385,8 @@
         },
         {
           "path": "src/er_commons/document_records/record_mapping/table_records.py",
-          "sha256": "535fb71d42d8c59fc942f49add6edbc6b0eece1dc73709761acfba6b6c6cc6f2",
-          "byte_size": 6682
+          "sha256": "4c8b9ab0c8af358de8b0da22fdcb2830eb113b548589718889d4415692868722",
+          "byte_size": 6956
         },
         {
           "path": "src/er_commons/document_records/record_mapping/table_regions.py",
@@ -2394,14 +2394,19 @@
           "byte_size": 9731
         },
         {
+          "path": "src/er_commons/document_records/record_mapping/table_text_ownership.py",
+          "sha256": "9569c5ff053e2ba186baffa7331caa0a7da2118ec31b4a227b6a83314c8c7e5e",
+          "byte_size": 8155
+        },
+        {
           "path": "src/er_commons/document_records/record_mapping/tables.py",
-          "sha256": "f6252f832738f0b08032e070cfb2560c108eadc855df035a211c1fd134ca0dd0",
-          "byte_size": 1736
+          "sha256": "75559b87910d4ff72ee69560163b939c7f9664269380d03f1abb073a3999d8ed",
+          "byte_size": 1770
         },
         {
           "path": "src/er_commons/document_records/record_mapping/traversal.py",
-          "sha256": "35ade8b31aa645d817e24e5fc33d2f01eb23238aba96f0920f35ca0fe14a5fd7",
-          "byte_size": 10383
+          "sha256": "1d50865f48aae759169c4346612ae81ad921566039b7da6b9938c9873bdb5a1f",
+          "byte_size": 11685
         },
         {
           "path": "src/er_commons/document_records/record_mapping/validation.py",

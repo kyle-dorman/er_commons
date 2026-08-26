@@ -14,6 +14,9 @@ from er_commons.document_records.document_structure.bridge import (
     build_cross_producer_bridge,
 )
 from er_commons.document_records.document_structure.config import DocumentStructureExpectations
+from er_commons.document_records.document_structure.constants import (
+    TABLE_REPLACEMENT_DISPOSITIONS,
+)
 from er_commons.document_records.document_structure.errors import (
     DocumentStructureInvariantError,
 )
@@ -154,7 +157,7 @@ def build_bridge_construction(
         entry_count=len(entries),
         canonical_block_count=len(canonical_block_by_key),
         table_replacement_count=sum(
-            value == "canonical_table_replacement_descendant" for value in dispositions.values()
+            value in TABLE_REPLACEMENT_DISPOSITIONS for value in dispositions.values()
         ),
         figure_suppression_count=sum(
             value == "canonical_figure_suppressed_descendant" for value in dispositions.values()

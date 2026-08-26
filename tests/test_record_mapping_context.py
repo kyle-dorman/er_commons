@@ -289,3 +289,43 @@ def test_context_places_geometry_only_layout_table_without_docling_region() -> N
     assert event.pointer == "#/routing_regions/producer_table_1"
     assert event.content_layer == "body"
     assert context.accounted_text_pointers == context.all_text_pointers
+
+
+def test_context_preserves_exact_full_page_table_text_owner() -> None:
+    document = _document()
+    original = _table_bundle()
+    full_page = replace(
+        original.tables[0],
+        table_id="producer_table_full_page",
+        physical_pdf_page=1,
+        region_id=None,
+        parser="camelot_stream",
+        bbox_pdf_points_bottom_left=(9.0, 9.0, 21.0, 11.5),
+        family_id="producer_family_full_page",
+    )
+    bundle = ProducerTableBundle(
+        tables=(full_page,),
+        families=(
+            ProducerTableFamily(
+                family_id="producer_family_full_page",
+                table_ids=("producer_table_full_page",),
+                evidence=("singleton",),
+            ),
+        ),
+        region_mappings=(),
+    )
+
+    context = build_record_mapping_context(
+        config=_config(),
+        inputs=cast(RecordMappingInputs, SimpleNamespace(document=document)),
+        identity={"extraction_id": EXTRACTION_ID},
+        table_bundle=bundle,
+    )
+
+    assert context.traversal.table_owned_text_by_pointer == {
+        "#/texts/0": "producer_table_full_page"
+    }
+    assert context.traversal.table_text_ownership_decisions[0].physical_pdf_page == 1
+    assert "#/texts/0" not in {event.pointer for event in context.block_events}
+    assert context.table_event_by_id["producer_table_full_page"].kind == "table"
+    assert context.accounted_text_pointers == context.all_text_pointers

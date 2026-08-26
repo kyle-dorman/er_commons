@@ -1,12 +1,13 @@
 # Task 03J: Run the Final Full-Corpus Extraction Attempt
 
-Status: **provisional; waits for Task 03I disposition and explicit activation**.
+Status: **provisional; Task 03I baseline is complete and explicit activation is
+still required**.
 
 ## Abstract
 
 Run the maintained extraction pipeline end to end across all 35 model-corpus
 sources under one genuinely fresh namespace and production identity. Publish the
-complete machine candidate and accounting handoff for Task 04 without reusing Task
+complete machine candidate and accounting handoff for Task 04A without reusing Task
 03H production artifacts or changing extraction behavior during execution.
 
 ## Goal
@@ -17,11 +18,11 @@ from the post-Task-03I code and configuration baseline.
 ## Inputs
 
 - the closed [Task 03H](03h_run_full_canonical_extraction.md) first-attempt outcome
-- the paused [Task 04](04_review_extraction_and_freeze_release.md) first-pass
+- the completed [Task 04](04_review_extraction_and_freeze_release.md) first-pass
   `records/finding_register.json` and `records/task03i_handoff.json` from
   `pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`, plus the closed
-  [Task 03I](03i_remediate_task04_review_findings.md) disposition and its digests,
-  including a possible no-op outcome
+  [Task 03I](03i_remediate_task04_review_findings.md) committed code, tests,
+  production identity, recorded Task 04 input checksums, and validation outcome
 - the immutable Task 02 source freeze and accepted Task 03 contracts
 - a newly generated source-free run specification, namespace, and identity
 
@@ -32,10 +33,11 @@ from the post-Task-03I code and configuration baseline.
   for every successful source, with explicit retained failures where applicable
 - exact all-source accounting, warnings, timings, resource observations, and reuse
   evidence
-- the machine-candidate and review-cache handoff required for Task 04's final
+- the machine-candidate and review-cache handoff required for Task 04A's final
   usability decision and release freeze
 - a checksummed machine handoff that names the Task 03J corpus identity and the
-  Task 03I disposition digest; Task 04 must use these to allocate a new final
+  committed Task 03I production identity; [Task 04A](04a_regenerate_review_and_freeze_release.md)
+  must use these to allocate a new final
   review-run namespace
 
 ## Research / learning checkpoint
@@ -63,7 +65,7 @@ between attempts created within Task 03J under compatible closed identities. Tas
   cross-record relationships
 - verify restart and reuse behavior without reopening avoidable large payloads
 - reconcile warnings and failures without converting them into silent success
-- verify the candidate remains independent of Task 04 human dispositions
+- verify the candidate remains independent of Task 04 and Task 04A human dispositions
 
 ## Validation
 
@@ -85,10 +87,10 @@ between attempts created within Task 03J under compatible closed identities. Tas
 - no Task 03H production completion contributes to Task 03J output
 - no extraction code, policy, or configuration changes during the run without a
   separately closed task and new identity
-- the final collection and Task 04 handoff pass their owning validators
+- the final collection and Task 04A handoff pass their owning validators
 - exact success/failure counts, pages, bytes, timings, warnings, and resource use are
   recorded
-- Task 04 can make the independent final usability and release-freeze decision from
+- Task 04A can make the independent final usability and release-freeze decision from
   the published handoff
 
 ## Non-goals

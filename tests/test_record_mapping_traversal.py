@@ -109,7 +109,7 @@ def test_explicit_invalid_geometry_text_is_suppressed_and_accounted() -> None:
     result = traverse_docling_document(
         tiny_document(),
         {},
-        {"#/texts/0", "#/texts/4"},
+        invalid_geometry_text_pointers={"#/texts/0", "#/texts/4"},
     )
 
     assert "#/texts/0" not in {event.pointer for event in result.events}

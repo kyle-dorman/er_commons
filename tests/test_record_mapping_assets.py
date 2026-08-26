@@ -55,6 +55,8 @@ def _context() -> RecordMappingContext:
         events=(),
         emitted_text_pointers=frozenset(),
         suppressed_text_pointers=frozenset(),
+        table_owned_text_by_pointer={},
+        table_text_ownership_decisions=(),
         invalid_geometry_text_pointers=frozenset(),
         suppressed_picture_furniture_pointers=frozenset(),
         zero_table_pointers=frozenset(),

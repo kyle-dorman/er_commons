@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>__TITLE__</title>
+    <link rel="stylesheet" href="review.css">
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" aria-label="Review queue navigation">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">04</div>
+          <div class="brand-copy">
+            <span>Environmental review</span>
+            <strong>First-pass workspace</strong>
+          </div>
+        </div>
+        <p class="sidebar-intro">
+          A focused, read-only path through the retained diagnostic evidence.
+        </p>
+        <p class="rail-label">Review queues</p>
+        <nav class="queue-nav" aria-label="Review queue filters">
+          <button class="queue-button" data-filter="failure">
+            <span class="queue-name">Failures</span>
+            <span class="queue-count" data-count="failure">0</span>
+            <span class="queue-hint">Source histories</span>
+          </button>
+          <button class="queue-button" data-filter="warning">
+            <span class="queue-name">Warnings</span>
+            <span class="queue-count" data-count="warning">0</span>
+            <span class="queue-hint">Classes + context</span>
+          </button>
+          <button class="queue-button" data-filter="valid_page">
+            <span class="queue-name">Valid pages</span>
+            <span class="queue-count" data-count="valid_page">0</span>
+            <span class="queue-hint">Content-rich samples</span>
+          </button>
+          <button class="queue-button" data-filter="table">
+            <span class="queue-name">Tables</span>
+            <span class="queue-count" data-count="table">0</span>
+            <span class="queue-hint">Cells + page image</span>
+          </button>
+        </nav>
+        <button class="all-button" data-filter="all">View all review items</button>
+      </aside>
+      <div class="content-shell">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Task 04 · Diagnostic review</p>
+            <h1>__TITLE__</h1>
+          </div>
+          <section class="progress-panel" aria-label="Current queue progress">
+            <div class="progress-meta">
+              <span id="queue-label">All items</span>
+              <span id="status" aria-live="polite"></span>
+            </div>
+            <div id="progressbar" class="progress-track" role="progressbar"
+                 aria-label="Position through current review queue"
+                 aria-valuemin="0" aria-valuemax="1" aria-valuenow="0">
+              <span id="progress-fill" class="progress-fill"></span>
+            </div>
+            <div class="progress-actions">
+              <p id="progress-caption" class="progress-caption">
+                Position through the current list
+              </p>
+              <button id="toggle-overlays" class="overlay-toggle" type="button"
+                      aria-pressed="true">Boxes on</button>
+            </div>
+          </section>
+        </header>
+        <main id="items">__CARDS__</main>
+        <nav class="transport" aria-label="Review item navigation">
+          <button id="previous">← Previous</button>
+          <button id="next">Next →</button>
+        </nav>
+      </div>
+    </div>
+    <script>window.TASK04_QUEUE_COUNTS = __QUEUE_COUNTS__;</script>
+    <script src="review.js"></script>
+  </body>
+</html>

@@ -3,9 +3,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from er_commons.document_records.record_mapping.layout import RECORD_COLLECTIONS
+
+if TYPE_CHECKING:
+    from er_commons.document_records.record_mapping.table_text_ownership import (
+        TableTextOwnershipDecision,
+    )
 
 JsonRecord = dict[str, Any]
 
@@ -105,3 +110,4 @@ class MaterializationReport:
     producer_furniture_count: int
     emitted_furniture_count: int
     suppressed_picture_furniture_pointers: tuple[str, ...]
+    table_text_ownership: tuple[TableTextOwnershipDecision, ...]

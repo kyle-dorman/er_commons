@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04a_review/v1/release_freeze.schema.json",
+  "title": "ER Commons provisional Task 04A release freeze v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_run_id", "pass", "status", "review_register_sha256", "unresolved_material_finding_count"],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04_review.v1.release_freeze"},
+    "review_run_id": {"$ref": "#/$defs/review_run_id"},
+    "pass": {"const": "task03j_final"},
+    "status": {"enum": ["not_frozen", "frozen", "blocked"]},
+    "review_register_sha256": {"$ref": "#/$defs/digest"},
+    "unresolved_material_finding_count": {"type": "integer", "minimum": 0}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "review_run_id": {"type": "string", "pattern": "^reviewv1-[a-z0-9-]+$"}
+  }
+}

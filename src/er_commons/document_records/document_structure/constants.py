@@ -16,9 +16,16 @@ SEMANTIC_COUNT_FIELDS = frozenset(
     }
 )
 
-PERMITTED_BRIDGE_DISPOSITIONS = frozenset(
+TABLE_REPLACEMENT_DISPOSITIONS = frozenset(
     {
         "canonical_table_replacement_descendant",
+        "canonical_table_geometry_owned_text",
+    }
+)
+
+PERMITTED_BRIDGE_DISPOSITIONS = frozenset(
+    {
+        *TABLE_REPLACEMENT_DISPOSITIONS,
         "canonical_figure_suppressed_descendant",
         "canonical_invalid_provenance_suppressed",
     }

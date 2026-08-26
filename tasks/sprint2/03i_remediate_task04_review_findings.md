@@ -1,8 +1,14 @@
 # Task 03I: Disposition Task 04 Extraction Findings
 
-Status: **provisional; waits for the first-pass [Task
-04](04_review_extraction_and_freeze_release.md) review findings**. This task may
-close as a documented no-op when review identifies no accepted extraction defect.
+Status: **complete; repair and independent human-maintainability gate passed**.
+The first-pass
+[Task 04](04_review_extraction_and_freeze_release.md) review identified one
+source-general ownership defect. The repair has an explicit responsibility owner,
+inspectable ownership evidence, fail-closed single-table semantics, editable
+policy tests, and complete source-free correctness and maintainability validation.
+The committed code, tests, task contract, production identity, and recorded Task
+04 input checksums are the durable disposition; no duplicate Task 03I receipt is
+required.
 
 ## Abstract
 
@@ -27,6 +33,79 @@ affect the Task 03 extraction, with bounded repairs and regressions where needed
 - the maintained source-free pipeline and tests at Task 03I activation
 - accepted Task 03 contracts and durable decisions implicated by a finding
 
+## Frozen finding 1: accepted full-page tables retain duplicate native text
+
+The first approved finding is anchored to review item
+`reviewitem-9e4881101e7f8c6fa60dcf8a` in review run
+`reviewv1-task03h-first-7e8e89a40907adba`. It is an extraction/canonicalization
+defect, not only a review-interface concern.
+
+The reproducible evidence is source
+`deir_appendix_k2_part_5_of_5`, candidate
+`docv1-60d0928a0fb7af7ab1a58cb1838a0a52b5224e0ddff0bff1386d9fbe20bcad57`,
+table family `.../fam000709`, physical pages 974--983. On page 974, the
+validated `camelot_stream` table `.../tbl000805` has a `196 x 48` clean grid
+and bbox `[40.879856, 46.04, 1167.397432, 747.000008]`. The same canonical
+page contains 585 standalone Docling body-text blocks whose valid provenance
+boxes fall inside that table bbox. The page has no
+`table_stage_observation_ids`, so the existing observation-based suppression
+path has no native table pointer to suppress. The result is one accepted table
+plus a second, text-shaped representation of its contents. This is why the
+review UI appeared to show a paragraph column in the middle of the table.
+
+Expected behavior: once a regionless producer table has passed the existing
+clean-grid and CSV validation for the `full_page_numeric` route, it owns body
+text whose every valid provenance region is fully contained by that table's
+page-local bbox. Those native text pointers must be suppressed from the
+canonical traversal so the table event is the sole canonical representation.
+
+The repair is deliberately fail-closed. It does not suppress text merely
+because it intersects a table, and it does not use the route label alone. Text
+with rejected or mixed provenance, partial or outside geometry, furniture
+content, and document-index descendants remains visible. Raw Docling evidence
+and the accepted table artifact remain unchanged; only the canonical ownership
+view changes. This follows the existing contract that table text may be
+suppressed only after page-local table extraction evidence is verified.
+
+The focused source-free policy regressions in
+`tests/test_record_mapping_table_text_ownership.py` cover exact owner mapping,
+multiple regions contained by one table, one contained plus one outside region,
+regions spanning pages, mixed or rejected provenance, split multi-table
+coverage, wrong-page geometry, non-full-page tables, furniture, and
+document-index text. The public context regression
+`tests/test_record_mapping_context.py::test_context_preserves_exact_full_page_table_text_owner`
+requires the duplicate block to disappear while preserving the exact producer
+table owner and table event.
+
+Every accepted decision is published to
+`observations/table_text_ownership.jsonl` with its text pointer, producer table
+ID, physical page, table bbox, complete text-region list, and stable reason.
+`canonicalization_summary.json` names the sidecar, records its count and reason
+counts, and separates reason-specific table ownership while preserving the
+existing emitted/suppressed/unaccounted total equation.
+
+Hierarchy-relevant suppressed text remains explainable downstream. Document
+structure reuses the same classifier and persists
+`canonical_table_geometry_owned_text` through its replacement-evidence bridge;
+it does not duplicate the geometry rule. The maintained mapping and semantic
+specifications describe the exclusions, diagnostics, and raw-evidence
+preservation. These code and contract changes are bound by regenerated Task 03H
+production identity `exv1-dc215a29286198af33a31c708e431b65cd5e445adb82f4543270335d2094dba9`.
+The next fresh Task 03J extraction must recheck the Brisbane example under its
+new identity; this change does not promote or mutate Task 03H artifacts.
+
+The separate code-quality pass is complete. The geometry rule lives in the
+focused typed `table_text_ownership` policy module; traversal preserves exact
+ownership decisions; candidate publication writes a checksummed ownership
+sidecar; and document structure reuses the same classifier and explicit
+disposition. An independent review found no remaining maintainability blockers.
+The repository-wide gate passed Ruff, mypy, all 982 tests, deterministic Task 03H
+config generation, and `git diff --check`. The approved Task 04 inputs remain
+`finding_register.json` SHA-256
+`a8c3a763af0da402834e61e1a88fb38011c67f35edc47d3e07bfe585d7c71100` and
+`task03i_handoff.json` SHA-256
+`b946d77e6a2189302a23b3d2ae41a6dda3708a2ece903cffeedc62c7114772b4`.
+
 ## Outputs
 
 - a disposition for each in-scope finding: repair, accepted limitation, duplicate,
@@ -34,8 +113,8 @@ affect the Task 03 extraction, with bounded repairs and regressions where needed
 - source-general code, configuration, contract, and regression changes for every
   accepted repair
 - an identity-impact inventory stating which Task 03J stages must be fresh
-- a checksummed disposition record that names the input handoff and finding-register
-  digests
+- a committed task outcome naming the input handoff and finding-register digests,
+  repair identity, owning code, and validation evidence
 - an outcome that either records the validated repairs or explicitly closes no-op
 
 ## Research / learning checkpoint

@@ -376,5 +376,6 @@ def build_content_records(
         suppressed_picture_furniture_pointers=tuple(
             sorted(context.traversal.suppressed_picture_furniture_pointers)
         ),
+        table_text_ownership=context.traversal.table_text_ownership_decisions,
     )
     return content, report

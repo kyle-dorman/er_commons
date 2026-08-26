@@ -10,6 +10,10 @@ from typing import cast
 import pytest
 
 from er_commons.document_records.document_structure import replacement_evidence
+from er_commons.document_records.document_structure.bridge import (
+    BridgeItem,
+    build_cross_producer_bridge,
+)
 from er_commons.document_records.record_mapping.assets import AssetCatalog
 from er_commons.document_records.record_mapping.candidate import canonicalization_warnings
 from er_commons.document_records.record_mapping.context import RecordMappingContext
@@ -482,3 +486,63 @@ def test_semantic_replacement_dispositions_cover_full_page_numeric_regions(
     )
 
     assert dispositions == {"table-key": "canonical_table_replacement_descendant"}
+
+
+def test_semantic_bridge_preserves_geometry_owned_table_text_disposition(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    document = {
+        "pages": {"1": {"size": {"width": 100.0, "height": 100.0}}},
+        "tables": [],
+        "texts": [
+            {
+                "content_layer": "body",
+                "children": [],
+                "prov": [
+                    {
+                        "page_no": 1,
+                        "bbox": {"l": 10.0, "b": 10.0, "r": 20.0, "t": 20.0},
+                    }
+                ],
+            }
+        ],
+        "groups": [],
+        "pictures": [],
+    }
+    full_page = replace(
+        _table("full-page-table", "full-page-family", 1),
+        region_id=None,
+        parser="camelot_stream",
+        bbox_pdf_points_bottom_left=(5.0, 5.0, 30.0, 30.0),
+    )
+    bundle = ProducerTableBundle(
+        tables=(full_page,),
+        families=(
+            ProducerTableFamily(
+                family_id="full-page-family",
+                table_ids=("full-page-table",),
+                evidence=("singleton",),
+            ),
+        ),
+        region_mappings=(),
+    )
+    monkeypatch.setattr(replacement_evidence, "load_producer_table_bundle", lambda _root: bundle)
+
+    dispositions = replacement_evidence.replacement_dispositions(
+        baseline_document=document,
+        producer_root=tmp_path,
+        key_by_pointer={"#/texts/0": "geometry-owned-key"},
+        relevant_keys={"geometry-owned-key"},
+    )
+
+    assert dispositions == {"geometry-owned-key": "canonical_table_geometry_owned_text"}
+    entries, _evidence = build_cross_producer_bridge(
+        [BridgeItem("geometry-owned-key", "#/texts/0", "#/texts/0")],
+        hierarchy_producer_run_id=f"prv1-{'1' * 64}",
+        baseline_producer_run_id=f"prv1-{'2' * 64}",
+        canonical_block_by_key={},
+        disposition_by_key=dispositions,
+    )
+    assert entries[0]["status"] == "permitted_unmapped"
+    assert entries[0]["disposition"] == "canonical_table_geometry_owned_text"

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04a_review/v1/usability_registry.schema.json",
+  "title": "ER Commons provisional Task 04A usability registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_run_id", "pass", "entries"],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04_review.v1.usability_registry"},
+    "review_run_id": {"$ref": "#/$defs/review_run_id"},
+    "pass": {"const": "task03j_final"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["entry_id", "source_id", "status"],
+        "properties": {
+          "entry_id": {"type": "string"},
+          "source_id": {"type": "string"},
+          "status": {"enum": ["eligible", "not_eligible", "recheck_required"]}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "review_run_id": {"type": "string", "pattern": "^reviewv1-[a-z0-9-]+$"}
+  }
+}

@@ -17,6 +17,7 @@ from er_commons.document_records.record_mapping.table_records import (
     RegionTableMapping,
     TableCleanupEvidence,
     TableParser,
+    TableRoute,
 )
 from er_commons.document_records.record_mapping.table_regions import load_region_crosswalk
 
@@ -43,6 +44,7 @@ __all__ = [
     "RegionTableMapping",
     "TableCleanupEvidence",
     "TableParser",
+    "TableRoute",
     "clean_table_cells",
     "load_producer_table_bundle",
 ]

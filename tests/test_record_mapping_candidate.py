@@ -22,6 +22,11 @@ from er_commons.document_records.record_mapping.record_sets import (
     DocumentRecordSet,
     MaterializationReport,
 )
+from er_commons.document_records.record_mapping.table_text_ownership import (
+    TABLE_TEXT_OWNERSHIP_REASON,
+    ProjectedTextRegion,
+    TableTextOwnershipDecision,
+)
 from er_commons.document_records.record_mapping.tables import (
     ProducerTableBundle,
     RegionTableMapping,
@@ -119,6 +124,23 @@ def _region_mapping(index: int, mapped: bool) -> RegionTableMapping:
     )
 
 
+def _ownership_decision() -> TableTextOwnershipDecision:
+    """Return one complete published ownership diagnostic fixture."""
+    return TableTextOwnershipDecision(
+        text_pointer="#/texts/42",
+        producer_table_id="producer-table-7",
+        physical_pdf_page=7,
+        table_bbox_pdf_points_bottom_left=(5.0, 5.0, 95.0, 95.0),
+        text_regions=(
+            ProjectedTextRegion(
+                page_id="canonical-page-7",
+                bbox=(10.0, 10.0, 20.0, 20.0),
+            ),
+        ),
+        reason=TABLE_TEXT_OWNERSHIP_REASON,
+    )
+
+
 def test_summary_snapshots_mutable_producer_evidence() -> None:
     invalid = {"raw_object_pointer": "#/texts/1", "rejection_reason": "outside"}
     producer_warnings = ["producer warning"]
@@ -144,6 +166,7 @@ def test_summary_snapshots_mutable_producer_evidence() -> None:
         producer_furniture_count=522,
         emitted_furniture_count=521,
         suppressed_picture_furniture_pointers=("#/texts/312",),
+        table_text_ownership=(_ownership_decision(),),
     )
 
     summary = build_summary(
@@ -162,6 +185,13 @@ def test_summary_snapshots_mutable_producer_evidence() -> None:
     }
     assert producer_warnings == ["producer warning"]
     assert summary["text_accounting"]["unaccounted_count"] == 0
+    assert summary["text_accounting"]["table_owned_count"] == 1
+    assert summary["text_accounting"]["table_owned_by_reason"] == {TABLE_TEXT_OWNERSHIP_REASON: 1}
+    assert summary["table_text_ownership"] == {
+        "record_count": 1,
+        "path": "observations/table_text_ownership.jsonl",
+        "reason_counts": {TABLE_TEXT_OWNERSHIP_REASON: 1},
+    }
 
 
 def test_fixture_bundle_reaches_validation_inventory_and_completion_seal(
@@ -188,7 +218,17 @@ def test_fixture_bundle_reaches_validation_inventory_and_completion_seal(
             ),
         ),
     )
-    report = MaterializationReport((), 0, 0, 0, 0, 0, 0, ())
+    report = MaterializationReport(
+        invalid_provenance=(),
+        document_index_descendant_count=0,
+        producer_text_count=1,
+        emitted_text_count=0,
+        suppressed_text_count=1,
+        producer_furniture_count=0,
+        emitted_furniture_count=0,
+        suppressed_picture_furniture_pointers=(),
+        table_text_ownership=(_ownership_decision(),),
+    )
     table_bundle = ProducerTableBundle((), (), ())
     validation_calls: list[str] = []
     real_validate_schema = candidate.validate_schema
@@ -235,6 +275,12 @@ def test_fixture_bundle_reaches_validation_inventory_and_completion_seal(
     )
     completion = json.loads((candidate_root / "records" / "completion_record.json").read_text())
     inventory = json.loads((candidate_root / "records" / "artifact_inventory.json").read_text())
+    ownership_rows = [
+        json.loads(line)
+        for line in (candidate_root / "observations/table_text_ownership.jsonl")
+        .read_text()
+        .splitlines()
+    ]
     observations = [
         json.loads(line)
         for line in (candidate_root / "records/substage_observations.jsonl")
@@ -244,6 +290,10 @@ def test_fixture_bundle_reaches_validation_inventory_and_completion_seal(
     assert completion["warning_count"] == 0
     assert completion["status"] == "complete"
     assert "records/completion_record.json" not in {item["path"] for item in inventory["files"]}
+    assert ownership_rows == [_ownership_decision().as_json()]
+    assert "observations/table_text_ownership.jsonl" in {
+        item["path"] for item in inventory["files"]
+    }
     assert [record["name"] for record in observations] == [
         "content_mapping",
         "serialization_validation_inventory",

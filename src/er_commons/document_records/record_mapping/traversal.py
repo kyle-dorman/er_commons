@@ -2,10 +2,16 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
+from types import MappingProxyType
 from typing import Any, Literal, cast
 
 from er_commons.document_records.record_mapping.errors import MappingContractError
+from er_commons.document_records.record_mapping.table_text_ownership import (
+    TableTextOwnership,
+    TableTextOwnershipDecision,
+)
 
 EventKind = Literal["text", "table", "figure"]
 
@@ -27,6 +33,8 @@ class TraversalResult:
     events: tuple[TraversalEvent, ...]
     emitted_text_pointers: frozenset[str]
     suppressed_text_pointers: frozenset[str]
+    table_owned_text_by_pointer: Mapping[str, str]
+    table_text_ownership_decisions: tuple[TableTextOwnershipDecision, ...]
     invalid_geometry_text_pointers: frozenset[str]
     suppressed_picture_furniture_pointers: frozenset[str]
     zero_table_pointers: frozenset[str]
@@ -39,8 +47,10 @@ class DoclingTraversal:
         self,
         document: dict[str, Any],
         mapped_table_ids: dict[str, tuple[str, ...]],
+        *,
         invalid_geometry_text_pointers: set[str] | frozenset[str] = frozenset(),
         suppressed_table_pointers: set[str] | frozenset[str] = frozenset(),
+        table_text_ownership: TableTextOwnership | None = None,
     ) -> None:
         self._document = document
         self._mapped_table_ids = mapped_table_ids
@@ -49,7 +59,15 @@ class DoclingTraversal:
         self._emitted_semantic: set[str] = set()
         self._invalid_geometry_text = set(invalid_geometry_text_pointers)
         self._suppressed_tables = set(suppressed_table_pointers)
+        self._table_text_ownership = table_text_ownership or TableTextOwnership(())
+        self._table_owned_text = dict(self._table_text_ownership.table_id_by_text_pointer)
+        overlap = self._invalid_geometry_text & self._table_owned_text.keys()
+        if overlap:
+            raise MappingContractError(
+                f"table-owned text also has invalid geometry: pointers={sorted(overlap)}"
+            )
         self._suppressed_text: set[str] = set(self._invalid_geometry_text)
+        self._suppressed_text.update(self._table_owned_text)
         self._suppressed_picture_furniture: set[str] = set()
         self._zero_tables: set[str] = set()
         self._active_groups: set[str] = set()
@@ -75,6 +93,8 @@ class DoclingTraversal:
             events=tuple(self._events),
             emitted_text_pointers=frozenset(self._emitted_text),
             suppressed_text_pointers=frozenset(self._suppressed_text),
+            table_owned_text_by_pointer=MappingProxyType(dict(self._table_owned_text)),
+            table_text_ownership_decisions=self._table_text_ownership.decisions,
             invalid_geometry_text_pointers=frozenset(self._invalid_geometry_text),
             suppressed_picture_furniture_pointers=frozenset(self._suppressed_picture_furniture),
             zero_table_pointers=frozenset(self._zero_tables),
@@ -88,6 +108,8 @@ class DoclingTraversal:
             item = self._resolve(pointer)
             layer = item.get("content_layer", "body")
             if layer == "furniture":
+                return
+            if pointer in self._suppressed_text:
                 return
             self._emit_text(pointer, "body")
         elif collection == "tables":
@@ -233,13 +255,16 @@ class DoclingTraversal:
 def traverse_docling_document(
     document: dict[str, Any],
     mapped_table_ids: dict[str, tuple[str, ...]],
+    *,
     invalid_geometry_text_pointers: set[str] | frozenset[str] = frozenset(),
     suppressed_table_pointers: set[str] | frozenset[str] = frozenset(),
+    table_text_ownership: TableTextOwnership | None = None,
 ) -> TraversalResult:
     """Flatten one saved Docling document under the canonical traversal policy."""
     return DoclingTraversal(
         document,
         mapped_table_ids,
-        invalid_geometry_text_pointers,
-        suppressed_table_pointers,
+        invalid_geometry_text_pointers=invalid_geometry_text_pointers,
+        suppressed_table_pointers=suppressed_table_pointers,
+        table_text_ownership=table_text_ownership,
     ).run()
