@@ -1,6 +1,7 @@
 # Task 03I: Disposition Task 04 Extraction Findings
 
-Status: **provisional; waits for the Task 04 review findings**. This task may
+Status: **provisional; waits for the first-pass [Task
+04](04_review_extraction_and_freeze_release.md) review findings**. This task may
 close as a documented no-op when review identifies no accepted extraction defect.
 
 ## Abstract
@@ -18,7 +19,7 @@ affect the Task 03 extraction, with bounded repairs and regressions where needed
 
 ## Inputs
 
-- Task 04's versioned review findings and exact evidence anchors
+- Task 04's user-approved first-pass finding register and exact evidence anchors
 - the completed [Task 03H](03h_run_full_canonical_extraction.md) outcome
 - the maintained source-free pipeline and tests at Task 03I activation
 - accepted Task 03 contracts and durable decisions implicated by a finding

@@ -11,14 +11,17 @@ This section is the source of record for the current sprint and active task.
 [Task 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is complete as
 the first full-corpus end-to-end attempt. It exercised and repaired the production
 path but intentionally did not claim the final corpus after its closing identity
-and maintainability corrections made a fresh run necessary. Task 04 review work is
-next. Its accepted extraction findings, if any, feed provisional [Task
+and maintainability corrections made a fresh run necessary. Prepared [Task
+04](../tasks/sprint2/04_review_extraction_and_freeze_release.md) is next but is
+not activated. Its first pass uses the mostly but not fully extracted Task 03H
+evidence to qualify a read-only local HTML review workspace and produce anchored
+extraction findings. Those findings, if any, feed provisional [Task
 03I](../tasks/sprint2/03i_remediate_task04_review_findings.md); a no-finding outcome
 closes 03I without code changes. Provisional [Task
 03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) then owns the fresh
-35-source attempt and machine handoff for Task 04's final release decision. Retained
-Task 03H production artifacts are diagnostic evidence and are ineligible for 03J
-reuse.
+35-source attempt and machine handoff for Task 04's resumed final release decision.
+Retained Task 03H production artifacts are diagnostic evidence and are ineligible
+for 03J reuse.
 
 Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
 task. Sprint 2 is current. [Task

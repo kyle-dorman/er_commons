@@ -752,13 +752,23 @@ validation boundary.
    observed-failure remediation are accepted, and Task 03H was activated by
    user direction on 2026-08-18; source-PDF and model execution remain behind
    the task's explicit user check-in.
-3. **Task 04 — Review usability and freeze the accepted extraction release.**
-   Validate all source terminal records and machine integrity, then perform
-   stratified and risk-triggered QA. Review every failed or skipped document,
-   excluded page, retrieval-eligible table, and targeted hierarchy, label,
-   alias, or cross-reference anomaly. Key the separate registry by corpus
-   candidate and source identity, adding canonical IDs only where they exist.
-   Keep renders regenerable and outside the accepted extraction identity.
+3. **[Task 04](../../tasks/sprint2/04_review_extraction_and_freeze_release.md)
+   — Pilot extraction review and freeze the accepted release.** First use the
+   mostly but not fully extracted Task 03H evidence to qualify a small read-only
+   local HTML review workspace and conduct a user-led diagnostic pass. Cover all
+   35 sources, review every retained document-processing failure, spot-check
+   deterministic warning samples, inspect valid pages from every source with
+   evidence, and inspect a bounded mix of table evidence. Oversample the main
+   report relative to the median appendix allocation because it holds the primary
+   benchmark evidence; preserve complete source coverage and describe this as
+   importance-weighted risk review rather than statistical estimation. Record
+   observations outside the UI as exact, versioned findings. Route only accepted
+   extraction defects to Task 03I, pause Task 04, then let Task 03J run all 35
+   sources under a fresh identity. Resume Task 04 against the Task 03J handoff,
+   recheck repairs and fresh risk samples, validate machine integrity, and either
+   publish the separate usability registry and freeze the accepted extraction
+   release or stop on a material defect. Keep Task 03 records immutable and
+   renders regenerable outside extraction identity.
 4. **Task 05 — Build the complete curator-only response inventory.** Use a
    bounded, separately identified transcription/extraction route for Final EIR
    Volume 4; do not add it to the Task 03 model corpus. Enumerate every comment,

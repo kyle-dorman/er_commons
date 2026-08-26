@@ -17,8 +17,9 @@ from the post-Task-03I code and configuration baseline.
 ## Inputs
 
 - the closed [Task 03H](03h_run_full_canonical_extraction.md) first-attempt outcome
-- the closed [Task 03I](03i_remediate_task04_review_findings.md) disposition,
-  including a possible no-op outcome
+- the paused [Task 04](04_review_extraction_and_freeze_release.md) first-pass
+  finding register and the closed [Task 03I](03i_remediate_task04_review_findings.md)
+  disposition, including a possible no-op outcome
 - the immutable Task 02 source freeze and accepted Task 03 contracts
 - a newly generated source-free run specification, namespace, and identity
 
