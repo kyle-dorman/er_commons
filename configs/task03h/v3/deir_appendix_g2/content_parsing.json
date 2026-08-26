@@ -41,7 +41,10 @@
     "minimum_intersections": 4,
     "complex_page_minimum_regions": 2,
     "maximum_network_ruling_coverage": 0.1,
-    "minimum_region_match_iou": 0.5
+    "minimum_region_match_iou": 0.5,
+    "region_stream_fallback_enabled": true,
+    "minimum_region_stream_native_text_coverage": 0.9,
+    "maximum_region_stream_bbox_overshoot_points": 1.5
   },
   "table_cleanup": {
     "footer_pattern": "(?P<sheet>\\d+\\.[A-Za-z0-9_]+)\\s+(?P<page>\\d+)\\s+of\\s+(?P<total>\\d+)",

@@ -267,3 +267,25 @@ def test_context_places_regionless_full_page_table_without_docling_region() -> N
     assert event.pointer == "#/full_page_tables/producer_table_2"
     assert event.content_layer == "body"
     assert "#/texts/1" in context.traversal.suppressed_text_pointers
+
+
+def test_context_places_geometry_only_layout_table_without_docling_region() -> None:
+    inputs = cast(RecordMappingInputs, SimpleNamespace(document=_document()))
+    original = _table_bundle()
+    geometry_only = replace(
+        original.region_mappings[0],
+        raw_object_ref=None,
+        provenance_index=None,
+    )
+
+    context = build_record_mapping_context(
+        config=_config(),
+        inputs=inputs,
+        identity={"extraction_id": EXTRACTION_ID},
+        table_bundle=replace(original, region_mappings=(geometry_only,)),
+    )
+
+    event = context.table_event_by_id["producer_table_1"]
+    assert event.pointer == "#/routing_regions/producer_table_1"
+    assert event.content_layer == "body"
+    assert context.accounted_text_pointers == context.all_text_pointers

@@ -61,7 +61,19 @@ class CapturedAssembly:
     """Exact page evidence and transient outline captured before global assembly."""
 
     pages: tuple[PageEvidence, ...]
+    page_object_ids: tuple[int, ...]
     outline: tuple[dict[str, Any], ...]
+
+
+@dataclass(frozen=True)
+class _LivePageSemantics:
+    """Semantic fields that must remain stable after a page is captured."""
+
+    page_no: int
+    page_payload: dict[str, Any]
+    assembled_element_types: tuple[str, ...]
+    assembled_body_indices: tuple[int, ...]
+    assembled_header_indices: tuple[int, ...]
 
 
 def _fail(path: str, invariant: str, expected: object, actual: object) -> Never:
@@ -70,8 +82,8 @@ def _fail(path: str, invariant: str, expected: object, actual: object) -> Never:
     )
 
 
-def capture_page_evidence(page: Any) -> PageEvidence:
-    """Copy one assembled Docling Page, including its private default-scale raster."""
+def _read_live_page_semantics(page: Any) -> _LivePageSemantics:
+    """Read semantic page state without copying or hashing its raster."""
     page_no = getattr(page, "page_no", None)
     if not isinstance(page_no, int) or page_no < 1:
         _fail("page.page_no", "positive_physical_page", "positive integer", page_no)
@@ -99,6 +111,46 @@ def capture_page_evidence(page: Any) -> PageEvidence:
             "members of elements",
             str(error),
         )
+    return _LivePageSemantics(
+        page_no=page_no,
+        page_payload=payload,
+        assembled_element_types=tuple(type(item).__name__ for item in assembled.elements),
+        assembled_body_indices=body_indices,
+        assembled_header_indices=header_indices,
+    )
+
+
+def assert_live_page_matches_evidence(
+    expected: PageEvidence,
+    live_page: Any,
+    *,
+    path: str,
+) -> None:
+    """Verify that a captured page's live semantic state has not changed."""
+    actual = _read_live_page_semantics(live_page)
+    fields = (
+        "page_no",
+        "page_payload",
+        "assembled_element_types",
+        "assembled_body_indices",
+        "assembled_header_indices",
+    )
+    for field in fields:
+        expected_value = getattr(expected, field)
+        actual_value = getattr(actual, field)
+        if actual_value != expected_value:
+            _fail(
+                f"{path}.{field}",
+                "captured_page_semantics",
+                expected_value,
+                actual_value,
+            )
+
+
+def capture_page_evidence(page: Any) -> PageEvidence:
+    """Copy one assembled Docling Page, including its private default-scale raster."""
+    semantics = _read_live_page_semantics(page)
+    page_no = semantics.page_no
     scale = getattr(page, "_default_image_scale", None)
     image = page.get_image(scale=scale) if isinstance(scale, int | float) else None
     if image is None or not isinstance(scale, int | float) or scale <= 0:
@@ -108,10 +160,10 @@ def capture_page_evidence(page: Any) -> PageEvidence:
     pixels_sha256 = hashlib.sha256(image.tobytes()).hexdigest()
     return PageEvidence(
         page_no=page_no,
-        page_payload=payload,
-        assembled_element_types=tuple(type(item).__name__ for item in assembled.elements),
-        assembled_body_indices=body_indices,
-        assembled_header_indices=header_indices,
+        page_payload=semantics.page_payload,
+        assembled_element_types=semantics.assembled_element_types,
+        assembled_body_indices=semantics.assembled_body_indices,
+        assembled_header_indices=semantics.assembled_header_indices,
         image_scale=float(scale),
         image_mode=str(image.mode),
         image_size=(int(image.width), int(image.height)),
@@ -122,13 +174,13 @@ def capture_page_evidence(page: Any) -> PageEvidence:
     )
 
 
-def validate_conversion_result(
+def validate_conversion_pages(
     result: Any,
     expected: PageInterval,
     *,
     path: str,
-) -> tuple[PageEvidence, ...]:
-    """Require one clean bounded success with exact ordered page coverage."""
+) -> tuple[Any, ...]:
+    """Require one clean bounded success with exact ordered live-page coverage."""
     raw_status = str(getattr(getattr(result, "status", None), "value", result.status))
     if raw_status != "success":
         _fail(f"{path}.status", "clean_conversion_success", "success", raw_status)
@@ -139,6 +191,17 @@ def validate_conversion_result(
     actual = tuple(int(page.page_no) for page in pages)
     if actual != expected.pages:
         _fail(f"{path}.pages", "ordered_read_coverage", expected.pages, actual)
+    return pages
+
+
+def validate_conversion_result(
+    result: Any,
+    expected: PageInterval,
+    *,
+    path: str,
+) -> tuple[PageEvidence, ...]:
+    """Require one clean bounded success and capture its exact ordered pages."""
+    pages = validate_conversion_pages(result, expected, path=path)
     return tuple(capture_page_evidence(page) for page in pages)
 
 
@@ -180,21 +243,27 @@ def _outline_payload(conv_res: Any) -> tuple[dict[str, Any], ...]:
 
 
 class PageCapturePdfPipeline(StandardPdfPipeline):
-    """Capture transient evidence, then delegate unchanged global assembly to Docling."""
+    """Capture pre-global page evidence without running document interpretation."""
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.pending_captures: list[CapturedAssembly] = []
 
     def _assemble_document(self, conv_res: Any) -> Any:
-        """Capture exact pages/outline immediately before Docling consumes the outline."""
+        """Capture exact pages and defer reading order and headings to aggregation."""
+        pages = tuple(conv_res.pages)
         self.pending_captures.append(
             CapturedAssembly(
-                pages=tuple(capture_page_evidence(page) for page in conv_res.pages),
+                pages=tuple(capture_page_evidence(page) for page in pages),
+                page_object_ids=tuple(id(page) for page in pages),
                 outline=_outline_payload(conv_res),
             )
         )
-        return super()._assemble_document(conv_res)
+        return conv_res
+
+    def _enrich_document(self, conv_res: Any) -> Any:
+        """Skip document enrichment because range conversion has no global document."""
+        return conv_res
 
     def take_capture(self) -> CapturedAssembly:
         """Return the sole pending capture and remove it from pipeline state."""
@@ -213,7 +282,9 @@ __all__ = [
     "PageEvidenceError",
     "PageCapturePdfPipeline",
     "PageEvidence",
+    "assert_live_page_matches_evidence",
     "assert_exact_page_evidence",
     "capture_page_evidence",
+    "validate_conversion_pages",
     "validate_conversion_result",
 ]

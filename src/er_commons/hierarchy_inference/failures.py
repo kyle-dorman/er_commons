@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 
 from er_commons.hierarchy_inference.constants import FATAL_CODES
+from er_commons.hierarchy_inference.errors import HierarchyInferenceContractError
 
 
 class RunStage(StrEnum):
@@ -45,7 +46,7 @@ class FailureDisposition:
         return f"{self.stage.value}: {self.detail}"
 
 
-class HierarchyInferenceFailure(ValueError):
+class HierarchyInferenceFailure(HierarchyInferenceContractError):
     """A failure whose durable code is selected where the operation is known."""
 
     def __init__(self, disposition: FailureDisposition) -> None:

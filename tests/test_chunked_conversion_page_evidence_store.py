@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 from typing import Any, cast
 
@@ -17,6 +18,15 @@ from er_commons.chunked_conversion.page_evidence_store import (
     restore_global_page,
     write_page_evidence,
 )
+from er_commons.chunked_conversion.runtime.aggregate_memory import (
+    restore_ordering_page,
+    suppress_confirmed_table_regions,
+)
+from er_commons.document_parsing.content_parsing.ordering_projection import (
+    build_ordering_projection,
+    classify_table_evidence,
+)
+from er_commons.document_parsing.content_parsing.page_projection import PageEvidenceProjection
 
 
 def _page(page_no: int, *, text: str | None = None) -> PageEvidence:
@@ -90,6 +100,112 @@ def test_compaction_retains_only_global_fields_and_external_raster() -> None:
     assert compact.image_png == page.image_png
     assert raster_from_evidence(compact).size == (2, 2)
     assert restore_global_page(compact).parsed_page.dimension.height == 200.0
+
+
+def test_aggregate_ordering_restore_omits_parsed_style_evidence() -> None:
+    """Reading-order pages retain assembled content and size without style cells."""
+    compact = compact_page_evidence(_page(1))
+
+    ordering_page = restore_ordering_page(compact)
+    eager_page = restore_global_page(compact)
+
+    assert ordering_page.page_no == eager_page.page_no
+    assert ordering_page.size == eager_page.size
+    assert ordering_page.assembled.model_dump(mode="json") == eager_page.assembled.model_dump(
+        mode="json"
+    )
+    assert ordering_page.parsed_page is None
+
+
+def test_confirmed_table_geometry_removes_table_text_but_keeps_narrative() -> None:
+    """Exercise the production TOPLEFT cluster and displayed-region coordinate shapes."""
+    raw_elements = [
+        {
+            "id": 1,
+            "page_no": 1,
+            "label": "text",
+            "text": "custom table duplicate",
+            "cluster": {
+                "id": 1,
+                "label": "text",
+                "bbox": {"l": 10.0, "t": 110.0, "r": 90.0, "b": 130.0, "coord_origin": "TOPLEFT"},
+                "confidence": 1.0,
+                "cells": [],
+                "children": [],
+            },
+        },
+        {
+            "id": 2,
+            "page_no": 1,
+            "label": "text",
+            "text": "narrative outside table",
+            "cluster": {
+                "id": 2,
+                "label": "text",
+                "bbox": {"l": 10.0, "t": 20.0, "r": 90.0, "b": 40.0, "coord_origin": "TOPLEFT"},
+                "confidence": 1.0,
+                "cells": [],
+                "children": [],
+            },
+        },
+    ]
+    evidence = _page(1)
+    payload = dict(evidence.page_payload)
+    payload["assembled"] = {
+        "elements": raw_elements,
+        "body": raw_elements,
+        "headers": [],
+    }
+    evidence = replace(
+        evidence,
+        page_payload=payload,
+        assembled_element_types=("TextElement", "TextElement"),
+        assembled_body_indices=(0, 1),
+    )
+    page = restore_ordering_page(evidence)
+    page_projection = PageEvidenceProjection(
+        source_id="source",
+        physical_pdf_page=1,
+        features={
+            "physical_pdf_page": 1,
+            "page_size_pdf_points": [100.0, 200.0],
+            "displayed_page_size_pdf_points": [100.0, 200.0],
+            "source_page_bbox_pdf_points_bottom_left": [0.0, 0.0, 100.0, 200.0],
+            "routing_page_bbox_pdf_points_bottom_left": [0.0, 0.0, 100.0, 200.0],
+            "routing_coordinate_system": "displayed_pdf_points_bottom_left",
+            "page_rotation_degrees": 0,
+            "native_character_count": 1,
+            "nonspace_character_count": 1,
+            "native_text_rectangle_count": 1,
+            "nonempty_line_count": 1,
+            "text_width_fraction": 0.1,
+            "text_height_fraction": 0.1,
+            "nonspace_characters_per_square_point": 0.0001,
+            "digit_fraction": 0.0,
+            "coordinate_key_count": 0,
+        },
+        layout_table_observations=[],
+        boundary_markers_before_first_table=[],
+        range_id="range-1",
+    )
+    decision = classify_table_evidence(
+        physical_pdf_page=1,
+        route="layout_regions",
+        page_record={"table_count": 1},
+        table_records=[
+            {
+                "table_id": "table-1-1",
+                "bbox_pdf_points_bottom_left": [0.0, 0.0, 100.0, 100.0],
+                "page_size_pdf_points": [100.0, 200.0],
+            }
+        ],
+    )
+    projection = build_ordering_projection([page_projection], [decision]).pages[0]
+
+    suppress_confirmed_table_regions(page, projection)
+
+    assert [item.text for item in page.assembled.elements] == ["narrative outside table"]
+    assert page.assembled.body == page.assembled.elements
 
 
 def test_page_bundle_round_trip_and_checksum_rejection(tmp_path: Path) -> None:

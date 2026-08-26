@@ -2,7 +2,44 @@
 
 from __future__ import annotations
 
-from er_commons.document_records.record_mapping.provenance import project_regions
+import math
+
+import pytest
+
+from er_commons.document_records.record_mapping.errors import MappingContractError
+from er_commons.document_records.record_mapping.provenance import project_regions, table_region
+
+
+def test_table_region_clips_only_small_extractor_rounding_overflow() -> None:
+    region = table_region(
+        [429.32, 713.98, 1181.26, 792.9],
+        physical_page=855,
+        page_ids={855: "page-855"},
+        page_sizes={855: (1224.0, 792.0)},
+    )
+
+    assert region["bbox"] == [429.32, 713.98, 1181.26, 792.0]
+
+
+@pytest.mark.parametrize(
+    "bbox",
+    [
+        [-2.0, 10.0, 40.0, 50.0],
+        [10.0, 10.0, 102.0, 50.0],
+        [10.0, 50.0, 40.0, 10.0],
+        [10.0, 10.0, math.inf, 50.0],
+    ],
+)
+def test_table_region_rejects_invalid_or_materially_out_of_bounds_geometry(
+    bbox: list[float],
+) -> None:
+    with pytest.raises(MappingContractError):
+        table_region(
+            bbox,
+            physical_page=1,
+            page_ids={1: "page-1"},
+            page_sizes={1: (100.0, 100.0)},
+        )
 
 
 def test_multi_region_provenance_is_preserved_without_clamping() -> None:

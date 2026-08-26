@@ -2,10 +2,15 @@
 
 from __future__ import annotations
 
+from typing import Any, cast
+
 import pytest
 from PIL import Image
 
-from er_commons.document_parsing.table_reconstruction import page
+from er_commons.document_parsing.table_reconstruction import page, page_routing
+from er_commons.document_parsing.table_reconstruction.learned_fallback import (
+    LearnedFallbackRunner,
+)
 
 
 def test_bbox_iou_and_visual_order() -> None:
@@ -75,5 +80,57 @@ def test_explicit_layout_route_requires_declared_regions(tmp_path) -> None:
             route_mode="layout_regions",
             layout_regions=None,
             output_dir=tmp_path,
+            cleanup={},
             learned_fallback_runner=None,
         )
+
+
+def test_layout_route_preserves_parser_and_fallback_order(monkeypatch, tmp_path) -> None:
+    """Lattice, region Stream, and learned candidates retain their established order."""
+    calls: list[str] = []
+    evidence: dict[str, Any] = {"region_matches": []}
+
+    def parse_complex(*args: Any, **kwargs: Any) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+        calls.append("lattice")
+        return [{"parser": "camelot_lattice"}], evidence
+
+    def region_stream(**kwargs: Any) -> list[dict[str, Any]]:
+        calls.append("region_stream")
+        assert kwargs["accepted_candidates"] == [{"parser": "camelot_lattice"}]
+        assert kwargs["parser_evidence"] is evidence
+        return [{"parser": "camelot_stream"}]
+
+    def learned(**kwargs: Any) -> list[dict[str, Any]]:
+        calls.append("learned")
+        assert kwargs["parser_evidence"] is evidence
+        return [{"parser": "tableformer_accurate"}]
+
+    monkeypatch.setattr(page_routing, "parse_complex_page", parse_complex)
+    monkeypatch.setattr(page_routing, "apply_region_stream_fallbacks", region_stream)
+    monkeypatch.setattr(page_routing, "apply_learned_fallbacks", learned)
+    rendered = page.RenderedPage(10.0, 10.0, "", Image.new("RGB", (10, 10)))
+
+    route, candidates, returned_evidence = page.route_page_candidates(
+        pdf_path=tmp_path / "not-opened.pdf",
+        page_number=1,
+        rendered=rendered,
+        ruled_regions=[],
+        detection={
+            "complex_page_minimum_regions": 2,
+            "region_stream_fallback_enabled": True,
+        },
+        route_mode="layout_regions",
+        layout_regions=[[0.0, 0.0, 10.0, 10.0]],
+        output_dir=tmp_path,
+        cleanup={},
+        learned_fallback_runner=cast(LearnedFallbackRunner, object()),
+    )
+
+    assert route == "layout_regions"
+    assert calls == ["lattice", "region_stream", "learned"]
+    assert [candidate["parser"] for candidate in candidates] == [
+        "camelot_lattice",
+        "camelot_stream",
+        "tableformer_accurate",
+    ]
+    assert returned_evidence is evidence

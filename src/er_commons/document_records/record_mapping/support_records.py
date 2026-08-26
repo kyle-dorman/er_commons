@@ -98,6 +98,11 @@ def _table_stage_observations(
             f"stage-p{page:06d}-o{ordinal:06d}",
         )
         ids_by_page[page].append(stage_id)
+        region_description = (
+            mapping.raw_object_ref
+            if mapping.raw_object_ref is not None
+            else f"routing region {mapping.region_id} on page {page}"
+        )
         if mapping.clean_table_ids:
             warning = []
         elif mapping.unmapped_reason == DOCUMENT_INDEX_UNMAPPED_REASON:
@@ -111,10 +116,7 @@ def _table_stage_observations(
                 "used full-page numeric extraction."
             ]
         else:
-            warning = [
-                f"No clean table matched {mapping.raw_object_ref} "
-                f"provenance {mapping.provenance_index}."
-            ]
+            warning = [f"No clean table matched {region_description}."]
         records.append(
             {
                 "schema_version": SCHEMA_VERSION,
@@ -123,11 +125,15 @@ def _table_stage_observations(
                 "page_id": context.page_ids[page],
                 "status": "complete" if mapping.clean_table_ids else "complete_with_warnings",
                 "route": "layout_regions",
-                "source_region_raw_link": raw_link(
-                    "docling",
-                    assets.raw_docling_asset_id,
-                    mapping.raw_object_ref,
-                    mapping.provenance_index,
+                "source_region_raw_link": (
+                    raw_link(
+                        "docling",
+                        assets.raw_docling_asset_id,
+                        mapping.raw_object_ref,
+                        mapping.provenance_index,
+                    )
+                    if mapping.raw_object_ref is not None
+                    else None
                 ),
                 "canonical_table_ids": [
                     context.table_id_by_producer[table_id] for table_id in mapping.clean_table_ids
@@ -139,6 +145,7 @@ def _table_stage_observations(
                 "parser_diagnostics": {
                     "region_id": mapping.region_id,
                     "bbox_pdf_points_bottom_left": list(mapping.bbox_pdf_points_bottom_left),
+                    "raw_docling_provenance_available": mapping.raw_object_ref is not None,
                 },
                 "warnings": warning,
             }

@@ -108,15 +108,24 @@ class ProducerTableFamily:
 
 @dataclass(frozen=True)
 class RegionTableMapping:
-    """One Docling layout region mapped to zero or one clean producer table."""
+    """One routed layout region mapped to zero or one clean producer table."""
 
     physical_pdf_page: int
     region_id: str
-    raw_object_ref: str
-    provenance_index: int
+    raw_object_ref: str | None
+    provenance_index: int | None
     bbox_pdf_points_bottom_left: BoundingBox
     clean_table_ids: tuple[str, ...]
     unmapped_reason: str | None
+
+    def __post_init__(self) -> None:
+        """Require raw pointer and indexed provenance to be present as one pair."""
+        if (self.raw_object_ref is None) != (self.provenance_index is None):
+            raise MappingContractError("region raw pointer and provenance must appear together")
+        if self.provenance_index is not None and (
+            isinstance(self.provenance_index, bool) or self.provenance_index < 0
+        ):
+            raise MappingContractError("region provenance index must be non-negative")
 
 
 @dataclass(frozen=True)

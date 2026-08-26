@@ -578,7 +578,7 @@ and the isolated downstream path closed semantically. Measured 7.17 GB range and
 GB aggregate peaks support one worker, while projected two-worker memory exceeds the
 10 GiB concurrent ceiling. Human-ownership review established named package owners,
 strict recovery and lineage checks, and fully rehashed immutable evidence. No Gate D
-or G2 rehearsal remains. By user decision on 2026-08-20, Task 03H will restart all 35
+or G2 rehearsal remains. By user decision on 2026-08-20, Task 03H was to restart all 35
 sources from scratch under `task_03h_clean_full_v2`; the earlier v1 lineage remains
 preserved but is ineligible for reuse. Source-free preparation and separate user
 authorization precede the fresh `deir_main` PDF/model run.
@@ -672,9 +672,19 @@ validation boundary.
      the accepted semantic DAG before the all-source run. Gate A was explicitly
      accepted, Gate B was implemented and offline-validated, and the user
      accepted and closed the task on 2026-08-18; and
-   - [Task 03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): run
-     all 35 sources, preserve explicit terminal failures, and publish the
-     candidate extraction and accounting handoff for Task 04; and
+   - completed [Task
+     03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): the first
+     all-source end-to-end attempt, which exercised and repaired the production
+     path but did not claim final corpus publication after closing identity changes
+     required a fresh run;
+   - provisional [Task
+     03I](../../tasks/sprint2/03i_remediate_task04_review_findings.md): disposition
+     accepted extraction findings from the intervening Task 04 review, including a
+     valid no-op outcome; and
+   - provisional [Task
+     03J](../../tasks/sprint2/03j_run_final_canonical_extraction.md): rerun all 35
+     sources under a fresh namespace and identity and publish the final machine
+     candidate and accounting handoff for Task 04; and
    - completed [Task
      03H.2](../../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md):
      proved and productionized independently sealed, deterministic, fixed-size
@@ -736,8 +746,9 @@ validation boundary.
    By user decision, the separate Task 03F engineering smoke remains skipped.
    Task 03G.1 instead owns a new incomplete POC diagnostic across bounded pages
    from all 35 sources, and Task 03G.2 owns a fresh three-document complete
-   pilot. Neither can claim all-source completion. Task 03H alone owns all-35-
-   source complete execution and terminal accounting. Task 03G and its
+   pilot. Neither can claim all-source completion. Task 03H owned the first all-35-
+   source attempt; Task 03J owns the next fresh complete execution and terminal
+   accounting. Task 03G and its
    observed-failure remediation are accepted, and Task 03H was activated by
    user direction on 2026-08-18; source-PDF and model execution remain behind
    the task's explicit user check-in.

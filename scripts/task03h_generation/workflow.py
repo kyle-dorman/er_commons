@@ -68,12 +68,13 @@ def _chunked_policy() -> dict[str, Any]:
     """Return the maintained source-neutral policy for sources over 300 pages."""
     return {
         "schema_version": "er_commons.chunked_execution_policy.v1",
-        "mode": "fixed_size",
+        "mode": "content_adaptive",
         "source_selection": {"pdf_page_count_greater_than": CHUNKED_PAGE_THRESHOLD},
         "target_range_size": 225,
         "hard_maximum": 275,
+        "max_native_content_units_per_range": 500_000,
         "overlap_pages": 1,
         "max_range_rss_bytes": 20 * 1024**3,
-        "max_aggregate_rss_bytes": 16 * 1024**3,
+        "max_aggregate_rss_bytes": 20 * 1024**3,
         "max_wall_seconds": 14400.0,
     }

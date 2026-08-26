@@ -1,18 +1,25 @@
-# Task 03H: Publish and Validate the Full Document Collection
+# Task 03H: First Full End-to-End Extraction Attempt
 
-Status: **v3 clean run prepared source-free; awaiting explicit approval for
-source-PDF/model execution**. Completed [Task
+Status: **complete as the first full-corpus end-to-end attempt; superseded for
+final publication by Tasks 03I and 03J**. The v3 attempt exercised the complete
+production path, exposed source-general correctness and scaling defects, and
+landed their maintained repairs. It did not publish the final 35-document corpus:
+the final code-quality and behavior-identity corrections intentionally invalidate
+the retained v3 work. Those artifacts remain diagnostic evidence only and must not
+be reused by Task 03J.
+
+Completed [Task
 03H.2](03h2_build_restartable_chunked_docling_conversion.md) is closed and its v2
 artifacts remain immutable evidence. Task 03H.3 completed the deferred-reading-order
-implementation and qualification. The v3 run will process all 35 documents serially
+implementation and qualification. The v3 run was designed to process all 35 documents serially
 from shortest to longest by physical page count, with source ID as the tie-breaker.
 Task 03H was originally activated by user direction on 2026-08-18. Tasks 03G.1,
 03G.2, all observed-failure remediation, and the [Task
 03G.3](03g3_align_pipeline_responsibilities_and_names.md) architecture and
 naming refactor are accepted and closed. The conversion restart boundary is now
-implemented and offline-validated. The only current activation step is the source-free
-full-corpus plan and run briefing described below. Check in with the user before
-source-PDF or model execution.
+implemented and offline-validated. The checkpoints below preserve the actual
+first-attempt history. No further source, model, or publication work belongs to
+Task 03H.
 
 ## New-chat entrypoint: 2026-08-20
 
@@ -273,6 +280,34 @@ corpus-wide range-RSS increase to 20 GiB; configs and identity were regenerated 
 retrying G2 again. The second range then hit the former 2,700-second wall limit once;
 the user authorized a corpus-wide increase to 14,400 seconds (4 hours), and configs
 and identity were regenerated before the next retry.
+
+### Appendix G2 deferred-reading-order repair: 2026-08-25
+
+The four-hour second-range failure exposed that the Task 03H.3 implementation moved
+routing and table evidence ahead of aggregate interpretation but still delegated each
+range to Docling's standard `_assemble_document()`. Range workers therefore ran
+reading order and heading hierarchy on unreduced page evidence before the intended
+single aggregate pass. The range pipeline now captures exact pages and outline,
+returns the unchanged conversion result, and skips document enrichment; aggregate
+interpretation remains the sole reading-order and heading pass. Successful conversion
+validation no longer creates a second full copy of every captured page.
+
+The original failing read interval, physical pages 225--451, completed under the
+production resource guards in 1,139.20 supervised wall seconds instead of terminating
+at 14,400 seconds. Adapter conversion took 1,050.67 seconds, peak process-tree RSS was
+14,726,774,784 bytes, minimum system-available memory was 8,286,683,136 bytes, and
+swap growth was zero. All 227 pages completed; range-local page 227, physical PDF page
+451, retained all 12,051 assembled elements. The range emitted zero warnings. This was
+a bounded diagnostic and did not publish a reusable range seal.
+
+A controlled current-code comparison on Appendix D pages 225--356 produced identical
+semantic hashes for all 132 pages and identical outline, alignment, and routing
+projection evidence. Runtime fell from 42.09 to 35.87 seconds. The bypass intentionally
+removed 199 child-range warnings created by the discarded range-level reading-order
+pass; the canonical aggregate pass independently emits the corresponding global
+warnings. Aggregate document construction occurs before warning-evidence accounting,
+so canonical document, heading-overlay, alignment, table, and asset inputs are
+unchanged while duplicated child warning diagnostics are removed.
 
 ## Historical Appendix G2 chunked-production handoff: 2026-08-20
 
@@ -1011,6 +1046,76 @@ Do not change accepted parser, Task 03E.2d hierarchy, schema, or resolution
 policy during the run. A material new failure mode stops the candidate for an
 explicit Task 03G or owning earlier-task revision.
 
+### G2 post-processing performance repair: 2026-08-26
+
+The successful 3,736-page G2 logs showed two avoidable full-range reads: aggregate
+assembly deep-verified every range before reopening the same ranges for ordering,
+and derived publication reopened every range again even though the aggregate had
+sealed the complete ordering projection. The maintained path now deep-verifies and
+restores each aggregate range in one streaming pass, releases decoded range payloads
+immediately, and rebuilds derived routing from the aggregate's compact sealed
+projection. Aggregate table and structural-marker references are indexed once rather
+than rescanning the aggregate document for every page.
+
+The new derived path reproduced all 3,736 published G2 page-route records exactly,
+with zero mismatches, in 0.225 seconds. It does not change routing thresholds, table
+outputs, reading order, process concurrency, or the one-range-at-a-time memory shape.
+The producer code identity now includes the derived route, table-reuse, and reference-
+rebinding helpers. No source PDF or model ran for this validation. Focused tests,
+Ruff over `src` and `tests`, strict mypy over 347 source files, all 867 tests,
+deterministic Task 03H generation, and `git diff --check` passed. The repository-wide
+`make check` remains blocked only by pre-existing line-length violations in the
+untracked `scripts/classify_volume4.py`, which this repair did not modify.
+
+### Human-maintainability gate: 2026-08-26
+
+The long-running v3 repair arc received a separate code-quality pass before any
+further source processing. The pass corrected incomplete behavior-identity
+inventories and a partial-table-directory restart wedge; added typed adaptive-plan
+profiles and exact page-evidence consistency checks; split the Region Stream fallback
+into parser, geometry, text, and typed-record owners; and consolidated all private
+Docling aggregate integration behind `DoclingAdapter`. Aggregate publication now
+retains explicit lightweight range summaries instead of hollow verified-range
+objects, and its document, ordering/table, observation, and completion-last writes
+have named responsibility boundaries.
+
+The downstream audit also separated table-label eligibility from mention-source
+eligibility, made ambiguous visible-title recovery abstain, restored fail-closed
+handling for unanchored broken outline trees, required complete no-table handoffs,
+bounded table-geometry clipping to 1.5 points, and persists unterminated TOCs under
+their stable fatal code with start-page context. New ownership gates cover the active
+chunked, aggregate-memory, ordering-projection, PDFium, and derived-reuse modules and
+limit production functions to 80 lines.
+
+Source-free validation passed Ruff, strict mypy over 367 source files, all 905 tests,
+deterministic Task 03H generation, and `git diff --check`. No PDF, model, or production
+artifact ran. The refreshed production identity is
+`exv1-42295c40af2f58c313201140f340bd18e090fb136d6f06ac10b25ccd2882866e`.
+Because the repaired range behavior identity now includes the PDFium and routing-
+geometry modules that were previously omitted, existing ranges created under the
+incomplete identity are not eligible for reuse. The repository-wide `make check`
+continues to be blocked only by the unrelated untracked
+`scripts/classify_volume4.py` line-length violations.
+
+The final maintainability follow-up removed the remaining broad ordering-projection
+dictionaries and machine-local table path. Ordering pages, routing measurements,
+table decisions, and table-stage observations are now strict immutable records. The
+table-stage reference stores a contained relative path and verifies its completion
+marker plus either the complete table inventory or every required no-table handoff
+file. Aggregate publication relocates that reference to its own `tables/` child, and
+derived reuse resolves the persisted reference rather than maintaining a second path
+convention.
+
+The 882-line PDF-outline owner is now a 52-line public facade over separate native-
+PDF, traversal, cleanup, normalization, and recovery owners. The 922-line table-page
+owner is now a 181-line coordinator over content, geometry, parser, persistence,
+routing, and typed-record modules. Ownership tests bound the new modules and functions,
+and an integration regression freezes the Lattice, Region Stream, then TableFormer
+fallback order. Scratch inspection outputs, repository caches, and Task 03H-labeled
+system temporary items were moved to Trash; production artifacts were not touched.
+This follow-up intentionally invalidates prior generated identities and confirms that
+one final full-corpus run is required.
+
 ## Review pass
 
 - **Source accounting:** all and only the 35 model-corpus sources have terminal
@@ -1115,3 +1220,38 @@ git diff --check
 - extracting Final EIR Volume 4 comments and responses
 - case screening, evidence authoring, retrieval, generation, or scoring
 - changing parser, hierarchy, schema, or resolution policy during the run
+
+## Outcome
+
+Task 03H began as the production full-corpus run intended to publish and validate
+one complete 35-document candidate for Task 04. In practice, it became the first
+full end-to-end attempt: it drove the production workflow far enough across the
+corpus to expose previously unseen fresh-root, no-table, outline, reading-order,
+rotation, table-reconstruction, memory, restart, aggregation, and downstream
+performance cases. The task repaired those cases as source-general behavior,
+added restartable content-aware chunking and compact downstream reuse, and ended
+with a separate human-maintainability pass over the accumulated implementation.
+
+The task closes without claiming its original final-publication acceptance
+criteria. Its most important product is the maintained, source-free-validated
+pipeline and the evidence needed to make the next run trustworthy. The final
+typing, ownership, and identity corrections require every source to run again
+under a new identity, so no retained Task 03H conversion, producer, downstream,
+document, or collection completion may satisfy Task 03J.
+
+The next sequence is explicit:
+
+1. Task 04 performs the user-led review of available Task 03H evidence.
+2. [Task 03I](03i_remediate_task04_review_findings.md) dispositions only accepted
+   review findings and may close with no code changes.
+3. [Task 03J](03j_run_final_canonical_extraction.md) performs a new full-corpus
+   end-to-end attempt under a fresh namespace and identity.
+4. Task 04 retains ownership of the final usability decision and extraction-release
+   freeze after Task 03J hands off its candidate.
+
+Final source-free validation passed Ruff, strict mypy over 367 source files, all
+905 tests, deterministic Task 03H generation, and `git diff --check`. No PDF,
+model, or production artifact ran during the closing maintainability pass. The
+last prepared Task 03H identity was
+`exv1-42295c40af2f58c313201140f340bd18e090fb136d6f06ac10b25ccd2882866e`;
+it is historical evidence, not the Task 03J production identity.

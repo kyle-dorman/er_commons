@@ -7,7 +7,10 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any
 
-from er_commons.document_records.document_references.policy import TABLE_LABEL_PATTERN
+from er_commons.document_records.document_references.policy import (
+    TABLE_LABEL_BLOCK_TYPES,
+    TABLE_LABEL_PATTERN,
+)
 from er_commons.document_records.document_references.types import JsonObject, TargetIndexEntry
 
 
@@ -242,6 +245,7 @@ def _eligible_table_labels_by_page(
         if (
             block.get("content_layer") == "body"
             and block.get("is_toc_row") is False
+            and block.get("block_type") in TABLE_LABEL_BLOCK_TYPES
             and len(regions) == 1
             and TABLE_LABEL_PATTERN.fullmatch(block.get("canonical_text", "").strip())
         ):

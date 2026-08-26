@@ -19,7 +19,7 @@ class ResourceLimits(RuntimeRecord):
     max_rss_bytes: int = Field(gt=0)
     max_wall_seconds: float = Field(gt=0)
     minimum_available_bytes: int = Field(default=4 * 1024**3, gt=0)
-    max_swap_growth_bytes: int = Field(default=1024 * 1024**2, ge=0)
+    max_swap_growth_bytes: int = Field(default=8 * 1024**3, ge=0)
     sample_interval_seconds: float = Field(default=0.1, gt=0, le=1.0)
     termination_grace_seconds: float = Field(default=15.0, gt=0)
 

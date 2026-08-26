@@ -63,8 +63,13 @@ def canonicalization_warnings(
                 f"document index preserved as text: {mapping.raw_object_ref} "
                 f"provenance {mapping.provenance_index}"
                 if mapping.unmapped_reason == DOCUMENT_INDEX_UNMAPPED_REASON
-                else f"zero table mapping: {mapping.raw_object_ref} "
-                f"provenance {mapping.provenance_index}"
+                else (
+                    f"zero table mapping: {mapping.raw_object_ref} "
+                    f"provenance {mapping.provenance_index}"
+                    if mapping.raw_object_ref is not None
+                    else "zero table mapping: routing region "
+                    f"{mapping.region_id} on page {mapping.physical_pdf_page}"
+                )
             )
             for mapping in table_bundle.region_mappings
             if not mapping.clean_table_ids

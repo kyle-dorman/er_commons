@@ -15,7 +15,8 @@ from er_commons.document_records.document_references.construction import Candida
 from er_commons.document_records.document_references.errors import ContractViolation
 from er_commons.document_records.document_references.indexing import NamespaceRemapper
 from er_commons.document_records.document_references.policy import (
-    ELIGIBLE_BLOCK_TYPES,
+    MENTION_SOURCE_BLOCK_TYPES,
+    TABLE_LABEL_BLOCK_TYPES,
     TABLE_LABEL_PATTERN,
     TABLE_PAGE_WINDOW,
     is_qualified_external_table_reference,
@@ -379,7 +380,7 @@ def _validate_derived_table_aliases(
         labels = [
             candidate
             for candidate in blocks.values()
-            if _eligible_source(candidate)
+            if _eligible_table_label(candidate)
             and TABLE_LABEL_PATTERN.fullmatch(candidate["canonical_text"].casefold())
             and candidate["document_id"] == target["document_id"]
             and set(_record_page_ids(candidate)) == {page_id}
@@ -587,7 +588,16 @@ def _eligible_source(record: JsonObject) -> bool:
     return (
         record.get("content_layer") == "body"
         and record.get("is_toc_row") is False
-        and record.get("block_type") in ELIGIBLE_BLOCK_TYPES
+        and record.get("block_type") in MENTION_SOURCE_BLOCK_TYPES
+    )
+
+
+def _eligible_table_label(record: JsonObject) -> bool:
+    """Mirror target-index eligibility without broadening mention sources."""
+    return (
+        record.get("content_layer") == "body"
+        and record.get("is_toc_row") is False
+        and record.get("block_type") in TABLE_LABEL_BLOCK_TYPES
     )
 
 

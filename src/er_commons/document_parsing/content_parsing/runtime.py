@@ -172,7 +172,6 @@ def build_converter_options(
     heading_hierarchy_options: HeadingHierarchyConfig | None = None,
 ) -> tuple[Any, Any]:
     """Construct the accepted Docling options without allocating a converter."""
-    from docling.backend.pypdfium2_backend import PyPdfiumDocumentBackend
     from docling.datamodel.accelerator_options import AcceleratorDevice, AcceleratorOptions
     from docling.datamodel.layout_model_specs import DOCLING_LAYOUT_HERON
     from docling.datamodel.pipeline_options import (
@@ -182,6 +181,10 @@ def build_converter_options(
     )
     from docling.document_converter import PdfFormatOption
     from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
+
+    from er_commons.document_parsing.content_parsing.pdfium_backend import (
+        RotationNormalizedPdfiumDocumentBackend,
+    )
 
     options = ThreadedPdfPipelineOptions(
         accelerator_options=AcceleratorOptions(
@@ -210,7 +213,7 @@ def build_converter_options(
     )
     format_option = PdfFormatOption(
         pipeline_cls=StandardPdfPipeline,
-        backend=PyPdfiumDocumentBackend,
+        backend=RotationNormalizedPdfiumDocumentBackend,
         pipeline_options=options,
     )
     assert_native_only(options, format_option, models_root)
@@ -241,8 +244,11 @@ def build_converter(
 
 def assert_native_only(options: Any, format_option: Any, models_root: Path) -> None:
     """Fail closed if the accepted Task 03A configuration drifts."""
-    from docling.backend.pypdfium2_backend import PyPdfiumDocumentBackend
     from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
+
+    from er_commons.document_parsing.content_parsing.pdfium_backend import (
+        RotationNormalizedPdfiumDocumentBackend,
+    )
 
     forbidden = {
         "do_ocr": options.do_ocr,
@@ -263,8 +269,8 @@ def assert_native_only(options: Any, format_option: Any, models_root: Path) -> N
         raise ValueError("Docling artifacts path differs from the verified model root")
     if format_option.pipeline_cls is not StandardPdfPipeline:
         raise ValueError("document extraction requires StandardPdfPipeline")
-    if format_option.backend is not PyPdfiumDocumentBackend:
-        raise ValueError("document extraction requires PyPdfiumDocumentBackend")
+    if format_option.backend is not RotationNormalizedPdfiumDocumentBackend:
+        raise ValueError("document extraction requires RotationNormalizedPdfiumDocumentBackend")
 
 
 def configuration_record(configuration_id: str, options: Any, format_option: Any) -> dict[str, Any]:

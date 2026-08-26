@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import pytest
 
-from er_commons.document_parsing.content_parsing.routing_geometry import measure_routing_geometry
+from er_commons.document_parsing.content_parsing.routing_geometry import (
+    DisplayedPageTransform,
+    measure_routing_geometry,
+)
 
 
 @pytest.mark.parametrize(
@@ -37,6 +40,33 @@ def test_quarter_turn_swaps_asymmetric_canvas_spans() -> None:
 
     assert result["text_width_fraction"] == pytest.approx(0.5)
     assert result["text_height_fraction"] == pytest.approx(0.8)
+
+
+@pytest.mark.parametrize(
+    ("rotation", "displayed_size", "expected"),
+    [
+        (0, (100.0, 200.0), (10.0, 20.0, 30.0, 40.0)),
+        (90, (200.0, 100.0), (20.0, 70.0, 40.0, 90.0)),
+        (180, (100.0, 200.0), (70.0, 160.0, 90.0, 180.0)),
+        (270, (200.0, 100.0), (160.0, 10.0, 180.0, 30.0)),
+    ],
+)
+def test_unclipped_display_transform_has_exact_inverse(
+    rotation: int,
+    displayed_size: tuple[float, float],
+    expected: tuple[float, float, float, float],
+) -> None:
+    transform = DisplayedPageTransform.create(
+        displayed_size,
+        (10.0, 20.0, 110.0, 220.0),
+        rotation,
+    )
+    source = (20.0, 40.0, 40.0, 60.0)
+
+    displayed = transform.to_displayed_rectangle_unclipped(source)
+
+    assert displayed == expected
+    assert transform.to_source_rectangle_unclipped(displayed) == source
 
 
 def test_empty_text_has_zero_coverage() -> None:

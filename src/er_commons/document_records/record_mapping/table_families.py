@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import cast
 
 from er_commons.document_records.record_mapping.errors import MappingContractError
+from er_commons.document_records.record_mapping.no_table_handoff import load_no_table_handoff
 from er_commons.document_records.record_mapping.table_records import (
     FamilyEvidence,
     JsonObject,
@@ -60,6 +61,8 @@ def load_table_families(
     table_root: Path,
 ) -> tuple[tuple[ProducerTableFamily, ...], dict[str, str]]:
     """Load exact family records and return their table-to-family index."""
+    if load_no_table_handoff(table_root) is not None:
+        return (), {}
     assignments = read_jsonl_objects(table_root / "family_assignments.jsonl")
     family_payload = read_json_object(table_root / "table_families.json")
     raw_families = family_payload.get("families")

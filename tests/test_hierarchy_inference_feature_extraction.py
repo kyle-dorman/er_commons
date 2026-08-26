@@ -449,23 +449,83 @@ def test_pdf_observations_deduplicate_broken_nested_filename_subtree() -> None:
     assert any("EmissionMatrix_Pages" in item["detail"] for item in result.diagnostics)
 
 
-@pytest.mark.parametrize(
-    "children",
-    [
+def test_pdf_observations_drop_all_invalid_technical_branch_and_keep_valid_sibling() -> None:
+    reader = _MalformedOutlineReader([])
+    reader.custom_outline = [
+        SimpleNamespace(title="Valid parent", page=0),
+        [
+            SimpleNamespace(title="_EMFAC_Appendix_Complete_091523.pdf", page=9),
+            [SimpleNamespace(title="EMFAC_Appendix_Template.pdf", page=9)],
+            SimpleNamespace(title="operations ghg emissions summary All.pdf", page=9),
+            [
+                SimpleNamespace(title="Missing technical leaf", page=9),
+                SimpleNamespace(title="BBL-P1-Op", page=1),
+            ],
+        ],
+    ]
+
+    result = extract_outline_observations(reader)
+
+    assert [item["title"] for item in result.observations] == [
+        "Valid parent",
+        "BBL-P1-Op",
+    ]
+    assert result.observations[1]["parent_outline_id"] == result.observations[0]["outline_id"]
+    assert any(
+        "_EMFAC_Appendix_Complete_091523.pdf" in item["detail"]
+        and "retained 0 ordered descendant bookmarks" in item["detail"]
+        for item in result.diagnostics
+    )
+    assert any(
+        "operations ghg emissions summary All.pdf" in item["detail"]
+        and "retained 1 ordered descendant bookmarks" in item["detail"]
+        for item in result.diagnostics
+    )
+
+
+def test_pdf_observations_reject_unsupported_filename_container() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Folder.pdf", page=9),
         [
             SimpleNamespace(title="Later", page=1),
             SimpleNamespace(title="Earlier", page=0),
         ],
-        [SimpleNamespace(title="Missing", page=9)],
-    ],
-)
-def test_pdf_observations_reject_unsupported_filename_container(
-    children: list[SimpleNamespace],
-) -> None:
-    reader = _Reader()
-    reader.outline = [SimpleNamespace(title="Folder.pdf", page=9), children]
+    ]
 
     with pytest.raises(HierarchyInferenceContractError, match="child list has no parent"):
+        extract_outline_observations(reader)
+
+
+def test_pdf_observations_reject_fully_broken_root_filename_container() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Folder.pdf", page=9),
+        [SimpleNamespace(title="Missing", page=9)],
+    ]
+
+    with pytest.raises(
+        HierarchyInferenceContractError,
+        match="no anchored parent or replacement evidence: Folder.pdf",
+    ):
+        extract_outline_observations(reader)
+
+
+def test_pdf_observations_reject_broken_branch_under_unanchored_container() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Binder.pdf", page=9),
+        [
+            SimpleNamespace(title="_EMFAC_Appendix_Complete_091523.pdf", page=9),
+            [SimpleNamespace(title="Missing technical leaf", page=9)],
+            SimpleNamespace(title="Valid sibling", page=0),
+        ],
+    ]
+
+    with pytest.raises(
+        HierarchyInferenceContractError,
+        match="no anchored parent or replacement evidence: _EMFAC_Appendix_Complete_091523.pdf",
+    ):
         extract_outline_observations(reader)
 
 
@@ -497,6 +557,22 @@ def test_pdf_observations_recover_unique_adjacent_appendix_container() -> None:
     assert child["parent_outline_id"] == container["outline_id"]
     assert result.diagnostics[0]["code"] == "OUTLINE_CONTAINER_RECOVERED"
     assert result.diagnostics[0]["stable_item_key"] == "a" * 64
+
+
+def test_pdf_observations_reject_exact_title_visible_on_multiple_pages() -> None:
+    class Page:
+        def extract_text(self) -> str:
+            return "APPENDIX A EXHIBITS"
+
+    reader = _Reader()
+    reader.pages = [Page(), Page()]
+    reader.outline = [
+        SimpleNamespace(title="Appendix A Exhibits.pdf", page=9),
+        [SimpleNamespace(title="E1. Project Desc", page=1)],
+    ]
+
+    with pytest.raises(HierarchyInferenceContractError, match="child list has no parent"):
+        extract_outline_observations(reader)
 
 
 def test_pdf_observations_reject_ambiguous_or_nonmatching_container() -> None:

@@ -4,6 +4,18 @@
 
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
+Current routing: [Task
+03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is complete as the
+first full-corpus end-to-end attempt. It closed with a maintained and
+source-free-validated pipeline, but not a final corpus candidate, because its final
+identity corrections require a completely fresh run. The user is moving to Task 04
+review work. [Task
+03I](../tasks/sprint2/03i_remediate_task04_review_findings.md) will disposition only
+the extraction findings from that review and may close as a no-op. [Task
+03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) then owns the next fresh
+35-source end-to-end attempt and final machine handoff back to Task 04. No Task 03H
+production artifact is eligible for Task 03J reuse.
+
 Previously completed: [Task
 03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md). Its
 checksum-verified semantic v2 MVP candidate
@@ -262,7 +274,7 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    across 287 source files; all 270 controls still match exactly. The user accepted
    the result and closed Task 03G.3 on 2026-08-18. No source-PDF/model run or
    accepted-artifact mutation occurred.
-6. Paused [Task
+6. Completed [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was reactivated by
    user direction on 2026-08-19. Clean source-free preparation completed, and the
    user approved a fresh `deir_main` run. The implementation separates a
@@ -337,7 +349,7 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    generation, Ruff, strict mypy across 316 source files, all 732 tests, and
    `git diff --check` pass. The final independent review reports no P0 or P1 finding.
    No other source, collection assembly, deletion, or Docling rerun was required for
-   Task 03H.1 closure. Task 03H now prepares a clean run from the first ordered source
+   Task 03H.1 closure. At that checkpoint, Task 03H prepared a clean run from the first ordered source
    rather than continuing a historical remaining-source queue. By user decision on
    2026-08-19, it will not reuse historical Docling runs; new-run restart reuse begins
    only after each source has produced a fresh seal in the isolated namespace. The
@@ -421,7 +433,7 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    aggregate peaks; projected two-worker memory exceeds the 10 GiB concurrent ceiling.
    Human-ownership review established named package owners, strict recovery and
    lineage checks, and verified immutable evidence. No Gate D or G2
-   rehearsal remains. Active [Task
+   rehearsal remains. At that checkpoint, [Task
    03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is prepared for a
    distinct v3 clean run to process all 35 sources from scratch under
    `pipelines/brisbane_baylands/task_03h_clean_full_v3/`. Preserve the v2 and earlier
@@ -446,7 +458,7 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    the aggregate, and published the derived producer. Record mapping then failed on a
    relative-path contract mismatch: all 274 figure crops exist and verify, but their
    inventory paths omit the conversion-root-relative `documents/deir_main/` prefix.
-   Task 03H is paused for a reviewed aggregate-only asset-path repair and downstream
+   Task 03H was paused for a reviewed aggregate-only asset-path repair and downstream
    integration regression. Appendix A has not started.
    The user authorized that repair. Aggregate asset records now use the exact
    conversion-root-relative path consumed by record mapping, and one shared fixture
@@ -473,10 +485,16 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    custom table extraction remain separate, raw range evidence is preserved, and
    aggregate Docling reading order is deferred until after confirmed table evidence.
    Its authorized Appendix C/O qualification, restart checks, downstream comparison,
-   and complete offline gates passed. The parent Task 03H remains paused at the
-   separate G2 range-RSS stop condition.
-8. Independently review usability and freeze the accepted extraction release
-   in Task 04.
+   and complete offline gates passed. The parent Task 03H was then paused at the
+   separate G2 range-RSS stop condition. Subsequent v3 execution and remediation are
+   preserved in the task outcome. Task 03H is now closed as the first end-to-end
+   attempt; it did not publish the final corpus candidate.
+8. Begin the user-led Task 04 review from retained Task 03H evidence. Route any
+   accepted extraction defects through [Task
+   03I](../tasks/sprint2/03i_remediate_task04_review_findings.md), which may close
+   no-op, then run the fresh all-source [Task
+   03J](../tasks/sprint2/03j_run_final_canonical_extraction.md). Task 04 retains the
+   final usability and release-freeze decision after the Task 03J handoff.
 9. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
 10. Freeze human evaluation before BM25 retrieval, target generation, and judge

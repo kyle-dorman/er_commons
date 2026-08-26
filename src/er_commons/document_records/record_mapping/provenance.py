@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from er_commons.document_records.record_mapping.errors import MappingContractError
 from er_commons.document_records.record_mapping.record_sets import JsonRecord
 
+TABLE_BOUNDS_TOLERANCE_POINTS = 1.5
+
 
 @dataclass(frozen=True)
 class ProvenanceProjection:
@@ -79,14 +81,42 @@ def table_region(
     page_ids: dict[int, str],
     page_sizes: dict[int, tuple[float, float]],
 ) -> JsonRecord:
-    """Build one bottom-left table or cell region in canonical shape."""
+    """Build one bounded table region, tolerating only extractor rounding drift."""
     width, height = page_sizes[physical_page]
+    if not all(
+        isinstance(value, (int, float))
+        and not isinstance(value, bool)
+        and math.isfinite(float(value))
+        for value in bbox
+    ):
+        raise MappingContractError("table region contains non-finite coordinates")
+    left, lower, right, upper = (float(value) for value in bbox)
+    if not left < right or not lower < upper:
+        raise MappingContractError("table region has inverted or empty geometry")
+    tolerance = TABLE_BOUNDS_TOLERANCE_POINTS
+    if (
+        left < -tolerance
+        or lower < -tolerance
+        or right > width + tolerance
+        or upper > height + tolerance
+    ):
+        raise MappingContractError(
+            "table region materially exceeds page bounds: "
+            f"bbox={[left, lower, right, upper]}, page_size={[width, height]}, "
+            f"tolerance_points={tolerance}"
+        )
+    left = max(0.0, min(left, width))
+    lower = max(0.0, min(lower, height))
+    right = max(0.0, min(right, width))
+    upper = max(0.0, min(upper, height))
+    if not left < right or not lower < upper:
+        raise MappingContractError("table region collapses within page-bound tolerance")
     return {
         "page_id": page_ids[physical_page],
         "coordinate_space": "producer_pdf",
         "origin": "bottom_left",
         "units": "pdf_points",
-        "bbox": [float(value) for value in bbox],
+        "bbox": [left, lower, right, upper],
         "page_width": width,
         "page_height": height,
         "rotation_degrees": 0,

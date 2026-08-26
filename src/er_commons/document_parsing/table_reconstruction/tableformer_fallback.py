@@ -3,28 +3,32 @@
 from __future__ import annotations
 
 import json
+import math
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
 from importlib.metadata import version
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
 import numpy as np
 import pypdfium2 as pdfium  # type: ignore[import-untyped]
 from PIL import Image
 
 from er_commons.artifact_io import sha256_file, write_json_atomic
+from er_commons.document_parsing.content_parsing.routing_geometry import (
+    DisplayedPageTransform,
+)
 from er_commons.document_parsing.table_reconstruction.learned_table_acceptance import (
     evaluate_prediction,
 )
 from er_commons.document_parsing.table_reconstruction.learned_table_types import (
-    BoundingBox,
     FallbackAttempt,
     JsonObject,
     abstain,
 )
 from er_commons.document_parsing.table_reconstruction.models import LearnedFallbackConfig
+from er_commons.document_parsing.table_reconstruction.native_text import native_word_tokens
 
 
 @dataclass(frozen=True)
@@ -35,81 +39,38 @@ class RegionInputs:
     native_tokens: list[JsonObject]
 
 
-def _native_word_tokens(
-    text_page: Any,
+def _bounded_crop_box(
     region_bbox: list[float],
     *,
-    scale: float,
-) -> list[JsonObject]:
-    """Build deterministic word-like tokens from PDFium native characters."""
-    region_left, region_bottom, region_right, region_top = region_bbox
-    tokens: list[JsonObject] = []
-    characters: list[tuple[str, BoundingBox]] = []
-
-    def flush_word() -> None:
-        if not characters:
-            return
-        text = "".join(character for character, _box in characters)
-        left = min(box[0] for _character, box in characters)
-        bottom = min(box[1] for _character, box in characters)
-        right = max(box[2] for _character, box in characters)
-        top = max(box[3] for _character, box in characters)
-        tokens.append(
-            {
-                "id": len(tokens),
-                "text": text,
-                "bbox_pdf_points_bottom_left": [left, bottom, right, top],
-                "bbox_crop_pixels_top_left": {
-                    "l": (left - region_left) * scale,
-                    "t": (region_top - top) * scale,
-                    "r": (right - region_left) * scale,
-                    "b": (region_top - bottom) * scale,
-                },
-            }
-        )
-        characters.clear()
-
-    for index in range(text_page.count_chars()):
-        character = text_page.get_text_range(index, 1)
-        try:
-            values = tuple(float(value) for value in text_page.get_charbox(index))
-            box = cast(BoundingBox, values)
-        except Exception:  # PDFium can expose passive characters without geometry.
-            flush_word()
-            continue
-        left, bottom, right, top = box
-        center_x = (left + right) / 2
-        center_y = (bottom + top) / 2
-        inside = region_left <= center_x <= region_right and region_bottom <= center_y <= region_top
-        if not inside or not character or character.isspace():
-            flush_word()
-            continue
-        if characters:
-            previous_box = characters[-1][1]
-            previous_center_y = (previous_box[1] + previous_box[3]) / 2
-            starts_new_word = (
-                abs(center_y - previous_center_y) > 2.0 or left + 0.5 < previous_box[2]
-            )
-            if starts_new_word:
-                flush_word()
-        characters.append((character, box))
-    flush_word()
-    return tokens
-
-
-def _crop_box(
-    region_bbox: list[float],
-    *,
+    page_width: float,
     page_height: float,
     scale: float,
-) -> tuple[int, int, int, int]:
+) -> tuple[int, int, int, int] | None:
+    """Return a finite positive crop wholly contained by the displayed page."""
+    if (
+        len(region_bbox) != 4
+        or not all(math.isfinite(value) for value in (*region_bbox, page_width, page_height, scale))
+        or page_width <= 0
+        or page_height <= 0
+        or scale <= 0
+    ):
+        return None
     left, bottom, right, top = region_bbox
-    return (
+    if not (0 <= left < right <= page_width and 0 <= bottom < top <= page_height):
+        return None
+    crop = (
         round(left * scale),
         round((page_height - top) * scale),
         round(right * scale),
         round((page_height - bottom) * scale),
     )
+    rendered_width = round(page_width * scale)
+    rendered_height = round(page_height * scale)
+    if not (0 <= crop[0] < crop[2] <= rendered_width):
+        return None
+    if not (0 <= crop[1] < crop[3] <= rendered_height):
+        return None
+    return crop
 
 
 def _read_region_inputs(
@@ -126,7 +87,19 @@ def _read_region_inputs(
         page = document[page_number - 1]
         text_page = page.get_textpage()
         try:
-            tokens = _native_word_tokens(text_page, region_bbox, scale=render_scale)
+            width, height = (float(value) for value in page.get_size())
+            bbox_values = [float(value) for value in page.get_bbox()]
+            transform = DisplayedPageTransform.create(
+                (width, height),
+                (bbox_values[0], bbox_values[1], bbox_values[2], bbox_values[3]),
+                int(page.get_rotation()),
+            )
+            tokens = native_word_tokens(
+                text_page,
+                region_bbox,
+                scale=render_scale,
+                transform=transform,
+            )
         finally:
             text_page.close()
         image = page.render(scale=render_scale, rev_byteorder=True).to_pil().convert("RGB")
@@ -135,9 +108,13 @@ def _read_region_inputs(
         document.close()
 
     page_width, page_height = page_size
-    crop_box = _crop_box(region_bbox, page_height=page_height, scale=render_scale)
-    rendered_width = round(page_width * render_scale)
-    if not (0 <= crop_box[0] < crop_box[2] <= rendered_width):
+    crop_box = _bounded_crop_box(
+        region_bbox,
+        page_width=page_width,
+        page_height=page_height,
+        scale=render_scale,
+    )
+    if crop_box is None:
         return None
     return RegionInputs(image.crop(crop_box), tokens)
 

@@ -23,6 +23,14 @@ _DASH_TRANSLATION = str.maketrans(
     }
 )
 _INLINE_LEADER = re.compile(r"^(?P<title>.*?\S)\s+(?:\.\s*){2,}$")
+_HEADING_PATTERNS = (
+    re.compile(
+        r"^(?:Article|ARTICLE)[ \t]+(?P<token>[0-9]+|[IVXLCDM]+)\.?(?:[ \t]+)(?P<title>.+)$"
+    ),
+    re.compile(r"^(?P<token>[0-9]+(?:\.[0-9]+){0,5})\.?[ \t]+(?P<title>.+)$"),
+    re.compile(r"^(?P<token>[IVXLCDM]+)\.[ \t]+(?P<title>.+)$"),
+    re.compile(r"^(?P<token>[A-HJ-UW-Z])\.[ \t]+(?P<title>.+)$"),
+)
 
 
 def typographic_canonical(value: str) -> str:
@@ -39,15 +47,7 @@ def split_body_title(feature: JsonObject) -> tuple[str, str]:
 def split_heading_text(value: str) -> tuple[str, str]:
     """Split one supported heading marker from raw heading text."""
     text = normalize_text(value, casefold=False)
-    patterns = (
-        re.compile(
-            r"^(?:Article|ARTICLE)[ \t]+(?P<token>[0-9]+|[IVXLCDM]+)\.?(?:[ \t]+)(?P<title>.+)$"
-        ),
-        re.compile(r"^(?P<token>[0-9]+(?:\.[0-9]+){0,5})\.?[ \t]+(?P<title>.+)$"),
-        re.compile(r"^(?P<token>[IVXLCDM]+)\.[ \t]+(?P<title>.+)$"),
-        re.compile(r"^(?P<token>[A-HJ-UW-Z])\.[ \t]+(?P<title>.+)$"),
-    )
-    for pattern in patterns:
+    for pattern in _HEADING_PATTERNS:
         match = pattern.match(text)
         if match is not None:
             return match.group("token"), normalize_text(match.group("title"))

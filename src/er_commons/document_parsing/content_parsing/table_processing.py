@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from er_commons.artifact_io import read_jsonl, write_json_atomic
+from er_commons.artifact_io import read_jsonl, write_json_atomic, write_jsonl
 from er_commons.document_parsing.content_parsing.config import ContentParsingConfig
 from er_commons.document_parsing.content_parsing.records import (
     PageRouteRecord,
@@ -310,6 +310,37 @@ def run_complete_table_stage(
     positive = _positive_routes(routes)
     table_root = staging_root / "documents" / source.source_id / "producer" / "tables"
     if not positive:
+        write_json_atomic(
+            table_root / "summary.json",
+            {
+                "physical_pdf_pages": [],
+                "page_count": 0,
+                "logical_table_count": 0,
+                "family_count": 0,
+                "zero_table_pages": [],
+                "review_derivatives_retained": False,
+            },
+        )
+        write_jsonl(table_root / "pages.jsonl", [])
+        write_jsonl(table_root / "tables.jsonl", [])
+        write_jsonl(table_root / "family_assignments.jsonl", [])
+        write_json_atomic(
+            table_root / "table_families.json",
+            {"families": [], "continuation_decisions": []},
+        )
+        write_json_atomic(
+            table_root / "manifest.json",
+            {
+                "schema_version": "1.0.0",
+                "source_id": source.source_id,
+                "physical_pdf_pages": [],
+                "summary": "summary.json",
+                "pages": "pages.jsonl",
+                "tables": "tables.jsonl",
+                "family_assignments": "family_assignments.jsonl",
+                "table_families": "table_families.json",
+            },
+        )
         result = TableStageObservation(
             status="not_applicable",
             document_scope_complete=True,

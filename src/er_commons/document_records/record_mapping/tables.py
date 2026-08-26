@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+from er_commons.document_records.record_mapping.no_table_handoff import load_no_table_handoff
 from er_commons.document_records.record_mapping.table_artifacts import load_producer_tables
 from er_commons.document_records.record_mapping.table_cleanup import clean_table_cells
 from er_commons.document_records.record_mapping.table_families import load_table_families
@@ -23,6 +24,8 @@ from er_commons.document_records.record_mapping.table_regions import load_region
 def load_producer_table_bundle(producer_root: Path) -> ProducerTableBundle:
     """Load the verified producer's complete table handoff from plain JSON."""
     table_root = producer_root / "tables"
+    if load_no_table_handoff(table_root) is not None:
+        return ProducerTableBundle(tables=(), families=(), region_mappings=())
     families, assignments = load_table_families(table_root)
     tables = load_producer_tables(table_root, assignments)
     mappings = load_region_crosswalk(producer_root, tables)

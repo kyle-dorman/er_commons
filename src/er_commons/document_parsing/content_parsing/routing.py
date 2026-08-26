@@ -43,24 +43,37 @@ def page_features(pdf_path: Path, page_number: int) -> dict[str, Any]:
     """Measure deterministic native-text coverage and numeric-density features."""
     document = pdfium.PdfDocument(pdf_path)
     try:
-        page = document[page_number - 1]
-        displayed_values = tuple(float(value) for value in page.get_size())
-        displayed_size = (displayed_values[0], displayed_values[1])
-        bbox_values = tuple(float(value) for value in page.get_bbox())
-        page_bbox = (bbox_values[0], bbox_values[1], bbox_values[2], bbox_values[3])
-        rotation_degrees = int(page.get_rotation())
-        text_page = page.get_textpage()
-        try:
-            text = text_page.get_text_range()
-            rectangles = []
-            for index in range(text_page.count_rects()):
-                values = tuple(float(value) for value in text_page.get_rect(index))
-                rectangles.append((values[0], values[1], values[2], values[3]))
-        finally:
-            text_page.close()
-        page.close()
+        return _page_features(document[page_number - 1], page_number)
     finally:
         document.close()
+
+
+def all_page_features(pdf_path: Path) -> tuple[dict[str, Any], ...]:
+    """Measure every page while keeping one PDFium document open."""
+    document = pdfium.PdfDocument(pdf_path)
+    try:
+        return tuple(_page_features(document[index], index + 1) for index in range(len(document)))
+    finally:
+        document.close()
+
+
+def _page_features(page: Any, page_number: int) -> dict[str, Any]:
+    """Measure one already-open PDFium page and release its text page."""
+    displayed_values = tuple(float(value) for value in page.get_size())
+    displayed_size = (displayed_values[0], displayed_values[1])
+    bbox_values = tuple(float(value) for value in page.get_bbox())
+    page_bbox = (bbox_values[0], bbox_values[1], bbox_values[2], bbox_values[3])
+    rotation_degrees = int(page.get_rotation())
+    text_page = page.get_textpage()
+    try:
+        text = text_page.get_text_range()
+        rectangles = []
+        for index in range(text_page.count_rects()):
+            values = tuple(float(value) for value in text_page.get_rect(index))
+            rectangles.append((values[0], values[1], values[2], values[3]))
+    finally:
+        text_page.close()
+        page.close()
 
     nonspace = "".join(text.split())
     geometry = measure_routing_geometry(

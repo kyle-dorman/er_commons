@@ -29,6 +29,9 @@ class DetectionConfig(BaseModel):
     complex_page_minimum_regions: int = Field(ge=2)
     maximum_network_ruling_coverage: float = Field(ge=0, le=1)
     minimum_region_match_iou: float = Field(gt=0, le=1)
+    region_stream_fallback_enabled: bool = False
+    minimum_region_stream_native_text_coverage: float = Field(default=0.9, ge=0, le=1)
+    maximum_region_stream_bbox_overshoot_points: float = Field(default=1.5, ge=0, le=10)
 
 
 class CleanupConfig(BaseModel):

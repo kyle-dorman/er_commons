@@ -91,13 +91,16 @@ def _accepted_options(models_root: Path) -> SimpleNamespace:
 
 def test_native_only_guard_accepts_exact_backend_and_rejects_ocr(tmp_path: Path) -> None:
     """The runtime fails closed if a forbidden parser path becomes active."""
-    from docling.backend.pypdfium2_backend import PyPdfiumDocumentBackend
     from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
+
+    from er_commons.document_parsing.content_parsing.pdfium_backend import (
+        RotationNormalizedPdfiumDocumentBackend,
+    )
 
     options = _accepted_options(tmp_path)
     format_option = SimpleNamespace(
         pipeline_cls=StandardPdfPipeline,
-        backend=PyPdfiumDocumentBackend,
+        backend=RotationNormalizedPdfiumDocumentBackend,
     )
     assert_native_only(options, format_option, tmp_path)
 

@@ -6,6 +6,28 @@ import ast
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ACTIVE_ORCHESTRATION_FUNCTION_LIMIT = 80
+
+
+def _active_orchestration_paths() -> tuple[str, ...]:
+    """Return the runtime owners added during the active Task 03H work."""
+    content_root = PROJECT_ROOT / "src/er_commons/document_parsing/content_parsing"
+    aggregate_root = PROJECT_ROOT / "src/er_commons/chunked_conversion/runtime"
+    fixed = {
+        aggregate_root / "aggregate.py",
+        aggregate_root / "aggregate_memory.py",
+        content_root / "chunked_application.py",
+        content_root / "ordering_projection.py",
+        content_root / "pdfium_backend.py",
+        content_root / "range_projection_reuse.py",
+        content_root / "table_stage_reference.py",
+    }
+    discovered = {
+        *aggregate_root.glob("aggregate*publication*.py"),
+        *content_root.glob("derived_*_reuse.py"),
+        *content_root.glob("*projection*.py"),
+    }
+    return tuple(str(path.relative_to(PROJECT_ROOT)) for path in sorted(fixed | discovered))
 
 
 def _source(relative_path: str) -> Path:
@@ -61,11 +83,27 @@ def test_task03h_runtime_functions_remain_human_sized() -> None:
         assert not oversized, f"split oversized functions in {relative_path}: {oversized}"
 
 
+def test_active_task03h_orchestration_functions_remain_human_sized() -> None:
+    """New orchestration code must decompose work into named, readable steps."""
+    violations: dict[str, dict[str, int]] = {}
+    for relative_path in _active_orchestration_paths():
+        lengths = _function_lengths(_source(relative_path))
+        oversized = {
+            name: length
+            for name, length in lengths.items()
+            if length > ACTIVE_ORCHESTRATION_FUNCTION_LIMIT
+        }
+        if oversized:
+            violations[relative_path] = oversized
+    assert not violations, f"split oversized orchestration functions: {violations}"
+
+
 def test_task03h_facades_do_not_reabsorb_implementation() -> None:
     """Stable public modules remain navigation surfaces, not hidden mixed owners."""
     maximum_lines = {
         "src/er_commons/document_parsing/content_parsing/application.py": 140,
         "src/er_commons/document_parsing/content_parsing/conversion_bundle.py": 60,
+        "src/er_commons/document_parsing/heading_evidence_parsing/pdf_observations.py": 70,
         "src/er_commons/document_records/record_mapping/tables.py": 60,
         "src/er_commons/document_records/document_structure/workflow.py": 90,
         "scripts/generate_task03h_configs.py": 40,
@@ -73,6 +111,37 @@ def test_task03h_facades_do_not_reabsorb_implementation() -> None:
     for relative_path, limit in maximum_lines.items():
         actual = len(_source(relative_path).read_text().splitlines())
         assert actual <= limit, f"split {relative_path}: {actual} lines exceeds {limit}"
+
+
+def test_ordering_projection_owners_remain_bounded() -> None:
+    """Projection policy, records, and storage verification stay separate."""
+    limits = {
+        "src/er_commons/document_parsing/content_parsing/ordering_projection.py": 180,
+        "src/er_commons/document_parsing/content_parsing/ordering_projection_records.py": 340,
+        "src/er_commons/document_parsing/content_parsing/table_stage_reference.py": 260,
+    }
+    for relative_path, limit in limits.items():
+        actual = len(_source(relative_path).read_text().splitlines())
+        assert actual <= limit, f"split {relative_path}: {actual} lines exceeds {limit}"
+
+
+def test_pdf_outline_owners_have_bounded_responsibilities() -> None:
+    """Outline behavior stays divided by domain responsibility after the split."""
+    root = PROJECT_ROOT / "src/er_commons/document_parsing/heading_evidence_parsing"
+    paths = sorted(root.glob("outline_*.py"))
+    assert paths
+    violations: dict[str, dict[str, int]] = {}
+    for path in paths:
+        line_count = len(path.read_text().splitlines())
+        assert line_count <= 350, f"split the responsibilities in {path.name}: {line_count} lines"
+        oversized = {
+            name: length
+            for name, length in _function_lengths(path).items()
+            if length > ACTIVE_ORCHESTRATION_FUNCTION_LIMIT
+        }
+        if oversized:
+            violations[path.name] = oversized
+    assert not violations, f"split oversized PDF outline functions: {violations}"
 
 
 def test_task03h_generation_has_named_one_way_owners() -> None:

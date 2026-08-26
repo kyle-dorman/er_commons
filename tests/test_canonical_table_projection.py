@@ -159,6 +159,42 @@ def test_projection_retains_regionless_full_page_table_without_region_mapping() 
     assert projected == bundle
 
 
+def test_projection_retains_geometry_only_mapped_table() -> None:
+    bundle = _bundle()
+    geometry_only = replace(bundle.region_mappings[1], raw_object_ref=None, provenance_index=None)
+
+    projected = project_canonical_table_bundle(
+        _document(),
+        replace(
+            bundle,
+            tables=(bundle.tables[1],),
+            families=(bundle.families[1],),
+            region_mappings=(geometry_only,),
+        ),
+    )
+
+    assert projected.region_mappings == (geometry_only,)
+    assert projected.tables == (bundle.tables[1],)
+
+    context = cast(
+        RecordMappingContext,
+        SimpleNamespace(
+            extraction_id=f"exv1-{'a' * 64}",
+            source_id="deir_main",
+            page_ids={2: "page-2"},
+            table_id_by_producer={"ordinary_table": "canonical-ordinary-table"},
+        ),
+    )
+    assets = cast(AssetCatalog, SimpleNamespace(raw_docling_asset_id="raw-docling-asset"))
+    observations, _ = _table_stage_observations(
+        context=context,
+        table_bundle=projected,
+        assets=assets,
+    )
+    assert observations[0]["source_region_raw_link"] is None
+    assert observations[0]["parser_diagnostics"]["raw_docling_provenance_available"] is False
+
+
 def test_projected_traversal_emits_index_text_and_replaces_only_ordinary_table() -> None:
     document = {
         "pages": {"1": {"size": {"width": 100.0, "height": 100.0}}},
@@ -326,6 +362,26 @@ def test_rejects_duplicate_region_pointer() -> None:
         project_canonical_table_bundle(
             _document(),
             replace(bundle, region_mappings=(bundle.region_mappings[0], duplicate)),
+        )
+
+
+@pytest.mark.parametrize(
+    ("raw_object_ref", "provenance_index"),
+    [(None, 0), ("#/tables/0", None), ("#/tables/0", -1), ("#/tables/0", True)],
+)
+def test_rejects_incomplete_or_invalid_region_provenance(
+    raw_object_ref: str | None,
+    provenance_index: int | None,
+) -> None:
+    with pytest.raises(MappingContractError, match="region .*provenance"):
+        RegionTableMapping(
+            physical_pdf_page=1,
+            region_id="layout_001",
+            raw_object_ref=raw_object_ref,
+            provenance_index=provenance_index,
+            bbox_pdf_points_bottom_left=(1.0, 2.0, 3.0, 4.0),
+            clean_table_ids=("table",),
+            unmapped_reason=None,
         )
 
 

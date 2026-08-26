@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
 
@@ -134,20 +135,15 @@ class _OutlineItem(BaseModel):
     y_top: float
 
 
-def test_pipeline_captures_exact_outline_then_delegates_unchanged(
+def test_pipeline_captures_exact_outline_without_global_assembly(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
 
-    sentinel = object()
-    calls: list[Any] = []
+    def forbidden(_pipeline: Any, _result: Any) -> object:
+        raise AssertionError("range conversion must not run global assembly")
 
-    def delegated(_pipeline: Any, result: Any) -> object:
-        calls.append(result)
-        result._pdf_outline = None
-        return sentinel
-
-    monkeypatch.setattr(StandardPdfPipeline, "_assemble_document", delegated)
+    monkeypatch.setattr(StandardPdfPipeline, "_assemble_document", forbidden)
     pipeline = object.__new__(PageCapturePdfPipeline)
     pipeline.pending_captures = []
     result = SimpleNamespace(
@@ -158,11 +154,178 @@ def test_pipeline_captures_exact_outline_then_delegates_unchanged(
     returned = pipeline._assemble_document(result)
     capture = pipeline.take_capture()
 
-    assert returned is sentinel
-    assert calls == [result]
+    assert returned is result
     assert capture.outline == ({"title": "Section", "level": 2, "page_no": 421, "y_top": 44.5},)
     assert tuple(page.page_no for page in capture.pages) == (421, 422)
-    assert result._pdf_outline is None
+    assert capture.page_object_ids == tuple(id(page) for page in result.pages)
+    assert result._pdf_outline == [_OutlineItem(title="Section", level=2, page_no=421, y_top=44.5)]
+
+
+def test_pipeline_skips_enrichment_without_global_document(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
+
+    def forbidden(_pipeline: Any, _result: Any) -> object:
+        raise AssertionError("range conversion must not enrich a global document")
+
+    monkeypatch.setattr(StandardPdfPipeline, "_enrich_document", forbidden)
+    pipeline = object.__new__(PageCapturePdfPipeline)
+    result = SimpleNamespace(document=None)
+
+    assert pipeline._enrich_document(result) is result
+
+
+def test_adapter_reports_conversion_failure_before_missing_capture(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from er_commons.chunked_conversion.runtime import docling_adapter as adapter_module
+
+    result = SimpleNamespace(
+        status=SimpleNamespace(value="failure"),
+        errors=[],
+        pages=[],
+    )
+    converter = SimpleNamespace(convert=lambda *_args, **_kwargs: result)
+    prepared = SimpleNamespace(
+        model_inventory_path=tmp_path / "inventory.json",
+        model_inventory=object(),
+        source=SimpleNamespace(
+            source_path=tmp_path / "source.pdf",
+            source_page_count=1,
+            source_byte_size=1,
+        ),
+    )
+    adapter = DoclingAdapter()
+    monkeypatch.setattr(adapter_module, "verify_model_files", lambda *_args: None)
+    monkeypatch.setattr(adapter, "_build_converter", lambda _prepared: (converter, None, None))
+
+    def forbidden(_converter: Any) -> Any:
+        raise AssertionError("failed conversion must be validated before capture lookup")
+
+    monkeypatch.setattr(adapter, "_pipeline", forbidden)
+
+    with pytest.raises(PageEvidenceError, match="clean_conversion_success"):
+        adapter.convert_range(
+            prepared,
+            PageInterval(start=1, end=1),
+            range_id="failed-range",
+            data_root=tmp_path,
+            log_path=tmp_path / "worker.log",
+        )
+
+
+def test_adapter_uses_exact_successful_capture_without_recapturing(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from er_commons.chunked_conversion.page_evidence import CapturedAssembly
+    from er_commons.chunked_conversion.runtime import docling_adapter as adapter_module
+
+    page = _page(1)
+    evidence = capture_page_evidence(page)
+    capture = CapturedAssembly(
+        pages=(evidence,),
+        page_object_ids=(id(page),),
+        outline=({"title": "Captured", "level": 1, "page_no": 1, "y_top": 10.0},),
+    )
+    result = SimpleNamespace(
+        status=SimpleNamespace(value="success"),
+        errors=[],
+        pages=[page],
+    )
+    converter = SimpleNamespace(convert=lambda *_args, **_kwargs: result)
+    pipeline = SimpleNamespace(take_capture=lambda: capture)
+    prepared = SimpleNamespace(
+        model_inventory_path=tmp_path / "inventory.json",
+        model_inventory=object(),
+        source=SimpleNamespace(
+            source_id="source",
+            source_path=tmp_path / "source.pdf",
+            source_page_count=1,
+            source_byte_size=1,
+        ),
+    )
+    adapter = DoclingAdapter()
+    projection = SimpleNamespace(page_no=1)
+
+    def forbidden_image_read(*_args: Any, **_kwargs: Any) -> Any:
+        raise AssertionError("adapter consistency validation must not reread raster bytes")
+
+    monkeypatch.setattr(adapter_module, "verify_model_files", lambda *_args: None)
+    monkeypatch.setattr(adapter, "_build_converter", lambda _prepared: (converter, None, None))
+    monkeypatch.setattr(adapter, "_pipeline", lambda _converter: pipeline)
+    monkeypatch.setattr(adapter, "_alignment_record", lambda _page: {"page_no": 1})
+    monkeypatch.setattr(adapter, "_projection", lambda *_args, **_kwargs: projection)
+    monkeypatch.setattr(type(page), "get_image", forbidden_image_read)
+
+    conversion = adapter.convert_range(
+        prepared,
+        PageInterval(start=1, end=1),
+        range_id="successful-range",
+        data_root=tmp_path,
+        log_path=tmp_path / "worker.log",
+    )
+
+    assert conversion.pages == (evidence,)
+    assert conversion.outline == capture.outline
+    assert conversion.alignment_pages == ({"page_no": 1},)
+    assert conversion.projections == (projection,)
+
+
+def test_adapter_rejects_page_mutated_after_capture(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from er_commons.chunked_conversion.page_evidence import CapturedAssembly
+    from er_commons.chunked_conversion.runtime import docling_adapter as adapter_module
+
+    page = _page(1)
+    evidence = capture_page_evidence(page)
+    capture = CapturedAssembly(
+        pages=(evidence,),
+        page_object_ids=(id(page),),
+        outline=(),
+    )
+    result = SimpleNamespace(
+        status=SimpleNamespace(value="success"),
+        errors=[],
+        pages=[page],
+    )
+
+    def convert(*_args: Any, **_kwargs: Any) -> Any:
+        page.assembled.elements[0].text = "mutated after capture"
+        return result
+
+    converter = SimpleNamespace(convert=convert)
+    pipeline = SimpleNamespace(take_capture=lambda: capture)
+    prepared = SimpleNamespace(
+        model_inventory_path=tmp_path / "inventory.json",
+        model_inventory=object(),
+        source=SimpleNamespace(
+            source_id="source",
+            source_path=tmp_path / "source.pdf",
+            source_page_count=1,
+            source_byte_size=1,
+        ),
+    )
+    adapter = DoclingAdapter()
+    monkeypatch.setattr(adapter_module, "verify_model_files", lambda *_args: None)
+    monkeypatch.setattr(adapter, "_build_converter", lambda _prepared: (converter, None, None))
+    monkeypatch.setattr(adapter, "_pipeline", lambda _converter: pipeline)
+
+    with pytest.raises(
+        PageEvidenceError,
+        match=r"page_payload.*captured_page_semantics",
+    ):
+        adapter.convert_range(
+            prepared,
+            PageInterval(start=1, end=1),
+            range_id="mutated-range",
+            data_root=tmp_path,
+            log_path=tmp_path / "worker.log",
+        )
 
 
 def test_pipeline_requires_exactly_one_pending_capture() -> None:

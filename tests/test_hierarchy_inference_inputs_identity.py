@@ -151,6 +151,9 @@ def test_owned_code_inventory_resolves_every_checked_path() -> None:
     project_root = Path(__file__).parents[1]
 
     paths = owned_code_paths(project_root)
+    heading_owners = set(
+        (project_root / "src/er_commons/document_parsing/heading_evidence_parsing").glob("*.py")
+    )
 
     assert project_root / "src/er_commons/hierarchy_inference/config.py" in paths
     assert project_root / "src/er_commons/hierarchy_inference/progress.py" in paths
@@ -161,6 +164,9 @@ def test_owned_code_inventory_resolves_every_checked_path() -> None:
     )
     assert project_root / "src/er_commons/document_parsing/content_parsing/references.py" in paths
     assert project_root / "src/er_commons/artifact_io.py" in paths
+    assert heading_owners <= set(paths), (
+        "new heading-evidence owners must invalidate hierarchy reuse"
+    )
 
 
 def test_loader_verifies_run_and_source_before_loading_semantic_inputs(

@@ -84,26 +84,42 @@ def verify_chunk_inputs(
 
 def behavior_code_identity(project_root: Path) -> RuntimeCodeIdentity:
     """Hash only production modules able to alter plan, child, or aggregate bytes."""
-    package = project_root / "src/er_commons/chunked_conversion"
 
-    def digest(*relative_paths: str) -> str:
-        paths = [package / path for path in relative_paths]
+    def digest(*project_relative_paths: str) -> str:
+        paths = [project_root / path for path in project_relative_paths]
         return str(code_identity(paths, repo_root=project_root)["sha256"])
 
     return RuntimeCodeIdentity(
-        page_evidence=digest("page_evidence.py", "page_evidence_store.py"),
-        range_conversion=digest(
-            "runtime/docling_adapter.py",
-            "runtime/range_store.py",
-            "runtime/worker.py",
+        page_evidence=digest(
+            "src/er_commons/chunked_conversion/page_evidence.py",
+            "src/er_commons/chunked_conversion/page_evidence_store.py",
         ),
-        planning=digest("range_contract.py", "runtime/planning.py"),
-        aggregate=digest("runtime/docling_adapter.py", "runtime/aggregate.py"),
+        range_conversion=digest(
+            "src/er_commons/chunked_conversion/runtime/docling_adapter.py",
+            "src/er_commons/chunked_conversion/runtime/range_store.py",
+            "src/er_commons/chunked_conversion/runtime/worker.py",
+            "src/er_commons/document_parsing/content_parsing/pdfium_backend.py",
+            "src/er_commons/document_parsing/content_parsing/routing_geometry.py",
+        ),
+        planning=digest(
+            "src/er_commons/chunked_conversion/range_contract.py",
+            "src/er_commons/chunked_conversion/runtime/planning.py",
+        ),
+        aggregate=digest(
+            "src/er_commons/chunked_conversion/runtime/docling_adapter.py",
+            "src/er_commons/chunked_conversion/runtime/aggregate.py",
+            "src/er_commons/chunked_conversion/runtime/aggregate_memory.py",
+            "src/er_commons/document_parsing/content_parsing/ordering_projection.py",
+            "src/er_commons/document_parsing/content_parsing/ordering_projection_records.py",
+            "src/er_commons/document_parsing/content_parsing/table_stage_reference.py",
+            "src/er_commons/document_parsing/content_parsing/routing_geometry.py",
+            "src/er_commons/document_parsing/heading_evidence_parsing/heading_overlay.py",
+        ),
         coordinator=digest(
-            "runtime/application.py",
-            "runtime/completion.py",
-            "runtime/publication.py",
-            "runtime/workflow.py",
+            "src/er_commons/chunked_conversion/runtime/application.py",
+            "src/er_commons/chunked_conversion/runtime/completion.py",
+            "src/er_commons/chunked_conversion/runtime/publication.py",
+            "src/er_commons/chunked_conversion/runtime/workflow.py",
         ),
     )
 

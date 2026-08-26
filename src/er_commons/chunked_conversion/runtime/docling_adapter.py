@@ -6,12 +6,15 @@ import time
 import warnings
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
+from er_commons.artifact_io import read_json_object
 from er_commons.chunked_conversion.page_evidence import (
     PageCapturePdfPipeline,
     PageEvidence,
-    validate_conversion_result,
+    PageEvidenceError,
+    assert_live_page_matches_evidence,
+    validate_conversion_pages,
 )
 from er_commons.chunked_conversion.range_contract import PageInterval
 from er_commons.chunked_conversion.runtime.diagnostics import ChunkedConversionError
@@ -35,6 +38,11 @@ from er_commons.document_parsing.content_parsing.runtime import (
     verify_model_files,
 )
 from er_commons.document_parsing.content_parsing.table_markers import markers_before_first_table
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from er_commons.chunked_conversion.runtime.aggregate_memory import AggregatePageSource
 
 
 @dataclass(frozen=True)
@@ -89,13 +97,21 @@ class DoclingAdapter:
                     max_file_size=prepared.source.source_byte_size,
                     raises_on_error=False,
                 )
-        pages = validate_conversion_result(result, interval, path="range_conversion")
+        pages = validate_conversion_pages(result, interval, path="range_conversion")
         capture = self._pipeline(converter).take_capture()
-        if capture.pages != pages:
+        if capture.page_object_ids != tuple(id(page) for page in pages):
             raise ChunkedConversionError(
                 "capture_differs",
                 stage="range_conversion",
                 path=f"pages[{interval.start}:{interval.end}]",
+                expected=capture.page_object_ids,
+                actual=tuple(id(page) for page in pages),
+            )
+        for captured_page, live_page in zip(capture.pages, pages, strict=True):
+            assert_live_page_matches_evidence(
+                captured_page,
+                live_page,
+                path=f"range_conversion.pages[{captured_page.page_no}]",
             )
         return RangeConversion(
             pages=capture.pages,
@@ -183,15 +199,17 @@ class DoclingAdapter:
         ]
         return normalized
 
-    def assemble_global(
+    def assemble_global_memory_bounded(
         self,
         prepared: PreparedContentParsing,
         pages: list[Any],
         outline: tuple[dict[str, Any], ...],
+        page_sources: tuple[AggregatePageSource, ...],
         *,
         data_root: Path,
+        observe: Callable[[str], None],
     ) -> GlobalAssembly:
-        """Run reading order and heading inference once over canonical range pages."""
+        """Interpret globally without co-retaining assembled and style page graphs."""
         verify_model_files(data_root, prepared.model_inventory_path, prepared.model_inventory)
         converter, _options, backend = self._build_converter(prepared)
         from docling.datamodel.base_models import AssembledUnit, InputFormat
@@ -214,27 +232,21 @@ class DoclingAdapter:
         aggregate = ConversionResult(input=input_document, pages=pages)
         aggregate._pdf_outline = [_PdfOutlineItem.model_validate(item) for item in outline]
         elements = [item for page in pages for item in page.assembled.elements]
-        headers = [item for page in pages for item in page.assembled.headers]
-        body = [item for page in pages for item in page.assembled.body]
-        aggregate.assembled = AssembledUnit(elements=elements, headers=headers, body=body)
+        aggregate.assembled = AssembledUnit(elements=elements, headers=[], body=[])
+        for page in pages:
+            cast(Any, page).assembled = None
+        observe("reading_order_inputs_ready")
         started = time.monotonic()
         cpu_started = time.process_time()
         try:
             with warnings.catch_warnings(record=True) as caught, MemorySampler() as sampler:
                 warnings.simplefilter("always")
                 aggregate.document = pipeline.reading_order_model(aggregate)
-                parsed_pages = {
-                    page.page_no: page.parsed_page
-                    for page in aggregate.pages
-                    if page.parsed_page is not None
-                }
-                outline_items = aggregate._pdf_outline
-                for page in aggregate.pages:
-                    cast(Any, page).assembled = None
                 cast(Any, aggregate).assembled = None
                 elements.clear()
-                headers.clear()
-                body.clear()
+                observe("reading_order_complete")
+                parsed_pages = self._load_parsed_pages(page_sources, observe=observe)
+                outline_items = aggregate._pdf_outline
                 aggregate.document = pipeline.heading_hierarchy_model.assign_heading_levels(
                     aggregate.document,
                     parsed_pages=parsed_pages,
@@ -242,8 +254,7 @@ class DoclingAdapter:
                 )
                 aggregate._pdf_outline = None
                 parsed_pages.clear()
-                for page in aggregate.pages:
-                    page.parsed_page = None
+                observe("heading_hierarchy_complete")
         finally:
             self.release_backend(input_document)
         if aggregate.document is None:
@@ -259,6 +270,31 @@ class DoclingAdapter:
             cpu_seconds=time.process_time() - cpu_started,
             peak_rss_bytes=sampler.peak_rss_bytes,
         )
+
+    @staticmethod
+    def _load_parsed_pages(
+        page_sources: tuple[AggregatePageSource, ...],
+        *,
+        observe: Callable[[str], None],
+    ) -> dict[int, Any]:
+        """Load style evidence only after reading-order inputs have been released."""
+        from docling_core.types.doc.page import SegmentedPdfPage
+
+        parsed_pages: dict[int, Any] = {}
+        for position, source in enumerate(page_sources, start=1):
+            payload = read_json_object(source.payload_path)
+            if payload.get("page_no") != source.page_no:
+                raise PageEvidenceError(
+                    f"parsed-page number differs: {source.payload_path} "
+                    f"expected={source.page_no} actual={payload.get('page_no')}"
+                )
+            parsed = payload.get("parsed_page")
+            if not isinstance(parsed, dict):
+                raise PageEvidenceError(f"parsed-page style evidence is invalid: {source.page_no}")
+            parsed_pages[source.page_no] = SegmentedPdfPage.model_validate(parsed)
+            if position % 100 == 0 or position == len(page_sources):
+                observe(f"parsed_pages_{position}_of_{len(page_sources)}")
+        return parsed_pages
 
     def _build_converter(self, prepared: PreparedContentParsing) -> tuple[Any, Any, Any]:
         from docling.datamodel.base_models import InputFormat

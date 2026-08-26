@@ -6,14 +6,18 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from er_commons.artifact_io import directory_bytes, sha256_file, write_json_atomic
-from er_commons.chunked_conversion.range_contract import RangePlan
-from er_commons.chunked_conversion.runtime.range_store import ConvertedRangeStore
 from er_commons.document_parsing.content_parsing.conversion import ConversionOutput
 from er_commons.document_parsing.content_parsing.conversion_seal import SealedConversion
 from er_commons.document_parsing.content_parsing.derived_publication_support import (
     producer_warnings,
     rebind_aggregate_references,
     write_conversion_reference,
+)
+from er_commons.document_parsing.content_parsing.derived_route_reuse import (
+    routes_from_aggregate_projection,
+)
+from er_commons.document_parsing.content_parsing.derived_table_reuse import (
+    reuse_aggregate_table_stage,
 )
 from er_commons.document_parsing.content_parsing.evidence import (
     verify_completed_run,
@@ -35,7 +39,6 @@ from er_commons.document_parsing.content_parsing.records import (
 )
 from er_commons.document_parsing.content_parsing.routing_execution import (
     route_complete_document,
-    route_page_projections,
     write_routing_artifacts,
 )
 from er_commons.document_parsing.content_parsing.services import ContentParsingServices
@@ -151,17 +154,14 @@ def _run_derived_stages(
             sealed_conversion.output.document_payload,
             prepared.config,
         )
+        reuse_aggregate_tables = False
     else:
-        plan = RangePlan.model_validate_json(range_plan_path.read_bytes())
-        ranges = ConvertedRangeStore(range_run_root / plan.plan_id, plan)
-        verified_ranges = tuple(ranges.verify(item.range_id) for item in plan.ranges)
-        projections = [
-            projection
-            for item in verified_ranges
-            for projection in item.projections
-            if item.planned.core.contains(projection.physical_pdf_page)
-        ]
-        routes = route_page_projections(projections, prepared.config)
+        routes = routes_from_aggregate_projection(
+            sealed_conversion.root / "records" / "ordering_projection.json",
+            prepared.config,
+            source_id=prepared.source.source_id,
+            source_page_count=prepared.source.source_page_count,
+        )
         routes = rebind_aggregate_references(
             routes,
             sealed_conversion.output.document_payload,
@@ -169,17 +169,24 @@ def _run_derived_stages(
         expected_pages = list(range(1, prepared.source.source_page_count + 1))
         if [record.physical_pdf_page for record in routes] != expected_pages:
             raise ValueError("page projections do not cover the complete source")
+        reuse_aggregate_tables = True
     routing = write_routing_artifacts(producer_root / "routing", routes)
     progress.stage = "tables"
-    tables = run_complete_table_stage(
-        data_root=data_root,
-        staging_root=workspace.staging_root,
-        config=prepared.config,
-        source=prepared.source,
-        routes=routes,
-        table_runner=services.run_tables,
-        producer_run_id=prepared.identity.run_id,
-    )
+    if reuse_aggregate_tables:
+        tables = reuse_aggregate_table_stage(
+            sealed_conversion,
+            producer_root / "tables",
+        )
+    else:
+        tables = run_complete_table_stage(
+            data_root=data_root,
+            staging_root=workspace.staging_root,
+            config=prepared.config,
+            source=prepared.source,
+            routes=routes,
+            table_runner=services.run_tables,
+            producer_run_id=prepared.identity.run_id,
+        )
     write_json_atomic(
         workspace.records_root / "table_stage_observation.json",
         tables.model_dump(mode="json", exclude_none=True),

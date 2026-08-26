@@ -11,7 +11,10 @@ from er_commons.artifact_io import canonical_json_sha256, write_json_atomic
 from er_commons.chunked_conversion.range_contract import RangePlan
 from er_commons.chunked_conversion.runtime import ChunkedConversionRequest, ResourceLimits
 from er_commons.chunked_conversion.runtime.inputs import behavior_code_identity
-from er_commons.chunked_conversion.runtime.planning import build_fixed_size_plan
+from er_commons.chunked_conversion.runtime.planning import (
+    build_content_adaptive_plan,
+    build_fixed_size_plan,
+)
 from er_commons.document_parsing.content_parsing.application import run_document_parsing
 from er_commons.document_parsing.content_parsing.chunked_application import (
     run_chunked_document_parsing,
@@ -35,13 +38,14 @@ class ChunkedExecutionPolicy(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
 
     schema_version: Literal["er_commons.chunked_execution_policy.v1"]
-    mode: Literal["fixed_size"]
+    mode: Literal["fixed_size", "content_adaptive"]
     source_selection: ChunkedSourceSelection
     target_range_size: int = Field(default=225, gt=0)
     hard_maximum: int = Field(default=275, gt=0)
+    max_native_content_units_per_range: int = Field(default=500_000, gt=0)
     overlap_pages: Literal[1] = 1
     max_range_rss_bytes: int = Field(default=20 * 1024**3, gt=0)
-    max_aggregate_rss_bytes: int = Field(default=16 * 1024**3, gt=0)
+    max_aggregate_rss_bytes: int = Field(default=20 * 1024**3, gt=0)
     max_wall_seconds: float = Field(default=14400.0, gt=0)
 
     @model_validator(mode="after")
@@ -72,13 +76,19 @@ def run_configured_document_parsing(
     monolithic_final = task_root / prepared.identity.run_id
     if monolithic_final.exists():
         return run_document_parsing(data_root, config_path)
-    plan = build_fixed_size_plan(
-        prepared,
-        behavior_code_identity(project_root),
-        target_range_size=policy.target_range_size,
-        hard_maximum=policy.hard_maximum,
-        overlap_pages=policy.overlap_pages,
+    planner = (
+        build_content_adaptive_plan if policy.mode == "content_adaptive" else build_fixed_size_plan
     )
+    plan_kwargs = {
+        "target_range_size": policy.target_range_size,
+        "hard_maximum": policy.hard_maximum,
+        "overlap_pages": policy.overlap_pages,
+    }
+    if policy.mode == "content_adaptive":
+        plan_kwargs["max_native_content_units_per_range"] = (
+            policy.max_native_content_units_per_range
+        )
+    plan = planner(prepared, behavior_code_identity(project_root), **plan_kwargs)
     plan_path = _persist_plan_variant(task_root, plan)
 
     request = ChunkedConversionRequest(

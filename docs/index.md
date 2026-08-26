@@ -8,6 +8,18 @@ Start with `AGENTS.md`, then return here to decide what to read or skip.
 This section is the source of record for the current sprint and active task.
 `docs/todo.md` owns the detailed queue and next action.
 
+[Task 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is complete as
+the first full-corpus end-to-end attempt. It exercised and repaired the production
+path but intentionally did not claim the final corpus after its closing identity
+and maintainability corrections made a fresh run necessary. Task 04 review work is
+next. Its accepted extraction findings, if any, feed provisional [Task
+03I](../tasks/sprint2/03i_remediate_task04_review_findings.md); a no-finding outcome
+closes 03I without code changes. Provisional [Task
+03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) then owns the fresh
+35-source attempt and machine handoff for Task 04's final release decision. Retained
+Task 03H production artifacts are diagnostic evidence and are ineligible for 03J
+reuse.
+
 Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
 task. Sprint 2 is current. [Task
 02](../tasks/sprint2/02_freeze_sources_and_provenance.md) completed the
@@ -114,7 +126,7 @@ durable rationale is
 [Decision 001](decisions/001_brisbane_draft_eir_defense_benchmark.md).
 Sprint 2 is the smallest source-to-evaluation vertical slice. At the user's
 request, the large canonical-extraction stage is decomposed into Task 03A
-through Task 03H in the
+through Task 03J in the
 [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md). Tasks 03B
 through 03D, including the 03C.1 maintainability rewrite, are complete. The
 completed Task 03D MVP remains reference evidence. [Task
@@ -285,14 +297,14 @@ validated: current execution uses native v2 records/identities, application shel
 runtime seams are responsibility-owned and typed, recovery diagnostics name corrupt
 evidence, and behavior-focused gates pass all 595 tests plus strict mypy across 287
 source files. The user accepted the human-maintainability result and closed Task
-03G.3 on 2026-08-18. Active [Task
+03G.3 on 2026-08-18. The next historical stage, [Task
 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was reactivated on
 2026-08-19. Clean source-free preparation completed, and the user approved a fresh
 `deir_main` run. The historical first five-source wave is complete, and K2
 part 5 sealed both memory-safe Docling conversions and derived table producers. Later K2
 work exposed a 24 GB raw view, physical duplication, a 31.3-minute mapping stage, a
 94.7-minute hierarchy failure, a separate 93.8-minute producer rebuild after
-unrelated identity churn, and a quadratic-like heading-alignment scan. Active [Task
+unrelated identity churn, and a quadratic-like heading-alignment scan. At that checkpoint, [Task
 03H.1](../tasks/sprint2/03h1_profile_and_repair_full_document_scaling.md) has completed
 Gate B implementation and K2 validation plus the Gate C human-ownership refactor,
 deterministic identity refresh, full repository validation, and independent
@@ -307,7 +319,7 @@ subsecond without opening semantic payloads; an audit-only command retains exact
 full-byte verification. Ruff, strict mypy across 316 source files, all 732 tests,
 deterministic generation, and `git diff --check` pass. No additional source processing,
 collection assembly, deletion, or Docling rerun is required to close Task 03H.1.
-Task 03H now prepares a clean run from the first ordered source under the reviewed run
+Task 03H then prepared a clean run from the first ordered source under the reviewed run
 plan; it does not continue a historical remaining-source queue or reuse historical
 Docling runs. The isolated namespace will create fresh conversion seals for all 35
 sources, and restart reuse begins only within that new run.
@@ -338,7 +350,7 @@ Appendix A then published all 514 pages as `docv1-7c030772...e64bc`. Appendix B 
 its fresh 258-page conversion, shared producer, and record mapping, but both hierarchy
 attempts fail closed on the source PDF's destinationless `TRT.pdf` grouping bookmark.
 It owns valid child bookmarks but has no visible adjacent-page title, so the existing
-strict container recovery correctly refuses to synthesize it. Task 03H is paused
+strict container recovery correctly refuses to synthesize it. Task 03H was paused
 before Appendix C. The user approved a transparent filename-container rule that
 excludes appendix-labeled and distinctively numbered recovery candidates and requires
 a nonempty, valid, internally ordered child list. Actual Appendix B inspection retains
@@ -352,7 +364,7 @@ pages completed and record mapping sealed below the 16 GiB resource ceiling. Bot
 hierarchy attempts then failed before traversal because pypdf cannot construct a raw
 `Appendix_071024.pdf` outline node whose destination array is
 `[null, 0.0, 0.0, 1]`. Its ten children include two invalid destinations, so the
-approved Appendix B transparent-container rule does not apply. Task 03H is paused
+approved Appendix B transparent-container rule does not apply. Task 03H was paused
 before Appendix G2 pending review of a distinct tolerant-outline rule.
 The approved two-child G1 omission passes focused regressions, but live traversal then
 revealed an earlier destinationless `Binder4.pdf` subtree hidden by pypdf's original
@@ -382,7 +394,7 @@ the isolated downstream pipeline. Measured 7.17 GB range and 8.89 GB aggregate p
 select one worker because projected two-worker memory exceeds the 10 GiB concurrent
 ceiling. The final human-ownership review established named package owners, strict
 lineage/recovery checks, and a full-byte audit of immutable evidence.
-No Gate D or G2 rehearsal will run. Task 03H is active with its source-free plan
+No Gate D or G2 rehearsal will run. Task 03H was then active with its source-free plan
 prepared to restart all 35 sources from scratch under the isolated
 `pipelines/brisbane_baylands/task_03h_clean_full_v2/` namespace. Earlier v1 and
 historical artifacts remain preserved evidence but are ineligible for reuse. The new
@@ -395,13 +407,13 @@ prepared; separate user authorization is still required before the fresh `deir_m
 PDF/model run. The user subsequently authorized that checkpoint. All ten main-report
 ranges sealed within resource bounds, but aggregate publication failed because the
 fresh v2 `docling_conversions` parent did not exist. The automatic retry reused every
-range and failed identically without new Docling/model calls. Task 03H is paused at
+range and failed identically without new Docling/model calls. Task 03H was paused at
 this main-report hard stop; Appendix A has not started.
 The user authorized the aggregate fresh-root repair. The parent-safe staging fix passed
 the full gate; the resumed run reused all ten ranges without Docling calls, sealed the
 aggregate, and published the derived producer. Record mapping then stopped because the
 aggregate's 274 valid figure files are recorded relative to the document root while
-the downstream contract resolves them from the conversion root. Task 03H is paused at
+the downstream contract resolves them from the conversion root. Task 03H was paused at
 this second main-report hard stop; Appendix A has not started.
 The user authorized the aggregate asset-path repair. The producer now emits the
 conversion-root-relative path required by record mapping, with a shared integration

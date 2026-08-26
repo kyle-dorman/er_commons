@@ -11,11 +11,13 @@ from er_commons.document_parsing.heading_evidence_parsing.text_evidence import (
     parse_numbering,
 )
 from er_commons.hierarchy_inference.errors import HierarchyInferenceContractError
+from er_commons.hierarchy_inference.failures import RunStage, explicit_failure
 from er_commons.hierarchy_inference.toc_text import split_body_title, split_inline_leader
 
 JsonObject = dict[str, Any]
 
 _TOC_START = re.compile(r"^table of contents(?: \(continued\))?$")
+_TOC_CONTINUED = "table of contents (continued)"
 _PAGE_OF = re.compile(r"^Page (?P<label>[A-Za-z]?[0-9]+) of [0-9]+$")
 _STANDALONE_PAGE = re.compile(r"^(?:[ivxlcdm]+|[A-Za-z]?[0-9]+)$")
 
@@ -64,6 +66,7 @@ def detect_toc_regions(
 ) -> tuple[TocRegion, ...]:
     """Locate every visible TOC and its permitted body-candidate interval."""
     regions: list[TocRegion] = []
+    features_by_page = _index_features_by_page(features)
     index = 0
     while index < len(features):
         feature = features[index]
@@ -82,8 +85,10 @@ def detect_toc_regions(
         end = (
             _primary_region_end(features, outlines, outline)
             if outline is not None
-            else _embedded_region_end(features, index, printed_pages)
+            else _embedded_region_end(features, features_by_page, index, printed_pages)
         )
+        if end <= index:
+            raise _unterminated_toc(feature, reason="computed endpoint did not follow start")
         regions.append(
             TocRegion(
                 start=index,
@@ -138,7 +143,10 @@ def _primary_region_end(
 
 
 def _embedded_region_end(
-    features: list[JsonObject], start: int, printed_pages: dict[int, str]
+    features: list[JsonObject],
+    features_by_page: dict[int, tuple[JsonObject, ...]],
+    start: int,
+    printed_pages: dict[int, str],
 ) -> int:
     start_page = features[start]["physical_page"]
     start_label = printed_pages.get(start_page)
@@ -148,23 +156,43 @@ def _embedded_region_end(
         }
         for page in sorted(later_pages):
             if printed_pages.get(page) == "1" and _page_has_numbered_reset_and_content(
-                features, page
+                features_by_page.get(page, ())
             ):
                 return _first_body_index_on_or_after_page(features, page)
     provisional_titles = _provisional_row_titles(features, start + 1)
     for feature in features[start + 1 :]:
         if feature["content_layer"] != "body" or feature["raw_role"] != "section_header":
             continue
+        if int(feature["physical_page"]) <= start_page:
+            continue
         _marker, title = split_body_title(feature)
-        if title in provisional_titles and _heading_has_following_content(features, feature):
+        if title in provisional_titles and _heading_has_following_content(
+            features_by_page.get(int(feature["physical_page"]), ()), feature
+        ):
             return _first_body_index_on_or_after_page(features, int(feature["physical_page"]))
-    raise HierarchyInferenceContractError("TOC_REGION_UNTERMINATED")
+    raise _unterminated_toc(
+        features[start],
+        reason="no printed-page reset or repeated body heading established an endpoint",
+    )
+
+
+def _unterminated_toc(feature: JsonObject, *, reason: str) -> HierarchyInferenceContractError:
+    """Build a typed, durable failure with enough context to inspect the source."""
+    detail = (
+        f"visible TOC starting on physical page {feature.get('physical_page')} "
+        f"(stable_item_key={feature.get('stable_item_key')}) has no valid endpoint: {reason}"
+    )
+    return explicit_failure(RunStage.BUILD, "TOC_REGION_UNTERMINATED", detail)
 
 
 def _provisional_row_titles(features: list[JsonObject], start: int) -> set[str]:
     titles: set[str] = set()
     for feature in features[start:]:
-        if _is_toc_start(feature) and feature["reading_order_index"] > start:
+        if (
+            _is_toc_start(feature)
+            and feature["normalized_text"] != _TOC_CONTINUED
+            and feature["reading_order_index"] > start
+        ):
             break
         marker, title = split_body_title(feature)
         if marker and title:
@@ -175,15 +203,21 @@ def _provisional_row_titles(features: list[JsonObject], start: int) -> set[str]:
     return titles
 
 
-def _page_has_numbered_reset_and_content(features: list[JsonObject], page: int) -> bool:
+def _index_features_by_page(
+    features: list[JsonObject],
+) -> dict[int, tuple[JsonObject, ...]]:
+    """Index document features by page while retaining their source order."""
+    grouped: dict[int, list[JsonObject]] = {}
+    for feature in features:
+        grouped.setdefault(int(feature["physical_page"]), []).append(feature)
+    return {page: tuple(items) for page, items in grouped.items()}
+
+
+def _page_has_numbered_reset_and_content(page_items: tuple[JsonObject, ...]) -> bool:
     """Require a reset heading and independently nonempty body content on the page."""
-    page_items = [
-        item
-        for item in features
-        if item["physical_page"] == page and item["content_layer"] == "body"
-    ]
     has_reset = any(
         item["raw_role"] == "section_header"
+        and item["content_layer"] == "body"
         and (
             (evidence := parse_numbering(item["text"], raw_role=item["raw_role"])).kind == "article"
             or (evidence.kind == "decimal" and evidence.depth == 1)
@@ -191,18 +225,18 @@ def _page_has_numbered_reset_and_content(features: list[JsonObject], page: int) 
         for item in page_items
     )
     has_content = any(
-        item["raw_role"] != "section_header" and normalize_text(item["text"]) for item in page_items
+        item["content_layer"] == "body"
+        and item["raw_role"] != "section_header"
+        and normalize_text(item["text"])
+        for item in page_items
     )
     return has_reset and has_content
 
 
-def _heading_has_following_content(features: list[JsonObject], heading: JsonObject) -> bool:
+def _heading_has_following_content(page_items: tuple[JsonObject, ...], heading: JsonObject) -> bool:
     order = heading["reading_order_index"]
-    for item in features:
-        if (
-            item["reading_order_index"] <= order
-            or item["physical_page"] != heading["physical_page"]
-        ):
+    for item in page_items:
+        if item["reading_order_index"] <= order:
             continue
         if item["raw_role"] == "section_header":
             return False

@@ -4,10 +4,13 @@ from __future__ import annotations
 
 from typing import Any
 
+import pytest
+
 from er_commons.document_parsing.heading_evidence_parsing.source_features import (
     unique_footer_labels,
 )
 from er_commons.document_parsing.heading_evidence_parsing.text_evidence import parse_numbering
+from er_commons.hierarchy_inference.failures import HierarchyInferenceFailure, disposition_for
 from er_commons.hierarchy_inference.numbering_scopes import (
     NumberingScopeCandidate,
     _assign_innermost_regimes,
@@ -17,8 +20,27 @@ from er_commons.hierarchy_inference.numbering_scopes import (
 )
 from er_commons.hierarchy_inference.toc_analysis import build_visible_toc
 from er_commons.hierarchy_inference.toc_reconciliation import reconcile_toc_entries
-from er_commons.hierarchy_inference.toc_regions import TocRegion
+from er_commons.hierarchy_inference.toc_regions import (
+    TocRegion,
+    _heading_has_following_content,
+    _index_features_by_page,
+)
 from er_commons.hierarchy_inference.toc_rows import parse_toc_region
+
+
+def test_unterminated_toc_preserves_its_fatal_code_and_start_context() -> None:
+    features = [
+        _feature(0, "TABLE OF CONTENTS", page=4, role="section_header"),
+        _feature(1, "1 Introduction ........ 7", page=4),
+    ]
+
+    with pytest.raises(HierarchyInferenceFailure) as raised:
+        build_visible_toc(features, ())
+
+    disposition = disposition_for(raised.value, raised.value.disposition.stage)
+    assert disposition.fatal_code == "TOC_REGION_UNTERMINATED"
+    assert "physical page 4" in disposition.detail
+    assert features[0]["stable_item_key"] in disposition.detail
 
 
 def _feature(
@@ -172,6 +194,59 @@ def test_embedded_toc_uses_roman_to_arabic_footer_transition() -> None:
     assert result.entries[0]["depth"] == 1
     assert result.reconciliations[0]["state"] == "exact"
     assert result.reconciliations[0]["target_key"] == features[6]["stable_item_key"]
+
+
+def test_embedded_toc_collects_titles_after_continuation_heading() -> None:
+    features = [
+        _feature(0, "TABLE OF CONTENTS", page=112, role="section_header"),
+        _feature(1, "i", page=112, role="page_footer", layer="furniture"),
+        _feature(2, "TABLE OF CONTENTS (CONTINUED)", page=113, role="section_header"),
+        _feature(3, "1.01.", page=113),
+        _feature(4, "Definitions", page=113),
+        _feature(5, ".....", page=113),
+        _feature(6, "1", page=113),
+        _feature(7, "1.01 Definitions", page=114, role="section_header"),
+        _feature(8, "Body", page=114),
+    ]
+
+    result = build_visible_toc(features, ())
+
+    assert len(result.regions) == 1
+    assert result.regions[0].end == 7
+    assert result.entries[0]["title_with_marker_normalized"] == "1.01. definitions"
+    assert result.reconciliations[0]["state"] == "exact"
+    assert result.reconciliations[0]["target_key"] == features[7]["stable_item_key"]
+
+
+def test_embedded_toc_following_content_lookup_is_page_local() -> None:
+    heading = _feature(1, "Definitions", page=8, role="section_header")
+    following_body = _feature(2, "Body", page=8)
+    other_page = _feature(3, "Unrelated", page=9)
+
+    features_by_page = _index_features_by_page([heading, following_body, other_page])
+
+    assert features_by_page[8] == (heading, following_body)
+    assert _heading_has_following_content(features_by_page[8], heading) is True
+
+
+def test_embedded_toc_ignores_same_page_row_heading_before_later_body_target() -> None:
+    features = [
+        _feature(0, "TABLE OF CONTENTS", page=27, role="section_header"),
+        _feature(1, "Definitions/Glossary . . . . .", page=27),
+        _feature(2, "3", page=27),
+        _feature(3, "Definitions/Glossary", page=27, role="section_header"),
+        _feature(4, "TOC annotation", page=27),
+        _feature(5, "Definitions/Glossary", page=28, role="section_header"),
+        _feature(6, "Glossary body", page=28),
+    ]
+
+    result = build_visible_toc(features, ())
+
+    assert result.regions[0].end == 5
+    assert result.features[3]["toc_region"] is True
+    assert result.features[5]["toc_region"] is False
+    assert result.reconciliations[0]["state"] == "exact"
+    assert result.reconciliations[0]["target_key"] == features[5]["stable_item_key"]
 
 
 def test_embedded_toc_accepts_unnumbered_inline_leader_rows() -> None:

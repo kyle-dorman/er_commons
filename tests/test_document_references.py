@@ -132,6 +132,44 @@ def test_named_environmental_document_rule_generalizes_to_a_new_title() -> None:
     assert mentions[0].lookup_key == mentions[0].raw_text.casefold()
 
 
+def test_heading_can_label_a_table_without_becoming_a_mention_source() -> None:
+    detector = MentionDetector(default_mention_policy())
+    mentions, diagnostics = detector.detect(
+        {
+            "canonical_text": "See Table 4",
+            "content_layer": "body",
+            "is_toc_row": False,
+            "block_type": "heading",
+        }
+    )
+
+    assert mentions == []
+    assert [item.category for item in diagnostics] == ["ineligible_source"]
+
+    upstream = "exv1-" + "1" * 64
+    candidate = "exv1-" + "2" * 64
+    page_id = f"{upstream}/page/doc/p000001"
+    label = {
+        "id": f"{upstream}/block/doc/blk000001",
+        "document_id": f"{upstream}/document/doc",
+        "canonical_text": "Table 4",
+        "block_type": "heading",
+        "content_layer": "body",
+        "is_toc_row": False,
+        "regions": [{"page_id": page_id}],
+    }
+    table = {
+        "id": f"{upstream}/table/doc/tbl000001",
+        "document_id": f"{upstream}/document/doc",
+        "regions": [{"page_id": page_id}],
+    }
+    index = TargetIndexBuilder(NamespaceRemapper(upstream, candidate)).build(
+        upstream_aliases=[], upstream_blocks=[label], upstream_tables=[table]
+    )
+
+    assert index.derived_table_alias_count == 1
+
+
 def test_reference_section_scope_excludes_every_descendant_block() -> None:
     root = "exv1-" + "1" * 64
     heading_id = f"{root}/block/doc/blk000001"
@@ -222,6 +260,7 @@ def test_target_index_and_table_window_are_separate_responsibilities() -> None:
         "id": f"{upstream}/block/doc/blk000001",
         "document_id": document,
         "canonical_text": "Table 1",
+        "block_type": "caption",
         "content_layer": "body",
         "is_toc_row": False,
         "regions": [{"page_id": table_page}],

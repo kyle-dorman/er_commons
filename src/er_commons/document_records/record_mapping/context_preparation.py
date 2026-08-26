@@ -98,8 +98,10 @@ def _figure_pointers(document: Mapping[str, Any]) -> tuple[str, ...]:
     return tuple(pointers)
 
 
-def _event_page(document: Mapping[str, Any], event: TraversalEvent) -> int:
-    """Return the first declared page for one standard Docling traversal event."""
+def _event_order_key(
+    document: Mapping[str, Any], event: TraversalEvent
+) -> tuple[int, float, float]:
+    """Return page and displayed top-left geometry for one traversal event."""
     parts = event.pointer.split("/")
     if len(parts) != 3 or parts[0] != "#" or not parts[2].isdigit():
         raise MappingContractError(f"invalid traversal event pointer: {event.pointer}")
@@ -109,41 +111,65 @@ def _event_page(document: Mapping[str, Any], event: TraversalEvent) -> int:
         raise MappingContractError(f"unknown traversal event pointer: {event.pointer}")
     item = collection[index]
     provenance = item.get("prov") if isinstance(item, dict) else None
+    first = provenance[0] if isinstance(provenance, list) and provenance else None
+    bbox = first.get("bbox") if isinstance(first, dict) else None
     if (
-        not isinstance(provenance, list)
-        or not provenance
-        or not isinstance(provenance[0], dict)
-        or not isinstance(provenance[0].get("page_no"), int)
+        not isinstance(first, dict)
+        or not isinstance(first.get("page_no"), int)
+        or not isinstance(bbox, dict)
     ):
-        raise MappingContractError(f"traversal event has no page: {event.pointer}")
-    return int(provenance[0]["page_no"])
+        raise MappingContractError(f"traversal event has no ordering geometry: {event.pointer}")
+    try:
+        return int(first["page_no"]), -float(bbox["t"]), float(bbox["l"])
+    except (KeyError, TypeError, ValueError) as error:
+        raise MappingContractError(
+            f"traversal event has invalid ordering geometry: {event.pointer}"
+        ) from error
 
 
-def _attach_full_page_table_events(
+def _attach_missing_table_events(
     document: Mapping[str, Any],
     traversal: TraversalResult,
     tables: tuple[ProducerTable, ...],
 ) -> TraversalResult:
-    """Place regionless page-wide tables after other body content on their page."""
-    full_page_tables = sorted(
-        (table for table in tables if table.region_id is None),
-        key=lambda table: (table.physical_pdf_page, table.page_table_index, table.table_id),
+    """Place clean tables without a surviving Docling pointer by page geometry."""
+    represented = {
+        event.producer_table_id
+        for event in traversal.events
+        if event.kind == "table" and event.producer_table_id is not None
+    }
+    missing_tables = sorted(
+        (table for table in tables if table.table_id not in represented),
+        key=lambda table: (
+            table.physical_pdf_page,
+            -table.bbox_pdf_points_bottom_left[3],
+            table.bbox_pdf_points_bottom_left[0],
+            table.page_table_index,
+            table.table_id,
+        ),
     )
-    if not full_page_tables:
+    if not missing_tables:
         return traversal
     body_events = [event for event in traversal.events if event.content_layer == "body"]
     furniture_events = [event for event in traversal.events if event.content_layer == "furniture"]
-    body_pages = [_event_page(document, event) for event in body_events]
+    body_keys = [_event_order_key(document, event) for event in body_events]
     placements: dict[int, list[TraversalEvent]] = {}
-    for table in full_page_tables:
-        preceding = [
-            index for index, page in enumerate(body_pages) if page <= table.physical_pdf_page
-        ]
+    for table in missing_tables:
+        table_key = (
+            table.physical_pdf_page,
+            -table.bbox_pdf_points_bottom_left[3],
+            table.bbox_pdf_points_bottom_left[0],
+        )
+        preceding = [index for index, event_key in enumerate(body_keys) if event_key <= table_key]
         placement = preceding[-1] if preceding else -1
         placements.setdefault(placement, []).append(
             TraversalEvent(
                 kind="table",
-                pointer=f"#/full_page_tables/{table.table_id}",
+                pointer=(
+                    f"#/full_page_tables/{table.table_id}"
+                    if table.region_id is None
+                    else f"#/routing_regions/{table.table_id}"
+                ),
                 content_layer="body",
                 producer_table_id=table.table_id,
             )
@@ -183,12 +209,15 @@ def build_traversal_context(
         invalid_pointers.add(pointer)
         rejected.extend(projection.rejected)
     mapped_tables = {
-        mapping.raw_object_ref: mapping.clean_table_ids for mapping in table_bundle.region_mappings
+        mapping.raw_object_ref: mapping.clean_table_ids
+        for mapping in table_bundle.region_mappings
+        if mapping.raw_object_ref is not None
     }
     suppressed_tables = {
         mapping.raw_object_ref
         for mapping in table_bundle.region_mappings
         if mapping.unmapped_reason == "full_page_numeric_route"
+        and mapping.raw_object_ref is not None
     }
     traversal = traverse_docling_document(
         inputs.document,
@@ -196,7 +225,7 @@ def build_traversal_context(
         invalid_pointers,
         suppressed_tables,
     )
-    traversal = _attach_full_page_table_events(inputs.document, traversal, table_bundle.tables)
+    traversal = _attach_missing_table_events(inputs.document, traversal, table_bundle.tables)
     accounted = traversal.emitted_text_pointers | traversal.suppressed_text_pointers
     overlap = traversal.emitted_text_pointers & traversal.suppressed_text_pointers
     if overlap or accounted != all_text:

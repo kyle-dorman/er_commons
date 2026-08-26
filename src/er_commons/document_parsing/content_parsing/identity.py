@@ -40,12 +40,20 @@ def parsing_code_paths(repo_root: Path) -> list[Path]:
     tables = repo_root / "src/er_commons/document_parsing/table_reconstruction"
     content_names = (
         "application.py",
+        "chunked_application.py",
         "config.py",
         "derived_publication.py",
+        "derived_publication_support.py",
+        "derived_route_reuse.py",
+        "derived_table_reuse.py",
         "evidence.py",
         "identity.py",
+        "ordering_projection.py",
+        "ordering_projection_records.py",
+        "page_projection.py",
         "preparation.py",
         "publication.py",
+        "range_projection_reuse.py",
         "records.py",
         "routing.py",
         "routing_execution.py",
@@ -55,6 +63,7 @@ def parsing_code_paths(repo_root: Path) -> list[Path]:
         "table_markers.py",
         "table_processing.py",
         "table_request.py",
+        "table_stage_reference.py",
     )
     candidates = [
         *(content / name for name in content_names),

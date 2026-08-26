@@ -47,7 +47,8 @@ def replacement_dispositions(
     replaced_table_refs = {
         mapping.raw_object_ref
         for mapping in table_bundle.region_mappings
-        if mapping.clean_table_ids or mapping.unmapped_reason == "full_page_numeric_route"
+        if (mapping.clean_table_ids or mapping.unmapped_reason == "full_page_numeric_route")
+        and mapping.raw_object_ref is not None
     }
     table_pointers = _replacement_text_pointers(
         baseline_document,

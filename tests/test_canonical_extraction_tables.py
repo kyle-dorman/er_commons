@@ -123,6 +123,12 @@ def _producer_fixture(tmp_path: Path) -> Path:
         [
             {
                 "physical_pdf_page": 84,
+                "route": "layout_regions",
+                "layout_table_region_count": 2,
+                "layout_table_regions_pdf_points_bottom_left": [
+                    [49.0, 188.0, 561.0, 663.0],
+                    [51.0, 83.0, 509.0, 171.0],
+                ],
                 "layout_table_observations": [
                     {
                         "raw_object_ref": "#/tables/21",
@@ -174,6 +180,35 @@ def test_loads_clean_grid_page84_crosswalk_and_exact_family(tmp_path: Path) -> N
     assert zero.unmapped_reason == "no_clean_table_match"
 
 
+def test_maps_geometry_only_region_without_fabricating_raw_provenance(tmp_path: Path) -> None:
+    producer = _producer_fixture(tmp_path)
+    routes_path = producer / "routing/page_routes.jsonl"
+    route = json.loads(routes_path.read_text(encoding="utf-8"))
+    route["layout_table_observations"] = [route["layout_table_observations"][1]]
+    _write_jsonl(routes_path, [route])
+
+    bundle = load_producer_table_bundle(producer)
+
+    mapped, zero = bundle.region_mappings
+    assert mapped.region_id == "layout_001"
+    assert mapped.clean_table_ids == ("appendix_p_p00084_t001",)
+    assert mapped.raw_object_ref is None
+    assert mapped.provenance_index is None
+    assert zero.region_id == "layout_002"
+    assert zero.raw_object_ref == "#/tables/22"
+
+
+def test_rejects_raw_observation_without_matching_routed_geometry(tmp_path: Path) -> None:
+    producer = _producer_fixture(tmp_path)
+    routes_path = producer / "routing/page_routes.jsonl"
+    route = json.loads(routes_path.read_text(encoding="utf-8"))
+    route["layout_table_observations"][0]["bbox_pdf_points_bottom_left"] = [1, 2, 3, 4]
+    _write_jsonl(routes_path, [route])
+
+    with pytest.raises(MappingContractError, match="do not match layout regions"):
+        load_producer_table_bundle(producer)
+
+
 def test_loads_full_page_numeric_table_without_fabricated_region(tmp_path: Path) -> None:
     producer = _producer_fixture(tmp_path)
     tables_path = producer / "tables/tables.jsonl"
@@ -183,7 +218,15 @@ def test_loads_full_page_numeric_table_without_fabricated_region(tmp_path: Path)
     _write_jsonl(tables_path, [table])
     _write_jsonl(
         producer / "routing/page_routes.jsonl",
-        [{"physical_pdf_page": 84, "layout_table_observations": []}],
+        [
+            {
+                "physical_pdf_page": 84,
+                "route": "full_page_numeric",
+                "layout_table_region_count": 0,
+                "layout_table_regions_pdf_points_bottom_left": [],
+                "layout_table_observations": [],
+            }
+        ],
     )
 
     bundle = load_producer_table_bundle(producer)

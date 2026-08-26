@@ -6,9 +6,10 @@ from typing import Any, cast
 
 import pytest
 
-from er_commons.artifact_io import write_json_atomic
+from er_commons.artifact_io import canonical_json_sha256, write_json_atomic
 from er_commons.chunked_conversion.range_contract import RangePlan, build_range_plan
 from er_commons.chunked_conversion.runtime import inputs as runtime_inputs
+from er_commons.chunked_conversion.runtime import planning
 from er_commons.chunked_conversion.runtime.inputs import (
     RuntimeCodeIdentity,
     VerifiedChunkInputs,
@@ -46,6 +47,7 @@ def _prepared(page_count: int = 601) -> PreparedContentParsing:
                 source_sha256="a" * 64,
                 source_byte_size=1234,
                 source_page_count=page_count,
+                source_path=Path("source.pdf"),
             ),
             conversion_identity=SimpleNamespace(run_id="dconv1-source", payload=payload),
             identity=SimpleNamespace(run_id="prv1-monolithic"),
@@ -156,6 +158,125 @@ def test_fixed_size_plan_has_exact_coverage_and_one_page_overlaps() -> None:
         (225, 451),
         (450, 601),
     ]
+
+
+def test_content_adaptive_plan_closes_on_native_content_budget(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    values = (4, 4, 20, 4, 4)
+
+    def features(_path: Path, page_number: int) -> dict[str, object]:
+        return {
+            "physical_pdf_page": page_number,
+            "native_text_rectangle_count": values[page_number - 1],
+            "nonspace_character_count": 0,
+        }
+
+    monkeypatch.setattr(
+        planning,
+        "all_page_features",
+        lambda _path: tuple(features(_path, page) for page in range(1, 6)),
+    )
+    plan = planning.build_content_adaptive_plan(
+        _prepared(page_count=len(values)),
+        _code(),
+        target_range_size=225,
+        hard_maximum=275,
+        max_native_content_units_per_range=8,
+    )
+
+    assert [(item.core.start, item.core.end) for item in plan.ranges] == [
+        (1, 2),
+        (3, 3),
+        (4, 5),
+    ]
+    assert plan.inputs.planner_mode == "content_adaptive"
+    assert plan.inputs.max_native_content_units_per_range == 8
+    assert plan.inputs.content_profile_sha256 == canonical_json_sha256(
+        {
+            "source_id": "large",
+            "features": [
+                {
+                    "physical_pdf_page": page_number,
+                    "native_text_rectangle_count": value,
+                    "nonspace_character_count": 0,
+                    "native_content_units": value,
+                }
+                for page_number, value in enumerate(values, start=1)
+            ],
+        }
+    )
+
+
+def test_content_adaptive_plan_allows_one_page_over_budget(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        planning,
+        "all_page_features",
+        lambda _path: tuple(
+            {
+                "physical_pdf_page": page_number,
+                "native_text_rectangle_count": 20,
+                "nonspace_character_count": 0,
+            }
+            for page_number in range(1, 3)
+        ),
+    )
+
+    plan = planning.build_content_adaptive_plan(
+        _prepared(page_count=2),
+        _code(),
+        max_native_content_units_per_range=8,
+    )
+
+    assert [(item.core.start, item.core.end) for item in plan.ranges] == [(1, 1), (2, 2)]
+
+
+def _native_feature(
+    page_number: int,
+    *,
+    rectangles: int = 4,
+    characters: int = 8,
+) -> dict[str, object]:
+    return {
+        "physical_pdf_page": page_number,
+        "native_text_rectangle_count": rectangles,
+        "nonspace_character_count": characters,
+    }
+
+
+@pytest.mark.parametrize(
+    ("features", "expected_page_count", "message"),
+    [
+        ((_native_feature(1),), 2, "cover every source page exactly once"),
+        ((_native_feature(2), _native_feature(1)), 2, "ordered by physical page"),
+        ((_native_feature(1), _native_feature(1)), 2, "duplicate physical pages"),
+        (
+            (
+                {
+                    "physical_pdf_page": 1,
+                    "native_text_rectangle_count": 4,
+                },
+            ),
+            1,
+            "missing 'nonspace_character_count'",
+        ),
+        ((_native_feature(1, rectangles=-1),), 1, "must be at least 0"),
+    ],
+    ids=("missing-page", "shuffled", "duplicate", "malformed", "negative-count"),
+)
+def test_content_adaptive_plan_rejects_invalid_native_content_profiles(
+    monkeypatch: pytest.MonkeyPatch,
+    features: tuple[dict[str, object], ...],
+    expected_page_count: int,
+    message: str,
+) -> None:
+    monkeypatch.setattr(planning, "all_page_features", lambda _path: features)
+
+    with pytest.raises(ValueError, match=message):
+        planning.build_content_adaptive_plan(
+            _prepared(page_count=expected_page_count),
+            _code(),
+        )
 
 
 @pytest.mark.parametrize(

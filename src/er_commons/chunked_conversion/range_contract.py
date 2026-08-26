@@ -106,6 +106,9 @@ class RangePlanInputs(StrictRangeRecord):
     aggregate_merge_identity: str = Field(min_length=1)
     target_range_size: int = Field(gt=0)
     hard_maximum: int = Field(gt=0)
+    planner_mode: Literal["fixed_size", "content_adaptive"] = "fixed_size"
+    max_native_content_units_per_range: int | None = Field(default=None, gt=0)
+    content_profile_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
     overlap_policy: OverlapPolicy
     ranges: tuple[RangeDefinition, ...] = Field(min_length=1)
     aggregate_output_schema_identity: str = Field(min_length=1)
@@ -116,6 +119,24 @@ class RangePlanInputs(StrictRangeRecord):
         """Keep the target at or below the planner's hard core-page cap."""
         if self.target_range_size > self.hard_maximum:
             raise ValueError("target range size cannot exceed hard maximum")
+        adaptive_fields = {
+            "max_native_content_units_per_range": self.max_native_content_units_per_range,
+            "content_profile_sha256": self.content_profile_sha256,
+        }
+        if self.planner_mode == "content_adaptive":
+            missing = [name for name, value in adaptive_fields.items() if value is None]
+            if missing:
+                raise ValueError(
+                    "content-adaptive plans require both a native content budget "
+                    f"and profile digest; missing={missing!r}"
+                )
+        else:
+            declared = [name for name, value in adaptive_fields.items() if value is not None]
+            if declared:
+                raise ValueError(
+                    "fixed-size plans cannot declare adaptive planning fields; "
+                    f"declared={declared!r}"
+                )
         return self
 
 
@@ -233,6 +254,13 @@ def _derive_range_id(
 def _plan_preimage(inputs: RangePlanInputs) -> dict[str, object]:
     """Exclude aggregate-only interpretation from reusable child-plan identity."""
     payload = inputs.model_dump(mode="json")
+    # Keep the v1 fixed-size identity byte-compatible with plans written before
+    # content-adaptive planning was added.  Adaptive plans intentionally retain
+    # their planner mode, budget, and source-derived profile digest.
+    if inputs.planner_mode == "fixed_size":
+        payload.pop("planner_mode", None)
+        payload.pop("max_native_content_units_per_range", None)
+        payload.pop("content_profile_sha256", None)
     for key in (
         "aggregate_merge_identity",
         "aggregate_output_schema_identity",

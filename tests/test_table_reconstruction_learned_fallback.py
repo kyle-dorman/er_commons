@@ -16,6 +16,9 @@ from er_commons.document_parsing.table_reconstruction.learned_fallback import (
 )
 from er_commons.document_parsing.table_reconstruction.models import LearnedFallbackConfig
 from er_commons.document_parsing.table_reconstruction.page import column_type_signatures
+from er_commons.document_parsing.table_reconstruction.tableformer_fallback import (
+    _bounded_crop_box,
+)
 from er_commons.document_records.record_mapping.tables import clean_table_cells
 
 
@@ -519,6 +522,40 @@ def test_only_unmatched_camelot_regions_enter_fallback() -> None:
     }
 
     assert unmatched_layout_regions(evidence, regions) == [regions[1]]
+
+
+@pytest.mark.parametrize(
+    "region",
+    [
+        [-1.0, 0.0, 10.0, 10.0],
+        [0.0, -1.0, 10.0, 10.0],
+        [0.0, 0.0, 101.0, 10.0],
+        [0.0, 0.0, 10.0, 201.0],
+        [10.0, 0.0, 10.0, 20.0],
+        [0.0, 20.0, 10.0, 10.0],
+    ],
+)
+def test_tableformer_crop_rejects_regions_outside_displayed_page(
+    region: list[float],
+) -> None:
+    assert (
+        _bounded_crop_box(
+            region,
+            page_width=100.0,
+            page_height=200.0,
+            scale=2.0,
+        )
+        is None
+    )
+
+
+def test_tableformer_crop_maps_all_displayed_edges() -> None:
+    assert _bounded_crop_box(
+        [0.0, 0.0, 100.0, 200.0],
+        page_width=100.0,
+        page_height=200.0,
+        scale=2.0,
+    ) == (0, 0, 200, 400)
 
 
 def test_enabled_policy_requires_exact_model_identity() -> None:

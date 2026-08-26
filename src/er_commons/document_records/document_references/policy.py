@@ -10,7 +10,11 @@ from er_commons.document_records.document_references.types import MentionKind
 
 LookupKeyBuilder = Callable[[re.Match[str]], str]
 
-ELIGIBLE_BLOCK_TYPES = frozenset({"caption", "footnote", "list_item", "paragraph"})
+# Mention sources and table-label evidence are deliberately separate policies.
+# A semantic heading can label a table without turning every heading into a
+# cross-reference source.
+MENTION_SOURCE_BLOCK_TYPES = frozenset({"caption", "footnote", "list_item", "paragraph"})
+TABLE_LABEL_BLOCK_TYPES = MENTION_SOURCE_BLOCK_TYPES | {"heading"}
 TABLE_PAGE_WINDOW = 10
 QUALIFIED_EXTERNAL_TABLE_PATTERN = re.compile(
     r"^\s+(?:in|from|of)\s+reference\s+[1-9][0-9]*\b", re.IGNORECASE
@@ -140,7 +144,7 @@ def default_mention_policy() -> MentionPolicy:
     )
     return MentionPolicy(
         pattern_version="cross_reference_patterns_v3",
-        eligible_block_types=ELIGIBLE_BLOCK_TYPES,
+        eligible_block_types=MENTION_SOURCE_BLOCK_TYPES,
         mention_rules=rules,
         block_exclusions=exclusions,
         table_page_window=TABLE_PAGE_WINDOW,

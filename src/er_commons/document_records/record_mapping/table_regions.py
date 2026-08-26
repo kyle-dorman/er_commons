@@ -33,14 +33,20 @@ def load_region_crosswalk(
         page = route.get("physical_pdf_page")
         page_route = route.get("route")
         observations = route.get("layout_table_observations")
+        region_boxes = route.get("layout_table_regions_pdf_points_bottom_left")
+        region_count = route.get("layout_table_region_count")
         if (
             not isinstance(page, int)
             or isinstance(page, bool)
             or not isinstance(observations, list)
             or not all(isinstance(item, dict) for item in observations)
+            or not isinstance(region_boxes, list)
+            or not isinstance(region_count, int)
+            or isinstance(region_count, bool)
+            or region_count != len(region_boxes)
         ):
             raise MappingContractError("invalid routing table observations")
-        if not observations:
+        if not observations and not region_boxes:
             continue
         result = read_json_object(table_root / f"pages/page_{page:05d}/result.json")
         evidence = result.get("parser_evidence")
@@ -54,6 +60,7 @@ def load_region_crosswalk(
         page_mappings, page_table_ids = _layout_page_mappings(
             page=page,
             observations=observations,
+            region_boxes=region_boxes,
             evidence=evidence,
             result_tables=result_tables,
             tables=tables,
@@ -71,6 +78,7 @@ def _layout_page_mappings(
     *,
     page: int,
     observations: list[object],
+    region_boxes: list[object],
     evidence: dict[object, object],
     result_tables: list[object],
     tables: tuple[ProducerTable, ...],
@@ -100,12 +108,22 @@ def _layout_page_mappings(
     ):
         raise MappingContractError(f"invalid region matches for page {page}")
     match_by_region = {item.get("region_id"): item.get("matched") for item in region_matches}
+    expected_region_ids = {f"layout_{index:03d}" for index in range(1, len(region_boxes) + 1)}
+    if len(match_by_region) != len(region_matches) or set(match_by_region) != expected_region_ids:
+        raise MappingContractError(
+            f"region matches do not exactly cover routed regions on page {page}"
+        )
     mappings: list[RegionTableMapping] = []
     seen: set[str] = set()
-    for region_index, observation in enumerate(observations, start=1):
-        assert isinstance(observation, dict)
+    observation_by_bbox = _observations_by_bbox(observations, page=page)
+    for region_index, region_box in enumerate(region_boxes, start=1):
         region_id = f"layout_{region_index:03d}"
-        raw_object_ref, provenance_index = _raw_region_identity(observation, page=page)
+        bbox = parse_bbox(region_box, owner=f"page {page} {region_id}")
+        observation = observation_by_bbox.pop(bbox, None)
+        if observation is None:
+            raw_object_ref, provenance_index = None, None
+        else:
+            raw_object_ref, provenance_index = _raw_region_identity(observation, page=page)
         clean_table_ids = tuple(tables_by_page_region.get((page, region_id), []))
         if len(clean_table_ids) > 1:
             raise MappingContractError(
@@ -123,15 +141,33 @@ def _layout_page_mappings(
                 region_id=region_id,
                 raw_object_ref=raw_object_ref,
                 provenance_index=provenance_index,
-                bbox_pdf_points_bottom_left=parse_bbox(
-                    observation.get("bbox_pdf_points_bottom_left"),
-                    owner=f"page {page} {region_id}",
-                ),
+                bbox_pdf_points_bottom_left=bbox,
                 clean_table_ids=clean_table_ids,
                 unmapped_reason=None if clean_table_ids else "no_clean_table_match",
             )
         )
+    if observation_by_bbox:
+        raise MappingContractError(
+            f"routing observations do not match layout regions on page {page}"
+        )
     return mappings, seen
+
+
+def _observations_by_bbox(
+    observations: list[object], *, page: int
+) -> dict[tuple[float, float, float, float], dict[object, object]]:
+    """Index optional raw Docling provenance by its authoritative routed geometry."""
+    indexed: dict[tuple[float, float, float, float], dict[object, object]] = {}
+    for observation in observations:
+        assert isinstance(observation, dict)
+        bbox = parse_bbox(
+            observation.get("bbox_pdf_points_bottom_left"),
+            owner=f"page {page} routing observation",
+        )
+        if bbox in indexed:
+            raise MappingContractError(f"duplicate routing observation geometry on page {page}")
+        indexed[bbox] = observation
+    return indexed
 
 
 def _validate_full_page_result(

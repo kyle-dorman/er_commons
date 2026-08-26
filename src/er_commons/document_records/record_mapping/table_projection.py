@@ -35,6 +35,9 @@ def project_canonical_table_bundle(
     seen_pointers: set[str] = set()
     projected_mappings = []
     for mapping in producer_bundle.region_mappings:
+        if mapping.raw_object_ref is None:
+            projected_mappings.append(mapping)
+            continue
         if mapping.raw_object_ref in seen_pointers:
             raise MappingContractError(
                 f"duplicate Docling table pointer in region mappings: {mapping.raw_object_ref}"

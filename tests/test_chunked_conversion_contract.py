@@ -131,6 +131,37 @@ def test_plan_identity_is_canonical_and_completion_order_independent() -> None:
 
 
 @pytest.mark.parametrize(
+    "missing_field",
+    ["max_native_content_units_per_range", "content_profile_sha256"],
+)
+def test_adaptive_plan_inputs_require_budget_and_profile_digest(missing_field: str) -> None:
+    payload = _inputs().model_dump(mode="python")
+    payload.update(
+        {
+            "planner_mode": "content_adaptive",
+            "max_native_content_units_per_range": 500_000,
+            "content_profile_sha256": "b" * 64,
+            missing_field: None,
+        }
+    )
+
+    with pytest.raises(ValidationError, match="require both"):
+        RangePlanInputs.model_validate(payload)
+
+
+@pytest.mark.parametrize(
+    "declared_field",
+    ["max_native_content_units_per_range", "content_profile_sha256"],
+)
+def test_fixed_plan_inputs_reject_adaptive_fields(declared_field: str) -> None:
+    payload = _inputs().model_dump(mode="python")
+    payload[declared_field] = 500_000 if declared_field.startswith("max_") else "b" * 64
+
+    with pytest.raises(ValidationError, match="cannot declare adaptive planning fields"):
+        RangePlanInputs.model_validate(payload)
+
+
+@pytest.mark.parametrize(
     ("ranges", "message"),
     [
         (

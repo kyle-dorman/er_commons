@@ -113,6 +113,51 @@ class DisplayedPageTransform:
             max(point[1] for point in displayed),
         )
 
+    def to_displayed_rectangle_unclipped(self, rectangle: Rectangle) -> Rectangle:
+        """Transform source geometry without hiding coordinates outside the page."""
+        left, bottom, right, top = _validated_rectangle(rectangle, label="source rectangle")
+        page_left, page_bottom, _, _ = self.page_bbox
+        local_corners = (
+            (left - page_left, bottom - page_bottom),
+            (left - page_left, top - page_bottom),
+            (right - page_left, bottom - page_bottom),
+            (right - page_left, top - page_bottom),
+        )
+        displayed = [self.to_displayed_point(point) for point in local_corners]
+        return (
+            min(point[0] for point in displayed),
+            min(point[1] for point in displayed),
+            max(point[0] for point in displayed),
+            max(point[1] for point in displayed),
+        )
+
+    def to_source_point(self, point: Point) -> Point:
+        """Map one displayed page-local point back to the source PDF canvas."""
+        x, y = point
+        if self.rotation_degrees == 0:
+            source = (x, y)
+        elif self.rotation_degrees == 90:
+            source = (self.canvas_width - y, x)
+        elif self.rotation_degrees == 180:
+            source = (self.canvas_width - x, self.canvas_height - y)
+        else:
+            source = (y, self.canvas_height - x)
+        return source[0] + self.page_bbox[0], source[1] + self.page_bbox[1]
+
+    def to_source_rectangle_unclipped(self, rectangle: Rectangle) -> Rectangle:
+        """Inverse-transform displayed geometry without clipping query bounds."""
+        left, bottom, right, top = _validated_rectangle(rectangle, label="displayed rectangle")
+        source = [
+            self.to_source_point(point)
+            for point in ((left, bottom), (left, top), (right, bottom), (right, top))
+        ]
+        return (
+            min(point[0] for point in source),
+            min(point[1] for point in source),
+            max(point[0] for point in source),
+            max(point[1] for point in source),
+        )
+
 
 def _coverage_fractions(
     rectangles: list[Rectangle],

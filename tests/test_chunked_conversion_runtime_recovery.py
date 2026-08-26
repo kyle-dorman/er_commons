@@ -100,13 +100,12 @@ def _observation() -> ResourceObservation:
 def test_behavior_identity_separates_coordinator_from_child_and_aggregate(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
-    package = tmp_path / "src/er_commons/chunked_conversion"
-    package.mkdir(parents=True)
+    (tmp_path / "src/er_commons/chunked_conversion").mkdir(parents=True)
     observed: list[tuple[str, ...]] = []
 
     def fake_code_identity(paths: list[Path], *, repo_root: Path) -> dict[str, str]:
         assert repo_root == tmp_path
-        relative = tuple(path.relative_to(package).as_posix() for path in paths)
+        relative = tuple(path.relative_to(tmp_path).as_posix() for path in paths)
         observed.append(relative)
         return {"sha256": "|".join(relative)}
 
@@ -116,10 +115,25 @@ def test_behavior_identity_separates_coordinator_from_child_and_aggregate(
     flattened = {path for group in observed for path in group}
     assert all(not path.startswith("scripts/") for path in flattened)
     assert identity.range_conversion != identity.aggregate
-    assert "runtime/workflow.py" not in identity.range_conversion
-    assert "runtime/workflow.py" not in identity.aggregate
-    assert "runtime/workflow.py" in identity.coordinator
-    assert "runtime/application.py" in identity.coordinator
+    assert "src/er_commons/chunked_conversion/runtime/workflow.py" not in identity.range_conversion
+    assert "src/er_commons/chunked_conversion/runtime/workflow.py" not in identity.aggregate
+    assert "src/er_commons/chunked_conversion/runtime/workflow.py" in identity.coordinator
+    assert "src/er_commons/chunked_conversion/runtime/application.py" in identity.coordinator
+    assert (
+        "src/er_commons/document_parsing/content_parsing/pdfium_backend.py"
+        in identity.range_conversion
+    )
+    assert (
+        "src/er_commons/document_parsing/content_parsing/routing_geometry.py" in identity.aggregate
+    )
+    assert (
+        "src/er_commons/document_parsing/content_parsing/ordering_projection_records.py"
+        in identity.aggregate
+    )
+    assert (
+        "src/er_commons/document_parsing/content_parsing/table_stage_reference.py"
+        in identity.aggregate
+    )
 
 
 def test_docling_backend_unload_failure_is_not_swallowed() -> None:

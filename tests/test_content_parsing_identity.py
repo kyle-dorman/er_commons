@@ -243,6 +243,8 @@ def test_conversion_code_inventory_covers_export_and_acceptance_dependencies() -
         "src/er_commons/document_parsing/content_parsing/conversion_execution.py",
         "src/er_commons/document_parsing/content_parsing/conversion_preflight.py",
         "src/er_commons/document_parsing/content_parsing/conversion_seal.py",
+        "src/er_commons/document_parsing/content_parsing/pdfium_backend.py",
+        "src/er_commons/document_parsing/content_parsing/routing_geometry.py",
         "src/er_commons/document_parsing/heading_evidence_parsing/errors.py",
         "src/er_commons/document_parsing/heading_evidence_parsing/types.py",
     } <= paths
@@ -252,12 +254,21 @@ def test_derived_code_inventory_covers_direct_routing_and_sealing_dependencies()
     """Direct routing, source, and inventory owners must invalidate derived reuse."""
     repo_root = Path(__file__).parents[1]
     paths = {path.relative_to(repo_root).as_posix() for path in parsing_code_paths(repo_root)}
+    content_root = repo_root / "src/er_commons/document_parsing/content_parsing"
+    projection_owners = {
+        path.relative_to(repo_root).as_posix() for path in content_root.glob("*projection*.py")
+    }
 
     assert {
         "src/er_commons/document_parsing/content_parsing/evidence.py",
+        "src/er_commons/document_parsing/content_parsing/chunked_application.py",
+        "src/er_commons/document_parsing/content_parsing/ordering_projection.py",
+        "src/er_commons/document_parsing/content_parsing/page_projection.py",
+        "src/er_commons/document_parsing/content_parsing/range_projection_reuse.py",
         "src/er_commons/document_parsing/content_parsing/routing_geometry.py",
         "src/er_commons/document_parsing/content_parsing/sources.py",
     } <= paths
+    assert projection_owners <= paths, "new projection owners must invalidate derived reuse"
 
 
 def test_layout_observations_retain_raw_lineage_pointers() -> None:
