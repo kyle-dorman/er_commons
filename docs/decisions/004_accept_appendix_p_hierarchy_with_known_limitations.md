@@ -35,8 +35,8 @@ pilot hypothesis. It retains:
 - the fact that Task 03E.2a created no new held-out evaluation.
 
 This is not a claim that the hierarchy is defect-free or accepted across the
-35-document model corpus. Task 03G must test the behavior on heterogeneous
-structures before Task 03H can run.
+35-document model corpus. At the time of this decision, Task 03G still had to
+test the behavior on heterogeneous structures before the planned Task 03H run.
 
 ## Why
 
@@ -62,6 +62,8 @@ that evidence and makes the narrower human policy decision explicit.
   unchanged strict pass or this bounded authorization.
 - Downstream consumers can distinguish strict acceptance from
   `accepted_with_known_limitations` without interpreting prose.
-- Task 03E.3 receives the exact completion and authorization artifacts but
-  remains provisional and inactive pending user review and explicit approval.
+- At the time of this decision, Task 03E.3 received the exact completion and
+  authorization artifacts but remained provisional and inactive pending user
+  review and explicit approval. It was later completed as a contract without
+  publishing a candidate.
 - Decision 003 and the historical Task 03E.2 rejection remain in force.

@@ -1,35 +1,41 @@
 # Architecture Contract
 
 This file owns the current technical shape: package boundaries, CLI direction,
-pipeline and benchmark locations, and artifact separation. Read it for any
-package, command, pipeline, benchmark, or configuration change.
+pipeline stages, and artifact separation. Detailed task history belongs in the
+numbered task records and versioned specifications.
 
 ## Design principles
 
 - Compose maintained open-source packages before writing project code.
-- Keep project code as thin, typed glue around stable input/output contracts.
+- Keep project code as thin, typed glue around explicit input/output contracts.
 - Prefer plain files, manifests, and small CLI commands over hidden notebook
-  state or a bespoke workflow framework.
+  state or a workflow framework.
 - Make every nontrivial stage restartable and observable through a manifest,
-  summary, or logs.
-- Introduce dependencies only after the active task names the specific job they
-  solve and compares the reasonable alternatives.
+  summary, or structured log.
+- Add a dependency only when the owning task names the job it solves and the
+  reasonable alternatives have been considered.
+- Treat human maintainability as a separate gate: ownership, readability,
+  typing, testability, and recovery behavior must be understandable from the
+  code.
 
 ## Repository layout
 
 ```text
-src/er_commons/          # Minimal package-backed CLI and future glue modules
-pipelines/               # Tracked pipeline specs/wrappers, not generated runs
-benchmarks/er_bench/     # Tracked benchmark contract, schemas, and tiny fixtures
-configs/                 # Small checked-in configuration files
-tests/                   # Fast tests for project-owned glue and contracts
-docs/ and tasks/         # Routing, decisions, plans, and execution contracts
+src/er_commons/          # Package-backed CLI and project glue
+pipelines/               # Tracked pipeline specs and wrappers
+benchmarks/er_bench/     # Benchmark contracts, schemas, and small fixtures
+configs/                 # Checked-in source-scoped configurations
+tests/                   # Fast tests for project-owned behavior and contracts
+docs/ and tasks/         # Routing, decisions, plans, and task outcomes
 ```
+
+Large source files, extracted content, model files, review bundles, and run
+outputs live under the external root described in
+[`data_artifacts.md`](data_artifacts.md).
 
 ## Maintained document and collection pipeline
 
-Task 03G.3 replaces the accumulated task-era process layout with
-responsibility-oriented packages. The maintained dependency direction is:
+The production dependency direction is:
 
 ```text
 source_release + artifact_io
@@ -40,553 +46,109 @@ source_release + artifact_io
   -> collection_processing
   -> extraction_reporting
 
-human_review_support consumes published evidence but is never a production dependency.
+human_review_support consumes published evidence but is never a production dependency
 ```
 
-`document_parsing` owns stable-content parsing, heading-evidence parsing, and table
-reconstruction. `hierarchy_inference` consumes parsed evidence and owns hierarchy
-decisions. `document_records` groups record mapping, document structure (sections,
-printed page labels, and aliases), and document-local reference linking.
-`document_publication` owns attempts, lineage, reuse, and atomic publication for one
-document; it does not own parsing policy. `collection_processing` accounts for declared
-documents, builds record and document target indexes, resolves cross-document links,
-and assembles the handoff. `extraction_reporting` is machine reporting. Only
-`human_review_support` requests or records human judgment.
+Responsibilities are intentionally one-way:
 
-The public CLI mirrors those boundaries: `er-commons documents publish` and
-`er-commons collections {assemble-handoff,validate-handoff,validate-contract}`.
-Accepted Task 03G.2 v1 configurations, v1/v1.1 schemas, serialized role names, and
-artifact paths remain immutable and are readable only through explicit versioned
-compatibility code. New executable specifications use strict v2 models and cannot
-silently accept old keys. Canonical record vocabulary and the established typed ID
-prefixes remain data-model terms, not process names.
+| Responsibility | Owns |
+| --- | --- |
+| `document_parsing` | Stable content parsing, heading evidence, routing, and clean table reconstruction. |
+| `hierarchy_inference` | Hierarchy evidence and deterministic hierarchy decisions. |
+| `document_records` | Record mapping, sections, printed labels, aliases, and document-local reference links. |
+| `document_publication` | One-document attempts, lineage, reuse, and atomic publication. |
+| `collection_processing` | Scope accounting, target indexes, cross-document resolution, and handoff assembly. |
+| `extraction_reporting` | Machine summaries and terminal-status reporting. |
+| `human_review_support` | Candidate-neutral review selections, renders, and human findings. |
 
-Task 03H implements the parsing restart boundary as two immutable publications. A
-`dconv1-` conversion bundle binds source bytes and page count, the sealed release,
-Docling-only options and invocation limits, model and package inventory, and the code
-that creates or accepts conversion bytes. Its inventory and completion record are
-verified before any routing or table work begins. The derived `prv1-` publication
-binds that exact conversion ID plus routing, table, and remaining producer policy.
-It records the upstream completion and inventory checksums in
-`records/conversion_input.json`; downstream stages resolve that closed reference rather
-than receiving a physical copy of the conversion payload. A verified `dconv1-` hit is resolved
-before `DocumentConverter` construction, so routing or table changes do not allocate
-Docling or rerun the PDF.
-
-The reference's v1 `document_view` field records which caller first published a
-shared routing/table bundle; it is legacy provenance, not downstream view policy.
-Record mapping explicitly selects the base document, hierarchy inference explicitly
-selects the heading-overlay view, and document structure verifies that those ordered
-roles share one conversion owner before loading the base bytes once.
-
-The conversion publication retains Docling's complete semantic and provenance model
-but externalizes raster payloads before serializing `document.json`. Available figure
-crops are written and checksummed first; embedded page renders and duplicate picture
-rasters are then removed and explicitly accounted for in `asset_inventory.json`.
-Large document and conversion-page JSON records are written atomically through
-streaming encoders so artifact size does not become a second in-memory copy.
-
-The accepted source-neutral production chunk contract retains pre-global page evidence in independently
-sealed ranges, reconciles overlap ownership, then runs reading order, cross-page text
-merging, and heading inference once over canonical physical-page order. Page evidence
-must preserve concrete assembled-element types and shared body/header membership;
-plain Pydantic union JSON can otherwise restore a container as a figure. Finalized
-range `DoclingDocument` objects are never concatenated, and child-local heading levels
-are noncanonical because level compression depends on the whole document.
-
-For the clean Task 03H full run, the range contract is extended by orchestration only:
-each range performs Docling PDFium/Heron conversion and lossless evidence capture,
-then invokes the existing project routing and table-extraction stages before sealing
-raw evidence, layout evidence, routing, and page-local table artifacts together.
-After all ranges are verified, aggregation branches into a reduced ordering projection
-and the existing global table continuation/family reconciliation. The projection may
-suppress only table text confirmed by extraction artifacts; raw evidence is untouched.
-One aggregate Docling interpretation group then performs `reading_order` and heading
-hierarchy once, without the Docling TableFormer PDF stage. Publication merges ordered
-non-table content, canonical custom tables, explicit failures/fallbacks, and raw
-evidence references. The custom table extractor remains a separate responsibility.
-
-The maintained production path uses one-way package owners. Contracts and diagnostics
-are leaf modules. Input and identity services bind source, runtime, package, model, and
-implementation semantics. Planning owns exact core and overlap coverage; one isolated
-worker and range store own conversion plus completion-last child publication; the
-Docling adapter isolates private APIs; aggregation owns canonical page selection and
-whole-document assembly; supervision owns resource stops; and workflow, completion,
-and publication own restart selection and the terminal aggregate claim. Tests call
-public package seams. Operational wrapper changes do not invalidate expensive child
-conversion, while worker and aggregate semantic code remain independently code-bound.
-
-Hierarchy candidates follow a completion-last immutable-publication boundary. Normal
-restart lookup verifies the completion-to-inventory seal, exact managed path set and
-file sizes, and every small identity and terminal record; it derives semantic
-authorization from the sealed inventory without reopening multi-gigabyte semantic
-payloads. This fast path assumes published candidate files remain immutable. The
-separate `scripts/audit_hierarchy_candidate.py` command stream-hashes every managed
-byte and is the required integrity checkpoint before a hierarchy candidate enters a
-Task 03H collection handoff. Candidate validation and JSON/JSONL publication report
-processed/total units, throughput, elapsed time, and ETA while writing bounded chunks.
-
-For code navigation, start at the public facade and follow one short application shell:
-
-| Responsibility | Public facade | Application shell | Primary behavior tests |
-| --- | --- | --- | --- |
-| Publish or reuse one conversion | `er_commons.document_parsing.content_parsing.conversion_bundle` | `document_parsing/content_parsing/application.py` | `tests/test_document_parsing_application.py` |
-| Build and audit hierarchy evidence | `er_commons.hierarchy_inference` | `hierarchy_inference/application.py` | `tests/test_hierarchy_inference_application.py`, `tests/test_hierarchy_candidate_audit_script.py` |
-| Materialize canonical records | `er_commons.document_records.record_mapping` | `document_records/record_mapping/materialize.py` | `tests/test_record_mapping_application.py` |
-| Materialize semantic document structure | `er_commons.document_records.document_structure` | `document_records/document_structure/workflow.py` | `tests/test_document_structure_workflow.py` |
-| Publish one document | `er_commons.document_publication` | `document_publication/workflow.py` | `tests/test_document_publication_workflow.py` |
-| Assemble one collection | `er_commons.collection_processing` | `collection_processing/workflow.py` | `tests/test_collection_processing_workflow.py` |
-| Report machine outcomes | `er_commons.extraction_reporting` | `extraction_reporting/reporting.py` | `tests/test_extraction_reporting.py` |
-
-The v2 run-spec models live in each production package's `config.py`; checked schemas
-and examples live under `benchmarks/er_bench/{schemas,fixtures}/`. Neutral checksum,
-contained-path, and deterministic JSON helpers belong in `artifact_io.py`, not inside a
-downstream workflow package.
-
-The initial CLI exposes the artifact root. Task 02 added a `sources` command
-group backed by Requests and urllib3 for bounded streaming and retries,
-Beautiful Soup for landing-page reconciliation, pikepdf for structural PDF
-validation, strict pypdf as a recorded fallback for recoverable published-file
-defects, and standard-library `hashlib` for SHA-256. The project code owns the
-typed source specification, role isolation, no-clobber publication, manifest,
-and verification contracts rather than reimplementing those packages.
-
-For the accepted Brisbane vertical slice, the planned implementation stack is
-Docling for conversion, Label Studio Community for later benchmark annotation,
-BM25S for the first retriever, and distinct local Ollama models for reference-case
-curation, target generation, and rubric judging. Task 04's extraction review is a
-separate read-only local HTML workspace and does not require Label Studio. These
-are selected contracts, not yet installed runtime dependencies: each is added
-only by the task that implements its narrow boundary. The benchmark must retain
-the exact tool/model version and resolved model digest in its artifacts.
-
-## External data and artifact layout
+The public production entry points are:
 
 ```text
-/Volumes/x10pro/er_commons/
-  datasets/
-    ceqa/
-      raw/               # Immutable source downloads or source references
-      normalized/        # Reproducible normalized tables/documents
-      derived/           # Task-scoped derivatives; never a hidden source
-  pipelines/             # Run manifests, logs, and generated stage outputs
-  benchmarks/
-    er_bench/
-      inputs/            # Versioned references to benchmark inputs
-      splits/            # Materialized split artifacts and manifests
-      runs/              # Evaluation outputs keyed by benchmark version/run
+er-commons documents publish
+er-commons collections assemble-handoff
+er-commons collections validate-handoff
+er-commons collections validate-contract
 ```
 
-Task 02 populated the versioned Brisbane release below
-`datasets/ceqa/raw/brisbane_baylands/`; its generated source manifest owns the
-exact contents and schema. Create other deeper folders only when a task defines
-what they contain and records their source and schema in a manifest.
+Document publication consumes an explicit v2 document specification. Collection
+assembly consumes an explicit v2 collection specification. No source or
+Appendix P is selected by an implicit runtime default.
+
+## Publication and identity boundaries
+
+Task 03J uses two main document-stage publications:
+
+1. `dconv1-` conversion bundles bind source bytes, page accounting, Docling
+   options, runtime and model inputs, and the conversion inventory.
+2. `prv1-` producer bundles bind an exact conversion seal to routing, table,
+   and remaining producer policy.
+
+Later document records and publication stages reference those sealed bundles.
+They do not copy or mutate them. A complete stage is published only after its
+completion record and managed-file inventory are checksummed. Failed attempts
+retain diagnostics but cannot impersonate a complete result.
+
+The current full-corpus candidate is the completed Task 03J v4 run. Its generated
+lineage directory is named
+`pipelines/brisbane_baylands/task_03h_clean_full_v4/`; the retained `task_03h`
+stem is an implementation name, not permission to consume Task 03H artifacts.
+The exact identity chain is owned by the [Task 03J outcome](../tasks/sprint2/03j_run_final_canonical_extraction.md).
+
+Production identities bind every output-affecting source, scope, package, model,
+policy, schema, configuration, and owned-code input. Fixture, smoke, document,
+collection, index, resolution, and handoff identities use separate typed
+namespaces. A new code or policy identity may reuse a sealed upstream artifact
+only when that artifact's owning contract and checksums permit it.
+
+## Extraction representation
+
+The current extraction keeps the following boundaries explicit:
+
+- raw Docling conversion evidence is preserved and is not the canonical table
+  representation;
+- the clean table pipeline owns canonical table content and table-family
+  relationships;
+- visible TOC rows and document-index content remain navigation evidence and do
+  not become body-section starts or ordinary data-table targets;
+- deterministic hierarchy correction is a replaceable evidence layer that
+  preserves raw labels, levels, geometry, and provenance; and
+- document-local and cross-document reference linking are separate stages with
+  their own identity and resolution records.
+
+The stable persisted contracts are the [canonical extraction
+specification](specs/canonical_extraction_v1.md), [semantic structure
+specification](specs/semantic_structure_v2.md), [cross-reference
+specification](specs/cross_references_v3.md), and [restartable corpus
+specification](specs/restartable_corpus_extraction_v1_1.md). The chunked
+conversion specification defines the independent range-evidence boundary used
+by the current production path.
+
+## Review boundary
+
+Human review consumes published Task 03 evidence through a separate
+`human_review_support` package. Review selections, requested renders, findings,
+usability dispositions, and release-freeze records do not modify machine
+records. Task 04's first-pass review is historical. Task 04A allocates a new
+review identity bound to Task 03J and owns the final usability registry and
+initial release decision. Task 04B is a conditional fresh replay after an
+approved Task 04A TOC/navigation stop handoff.
 
 ## Configuration and paths
 
-`ER_COMMONS_DATA_ROOT` is required in the local, untracked `.env`; no default
-artifact root exists in code. The typed Pydantic settings model loads it for the
-CLI, while `make` loads and validates the same value for routine commands.
-Committed workflow configuration must not depend on a developer's absolute
-paths. Future workflow settings should use validated Pydantic contracts rather
-than untyped dictionaries.
+Portable source and workflow configurations stay in Git. The external data root
+is loaded only from the required, untracked `ER_COMMONS_DATA_ROOT` setting.
+Committed configurations use relative paths or paths rooted by that setting;
+they do not depend on a developer's absolute filesystem layout.
 
-## Historical architecture record (Tasks 03C through 03G.2)
+Task 03J's exact v4 configuration set is documented in
+[`configs/README.md`](../configs/README.md). The smoke and Task 03G.2
+configurations remain separate historical or diagnostic inputs and must not be
+mixed with current native-v2 production contracts.
 
-The sections below explain the immutable evidence produced before Task 03G.3. Their
-package paths, commands, and task-era process names are historical, not instructions for
-current code. Use the maintained pipeline and navigation table above for new work.
+## Historical implementation record
 
-Task 03C adds a separate complete-document producer policy above the accepted
-Task 03A parser components. `documents run-review` remains the fixed comparison
-harness; `documents run-complete` resolves one source through the sealed
-manifest, verifies the accepted local models, converts and routes every page,
-runs complete-document table families, and atomically publishes a task-scoped
-producer run. Its `producer_run_id` content-binds source, release, runtime,
-models, routing/table policy, packages, and project code. It is reusable raw
-producer identity, not the later canonical `extraction_id`. Partial work is
-retained only as attempt evidence, and final reuse requires every inventoried
-checksum to verify.
-
-Task 03C.1 makes that policy human-owned without changing parser behavior.
-`complete_document.py` is the application shell; `producer_identity.py`,
-`producer_conversion.py`, `producer_routing.py`, `producer_tables.py`, and
-`producer_publication.py` each own one stage responsibility.
-`producer_records.py` defines persisted records, `producer_services.py` exposes
-only the external seams needed by offline tests, and `producer_artifacts.py`
-owns durable Docling export and completed-run verification. Stage validation
-uses named fail-closed invariants rather than one compound success boolean.
-The v2 configuration and rewritten code intentionally derive a new
-`producer_run_id`; semantic acceptance is established independently against
-the immutable v1 artifact.
-
-Task 03D adds a package-backed `canonicalize run-document` command that reads
-the sealed Task 02 source release and completed Task 03C.1 producer artifacts,
-then materializes a deterministic, schema-valid canonical-record candidate.
-The command traverses the Docling hierarchy exactly once, preserves raw
-geometry and invalid provenance evidence, projects producer table cells
-through recorded cleanup indices, and publishes only after independent bundle
-validation succeeds.
-
-Candidate identity is content-derived from the selected source, producer
-completion and inventory, canonicalization policy, schema, config, mapping
-specification, and implementation inputs. A matching completed candidate is
-reused rather than rewritten. The task-scoped candidate is an evaluation
-artifact, not a promoted benchmark release; downstream hierarchy work consumes
-its completion artifact rather than rediscovering producer files.
-
-Task 03D.1 keeps that policy but replaces the MVP's monolithic materializer
-with a functional core and explicit application shell. `materialize.py` owns
-only stage order and failure preservation. Immutable context and ID allocation,
-asset registration, content records, support records, provenance projection,
-candidate sealing, and semantic comparison each have one responsibility-owned
-module. JSON Schema remains the persisted record contract; frozen dataclasses
-name internal stage results, and existing producer Pydantic models validate
-producer-owned input records.
-
-Implementation changes receive a new candidate ID through the existing
-code-bundle digest without pretending the schema or mapping policy changed.
-Promotion requires exact ordered record equivalence after narrow
-extraction-ID normalization, exact generated clean-asset bytes, exact
-accounting summaries, and an independently rebuilt byte-identical candidate.
-
-Task 03E.0 applies the same human-ownership boundary to hierarchy evaluation.
-The stable `hierarchy_runner.py` facade preserves the CLI entry point, while
-the `document_extraction/hierarchy/` package gives specification validation,
-Docling indexing and semantic comparison, artifact normalization, whole-run
-comparison, independent subprocess execution, fixed controls, report
-construction, and workflow sequencing separate owners. The workflow is an
-application shell; comparison and normalization remain deterministic
-functional code.
-
-Hierarchy evaluation is intentionally outside complete-document producer
-behavior. The accepted producer identity and bytes therefore remain unchanged
-when evaluator code changes. Acceptance is instead grounded in a test that
-recomputes both frozen 159-artifact Task 03E comparisons and requires exact
-report equality, plus focused failure-path tests. This evaluator does not
-correct headings or use a learned component. Task 03E.1 owns correction policy,
-Task 03E.2 records the historical implementation and rejected evaluation, Task
-03E.2b owns the human implementation, and Task 03E.2d owns bounded acceptance
-and publication.
-
-Task 03E.2b replaces the correction MVP with a human-owned functional core and
-application shell while preserving its complete semantic payload. The short
-semantic runner sequences source observation, visible-TOC analysis, numbering
-scope construction, ordered rule evaluation, and hierarchy projection. TOC
-region detection, row parsing, reconciliation, level evidence, rule context,
-individual rule applications, and scope lifecycle each have one named owner.
-
-Candidate orchestration separately owns preflight, three-process repeat
-evidence, candidate records, preservation, quality disposition, and atomic
-publication. Held-out preparation, annotation sealing, and evaluation are
-distinct modules so an exposed evaluation cannot be silently regenerated.
-Quality configuration, frozen-evidence verification, report disposition, and
-pass assembly are also separate; a rejected report set is retained as an
-explicit `QUALITY_GATE_REJECTED` attempt rather than failing through a
-pass-only validation model. The explicit code inventory binds all runtime
-modules into candidate identity and tests fail when a new module is omitted.
-
-Task 03E.2d owns the separate policy decision and publication boundary for the
-complete Appendix P correction candidate. It retains the strict Task 03E.2
-quality rejection unchanged and adds a candidate-bound
-`accepted_with_known_limitations` authorization that names the accepted
-limitations and verifies the exact post-03E.2a semantic digest reproduced by
-Task 03E.2b. Publication may consume either a verified strict quality pass or
-this independently verified bounded authorization; neither path can impersonate
-the other. The correction payload remains the existing v1 hierarchy-evidence
-layer, not a new semantic schema or canonical representation.
-
-## Appendix P dataflow
-
-After the source freeze, the current design is a branch-and-join flow with
-three persisted representations of document content. Identities, inventories,
-completion records, acceptance evidence, and review reports are additional
-control artifacts rather than content representations.
-
-```text
-Task 02 sealed PDF and manifest
-  -> Task 03C.1 accepted baseline producer -> Task 03D.1 core canonical --+
-  -> Task 03E hierarchy-enabled producer -> Task 03E.2d correction -------+
-                                                                           |
-                                                    Task 03E.4 semantic canonical
-```
-
-The two producer candidates occupy the same parser-evidence layer: Task 03C.1
-is the accepted baseline for core content, and Task 03E changes only declared
-hierarchy surfaces under an independent preservation comparison. Producer
-evidence preserves parser-owned Docling output, clean table artifacts, figures,
-assets, routing, and lineage. The correction evidence is a replaceable sidecar
-over hierarchy-enabled producer item identities; it owns correction features,
-TOC reconciliation, rule decisions, corrected levels and roles, hierarchy,
-ambiguities, and warnings. The canonical representation is the project-owned
-consumer interface. Task 03D.1 is its core-only candidate, and the Task 03E.4
-MVP joins it with accepted correction evidence in immutable reference candidate
-`exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf`,
-which adds semantic sections, page-label resolution, and aliases. Its
-human-owned replacement candidate
-`exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
-reproduces every candidate-owned semantic record and review derivative under a
-narrow identity-derived normalization. The `workflow` shell sequences verified
-runtime paths, identity/reuse, lifecycle, and publication; construction,
-producer evidence, support, sealing, and comparison retain separate owners.
-
-Task 03E.3 is only the specification gate for that join and creates no data
-layer. Task 03E.4 references detailed Task 03E.2d evidence rather than copying
-it, extends existing canonical page and section concepts, and persists only the
-semantic facts downstream consumers need. Cross-reference
-mentions remain a later enrichment because aliases describe possible targets,
-whereas mentions are source spans that point toward those targets.
-
-Completed Task 03E.5 passed separate inventory, schema/fixture, behavioral, and
-human-maintainability gates. Schema-major-v3 MVP candidate
-`exv1-e3e81078dfb21b3d0718cd935004077e163dffc180bbc3d80f4a54391caa67f6`
-is immutable reference evidence. Initial human-owned candidate
-`exv1-4a65944e4ce99a445953ea2904ca0e0c4b20fdd5412e9b89e7b6dac0254cc464`
-matches all 19 semantic paths exactly but is correction-baseline evidence.
-Accepted pattern-policy-v2 candidate
-`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
-structurally excludes reference sections and classifies explicit section
-qualifiers before local numeric lookup. It
-remaps the complete Task 03E.4 namespace, keeps
-canonical edges closed over v3-local alias and target IDs, and retains exact
-Task 03E.4 IDs as correspondence evidence. It may extend the preserved alias
-inventory only for a numbered table label proven by an exact standalone label
-on the same page as exactly one canonical table. An exact-number table mention
-considers those verified targets only at physical-page distance zero through
-ten; multiple targets remain ambiguous and qualified external-reference forms
-remain unresolved. Distance never creates a target. Figures remain unresolved without an explicit caption link
-or independently verified TOC-to-printed-page alignment to one non-decorative
-figure; current v3 authorizes zero derived figure aliases, and such support
-would require a separately reviewed contract revision. It materialized 292
-mentions and 11 verified table aliases while preserving all 323 upstream
-aliases. Document-scoped mention
-candidates and local resolution remain immutable stage-one records. Task 03F
-may append a separate corpus-resolution
-result against stable mention IDs; it may not rewrite the v3 candidate.
-`deferred_cross_document` is reserved for targets identifiable in the sealed
-model corpus, while named documents outside that corpus remain terminal
-external unresolved records.
-
-The executable implementation lives under `cross_reference_enrichment`.
-Policy, detection, corpus catalog, target indexing, resolution, construction,
-validation, comparison, identity, storage, publication, and workflow are
-separate owners. Named environmental documents use a bounded grammatical rule;
-corpus membership comes only from the checksum-bound sealed source manifest.
-The earlier `cross_reference_materialization` package remains behavioral MVP
-reference code and is not the downstream production owner.
-
-Literal source references remain literal even when surrounding prose appears
-inconsistent with the named target. Task 03E.5 intentionally does not carry
-document-specific appendix-letter corrections; two visually confirmed source
-errors are accepted bounded noise for downstream query-time reasoning.
-
-Task 03E.3 defines that join as canonical-extraction schema major v2 while
-leaving strict v1 and the Task 03D.1 candidate immutable. V2 extends sections,
-adds one page-label observation per physical page and one target-alias record
-family, and keeps bridge, old/new correspondence, preservation, and bounded-
-control verification as checksummed support artifacts. Cross-record validation
-is order-sensitive and admits the accepted hierarchy's skipped numeric levels;
-visible TOC rows and furniture never induce body sections.
-
-The executable contract lives under `er_commons.semantic_structure`. Its
-public `validation` facade only sequences named policies; `sections`,
-`page_labels`, `aliases`, `bridge`, `control`, and `correspondence` each own one
-reviewable invariant family. `bundle` builds the shared indexes, `handoff`
-verifies sealed external evidence, and `normalization` owns the alias text
-rule. Bridge validation requires an independently constructed producer-evidence
-index, so persisted bridge rows cannot authenticate their own pointers or
-unmapped dispositions.
-
-### Task 03F through Task 03G.2 workflow
-
-The following section records the architecture that produced the immutable Task
-03G.2 evidence. Its package paths, command names, and v1/v1.1 vocabulary are
-historical inputs to the Task 03G.3 compatibility boundary, not maintained
-entry points. See "Maintained document and collection pipeline" above for the
-current architecture.
-
-Task 03F.4 reduced the maintained extraction surface to two production
-orchestration commands: `extraction run-document` and `extraction run-scope`.
-Each document content owner now constructs once, runs its stage-local active
-validator, and publishes completion-last or checksum-verifies reuse. Historical
-candidate replay, mandatory repeat builds, rewrite comparisons, and automatic
-review rendering are not publication branches.
-
-The responsibility boundaries are now explicit:
-
-- content packages own construction and stage-local semantic validation;
-- their lifecycle modules own failure retention, no-clobber publication, and
-  verified reuse;
-- `corpus_extraction` owns document transaction orchestration and lineage;
-- `corpus_resolution` owns exact scope accounting, indexing, immutable
-  resolution, handoff publication, and read-only `validate-handoff`;
-- `extraction_review` owns candidate-neutral comparison and disposable,
-  checksummed requested-review manifests outside candidate identity; and
-- Tasks 03G/03H select bounded reruns, while Task 04 independently owns human
-  usability and disposition.
-
-Hierarchy publication records one honest build. Direct machine validation is
-the general publication authority; Appendix P's separately checksummed bounded
-authorization remains source- and candidate-specific and explicitly denies
-corpus-wide acceptance.
-
-Task 03F composes the accepted document pipeline through the checked
-[restartable corpus extraction contract](specs/restartable_corpus_extraction_v1.md).
-The new application shell owns source/scope resolution, corpus identity,
-document state sequencing, completion/reuse verification, exact-scope
-accounting, sealed corpus-index construction, immutable second-pass resolution,
-resource policy, observability, and handoff publication. Existing producer,
-canonical, hierarchy, semantic, and document-local cross-reference packages
-retain their content-policy responsibilities; the shell does not duplicate or
-absorb them.
-
-```text
-sealed source manifest
-  -> scope resolver
-     -> [one complete-document transaction per source]
-        -> exact terminal accounting
-           -> sealed corpus target index
-              -> immutable cross-document resolutions
-                 -> candidate handoff
-```
-
-Document candidates contain canonical content. State events, inventories,
-completion records, accounting, index seals, resolution completion, and handoff
-are control/provenance artifacts. Page batches and stage queues are execution
-details, never publication units. A complete document publishes by atomic
-rename after completion-last sealing; a failed attempt remains inspectable
-without a completion marker.
-
-A production-full `extraction_id` binds the exact ordered 35-source manifest
-scope and every output-affecting parser, model, policy, schema, configuration,
-and owned-code input. A representative-pilot identity binds its exact ordered
-manifest subset and must not claim unconfigured sources. Fixture, smoke, pilot,
-transaction, document-candidate, index, resolution, and handoff identities have
-separate typed namespaces. Operational controls remain subordinate unless they
-can alter output bytes. The workflow uses plain files and bounded local
-processes rather than a scheduler service, database queue, or workflow engine.
-
-Task 03G.1's `python -m er_commons.smoke_extraction --spec PATH` is a
-deliberately separate diagnostic endpoint. It applies one deterministic
-front/middle/end page rule, runs at most three bounded Docling calls per source,
-reuses the maintained router and clean table stage, and writes only `smokev1-`
-evidence. It cannot be called by `run-document` or `run-scope`, does not weaken
-their complete-page gates, and cannot publish document, accounting, index,
-resolution, or handoff completion.
-
-The human-owned diagnostic package keeps `workflow.py` as the application
-shell. `services.py` names external and nondeterministic seams; `routing.py`
-adapts the maintained router; `source_processing.py` owns bounded conversion
-and page-state transitions; `reporting.py` owns source/run summaries and
-terminal invariants; `publication.py` owns identity evidence, attempts,
-inventory, and diagnostic-summary publication; and `records.py` names internal
-record shapes and forbidden publication roles. The checked-in smoke spec binds
-every runtime module. Diagnostic-only code changes therefore derive a new
-`smokev1-` identity without rebinding production candidates.
-
-Task 03G.1a keeps those diagnostic boundaries while repairing four maintained
-responsibilities. Warning provenance is explicitly source-, conversion-, or
-page-scoped before aggregation. Native-text routing transforms PDFium canvas
-rectangles into displayed bottom-left PDF coordinates before measuring
-coverage; an orientation-independent dense partial-sheet route may omit only
-the full-page height signal after meeting a separate minimum height and every
-other strict signal. Camelot remains primary, with checksum-pinned accurate
-TableFormer invoked only for an unmatched Heron region and required to retain
-its crop, native tokens, raw prediction, acceptance measurements, and an
-explicit accepted or abstained disposition. Cross-page continuation is an
-evidence relation over unchanged page tables; it never rewrites a page
-artifact or promotes proximity alone.
-
-The learned adapter is version-bound but separate from normal Docling
-conversion, whose table-structure option remains disabled. Its stable facade
-delegates OTSL topology, native-text ownership, logical-cell construction,
-acceptance policy, page integration, and verified model execution to separate
-typed modules. The facade is the caller contract; the implementation modules
-are independently testable and identity-bound. Accepted learned
-cells preserve logical row and column spans; rectangular CSV is a review
-projection, not the canonical topology. The structural grid comes from the
-original rectangular OTSL sequence and original predicted boxes. Native text
-is mapped through TableFormer's uncompressed `docling_responses`; the
-post-processed `num_rows` and `num_cols` counts are diagnostic matched-index
-counts and do not redefine OTSL dimensions. Predicted boxes may be clamped to
-the crop only within the explicit 3-pixel rounding tolerance. An unmatched
-native token is assigned only when its center is contained by exactly one
-structural cell; unmatched printed leading/header text forces an explicit
-abstention rather than publishing a headerless table. A top-edge-connected text
-line wholly above the structural grid is retained as crop-fringe evidence but
-excluded from table-cell coverage; this is geometric scope, not title-text
-classification. Continuation
-acceptance is passed to family assignment as one explicit evidence kind, and
-an inherited semantic header retains its source-table identity rather than
-appearing as printed target text. Geometry, fallback, and continuation are
-producer behavior and therefore alter future `prv1-` and downstream `exv1-`
-identities. Smoke-only warning accounting alters a future `smokev1-`; no
-completed artifact is rebound.
-
-Task 03G.2 generalizes the six-owner orchestration for an honest fresh build.
-The checked-in owner plan separates reviewed static policy from runtime lineage
-that cannot exist before its upstream candidate publishes. Baseline and
-hierarchy producer identities are predicted without converting PDFs; canonical
-and hierarchy-correction plans bind those fresh producer IDs. After each new
-upstream publication, the workflow writes a checksum-sealed lineage input for
-semantic materialization and then cross-reference enrichment. Those derived
-inputs bind exact candidate IDs, completion records, and inventories and enter
-downstream identity. They are not user-authored guesses and may never be filled
-from the historical Appendix P chain.
-
-All three pilot hierarchy corrections use direct `machine_validation` and the
-semantic `strict_quality_gate`; Appendix P's bounded authorization remains a
-historical Task 03E/03F control. Semantic source counts are observations, not a
-portable acceptance policy copied from Appendix P. The pilot runs with
-document concurrency one in new Task 03G.2 roots. This architecture change is
-active for offline implementation and preflight only until the user separately
-authorizes source verification and PDF/model execution.
-
-`er_commons.corpus_extraction_contract` preserves the accepted v1 offline
-validator. `er_commons.corpus_extraction_contract_v1_1` owns the corrected
-cross-record gate for exact accounting, index, resolution, and handoff evidence.
-Task 03F.3 used its accepted behavioral MVP transiently to prove exact
-equivalence of the maintained `er_commons.corpus_resolution` package, which
-uses typed stage builds,
-separate accounting/index/resolution/handoff builders, an attempt journal, an
-immutable input store, and a short application shell. After exact equivalence
-and maintainability passed, the unused MVP package and dedicated equivalence
-test were removed.
-Its separate `ScopeRunSpec` references the unchanged document run spec so
-stage-two policy cannot alter stage-one identity implicitly. Task
-03F.2 implements the manifest-driven document transaction in
-`er_commons.corpus_extraction`. Its strict run specification maps source IDs to
-reviewed content-owner configs and separate hierarchy dispositions; the CLI
-still requires `--run-spec` and `--source-id`, so no source is selected by a
-runtime literal or default. The shell derives `scopev1-`, `txv1-`, and
-`docv1-` identities, writes append-only attempt events, runs one document in a
-child process, imports the verified final content candidate, and publishes a
-completion-last checksum-closed document candidate. Attempt and observability
-records remain outside the immutable candidate, and exact reuse rejects
-partial, stale, conflicting, missing, or extra files. The stage-two shell
-continues after a verified terminal source failure, then publishes accounting,
-index, resolution, and handoff independently. Semantic builders do not own
-filesystem lifecycle; `StagePublisher` and its `AttemptJournal` own
-completion-last publication, reuse, and recovery. Its CLI requires an explicit
-`extraction run-scope --run-spec PATH`; no production source scope is implicit.
-
-The stage-one implementation is organized around human ownership boundaries:
-
-```text
-workflow
-  -> preflight -> candidate reuse
-  -> attempt session -> isolated content owners
-  -> publication or retained failure
-```
-
-`workflow.py` is only the application sequence. `preflight.py` selects and
-validates one document run; `attempts.py` owns numbering and interruption
-recovery; `candidates.py` owns identity and reuse; and `publication.py` owns
-the success/failure boundary. `content_owners.py` is similarly only the six
-content-stage sequence. Its configuration and source checks, completion and
-hierarchy authorization checks, and warning/status observations live in
-`owner_inputs.py`, `owner_validation.py`, and `owner_observations.py`.
-Operational limits and records live in `observability.py`; child-process
-mechanics stay in `process.py`. Public `WorkflowHooks` expose only the two
-durability crash windows needed by tests, without making private orchestration
-details part of the test contract.
+The completed Task 03A through Task 03J records preserve implementation detail,
+negative experiments, identities, and validation evidence. They are the source
+of truth for historical reconstruction, not current entry-point instructions.
+Use the active task and the versioned specifications for new work; do not copy
+old task-era package names, commands, or artifact roots into a current contract.

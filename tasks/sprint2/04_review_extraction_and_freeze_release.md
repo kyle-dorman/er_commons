@@ -37,19 +37,21 @@ only be specified from the resulting Task 03J handoff.
 ## Inputs
 
 - the immutable Task 02 source release and all 35 source identities;
-- the current retained Task 03H evidence root
-  `pipelines/brisbane_baylands/task_03h_clean_full_v3/`, including successful, partial, failed, retried,
-  and incomplete document attempts; available canonical records; warnings;
-  tables and table families; mappings; source PDFs; and render recipes;
+- the historical Task 03H evidence root
+  `pipelines/brisbane_baylands/task_03h_clean_full_v3/`, as it existed during
+  the first pass, including successful, partial, failed, retried, and
+  incomplete document attempts; available canonical records; warnings; tables
+  and table families; mappings; source PDFs; and render recipes;
 - the completed Task 03H outcome and accepted Task 03 contracts;
 - the existing candidate-neutral `human_review_support` selection and
   generated-render manifest concepts;
 - user observations discussed in Codex during the first-pass review;
 
-Task 03H is intentionally an incomplete diagnostic backing dataset. Missing or
-failed publication is review evidence, not permission to fabricate a canonical
-ID or describe Task 03H as the accepted corpus. Task 03H artifacts remain
-immutable and are ineligible for Task 03J reuse.
+Task 03H was intentionally an incomplete diagnostic backing dataset. Missing or
+failed publication was review evidence, not permission to fabricate a canonical
+ID or describe Task 03H as the accepted corpus. The superseded Task 03H tree
+was removed after Task 03J closure; its first-pass review records remain
+historical evidence and are ineligible for Task 03J reuse.
 
 ## Outputs
 
@@ -244,7 +246,7 @@ evidence without letting repetition dominate the review.
 The table cap is six selected tables from the main report, plus the two largest
 multi-page table families from each available appendix document. If a document
 has fewer than two qualifying families, select all of its qualifying families;
-if it has none, create no table item for that document. The current retained
+if it has none, create no table item for that document. The first-pass retained
 population therefore forecasts 6 main-report items plus 34 appendix items,
 for 40 table items. Warning triggers annotate these items where possible; an
 additional table item requires a separately approved extension to this cap.

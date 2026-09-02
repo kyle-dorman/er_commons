@@ -2,526 +2,64 @@
 
 ## Sprint status
 
-Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
+Sprint 2, Brisbane Draft-EIR defense vertical slice, is active. Task 02 and all
+Task 03 work are complete. Task 04 and Task 03I are complete as the first-pass
+review and its bounded extraction disposition. Task 03J is complete as the
+fresh machine-only 35-source candidate and collection handoff.
 
-Current routing: [Task
-03H](../tasks/sprint2/03h_run_full_canonical_extraction.md), [Task
-04](../tasks/sprint2/04_review_extraction_and_freeze_release.md), and [Task
-03I](../tasks/sprint2/03i_remediate_task04_review_findings.md) are complete as
-the first all-source attempt, first-pass review, and accepted remediation. [Task
-03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) is complete under
-fresh production identity `exv1-6913f56b...009a773`: all 35 sources and 48,341
-pages published with zero failures. Its validated collection scope is
-`scopev1-bd4b7ca8...19e893`, and ready handoff
-`handoffv1-44d510d5...102325` retains `task04_status: not_evaluated`. Provisional [Task
-04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) will use that
-completed handoff to define and generate a new review dataset, perform rechecks,
-perform a complete machine-detectable TOC candidate review, record usability, and
-make the initial release-freeze decision. Conditional [Task
-04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) activates
-only if Task 04A approves a material TOC/navigation extraction finding; it then
-owns the bounded repair, fresh canonical-and-linking replay, and new human
-recheck. Both provisional contracts require their exact upstream handoffs before
-activation. No Task 03H production artifact is eligible for Task 04A or Task 04B
-reuse. Superseded Task 03H and earlier pilot artifact trees were removed after
-Task 03J closure; compact tracked contracts and outcomes remain historical only.
-Task 04 durable records remain under
-`pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`.
+The current handoff records `task04_status: not_evaluated`. This is the machine
+handoff field; final human usability and release status still belong to Task
+04A. The exact Task 03J identities and checksums are in its [task
+outcome](../tasks/sprint2/03j_run_final_canonical_extraction.md).
 
-Previously completed: [Task
-03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md). Its
-checksum-verified semantic v2 MVP candidate
-`exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf`
-has zero undeclared Task 03D.1 differences, all four support roles, 222
-page-label outcomes, 323 target aliases, byte-identical fresh builds, valid
-reuse, and a user-approved exact ten-page visual review. By explicit user
-direction it remains immutable reference evidence. Its human-owned replacement
-`exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
-passed the independent candidate/review equivalence gate with zero mismatches,
-dual-build reproducibility, checksum reuse, failure retention, and a 400-test
-project check. The final user-authorized maintainability pass corrected
-support-preimage reproducibility and tightened the equivalence, source-
-verification, reporting, lifecycle, ownership, and test boundaries.
+## Next action: Task 04A
 
-Most recently completed: [Task
-03E.5](../tasks/sprint2/03e5_pilot_cross_references.md). Gate A and Gate B were
-explicitly approved before the behavioral MVP. Reference candidate
-`exv1-e3e81078dfb21b3d0718cd935004077e163dffc180bbc3d80f4a54391caa67f6`
-preserves all 323 upstream aliases, adds 11 verified table aliases, and
-materializes 300 exact-span mentions.
-Exact target-side table labels may support a table alias under a
-same-page/single-table rule. Table mentions then consider exact verified targets
-only within five physical pages; multiple targets remain ambiguous and
-qualified external-reference forms remain unresolved. Proximity alone cannot
-create a target. Current v3
-authorizes zero derived figure aliases. By user decision, the OCR-free first
-pass detects but does not link figure mentions and reports seven unresolved
-figure mentions for later impact evaluation. The original human rewrite had
-261 resolved, 38 unresolved, and one ambiguous record, but a user audit found
-five incorrect resolved section links. Pattern-policy v2 now excludes complete
-reference sections structurally, rejects author-year bibliography entries,
-retains `of this Agreement`, and routes named external-section and low-numbered
-statutory qualifiers to diagnostics. Its corrected candidate has 256 resolved,
-35 unresolved, and one ambiguous record. Any future OCR or figure-linking
-support requires a separately reviewed contract revision. No external parsing
-dependency or full-corpus scan was added. Accepted corrected candidate
-`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
-has eight policy-explained removals, zero additions, zero changed shared
-mentions, and 17 exactly preserved paths relative to the prior human rewrite.
-Its generic named-EIR rule,
-typed policy/domain model, checksum-bound corpus catalog, responsibility-owned
-modules, dual-build reproducibility, and checksum reuse passed the separate
-human-maintainability gate. The user accepted two source-authored appendix-link
-inconsistencies as bounded first-pass noise to handle at query time rather than
-through document-specific extraction exceptions. Task 03E.5 is closed.
+[Task 04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) is
+provisional, inactive, and unblocked. Before activation:
 
-Previously completed: [Task
-03E](../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md). Its producer
-and repeatability gates passed, but the user rejected Docling's maintained
-defaults as the sole hierarchy policy because known false headings remained, a
-visible subheading remained plain text, and unsupported style fallback produced
-poor depths. The immutable candidate remains evaluation evidence.
+- revise Gate A from the validated Task 03J handoff;
+- bind a new review identity to the exact Task 03J inputs and reject stale Task
+  03H anchors and artifacts;
+- freeze deterministic selection, recheck, TOC-census, and review policies;
+- extend and qualify the existing review generator with its explicit
+  `task03j_final` mode; and
+- present the review workload and approval boundary before source-PDF reads or
+  review renders.
 
-Previously completed: [Task
-03D.1](../tasks/sprint2/03d1_rewrite_canonical_materializer.md). It replaced
-the Task 03D MVP's monolithic record builder with typed,
-responsibility-specific modules and passed an independent 57-path
-semantic-equivalence gate with zero mismatches. [Task
-03C](../tasks/sprint2/03c_build_single_document_conversion.md). It converted
-all 222 physical pages of Appendix P, saved 27 figure assets, routed 33 pages
-through the complete clean table stage, produced 19 logical tables and 19
-complete-document families, and atomically published a checksum-verified
-task-scoped producer run. Fourteen routed pages have explicit zero-table
-mappings, and the run is `complete_with_warnings`.
+During the active pass, Task 04A will recheck applicable Task 03I findings,
+review fresh risk samples, review every machine-detectable TOC or document-index
+candidate, record source usability, and either publish the release-freeze
+record or stop with an approved remediation handoff.
 
-Earlier completed: [Task
-03A.15](../tasks/sprint2/03a15_rewrite_document_parser_pipeline.md) replaced
-the document-parser proof of concept, disabled TableFormer, and integrated the
-content router with the complete clean table pipeline. The final ten-page v4
-run had zero errors, matched every non-table range, produced the two expected
-table routes, preserved cleanup/footer/family behavior, and reduced measured
-Docling range time from 112.03 to 9.30 seconds. [Task
-03A.14](../tasks/sprint2/03a14_run_first_600_table_pipeline.md) completed the
-user-approved first-600-page validation of the clean unified table parser in
-19.66 minutes. It produced 681 logical tables and exactly matched the ten
-reviewed page/table regressions.
-[Task 03A.13](../tasks/sprint2/03a13_unify_table_environment.md) moved the clean
-table parser into one main uv environment and reproduced all stable Task
-03A.12 outputs exactly on the ten-page sample. Tasks 03A.14-03A.15 subsequently
-accepted that implementation.
-[Task
-03A.12](../tasks/sprint2/03a12_rewrite_table_pipeline.md) completed a clean
-table-stage draft and ten-page mixed-route test. It produced 89 logical tables,
-passed the full 72-test project check, and was accepted through the later
-reproduction and integration tasks. [Task
-03A.11](../tasks/sprint2/03a11_test_complex_page_segmentation.md) completed the
-fixed-parameter test on physical Appendix G3 pages 19, 273, and 592. It found
-4, 4, and 35 logical tables respectively, parsed every ruling-derived region,
-and was accepted through Task 03A.12. [Task
-03A.10](../tasks/sprint2/03a10_detect_complex_page_tables.md) automatically
-detected and parsed 34 ruled regions plus one unexplained borderless region on
-physical page 527.
-[Task
-03A.9](../tasks/sprint2/03a9_build_footer_aware_table_families.md) completed
-the footer-aware native pass. Four exact worksheet runs cover 582 pages, each
-footer belongs only to the last parser table on its page, and footer cleanup
-reduces the review-only proposal to 37 families. Page 527 table 2 through page
-591 is one 65-page run.
-[Task
-03A.8](../tasks/sprint2/03a8_cascade_cached_header_evidence.md) completed the
-cached cascade. Exact native header matrices passed 130 of 161 boundaries,
-recovering 60 beyond Task 03A.7 and reducing the review-only proposal to 62
-families. TableFormer uniquely added no passing boundary; no parser, renderer,
-or learned model reran.
-[Task
-03A.7](../tasks/sprint2/03a7_merge_table_families_with_tableformer.md)
-completed the first-600-page TableFormer edge pass. All 241 deduplicated crops
-and predictions succeeded. Exact non-empty nested headers merged 70 of 161
-eligible boundaries, reducing the review-only proposal from 192 to 122
-families without rerunning the fast parser.
-[Task
-03A.6](../tasks/sprint2/03a6_compare_nested_header_labels.md) completed the
-exact nested-label comparison. All four pages match, supporting a proposed
-merge of families 0014-0016 into pages 22-46 without leaf detection, spans,
-geometry, or a model rerun. The Task 03A.4 list remains historical exploratory
-evidence. [Task
-03A.5](../tasks/sprint2/03a5_test_tableformer_boundary_merge.md) completed the
-four-crop TableFormer test at the page 29/30 and 31/32 boundaries. Inference
-was fast and coarse shapes matched, but exact grouped-header spans differed at
-both boundaries, so the merge result is inconclusive and the Task 03A.4 list
-remains unchanged. [Task
-03A.4](../tasks/sprint2/03a4_pilot_contiguous_table_families.md) completed the
-fast-parser family pilot for G3 pages 1-600. Its unaccepted 192-family proposal
-is retained as exploratory evidence and was superseded by the footer-aware
-clean pipeline. [Task
-03A.3](../tasks/sprint2/03a3_classify_numeric_table_pages.md) completed the
-partial numeric-table classification without overwriting Task 03A.2. It
-classified 6,067 of 6,104 G3 pages as fast-route candidates, left 37
-general-path candidates, and preserved pages 525-526 as a reviewed run
-distinct from page 527. [Task
-03A.2](../tasks/sprint2/03a2_classify_table_dominant_pages.md) classified all
-6,104 Appendix G3 pages in 129 seconds and identified 4,408 table-dominant
-pages as conservative fast-route candidates. [Task
-03A.1](../tasks/sprint2/03a1_validate_table_extraction.md) completed the
-fast-table and accelerator comparison, found a provisional Lattice/Stream
-split, and rejected MPS.
-[Task 03A](../tasks/sprint2/03a_validate_document_parser.md) completed the
-native-only parser pilot and accepted the revised PyPdfium2-backed Docling
-candidate. [Task
-02](../tasks/sprint2/02_freeze_sources_and_provenance.md) froze and verified
-`brisbane_baylands_2025_deir_sources_v1` under the external artifact root.
+## Conditional follow-up
 
-Tasks 03E.2d through 03E.5 are complete. Task 03F is a four-part umbrella.
-[Task
-03F.1](../tasks/sprint2/03f1_define_restartable_extraction_contract.md) is
-complete with its Gate A inventory and Gate B contract explicitly accepted.
-[Task 03F.2](../tasks/sprint2/03f2_generalize_restartable_document_stage.md) is
-complete. Its human-owned replacement preserves the accepted restartable
-behavior and exact offline Appendix P evidence and passes the separate
-maintainability gate. Task 03F.3 Gate A is complete with a validated v1.1
-executable-contract corrigendum. Its Gate B synthetic runtime served as a
-transient rewrite oracle. Task 03F.3 is complete after the human-owned
-replacement passed exact fixed-evidence artifact equivalence and substantive
-maintainability checks; the unused MVP package, equivalence test, and retained
-identity copy were then removed. A later user-authorized Appendix P Task 03F.4
-attempt found stale inter-stage IDs and candidate-bound authorization evidence.
-After fail-fast lineage validation and candidate-neutral review, the user
-approved the exact candidate rebind. The refreshed hierarchy, semantic, and
-cross-reference chain now verifies, and the 222-page document transaction
-completed as `docv1-c7160cd...188fb0` with checksum reuse verified.
-[Task
-03E.0](../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md) completed the
-behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
-159-artifact comparisons exactly.
+[Task 04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) is
+inactive. Activate it only from a completed Task 04A stop record containing an
+approved TOC/navigation finding and checksummed `task04b_handoff.json`. If Task
+04A freezes the release without such a finding, close Task 04B as a no-op.
 
-## Open queue
+## Later sequence
 
-1. Task 03F.4 is complete and accepted. Fail-fast lineage validation now runs
-   before attempt allocation; refreshed production identity
-   `exv1-1bd71e02...c1fcc4` completed Appendix P as
-   `docv1-532b14da...8df40`. The hierarchy authorization remains bounded to
-   Appendix P.
-2. [Task 03G](../tasks/sprint2/03g_run_representative_extraction_pilot.md) remains an
-   open historical umbrella for its completed pilot subtasks; it does not block
-   Task 04. [Task
-   03G.1](../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md) is complete
-   and accepted as an MVP diagnostic: all 342 requested pages across 35 sources
-   have terminal outcomes, all sources were inspected, and the separate
-   human-maintainability rewrite passed preservation and project validation. It
-   published no complete-document or corpus candidate.
-3. Completed and accepted [Task
-   03G.1a](../tasks/sprint2/03g1a_remediate_smoke_extraction_failures.md) owns
-   the four user-selected improvements: warning scope/accounting, rotated-page
-   routing geometry, bounded learned fallback for credible zero-output table
-   regions, and cross-page continuation recovery. The user activated it as one
-   end-to-end remediation on 2026-08-04, including bounded affected-page
-   PDF/TableFormer validation. Behavioral implementation, the checksum-closed
-   bounded regression, the user-requested OTSL reevaluation, and the separate
-   human-maintainability rewrite are complete: warning scope
-   and routing controls pass, learned fallback recovered 14 of 17 positive
-   pages with 26 accepted regions, and the three original positive/one negative
-   continuation boundaries still match expectations. One newly evaluable K1
-   part 3 continuation also accepts; four K1 boundaries remain ambiguous and
-   one is not evaluable because its edge page has no accepted table. The fresh
-   v7 run exactly preserves all 35 fallback attempts and every persisted
-   continuation decision after the responsibility split.
-   The refreshed non-executed production recipe is
-   `exv1-a0908c8f...5adee`. The user accepted the behavioral and
-   human-maintainability outcome on 2026-08-05. No full smoke rerun or
-   complete-document/corpus candidate was produced.
-4. Completed remediation [Task
-   03G.2a](../tasks/sprint2/03g2a_remediate_main_table_boundaries.md) fixed and
-   validated the hard split, genuine continuation, and repeated header-only
-   fragment regimes. The refreshed 2,092-page main baseline and hierarchy
-   producers sealed, but canonical materialization failed twice because 24
-   Docling `document_index` regions became logical tables and suppressed 7,092
-   required descendant text blocks. Completed [Task
-   03G.2b](../tasks/sprint2/03g2b_preserve_document_index_text.md) derived the
-   filtered canonical table view, checksum-reused both main producers, and
-   completed the main document through all six owners. The resumed scope then
-   exposed two source-general failures. Completed [Task
-   03G.2c](../tasks/sprint2/03g2c_remediate_cross_source_geometry_and_alignment.md)
-   completed the source-general geometry and alignment repair, all six fresh
-   producers, all downstream content owners, the three document candidates,
-   and exact scope accounting. Completed [Task
-   03G.2d](../tasks/sprint2/03g2d_seal_complete_target_streams.md) exposed all
-   five sealed semantic target streams, published the ready handoff, and proved
-   exact reuse. Completed [Task
-   03G.2e](../tasks/sprint2/03g2e_repair_pilot_report_page_labels.md) repaired
-   the review-only page-label observation path and published the aggregate
-   report plus a checksummed request-only render recipe with no renders.
-   Review then found that the valid sealed corpus-resolution candidate had
-   zero eligible mentions and zero rows: at least 8 main-report references to
-   Appendix D and 10 to Appendix P never crossed the local/corpus boundary.
-   Completed [Task
-   03G.2f](../tasks/sprint2/03g2f_repair_cross_document_resolution.md) delivered
-   the downstream-only shared source-family catalog and resolver repair,
-   together with the approved five- to ten-physical-page exact-table window.
-   It reused every checksum-valid completion through semantic materialization
-   without rerunning PDF, model, parser, producer, canonical, hierarchy, or
-   semantic work. The subsequent offline human-ownership refactor replaced
-   the monolithic runner with a 45-line CLI and typed responsibility-owned
-   replay, audit, inventory, and validation modules. Stable diagnostic codes,
-   module/function size gates, and direct pure-behavior tests now pass in the
-   520-test project gate. The maintained bounded replay then published scope
-   `scopev1-c52b...beb6a8`, resolved all 18 eligible mentions, passed
-   independent handoff/report/request validation and exact reuse, and changed
-   no forbidden attempt inventory. No upstream content owner or document
-   attempt ran. [Task
-   03G.2](../tasks/sprint2/03g2_run_three_document_full_pilot.md)
-   is complete and accepted: all 18 eligible mentions resolved, the ten-page table replay
-   matched every exact expectation, the handoff/report validate, and identical
-   invocation reused exact bytes without upstream or document attempts.
-   The maintained execution reproduced the accepted report metrics and closed
-   both Task 03G.2 and Task 03G.2f.
-   Historical Appendix P lineage remains forbidden.
-5. [Task
-   03G.3](../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md)
-   Gate B's behavioral MVP is implemented and offline-validated. The maintained packages, CLI,
-   strict v2 workflow contracts, tests, reporting split, and current docs now use
-   the accepted responsibility vocabulary; all 270 frozen Task 03G.2 control files
-   reverified byte-for-byte. The separate human-maintainability pass replaced the
-   legacy-backed v2 runtime, split mixed-responsibility application paths, added typed
-   recovery and artifact boundaries, made journals/JSONL atomic, and added contextual
-   corruption/recovery tests. The complete gate passes 595 tests and strict mypy
-   across 287 source files; all 270 controls still match exactly. The user accepted
-   the result and closed Task 03G.3 on 2026-08-18. No source-PDF/model run or
-   accepted-artifact mutation occurred.
-6. Completed [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) was reactivated by
-   user direction on 2026-08-19. Clean source-free preparation completed, and the
-   user approved a fresh `deir_main` run. The implementation separates a
-   completion-last `dconv1-` conversion bundle from the derived `prv1-` producer,
-   verifies full page accounting and exact managed bytes before consumption, and
-   checksum-reuses conversion before constructing Docling. Offline tests cover
-   routing-only invalidation, interruption/resume, corruption rejection, and single
-   failure accounting. The exact production-full v2 specification set is now prepared:
-   35 ordered sources, 210 unique process configs, a complete family catalog, and a
-   native-v2 production identity. The historical source/model-free readiness record
-   reported no existing Task 03H completion markers before the first wave. The user
-   approved that five-source wave.
-   F2, L, O, C, and E are sealed under their accepted production identity
-   `exv1-b894b665a8f4809edc9d0ceaec1628839d7e6ffd3beb7e2934c2717694625cbd`
-   and identical invocations reuse the exact document completions in under one
-   second. Four source-independent live-only defects were fixed with regression
-   coverage while preserving reusable Docling seals. C's two destinationless
-   grouping bookmarks now bind only through the user-authorized, fail-closed fuzzy
-   appendix-identifier rule and record explicit diagnostics for pages 52 and 81.
-   E's verified picture caption now follows the written R08-content rule even when
-   it intersects a detected TOC region. The memory-safe K2 part 5 repair advanced
-   the current production identity to
-   `exv1-b1a340675b1a871baa3a17732df4a5649df9dd4973671373ba9f7ddb20644b28`
-   and passed Ruff, strict mypy across 290 source files, and all 618 tests. Both
-   2,328-page K2 Docling conversions and both 1,819-table producers are sealed.
-   Subsequent mapping and hierarchy work exposed a source-general scaling failure:
-   corrected mapping took 31.3 minutes, hierarchy ran 94.7 minutes before failing,
-   and an over-broad identity change caused a separate 93.8-minute producer rebuild.
-   Each raw view contains a 1.47 GB document plus a 22.51 GB conversion-page record,
-   and those bytes are repeated across derived views. The user stopped K2; no
-   collection work has started.
-7. [Task
-   03H.1](../tasks/sprint2/03h1_profile_and_repair_full_document_scaling.md)
-   completed Gate B implementation and K2 validation plus the Gate C human-ownership
-   refactor, deterministic identity refresh, full repository gate, and independent
-   cross-owner recovery review. The user approved the reviewed scope and closed the
-   task on 2026-08-19. It
-   explains the 24 GB view,
-   eliminates quadratic-like heading alignment and
-   duplicate feature construction, stops physical raw-payload amplification and
-   unrelated invalidation, adds substage telemetry, and meets explicit sealed-evidence
-   time, memory, and storage budgets.
-   It may inspect and replay existing sealed evidence but may not run a PDF/model,
-   delete retained attempts, resume another source, or assemble the collection
-   without a new user approval after its offline gate passes. Gate A is now measured:
-   the source-free ledger found 166.24 GB across 16 large K2 JSON paths and 94.47 GB
-   of checksum-known duplicate logical bytes. Exact event digests prove the global
-   assembled section repeats the page-owned sequences, and semantic comparison proves
-   the two 10,678-file table trees differ only in configuration identity and recorded
-   durations. A provisional page-oriented JSON alignment projection is 26.18 MB,
-   860 times smaller than its 22.51 GB source, builds in 84.8 seconds, and reads in
-   0.124 seconds. JSON remains the default candidate, not an accepted format choice.
-   The user accepted the Gate B plan with three explicit boundaries: this MVP keeps
-   one clean current schema and no maintained backward compatibility; valid Docling
-   evidence remains immutable while regenerated downstream bundles replace historical
-   work; and Gate B must stop after control/K2 validation before any 35-source run,
-   collection work, or deletion. Any test whose elapsed time or stable ETA breaches
-   the existing 30-minute stage, 60-minute downstream, 16-GiB RSS, or synthetic
-   scaling budget must stop safely for problem/solution review rather than continue
-   to an hours-long failure. The selected JSON-first repair now stores one common
-   conversion, a 470 KB heading overlay, and a 26.31 MB page-alignment JSONL stream;
-   derived stages use closed references rather than 24 GB copies. The final K2 mapping
-   candidate `exv1-1fb6bf9e...3883a31` completed in 497.23 seconds at 10.80 GB peak
-   RSS, reduced managed output from 5.128 GB/3,655 files to 1.208 GB/18 files with
-   identical declared semantic projections, and exact-reused in 6.66 seconds at
-   159 MB without parsing the 1.47 GB document. The full K2 hierarchy then sealed in
-   1,021.78 seconds at 14,731,198,464 bytes peak RSS with zero swaps; its 3.6 GiB
-   bundle replaces the former approximately 24 GB view. Ordinary completion-seal
-   reuse fast-validated in 0.68 seconds without opening semantic payloads, while the
-   audit-only command retains exact full-byte verification. Candidate assembly now
-   reports processed/total units, throughput, and ETA. Deterministic Task 03H
-   generation, Ruff, strict mypy across 316 source files, all 732 tests, and
-   `git diff --check` pass. The final independent review reports no P0 or P1 finding.
-   No other source, collection assembly, deletion, or Docling rerun was required for
-   Task 03H.1 closure. At that checkpoint, Task 03H prepared a clean run from the first ordered source
-   rather than continuing a historical remaining-source queue. By user decision on
-   2026-08-19, it will not reuse historical Docling runs; new-run restart reuse begins
-   only after each source has produced a fresh seal in the isolated namespace. The
-   main report sealed its fresh 2,092-page conversion, shared routing/table producer,
-   record mapping, and hierarchy evidence within all resource budgets, but document
-   structure initially treated the shared producer's legacy base-view annotation as
-   the hierarchy consumer role. The automatic retry reused all sealed stages and
-   reproduced the failure without a model call. The user approved a bounded repair
-   and resume on 2026-08-19. Base and heading are now explicit consumer selections,
-   so the one clean conversion and shared routing/table bundle remain reusable. The
-   focused regressions, deterministic generation, Ruff, strict mypy across 316 source
-   files, all 733 tests, and `git diff --check` pass. Resume the retained `deir_main`
-   transaction, then continue the exact serial source order unless a major blocker
-   appears. The current production identity is `exv1-66de7f37...df405`. The repaired
-   main report published as `docv1-aea7f7e...69543`. Appendix A subsequently sealed
-   its fresh 514-page conversion, shared producer, and record mapping, then failed
-   twice at hierarchy validation because R05's validator rejects the documented
-   terminal-ambiguity result for an unsupported numbering jump. No Appendix B or later
-   source started. Visual inspection proved A-3 is a peer heading to A-2, while
-   unrelated numbered required-standards rows polluted the predecessor check. The user
-   approved a source-independent peer-numbering repair: multi-part decimal headings
-   prefer the nearest same-depth, same-parent-prefix peer, and genuine numbering jumps
-   retain their validated ambiguity branch. The live Appendix A semantic result now
-   keeps A-3 as an applied level-5 heading. Deterministic generation, Ruff, strict mypy
-   across 316 source files, all 735 tests, and `git diff --check` pass under identity
-   `exv1-f0c129ad...df66d7`. Resume Appendix A from its sealed conversion, producer,
-   and mapping artifacts without rerunning Docling, then continue serially.
-   The resumed hierarchy then reached document structure and exposed seven real
-   `6.5.2.2.x` headings at corrected level 7, beyond the semantic contract's level-6
-   maximum. The user approved clipping inferred levels to 6. The hierarchy policy and
-   schema now share that maximum, and an Appendix A-shaped regression preserves the
-   fifth-depth items as applied headings. The current production identity is
-   `exv1-1027d4c6...ccd3d84`. Resume Appendix A from sealed upstream artifacts, then
-   continue serially unless another major blocker appears.
-   Appendix A published all 514 pages as `docv1-7c030772...e64bc`. Appendix B then
-   sealed its fresh 258-page conversion `dconv1-427645ba...b6ffc`, shared producer
-   `prv1-6b4a7297...1653`, and record mapping, but both hierarchy attempts fail on a
-   destinationless `TRT.pdf` bookmark that owns three valid child bookmarks. Eight
-   other destinationless filename groups occur in the same outline. The current
-   visible-title recovery correctly refuses to invent a heading because the filename
-   is absent from the adjacent pages. The user approved the bounded transparent
-   filename-container rule. It preserves appendix/numeric recovery candidates and
-   rejects empty, invalid, or unordered folders; actual Appendix B inspection records
-   exactly nine omissions and retains 63 outline nodes. The full 740-test gate passes
-   under identity `exv1-fb4f9bb9...8c6b68`. Resume Appendix B from sealed upstream
-   artifacts, then continue serially unless another major blocker appears.
-   Appendix B published as `docv1-46bf7426...1624`, and Appendices C through F2 also
-   published serially. Appendix G1 completed all 2,488 pages of clean content parsing,
-   sealed `prv1-159379eb...1b74`, and sealed record mapping after all 2,076 routed
-   table pages completed. Both hierarchy attempts fail before traversal on a malformed
-   raw `Appendix_071024.pdf` destination array `[null, 0.0, 0.0, 1]`. The node's ten
-   children include two invalid destinations, so the approved bounded Appendix B rule
-   cannot flatten it. Pause before Appendix G2 and review a distinct tolerant-outline
-   rule while reusing Appendix G1's sealed upstream work.
-   The user approved dropping only the two invalid children of
-   `Appendix_071024.pdf`, but the first tolerant live traversal revealed an earlier
-   destinationless `Binder4.pdf` tree hidden by pypdf's original crash. Its Building
-   group has one invalid and 29 valid child bookmarks; its Sustainability group and
-   all nine children are invalid, though later bookmarks and visible headings duplicate
-   most semantic boundaries. Treat this nested subtree as a new major blocker rather
-   than silently broadening the approved two-leaf omission.
-   The user approved the expanded cleanup and deduplication on 2026-08-20. The bounded
-   in-memory adapter now exhausts all five invalid G1 parents, retains 162 outline
-   observations, preserves 66 ordered Binder descendants and eight later Sustainability
-   bookmarks, removes only broken duplicate or missing-target navigation evidence, and
-   records ten diagnostics. Same-titled valid bookmarks on different pages remain
-   distinct. The full 743-test gate passes under identity `exv1-cf068567...442d3`.
-   G1 then published as `docv1-54e6036f...c9fdef`. G2's first clean 3,736-page Docling
-   attempt ran 14,940.61 seconds, peaked at 13,907,099,648 bytes RSS, and was killed
-   during system-wide memory pressure before conversion sealing or table extraction.
-   Its automatic retry was stopped near the start rather than risk repeating the same
-   four-hour loss.
-7. Completed [Task
-   03H.2](../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md)
-   landed the source-neutral restartable chunked Docling production path, validated
-   against G1. Twelve
-   independently sealed document-driven ranges resumed without recomputing a retained
-   child, aggregate `dconv1-08a9a7...a2a25b` reproduced the four stable monolithic
-   outputs byte for byte, and the isolated downstream path closed semantically. The
-   accepted one-worker setting is grounded in measured 7.17 GB range and 8.89 GB
-   aggregate peaks; projected two-worker memory exceeds the 10 GiB concurrent ceiling.
-   Human-ownership review established named package owners, strict recovery and
-   lineage checks, and verified immutable evidence. No Gate D or G2
-   rehearsal remains. At that checkpoint, [Task
-   03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is prepared for a
-   distinct v3 clean run to process all 35 sources from scratch under
-   `pipelines/brisbane_baylands/task_03h_clean_full_v3/`. Preserve the v2 and earlier
-   historical trees as evidence, but do not reuse or reference any of their completed
-   work. The generated v3 production identity is
-   `exv1-8843a1278c820d7b4b9cc2e04d80685ddb03897166a55c2520530604d70ef6d3`.
-   The v3 source order is shortest-to-longest by physical page count, then source ID;
-   explicit user approval remains required before any PDF/model command. The following
-   paragraphs retain historical v2 execution evidence for audit; they are not the
-   current run plan and are not eligible inputs to v3.
-   Source-free activation is complete. It repaired the readiness owner's stale v1
-   completion scan, verified the v2 root absent before staging, and prepared the v2
-   catalog/readiness record, exact source order, chunk selections, resource policy,
-   duration forecast, collection target, and stop/resume behavior. The user approved
-   the fresh main checkpoint. All ten main ranges
-   sealed within resource bounds, but the aggregate publisher failed on the genuinely
-   empty v2 root because the `docling_conversions` parent did not yet exist. Its retry
-   reused all ten ranges without new Docling/model calls and failed identically. Task
-   03H is paused for an explicitly authorized aggregate-publication repair; Appendix A
-   has not started. The user authorized that repair; parent-safe staging passed the
-   full gate, and the resumed run reused all ten ranges without Docling calls, sealed
-   the aggregate, and published the derived producer. Record mapping then failed on a
-   relative-path contract mismatch: all 274 figure crops exist and verify, but their
-   inventory paths omit the conversion-root-relative `documents/deir_main/` prefix.
-   Task 03H was paused for a reviewed aggregate-only asset-path repair and downstream
-   integration regression. Appendix A has not started.
-   The user authorized that repair. Aggregate asset records now use the exact
-   conversion-root-relative path consumed by record mapping, and one shared fixture
-   locks the producer/consumer convention. Full offline validation passed. Main then
-   reused all ten ranges with zero Docling calls, published end to end, and passed its
-   mandatory identical reuse checkpoint in 0.88 seconds. Appendices A through F2 also
-   published serially, giving eight ordered v2 terminal documents. Appendix G1 then
-   completed under the regenerated identity as a ninth ordered v2 terminal document
-   after all twelve ranges and downstream stages succeeded. G2 began fresh conversion,
-   but its first range exceeded the unchanged 8 GiB range RSS guard twice: 8,596,865,024
-   bytes, then 8,590,131,200 bytes against 8,589,934,592. No G2 range seal or later
-   stage exists. The user authorized a corpus-wide increase of the range RSS guard to
-   16 GiB, matching the aggregate limit. Configs and identity were regenerated, and
-   the failed G2 first range may resume as a fresh attempt under the new policy.
-   The retry stayed below the 16 GiB RSS cap but exceeded the unchanged 512 MiB
-   swap-growth guard at 541,917,184 bytes; with only 514.44 MiB free swap afterward,
-   leave that safety guard unchanged pending recovery or explicit authorization. The
-   user then authorized increasing it corpus-wide to 1 GiB; configs and identity were
-   regenerated before retrying G2. Neither retry hit the new swap guard, but both
-   exceeded the unchanged 16 GiB range RSS cap at 17,213,833,216 and 17,204,510,720
-   bytes. A separate range-RSS increase is now required.
-   Completed [Task 03H.3](../tasks/sprint2/03h3_defer_reading_order_until_table_evidence.md)
-   implements and independently reviews the accepted 11-stage DAG: routing and
-   custom table extraction remain separate, raw range evidence is preserved, and
-   aggregate Docling reading order is deferred until after confirmed table evidence.
-   Its authorized Appendix C/O qualification, restart checks, downstream comparison,
-   and complete offline gates passed. The parent Task 03H was then paused at the
-   separate G2 range-RSS stop condition. Subsequent v3 execution and remediation are
-   preserved in the task outcome. Task 03H is now closed as the first end-to-end
-   attempt; it did not publish the final corpus candidate.
-8. Complete [Task
-   04](../tasks/sprint2/04_review_extraction_and_freeze_release.md) as the Task
-   03H-backed first-pass review and route accepted extraction findings through
-   [Task 03I](../tasks/sprint2/03i_remediate_task04_review_findings.md). Then run
-   the fresh all-source [Task
-   03J](../tasks/sprint2/03j_run_final_canonical_extraction.md). After its handoff
-   exists, revise and activate provisional [Task
-   04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) to generate
-   the Task 03J-bound review dataset, recheck findings, review every detectable
-   document-level and embedded TOC candidate, record usability, and make the
-   initial release-freeze decision. If it publishes an approved TOC/navigation
-   stop handoff, revise and activate conditional [Task
-   04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) for the
-   source-general fix, downstream replay, fresh recheck, and final freeze-or-stop
-   decision.
-9. Continue through the separately identified curator-only response inventory,
-   reference-case authoring, clustering, and benchmark freeze.
-10. Freeze human evaluation before BM25 retrieval, target generation, and judge
-   calibration; finish with the primary test and oracle diagnostics.
+After the extraction release is frozen, the remaining planned work is:
 
-Sprint 2 scope, decisions, and provisional sequencing live in
-`docs/sprints/sprint2_brisbane_draft_eir_defense.md`. The completed Task 02
-owns source-freeze implementation detail and the precise extraction handoff.
+1. [Task 05](../tasks/sprint2/05_build_curator_only_response_inventory.md): build
+   the separate Final EIR Volume 4 comment and response inventory.
+2. Task 06: pilot reference-case authoring and evidence review.
+3. Task 07: curate, cluster, split, and freeze benchmark cases.
+4. Task 08: build and freeze human evaluation.
+5. Task 09: build and freeze BM25 retrieval.
+6. Task 10: build and freeze target generation.
+7. Task 11: calibrate the automated judge.
+8. Task 12: run the locked test and close Sprint 2.
+
+These tasks remain planned. Their detailed boundaries are in the [Sprint 2
+plan](sprints/sprint2_brisbane_draft_eir_defense.md); no later task is active.
+
+## Historical routing
+
+The completed Task 03 contracts and outcomes remain in `tasks/sprint2/` as
+evidence and learning material. The first-pass Task 04 review and Task 03I
+repair explain why Task 04A is a new review run rather than a continuation.
+Superseded Task 03H and earlier pilot artifact trees are not valid inputs to
+Task 04A or Task 04B. The [documentation guide](documentation.md) defines which
+details belong in task records instead of this queue.

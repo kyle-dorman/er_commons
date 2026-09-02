@@ -1,35 +1,32 @@
-# Task 04 maintainer runbook
+# Task 04 review runbook
 
-Task 04 builds a source-bound, read-only review workspace and maintains human
-findings. It never mutates Task 03 artifacts. The canonical first-pass root is:
+Task 04's first-pass review is complete. This runbook preserves the reusable
+maintenance commands and marks the boundary for the upcoming Task 04A pass.
+The first pass used historical Task 03H diagnostic evidence; it did not accept
+that extraction.
+
+## Review-run boundaries
+
+Both passes use a separate review namespace:
 
 ```text
 $ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/
 ```
 
-## Build and monitor
+The existing `record_task04_finding.py` and
+`set_task04_finding_register_status.py` commands maintain the completed
+first-pass register only. They do not create the Task 04A usability registry or
+release-freeze record.
 
-Run from the repository root after setting `ER_COMMONS_DATA_ROOT`:
+Task 04A must allocate a new review run bound to the completed Task 03J
+candidate under `task_03h_clean_full_v4/`. Its explicit `task03j_final`
+generator mode, final Gate A contract, record writers, and exact build command
+are part of Task 04A work. Do not run the historical first-pass build command
+against the Task 03J root or reuse first-pass review IDs, anchors, renders, or
+approvals. Update this runbook with the final Task 04A command after that
+interface is implemented and accepted.
 
-```bash
-uv run python scripts/build_task04_review_bundle.py \
-  --data-root "$ER_COMMONS_DATA_ROOT" \
-  --retained-root "$ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_03h_clean_full_v3" \
-  --output-root "$ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_04_review" \
-  --log-level INFO
-```
-
-Logs identify discovery, selected/rendered pages, the review-run ID, failures, and
-the final publication path. Work is staged below `task_04_review/.tmp/`; the final
-`reviewv1-*` directory appears only after validated publication.
-
-The production build is intentionally fixed to the accepted 35-source Task 03H scope.
-Discovery verifies readiness status, ordered IDs, aggregate source/page/byte counts,
-and the staged catalog path, byte size, and SHA-256 before reading review evidence.
-`InputScopePolicy.synthetic_fixture(...)` exists only as an explicit typed seam for
-source-free tests; the production CLI exposes no scope-relaxation option.
-
-## Serve the review UI
+## Serve a completed review bundle
 
 Set the printed final path, then serve only its HTML directory:
 
@@ -40,22 +37,20 @@ uv run python -m http.server 8000 --directory "$REVIEW_ROOT/html"
 
 Open `http://localhost:8000/`. Stop the server with Ctrl-C.
 
-## Record or change a finding
+## Maintain the first-pass finding register
 
-Use `scripts/record_task04_finding.py`; do not edit JSON or checksums manually.
-The concise example is in
+Use the supported CLI after reviewing an item in `html/index.html`; do not edit
+JSON or checksums by hand. The concise example is in
 [`FINDINGS.md`](../src/er_commons/human_review_support/task04/FINDINGS.md).
-The CLI derives typed anchors and source/candidate terminal checksums from the
-selection and input inventory. Use repeatable `--table-id`, `--block-id`, or
-`--observation-id` arguments when the finding concerns exact retained objects. The IDs
-must resolve within that selected item; bbox and checksums are never entered manually.
 
-Finding identity excludes status. Re-run the same semantic finding text and class
-with a different `--status` to update it in place. Changing expected behavior,
-observed behavior, downstream consequence, class, or selected anchor semantics
-creates a different finding identity.
+The command derives typed anchors and source/candidate terminal checksums from
+the selected item. Use repeatable `--table-id`, `--block-id`, or
+`--observation-id` arguments for exact retained objects. These selectors must
+resolve within the selected item; bboxes and checksums are never entered
+manually.
 
-When all findings have terminal dispositions, approve and then close the register:
+When all first-pass findings have terminal dispositions, approve and close the
+register:
 
 ```bash
 uv run python scripts/set_task04_finding_register_status.py \
@@ -64,15 +59,14 @@ uv run python scripts/set_task04_finding_register_status.py \
   --review-root "$REVIEW_ROOT" --status closed
 ```
 
-Approval rejects pending `user_confirmed` findings. Closing requires approval. Either
-terminal overall state blocks later item edits. Both commands validate all records,
-recover any prior journal, refresh exact handoff projection/checksums, and use the same
-recoverable staged publication as finding edits. An approved empty register explicitly
-records that review produced no findings.
+Approval rejects pending `user_confirmed` findings, and closing requires
+approval. Both transitions validate records, recover a prior journal, refresh
+the Task 03I handoff projection, and publish checksummed updates. An approved
+empty register is a valid no-finding outcome.
 
-## Validate maintained code
+## Validate the existing review tooling
 
-These checks are source-free and use only synthetic fixtures:
+These checks are source-free and apply to the completed first-pass support:
 
 ```bash
 uv run ruff check src/er_commons/human_review_support/task04 \
@@ -92,9 +86,12 @@ uv run python scripts/set_task04_finding_register_status.py --help
 git diff --check
 ```
 
+Task 04A adds its own focused tests and validation to this boundary; a green
+first-pass gate does not establish Task 04A readiness.
+
 ## Retry and recovery
 
-A normal caught build failure removes its unique `.tmp` staging directory. If the
+A normal caught build failure removes its unique `.tmp` staging directory. If a
 process is killed, inspect retained staging before retrying:
 
 ```bash
@@ -102,13 +99,13 @@ find "$ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_04_review/.tmp" \
   -mindepth 1 -maxdepth 1 -type d -print
 ```
 
-A new build uses a new staging directory and does not reuse stale bytes. Preserve
-unexpected staging for diagnosis or move a confirmed stale directory to a named
-quarantine; never merge it into a final review run. An existing final review-run
-path is no-clobber and must be inspected rather than overwritten.
+A new build uses a new staging directory and does not merge stale bytes into a
+final review run. Preserve unexpected staging for diagnosis or move a confirmed
+stale directory to a named quarantine. An existing final review path is
+no-clobber and must be inspected rather than overwritten.
 
 Finding updates use `.finding-update-*` journals inside `records/`. Re-run the
-finding command after interruption. Recovery verifies old/new checksums and finishes
-the retained update before applying the requested edit. Do not delete or alter the
-journal. Multiple journals, modified targets, or damaged backups/payloads stop with
-an explicit diagnostic and require maintainer inspection.
+finding command after interruption. Recovery verifies old and new checksums and
+finishes the retained update before applying another edit. Multiple journals,
+modified targets, or damaged backups/payloads stop with an explicit diagnostic
+and require maintainer inspection.

@@ -5,7 +5,7 @@ Explicit activation and a final Gate A contract revision are still required.
 
 ## Abstract
 
-After Task 03J completes its fresh 35-source extraction, generate a new document
+With Task 03J's fresh 35-source extraction now complete, generate a new document
 review dataset bound only to the Task 03J corpus and evidence identities. Recheck
 the accepted Task 04 extraction findings against their Task 03I dispositions,
 review fresh stratified and risk-triggered evidence, and conduct a complete

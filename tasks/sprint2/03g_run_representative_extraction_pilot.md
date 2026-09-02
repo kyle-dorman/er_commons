@@ -1,11 +1,11 @@
 # Task 03G: Test Extraction Breadth and a Representative Full Pilot
 
-Status: **open historical umbrella; all subtasks through Task 03G.3 are complete
-and accepted, and this umbrella does not block Task 04**. [Task
+Status: **complete historical umbrella; all subtasks through Task 03G.3 are
+complete and accepted**. [Task
 03G.3](03g3_align_pipeline_responsibilities_and_names.md) completed its accepted
 Gate A and human-maintainability Gate B on 2026-08-18. Task 03H was subsequently
-activated and completed under its own authorization. Formal umbrella closure is
-historical housekeeping, not a prerequisite for the current queue.
+activated and completed under its own authorization. The umbrella is retained
+for historical scope and learning; it is not a current execution entry point.
 
 ## Abstract
 
@@ -15,9 +15,9 @@ pages from each of the 35 model-corpus PDFs. Task 03G.2 then runs the real
 complete two-stage workflow from fresh inputs on three full documents: the main
 Draft EIR, Appendix D, and Appendix P. If either subtask exposes a material
 failure, add the smallest remediation subtask and rerun the affected check.
-Task 03G closes only after the user accepts the smoke, full pilot, and any
-required fixes, then accepts the Task 03G.3 architecture and naming closure.
-Task 03H remains provisional until then.
+Task 03G closed after the user accepted the smoke, full pilot, required fixes,
+and Task 03G.3 architecture and naming closure. Task 03H then proceeded under
+its own contract and authorization.
 
 ## Goal
 
@@ -74,8 +74,8 @@ not add speculative failure exercises or per-document human acceptance systems.
 - Requested visual evidence stops at a checksummed render request and recipe.
   Task 03G does not have to generate or review the renders.
 - Task closure and permission to proceed are distinct. A well-documented
-  failed subtask may be complete as an experiment while Task 03G remains open
-  and Task 03H remains blocked.
+  failed subtask may be complete as an experiment; the applicable downstream
+  task still requires its own contract and authorization.
 
 ## Inputs
 

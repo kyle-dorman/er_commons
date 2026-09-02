@@ -37,8 +37,8 @@ same provenance, restartability, and canonical-artifact contracts.
 - `make bootstrap` creates only the documented entry-point directories.
 - A missing volume must fail visibly rather than redirecting work to an
   internal default.
-- The next Sprint 2 task remains source freezing; this decision does not
-  acquire or transform corpus data.
+- At the time of this decision, the next Sprint 2 task was source freezing; this
+  decision did not acquire or transform corpus data.
 
 ## Supersedes / excludes
 

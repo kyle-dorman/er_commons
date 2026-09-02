@@ -528,75 +528,21 @@ neutral question or a separate material-concerns field. The target model
 receives that scoped original comment, not the official response, curation
 model drafts, reviewed evidence summary, or reviewed reference defense.
 
-## Provisional execution sequence
+## Execution sequence
 
-Sprint 2 is current. Task 03E is completed and rejected as the sole hierarchy
-policy. Task 03E.0 completed the behavior-preserving maintainability rewrite
-of its evaluator. Task 03E.1 completed the deterministic correction contract;
-Task 03E.2 implemented the first full correction candidate attempt and rejected
-it; Task 03E.2a fixed its nested-regime exit defect; and Task 03E.2b accepted the
-human-owned implementation by exact post-03E.2a semantic equivalence. Task
-03E.2d published the complete human-owned Appendix P correction under a
-distinct bounded-acceptance record. Task 03E.3 is complete with a human-owned
-schema-major v2 contract and validator. Task 03E.4 is complete with a visually
-approved MVP reference and a human-owned replacement that passed independent
-candidate/review equivalence. Task 03E.5 is complete with accepted
-pattern-policy-v2 candidate
-`exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`.
-Task 03F is decomposed into four bounded subtasks. Task 03F.1 is complete with
-its read-only coupling/deletion inventory and Gate B contract explicitly
-accepted. Task 03F.2 is complete with an accepted behavioral MVP, exact offline
-Appendix P preservation, and a human-owned replacement. Task 03F.3 Gate A is
-complete with its validated v1.1 executable-contract corrigendum. Its synthetic
-Gate B implementation served as a transient behavioral oracle. Its human-owned
-replacement passed separate fixed-evidence equivalence and maintainability
-gates, after which the unused MVP package, equivalence test, and retained
-identity copy were removed. Task 03F.3 is closed. Task 03F.4 is complete and
-accepted after transferring active invariants, removing obsolete POC proof
-surfaces, revising hierarchy metrics to one build, and refreshing the
-non-executed production identity. Candidate-neutral
-comparison, requested-render, machine-observation, and read-only validation
-capabilities remain for Tasks 03G--04. Gate B itself ran no PDF. A later
-user-authorized Appendix P attempt exposed stale lineage and candidate-bound
-authorization inputs. Fail-fast lineage validation now runs before attempt
-allocation. After candidate-neutral review, the user approved the exact
-Appendix P rebind; the refreshed hierarchy, semantic, cross-reference, and
-222-page document candidates now verify, including checksum reuse. Task 03G
-and its accepted subtasks are closed. Task 03H was activated on 2026-08-18,
-completed its first five-source wave, and was paused during K2 part 5 on 2026-08-19
-after unacceptable full-document time, memory, storage amplification, and
-invalidation behavior. Task 03H.1 completed its source-free Gate B repair and the
-separately approved full K2 hierarchy validation on 2026-08-19: final K2 mapping
-finished in 8.29 minutes, full hierarchy sealed in 17.03 minutes below the 16 GiB
-limit, and the current compact bundles eliminate the former approximately 24 GB raw
-view. Completion-seal reuse is subsecond without reading large semantic payloads, an
-audit-only command retains exact full-byte verification. Gate C completed the
-human-ownership refactor, deterministic identity refresh, all 732 tests, strict mypy
-across 316 source files, and an independent cross-owner recovery review with no P0 or
-P1 finding. The user approved the reviewed scope and closed Task 03H.1 on 2026-08-19.
-The clean Task 03H run subsequently published the main report and Appendices A
-through G1. Appendix G2's first monolithic 3,736-page Docling conversion was killed
-after 14,940.61 seconds during system-wide memory pressure before it could seal, and
-its automatic retry was stopped near the start. Completed Task 03H.2 landed the
-source-neutral chunked-conversion production path, validated against G1. Twelve independently sealed,
-document-driven ranges resumed without recomputing a retained child; aggregate
-`dconv1-08a9a7...a2a25b` reproduced all four stable monolithic outputs byte for byte;
-and the isolated downstream path closed semantically. Measured 7.17 GB range and 8.89
-GB aggregate peaks support one worker, while projected two-worker memory exceeds the
-10 GiB concurrent ceiling. Human-ownership review established named package owners,
-strict recovery and lineage checks, and fully rehashed immutable evidence. No Gate D
-or G2 rehearsal remains. By user decision on 2026-08-20, Task 03H subsequently
-restarted all 35 sources from scratch under the distinct `task_03h_clean_full_v3`
-namespace; the earlier v1 and v2 lineages remain preserved but are ineligible for
-reuse. The current v3 evidence is diagnostic only, and source-free preparation plus
-separate user authorization preceded its PDF/model execution.
-Corpus execution,
-collection assembly, and deletion are not Task 03H.1 or source-free Task 03H.2 work. The
-numbers below are routing
-labels, not a promise
-that the sprint will contain only these tasks. Split a stage further whenever
-its contract is too large or new evidence creates a distinct decision or
-validation boundary.
+Task 02 and all Task 03 work are complete. Task 03J produced the current
+machine-only 35-source candidate and validated collection handoff. Task 04 and
+Task 03I are complete as the first-pass review and its bounded extraction
+disposition. The next task is provisional Task 04A, which must be revised from
+the Task 03J handoff before activation. Conditional Task 04B follows only if
+Task 04A produces an approved TOC/navigation remediation handoff.
+
+The task files preserve detailed outcomes, negative experiments, and identity
+history. The map below is retained as sprint scope and sequencing, not as a
+current execution diary. Split a stage further only when new evidence creates a
+distinct decision or validation boundary.
+
+### Historical task map
 
 1. **Task 02 — Freeze sources and provenance.** Inventory, acquire, checksum,
    validate, and manifest the complete Draft EIR main report, all official
