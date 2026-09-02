@@ -1,9 +1,7 @@
 # Task 04A: Regenerate the Final Review Dataset and Freeze the Release
 
-Status: **provisional; blocked on the completed Task 03J handoff**. Task 03I is
-complete. Revise this contract from the accepted Task 03J outcome before
-activation. Do not infer final identities, paths, record shapes, or checksums in
-advance.
+Status: **provisional and inactive; unblocked by the completed Task 03J handoff**.
+Explicit activation and a final Gate A contract revision are still required.
 
 ## Abstract
 
@@ -50,8 +48,23 @@ from:
   all 35 terminal source records, machine-candidate handoff, canonical manifests,
   checksums, validator results, and reproducible render inputs.
 
-The following dependencies are intentionally unresolved until Task 03J closes
-and must be recorded during Task 04A activation:
+The primary Task 03J anchors are now frozen:
+
+- production identity
+  `exv1-6913f56bed93302d7cf5ef424ee63c0b7427e90e2b2cd5c4ec483d275009a773`;
+- scope `scopev1-bd4b7ca85b299ae528376b1a6e88b9d0fdba02e4f7e8862c5fa91a28b719e893`;
+- ready handoff
+  `handoffv1-44d510d545026a427ccdb47497d30f1d46c66130291af66fc0d5883a35102325`;
+- handoff completion at
+  `pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/scopes/scopev1-bd4b7ca85b299ae528376b1a6e88b9d0fdba02e4f7e8862c5fa91a28b719e893/handoffs/handoffv1-44d510d545026a427ccdb47497d30f1d46c66130291af66fc0d5883a35102325/records/completion_record.json`,
+  SHA-256
+  `8bd72f2712a20de5aa865575566e4d5b187d7fccc02ba02dd0f92d87bf04117a`;
+  and
+- validator result: 35 verified documents, ready status, and
+  `task04_status: not_evaluated`.
+
+The following candidate-level dependencies must still be recorded during Task
+04A activation from that validated handoff:
 
 - the exact Task 03J corpus, candidate, source, attempt, and implementation
   identities;

@@ -690,10 +690,11 @@ validation boundary.
      accepted extraction findings from the intervening Task 04 review, including a
      valid no-op outcome; its first repair, committed disposition, and independent
      maintainability gate are complete; and
-   - provisional [Task
-     03J](../../tasks/sprint2/03j_run_final_canonical_extraction.md): rerun all 35
-     sources under a fresh namespace and identity and publish the final machine
-     candidate and accounting handoff for Task 04A; and
+   - completed [Task
+     03J](../../tasks/sprint2/03j_run_final_canonical_extraction.md): published all
+     35 sources and 48,341 pages with zero failures under fresh production identity
+     `exv1-6913f56b...009a773`, then published and validated ready handoff
+     `handoffv1-44d510d5...102325` for Task 04A; and
    - completed [Task
      03H.2](../../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md):
      proved and productionized independently sealed, deterministic, fixed-size
@@ -756,8 +757,8 @@ validation boundary.
    Task 03G.1 instead owns a new incomplete POC diagnostic across bounded pages
    from all 35 sources, and Task 03G.2 owns a fresh three-document complete
    pilot. Neither can claim all-source completion. Task 03H owned the first all-35-
-   source attempt; Task 03J owns the next fresh complete execution and terminal
-   accounting. Task 03G and its
+   source attempt; completed Task 03J owns the fresh final machine candidate and
+   terminal accounting. Task 03G and its
    observed-failure remediation are accepted, and Task 03H was activated by
    user direction on 2026-08-18; source-PDF and model execution remain behind
    the task's explicit user check-in.

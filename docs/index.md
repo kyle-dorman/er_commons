@@ -8,20 +8,16 @@ Start with `AGENTS.md`, then return here to decide what to read or skip.
 This section is the source of record for the current sprint and active task.
 `docs/todo.md` owns the detailed queue and next action.
 
-[Task 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is complete as
-the first full-corpus end-to-end attempt. It exercised and repaired the production
-path but intentionally did not claim the final corpus after its closing identity
-and maintainability corrections made a fresh run necessary. Completed [Task
-04](../tasks/sprint2/04_review_extraction_and_freeze_release.md) completed its
-first-pass user review and independent human-maintainability gate. It used the
-mostly but not fully extracted Task 03H evidence to qualify a read-only local HTML review workspace and
-produce anchored extraction findings. Those findings feed active [Task
-03I](../tasks/sprint2/03i_remediate_task04_review_findings.md), whose first repair
-and independent maintainability gate are complete. Its committed task outcome is
-the durable disposition of the approved Task 04 finding.
+[Task 03H](../tasks/sprint2/03h_run_full_canonical_extraction.md), [Task
+04](../tasks/sprint2/04_review_extraction_and_freeze_release.md), and [Task
+03I](../tasks/sprint2/03i_remediate_task04_review_findings.md) are complete as
+the first full-corpus attempt, first-pass human review, and bounded remediation.
+[Task 03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) is now complete.
+Its fresh v4 production identity `exv1-6913f56b...009a773` published all 35
+sources and 48,341 pages with zero failures. Collection scope
+`scopev1-bd4b7ca8...19e893` and handoff `handoffv1-44d510d5...102325` pass the
+owning validator across all 35 documents; Task 04 status remains `not_evaluated`.
 Provisional [Task
-03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) then owns the fresh
-35-source attempt and machine handoff. Provisional [Task
 04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) owns the new
 Task 03J-bound review dataset, rechecks, complete machine-detectable TOC
 candidate review, usability registry, and initial release decision. Conditional
@@ -29,19 +25,13 @@ candidate review, usability registry, and initial release decision. Conditional
 activates only from an approved Task 04A TOC/navigation stop handoff; it owns the
 bounded source-general repair, fresh canonical-and-linking replay, and
 identity-bound recheck. Task 04A's exact identities, paths, checksums, and handoff
-fields must be filled from the completed Task 03J outcome rather than guessed in
-Task 04, and Task 04B must be revised from completed Task 04A records rather than
-conversation history.
-Retained Task 03H production artifacts are diagnostic evidence and are ineligible
-for 03J reuse.
+fields must be filled from the completed Task 03J handoff, and Task 04B must be
+revised from completed Task 04A records rather than conversation history.
 
-The current retained Task 03H evidence root is
-`pipelines/brisbane_baylands/task_03h_clean_full_v3/` under
-`ER_COMMONS_DATA_ROOT`. Its managed attempt and retry streams are available for
-Task 04's diagnostic inventory; its `.trash/` subtree is retained evidence but is
-excluded from normative queue populations unless Gate A explicitly promotes a
-subtree with a separate identity. The v1 and v2 roots are historical and must not
-be used as current inputs. Each Task 04 pass writes durable records under
+Superseded Task 03H and earlier pilot artifact trees were removed after Task
+03J closure. Their compact tracked contracts and outcomes remain historical
+evidence, but no removed artifact is an eligible downstream input. Each Task 04
+pass writes durable records under
 `pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`; Task 04 owns the
 first-pass record contract, Task 04A owns the post-03J review contract, and Task
 04B owns only a conditional post-review remediation and recheck contract.

@@ -5,20 +5,15 @@
 Status: Sprint 2, Brisbane Draft-EIR defense vertical slice.
 
 Current routing: [Task
-03H](../tasks/sprint2/03h_run_full_canonical_extraction.md) is complete as the
-first full-corpus end-to-end attempt. It closed with a maintained and
-source-free-validated pipeline, but not a final corpus candidate, because its final
-identity corrections require a completely fresh run. Completed [Task
-04](../tasks/sprint2/04_review_extraction_and_freeze_release.md) is complete. It
-qualified the read-only local
-HTML review workspace and produced evidence-anchored findings from retained Task
-03H evidence. [Task
-03I](../tasks/sprint2/03i_remediate_task04_review_findings.md) owns disposition and
-bounded repair of accepted extraction findings. Its first repair and independent
-human-maintainability gate are complete, and the committed task outcome records
-the approved Task 04 register and handoff checksums. [Task
-03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) then owns the next fresh
-35-source end-to-end attempt and final machine handoff. Provisional [Task
+03H](../tasks/sprint2/03h_run_full_canonical_extraction.md), [Task
+04](../tasks/sprint2/04_review_extraction_and_freeze_release.md), and [Task
+03I](../tasks/sprint2/03i_remediate_task04_review_findings.md) are complete as
+the first all-source attempt, first-pass review, and accepted remediation. [Task
+03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) is complete under
+fresh production identity `exv1-6913f56b...009a773`: all 35 sources and 48,341
+pages published with zero failures. Its validated collection scope is
+`scopev1-bd4b7ca8...19e893`, and ready handoff
+`handoffv1-44d510d5...102325` retains `task04_status: not_evaluated`. Provisional [Task
 04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) will use that
 completed handoff to define and generate a new review dataset, perform rechecks,
 perform a complete machine-detectable TOC candidate review, record usability, and
@@ -27,15 +22,11 @@ make the initial release-freeze decision. Conditional [Task
 only if Task 04A approves a material TOC/navigation extraction finding; it then
 owns the bounded repair, fresh canonical-and-linking replay, and new human
 recheck. Both provisional contracts require their exact upstream handoffs before
-activation. No Task 03H production artifact is eligible for Task 03J, Task 04A,
-or Task 04B reuse.
-
-The current retained Task 03H diagnostic root is
-`pipelines/brisbane_baylands/task_03h_clean_full_v3/` under
-`ER_COMMONS_DATA_ROOT`. Task 04 inventories its managed attempt and retry streams;
-the retained `.trash/` subtree is recorded but excluded from normative populations
-unless Gate A explicitly promotes a subtree with a separate identity. Task 04
-durable records use `pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`.
+activation. No Task 03H production artifact is eligible for Task 04A or Task 04B
+reuse. Superseded Task 03H and earlier pilot artifact trees were removed after
+Task 03J closure; compact tracked contracts and outcomes remain historical only.
+Task 04 durable records remain under
+`pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`.
 
 Previously completed: [Task
 03E.4](../tasks/sprint2/03e4_materialize_semantic_structure.md). Its

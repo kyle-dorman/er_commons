@@ -1,7 +1,6 @@
 # Task 03J: Run the Final Full-Corpus Extraction Attempt
 
-Status: **provisional; Task 03I baseline is complete and explicit activation is
-still required**.
+Status: **complete** (2026-09-02).
 
 ## Abstract
 
@@ -92,6 +91,40 @@ between attempts created within Task 03J under compatible closed identities. Tas
   recorded
 - Task 04A can make the independent final usability and release-freeze decision from
   the published handoff
+
+## Outcome
+
+Task 03J completed the ordered 35-source run under production identity
+`exv1-6913f56bed93302d7cf5ef424ee63c0b7427e90e2b2cd5c4ec483d275009a773`.
+All 48,341 pages reached checksum-verified document publication: 35 documents
+finished `complete_with_warnings`, zero sources failed, and no source remained
+unavailable. The run reused only compatible, checksum-valid components created
+inside the Task 03J v4 lineage; it did not consume Task 03H production
+completions.
+
+The final collection is:
+
+- scope `scopev1-bd4b7ca85b299ae528376b1a6e88b9d0fdba02e4f7e8862c5fa91a28b719e893`;
+- target index `idxv1-eb1133607e64ed28305cf5d997ed213151697cd6d5d28f8d2ba56420208cba9a`,
+  containing 98,704 entries for all 35 eligible candidates and no unavailable
+  sources;
+- resolution `resv1-b1cdbc0d27cd5f8b5e53d062639b8122ddd921f89b748e30cc810f3c02793c70`,
+  containing 72 resolved, zero ambiguous, and zero unresolved deferred mentions;
+  and
+- ready handoff
+  `handoffv1-44d510d545026a427ccdb47497d30f1d46c66130291af66fc0d5883a35102325`,
+  whose completion record is at
+  `pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/scopes/scopev1-bd4b7ca85b299ae528376b1a6e88b9d0fdba02e4f7e8862c5fa91a28b719e893/handoffs/handoffv1-44d510d545026a427ccdb47497d30f1d46c66130291af66fc0d5883a35102325/records/completion_record.json`
+  with SHA-256
+  `8bd72f2712a20de5aa865575566e4d5b187d7fccc02ba02dd0f92d87bf04117a`.
+
+The owning handoff validator verified all 35 documents and retained
+`task04_status: not_evaluated`. A second collection invocation returned the same
+handoff with the attempt-record count unchanged at four, proving checksum reuse
+without republishing. Before execution, deterministic v3 and v4 configuration
+checks passed, and the complete repository gate passed formatting, Ruff, strict
+mypy over 397 source files, and 990 tests. Task 04A remains a separate,
+explicitly activated human-usability and release-freeze task.
 
 ## Non-goals
 
