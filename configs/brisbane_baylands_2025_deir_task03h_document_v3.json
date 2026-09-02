@@ -1,6 +1,6 @@
 {
   "schema_version": "er_commons.document_run_spec.v2",
-  "production_extraction_id": "exv1-dc215a29286198af33a31c708e431b65cd5e445adb82f4543270335d2094dba9",
+  "production_extraction_id": "exv1-8384a99e3ba54a71051aaddfa013c49c013bccce3392db9a96e371184fb6208c",
   "production_identity_relative_path": "benchmarks/er_bench/fixtures/document_publication/v3/task03h_production_identity.json",
   "scope_kind": "production_full",
   "source_release_version": "brisbane_baylands_2025_deir_sources_v1",

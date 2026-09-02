@@ -83,6 +83,12 @@ document dispositions such as `usable`, `usable_with_exclusions`, and
 `skipped_no_ocr`; reviewer fields and human dispositions never enter immutable
 Task 03 machine records.
 
+For the remaining sprint, the **accepted review registry** means Task 04A's
+registry when Task 04A freezes Task 03J without remediation, or Task 04B's fresh
+post-repair registry when conditional Task 04B activates. Downstream tasks must
+pin that registry together with its corresponding accepted extraction identity;
+they may not combine a Task 04A registry with a Task 04B machine candidate.
+
 An isolated failed page does not require excluding an otherwise usable
 appendix. Mark failed pages unusable and retain the appendix as
 `usable_with_exclusions` when the missing material does not make the remaining
@@ -97,7 +103,8 @@ silently skipped under this policy; a material native-extraction failure there
 is a stop condition requiring a new decision.
 
 First-pass retrieval and generation may use a table only when the clean table
-pipeline produces a canonical structured or textual representation and Task 04A
+pipeline produces a canonical structured or textual representation and the
+accepted review registry's
 human review verifies it against a corresponding review-cache render. For a
 multi-table family, review must make the family membership, per-table content,
 and any one-to-many Docling-region mapping visible; verification of one member
@@ -329,7 +336,7 @@ hash, and corpus version that define each extraction. An identical rerun must
 reproduce the same IDs; a
 changed converter or configuration creates a new corpus version and new
 low-level anchors. Pin reviewed evidence and benchmark cases to the exact
-accepted Task 03 extraction identity, Task 04A usability-registry version,
+accepted Task 03 extraction identity, accepted review-registry version,
 Task 05 inventory version, and Task 07 case/split versions. Human-readable
 document and section slugs may remain recognizable across versions, but they
 do not replace content and configuration checksums.
@@ -397,8 +404,8 @@ Use whole leaf sections—the smallest heading-defined sections in the canonical
 hierarchy—as the preferred BM25 retrieval units. Preserve paragraph and
 list-item boundaries within them, keep verified tables as distinct structured
 units, carry the full heading path as metadata, and retain exact canonical
-anchors. Build units only from Task 04A-approved body content and tables; never
-span excluded content. Before building the development index, analyze and
+anchors. Build units only from accepted-review-registry body content and tables;
+never span excluded content. Before building the development index, analyze and
 report the leaf-section length distribution by source document, including
 outliers and the combined size of five large results relative to the target
 context budget.
@@ -754,9 +761,12 @@ validation boundary.
    observed-failure remediation are accepted, and Task 03H was activated by
    user direction on 2026-08-18; source-PDF and model execution remain behind
    the task's explicit user check-in.
-3. **[Task 04](../../tasks/sprint2/04_review_extraction_and_freeze_release.md)
-   and [Task 04A](../../tasks/sprint2/04a_regenerate_review_and_freeze_release.md)
-   — Pilot extraction review, then review and freeze the final candidate.** Task
+3. **[Task 04](../../tasks/sprint2/04_review_extraction_and_freeze_release.md),
+   [Task 04A](../../tasks/sprint2/04a_regenerate_review_and_freeze_release.md),
+   and conditional [Task
+   04B](../../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) — Pilot
+   extraction review, final-candidate review, and bounded TOC remediation when
+   required.** Task
    04 completed its first-pass review and independent maintainability gate using the
    mostly but not fully extracted Task 03H evidence to qualify a small read-only
    local HTML review workspace and conduct a user-led diagnostic pass. Cover all
@@ -770,17 +780,21 @@ validation boundary.
    extraction defects to Task 03I and close Task 04, then let Task 03J run all 35
    sources under a fresh identity. After that handoff exists, revise and activate
    provisional Task 04A to generate a new review dataset, recheck repairs and fresh
-   risk samples, validate machine integrity, and either publish the separate
-   usability registry and freeze the accepted extraction release or stop on a
-   material defect. Keep Task 03 records immutable and renders regenerable outside
-   extraction identity.
+   risk samples, conduct a complete review of every machine-detectable document or
+   embedded TOC candidate, validate machine integrity, and either publish the
+   separate usability registry and freeze the accepted extraction release or stop
+   on a material defect. If Task 04A approves a TOC/navigation extraction defect,
+   conditional Task 04B consumes only its checksummed handoff, applies the bounded
+   source-general repair, replays canonical and linking stages under fresh
+   identities, and requires a new human recheck before freezing. Keep Task 03 and
+   review records immutable and renders regenerable outside extraction identity.
 4. **Task 05 — Build the complete curator-only response inventory.** Use a
    bounded, separately identified transcription/extraction route for Final EIR
    Volume 4; do not add it to the Task 03 model corpus. Enumerate every comment,
    individual response, general response, relationship, orphan, and official
    Draft EIR reference. Build the curator-only response graph and resolve its
    Draft EIR references against the frozen Task 03 target/alias index subject
-   to Task 04A usability.
+   to the accepted review registry.
 5. **Task 06 — Pilot reference-case authoring.** Implement deterministic
    high-recall curator search, a two-hop traversal/index view over the accepted
    Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence
@@ -799,10 +813,10 @@ validation boundary.
 7. **Task 08 — Build and freeze human evaluation.** Implement the staged,
    blinded evidence-support, responsiveness, and reference-coverage forms and
    anchored `0`/`1`/`2` rubric. Pin exports and forms to the accepted Task 03
-   extraction, Task 04A registry, and Task 07 case/split versions; link requested
-   render cache separately.
+   extraction, accepted review registry, and Task 07 case/split versions; link
+   requested render cache separately.
 8. **Task 09 — Build and freeze BM25 retrieval.** Build units from accepted
-   hierarchy and Task 04A-approved body content and tables. Analyze leaf-section
+   hierarchy and accepted-review-registry body content and tables. Analyze leaf-section
    lengths, choose whole sections or a documented contiguous fallback that
    never spans excluded content, run the lexical preprocessing pilot, freeze
    the index, and report development-only evidence-coverage curves. Do not

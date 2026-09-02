@@ -3,8 +3,8 @@
   "schema_version": "er_commons.document_publication_identity.v2",
   "fixture_status": "identity_recipe",
   "execution_status": "not_executed",
-  "extraction_id": "exv1-dc215a29286198af33a31c708e431b65cd5e445adb82f4543270335d2094dba9",
-  "identity_sha256": "dc215a29286198af33a31c708e431b65cd5e445adb82f4543270335d2094dba9",
+  "extraction_id": "exv1-8384a99e3ba54a71051aaddfa013c49c013bccce3392db9a96e371184fb6208c",
+  "identity_sha256": "8384a99e3ba54a71051aaddfa013c49c013bccce3392db9a96e371184fb6208c",
   "preimage": {
     "schema_version": "er_commons.document_publication_identity_preimage.v2",
     "contract_revision": "task_03h_production_full_v1",
@@ -88,8 +88,8 @@
         },
         {
           "path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
-          "sha256": "9ce7b8c9f4ea916bf16ec56e02264c2d4de39b1323ee705afec24325df4682df",
-          "byte_size": 20396
+          "sha256": "00f9cc019752e22cec4a728d8229e8bf98837e0ba551e2d88ca8843ad655c049",
+          "byte_size": 20431
         },
         {
           "path": "configs/task03h/v3/deir_appendix_a/chunked_conversion.json",
@@ -1405,8 +1405,8 @@
         },
         {
           "path": "src/er_commons/document_parsing/content_parsing/chunked_application.py",
-          "sha256": "ee58e2a34ab9bd17b9cbe952ebca27e956133496173401bd633073642bca02f3",
-          "byte_size": 16074
+          "sha256": "5eb2426d3a7cd0431cf7dc8fce7c31f88739120481657bf30a912c000df98021",
+          "byte_size": 16489
         },
         {
           "path": "src/er_commons/document_parsing/content_parsing/config.py",
@@ -1605,13 +1605,23 @@
         },
         {
           "path": "src/er_commons/document_parsing/heading_evidence_parsing/outline_cleanup.py",
-          "sha256": "886281e8701bd35e8c4b9d55137000072159ce99432f8691018c3fb8fd96715f",
-          "byte_size": 12404
+          "sha256": "b03bbfc370831d9f0618c955af9156d6b89b25aea236389a67ade38f182e940c",
+          "byte_size": 12524
+        },
+        {
+          "path": "src/er_commons/document_parsing/heading_evidence_parsing/outline_diagnostics.py",
+          "sha256": "01b34299e3d2b8c3f4bc74c0831fcdbb0f4a0310621482540325603bd3c7127f",
+          "byte_size": 2426
+        },
+        {
+          "path": "src/er_commons/document_parsing/heading_evidence_parsing/outline_duplicate_recovery.py",
+          "sha256": "67c3b87ad8cf33733b9b26324590a083a36dfb03b2df7f3912dcacec7403fff6",
+          "byte_size": 2244
         },
         {
           "path": "src/er_commons/document_parsing/heading_evidence_parsing/outline_extraction.py",
-          "sha256": "e73df8aae0bece6457f9f99dc20f544419076e0d66c9d99a20769240fac78195",
-          "byte_size": 8344
+          "sha256": "3d781cc3e73a9d9c68efe4eb8c8d5689514d49f68c7b5f14a11806663ed2f040",
+          "byte_size": 9109
         },
         {
           "path": "src/er_commons/document_parsing/heading_evidence_parsing/outline_normalization.py",
@@ -2260,8 +2270,8 @@
         },
         {
           "path": "src/er_commons/document_records/record_mapping/content_records.py",
-          "sha256": "18a340c8ff6da423b56ef3b8d1add1d12968db110e398caeccff57dfccb06d65",
-          "byte_size": 15001
+          "sha256": "19e32b8e28346dc36e834c04ea4030db4fe62bade9b99b4f6ae513e80b4ff8f1",
+          "byte_size": 15522
         },
         {
           "path": "src/er_commons/document_records/record_mapping/context.py",
@@ -2345,8 +2355,8 @@
         },
         {
           "path": "src/er_commons/document_records/record_mapping/provenance.py",
-          "sha256": "4f530025637da615a8f37965caf04c31328f4fcdcacfa3245464e01d44619228",
-          "byte_size": 5607
+          "sha256": "42e90862a9a00238cf29c631c4502865d175dc89820b13050e65c9c40ce81b33",
+          "byte_size": 7247
         },
         {
           "path": "src/er_commons/document_records/record_mapping/publication.py",
@@ -2465,8 +2475,8 @@
         },
         {
           "path": "src/er_commons/hierarchy_inference/code_inventory.py",
-          "sha256": "f4ce349b2ef2f59630782cd234c52f195c885421612a3b2efa410296ae4048b3",
-          "byte_size": 4869
+          "sha256": "f5e621350606b379cc97c69f67f1c220533bf5c3b6bf3c9be702646a39e3ef24",
+          "byte_size": 5050
         },
         {
           "path": "src/er_commons/hierarchy_inference/config.py",
@@ -2595,8 +2605,8 @@
         },
         {
           "path": "src/er_commons/hierarchy_inference/toc.py",
-          "sha256": "1fde418e22d81ef0d2451e3df072edf6c1103f106c58ebc4e1a956615b00896a",
-          "byte_size": 10428
+          "sha256": "b0916d6956b19f2dd49db7b38ae22fbe751482e3e5c369fbe1fc4a104965711d",
+          "byte_size": 10475
         },
         {
           "path": "src/er_commons/hierarchy_inference/toc_analysis.py",
@@ -2605,8 +2615,8 @@
         },
         {
           "path": "src/er_commons/hierarchy_inference/toc_reconciliation.py",
-          "sha256": "0196134bef13ad073e55db7324bfe0e38eca55788578ed017c8cfceb396d9c58",
-          "byte_size": 16483
+          "sha256": "f4e3cf6eb6711c380061b2c091034f5f280a7368ecf4558993c26ddb733b8fa6",
+          "byte_size": 17570
         },
         {
           "path": "src/er_commons/hierarchy_inference/toc_regions.py",

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -11,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CONFIG_ROOT = ROOT / "configs"
 TASK_TEMPLATE_ROOT = CONFIG_ROOT / "task03h_templates"
 CHUNKED_PAGE_THRESHOLD = 300
-RUN_VERSION = "v3"
+RUN_VERSION = os.environ.get("ER_COMMONS_TASK03H_RUN_VERSION", "v3")
 MANIFEST_RELATIVE = Path(
     "datasets/ceqa/raw/brisbane_baylands/"
     "brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json"

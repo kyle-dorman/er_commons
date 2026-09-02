@@ -23,9 +23,15 @@ Provisional [Task
 03J](../tasks/sprint2/03j_run_final_canonical_extraction.md) then owns the fresh
 35-source attempt and machine handoff. Provisional [Task
 04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) owns the new
-Task 03J-bound review dataset, rechecks, usability registry, and final release
-decision. Its exact identities, paths, checksums, and handoff fields must be filled
-from the completed Task 03J outcome rather than guessed in Task 04.
+Task 03J-bound review dataset, rechecks, complete machine-detectable TOC
+candidate review, usability registry, and initial release decision. Conditional
+[Task 04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md)
+activates only from an approved Task 04A TOC/navigation stop handoff; it owns the
+bounded source-general repair, fresh canonical-and-linking replay, and
+identity-bound recheck. Task 04A's exact identities, paths, checksums, and handoff
+fields must be filled from the completed Task 03J outcome rather than guessed in
+Task 04, and Task 04B must be revised from completed Task 04A records rather than
+conversation history.
 Retained Task 03H production artifacts are diagnostic evidence and are ineligible
 for 03J reuse.
 
@@ -37,7 +43,8 @@ excluded from normative queue populations unless Gate A explicitly promotes a
 subtree with a separate identity. The v1 and v2 roots are historical and must not
 be used as current inputs. Each Task 04 pass writes durable records under
 `pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/`; Task 04 owns the
-first-pass record contract and Task 04A owns the post-03J record contract.
+first-pass record contract, Task 04A owns the post-03J review contract, and Task
+04B owns only a conditional post-review remediation and recheck contract.
 
 Sprint 1 accepted the first benchmark contract: a Brisbane Draft-EIR defense
 task. Sprint 2 is current. [Task

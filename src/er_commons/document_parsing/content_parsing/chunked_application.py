@@ -37,6 +37,7 @@ from er_commons.document_parsing.content_parsing.ordering_projection import (
     OrderingProjectionArtifact,
     OrderingTableStageObservation,
     TableEvidenceDecision,
+    TableEvidenceOutcome,
     build_ordering_projection,
     capture_table_stage_reference,
     classify_table_evidence,
@@ -299,20 +300,30 @@ def _table_evidence_decisions(
 def _validate_table_suppression_coverage(
     decisions: list[TableEvidenceDecision], table_rows: list[dict[str, Any]]
 ) -> None:
-    """Require every validated custom table to authorize exactly one suppression region."""
+    """Require suppression refs to be exact while allowing explicit partial evidence."""
     expected = {(int(row["physical_pdf_page"]), str(row["table_id"])) for row in table_rows}
     actual = {
         (decision.physical_pdf_page, table_ref)
         for decision in decisions
         for table_ref in decision.confirmed_table_refs
     }
-    if actual != expected:
-        missing = sorted(expected - actual)
-        unexpected = sorted(actual - expected)
+    unexpected = sorted(actual - expected)
+    decisions_by_page = {decision.physical_pdf_page: decision for decision in decisions}
+    unexplained_missing = sorted(
+        item
+        for item in expected - actual
+        if (
+            item[0] not in decisions_by_page
+            or decisions_by_page[item[0]].outcome is not TableEvidenceOutcome.PARTIAL
+        )
+    )
+    if unexpected or unexplained_missing:
         raise ValueError(
-            "validated table artifacts and ordering suppression coverage differ: "
-            f"missing={missing[:10]!r}, unexpected={unexpected[:10]!r}, "
-            f"missing_count={len(missing)}, unexpected_count={len(unexpected)}"
+            "validated table artifacts and ordering suppression decisions are inconsistent: "
+            f"unexplained_missing={unexplained_missing[:10]!r}, "
+            f"unexpected={unexpected[:10]!r}, "
+            f"unexplained_missing_count={len(unexplained_missing)}, "
+            f"unexpected_count={len(unexpected)}"
         )
 
 

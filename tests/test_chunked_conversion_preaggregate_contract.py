@@ -11,6 +11,7 @@ from er_commons.artifact_io import write_json_atomic, write_jsonl
 from er_commons.chunked_conversion.runtime.contracts import PreAggregateContext
 from er_commons.document_parsing.content_parsing.chunked_application import (
     _table_stage_claims_completion,
+    _validate_table_suppression_coverage,
     _verify_reusable_projection,
 )
 from er_commons.document_parsing.content_parsing.ordering_projection import (
@@ -64,6 +65,44 @@ def test_publication_roles_are_distinct() -> None:
 
     assert len(set(publication.values())) == 3
     assert publication["raw_evidence"] != publication["canonical_tables"]
+
+
+def test_partial_table_evidence_may_fail_closed_without_suppression() -> None:
+    """Invalid geometry must retain tables without authorizing text suppression."""
+    tables = [
+        {
+            "physical_pdf_page": 7,
+            "table_id": "table-7",
+        }
+    ]
+    decisions = [
+        TableEvidenceDecision(
+            physical_pdf_page=7,
+            outcome=TableEvidenceOutcome.PARTIAL,
+            reason="table records lack valid suppression geometry",
+        )
+    ]
+
+    _validate_table_suppression_coverage(decisions, tables)
+
+
+def test_table_without_confirmed_or_partial_decision_is_rejected() -> None:
+    tables = [
+        {
+            "physical_pdf_page": 7,
+            "table_id": "table-7",
+        }
+    ]
+    decisions = [
+        TableEvidenceDecision(
+            physical_pdf_page=7,
+            outcome=TableEvidenceOutcome.UNMATCHED,
+            reason="no table-stage page record",
+        )
+    ]
+
+    with pytest.raises(ValueError, match="unexplained_missing_count=1"):
+        _validate_table_suppression_coverage(decisions, tables)
 
 
 def test_core_projection_verification_releases_each_decoded_range() -> None:

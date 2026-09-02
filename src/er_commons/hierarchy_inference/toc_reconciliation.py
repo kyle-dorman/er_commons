@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from collections import Counter
 from dataclasses import dataclass
 from typing import Any
 
@@ -53,9 +54,7 @@ def reconcile_toc_entries(
 ) -> tuple[list[JsonObject], list[JsonObject]]:
     """Reconcile rows by exact marker, title, page, depth, and body order."""
     indexes = _build_reconciliation_indexes(features, regions, outline_observations)
-    reconciliations: list[JsonObject] = []
-    diagnostics: list[JsonObject] = []
-    previous_order_by_region: dict[str, int] = {}
+    prepared = []
     for entry in entries:
         region = _region_for_entry(entry, regions)
         matches, match_basis = _tiered_target_matches(
@@ -65,14 +64,42 @@ def reconcile_toc_entries(
             native_heading_observations=native_heading_observations,
             outline_ids_by_target=indexes.outline_ids_by_target,
         )
-        assessment = _assess_target_matches(
+        base_assessment = _assess_target_matches(
             entry=entry,
             region=region,
             matches=matches,
             match_basis=match_basis,
             indexes=indexes,
             printed_pages=printed_pages,
-            previous_order_by_region=previous_order_by_region,
+            previous_order_by_region={},
+        )
+        prepared.append((entry, region, matches, match_basis, base_assessment))
+
+    target_counts = Counter(
+        assessment.matches[0].target["stable_item_key"]
+        for *_prefix, assessment in prepared
+        if assessment.state == "exact"
+    )
+    duplicate_exact_targets = {
+        target_key for target_key, count in target_counts.items() if count > 1
+    }
+    reconciliations: list[JsonObject] = []
+    diagnostics: list[JsonObject] = []
+    previous_order_by_region: dict[str, int] = {}
+    for entry, region, matches, match_basis, base_assessment in prepared:
+        target_key = matches[0].target["stable_item_key"] if matches else None
+        assessment = (
+            TargetAssessment(tuple(matches), match_basis, "ambiguous")
+            if base_assessment.state == "exact" and target_key in duplicate_exact_targets
+            else _assess_target_matches(
+                entry=entry,
+                region=region,
+                matches=matches,
+                match_basis=match_basis,
+                indexes=indexes,
+                printed_pages=printed_pages,
+                previous_order_by_region=previous_order_by_region,
+            )
         )
         if assessment.state == "exact":
             previous_order_by_region[region.start_key] = matches[0].target["reading_order_index"]

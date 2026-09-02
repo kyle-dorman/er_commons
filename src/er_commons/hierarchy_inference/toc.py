@@ -124,7 +124,10 @@ def _validate_state_cardinality(reconciliation: JsonRecord) -> None:
     if state == "missing":
         require(not candidates, "missing reconciliation has candidates")
     elif state == "ambiguous":
-        require(len(candidates) > 1, "ambiguous reconciliation cardinality differs")
+        require(
+            len(candidates) >= 1,
+            "ambiguous reconciliation must retain candidate evidence",
+        )
     elif state != "exact":
         require(len(candidates) == 1, "conflict reconciliation cardinality differs")
 

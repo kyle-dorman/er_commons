@@ -125,6 +125,48 @@ def table_region(
     }
 
 
+def clipped_table_region(
+    bbox: tuple[float, float, float, float] | list[float],
+    physical_page: int,
+    page_ids: dict[int, str],
+    page_sizes: dict[int, tuple[float, float]],
+) -> JsonRecord:
+    """Build a bounded canonical region while retaining materially bad producer geometry.
+
+    Table-stage geometry is raw extractor evidence.  A malformed table box must
+    not make the whole document unpublishable, but it must also never enter a
+    canonical record outside its page.  The ordering/suppression path continues
+    to inspect the raw box and therefore fails closed for this table.
+    """
+    width, height = page_sizes[physical_page]
+    if not all(
+        isinstance(value, (int, float))
+        and not isinstance(value, bool)
+        and math.isfinite(float(value))
+        for value in bbox
+    ):
+        raise MappingContractError("table region contains non-finite coordinates")
+    left, lower, right, upper = (float(value) for value in bbox)
+    left = max(0.0, min(left, width))
+    lower = max(0.0, min(lower, height))
+    right = max(0.0, min(right, width))
+    upper = max(0.0, min(upper, height))
+    if not left < right or not lower < upper:
+        raise MappingContractError("table region collapses after page-bound clipping")
+    return {
+        "page_id": page_ids[physical_page],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "units": "pdf_points",
+        "bbox": [left, lower, right, upper],
+        "page_width": width,
+        "page_height": height,
+        "rotation_degrees": 0,
+        "render_scale": None,
+        "affine_transform": None,
+    }
+
+
 def descendant_text_pointers(
     document: JsonRecord,
     roots: list[JsonRecord],

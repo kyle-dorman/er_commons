@@ -9,7 +9,11 @@ from er_commons.document_records.record_mapping.constants import BLOCK_TYPE_BY_L
 from er_commons.document_records.record_mapping.context import RecordMappingContext
 from er_commons.document_records.record_mapping.errors import MappingContractError
 from er_commons.document_records.record_mapping.inputs import RecordMappingInputs
-from er_commons.document_records.record_mapping.provenance import project_regions, table_region
+from er_commons.document_records.record_mapping.provenance import (
+    clipped_table_region,
+    project_regions,
+    table_region,
+)
 from er_commons.document_records.record_mapping.record_sets import (
     ContentRecordSet,
     JsonRecord,
@@ -140,19 +144,35 @@ def _tables(
                 "shape": list(table.shape_clean),
                 "cells": cells,
                 "caption_block_ids": list(caption_ids.get(event.pointer, ())),
-                "regions": [
-                    table_region(
-                        table.bbox_pdf_points_bottom_left,
-                        table.physical_pdf_page,
-                        dict(context.page_ids),
-                        dict(context.page_sizes),
-                    )
-                ],
+                "regions": [_canonical_table_region(table, context)],
                 "raw_links": list(assets.table_raw_links_by_id[table.table_id]),
                 "cleanup_operations": _cleanup_operations(table),
             }
         )
     return tuple(records)
+
+
+def _canonical_table_region(
+    table: ProducerTable,
+    context: RecordMappingContext,
+) -> JsonRecord:
+    """Map table geometry to a bounded region without enabling suppression."""
+    try:
+        return table_region(
+            table.bbox_pdf_points_bottom_left,
+            table.physical_pdf_page,
+            dict(context.page_ids),
+            dict(context.page_sizes),
+        )
+    except MappingContractError as error:
+        if "materially exceeds page bounds" not in str(error):
+            raise
+        return clipped_table_region(
+            table.bbox_pdf_points_bottom_left,
+            table.physical_pdf_page,
+            dict(context.page_ids),
+            dict(context.page_sizes),
+        )
 
 
 def _table_families(

@@ -21,9 +21,14 @@ the approved Task 04 register and handoff checksums. [Task
 35-source end-to-end attempt and final machine handoff. Provisional [Task
 04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) will use that
 completed handoff to define and generate a new review dataset, perform rechecks,
-record usability, and make the release-freeze decision. Its final dependencies
-must be captured after Task 03J runs. No Task 03H production artifact is eligible
-for Task 03J or Task 04A reuse.
+perform a complete machine-detectable TOC candidate review, record usability, and
+make the initial release-freeze decision. Conditional [Task
+04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) activates
+only if Task 04A approves a material TOC/navigation extraction finding; it then
+owns the bounded repair, fresh canonical-and-linking replay, and new human
+recheck. Both provisional contracts require their exact upstream handoffs before
+activation. No Task 03H production artifact is eligible for Task 03J, Task 04A,
+or Task 04B reuse.
 
 The current retained Task 03H diagnostic root is
 `pipelines/brisbane_baylands/task_03h_clean_full_v3/` under
@@ -514,8 +519,13 @@ behavior-preserving rewrite of the Task 03E evaluator and matched both frozen
    03J](../tasks/sprint2/03j_run_final_canonical_extraction.md). After its handoff
    exists, revise and activate provisional [Task
    04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) to generate
-   the Task 03J-bound review dataset, recheck findings, record usability, and make
-   the release-freeze decision.
+   the Task 03J-bound review dataset, recheck findings, review every detectable
+   document-level and embedded TOC candidate, record usability, and make the
+   initial release-freeze decision. If it publishes an approved TOC/navigation
+   stop handoff, revise and activate conditional [Task
+   04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) for the
+   source-general fix, downstream replay, fresh recheck, and final freeze-or-stop
+   decision.
 9. Continue through the separately identified curator-only response inventory,
    reference-case authoring, clustering, and benchmark freeze.
 10. Freeze human evaluation before BM25 retrieval, target generation, and judge

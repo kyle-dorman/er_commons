@@ -261,7 +261,12 @@ PDF checksums, selection policy, schemas, renderer, and maintained implementatio
 separate post-03J review contract under
 `benchmarks/er_bench/schemas/task04a_review/v1/`. It must allocate a new review run
 and resolve selections against Task 03J checksums; it cannot copy first-pass IDs or
-anchors.
+anchors. Its compact records include the deterministic TOC candidate inventory,
+complete human TOC review register, and conditional `task04b_handoff.json`.
+[Task 04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) owns a
+separate namespace for any approved remediation candidate, replay manifest,
+post-repair review run, and final freeze-or-stop record. It cannot overwrite Task
+03J or Task 04A artifacts or inherit their human approvals.
 
 Review item IDs are content-bound within a review run to the source identity, queue,
 selection-policy digest, and exact evidence anchor. Finding IDs are content-bound to
@@ -269,8 +274,10 @@ the review item, finding class, finding description, consequence, and evidence
 anchors, while a later human status change preserves the same finding ID. The finding register is the
 authoritative user-disposition record; `task03i_handoff.json` is a projection containing
 only accepted extraction findings plus the register digest and evidence checksums.
-Task 04A's usability registry and release-freeze record are separate from all Task
-03 machine records and from the first-pass finding register.
+Task 04A's usability registry and release-freeze or stop record are separate from
+all Task 03 machine records and from the first-pass finding register. When Task
+04B activates, its repaired machine candidate and post-repair human registry are
+also separate from each other and from every Task 04A record.
 
 Task 03G.1 adds a separate diagnostic-only namespace:
 

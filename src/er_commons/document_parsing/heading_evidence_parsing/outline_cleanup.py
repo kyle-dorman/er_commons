@@ -1,4 +1,4 @@
-"""Clean malformed technical-container subtrees in embedded PDF outlines."""
+"""Clean malformed or uniquely duplicated subtrees in embedded PDF outlines."""
 
 from __future__ import annotations
 
@@ -7,6 +7,16 @@ from typing import Any
 
 from er_commons.document_parsing.heading_evidence_parsing.errors import (
     HierarchyInferenceContractError,
+)
+from er_commons.document_parsing.heading_evidence_parsing.outline_diagnostics import (
+    container_omission_diagnostic,
+    missing_leaf_diagnostic,
+    parentless_child_list_error,
+)
+from er_commons.document_parsing.heading_evidence_parsing.outline_duplicate_recovery import (
+    OutlineSubtreeSignature,
+    index_valid_subtree_signatures,
+    is_unique_exact_duplicate_broken_subtree,
 )
 from er_commons.document_parsing.heading_evidence_parsing.outline_normalization import (
     outline_reference_key,
@@ -38,13 +48,14 @@ def requires_technical_outline_cleanup(
     *,
     malformed_filename_containers: frozenset[RawReferenceKey],
 ) -> bool:
-    """Select recursive cleanup only for technical folders with broken descendants."""
+    """Select cleanup for supported malformed or uniquely duplicated branches."""
     trees = _parse_outline_tree(reader, outline)
+    valid_signatures = index_valid_subtree_signatures(trees)
     return any(
-        tree.page is None
-        and tree.children
-        and _is_supported_technical_container(
-            tree, malformed_filename_containers=malformed_filename_containers
+        _is_cleanup_eligible_container(
+            tree,
+            malformed_filename_containers=malformed_filename_containers,
+            valid_signature_counts=valid_signatures,
         )
         and any(child.page is None for child in _iter_outline_tree(tree.children))
         for tree in _iter_outline_tree(trees)
@@ -58,15 +69,17 @@ def clean_malformed_outline_tree(
     malformed_filename_containers: frozenset[RawReferenceKey],
     heading_features: list[ObservedItem],
 ) -> tuple[list[Any], list[JsonObject]]:
-    """Flatten broken technical folders and remove only evidenced duplicate leaves."""
+    """Flatten technical folders and remove only uniquely matched duplicate trees."""
     trees = _parse_outline_tree(reader, outline)
     valid_titles = {
         normalize_text(node.title) for node in _iter_outline_tree(trees) if node.page is not None
     }
+    valid_signatures = index_valid_subtree_signatures(trees)
     cleaned = _clean_outline_nodes(
         trees,
         malformed_filename_containers=malformed_filename_containers,
         valid_titles=valid_titles,
+        valid_signature_counts=valid_signatures,
         heading_features=heading_features,
         has_anchored_parent=False,
     )
@@ -123,7 +136,11 @@ def _parse_outline_tree(reader: Any, nodes: list[Any]) -> list[OutlineTreeNode]:
     for node in nodes:
         if isinstance(node, list):
             if previous is None:
-                raise HierarchyInferenceContractError("outline child list has no parent")
+                raise parentless_child_list_error(
+                    stage="tree_parse",
+                    reason="child list appears before any bookmark",
+                    children=node,
+                )
             previous.children = _parse_outline_tree(reader, node)
             continue
         title = getattr(node, "title", None)
@@ -148,14 +165,17 @@ def _clean_outline_nodes(
     *,
     malformed_filename_containers: frozenset[RawReferenceKey],
     valid_titles: set[str],
+    valid_signature_counts: dict[OutlineSubtreeSignature, int],
     heading_features: list[ObservedItem],
     has_anchored_parent: bool,
 ) -> OutlineCleanResult:
-    """Clean technical folders without hiding an unanchored broken subtree."""
+    """Clean eligible folders without hiding an unsupported broken subtree."""
     result = OutlineCleanResult()
     for tree in nodes:
-        supported = _supported_destinationless_container(
-            tree, malformed_filename_containers=malformed_filename_containers
+        supported = _is_cleanup_eligible_container(
+            tree,
+            malformed_filename_containers=malformed_filename_containers,
+            valid_signature_counts=valid_signature_counts,
         )
         if tree.page is None and tree.children and not supported:
             result.nodes.append(tree)
@@ -167,6 +187,7 @@ def _clean_outline_nodes(
             tree.children,
             malformed_filename_containers=malformed_filename_containers,
             valid_titles=valid_titles,
+            valid_signature_counts=valid_signature_counts,
             heading_features=heading_features,
             has_anchored_parent=has_anchored_parent or tree.page is not None,
         )
@@ -179,7 +200,7 @@ def _clean_outline_nodes(
         elif children.nodes:
             _retain_transparent_children(result, tree, children)
         else:
-            omission = _omit_fully_broken_technical_container(
+            omission = _omit_fully_broken_container(
                 tree,
                 children,
                 has_anchored_parent=has_anchored_parent,
@@ -190,14 +211,22 @@ def _clean_outline_nodes(
     return result
 
 
-def _supported_destinationless_container(
-    tree: OutlineTreeNode, *, malformed_filename_containers: frozenset[RawReferenceKey]
+def _is_cleanup_eligible_container(
+    tree: OutlineTreeNode,
+    *,
+    malformed_filename_containers: frozenset[RawReferenceKey],
+    valid_signature_counts: dict[OutlineSubtreeSignature, int],
 ) -> bool:
     return bool(
         tree.page is None
         and tree.children
-        and _is_supported_technical_container(
-            tree, malformed_filename_containers=malformed_filename_containers
+        and (
+            _is_supported_technical_container(
+                tree, malformed_filename_containers=malformed_filename_containers
+            )
+            or is_unique_exact_duplicate_broken_subtree(
+                tree, valid_signature_counts=valid_signature_counts
+            )
         )
     )
 
@@ -222,7 +251,7 @@ def _retain_transparent_children(
         )
     result.nodes.extend(children.nodes)
     result.diagnostics.append(
-        _container_omission_diagnostic(
+        container_omission_diagnostic(
             tree.title,
             retained_count=len(_iter_outline_tree(children.nodes)),
             invalid_count=len(children.invalid_leaf_titles),
@@ -232,7 +261,7 @@ def _retain_transparent_children(
     _merge_clean_result(result, children)
 
 
-def _omit_fully_broken_technical_container(
+def _omit_fully_broken_container(
     tree: OutlineTreeNode,
     children: OutlineCleanResult,
     *,
@@ -242,7 +271,12 @@ def _omit_fully_broken_technical_container(
 ) -> OutlineCleanResult:
     """Omit a broken folder only when structure or replacement evidence supports it."""
     if not children.invalid_leaf_titles:
-        raise HierarchyInferenceContractError("outline child list has no parent")
+        raise parentless_child_list_error(
+            stage="cleanup",
+            reason="cleanup retained neither children nor invalid-leaf replacement evidence",
+            children=tree.children,
+            title=tree.title,
+        )
     has_replacement_evidence = all(
         _invalid_leaf_has_replacement(
             title, valid_titles=valid_titles, heading_features=heading_features
@@ -255,7 +289,7 @@ def _omit_fully_broken_technical_container(
             f"or replacement evidence: {tree.title}"
         )
     diagnostics = [
-        _container_omission_diagnostic(
+        container_omission_diagnostic(
             tree.title,
             retained_count=0,
             invalid_count=len(children.invalid_leaf_titles),
@@ -306,35 +340,3 @@ def _serialize_outline_tree(nodes: list[OutlineTreeNode]) -> list[Any]:
         if tree.children:
             serialized.append(_serialize_outline_tree(tree.children))
     return serialized
-
-
-def _container_omission_diagnostic(
-    title: str, *, retained_count: int, invalid_count: int, duplicate_subtree: bool
-) -> JsonObject:
-    if duplicate_subtree:
-        detail = (
-            f"Omitted duplicate broken outline subtree '{title}'; all {invalid_count} "
-            "invalid leaf bookmarks have valid duplicate or unique visible-heading evidence."
-        )
-    else:
-        detail = (
-            f"Omitted technical filename container '{title}' and retained "
-            f"{retained_count} ordered descendant bookmarks; {invalid_count} invalid "
-            "leaf bookmarks remain omissions."
-        )
-    return {
-        "reading_order_index": None,
-        "stable_item_key": None,
-        "code": "OUTLINE_FILENAME_CONTAINER_OMITTED",
-        "detail": detail,
-    }
-
-
-def missing_leaf_diagnostic(title: str) -> JsonObject:
-    """Describe one invalid leaf omitted from hierarchy evidence."""
-    return {
-        "reading_order_index": None,
-        "stable_item_key": None,
-        "code": "TOC_TARGET_MISSING",
-        "detail": f"PDF outline leaf has no valid destination and was omitted: {title}",
-    }

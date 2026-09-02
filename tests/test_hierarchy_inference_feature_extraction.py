@@ -449,6 +449,89 @@ def test_pdf_observations_deduplicate_broken_nested_filename_subtree() -> None:
     assert any("EmissionMatrix_Pages" in item["detail"] for item in result.diagnostics)
 
 
+def test_pdf_observations_deduplicate_fully_broken_extensionless_subtree() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Anchored parent", page=0),
+        [
+            SimpleNamespace(title="1_project_hra_v0821_Summary", page=9),
+            [SimpleNamespace(title="Summary", page=9)],
+        ],
+        SimpleNamespace(title="1_project_hra_v0821_Summary", page=1),
+        [SimpleNamespace(title="Summary", page=1)],
+    ]
+
+    result = extract_outline_observations(reader)
+
+    assert [item["title"] for item in result.observations] == [
+        "Anchored parent",
+        "1_project_hra_v0821_Summary",
+        "Summary",
+    ]
+    assert result.observations[2]["parent_outline_id"] == result.observations[1]["outline_id"]
+    assert any(
+        item["code"] == "OUTLINE_FILENAME_CONTAINER_OMITTED"
+        and "Omitted duplicate broken outline subtree '1_project_hra_v0821_Summary'"
+        in item["detail"]
+        for item in result.diagnostics
+    )
+
+
+def test_pdf_observations_reject_extensionless_subtree_without_duplicate_container() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Anchored parent", page=0),
+        [
+            SimpleNamespace(title="Unmatched technical folder", page=9),
+            [SimpleNamespace(title="Summary", page=9)],
+        ],
+        SimpleNamespace(title="Summary", page=1),
+    ]
+
+    with pytest.raises(HierarchyInferenceContractError, match="child list has no parent") as error:
+        extract_outline_observations(reader)
+
+    detail = str(error.value)
+    assert "stage=outline_recovery" in detail
+    assert "title='Unmatched technical folder'" in detail
+    assert "duplicate cleanup" in detail
+
+
+def test_pdf_observations_reject_duplicate_titles_with_different_child_structure() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Anchored parent", page=0),
+        [
+            SimpleNamespace(title="Summary package", page=9),
+            [SimpleNamespace(title="Results", page=9)],
+        ],
+        SimpleNamespace(title="Summary package", page=1),
+        [SimpleNamespace(title="Different child", page=1)],
+        SimpleNamespace(title="Results", page=1),
+    ]
+
+    with pytest.raises(HierarchyInferenceContractError, match="Summary package"):
+        extract_outline_observations(reader)
+
+
+def test_pdf_observations_reject_duplicate_subtree_with_multiple_valid_matches() -> None:
+    reader = _Reader()
+    reader.outline = [
+        SimpleNamespace(title="Anchored parent", page=0),
+        [
+            SimpleNamespace(title="Summary package", page=9),
+            [SimpleNamespace(title="Results", page=9)],
+        ],
+        SimpleNamespace(title="Summary package", page=1),
+        [SimpleNamespace(title="Results", page=1)],
+        SimpleNamespace(title="Summary package", page=1),
+        [SimpleNamespace(title="Results", page=1)],
+    ]
+
+    with pytest.raises(HierarchyInferenceContractError, match="Summary package"):
+        extract_outline_observations(reader)
+
+
 def test_pdf_observations_drop_all_invalid_technical_branch_and_keep_valid_sibling() -> None:
     reader = _MalformedOutlineReader([])
     reader.custom_outline = [

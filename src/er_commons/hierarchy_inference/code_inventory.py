@@ -20,6 +20,8 @@ OWNED_CODE_RELATIVE_PATHS = (
     "src/er_commons/document_parsing/heading_evidence_parsing/heading_overlay.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/native_pdf_observations.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/outline_cleanup.py",
+    "src/er_commons/document_parsing/heading_evidence_parsing/outline_diagnostics.py",
+    "src/er_commons/document_parsing/heading_evidence_parsing/outline_duplicate_recovery.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/outline_extraction.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/outline_normalization.py",
     "src/er_commons/document_parsing/heading_evidence_parsing/outline_recovery.py",

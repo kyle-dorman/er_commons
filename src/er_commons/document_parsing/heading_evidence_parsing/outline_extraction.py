@@ -10,9 +10,12 @@ from er_commons.document_parsing.heading_evidence_parsing.errors import (
 )
 from er_commons.document_parsing.heading_evidence_parsing.outline_cleanup import (
     clean_malformed_outline_tree,
-    missing_leaf_diagnostic,
     omit_transparent_filename_container,
     requires_technical_outline_cleanup,
+)
+from er_commons.document_parsing.heading_evidence_parsing.outline_diagnostics import (
+    missing_leaf_diagnostic,
+    parentless_child_list_error,
 )
 from er_commons.document_parsing.heading_evidence_parsing.outline_normalization import (
     normalize_malformed_filename_destinations,
@@ -86,7 +89,13 @@ class _OutlineWalker:
     ) -> tuple[str | None, tuple[Any, str] | None]:
         if previous_id is None:
             if pending_invalid is None:
-                raise HierarchyInferenceContractError("outline child list has no parent")
+                raise parentless_child_list_error(
+                    stage="outline_walk",
+                    reason="child list has no valid or destinationless preceding bookmark",
+                    children=children,
+                    depth=depth,
+                    parent_id=parent_id,
+                )
             if self._omit_transparent(pending_invalid, children):
                 self.walk(children, parent_id, depth, root_depth)
                 return None, None
@@ -98,7 +107,17 @@ class _OutlineWalker:
                 root_depth=root_depth,
             )
             if previous_id is None:
-                raise HierarchyInferenceContractError("outline child list has no parent")
+                raise parentless_child_list_error(
+                    stage="outline_recovery",
+                    reason=(
+                        "destinationless bookmark failed duplicate cleanup, transparent "
+                        "filename omission, appendix recovery, and visible-title recovery"
+                    ),
+                    children=children,
+                    title=pending_invalid[1],
+                    depth=depth,
+                    parent_id=parent_id,
+                )
             pending_invalid = None
         self.walk(children, previous_id, depth + 1, root_depth)
         return previous_id, pending_invalid

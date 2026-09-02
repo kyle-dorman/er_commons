@@ -614,6 +614,57 @@ def test_reconciliation_validation_keeps_page_level_and_order_conflicts_distinct
     assert [item["state"] for item in order_records] == ["exact", "order_conflict"]
 
 
+def test_reconciliation_marks_cross_region_duplicate_targets_ambiguous() -> None:
+    first_source = _feature(1, "chain of custody ..... 34", page=1)
+    second_source = _feature(3, "chain of custody ..... 161", page=10)
+    target = _feature(5, "88255 Chain of Custody", page=20)
+    features = [
+        _feature(0, "TABLE OF CONTENTS", page=1, role="section_header"),
+        first_source,
+        _feature(2, "TABLE OF CONTENTS", page=10, role="section_header"),
+        second_source,
+        _feature(4, "Body", page=11),
+        target,
+    ]
+    regions = (
+        TocRegion(0, 2, len(features), features[0]["stable_item_key"], None, None),
+        TocRegion(2, 4, len(features), features[2]["stable_item_key"], None, None),
+    )
+
+    def entry(entry_id: str, source: dict[str, Any], printed_page: str) -> dict[str, Any]:
+        return {
+            "toc_entry_id": entry_id,
+            "source_item_keys": [source["stable_item_key"]],
+            "reading_order_index": source["reading_order_index"],
+            "title_with_marker_normalized": "chain of custody",
+            "title_without_marker_normalized": "chain of custody",
+            "numbering_token": None,
+            "depth": 1,
+            "depth_source": "default",
+            "printed_page": printed_page,
+        }
+
+    records, diagnostics = reconcile_toc_entries(
+        [
+            entry("toc-1111111111111111", first_source, "34"),
+            entry("toc-2222222222222222", second_source, "161"),
+        ],
+        features,
+        regions,
+        (),
+        {},
+        {},
+    )
+
+    assert [record["state"] for record in records] == ["ambiguous", "ambiguous"]
+    assert all(record["target_key"] is None for record in records)
+    assert all(record["candidate_keys"] == [target["stable_item_key"]] for record in records)
+    assert [diagnostic["code"] for diagnostic in diagnostics] == [
+        "TOC_TARGET_AMBIGUOUS",
+        "TOC_TARGET_AMBIGUOUS",
+    ]
+
+
 def test_composite_appendices_are_individual_and_attachment_list_is_not_a_row() -> None:
     features = [_feature(0, "TABLE OF CONTENTS", page=112, role="section_header")]
     order = 1
