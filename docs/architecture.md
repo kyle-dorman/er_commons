@@ -131,7 +131,10 @@ usability dispositions, and release-freeze records do not modify machine
 records. Task 04's first-pass review is historical. Task 04A allocates a new
 review identity bound to Task 03J and owns the final usability registry and
 initial release decision. Task 04B is a conditional fresh replay after an
-approved Task 04A TOC/navigation stop handoff.
+approved Task 04A TOC/navigation stop handoff. When Task 03J is accepted without
+regeneration, Task 04C owns the separate derived consumer that combines the
+immutable machine candidate with the accepted human TOC layer for semantic
+navigation, aliases, and links.
 
 ## Configuration and paths
 

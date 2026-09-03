@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import math
+from collections.abc import Mapping
 from pathlib import Path
 
 from er_commons.document_parsing.content_parsing.routing_geometry import (
@@ -45,6 +47,39 @@ def review_display_bbox(bbox: object, transform: DisplayedPageTransform | None) 
     return float(left), float(bottom), float(right), float(top)
 
 
+def canonical_region_display_bbox(
+    region: Mapping[str, object],
+    displayed_width: float,
+    displayed_height: float,
+    transform: DisplayedPageTransform | None,
+) -> BBox | None:
+    """Avoid rotating canonical regions already normalized to the display frame."""
+    bbox = parse_bbox(region.get("bbox"))
+    region_width = _number(region.get("page_width"))
+    region_height = _number(region.get("page_height"))
+    region_rotation_value = _number(region.get("rotation_degrees", 0))
+    if region_width is None or region_height is None or region_rotation_value is None:
+        return review_display_bbox(bbox, transform)
+    region_rotation = int(region_rotation_value) % 360
+    already_displayed = (
+        region_rotation == 0
+        and math.isclose(region_width, displayed_width, abs_tol=0.01)
+        and math.isclose(region_height, displayed_height, abs_tol=0.01)
+    )
+    return bbox if already_displayed else review_display_bbox(bbox, transform)
+
+
+def _number(value: object) -> float | None:
+    """Parse one finite scalar while rejecting structured and boolean values."""
+    if isinstance(value, bool) or not isinstance(value, (int, float, str)):
+        return None
+    try:
+        result = float(value)
+    except ValueError:
+        return None
+    return result if math.isfinite(result) else None
+
+
 def parse_bbox(value: object) -> BBox | None:
     """Return one finite, ordered four-value box or no usable geometry."""
     if not isinstance(value, (list, tuple)) or len(value) != 4:
@@ -68,4 +103,10 @@ def bboxes_overlap(first: BBox | None, second: BBox | None) -> bool:
     )
 
 
-__all__ = ["BBox", "bboxes_overlap", "parse_bbox", "review_display_bbox"]
+__all__ = [
+    "BBox",
+    "bboxes_overlap",
+    "canonical_region_display_bbox",
+    "parse_bbox",
+    "review_display_bbox",
+]

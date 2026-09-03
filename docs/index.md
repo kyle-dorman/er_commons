@@ -21,14 +21,19 @@ Task 03J output and must not be treated as Task 03H input. The exact identity,
 handoff ID, checksums, and completion path are recorded in the [Task 03J
 outcome](../tasks/sprint2/03j_run_final_canonical_extraction.md).
 
-The next task is provisional [Task
-04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md). It is
-unblocked but inactive until its Gate A contract is revised from the validated
-Task 03J handoff and explicitly activated. Task 04A owns a new review dataset,
-fresh finding rechecks, the complete machine-detectable TOC candidate census,
-the usability registry, and the initial release-freeze decision. Conditional
-[Task 04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) starts
-only from an approved Task 04A TOC/navigation stop handoff.
+[Task 04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) is
+complete. Its Gate D package under `reviewv1-task03j-final-c17/gate_d/` freezes
+the Task 03J candidate with a separate human-usability layer: all 35 sources are
+eligible, the 757 accepted decisions contain 60 TOC and 697 Not TOC outcomes,
+the Task 03I finding is fixed, and all 725 unreviewed ambiguous links remain
+explicitly unresolved. The release has zero material blockers. Existing large
+Task 03J files were not rehashed.
+
+Task 04B is closed as a no-op because there will be no machine regeneration.
+Provisional [Task
+04C](../tasks/sprint2/04c_materialize_human_review_navigation_overlay.md) is the
+next task to review and is not active. It owns the separate work of applying the
+accepted human layer to semantic navigation, aliases, and links.
 
 Task 04's first-pass review and Task 03I's bounded extraction repair remain
 historical inputs to Task 04A. They do not transfer review IDs, anchors,
@@ -38,18 +43,14 @@ inputs to the current review.
 
 ## Next action
 
-For Task 04A, read these files in order:
+For the next task decision, read these files in order:
 
-1. [Task 04A contract](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md)
-2. [Task 03J outcome](../tasks/sprint2/03j_run_final_canonical_extraction.md)
-3. [Task 03I outcome](../tasks/sprint2/03i_remediate_task04_review_findings.md)
-4. [Task 04 first-pass outcome](../tasks/sprint2/04_review_extraction_and_freeze_release.md)
-5. [Architecture contract](architecture.md) and [data/artifact contract](data_artifacts.md)
+1. [Task 04C contract](../tasks/sprint2/04c_materialize_human_review_navigation_overlay.md)
+2. [Task 04A outcome](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md)
+3. [Architecture contract](architecture.md) and [data/artifact contract](data_artifacts.md)
 
-The immediate deliverable is a source-free Gate A revision that records the
-exact Task 03J inputs, rejects stale Task 03H evidence, freezes the selection
-and recheck policies, and states the workload and approval boundary before
-source-PDF reads or review renders.
+The accepted Gate D completion and release records are under
+`pipelines/brisbane_baylands/task_04_review/reviewv1-task03j-final-c17/gate_d/`.
 
 ## Document roles
 

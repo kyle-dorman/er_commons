@@ -37,6 +37,12 @@
     "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "review_run_id": {"type": "string", "pattern": "^reviewv1-task03h-first-[a-f0-9]{16}$"},
     "finding": {
+      "oneOf": [
+        {"$ref": "#/$defs/anchored_finding"},
+        {"$ref": "#/$defs/retained_disposition_finding"}
+      ]
+    },
+    "anchored_finding": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -70,11 +76,53 @@
             "properties": {"status": {"const": "accepted_for_task03i"}},
             "required": ["status"]
           },
-          "then": {
-            "properties": {"class": {"const": "extraction_defect"}}
-          }
+          "then": {"properties": {"class": {"const": "extraction_defect"}}}
         }
       ]
+    },
+    "retained_disposition_finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_id",
+        "class",
+        "review_item_id",
+        "status",
+        "title",
+        "disposition",
+        "owning_stage",
+        "summary",
+        "expected_behavior",
+        "observed_behavior",
+        "why_extraction_defect",
+        "downstream_consequence",
+        "repair_invariant",
+        "scope_boundary",
+        "evidence",
+        "regression",
+        "identity_impact",
+        "disposition_reason"
+      ],
+      "properties": {
+        "finding_id": {"type": "string", "pattern": "^finding-[a-f0-9]{24}$"},
+        "class": {"const": "extraction_defect"},
+        "review_item_id": {"type": "string", "pattern": "^reviewitem-[a-f0-9]{24}$"},
+        "status": {"const": "accepted_for_task03i"},
+        "title": {"type": "string", "minLength": 1},
+        "disposition": {"const": "repair"},
+        "owning_stage": {"type": "string", "minLength": 1},
+        "summary": {"type": "string", "minLength": 1},
+        "expected_behavior": {"type": "string", "minLength": 1},
+        "observed_behavior": {"type": "string", "minLength": 1},
+        "why_extraction_defect": {"type": "string", "minLength": 1},
+        "downstream_consequence": {"type": "string", "minLength": 1},
+        "repair_invariant": {"type": "string", "minLength": 1},
+        "scope_boundary": {"type": "string", "minLength": 1},
+        "evidence": {"type": "object"},
+        "regression": {"type": "string", "minLength": 1},
+        "identity_impact": {"type": "string", "minLength": 1},
+        "disposition_reason": {"type": "string", "minLength": 1}
+      }
     },
     "anchor": {
       "oneOf": [

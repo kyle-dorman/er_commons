@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04a_review/v1/gate_d_completion.schema.json",
+  "title": "ER Commons Task 04A Gate D completion v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_run_id", "status", "source_count", "toc_decision_count", "ambiguous_link_disposition_count", "managed_records", "input_records", "large_file_hashing_performed", "largest_hashed_input_bytes"],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04a_review.v1.gate_d_completion"},
+    "review_run_id": {"const": "reviewv1-task03j-final-c17"},
+    "status": {"const": "complete"},
+    "source_count": {"const": 35},
+    "toc_decision_count": {"const": 757},
+    "ambiguous_link_disposition_count": {"const": 725},
+    "managed_records": {
+      "type": "object",
+      "minProperties": 5,
+      "maxProperties": 5,
+      "additionalProperties": {"$ref": "#/$defs/reference"}
+    },
+    "input_records": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["toc_review_decisions", "gate_a_preparation"],
+      "properties": {
+        "toc_review_decisions": {"$ref": "#/$defs/reference"},
+        "gate_a_preparation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "verification"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "verification": {"const": "identity_and_declared_digests_reused_without_file_rehash"}
+          }
+        }
+      }
+    },
+    "large_file_hashing_performed": {"const": false},
+    "largest_hashed_input_bytes": {"type": "integer", "maximum": 1000000}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_size"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/digest"},
+        "byte_size": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

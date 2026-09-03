@@ -1,9 +1,8 @@
 # Task 04B: Remediate TOC Navigation and Reprocess the Candidate
 
-Status: **provisional and inactive; blocked on an approved Task 04A stop record
-and `task04b_handoff.json`**. Revise this contract from those exact records
-before activation. If Task 04A freezes the release without an approved
-TOC/navigation extraction finding, close Task 04B as a no-op.
+Status: **closed as a no-op by the 2026-09-03 Task 04A disposition**. Task 03J
+will be frozen without machine regeneration; the separate human-overlay and
+linking work belongs to [Task 04C](04c_materialize_human_review_navigation_overlay.md).
 
 ## Abstract
 

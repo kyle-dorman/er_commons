@@ -7,50 +7,46 @@ Task 03 work are complete. Task 04 and Task 03I are complete as the first-pass
 review and its bounded extraction disposition. Task 03J is complete as the
 fresh machine-only 35-source candidate and collection handoff.
 
-The current handoff records `task04_status: not_evaluated`. This is the machine
-handoff field; final human usability and release status still belong to Task
-04A. The exact Task 03J identities and checksums are in its [task
-outcome](../tasks/sprint2/03j_run_final_canonical_extraction.md).
+The Task 03J machine handoff still records `task04_status: not_evaluated`
+because immutable machine records are not rewritten by human review. Task 04A's
+separate Gate D freeze is now the accepted human-usability decision.
 
-## Next action: Task 04A
+## Current action: review Task 04C before activation
 
 [Task 04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md) is
-provisional, inactive, and unblocked. Before activation:
+complete. Its Gate D package is under
+`reviewv1-task03j-final-c17/gate_d/`. The release freezes all 35 sources as
+eligible with the human TOC layer, 757 decisions (60 TOC and 697 Not TOC), the
+Task 03I finding as fixed, and all 725 unreviewed ambiguous links as unresolved.
+It records zero material blockers, closes Task 04B as a no-op, and references
+sealed Task 03J identities without rehashing large files.
 
-- revise Gate A from the validated Task 03J handoff;
-- bind a new review identity to the exact Task 03J inputs and reject stale Task
-  03H anchors and artifacts;
-- freeze deterministic selection, recheck, TOC-census, and review policies;
-- extend and qualify the existing review generator with its explicit
-  `task03j_final` mode; and
-- present the review workload and approval boundary before source-PDF reads or
-  review renders.
-
-During the active pass, Task 04A will recheck applicable Task 03I findings,
-review fresh risk samples, review every machine-detectable TOC or document-index
-candidate, record source usability, and either publish the release-freeze
-record or stop with an approved remediation handoff.
+Provisional [Task
+04C](../tasks/sprint2/04c_materialize_human_review_navigation_overlay.md) is now
+the next task to review. It is not active. Its job is to materialize one derived
+machine-plus-human navigation view and conservatively reconsider links for newly
+confirmed TOCs without mutating Task 03J or Task 04A.
 
 ## Conditional follow-up
 
-[Task 04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) is
-inactive. Activate it only from a completed Task 04A stop record containing an
-approved TOC/navigation finding and checksummed `task04b_handoff.json`. If Task
-04A freezes the release without such a finding, close Task 04B as a no-op.
+[Task 04B](../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) is a
+no-op by user decision because Task 03J will not be regenerated.
 
 ## Later sequence
 
 After the extraction release is frozen, the remaining planned work is:
 
-1. [Task 05](../tasks/sprint2/05_build_curator_only_response_inventory.md): build
+1. [Task 04C](../tasks/sprint2/04c_materialize_human_review_navigation_overlay.md):
+   materialize the human-reviewed navigation and linking overlay.
+2. [Task 05](../tasks/sprint2/05_build_curator_only_response_inventory.md): build
    the separate Final EIR Volume 4 comment and response inventory.
-2. Task 06: pilot reference-case authoring and evidence review.
-3. Task 07: curate, cluster, split, and freeze benchmark cases.
-4. Task 08: build and freeze human evaluation.
-5. Task 09: build and freeze BM25 retrieval.
-6. Task 10: build and freeze target generation.
-7. Task 11: calibrate the automated judge.
-8. Task 12: run the locked test and close Sprint 2.
+3. Task 06: pilot reference-case authoring and evidence review.
+4. Task 07: curate, cluster, split, and freeze benchmark cases.
+5. Task 08: build and freeze human evaluation.
+6. Task 09: build and freeze BM25 retrieval.
+7. Task 10: build and freeze target generation.
+8. Task 11: calibrate the automated judge.
+9. Task 12: run the locked test and close Sprint 2.
 
 These tasks remain planned. Their detailed boundaries are in the [Sprint 2
 plan](sprints/sprint2_brisbane_draft_eir_defense.md); no later task is active.

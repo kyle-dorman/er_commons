@@ -38,10 +38,20 @@ _REASON_LABELS = {
     "largest_multi_page_appendix_family": (
         "one of this appendix's largest multi-page table families"
     ),
+    "toc_false_negative_candidate": "possible TOC missed by the canonical TOC representation",
+    "canonical_positive_toc": "TOC recognized by the document extraction",
+    "task03i_finding_recheck": "fresh page evidence for the accepted Task 03I repair",
 }
 
 
-def write_review_html(root: Path, cards: tuple[ReviewCard, ...], title: str) -> tuple[Path, ...]:
+def write_review_html(
+    root: Path,
+    cards: tuple[ReviewCard, ...],
+    title: str,
+    toc_decisions: Mapping[str, str] | None = None,
+    *,
+    review_run_id: str = "task04-review",
+) -> tuple[Path, ...]:
     """Write readable static assets and a keyboard-navigable review index."""
     root.mkdir(parents=True, exist_ok=True)
     rendered_cards = "\n".join(_render_card(card, index) for index, card in enumerate(cards))
@@ -52,6 +62,8 @@ def write_review_html(root: Path, cards: tuple[ReviewCard, ...], title: str) -> 
         template.replace("__TITLE__", html.escape(title))
         .replace("__CARDS__", rendered_cards)
         .replace("__QUEUE_COUNTS__", json.dumps(counts, sort_keys=True))
+        .replace("__TOC_DECISIONS__", json.dumps(dict(toc_decisions or {}), sort_keys=True))
+        .replace("__REVIEW_RUN_ID__", json.dumps(review_run_id))
     )
     outputs = [index]
     for name in ("review.css", "review.js"):
@@ -73,8 +85,13 @@ def _render_card(card: ReviewCard, index: int) -> str:
     if item.table_family_id is not None:
         details.append(f"<p><strong>Table family:</strong> {html.escape(item.table_family_id)}</p>")
         details.append(render_parser_evidence(item.table_parser_evidence))
+    if item.queue.value == "positive_toc":
+        details.append(_positive_run_scope(item))
     page_markup = "".join(
         render_page_comparison(page.relative_path, page.evidence) for page in card.rendered_pages
+    )
+    toc_controls = (
+        _toc_controls(item) if item.queue.value in {"table", "toc_review", "positive_toc"} else ""
     )
     return (
         f'<article class="item" data-index="{index}" '
@@ -85,7 +102,60 @@ def _render_card(card: ReviewCard, index: int) -> str:
         f"<p><strong>Why selected:</strong> {html.escape(reasons)}</p>"
         '<details class="provenance"><summary>Population details</summary><p>'
         f"{html.escape(json.dumps(dict(item.population), sort_keys=True))}</p></details>"
-        f"{''.join(details)}{page_markup}</article>"
+        f"{''.join(details)}{toc_controls}{page_markup}</article>"
+    )
+
+
+def _toc_controls(item: ReviewItem) -> str:
+    """Render queue-specific TOC decision controls."""
+    candidate_page_id = str(item.population.get("candidate_page_id") or item.review_item_id)
+    if item.queue.value == "positive_toc":
+        run = item.population.get("positive_run")
+        suffix_ids = (
+            run.get("suffix_entry_ids", [candidate_page_id])
+            if isinstance(run, Mapping)
+            else [candidate_page_id]
+        )
+        encoded_suffix = html.escape(json.dumps(suffix_ids, separators=(",", ":")), quote=True)
+        return (
+            '<section class="toc-decision" aria-label="TOC false-positive decision">'
+            '<div><p class="panel-kicker">TOC false-positive check</p>'
+            "<p>Set or clear this page's label. Not TOC applies through the end "
+            'of its positive run.</p></div><div class="toc-buttons">'
+            f'<button type="button" data-toc-yes data-entry-id="{html.escape(candidate_page_id)}">'
+            "TOC (T)</button>"
+            '<button class="toc-no" type="button" data-toc-no '
+            f'data-entry-id="{html.escape(candidate_page_id)}" '
+            f'data-run-suffix-entry-ids="{encoded_suffix}">Not TOC through run end (F)</button>'
+            "</div></section>"
+        )
+    return (
+        '<section class="toc-decision" aria-label="TOC false-negative decision">'
+        '<div><p class="panel-kicker">TOC false-negative check</p>'
+        "<p>Set or clear the label for this full-page-table review run.</p></div>"
+        '<div class="toc-buttons">'
+        f'<button type="button" data-toc-yes data-entry-id="{html.escape(candidate_page_id)}">'
+        "TOC (T)</button>"
+        '<button class="toc-no" type="button" data-toc-no '
+        f'data-entry-id="{html.escape(candidate_page_id)}">'
+        "Not TOC (F)</button></div></section>"
+    )
+
+
+def _positive_run_scope(item: ReviewItem) -> str:
+    """Show the machine-positive run represented by one false-positive check."""
+    run = item.population.get("positive_run")
+    if not isinstance(run, Mapping) or not run:
+        return ""
+    start = run.get("start_page")
+    end = run.get("end_page")
+    count = run.get("page_count")
+    basis = str(run.get("selection_basis") or "representative")
+    return (
+        '<p class="run-scope"><strong>Positive run:</strong> '
+        f"physical pages {html.escape(str(start))}–{html.escape(str(end))} "
+        f"({html.escape(str(count))} pages) · this task is physical page "
+        f"{item.physical_pages[0]} · {html.escape(basis.replace('_', ' '))}</p>"
     )
 
 
@@ -250,7 +320,7 @@ def render_page_comparison(path: str, evidence: PageEvidence) -> str:
         '<div class="page-canvas">'
         f'<div class="page-surface" style="--page-ratio: '
         f'{evidence.width / evidence.height:.8f}">'
-        f'<img loading="lazy" src="{html.escape(path)}" '
+        f'<img loading="lazy" decoding="async" data-src="{html.escape(path)}" '
         f'alt="Rendered physical PDF page {evidence.physical_page}">'
         f'<svg class="page-overlay" viewBox="0 0 {evidence.width:.3f} '
         f'{evidence.height:.3f}" preserveAspectRatio="none">'

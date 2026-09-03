@@ -1,20 +1,66 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://er-commons.local/schemas/task04a_review/v1/release_freeze.schema.json",
-  "title": "ER Commons provisional Task 04A release freeze v1",
+  "title": "ER Commons Task 04A release freeze v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "review_run_id", "pass", "status", "review_register_sha256", "unresolved_material_finding_count"],
+  "required": ["schema_version", "review_run_id", "pass", "status", "review_register_sha256", "unresolved_material_finding_count", "machine_candidate", "human_toc_decisions", "decision_counts", "gate_d_records", "ambiguous_link_count", "task03i_recheck_status", "task04b_status", "next_task", "large_file_hashing"],
   "properties": {
     "schema_version": {"const": "er_commons.task04_review.v1.release_freeze"},
-    "review_run_id": {"$ref": "#/$defs/review_run_id"},
+    "review_run_id": {"const": "reviewv1-task03j-final-c17"},
     "pass": {"const": "task03j_final"},
-    "status": {"enum": ["not_frozen", "frozen", "blocked"]},
+    "status": {"const": "frozen"},
     "review_register_sha256": {"$ref": "#/$defs/digest"},
-    "unresolved_material_finding_count": {"type": "integer", "minimum": 0}
+    "unresolved_material_finding_count": {"const": 0},
+    "machine_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production_extraction_id", "scope_id", "handoff_id"],
+      "properties": {
+        "production_extraction_id": {"type": "string", "pattern": "^exv1-"},
+        "scope_id": {"type": "string", "pattern": "^scopev1-"},
+        "handoff_id": {"type": "string", "pattern": "^handoffv1-"}
+      }
+    },
+    "human_toc_decisions": {"$ref": "#/$defs/reference"},
+    "decision_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total", "toc", "not_toc"],
+      "properties": {
+        "total": {"const": 757},
+        "toc": {"const": 60},
+        "not_toc": {"const": 697}
+      }
+    },
+    "gate_d_records": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["usability_registry", "ambiguous_link_dispositions", "unresolved_risk_report", "task03i_recheck_disposition"],
+      "properties": {
+        "usability_registry": {"$ref": "#/$defs/reference"},
+        "ambiguous_link_dispositions": {"$ref": "#/$defs/reference"},
+        "unresolved_risk_report": {"$ref": "#/$defs/reference"},
+        "task03i_recheck_disposition": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "ambiguous_link_count": {"const": 725},
+    "task03i_recheck_status": {"const": "fixed_confirmed"},
+    "task04b_status": {"const": "closed_no_op"},
+    "next_task": {"const": "task04c_materialize_human_review_navigation_overlay"},
+    "large_file_hashing": {"const": "not_recomputed;sealed_upstream_digests_referenced"}
   },
   "$defs": {
     "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-    "review_run_id": {"type": "string", "pattern": "^reviewv1-[a-z0-9-]+$"}
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_size"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/digest"},
+        "byte_size": {"type": "integer", "minimum": 1}
+      }
+    }
   }
 }

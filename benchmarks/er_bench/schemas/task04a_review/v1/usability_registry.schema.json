@@ -1,29 +1,33 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://er-commons.local/schemas/task04a_review/v1/usability_registry.schema.json",
-  "title": "ER Commons provisional Task 04A usability registry v1",
+  "title": "ER Commons Task 04A usability registry v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "review_run_id", "pass", "entries"],
+  "required": ["schema_version", "review_run_id", "pass", "status", "source_count", "entries"],
   "properties": {
     "schema_version": {"const": "er_commons.task04_review.v1.usability_registry"},
-    "review_run_id": {"$ref": "#/$defs/review_run_id"},
+    "review_run_id": {"const": "reviewv1-task03j-final-c17"},
     "pass": {"const": "task03j_final"},
+    "status": {"const": "approved"},
+    "source_count": {"const": 35},
     "entries": {
       "type": "array",
+      "minItems": 35,
+      "maxItems": 35,
       "items": {
         "type": "object",
-        "additionalProperties": true,
-        "required": ["entry_id", "source_id", "status"],
+        "additionalProperties": false,
+        "required": ["entry_id", "source_id", "candidate_id", "status", "condition", "unresolved_links"],
         "properties": {
-          "entry_id": {"type": "string"},
-          "source_id": {"type": "string"},
-          "status": {"enum": ["eligible", "not_eligible", "recheck_required"]}
+          "entry_id": {"type": "string", "pattern": "^usabilityv1-"},
+          "source_id": {"type": "string", "minLength": 1},
+          "candidate_id": {"type": "string", "pattern": "^docv1-"},
+          "status": {"const": "eligible"},
+          "condition": {"const": "eligible_with_task04a_human_toc_overlay"},
+          "unresolved_links": {"const": "excluded_from_trusted_resolved_link_use"}
         }
       }
     }
-  },
-  "$defs": {
-    "review_run_id": {"type": "string", "pattern": "^reviewv1-[a-z0-9-]+$"}
   }
 }

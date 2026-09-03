@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04a-review/v1/gate_a_preparation.schema.json",
+  "title": "ER Commons Task 04A source-free Gate A preparation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_run_id",
+    "pass",
+    "status",
+    "policy",
+    "policy_sha256",
+    "input_sha256",
+    "implementation",
+    "implementation_sha256",
+    "upstream_validation",
+    "inputs",
+    "task03i_recheck_plan",
+    "toc_candidate_census",
+    "expected_review_workload",
+    "source_free_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04a_review.v1.gate_a_preparation"},
+    "review_run_id": {"type": "string", "pattern": "^reviewv1-task03j-final-[0-9a-f]{16}$"},
+    "pass": {"const": "task03j_final"},
+    "status": {"const": "source_free_prepared"},
+    "policy": {"type": "object"},
+    "policy_sha256": {"$ref": "#/$defs/sha256"},
+    "input_sha256": {"$ref": "#/$defs/sha256"},
+    "implementation": {"type": "object"},
+    "implementation_sha256": {"$ref": "#/$defs/sha256"},
+    "upstream_validation": {"type": "object"},
+    "inputs": {"type": "object"},
+    "task03i_recheck_plan": {"type": "object"},
+    "toc_candidate_census": {"type": ["array", "object"]},
+    "expected_review_workload": {"type": "object"},
+    "source_free_boundary": {
+      "type": "object",
+      "required": [
+        "source_pdf_bytes_read",
+        "source_pdf_checksum_verified",
+        "renders_generated",
+        "model_files_read",
+        "human_review_started",
+        "gate_c_status",
+        "gate_d_status"
+      ],
+      "properties": {
+        "source_pdf_bytes_read": {"const": false},
+        "source_pdf_checksum_verified": {"const": false},
+        "renders_generated": {"const": false},
+        "model_files_read": {"const": false},
+        "human_review_started": {"const": false},
+        "gate_c_status": {"const": "not_started"},
+        "gate_d_status": {"const": "not_started"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

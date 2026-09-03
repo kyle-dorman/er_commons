@@ -16,7 +16,11 @@ from task04_test_support import (
 
 from er_commons.document_parsing.content_parsing.routing_geometry import DisplayedPageTransform
 from er_commons.human_review_support.task04 import build_review_bundle
-from er_commons.human_review_support.task04.geometry import bboxes_overlap, review_display_bbox
+from er_commons.human_review_support.task04.geometry import (
+    bboxes_overlap,
+    canonical_region_display_bbox,
+    review_display_bbox,
+)
 from er_commons.human_review_support.task04.json_io import (
     read_json_object,
     require_list,
@@ -141,6 +145,15 @@ def test_build_publishes_valid_separated_selection_and_render_evidence(tmp_path:
     assert not any(tree.output_root.joinpath(".tmp").iterdir())
 
 
+def test_positive_toc_asset_shows_explicit_reviewed_state() -> None:
+    asset = Path("src/er_commons/human_review_support/task04/assets/review.js").read_text()
+
+    assert "click to clear" in asset
+    assert "button.dataset.runSuffixEntryIds" in asset
+    assert "delete tocState[button.dataset.entryId]" in asset
+    assert 'requiredElement("#hide-reviewed")' in asset
+
+
 def test_failed_render_removes_unpublished_staging(tmp_path: Path) -> None:
     tree = make_synthetic_review_tree(tmp_path)
 
@@ -166,6 +179,27 @@ def test_review_display_bbox_rotates_native_text_into_landscape_frame() -> None:
     assert review_display_bbox(
         [81.184616, 9.787739, 93.525192, 278.870148], transform
     ) == pytest.approx((9.787739, 518.474808, 278.870148, 530.815384))
+
+
+def test_canonical_display_bbox_does_not_double_rotate_landscape_region() -> None:
+    transform = DisplayedPageTransform.create(
+        (792.0, 612.0),
+        (0.0, 0.0, 612.0, 792.0),
+        90,
+    )
+    region = {
+        "bbox": [9.95, 168.32, 263.01, 180.66],
+        "page_width": 792.0,
+        "page_height": 612.0,
+        "rotation_degrees": 0,
+    }
+
+    assert canonical_region_display_bbox(region, 792.0, 612.0, transform) == (
+        9.95,
+        168.32,
+        263.01,
+        180.66,
+    )
 
 
 def test_parser_presenter_names_every_attempt() -> None:

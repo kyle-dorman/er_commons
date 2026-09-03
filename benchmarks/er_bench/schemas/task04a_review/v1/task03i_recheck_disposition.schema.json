@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04a_review/v1/task03i_recheck_disposition.schema.json",
+  "title": "ER Commons Task 03I recheck disposition v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_run_id", "status", "reviewer", "review_date", "finding_id", "source_id", "physical_pages", "gate_c_evidence_status"],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04a_review.v1.task03i_recheck_disposition"},
+    "review_run_id": {"const": "reviewv1-task03j-final-c17"},
+    "status": {"const": "fixed_confirmed"},
+    "reviewer": {"const": "user"},
+    "review_date": {"type": "string", "format": "date"},
+    "finding_id": {"type": "string", "pattern": "^finding-"},
+    "source_id": {"const": "deir_appendix_k2_part_5_of_5"},
+    "physical_pages": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {"type": "integer", "minimum": 1},
+      "uniqueItems": true
+    },
+    "gate_c_evidence_status": {"const": "machine_evidence_bound_pending_human_confirmation"}
+  }
+}

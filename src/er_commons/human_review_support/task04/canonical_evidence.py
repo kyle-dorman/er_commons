@@ -9,8 +9,8 @@ from typing import cast
 from er_commons.document_parsing.content_parsing.routing_geometry import DisplayedPageTransform
 from er_commons.human_review_support.task04.geometry import (
     bboxes_overlap,
+    canonical_region_display_bbox,
     parse_bbox,
-    review_display_bbox,
     source_page_transforms,
 )
 from er_commons.human_review_support.task04.json_io import (
@@ -197,7 +197,12 @@ def _load_selected_blocks(
                     "id": require_string(block.get("id"), path=f"{path}:{index + 1}.id"),
                     "block_type": str(block.get("block_type") or "other"),
                     "text": text,
-                    "bbox": review_display_bbox(region.get("bbox"), transforms.get(page)),
+                    "bbox": canonical_region_display_bbox(
+                        region,
+                        _required_float(pages[page]["width"], path="page.width"),
+                        _required_float(pages[page]["height"], path="page.height"),
+                        transforms.get(page),
+                    ),
                     "sequence": block.get("sequence"),
                 }
             )

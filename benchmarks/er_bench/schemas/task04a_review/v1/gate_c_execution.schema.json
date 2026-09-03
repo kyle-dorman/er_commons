@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04a_review/v1/gate_c_execution.schema.json",
+  "title": "ER Commons Task 04A Gate C execution v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_run_id",
+    "pass",
+    "status",
+    "source_count",
+    "candidate_page_count",
+    "rendered_page_count",
+    "human_review_status",
+    "task03i_finding_recheck_status"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04a_review.v1.gate_c_execution"},
+    "review_run_id": {"type": "string", "pattern": "^reviewv1-[a-z0-9-]+$"},
+    "pass": {"const": "task03j_final"},
+    "status": {"const": "machine_generation_complete_human_review_pending"},
+    "source_count": {"type": "integer", "const": 35},
+    "candidate_page_count": {"type": "integer", "minimum": 0},
+    "rendered_page_count": {"type": "integer", "minimum": 0},
+    "gate_a_preparation_review_run_id": {"type": "string"},
+    "task03j_production_extraction_id": {"type": "string"},
+    "ambiguous_toc_alias_count": {"type": "integer", "minimum": 0},
+    "ambiguous_reference_link_count": {"type": "integer", "minimum": 0},
+    "human_register_entry_count": {"type": "integer", "minimum": 0},
+    "human_review_status": {"const": "pending"},
+    "task03i_finding_recheck_status": {
+      "const": "machine_evidence_bound_pending_human_confirmation"
+    },
+    "source_reads": {"type": "array"},
+    "renderer": {"type": "object"},
+    "html_files": {"type": "array"},
+    "selection_manifest": {"type": "object"},
+    "large_file_hashing": {"type": "string"},
+    "register_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

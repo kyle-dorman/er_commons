@@ -73,12 +73,29 @@ pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/
 ```
 
 The completed first-pass Task 04 records are historical and bind the old
-Task 03H diagnostic pass. Task 04A must allocate a new `reviewv1-` run bound to
-the Task 03J candidate. Its compact records include the input inventory,
-selection, review bundle, finding/recheck records, TOC candidate census and
-review register, usability registry, and either a release-freeze record or a
-Task 04B handoff. Exact filenames and schemas are fixed by the active Task 04A
-contract, not inferred from the first-pass directory.
+Task 03H diagnostic pass. Task 04A allocates a new `reviewv1-` run bound to the
+Task 03J candidate. Its source-free MVP preparation record binds sealed
+upstream identities and file metadata without recomputing large file
+checksums; its production TOC census is now the completed source-free Gate B
+output. The corrected Gate C reviewer is published under
+`reviewv1-task03j-final-c17/`, with source renders, 757 persisted TOC decisions,
+117 stable TOC-review run cards, and 224 stable machine-positive page cards.
+Labels do not change card membership; Hide reviewed provides the pending-only
+view. Explicit TOC and Not TOC controls can change or clear each label, and
+positive rejection still applies through the contiguous run end. Intentional
+blanks and the one-off `Basic Project Information` run suffixes remain excluded. The package also
+contains a Task 03I recheck record.
+Task 04A's accepted Gate D closure is published additively under
+`reviewv1-task03j-final-c17/gate_d/`. It contains the source-usability registry,
+725 unresolved ambiguous-link dispositions, Task 03I recheck disposition,
+accepted-risk report, release freeze, and completion record. The freeze pins the
+55,949-byte human decision record and sealed Task 03J identities without
+rehashing large upstream artifacts.
+
+Task 04C will use a separate derived namespace for the accepted
+machine-plus-human navigation and linking view. It references sealed Task 03J
+checksums and Task 04A's compact review records rather than mutating or
+rehashing large upstream artifacts.
 
 HTML, rendered pages, overlays, and other review-cache outputs are disposable
 derivatives. They never become authoritative Task 03 machine state, human

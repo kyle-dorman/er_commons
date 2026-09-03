@@ -10,15 +10,18 @@ from pathlib import Path
 from er_commons.human_review_support.task04.scope_policy import InputScopePolicy
 
 type JsonValue = None | bool | int | float | str | list[JsonValue] | dict[str, JsonValue]
+type JsonObject = dict[str, JsonValue]
 
 
 class ReviewQueue(StrEnum):
-    """The four user-visible Task 04 review queues."""
+    """The user-visible Task 04 review queues."""
 
     FAILURE = "failure"
     WARNING = "warning"
     VALID_PAGE = "valid_page"
     TABLE = "table"
+    TOC_REVIEW = "toc_review"
+    POSITIVE_TOC = "positive_toc"
 
 
 @dataclass(frozen=True)
@@ -362,6 +365,12 @@ class ReviewItem:
                 value is None for value in (self.failure, self.warning, self.table_family_id)
             ),
             ReviewQueue.TABLE: self.table_family_id is not None,
+            ReviewQueue.TOC_REVIEW: all(
+                value is None for value in (self.failure, self.warning, self.table_family_id)
+            ),
+            ReviewQueue.POSITIVE_TOC: all(
+                value is None for value in (self.failure, self.warning, self.table_family_id)
+            ),
         }
         if not payloads[self.queue]:
             raise ValueError(f"{self.queue.value} review item lacks its required evidence")
@@ -466,6 +475,7 @@ __all__ = [
     "FailureHistory",
     "IdentityDependency",
     "InputScopePolicy",
+    "JsonObject",
     "PageEvidence",
     "PageProfile",
     "ParserAttempt",

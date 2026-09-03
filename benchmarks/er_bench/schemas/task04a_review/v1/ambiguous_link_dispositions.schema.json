@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04a_review/v1/ambiguous_link_dispositions.schema.json",
+  "title": "ER Commons Task 04A ambiguous-link dispositions v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_run_id", "status", "entry_count", "entries"],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04a_review.v1.ambiguous_link_dispositions"},
+    "review_run_id": {"const": "reviewv1-task03j-final-c17"},
+    "status": {"const": "complete_unresolved"},
+    "entry_count": {"const": 725},
+    "entries": {
+      "type": "array",
+      "minItems": 725,
+      "maxItems": 725,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reference_id", "source_id", "candidate_id", "disposition", "reason", "downstream_status", "machine_evidence"],
+        "properties": {
+          "reference_id": {"type": "string", "minLength": 1},
+          "source_id": {"type": "string", "minLength": 1},
+          "candidate_id": {"type": "string", "pattern": "^docv1-"},
+          "disposition": {"const": "unresolved"},
+          "reason": {"const": "not_human_reviewed_in_task04a"},
+          "downstream_status": {"const": "excluded_from_trusted_resolved_link_use"},
+          "machine_evidence": {"type": "object"}
+        }
+      }
+    }
+  }
+}

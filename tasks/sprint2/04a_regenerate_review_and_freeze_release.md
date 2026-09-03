@@ -1,7 +1,6 @@
 # Task 04A: Regenerate the Final Review Dataset and Freeze the Release
 
-Status: **provisional and inactive; unblocked by the completed Task 03J handoff**.
-Explicit activation and a final Gate A contract revision are still required.
+Status: **complete; Gate D release frozen on 2026-09-03**.
 
 ## Abstract
 
@@ -82,6 +81,127 @@ The following candidate-level dependencies must still be recorded during Task
 
 If any prerequisite is absent or ambiguous, stop and repair the owning upstream
 handoff. Do not reconstruct it from Task 03H artifacts or conversation history.
+
+## Source-free MVP preparation outcome
+
+On 2026-09-02, the source-free preparation published:
+
+```text
+pipelines/brisbane_baylands/task_04_review/
+  reviewv1-task03j-final-b19a7a36b04bda89/records/gate_a_preparation.json
+```
+
+The record is bound to the frozen `task03j_final` production identity,
+scope, and handoff above. It accounts for all 35 Task 03J terminal sources and
+the one approved Task 03I finding recheck. It freezes the selection, recheck,
+TOC signal, adjacency, and approval policies. The production machine-artifact
+census is now complete and marked `completed`. It reports 5,624 candidate
+pages, 3,433 seed pages, 2,191 adjacent pages, 9,421 ambiguous aliases, 725
+ambiguous links, 206 raw document-index objects, and 60 substantive-table
+controls. Three sources have zero machine-detectable candidates and remain
+explicit source census entries.
+
+The preparation record reports `source_pdf_bytes_read: false`,
+`source_pdf_checksum_verified: false`, `renders_generated: false`,
+`model_files_read: false`, and `human_review_started: false`. It used the prior
+read-only Task 03J validator evidence rather than rerunning an expensive
+validator/checksum pass. This is a preparation boundary, not a usability
+registry or release freeze, and it does not satisfy the full acceptance
+criteria below. This completes Gate B's source-free qualification.
+
+## Gate C machine execution outcome
+
+The original Gate C package incorrectly presented every census page as a valid
+page and is superseded. The corrected six-tab reviewer is:
+
+```text
+pipelines/brisbane_baylands/task_04_review/
+  reviewv1-task03j-final-c17/
+```
+
+It contains 0 failure cards, 9 warning cards, 129 valid-page cards including
+the Task 03I recheck, 44 table-family cards, 117 stable TOC-review run cards,
+and 224 stable machine-positive TOC page cards. Labels no longer change card
+membership; Hide reviewed is the pending-only filter. All 341 TOC cards are
+currently labeled by the merged export. Both tabs provide explicit TOC and Not
+TOC controls, with click-again-to-clear behavior; positive rejection applies
+through the contiguous run end. The TOC sample
+excludes prior `not_toc` decisions, recognized TOC pages, substantive controls,
+numeric two-column tables, and repeated-left-column tables. The Positive TOCs
+tab is a false-positive review and exposes only `Not TOC`, with `F` as its
+hotkey. Hide reviewed filters completed labels. The 757 persisted decisions
+include deterministic run suffixes and carry into later `c*` regenerations.
+Separate progress text distinguishes the two TOC queues, and exports use the
+review ID in their filename. The merged human decisions are the accepted MVP
+TOC layer. Detailed per-entity role and representation fields were not collected
+and are recorded as an accepted limitation rather than silently inferred.
+
+## Approved Gate D disposition
+
+On 2026-09-03, the user confirmed that the Task 03I finding is fixed, all 35
+sources are eligible when paired with the exported human TOC review layer, and
+the 725 ambiguous TOC-derived links were not reviewed and must remain explicitly
+unresolved. The accepted MVP path freezes Task 03J plus the separate human
+registry without machine regeneration. Task 04B is therefore a no-op.
+
+Gate D publication must reuse the existing sealed Task 03J checksums and hash
+only new compact review records; it must not recompute checksums for large
+source or extraction files. The current implementation does not consume the
+human TOC decisions in semantic placement, aliases, or reference linking.
+That significant downstream concern is assigned to provisional [Task
+04C](04c_materialize_human_review_navigation_overlay.md), not added to Task
+04A and not treated as Task 04B regeneration.
+
+## Maintainability gate
+
+Before Gate D publication, the Task 04A implementation received a dedicated
+human-maintainability pass. The pass introduced typed TOC census page/source
+objects at the JSON boundary, direct contiguous-run objects, named selection
+accounting, separate table-shape filter ownership, smaller review planning and
+record-writing stages, path-rich input validation, and recoverable browser-state
+parsing. Focused tests cover malformed census diagnostics and deterministic run
+grouping. Repository formatting, lint, strict typing, all tests, JavaScript
+syntax validation, and `git diff --check` must pass before the code is presented
+for user review.
+
+The user accepted this maintainability pass before Gate D publication.
+
+## Outcome
+
+Gate D completed on 2026-09-03 under:
+
+```text
+pipelines/brisbane_baylands/task_04_review/
+  reviewv1-task03j-final-c17/gate_d/
+```
+
+The additive, no-clobber package contains the usability registry, ambiguous-link
+dispositions, Task 03I recheck disposition, unresolved-risk report,
+release-freeze record, and completion record. It records:
+
+- all 35 sources as eligible with the accepted Task 04A human TOC layer;
+- 757 accepted TOC decisions: 60 `toc` and 697 `not_toc`;
+- all 725 unreviewed ambiguous links as unresolved and excluded from trusted
+  resolved-link use;
+- the Task 03I finding as fixed on physical pages 974-983 of
+  `deir_appendix_k2_part_5_of_5`;
+- zero material release blockers and three accepted MVP limitations; and
+- Task 04B as `closed_no_op`, with provisional Task 04C as the next task.
+
+The freeze pins Task 03J production extraction
+`exv1-6913f56bed93302d7cf5ef424ee63c0b7427e90e2b2cd5c4ec483d275009a773`,
+scope `scopev1-bd4b7ca85b299ae528376b1a6e88b9d0fdba02e4f7e8862c5fa91a28b719e893`,
+and handoff
+`handoffv1-44d510d545026a427ccdb47497d30f1d46c66130291af66fc0d5883a35102325`.
+No source PDF, render, or model file was read. Existing large Task 03J inputs
+were not rehashed; the largest hashed input was the 55,949-byte TOC decision
+record. The newly published compact records were checksummed into the completion
+record.
+
+Task 04A does not apply page-level labels to semantic placement, aliases, or
+links. That work remains isolated in provisional [Task
+04C](04c_materialize_human_review_navigation_overlay.md), which must be reviewed
+and activated separately.
 
 ## TOC and navigation review contract
 
@@ -190,7 +310,9 @@ Before activation:
 ### Gate A: activate from closed upstream handoffs
 
 1. Validate the Task 03I disposition and Task 03J handoff with their owning
-   validators.
+   validators. The MVP record uses the prior successful read-only Task 03J
+   validator result plus record-shape validation; a full validator rerun remains
+   available before Gate B if needed.
 2. Record every exact dependency listed above and reject stale Task 03H-derived
    identities, checksums, pages, or render inputs.
 3. Revise this provisional contract to the actual handoff shape and freeze the
@@ -198,7 +320,7 @@ Before activation:
 4. Present the expected review workload before reading source PDFs or producing
    renders.
 
-### Gate B: add and qualify the final-pass generator mode
+### Gate B: add and qualify the final-pass generator mode (completed source-free)
 
 1. Extend the Task 04 generator with an explicit `task03j_final` mode rather
    than cloning the review framework.
@@ -207,7 +329,7 @@ Before activation:
 3. Preserve the qualified side-by-side UI, canonical/table overlays, parser
    attempt explanations, warning normalization, and shared image-overlay
    geometry frame from Task 04.
-4. Add the deterministic TOC candidate census, neighboring-run grouping,
+4. Run the production deterministic TOC candidate census, neighboring-run grouping,
    machine-evidence panel, human disposition fields, and Task 04B handoff
    projection without adding extraction repair behavior.
 5. Cover explicit TOC blocks, embedded TOCs, raw `document_index` objects,
@@ -216,14 +338,17 @@ Before activation:
 
 ### Gate C: generate and review the Task 03J dataset
 
+Machine generation is complete in `reviewv1-task03j-final-c17`; the following
+steps remain the human-review portion of this gate:
+
 1. Allocate the new review identity and generate the deterministic inventory,
    selection, HTML, and selected render derivatives.
 2. Recheck every applicable Task 04 extraction finding.
 3. Review fresh per-source, warning, failure, page, table, and risk-triggered
    evidence under the frozen policy.
-4. Review every row in the frozen TOC candidate census, including all pages in
-   each adjacent navigation run and explicit substantive-table controls.
-5. Reconcile every reviewed TOC row or entry against its canonical
+4. Review the bounded TOC false-negative sample; already recognized TOC pages
+   are excluded.
+5. Reconcile every positively tagged TOC page against its canonical
    representation and, where present, its body-target alias.
 6. Review every ambiguous TOC-derived reference link and record either its
    intended body target or an unresolved disposition.

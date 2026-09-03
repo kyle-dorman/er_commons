@@ -55,7 +55,16 @@ def test_task04_and_task04a_schemas_have_separate_closure() -> None:
         "selection_manifest.schema",
         "task03i_handoff.schema",
     ]
-    assert task04a == ["release_freeze.schema", "usability_registry.schema"]
+    assert task04a == [
+        "ambiguous_link_dispositions.schema",
+        "gate_a_preparation.schema",
+        "gate_c_execution.schema",
+        "gate_d_completion.schema",
+        "release_freeze.schema",
+        "task03i_recheck_disposition.schema",
+        "unresolved_risk_report.schema",
+        "usability_registry.schema",
+    ]
     schemas = (
         *SCHEMA_ROOT.glob("*.json"),
         *(SCHEMA_PARENT / "task04a_review/v1").glob("*.json"),

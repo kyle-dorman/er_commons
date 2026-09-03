@@ -13,11 +13,11 @@
           <div class="brand-mark" aria-hidden="true">04</div>
           <div class="brand-copy">
             <span>Environmental review</span>
-            <strong>First-pass workspace</strong>
+            <strong>Review workspace</strong>
           </div>
         </div>
         <p class="sidebar-intro">
-          A focused, read-only path through the retained diagnostic evidence.
+          One focused path through extraction and navigation evidence.
         </p>
         <p class="rail-label">Review queues</p>
         <nav class="queue-nav" aria-label="Review queue filters">
@@ -41,7 +41,26 @@
             <span class="queue-count" data-count="table">0</span>
             <span class="queue-hint">Cells + page image</span>
           </button>
+          <button class="queue-button" data-filter="toc_review">
+            <span class="queue-name">TOC review</span>
+            <span class="queue-count" data-count="toc_review">0</span>
+            <span class="queue-hint">Possible false negatives</span>
+          </button>
+          <button class="queue-button" data-filter="positive_toc">
+            <span class="queue-name">Positive TOCs</span>
+            <span class="queue-count" data-count="positive_toc">0</span>
+            <span class="queue-hint">Flagged for confirmation</span>
+          </button>
         </nav>
+        <section class="toc-summary" aria-label="TOC review progress">
+          <span id="toc-progress">TOC candidates: 0 of 0 labeled</span>
+          <span id="positive-progress">Positive TOC false positives: 0 flagged</span>
+          <label class="review-toggle">
+            <input id="hide-reviewed" type="checkbox">
+            Hide reviewed
+          </label>
+          <button id="export-toc" type="button">Export TOC decisions</button>
+        </section>
         <button class="all-button" data-filter="all">View all review items</button>
       </aside>
       <div class="content-shell">
@@ -76,7 +95,11 @@
         </nav>
       </div>
     </div>
-    <script>window.TASK04_QUEUE_COUNTS = __QUEUE_COUNTS__;</script>
+    <script>
+      window.TASK04_QUEUE_COUNTS = __QUEUE_COUNTS__;
+      window.TASK04_INITIAL_TOC_DECISIONS = __TOC_DECISIONS__;
+      window.TASK04_REVIEW_RUN_ID = __REVIEW_RUN_ID__;
+    </script>
     <script src="review.js"></script>
   </body>
 </html>

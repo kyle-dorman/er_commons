@@ -74,7 +74,7 @@ def build_review_bundle(
         selection = build_selection(
             inputs, request.data_root, identity.review_run_id, identity.policy_sha256
         )
-        cards, generated = _build_presentation(
+        cards, generated = build_presentation(
             workspace.staging_root,
             inputs,
             selection.items,
@@ -82,7 +82,10 @@ def build_review_bundle(
             page_evidence_loader,
         )
         html_files = write_review_html(
-            workspace.staging_root / "html", cards, "Task 04 first-pass review"
+            workspace.staging_root / "html",
+            cards,
+            "Task 04 first-pass review",
+            review_run_id=identity.review_run_id,
         )
         validator = RecordValidator(resolved_schema_root)
         write_records(
@@ -113,7 +116,7 @@ def build_review_bundle(
     return final_root
 
 
-def _build_presentation(
+def build_presentation(
     staging_root: Path,
     inputs: DiscoveredInputs,
     items: ReviewItems,
@@ -165,4 +168,9 @@ def default_schema_root() -> Path:
     return repo_root / "benchmarks" / "er_bench" / "schemas" / "task04_review" / "v1"
 
 
-__all__ = ["PageEvidenceLoader", "build_review_bundle", "default_schema_root"]
+__all__ = [
+    "PageEvidenceLoader",
+    "build_presentation",
+    "build_review_bundle",
+    "default_schema_root",
+]

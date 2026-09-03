@@ -13,6 +13,15 @@ scope, replace a numbered task, or record a completed experiment.
   measured integration need proves that thin task-specific glue is insufficient.
 - Consider richer workflow orchestration only after simple commands and
   manifests demonstrate a real restart, scheduling, or dependency bottleneck.
+- Post-MVP TOC-run boundary generation: investigate pathological machine-positive
+  runs such as the observed 103-page span, then define and test a source-general
+  segmentation rule at the data-generation or canonical-hierarchy boundary.
+  Candidate evidence includes sustained navigation-shaped content, destination
+  labels, explicit continuation headings, and clear body-section starts; no
+  single heading or page-specific exception should silently split a run. Keep
+  downstream human review mandatory even after improving machine segmentation.
+  This is a future data-generation improvement and does not block the current
+  Task 04A MVP review layer.
 - Low-confidence tool-calling model trial: consider a bounded test of Cactus
   Compute's [Needle](https://cactuscompute.com/blog/needle), an open-source 26M
   parameter model designed for single-shot function calls. It may be too narrow

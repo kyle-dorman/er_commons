@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task04a_review/v1/unresolved_risk_report.schema.json",
+  "title": "ER Commons Task 04A unresolved-risk report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_run_id", "status", "material_blocker_count", "accepted_limitation_count", "limitations"],
+  "properties": {
+    "schema_version": {"const": "er_commons.task04a_review.v1.unresolved_risk_report"},
+    "review_run_id": {"const": "reviewv1-task03j-final-c17"},
+    "status": {"const": "accepted_with_limitations"},
+    "material_blocker_count": {"const": 0},
+    "accepted_limitation_count": {"const": 3},
+    "limitations": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "count", "disposition"],
+        "properties": {
+          "code": {"enum": ["ambiguous_links_unreviewed", "binary_toc_review_scope", "human_overlay_not_materialized"]},
+          "count": {"type": "integer", "minimum": 1},
+          "disposition": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
