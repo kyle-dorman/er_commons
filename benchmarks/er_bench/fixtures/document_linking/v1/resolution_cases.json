@@ -1,0 +1,17 @@
+{
+  "schema_version": "er_commons.document_linking_fixture_cases.v1",
+  "cases": [
+    {"case_id": "unique_exact_heading", "input_condition": "one eligible body target has the complete heading", "expected": "unique_target"},
+    {"case_id": "ambiguous_exact_heading", "input_condition": "two target IDs share the complete heading", "expected": "ambiguous"},
+    {"case_id": "destination_page_conflict", "input_condition": "unique text target is outside the supplied destination pages", "expected": "destination_mismatch"},
+    {"case_id": "explicit_parent_conflict", "input_condition": "child text target is outside the explicit resolved parent", "expected": "parent_mismatch"},
+    {"case_id": "fallback_collision", "input_condition": "authorized fallback evidence names two target IDs", "expected": "ambiguous"},
+    {"case_id": "excluded_navigation_entry", "input_condition": "review disposition excludes a machine navigation entry", "expected": "not_effective"},
+    {"case_id": "derived_table_alias", "input_condition": "caption and following table satisfy every R6 relation", "expected": "unique_table_target"},
+    {"case_id": "unresolved_figure", "input_condition": "figure text has no eligible body target alias", "expected": "no_text_candidate"},
+    {"case_id": "shuffled_discovery_order", "input_condition": "identical evidence arrives in a different order", "expected": "byte_identical_decision"},
+    {"case_id": "changed_policy_identity", "input_condition": "linking policy bytes change", "expected": "fresh_link_and_document_identity"},
+    {"case_id": "changed_review_identity", "input_condition": "reviewed navigation bytes change", "expected": "fresh_link_and_document_identity"},
+    {"case_id": "corrupt_input_seal", "input_condition": "an input byte size or digest does not match its reference", "expected": "stop_before_publish"}
+  ]
+}

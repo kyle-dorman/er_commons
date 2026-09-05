@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/reviewed_navigation_bundle.schema.json",
+  "title": "Reviewed navigation bundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "source_ids",
+    "identity_preimage",
+    "payloads",
+    "inventory_ref",
+    "completion_ref",
+    "seal_policy"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.reviewed_navigation_bundle.v1"},
+    "bundle_id": {"type": "string", "pattern": "^navreviewv1-[0-9a-f]{64}$"},
+    "source_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+    },
+    "identity_preimage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "source_ids_sha256",
+        "review_decisions_ref",
+        "semantic_view_ref",
+        "text_entries_ref",
+        "dispositions_ref",
+        "parent_relations_ref",
+        "schema_sha256",
+        "materializer_code_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.reviewed_navigation_bundle_identity.v1"},
+        "source_ids_sha256": {"$ref": "#/$defs/sha256"},
+        "review_decisions_ref": {"$ref": "#/$defs/artifactRef"},
+        "semantic_view_ref": {"$ref": "#/$defs/artifactRef"},
+        "text_entries_ref": {"$ref": "#/$defs/bundleRef"},
+        "dispositions_ref": {"$ref": "#/$defs/bundleRef"},
+        "parent_relations_ref": {"$ref": "#/$defs/bundleRef"},
+        "schema_sha256": {"$ref": "#/$defs/sha256"},
+        "materializer_code_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "payloads": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text_entries_ref", "dispositions_ref", "parent_relations_ref"],
+      "properties": {
+        "text_entries_ref": {"$ref": "#/$defs/bundleRef"},
+        "dispositions_ref": {"$ref": "#/$defs/bundleRef"},
+        "parent_relations_ref": {"$ref": "#/$defs/bundleRef"}
+      }
+    },
+    "inventory_ref": {"$ref": "#/$defs/artifactRef"},
+    "completion_ref": {"$ref": "#/$defs/artifactRef"},
+    "seal_policy": {
+      "const": "verify_identity_digest_source_coverage_upstream_refs_payload_ref_equality_inventory_closure_and_completion_last"
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "path", "sha256", "byte_size"],
+      "properties": {
+        "authority": {"enum": ["repository", "artifact_root"]},
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_size": {"type": "integer", "minimum": 1}
+      }
+    },
+    "bundleRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "path", "sha256", "byte_size"],
+      "properties": {
+        "authority": {"const": "bundle"},
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_size": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

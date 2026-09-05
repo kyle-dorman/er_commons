@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_b/semantic_disposition_row.schema.json",
+  "title": "ER Commons navigation overlay semantic disposition row v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "semantic_view_id",
+    "overlay_plan_id",
+    "disposition_id",
+    "source_id",
+    "candidate_id",
+    "entity_kind",
+    "entity_id",
+    "canonical_record_path",
+    "decision_entry_ids",
+    "decision_page_ids",
+    "decision_physical_pages",
+    "machine_section_id",
+    "machine_semantic_placement",
+    "machine_is_toc_row",
+    "machine_navigation",
+    "effective_navigation",
+    "disposition",
+    "original_machine_placement_preserved",
+    "reason"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.semantic_disposition"},
+    "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+    "disposition_id": {"type": "string", "pattern": "^navdispv1-[a-f0-9]{24}$"},
+    "source_id": {"type": "string", "minLength": 1},
+    "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+    "entity_kind": {"enum": ["block", "table"]},
+    "entity_id": {"type": "string", "minLength": 1},
+    "canonical_record_path": {
+      "enum": ["content/canonical/blocks.jsonl", "content/canonical/tables.jsonl"]
+    },
+    "decision_entry_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "pattern": "^tocpagev1-[a-f0-9]{24}$"},
+      "uniqueItems": true
+    },
+    "decision_page_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "decision_physical_pages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "integer", "minimum": 1},
+      "uniqueItems": true
+    },
+    "machine_section_id": {"type": ["string", "null"], "minLength": 1},
+    "machine_semantic_placement": {"type": "string", "minLength": 1},
+    "machine_is_toc_row": {"type": "boolean"},
+    "machine_navigation": {"type": "boolean"},
+    "effective_navigation": {"type": "boolean"},
+    "disposition": {
+      "enum": ["human_confirmed_navigation", "human_rejected_machine_navigation"]
+    },
+    "original_machine_placement_preserved": {"const": true},
+    "reason": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"entity_kind": {"const": "block"}}, "required": ["entity_kind"]},
+      "then": {"properties": {"canonical_record_path": {"const": "content/canonical/blocks.jsonl"}}},
+      "else": {"properties": {"canonical_record_path": {"const": "content/canonical/tables.jsonl"}}}
+    },
+    {
+      "if": {
+        "properties": {"disposition": {"const": "human_confirmed_navigation"}},
+        "required": ["disposition"]
+      },
+      "then": {
+        "properties": {
+          "machine_navigation": {"const": false},
+          "effective_navigation": {"const": true}
+        }
+      },
+      "else": {
+        "properties": {
+          "machine_navigation": {"const": true},
+          "effective_navigation": {"const": false}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "overlayPlanId": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"}
+  }
+}

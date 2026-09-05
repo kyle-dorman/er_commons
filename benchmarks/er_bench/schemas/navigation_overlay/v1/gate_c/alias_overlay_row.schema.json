@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_c/alias_overlay_row.schema.json",
+  "title": "ER Commons navigation alias invalidation overlay row v1",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "link_view_id", "semantic_view_id", "alias_overlay_id", "source_id", "candidate_id", "operation", "existing_alias_id", "causal_semantic_disposition_id", "reason"],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.alias_overlay"},
+    "link_view_id": {"$ref": "#/$defs/linkViewId"}, "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "alias_overlay_id": {"type": "string", "pattern": "^navaliasv1-[a-f0-9]{24}$"},
+    "source_id": {"type": "string", "minLength": 1}, "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+    "operation": {"const": "invalidate_existing"}, "existing_alias_id": {"type": "string", "minLength": 1},
+    "causal_semantic_disposition_id": {"type": "string", "pattern": "^navdispv1-[a-f0-9]{24}$"},
+    "reason": {"const": "machine_navigation_rejected_by_human"}
+  },
+  "$defs": {
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"},
+    "linkViewId": {"type": "string", "pattern": "^navlinkv1-[a-f0-9]{64}$"}
+  }
+}

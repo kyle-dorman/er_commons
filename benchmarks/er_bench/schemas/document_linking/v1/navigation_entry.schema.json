@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/navigation_entry.schema.json",
+  "title": "Effective navigation entry row v1",
+  "type": "object",
+  "required": [
+    "source_id"
+  ],
+  "properties": {
+    "source_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "navigation_entry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "toc_text_entry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lookup_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entry_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reconstructed_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_entry_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "raw_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "normalized_entry": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_type": {
+      "enum": [
+        "section",
+        "appendix",
+        "table",
+        "figure"
+      ]
+    },
+    "marker_kind": {
+      "enum": [
+        null,
+        "section",
+        "appendix",
+        "table",
+        "figure"
+      ]
+    },
+    "destination_page_ids": {
+      "type": ["array", "null"],
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "link_claim": {
+      "type": "boolean"
+    },
+    "machine_navigation": {
+      "type": "boolean"
+    }
+  },
+  "allOf": [
+    {
+      "anyOf": [
+        {
+          "required": [
+            "navigation_entry_id"
+          ]
+        },
+        {
+          "required": [
+            "toc_text_entry_id"
+          ]
+        },
+        {
+          "required": [
+            "entry_id"
+          ]
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        {
+          "required": [
+            "lookup_text"
+          ]
+        },
+        {
+          "required": [
+            "entry_text"
+          ]
+        },
+        {
+          "required": [
+            "reconstructed_text"
+          ]
+        },
+        {
+          "required": [
+            "model_text"
+          ]
+        },
+        {
+          "required": [
+            "model_entry_text"
+          ]
+        },
+        {
+          "required": [
+            "raw_text"
+          ]
+        },
+        {
+          "required": [
+            "text"
+          ]
+        },
+        {
+          "required": [
+            "normalized_entry"
+          ]
+        }
+      ]
+    }
+  ]
+}

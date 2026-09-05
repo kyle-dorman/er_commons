@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/support.schema.json",
+  "title": "Document link support record v1",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "upstream_alias_count",
+        "derived_table_alias_count",
+        "derived_figure_alias_count",
+        "entries"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "er_commons.cross_reference_target_index.v3"
+        },
+        "upstream_alias_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "derived_table_alias_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "derived_figure_alias_count": {
+          "const": 0
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "lookup_key",
+              "target_type",
+              "alias_origin",
+              "alias_record_id",
+              "target_record_id",
+              "upstream_alias_record_id",
+              "upstream_target_record_id",
+              "evidence_kind",
+              "evidence_source_record_id",
+              "evidence_page_id"
+            ],
+            "properties": {
+              "lookup_key": {
+                "type": "string"
+              },
+              "target_type": {
+                "type": "string"
+              },
+              "alias_origin": {
+                "type": "string"
+              },
+              "alias_record_id": {
+                "type": "string"
+              },
+              "target_record_id": {
+                "type": "string"
+              },
+              "upstream_alias_record_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "upstream_target_record_id": {
+                "type": "string"
+              },
+              "evidence_kind": {
+                "type": "string"
+              },
+              "evidence_source_record_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "evidence_page_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "target_alias_count",
+        "ordinary_reference_count",
+        "navigation_entry_count",
+        "navigation_claim_count",
+        "navigation_decision_count",
+        "navigation_link_count",
+        "navigation_outcome_counts"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "er_commons.document_link_accounting.v1"
+        },
+        "target_alias_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ordinary_reference_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "navigation_entry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "navigation_claim_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "navigation_decision_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "navigation_link_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "navigation_outcome_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "upstream_alias_count",
+        "replayed_v3_table_alias_count",
+        "derived_alias_count",
+        "allowed_derived_alias_rule_ids",
+        "undeclared_difference_count",
+        "status"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "er_commons.document_link_preservation.v1"
+        },
+        "upstream_alias_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "replayed_v3_table_alias_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "derived_alias_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "allowed_derived_alias_rule_ids": {
+          "const": [
+            "R6"
+          ]
+        },
+        "undeclared_difference_count": {
+          "const": 0
+        },
+        "status": {
+          "const": "passed"
+        }
+      }
+    }
+  ]
+}

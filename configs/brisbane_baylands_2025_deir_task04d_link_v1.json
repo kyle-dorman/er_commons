@@ -1,0 +1,1390 @@
+{
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_04d_relinked_v1/document_links",
+  "base_collection": {
+    "contract_bundle_ref": {
+      "authority": "artifact_root",
+      "byte_size": 39211423,
+      "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/scopes/scopev1-bd4b7ca85b299ae528376b1a6e88b9d0fdba02e4f7e8862c5fa91a28b719e893/contract_bundle.json",
+      "sha256": "9d7078f5195c395317c24c27060dd0bc270420edc27c401f86921cab22d4272e"
+    },
+    "handoff_ref": {
+      "authority": "artifact_root",
+      "byte_size": 3395,
+      "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/scopes/scopev1-bd4b7ca85b299ae528376b1a6e88b9d0fdba02e4f7e8862c5fa91a28b719e893/handoffs/handoffv1-44d510d545026a427ccdb47497d30f1d46c66130291af66fc0d5883a35102325/records/completion_record.json",
+      "sha256": "8bd72f2712a20de5aa865575566e4d5b187d7fccc02ba02dd0f92d87bf04117a"
+    }
+  },
+  "base_production_identity_ref": {
+    "authority": "repository",
+    "byte_size": 127610,
+    "path": "benchmarks/er_bench/fixtures/document_publication/v4/task03h_production_identity.json",
+    "sha256": "07b51e1ee19c0183115602e7b6b717e48d85684e4dd98e9a3cf108c081e5e8cb"
+  },
+  "collection_run_spec_ref": {
+    "authority": "repository",
+    "byte_size": 1610,
+    "path": "configs/brisbane_baylands_2025_deir_task04d_collection_v1.json",
+    "sha256": "ef2c3788a582d26b7a395a6ef6435030c4b611f126d8e5f2cc6906f8b81c110d"
+  },
+  "document_publication_spec_ref": {
+    "authority": "repository",
+    "byte_size": 29179,
+    "path": "configs/brisbane_baylands_2025_deir_task04d_document_v1.json",
+    "sha256": "ab39e18780b0a477ac5fd7c2cd3770c1a947a4d265fdc2744fda3011138fef71"
+  },
+  "documents": [
+    {
+      "source_document": {
+        "candidate_id": "docv1-274ba22b00c8b18b0cdfd5fc2acb1267da1d8c53b7a849eaf29cdc0ba554592c",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 855,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k4/docv1-274ba22b00c8b18b0cdfd5fc2acb1267da1d8c53b7a849eaf29cdc0ba554592c/records/completion_record.json",
+          "sha256": "81aedc8d92756bc1f7dc86be93f5358c3e6f54d6cd4af76b9b88efa7f11b4426"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 4990,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k4/docv1-274ba22b00c8b18b0cdfd5fc2acb1267da1d8c53b7a849eaf29cdc0ba554592c/records/artifact_inventory.json",
+          "sha256": "10fccf85d7ae245fe15ffaaa5cc5838f148345b609af9dedeaf7527576516c52"
+        }
+      },
+      "source_id": "deir_appendix_k4",
+      "structured_document": {
+        "candidate_id": "exv1-0fb3b626d98c5177296a5f0d542c3c7d5cef624e0d9d37fea1435539a229cd7b",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-0fb3b626d98c5177296a5f0d542c3c7d5cef624e0d9d37fea1435539a229cd7b/records/completion_record.json",
+          "sha256": "e29a75fc591393c847daef791ff7e4bcbdaee231a7c974498325bbceabdd2380"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3029,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-0fb3b626d98c5177296a5f0d542c3c7d5cef624e0d9d37fea1435539a229cd7b/records/artifact_inventory.json",
+          "sha256": "5856821fbe4d674e663c1fc243cd8da6a100d0e2006b846c007a9d0b9f4c19c1"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-aab8231dcc71021ef13b0c606fa1391328679e456eae9c589aea55e0c4df36f5",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 883,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_n1/docv1-aab8231dcc71021ef13b0c606fa1391328679e456eae9c589aea55e0c4df36f5/records/completion_record.json",
+          "sha256": "0653a93baee787bd5436c9e8b4fe56969df5b715c86beba9b70cef819dbad592"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 4997,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_n1/docv1-aab8231dcc71021ef13b0c606fa1391328679e456eae9c589aea55e0c4df36f5/records/artifact_inventory.json",
+          "sha256": "69a792e9ca6b44619ed9c38cd7892f6f51534ebfd3fff7463d5b8b5bfdcb8b9c"
+        }
+      },
+      "source_id": "deir_appendix_n1",
+      "structured_document": {
+        "candidate_id": "exv1-28e0d03cf96054f4d791f7a30f11b86e99d7a282ceeff3d6ec9df9a28b1d47a4",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-28e0d03cf96054f4d791f7a30f11b86e99d7a282ceeff3d6ec9df9a28b1d47a4/records/completion_record.json",
+          "sha256": "376f3ae263eac5316faaea2574d27d99197feaaee558caf6af29c9238bc76408"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3035,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-28e0d03cf96054f4d791f7a30f11b86e99d7a282ceeff3d6ec9df9a28b1d47a4/records/artifact_inventory.json",
+          "sha256": "cc4893c3d9d58e310c9b168fc2799a181e2ca04ab9e6d35da22293f0505c83c5"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-3a1252a7eab16fbd112801c1416be646d65a7c85cf5c52412b7edb218651f28f",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 899,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k5/docv1-3a1252a7eab16fbd112801c1416be646d65a7c85cf5c52412b7edb218651f28f/records/completion_record.json",
+          "sha256": "e956eb12c6d8fe604e86b4fc7385641e17255242fe67cdacfab025f9da5e5e3c"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 4995,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k5/docv1-3a1252a7eab16fbd112801c1416be646d65a7c85cf5c52412b7edb218651f28f/records/artifact_inventory.json",
+          "sha256": "88b628f8640ebb775f1b8d373e6ac130edfd8843baf0d524ba2f79388074d283"
+        }
+      },
+      "source_id": "deir_appendix_k5",
+      "structured_document": {
+        "candidate_id": "exv1-39a836348e646e8a29da43da989a77da64907277deb13e3e73bce3c60ab306b2",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-39a836348e646e8a29da43da989a77da64907277deb13e3e73bce3c60ab306b2/records/completion_record.json",
+          "sha256": "e9b4822864aaaa703cb5a62320fd51cc1e15f82e14774875d725f84c1616b5e5"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3035,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-39a836348e646e8a29da43da989a77da64907277deb13e3e73bce3c60ab306b2/records/artifact_inventory.json",
+          "sha256": "d169011bd1e04900edc3d33a6424f95cd9a0277c8e1553086e9d94dc100a8a29"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-a0066dae168c02a2bb1d267ab7205991bdb8f2ba21b8129ff3434cd4fa37cb37",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 931,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_n2/docv1-a0066dae168c02a2bb1d267ab7205991bdb8f2ba21b8129ff3434cd4fa37cb37/records/completion_record.json",
+          "sha256": "febb0edb74ca170b1d105f9a038fd894a0f199ffc49aa3e4b26eca33c1be0672"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 4998,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_n2/docv1-a0066dae168c02a2bb1d267ab7205991bdb8f2ba21b8129ff3434cd4fa37cb37/records/artifact_inventory.json",
+          "sha256": "83da03a638ff7739e560b5d5e6f8f696109d45dfb4ede717b5a4bdd11b9f6008"
+        }
+      },
+      "source_id": "deir_appendix_n2",
+      "structured_document": {
+        "candidate_id": "exv1-921a164c82cdc9118dd06b8c08ac0dcc886b6be5852e3ac85fbd65d6c63f7389",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 384,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-921a164c82cdc9118dd06b8c08ac0dcc886b6be5852e3ac85fbd65d6c63f7389/records/completion_record.json",
+          "sha256": "fba000dd143d701ca4f2a38bd8ef8e4d6d1c3a7280473bfc9be7f858c6641259"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3034,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-921a164c82cdc9118dd06b8c08ac0dcc886b6be5852e3ac85fbd65d6c63f7389/records/artifact_inventory.json",
+          "sha256": "f5644e23b3adb777c7459e044348dd736a93ebad8bddd5ce0df0d69fb0d17e8f"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-90ffc2a47b15c3acb652a41ac75526b8e34a93b8b0e308d4ca6ce9a513d4bcaa",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 947,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_f2/docv1-90ffc2a47b15c3acb652a41ac75526b8e34a93b8b0e308d4ca6ce9a513d4bcaa/records/completion_record.json",
+          "sha256": "1da47cf5f66e43d7a270c8b457cbe56d18ea577fc1854c85a4cc25221225c19e"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5012,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_f2/docv1-90ffc2a47b15c3acb652a41ac75526b8e34a93b8b0e308d4ca6ce9a513d4bcaa/records/artifact_inventory.json",
+          "sha256": "dd8ff1bbe9f7813fb637b8c71cfa3d06a1c8941d2683d0d65f0b9f00ad59af81"
+        }
+      },
+      "source_id": "deir_appendix_f2",
+      "structured_document": {
+        "candidate_id": "exv1-82b292da5c37d245b69db0193c4398aa3e9c1af5c3ee848d2958eb97cd00ab24",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-82b292da5c37d245b69db0193c4398aa3e9c1af5c3ee848d2958eb97cd00ab24/records/completion_record.json",
+          "sha256": "d2ab3a872958cb6fb7e43456de87cfa8d63f07bcc85762b7e6f026a8e45bb2d5"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3047,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-82b292da5c37d245b69db0193c4398aa3e9c1af5c3ee848d2958eb97cd00ab24/records/artifact_inventory.json",
+          "sha256": "d21034adc7f3d2c9535080f3b6fdfdb3a7c48ce38e350d9d38ec00c2df33a08b"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-865e198751d6f94f6eb290125cd3d684b60f5811cb2ba4e7ca51edd1f7adf2f4",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 979,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k6/docv1-865e198751d6f94f6eb290125cd3d684b60f5811cb2ba4e7ca51edd1f7adf2f4/records/completion_record.json",
+          "sha256": "738675c32cb7a514f1d9d2f7d3a57235c2db2ca53fafb75a5c2bead2d980c1de"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 4998,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k6/docv1-865e198751d6f94f6eb290125cd3d684b60f5811cb2ba4e7ca51edd1f7adf2f4/records/artifact_inventory.json",
+          "sha256": "b999a7278e53a175d2bf29cf9e18c8c1e0e91cd5bfd2abfb4fc22accf91b9676"
+        }
+      },
+      "source_id": "deir_appendix_k6",
+      "structured_document": {
+        "candidate_id": "exv1-4aad7078f31d98c2ca885cebb58922965878617b059bcb8aaa1a3078a6b0f807",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 384,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-4aad7078f31d98c2ca885cebb58922965878617b059bcb8aaa1a3078a6b0f807/records/completion_record.json",
+          "sha256": "d5742d78a76785b9ce59ebf87d2b93d892878682bf8b01aac32904ec5d439dd1"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3037,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-4aad7078f31d98c2ca885cebb58922965878617b059bcb8aaa1a3078a6b0f807/records/artifact_inventory.json",
+          "sha256": "b42c6f66fce186301edde072dcf4a2a5e0566f0f8b010da62e3b966c03e2ca98"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-2adc2e0d127c941d031da7b57449003e9af4773f09b023c4aa92ca55bd436cae",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 1075,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_m3/docv1-2adc2e0d127c941d031da7b57449003e9af4773f09b023c4aa92ca55bd436cae/records/completion_record.json",
+          "sha256": "f26327fd7f9c99d55fd86b8a6cae6f9173aa8e191a6d6ac71a03905edd501a3e"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5011,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_m3/docv1-2adc2e0d127c941d031da7b57449003e9af4773f09b023c4aa92ca55bd436cae/records/artifact_inventory.json",
+          "sha256": "ab3bee687c8c413075c64cf3f6acc8435ae528fa8686d82cb12ef5df27e82a50"
+        }
+      },
+      "source_id": "deir_appendix_m3",
+      "structured_document": {
+        "candidate_id": "exv1-2e5b1ed7f49c006b21148cf61c83869d4582ef354ba6b6f4f02db9b85517ec5d",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2e5b1ed7f49c006b21148cf61c83869d4582ef354ba6b6f4f02db9b85517ec5d/records/completion_record.json",
+          "sha256": "56ae7ba9c4073af191d4359dbabbe060f359628dfd6b8d99d5577f281c580fb5"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3046,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2e5b1ed7f49c006b21148cf61c83869d4582ef354ba6b6f4f02db9b85517ec5d/records/artifact_inventory.json",
+          "sha256": "43f002be2a3bb70587d05beb76e1ce347619cdb0acbfe3413292d6d95e81c606"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-a284e88f10c4ef6bca3cf64052ed38e3877aefa8e25799037104b43fffc126a9",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 1105,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_l/docv1-a284e88f10c4ef6bca3cf64052ed38e3877aefa8e25799037104b43fffc126a9/records/completion_record.json",
+          "sha256": "fb6d07772be972c4429af31eecdd6594c91787740254d78f146698fe0efeb47f"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5014,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_l/docv1-a284e88f10c4ef6bca3cf64052ed38e3877aefa8e25799037104b43fffc126a9/records/artifact_inventory.json",
+          "sha256": "f9e2bfe1dbc340be622099861abb5b255411b44f63303163b8d88768c29df94f"
+        }
+      },
+      "source_id": "deir_appendix_l",
+      "structured_document": {
+        "candidate_id": "exv1-45168dbe43bc0d28191a36b72b475ad8426b8637f733b841dcc1020f2afb27ed",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-45168dbe43bc0d28191a36b72b475ad8426b8637f733b841dcc1020f2afb27ed/records/completion_record.json",
+          "sha256": "4966f336338daf676c903a4bf9df8471dbfb96cf32912b903ddcb35bb9bff70c"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3049,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-45168dbe43bc0d28191a36b72b475ad8426b8637f733b841dcc1020f2afb27ed/records/artifact_inventory.json",
+          "sha256": "d56723bef04e527a2e1b10af427380def247dcacd801862d619772eaa22bae91"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-65d5c809664e33752d33b1c5b24767ddb988e01476787c734910bb3c0c470983",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 1249,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_o/docv1-65d5c809664e33752d33b1c5b24767ddb988e01476787c734910bb3c0c470983/records/completion_record.json",
+          "sha256": "be2a9196eb49662f4edc82c1508b237642d0c4bcb53d6f5c9b35d1461299d658"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5015,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_o/docv1-65d5c809664e33752d33b1c5b24767ddb988e01476787c734910bb3c0c470983/records/artifact_inventory.json",
+          "sha256": "936342404820777e33a2566e9b3623ad5968a44f73dcd8271e553b019671efec"
+        }
+      },
+      "source_id": "deir_appendix_o",
+      "structured_document": {
+        "candidate_id": "exv1-2fa9453970d43caf56dc04a98bd829033210d27577693e36a40ccb26f3a4f9bb",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2fa9453970d43caf56dc04a98bd829033210d27577693e36a40ccb26f3a4f9bb/records/completion_record.json",
+          "sha256": "bf0b36bd6b4d708d1133b3afe4ceed80a91a36737fe97e34b3aa3dac459c52aa"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3051,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2fa9453970d43caf56dc04a98bd829033210d27577693e36a40ccb26f3a4f9bb/records/artifact_inventory.json",
+          "sha256": "a43449ab715c5dcc439785ec81357ea76e39ac97dc4b5a42b1ccfae667c8d985"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-a97f165d6c7f94c7b96a027e980af32090ca81340f64fb921249de1dfc39e49b",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 1419,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_f1/docv1-a97f165d6c7f94c7b96a027e980af32090ca81340f64fb921249de1dfc39e49b/records/completion_record.json",
+          "sha256": "0f714ae482552f8a0f1a007c1e771e475350cb08e8d156f55702c774e47e1140"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5026,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_f1/docv1-a97f165d6c7f94c7b96a027e980af32090ca81340f64fb921249de1dfc39e49b/records/artifact_inventory.json",
+          "sha256": "7dd5a38b35780ba939ceb9167bcb70e4f7ff075a57b8df673ce1befcbc016b66"
+        }
+      },
+      "source_id": "deir_appendix_f1",
+      "structured_document": {
+        "candidate_id": "exv1-df67ec22a6ce13f26afd09691d5662576d005a205d15d16f5a2dd1cebcfb270e",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-df67ec22a6ce13f26afd09691d5662576d005a205d15d16f5a2dd1cebcfb270e/records/completion_record.json",
+          "sha256": "9440d8f182e49b74a9f6fea00fccf28b823e525690574756bd878e260cee4d4a"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3062,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-df67ec22a6ce13f26afd09691d5662576d005a205d15d16f5a2dd1cebcfb270e/records/artifact_inventory.json",
+          "sha256": "455752f92d8e42df7f185f4e18223be246b8ea01bfe1c2234b02d1e519c3c81e"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-94e1eb3adf851e7f62ee40eff90bb9497978127107015bee217a442b6bf15f13",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 1505,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_c/docv1-94e1eb3adf851e7f62ee40eff90bb9497978127107015bee217a442b6bf15f13/records/completion_record.json",
+          "sha256": "a148333237e2b7ae90aefb8fc59b3b8f6ab0285992f8908c5c0b10cce2ecbed9"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5022,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_c/docv1-94e1eb3adf851e7f62ee40eff90bb9497978127107015bee217a442b6bf15f13/records/artifact_inventory.json",
+          "sha256": "c2c45b57407586f65f717f0f00187c92fc73482d834eba25dc5bd58bbd893d5b"
+        }
+      },
+      "source_id": "deir_appendix_c",
+      "structured_document": {
+        "candidate_id": "exv1-2166d85a7738adb012b9c4b5451330c95c423a6486f13af09da1362ea652f047",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2166d85a7738adb012b9c4b5451330c95c423a6486f13af09da1362ea652f047/records/completion_record.json",
+          "sha256": "b7346c93562a78d8c6314c6ffb3b4e22deee6cfa71ccad89e54584ba2caa2daf"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3057,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2166d85a7738adb012b9c4b5451330c95c423a6486f13af09da1362ea652f047/records/artifact_inventory.json",
+          "sha256": "0ffa742d1114ec0b9888e67353d3ce93c3b9f7ae713b9d173d175dd64757a417"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-5a5d922c0861be5177f887a3a8426e5496d9c7d021ff9dd9930c7c57b216fd52",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 2411,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_j/docv1-5a5d922c0861be5177f887a3a8426e5496d9c7d021ff9dd9930c7c57b216fd52/records/completion_record.json",
+          "sha256": "a618844d2a7699585f6feda96440813924a744495049ea762d6a280c83d47b29"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5028,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_j/docv1-5a5d922c0861be5177f887a3a8426e5496d9c7d021ff9dd9930c7c57b216fd52/records/artifact_inventory.json",
+          "sha256": "50c08d78e8710a71e4b98b4d3ebab55b3ee1dccd04d02143ec41e9eba53f6ef9"
+        }
+      },
+      "source_id": "deir_appendix_j",
+      "structured_document": {
+        "candidate_id": "exv1-a94536de53b2c45bf4cd4b1bc61554e677c6f0b576eec1fd23373f29e7155675",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-a94536de53b2c45bf4cd4b1bc61554e677c6f0b576eec1fd23373f29e7155675/records/completion_record.json",
+          "sha256": "89dbc8213a09910c9e809cdb894d36fdcb1962e949b510a35f6455036144e6a0"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3062,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-a94536de53b2c45bf4cd4b1bc61554e677c6f0b576eec1fd23373f29e7155675/records/artifact_inventory.json",
+          "sha256": "ef4a06044db0b05e1e65bc81c8d807525370895b95be87db2b6998575fcadb7d"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-9d9c330d97686ee473b2ac9f99ac1d040866734636b0945f4e352e8202bf169d",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 2717,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_p/docv1-9d9c330d97686ee473b2ac9f99ac1d040866734636b0945f4e352e8202bf169d/records/completion_record.json",
+          "sha256": "0a01f586b53210ae5ac9ef53f5b507c8d87941ff9f672d0dfef376e5d8416880"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5030,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_p/docv1-9d9c330d97686ee473b2ac9f99ac1d040866734636b0945f4e352e8202bf169d/records/artifact_inventory.json",
+          "sha256": "6c8ad392bea288c3fdaa5f44ec20898da8b8b91f39f8c0f3974af781a9c3b387"
+        }
+      },
+      "source_id": "deir_appendix_p",
+      "structured_document": {
+        "candidate_id": "exv1-3cb8d73293f6184e73cb568143f45f34de3be6889dfff11e0ce1ea7629ad7b76",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-3cb8d73293f6184e73cb568143f45f34de3be6889dfff11e0ce1ea7629ad7b76/records/completion_record.json",
+          "sha256": "1719ac07934bcaf453d26697f7443f543fc70fa7131b50b48e934e16102f9951"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3063,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-3cb8d73293f6184e73cb568143f45f34de3be6889dfff11e0ce1ea7629ad7b76/records/artifact_inventory.json",
+          "sha256": "4d02bf8a73a12c298d060595195fc8ce4feb87201bd595d74c2082cbbf639303"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-62f3b839e3a5b737538ecfd02233204b1322fb36a81d4ead8df42ccc785f973b",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 2935,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_m1/docv1-62f3b839e3a5b737538ecfd02233204b1322fb36a81d4ead8df42ccc785f973b/records/completion_record.json",
+          "sha256": "597a98286d4873df805470cd6d0bd768f82969df6324fb3589206601ea97f883"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5031,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_m1/docv1-62f3b839e3a5b737538ecfd02233204b1322fb36a81d4ead8df42ccc785f973b/records/artifact_inventory.json",
+          "sha256": "60165a8ca29d380e86262ec7a34dcf833e20e73cb39c8b2ab670442fbb775e07"
+        }
+      },
+      "source_id": "deir_appendix_m1",
+      "structured_document": {
+        "candidate_id": "exv1-137dc2c96fa8d73fe18531c6b6fc7702959adcdc19b79e7036f8e96a70b25e7e",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-137dc2c96fa8d73fe18531c6b6fc7702959adcdc19b79e7036f8e96a70b25e7e/records/completion_record.json",
+          "sha256": "e84e36ef1c0232188b75b448d64f3d18eb6ee541324a356c76b7807bc826067e"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3065,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-137dc2c96fa8d73fe18531c6b6fc7702959adcdc19b79e7036f8e96a70b25e7e/records/artifact_inventory.json",
+          "sha256": "3103be08ca0d1be6c4d686207b47385e24fa85a2023d9535301b4ee2c126f6b9"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-711654adb5cbbad04af51a71362b12afb0aabf0cd2b76e70f09a04828f36bded",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3041,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_b/docv1-711654adb5cbbad04af51a71362b12afb0aabf0cd2b76e70f09a04828f36bded/records/completion_record.json",
+          "sha256": "70e19ad1bee19b6d43cae7fa41a53b53d3d918b522950c4cfda7ce6a1bb3e082"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5029,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_b/docv1-711654adb5cbbad04af51a71362b12afb0aabf0cd2b76e70f09a04828f36bded/records/artifact_inventory.json",
+          "sha256": "b2f711c2444d549d88297e067ac84b36243eaaa883d2c239311eb0cd81f6435b"
+        }
+      },
+      "source_id": "deir_appendix_b",
+      "structured_document": {
+        "candidate_id": "exv1-9a65d6059315a240e83df755d76f3d213d7551776fdd5d88a2e7a8902abbc22f",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-9a65d6059315a240e83df755d76f3d213d7551776fdd5d88a2e7a8902abbc22f/records/completion_record.json",
+          "sha256": "709763e1c931e779bc07a7c0fd63e666a1361409fe0081920c4db0ed75ca76a6"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3062,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-9a65d6059315a240e83df755d76f3d213d7551776fdd5d88a2e7a8902abbc22f/records/artifact_inventory.json",
+          "sha256": "2305808774127a9c42f480e0ddf491fea134fcf180a05f7cbd302129f3b77184"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-48aa663c73e64a9171acced7b882d888652008742b8d0566e6154ab7d0fa4796",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3923,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_d/docv1-48aa663c73e64a9171acced7b882d888652008742b8d0566e6154ab7d0fa4796/records/completion_record.json",
+          "sha256": "9e3118dd88142baa1f0e6dc595a5b722d43624b3e2d1b180db5398efdb046dde"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5039,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_d/docv1-48aa663c73e64a9171acced7b882d888652008742b8d0566e6154ab7d0fa4796/records/artifact_inventory.json",
+          "sha256": "e3ae717e5356fdd27bceb79cad81a53850c552aa1319282d3a7c1f27429f33e1"
+        }
+      },
+      "source_id": "deir_appendix_d",
+      "structured_document": {
+        "candidate_id": "exv1-7295df26df0acb4af9953f5ebe9cd0e5485454260ccfda5970e9ccb900990cda",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-7295df26df0acb4af9953f5ebe9cd0e5485454260ccfda5970e9ccb900990cda/records/completion_record.json",
+          "sha256": "15dafae2dbb49d49c818ee9126464e4cf491ae2d7913916c6ba90354dcc4739c"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3073,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-7295df26df0acb4af9953f5ebe9cd0e5485454260ccfda5970e9ccb900990cda/records/artifact_inventory.json",
+          "sha256": "ab304af9f042443096410308cf5e195241514eff7a886db2a56bae54bbea77cd"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-74bb76347de11d9c70cb50dcc18c24e3955144e414580b80996b59d0618e17ff",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3977,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_e/docv1-74bb76347de11d9c70cb50dcc18c24e3955144e414580b80996b59d0618e17ff/records/completion_record.json",
+          "sha256": "fec0fc3749b3cc54a8c3100b81d0546251e2289f38a65c7933c51fb20f1370b5"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5034,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_e/docv1-74bb76347de11d9c70cb50dcc18c24e3955144e414580b80996b59d0618e17ff/records/artifact_inventory.json",
+          "sha256": "db9045d8065d7f7689f153f9750cb808a826f345236afa28bb14ce4d14430dd6"
+        }
+      },
+      "source_id": "deir_appendix_e",
+      "structured_document": {
+        "candidate_id": "exv1-d90793c57ab429dffe36efaf546d2aad31de409951e6448bf5f3da24aee0d875",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-d90793c57ab429dffe36efaf546d2aad31de409951e6448bf5f3da24aee0d875/records/completion_record.json",
+          "sha256": "a8e4c0609d6ab4e74272e05eeb6291e4f742938d2ef1a2e4442c49cd66d86c65"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3068,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-d90793c57ab429dffe36efaf546d2aad31de409951e6448bf5f3da24aee0d875/records/artifact_inventory.json",
+          "sha256": "cd894b72f889fd3bac913fef09df562142cd339112924d7cf30705890ae226a9"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-8c6ad095606074788c12db1e262f7d1af1a2520e47e9849e7025ad864dda8c4f",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5345,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_a/docv1-8c6ad095606074788c12db1e262f7d1af1a2520e47e9849e7025ad864dda8c4f/records/completion_record.json",
+          "sha256": "2fdf00234761c58162dd3b4bac22f790b6ae8e7f3f7d9d023fc0acc84ee5f990"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5036,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_a/docv1-8c6ad095606074788c12db1e262f7d1af1a2520e47e9849e7025ad864dda8c4f/records/artifact_inventory.json",
+          "sha256": "2d9000bd4d05606f4b6a269f2cf98454ead13c0fce84ce0360002198e04c5c5d"
+        }
+      },
+      "source_id": "deir_appendix_a",
+      "structured_document": {
+        "candidate_id": "exv1-c6532afa94c209ba9111ba5f68132bea9192e16225bce9ad2eca54163a1b21dd",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-c6532afa94c209ba9111ba5f68132bea9192e16225bce9ad2eca54163a1b21dd/records/completion_record.json",
+          "sha256": "5ac1e3ca236985db5f73efaae92e67264f2f7a64826a6d3fb6d4ebfdd6d5195a"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3069,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-c6532afa94c209ba9111ba5f68132bea9192e16225bce9ad2eca54163a1b21dd/records/artifact_inventory.json",
+          "sha256": "bd6020d3cb260b12e5b231265e7c2eacb3f6885d11c2049244d043abdac5006d"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-8eca826418628ff222f4521e74c8df97f4862fa0d5d7f695e8403cc0e5eaec2c",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 7333,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k1_part_1_of_4/docv1-8eca826418628ff222f4521e74c8df97f4862fa0d5d7f695e8403cc0e5eaec2c/records/completion_record.json",
+          "sha256": "2cb91780d1e870b662d68aabcede0039256b4185943776a4cbf5f9a4acd282fa"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5040,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k1_part_1_of_4/docv1-8eca826418628ff222f4521e74c8df97f4862fa0d5d7f695e8403cc0e5eaec2c/records/artifact_inventory.json",
+          "sha256": "77b2301021868eac4d8d64c37f9fdcc027b2e2a52bbdcd10e0d1ef227f41aab7"
+        }
+      },
+      "source_id": "deir_appendix_k1_part_1_of_4",
+      "structured_document": {
+        "candidate_id": "exv1-95a714232820c86b0b196b4135a4dbd2db1d866632c0d3a96f2d61b38b21a315",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-95a714232820c86b0b196b4135a4dbd2db1d866632c0d3a96f2d61b38b21a315/records/completion_record.json",
+          "sha256": "208f5d9b7b7aadf2df78e7e96ae39e2d881eaeb33e539eb3633fbc5b753369a6"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3073,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-95a714232820c86b0b196b4135a4dbd2db1d866632c0d3a96f2d61b38b21a315/records/artifact_inventory.json",
+          "sha256": "6fb48de9a75686cd4c3ce8f29dfb2fe24a779800323b432e22abf928583e74c2"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-84659cd0591cccd33d26f7319e409c5c0309eba5bc32ba54b58d5c4095e8264a",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 10143,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_m2/docv1-84659cd0591cccd33d26f7319e409c5c0309eba5bc32ba54b58d5c4095e8264a/records/completion_record.json",
+          "sha256": "1b18785cd26936252f902b26f116062b05f029336af4f12063c586123cc14e32"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5043,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_m2/docv1-84659cd0591cccd33d26f7319e409c5c0309eba5bc32ba54b58d5c4095e8264a/records/artifact_inventory.json",
+          "sha256": "6462f4aecf69e4141c5c0c764d73d04e1251de46001b270f554ef69deef690cd"
+        }
+      },
+      "source_id": "deir_appendix_m2",
+      "structured_document": {
+        "candidate_id": "exv1-ab3719bbdf3a8cdcc4c9ec731d9026b7e9f8ee753f70f3ba9cda5e9cf4016420",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-ab3719bbdf3a8cdcc4c9ec731d9026b7e9f8ee753f70f3ba9cda5e9cf4016420/records/completion_record.json",
+          "sha256": "ea9e90f57599ff067587ade7274b0518f4a755a7387fb23b1e8ffc541e4d1827"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3077,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-ab3719bbdf3a8cdcc4c9ec731d9026b7e9f8ee753f70f3ba9cda5e9cf4016420/records/artifact_inventory.json",
+          "sha256": "14edb7c4f04983ebff10b6114ee10ea29299a9da7d5b8d5b296d7ccc77f6acee"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-ef8d076a65d8d60ee63c5f859ba8327601759c09bfb0264d4cd7a53659d5a71a",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 10227,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_2_of_5/docv1-ef8d076a65d8d60ee63c5f859ba8327601759c09bfb0264d4cd7a53659d5a71a/records/completion_record.json",
+          "sha256": "e425fa301dc219f7197dc89475db73d052578622447b981eaf19a8ed14d2b71c"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5046,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_2_of_5/docv1-ef8d076a65d8d60ee63c5f859ba8327601759c09bfb0264d4cd7a53659d5a71a/records/artifact_inventory.json",
+          "sha256": "9915eadba8b7f86bfeae83587fbe7191e0c5ec2bd0dd10dd2ed5022805cc30e9"
+        }
+      },
+      "source_id": "deir_appendix_k2_part_2_of_5",
+      "structured_document": {
+        "candidate_id": "exv1-2aae85ce2f60d005913d740eed0ad16ef7b4466d5301a5191a2c2620335a4c18",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2aae85ce2f60d005913d740eed0ad16ef7b4466d5301a5191a2c2620335a4c18/records/completion_record.json",
+          "sha256": "1af53665fc7e58b96b1a5f3c9e49bc7ce33eabfbaea7addcce2a7e71e31ae58f"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3079,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2aae85ce2f60d005913d740eed0ad16ef7b4466d5301a5191a2c2620335a4c18/records/artifact_inventory.json",
+          "sha256": "627f24fcc2ac935299534ca79656d3cd162f57097500434c8d6a4c145157e2b0"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-a2ac2357a31c8292caea4c0733ac11b6286d539fb31c787dc343eedccc0bda7c",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 12223,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k3/docv1-a2ac2357a31c8292caea4c0733ac11b6286d539fb31c787dc343eedccc0bda7c/records/completion_record.json",
+          "sha256": "a280264f9745b756062cc12cad7eca5eb70d3edd773f7ca98a8f34b70d03c188"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5044,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k3/docv1-a2ac2357a31c8292caea4c0733ac11b6286d539fb31c787dc343eedccc0bda7c/records/artifact_inventory.json",
+          "sha256": "5c80a8235c043b21d2a97ac376c6a4bb74364feb4325586a98f83aea732ddce4"
+        }
+      },
+      "source_id": "deir_appendix_k3",
+      "structured_document": {
+        "candidate_id": "exv1-ef89f0216cf6f2bdfe06feed86fa7cff758492620858e61ebac0fd1d7507c560",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-ef89f0216cf6f2bdfe06feed86fa7cff758492620858e61ebac0fd1d7507c560/records/completion_record.json",
+          "sha256": "4593e1b92ff1cc48f5052099c426f244a1782929c5dd3dd831ff1459723536a0"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3077,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-ef89f0216cf6f2bdfe06feed86fa7cff758492620858e61ebac0fd1d7507c560/records/artifact_inventory.json",
+          "sha256": "93558ca0b78f937b89f0557a9447e61633d1867473e386cfd4ec0a10a5e0cf96"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-eda531a19bcde7586764a317b94abd22914e1117575c0594ed3d649313aa5c0d",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 13967,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k1_part_2_of_4/docv1-eda531a19bcde7586764a317b94abd22914e1117575c0594ed3d649313aa5c0d/records/completion_record.json",
+          "sha256": "1a7b5c4e68d983de0b6f15e6298e0f47cd674e05cbc9e37d6b5f6690ce01691d"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5046,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k1_part_2_of_4/docv1-eda531a19bcde7586764a317b94abd22914e1117575c0594ed3d649313aa5c0d/records/artifact_inventory.json",
+          "sha256": "17db8a1d6a639ad325960a31fcda9c003943a08d97147e7c0d9b45750d804e61"
+        }
+      },
+      "source_id": "deir_appendix_k1_part_2_of_4",
+      "structured_document": {
+        "candidate_id": "exv1-1fc07a4d44f53d3ad79800869d7ebaa95eefa7c6464096a2c05f72feea1bf0a8",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-1fc07a4d44f53d3ad79800869d7ebaa95eefa7c6464096a2c05f72feea1bf0a8/records/completion_record.json",
+          "sha256": "3e81c7ad5098233c9c7eab7b761d6f18ffd2f990738eee09c92bacd79497a372"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3077,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-1fc07a4d44f53d3ad79800869d7ebaa95eefa7c6464096a2c05f72feea1bf0a8/records/artifact_inventory.json",
+          "sha256": "3a96aaaeb3715192a9225aea5e2de1d68c96d7a8581113ad31760fc755ec0a49"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-76cc65de59d0fc38bcbb8047400b20efb6a12b2e3a87311bd6eca59bd6ff5159",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 14287,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_1_of_5/docv1-76cc65de59d0fc38bcbb8047400b20efb6a12b2e3a87311bd6eca59bd6ff5159/records/completion_record.json",
+          "sha256": "54a98dc445e6b7e5164b13280ae94d2037257cf4365e7a684ae4ca3bfcfeb2a6"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5048,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_1_of_5/docv1-76cc65de59d0fc38bcbb8047400b20efb6a12b2e3a87311bd6eca59bd6ff5159/records/artifact_inventory.json",
+          "sha256": "f757a434ff8d877d07c1b7e15f9b65facbaf92651be0235030790de35dc8faf4"
+        }
+      },
+      "source_id": "deir_appendix_k2_part_1_of_5",
+      "structured_document": {
+        "candidate_id": "exv1-91a37f0597b36d69054810962b8b86518ce2749fb43d9d5da3f0827da9b979d7",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-91a37f0597b36d69054810962b8b86518ce2749fb43d9d5da3f0827da9b979d7/records/completion_record.json",
+          "sha256": "280eaa267cebe51080848679dcf1da84195c992061db8b23b91e493c01db07f8"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3081,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-91a37f0597b36d69054810962b8b86518ce2749fb43d9d5da3f0827da9b979d7/records/artifact_inventory.json",
+          "sha256": "b4d6867dbe92ad3d3385c472a5b994194e02f402ceba6e0029694a802143af6c"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-e8e7fbe81259c05f661dc1cf24ed45e95d1cef203f3cba2a9c06dc49561e7826",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 20629,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_main/docv1-e8e7fbe81259c05f661dc1cf24ed45e95d1cef203f3cba2a9c06dc49561e7826/records/completion_record.json",
+          "sha256": "0093b6fe39902ed95ed4fb4313eb28fa55f753320bd31ffacbdad6f8f8099df4"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5046,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_main/docv1-e8e7fbe81259c05f661dc1cf24ed45e95d1cef203f3cba2a9c06dc49561e7826/records/artifact_inventory.json",
+          "sha256": "21ef20f53c46720c0a8beae62342bf8750afaa99e7398eba79e4db02645589c2"
+        }
+      },
+      "source_id": "deir_main",
+      "structured_document": {
+        "candidate_id": "exv1-e055c8173cc9e748a5f1e9a1642dbd5ed4789d68cf71e362701299f5908b76cc",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-e055c8173cc9e748a5f1e9a1642dbd5ed4789d68cf71e362701299f5908b76cc/records/completion_record.json",
+          "sha256": "accc0191595699c4796daa0704abb25df4c6e121f7ef840371b721a1c716d927"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3077,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-e055c8173cc9e748a5f1e9a1642dbd5ed4789d68cf71e362701299f5908b76cc/records/artifact_inventory.json",
+          "sha256": "0dd2795a45b8d20e4414a4ca995daf0bcc5a9b66855171c843590904318a9410"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-7a3bd9127fdbae5a35302c1f6ac6c0fc2108d19c57e8b520ad0a921697c0b347",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 23027,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_5_of_5/docv1-7a3bd9127fdbae5a35302c1f6ac6c0fc2108d19c57e8b520ad0a921697c0b347/records/completion_record.json",
+          "sha256": "08f7f85f94dbdaca360200b407628a4295b4b8550420dfbeb3df2a527321b8b9"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5051,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_5_of_5/docv1-7a3bd9127fdbae5a35302c1f6ac6c0fc2108d19c57e8b520ad0a921697c0b347/records/artifact_inventory.json",
+          "sha256": "6681f1646be0ba8ed006433e9e8031c21b76b1c9391353ef386e505c968fabc7"
+        }
+      },
+      "source_id": "deir_appendix_k2_part_5_of_5",
+      "structured_document": {
+        "candidate_id": "exv1-d70ace70a14e890caf48b419c044866f972f8aa6e379a6ef184bf236ff370d0b",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-d70ace70a14e890caf48b419c044866f972f8aa6e379a6ef184bf236ff370d0b/records/completion_record.json",
+          "sha256": "867cf4fc0b71bf3f65f2c7d2d917f8597fa6ee560f382acadc8cdfaa19f2a481"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3082,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-d70ace70a14e890caf48b419c044866f972f8aa6e379a6ef184bf236ff370d0b/records/artifact_inventory.json",
+          "sha256": "88d493e0aa845dc031693b9c790029ea676c0bcbc30b4cb884bb0b744ced89b8"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-d8cdf20d7abcb89275f1fb5818b525ab556f56d4e1fbead4facb2800c49ec5c0",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 23801,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_i/docv1-d8cdf20d7abcb89275f1fb5818b525ab556f56d4e1fbead4facb2800c49ec5c0/records/completion_record.json",
+          "sha256": "0c70d9147b8a325def9b2a6b3bfe1077af58ee8ea4f6729b9134236951311c86"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5049,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_i/docv1-d8cdf20d7abcb89275f1fb5818b525ab556f56d4e1fbead4facb2800c49ec5c0/records/artifact_inventory.json",
+          "sha256": "87713d1eeac1c7afd83775307ec1f964b099e9983b5830999233404c9c0af707"
+        }
+      },
+      "source_id": "deir_appendix_i",
+      "structured_document": {
+        "candidate_id": "exv1-96f254b4fb4a87df6aa2caba0b791c0dd360a46b9981128e50ebef5bff98de8e",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-96f254b4fb4a87df6aa2caba0b791c0dd360a46b9981128e50ebef5bff98de8e/records/completion_record.json",
+          "sha256": "3c9f9f8bc6db8d3a6aa634f53762edac80b6ba36194660245929bcba9b0e44e1"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3081,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-96f254b4fb4a87df6aa2caba0b791c0dd360a46b9981128e50ebef5bff98de8e/records/artifact_inventory.json",
+          "sha256": "797195bae69f721e3b626155c968454d107d6f43cb79b92f7a4955503760f68a"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-c8b65751846f2e1d850186271c68d06a992ace53b3128be544824d65e3ac66c0",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 24603,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_g1/docv1-c8b65751846f2e1d850186271c68d06a992ace53b3128be544824d65e3ac66c0/records/completion_record.json",
+          "sha256": "44ad9261b4138fa3f4efe436b653bbf2b05c788d9aeff1de9ab47c3e5e666ce7"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5049,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_g1/docv1-c8b65751846f2e1d850186271c68d06a992ace53b3128be544824d65e3ac66c0/records/artifact_inventory.json",
+          "sha256": "35e1823226fce0855ffcb8a2d67469ca11650bc015242814180eafe73685d8c5"
+        }
+      },
+      "source_id": "deir_appendix_g1",
+      "structured_document": {
+        "candidate_id": "exv1-2f85d3636bf53f0bd4017b8aafe47cb1127a87c41736aa1eed20acac9d9cc0b0",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2f85d3636bf53f0bd4017b8aafe47cb1127a87c41736aa1eed20acac9d9cc0b0/records/completion_record.json",
+          "sha256": "675be578b88201ab2b27f2c2a3e4e6db32f9a2cc57c5063a1f6508a937c18b8b"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3083,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-2f85d3636bf53f0bd4017b8aafe47cb1127a87c41736aa1eed20acac9d9cc0b0/records/artifact_inventory.json",
+          "sha256": "5a9316428fdd60f3657addd36c4c4732843ca193d0399fdd386c29930591a91e"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-5384c003b04e296fc9410b980afef64e7c8c12fe8c22be3e8230b526a67b4569",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 25327,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k1_part_4_of_4/docv1-5384c003b04e296fc9410b980afef64e7c8c12fe8c22be3e8230b526a67b4569/records/completion_record.json",
+          "sha256": "2b9bec1c1c9954cab8e630ccbbff2c964966d7ba467ff014c3c46aec758dbb8b"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5057,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k1_part_4_of_4/docv1-5384c003b04e296fc9410b980afef64e7c8c12fe8c22be3e8230b526a67b4569/records/artifact_inventory.json",
+          "sha256": "a455adc4e2dfbf8a2a292b9c7ba0ffa9eb906e21ca9382a3bfc9e18ff2512b2c"
+        }
+      },
+      "source_id": "deir_appendix_k1_part_4_of_4",
+      "structured_document": {
+        "candidate_id": "exv1-96ddaa996559a6187dcbcd90355a8124a68f256a1d8cc3c5427d8b5fb663f41d",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-96ddaa996559a6187dcbcd90355a8124a68f256a1d8cc3c5427d8b5fb663f41d/records/completion_record.json",
+          "sha256": "e77d0c65a59852ff8c740e0fd17725cf624dd10a4a7548b58930c56e4baa2bfd"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3091,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-96ddaa996559a6187dcbcd90355a8124a68f256a1d8cc3c5427d8b5fb663f41d/records/artifact_inventory.json",
+          "sha256": "aa20cd62cd82ec76b56ba76dd413fe2521d614a3c3602ed1bf56cbba4bfa7526"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-f183d4d9365e876b615acf87fa73aa23382e86b14dfc28b366c157af7ea713fa",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 25441,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_h/docv1-f183d4d9365e876b615acf87fa73aa23382e86b14dfc28b366c157af7ea713fa/records/completion_record.json",
+          "sha256": "9de90d6fe8c4b3c8ff02dda1b6c120ef5c9e312d446e99c92f48f3cd6c9c6639"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5048,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_h/docv1-f183d4d9365e876b615acf87fa73aa23382e86b14dfc28b366c157af7ea713fa/records/artifact_inventory.json",
+          "sha256": "2a0c45ea029564f19f18d7169f7e97f27a8b7bd111d885417bb3170c5ad66829"
+        }
+      },
+      "source_id": "deir_appendix_h",
+      "structured_document": {
+        "candidate_id": "exv1-89855695550c23ecdfb5a9a61f3f2015c6682326005e11bcf80e3331b70f83b7",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-89855695550c23ecdfb5a9a61f3f2015c6682326005e11bcf80e3331b70f83b7/records/completion_record.json",
+          "sha256": "00181c336faa3fe98481237c1723381cd386676f0efbe432098f6697e4e1f23f"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3082,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-89855695550c23ecdfb5a9a61f3f2015c6682326005e11bcf80e3331b70f83b7/records/artifact_inventory.json",
+          "sha256": "2ac3ce38a7d0beb5fb1a5ebd15a7c6b72d79cd0a013d1791df315398a6002942"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-3114109fc1ef8658e8cfb4db048fab2db6990356c484eb693eef90199f2f29d3",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 27647,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k1_part_3_of_4/docv1-3114109fc1ef8658e8cfb4db048fab2db6990356c484eb693eef90199f2f29d3/records/completion_record.json",
+          "sha256": "60b2990675cd78c1c0ad353fc6af354a2f819d7269d35fcf33ec7b17b151bf5f"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5057,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k1_part_3_of_4/docv1-3114109fc1ef8658e8cfb4db048fab2db6990356c484eb693eef90199f2f29d3/records/artifact_inventory.json",
+          "sha256": "895668be618ae2c879833789f525e0197a432eae639abac5d5eb970078411373"
+        }
+      },
+      "source_id": "deir_appendix_k1_part_3_of_4",
+      "structured_document": {
+        "candidate_id": "exv1-ff3bf1b277772e82e64cc3fb7f70ed72897f71c66c51812920177326642691f6",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-ff3bf1b277772e82e64cc3fb7f70ed72897f71c66c51812920177326642691f6/records/completion_record.json",
+          "sha256": "2cd8bb2adf2562a4d04ecb958a63fecc78933f6401fe8cb631953b5005fe59a6"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3091,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-ff3bf1b277772e82e64cc3fb7f70ed72897f71c66c51812920177326642691f6/records/artifact_inventory.json",
+          "sha256": "4fac2162f3cb50a67e07479334426f611e687f7bbdb76f68f6cb592ac456a519"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-1ae2060830e9737f04fee06179d5a0c7fe4ffd83fed49b8fb99859476f18398b",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 37083,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_g2/docv1-1ae2060830e9737f04fee06179d5a0c7fe4ffd83fed49b8fb99859476f18398b/records/completion_record.json",
+          "sha256": "651a65fb5d7261bbdc4447f24669d4fc97bfe0044d8a68eba353114dc80a5e72"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5039,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_g2/docv1-1ae2060830e9737f04fee06179d5a0c7fe4ffd83fed49b8fb99859476f18398b/records/artifact_inventory.json",
+          "sha256": "f574bc20bc48297fb5299e8eddc525a805785a866eb847f9644a943da05af040"
+        }
+      },
+      "source_id": "deir_appendix_g2",
+      "structured_document": {
+        "candidate_id": "exv1-16ab0aaa6a2d418f5b16ea5dfd9ade844873f72005add44367238cb9ec758287",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-16ab0aaa6a2d418f5b16ea5dfd9ade844873f72005add44367238cb9ec758287/records/completion_record.json",
+          "sha256": "5bdbd81798f755240643eedc9600033a3be6ed8d7df3d53938bfb1c1f2376e38"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3074,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-16ab0aaa6a2d418f5b16ea5dfd9ade844873f72005add44367238cb9ec758287/records/artifact_inventory.json",
+          "sha256": "7577b8864ba1d95ee37e3377ac77cdbf6b5bff34fd3350bdfba2cc1fc21e5780"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-ca87ac27471806336a67e0e6edf3aa6a97b96b269aedfdabf084bf182b92fc9b",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 38567,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_4_of_5/docv1-ca87ac27471806336a67e0e6edf3aa6a97b96b269aedfdabf084bf182b92fc9b/records/completion_record.json",
+          "sha256": "edb46d5476b53e963e36a4c15d11115d7cf0033a29b9418ea2b1b927e650919d"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5064,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_4_of_5/docv1-ca87ac27471806336a67e0e6edf3aa6a97b96b269aedfdabf084bf182b92fc9b/records/artifact_inventory.json",
+          "sha256": "c698554e69e1b3ce35b0dc6ba762c2657496faaf99d9db9f6ad63e05ff79bb59"
+        }
+      },
+      "source_id": "deir_appendix_k2_part_4_of_5",
+      "structured_document": {
+        "candidate_id": "exv1-5af6fc9fcce6906bf9d066c17855f7fe722d599b1554693fc8b86b2401a8e166",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-5af6fc9fcce6906bf9d066c17855f7fe722d599b1554693fc8b86b2401a8e166/records/completion_record.json",
+          "sha256": "e004a2f3b70e69fbd85e110c3494b3447c955f91d9b011e16152071527e26ead"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3097,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-5af6fc9fcce6906bf9d066c17855f7fe722d599b1554693fc8b86b2401a8e166/records/artifact_inventory.json",
+          "sha256": "23ddea5c890a9acbad99c5b605b0eea15ac7ec442b3a6f3b7bbaf8d85f02c43d"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-e7bc1f5b07ca6557ae33d592d1c7365d1d55b4e01a1aa440664ffa79230c5d84",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 60763,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_g3/docv1-e7bc1f5b07ca6557ae33d592d1c7365d1d55b4e01a1aa440664ffa79230c5d84/records/completion_record.json",
+          "sha256": "d4ca05f4ad7ad24b24497d8010562d6dd115e4b1df946e017decbed611a22a36"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5039,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_g3/docv1-e7bc1f5b07ca6557ae33d592d1c7365d1d55b4e01a1aa440664ffa79230c5d84/records/artifact_inventory.json",
+          "sha256": "c818db037a8f25402221f64e0850db2dee1d875bf7f5dab9386f8c043fba29e9"
+        }
+      },
+      "source_id": "deir_appendix_g3",
+      "structured_document": {
+        "candidate_id": "exv1-58fd07f3012ee17d7fd3813529d8c6af8a940c53a6dc16d8a15aaf394e477c26",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-58fd07f3012ee17d7fd3813529d8c6af8a940c53a6dc16d8a15aaf394e477c26/records/completion_record.json",
+          "sha256": "1e4f18cce6b0a9b016bc640f1cc2a1e04dca7d6b7379e95b251c8f6e24a77312"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3079,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-58fd07f3012ee17d7fd3813529d8c6af8a940c53a6dc16d8a15aaf394e477c26/records/artifact_inventory.json",
+          "sha256": "efd563899c6af6353c078fdc268d5e90115de72096cfeaf95fb1d675292184b5"
+        }
+      }
+    },
+    {
+      "source_document": {
+        "candidate_id": "docv1-3a3fff526cd4b4bf4e4e253c3373f0bd936d542678e8a9dfcdb42038ca64d510",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 79087,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_3_of_5/docv1-3a3fff526cd4b4bf4e4e253c3373f0bd936d542678e8a9dfcdb42038ca64d510/records/completion_record.json",
+          "sha256": "b9d44b50ad73fb17e97a5b5f1b2b5698375747bb9a592c6b20d1562c5d056a6a"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 5067,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications/documents/deir_appendix_k2_part_3_of_5/docv1-3a3fff526cd4b4bf4e4e253c3373f0bd936d542678e8a9dfcdb42038ca64d510/records/artifact_inventory.json",
+          "sha256": "2e3d636907c615ee4f1294d7e22f64af36ddfa99ca86a3708a95282e8ce15462"
+        }
+      },
+      "source_id": "deir_appendix_k2_part_3_of_5",
+      "structured_document": {
+        "candidate_id": "exv1-267448562ec9fb6514ef7abef2e0068c0731d975286c9c0b495c3967f2334dd2",
+        "completion_ref": {
+          "authority": "artifact_root",
+          "byte_size": 398,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-267448562ec9fb6514ef7abef2e0068c0731d975286c9c0b495c3967f2334dd2/records/completion_record.json",
+          "sha256": "74c3ee4422194e802d2a57dd4095875a6df45bdb9bce4b0711023f092e2ceece"
+        },
+        "inventory_ref": {
+          "authority": "artifact_root",
+          "byte_size": 3099,
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-267448562ec9fb6514ef7abef2e0068c0731d975286c9c0b495c3967f2334dd2/records/artifact_inventory.json",
+          "sha256": "b1b3c08833c634cb8e8baea198d9946fee5595574c2ec155df90a3466338547c"
+        }
+      }
+    }
+  ],
+  "linking_policy_ref": {
+    "authority": "repository",
+    "byte_size": 4153,
+    "path": "configs/linking_policies/document_linking_v1.json",
+    "sha256": "2b2b15c1a3218d8227991ea850009a85ecaba3256f11416a4263a116ff049ddf"
+  },
+  "linking_policy_schema_ref": {
+    "authority": "repository",
+    "byte_size": 6981,
+    "path": "benchmarks/er_bench/schemas/document_linking/v1/linking_policy.schema.json",
+    "sha256": "70919c95a4317e84b147b30365ccc24c64a468b0ac19d013bc7a22db4a8d0924"
+  },
+  "output_schema_refs": {
+    "alias": {
+      "authority": "repository",
+      "byte_size": 2727,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/alias.schema.json",
+      "sha256": "e8592fd4b2f905123ac8dd3722879147abc2ecf3a1dc853387a814e193fef115"
+    },
+    "completion": {
+      "authority": "repository",
+      "byte_size": 980,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/completion.schema.json",
+      "sha256": "024d3ab334885ff624a3fb9419dff01d24da527e42d9adb25b427b4ce0aa0494"
+    },
+    "identity": {
+      "authority": "repository",
+      "byte_size": 3849,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/identity.schema.json",
+      "sha256": "e2bbab2d5b96bb8b33f57e1ca38723b7b99d206e08b96d22e39995a4b22a8c2c"
+    },
+    "inventory": {
+      "authority": "repository",
+      "byte_size": 1210,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/inventory.schema.json",
+      "sha256": "05df1698a75ff305bba9ca5bfaba580b206c64f32644f4be21bac97e0fd9f8b0"
+    },
+    "manifest": {
+      "authority": "repository",
+      "byte_size": 2538,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/manifest.schema.json",
+      "sha256": "697fa206a23d9db64148c84193dbff7321bb423e893b4af12d1247d5a1887b7d"
+    },
+    "navigation_decision": {
+      "authority": "repository",
+      "byte_size": 1882,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/navigation_decision.schema.json",
+      "sha256": "ce186781a3575c8e91460174ceeefbadef57cfe7dcd6b040d5cd669a451b6fb9"
+    },
+    "navigation_entry": {
+      "authority": "repository",
+      "byte_size": 2756,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/navigation_entry.schema.json",
+      "sha256": "06d48a5fe5a92a5b839ee721f4eb195ecb8392f3b0a9f8d6d145c0f89f02acb3"
+    },
+    "navigation_link": {
+      "authority": "repository",
+      "byte_size": 1471,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/navigation_link.schema.json",
+      "sha256": "55f1fa41ccf8ee9e4aff2ef2e086f52ff230ea94e5916655592e80f3c64075c9"
+    },
+    "navigation_relation": {
+      "authority": "repository",
+      "byte_size": 1690,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/navigation_relation.schema.json",
+      "sha256": "d496124c1a82137e4620eee4403306ec8bf6f534a51bd292332858150d76cfc6"
+    },
+    "ordinary_reference": {
+      "authority": "repository",
+      "byte_size": 3407,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/ordinary_reference.schema.json",
+      "sha256": "6c14ccc82eb5fe4dd6f3a8c259658014d89283ce00bb9183671ab5ccbbc0a2d3"
+    },
+    "support": {
+      "authority": "repository",
+      "byte_size": 4791,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/support.schema.json",
+      "sha256": "61cd2aedfc9b2fe813d3533652d7b21c5cdfb77b83b06dedaa3dc09a338efc7b"
+    }
+  },
+  "replacement_production_identity_recipe_ref": {
+    "authority": "repository",
+    "byte_size": 24801,
+    "path": "benchmarks/er_bench/fixtures/document_publication/v5/task04d_production_identity.json",
+    "sha256": "49d36b73a832eb0467afe78699304ce285f86fa144bc7f221c63b5e4580fe458"
+  },
+  "reviewed_navigation": {
+    "bundle_id": "navreviewv1-026b25a7758e2089a4db3fd3630ccf44461be5cfa4fc304d68fc7fabc01d4fae",
+    "bundle_ref": {
+      "authority": "artifact_root",
+      "byte_size": 2995,
+      "path": "pipelines/brisbane_baylands/task_04d_reviewed_navigation/navreviewv1-026b25a7758e2089a4db3fd3630ccf44461be5cfa4fc304d68fc7fabc01d4fae.json",
+      "sha256": "3bed97adcff7d837422d75f700574640ab1ebedbcffb35fe09907f5af71752a7"
+    },
+    "completion_ref": {
+      "authority": "artifact_root",
+      "byte_size": 926,
+      "path": "pipelines/brisbane_baylands/task_04d_reviewed_navigation/navreviewv1-026b25a7758e2089a4db3fd3630ccf44461be5cfa4fc304d68fc7fabc01d4fae/records/completion_record.json",
+      "sha256": "fad050d68727f966240ecf99374f27103570a7976b8c519056524a4a207fbde5"
+    },
+    "disposition_ref": {
+      "authority": "bundle",
+      "byte_size": 722559,
+      "path": "navigation/dispositions.jsonl",
+      "sha256": "000a8c6d1cd0de4c64732beb879c4874398f3b12a8676c5c292c80fe8f808e15"
+    },
+    "identity_ref": {
+      "authority": "artifact_root",
+      "byte_size": 1444,
+      "path": "pipelines/brisbane_baylands/task_04d_reviewed_navigation/navreviewv1-026b25a7758e2089a4db3fd3630ccf44461be5cfa4fc304d68fc7fabc01d4fae/records/identity_preimage.json",
+      "sha256": "ec5893f97de3a439f8c71c2dd3e859227646677032eb9bd6675ad1c7cee0fb33"
+    },
+    "inventory_ref": {
+      "authority": "artifact_root",
+      "byte_size": 655,
+      "path": "pipelines/brisbane_baylands/task_04d_reviewed_navigation/navreviewv1-026b25a7758e2089a4db3fd3630ccf44461be5cfa4fc304d68fc7fabc01d4fae/records/artifact_inventory.json",
+      "sha256": "3241b7f43e690c2ae24c7a8e0faaea1543839babaa70cb4d0e08e039554427a1"
+    },
+    "parent_relations_ref": {
+      "authority": "bundle",
+      "byte_size": 25041,
+      "path": "navigation/parent_relations.jsonl",
+      "sha256": "ef705cf81b61497dd91b09a813c68e4dcd2adcdb01974989bea62e6ccccb88ad"
+    },
+    "review_decisions_ref": {
+      "authority": "artifact_root",
+      "byte_size": 55949,
+      "path": "pipelines/brisbane_baylands/task_04_review/reviewv1-task03j-final-c17/records/toc_review_decisions.json",
+      "sha256": "eb3c1242f13b76ffc0c1ac165954348cb6de560dbba8d58aba53c8d8237f46df"
+    },
+    "schema_ref": {
+      "authority": "repository",
+      "byte_size": 3377,
+      "path": "benchmarks/er_bench/schemas/document_linking/v1/reviewed_navigation_bundle.schema.json",
+      "sha256": "14f4b0ce55a1fbc4c9ec0c28c8c7572f663e7761b3b707270ff0fc62e75c3476"
+    },
+    "semantic_view_ref": {
+      "authority": "artifact_root",
+      "byte_size": 4142,
+      "path": "pipelines/brisbane_baylands/task_04_navigation_overlay/navsemanticv1-ae00c6e6f70839f1ca15404c9dff14161f0a3e9aaa9e7902f51f65b36023c8fc/semantic_view_manifest.json",
+      "sha256": "6d3ff1bf46fc558520a0f18d84dab84d61407d8f3a552da75bab65d2546fd3fe"
+    },
+    "source_ids": [
+      "deir_appendix_a",
+      "deir_appendix_k2_part_1_of_5",
+      "deir_main"
+    ],
+    "text_entries_ref": {
+      "authority": "bundle",
+      "byte_size": 971080,
+      "path": "navigation/text_entries.jsonl",
+      "sha256": "2d4f90cf357dcb5b2e3b999d58c697318c29048a964e3b513b2da80064aa6e27"
+    }
+  },
+  "schema_version": "er_commons.document_link_run_spec.v1",
+  "selected_source_ids": [
+    "deir_appendix_k4",
+    "deir_appendix_n1",
+    "deir_appendix_k5",
+    "deir_appendix_n2",
+    "deir_appendix_f2",
+    "deir_appendix_k6",
+    "deir_appendix_m3",
+    "deir_appendix_l",
+    "deir_appendix_o",
+    "deir_appendix_f1",
+    "deir_appendix_c",
+    "deir_appendix_j",
+    "deir_appendix_p",
+    "deir_appendix_m1",
+    "deir_appendix_b",
+    "deir_appendix_d",
+    "deir_appendix_e",
+    "deir_appendix_a",
+    "deir_appendix_k1_part_1_of_4",
+    "deir_appendix_m2",
+    "deir_appendix_k2_part_2_of_5",
+    "deir_appendix_k3",
+    "deir_appendix_k1_part_2_of_4",
+    "deir_appendix_k2_part_1_of_5",
+    "deir_main",
+    "deir_appendix_k2_part_5_of_5",
+    "deir_appendix_i",
+    "deir_appendix_g1",
+    "deir_appendix_k1_part_4_of_4",
+    "deir_appendix_h",
+    "deir_appendix_k1_part_3_of_4",
+    "deir_appendix_g2",
+    "deir_appendix_k2_part_4_of_5",
+    "deir_appendix_g3",
+    "deir_appendix_k2_part_3_of_5"
+  ],
+  "source_family_catalog_ref": {
+    "authority": "artifact_root",
+    "byte_size": 20410,
+    "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/inputs/brisbane_baylands_2025_deir_task03h_v4_source_family_catalog_v1.json",
+    "sha256": "ad20c9abcb0d1b45c9bb7de5925f026c5e4c209c98da632bc7b3fc52c3006b9c"
+  }
+}

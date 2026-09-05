@@ -1,0 +1,581 @@
+{
+  "execution_status": "not_executed",
+  "extraction_id": "exv1-466e4e9aced080621fa81058acca95a4e37f1d9a63f2362a569bd9205830b5a3",
+  "fixture_status": "identity_recipe",
+  "identity_sha256": "466e4e9aced080621fa81058acca95a4e37f1d9a63f2362a569bd9205830b5a3",
+  "preimage": {
+    "collection_process_contract": {
+      "artifacts": [
+        {
+          "byte_size": 1543,
+          "path": "benchmarks/er_bench/schemas/collection_processing/v2/collection_run_spec.schema.json",
+          "sha256": "0610479be7a3d6d721aff1f5a0750b529e23a501341427b9db80a965216b3edd"
+        },
+        {
+          "byte_size": 18263,
+          "path": "benchmarks/er_bench/schemas/collection_processing/v2/records.schema.json",
+          "sha256": "8504170db8afada33637220dd433670ef92387292f226749fff779772effa3b4"
+        },
+        {
+          "byte_size": 697,
+          "path": "configs/brisbane_baylands_2025_deir_task03g2_resolution_policy_v1.json",
+          "sha256": "95804a823684792d18467534c2e09f4b0d283bd3405933e9f85515860f692186"
+        },
+        {
+          "byte_size": 526,
+          "path": "configs/brisbane_baylands_2025_deir_task03g2_target_policy_v1.json",
+          "sha256": "981b4ff1783286bacaa7cdfa5d10c38920e1575e573757a869e85bf57a241f81"
+        },
+        {
+          "byte_size": 20410,
+          "path": "configs/brisbane_baylands_2025_deir_task03h_v4_source_family_catalog_v1.json",
+          "sha256": "ad20c9abcb0d1b45c9bb7de5925f026c5e4c209c98da632bc7b3fc52c3006b9c"
+        },
+        {
+          "byte_size": 723,
+          "path": "configs/brisbane_baylands_2025_deir_task04d_downstream_replay_v1.json",
+          "sha256": "ae35011ed793692833fbc09b31463dee7b1c5b73e484edeece847d44e43f4b3f"
+        },
+        {
+          "byte_size": 1610,
+          "path": "configs/brisbane_baylands_2025_deir_task04d_collection_v1.json",
+          "sha256": "ef2c3788a582d26b7a395a6ef6435030c4b611f126d8e5f2cc6906f8b81c110d"
+        }
+      ],
+      "owned_code": [
+        {
+          "byte_size": 10916,
+          "path": "src/er_commons/artifact_io.py",
+          "sha256": "742def5e35aa9a29f747149a06d77daf44106ddd5ce50c157181e19f6561236f"
+        },
+        {
+          "byte_size": 10473,
+          "path": "src/er_commons/cli.py",
+          "sha256": "24a6b661cd0395d7ab8970293ff4ddd5b616e8b4356abeda648d6bc1a9e22073"
+        },
+        {
+          "byte_size": 826,
+          "path": "src/er_commons/collection_processing/__init__.py",
+          "sha256": "8a642f3f43ae65b67d9440b13b7e2c9c98bf1680abe0831fdaea2ca86bbede20"
+        },
+        {
+          "byte_size": 3009,
+          "path": "src/er_commons/collection_processing/accounting.py",
+          "sha256": "dfc2ca2ffb6fe0f39004d632f827d9033352feee6e9706a6e75ac4aa99433f35"
+        },
+        {
+          "byte_size": 1938,
+          "path": "src/er_commons/collection_processing/artifact_reader.py",
+          "sha256": "ef97c263ecfd0058db13cd3dc5e835083c7e33ad0e9dc83e5cdde1e0b4213119"
+        },
+        {
+          "byte_size": 6464,
+          "path": "src/er_commons/collection_processing/attempt_storage.py",
+          "sha256": "1da2c2a21e280a448a8dbba0afe30d1e830f79ee13e3d2f4dc8ce5a24004bef2"
+        },
+        {
+          "byte_size": 8118,
+          "path": "src/er_commons/collection_processing/attempts.py",
+          "sha256": "8b14888e0519a8deb32a9f9e60ead2d67f8f26ab1488ad16d2bb0759914004bf"
+        },
+        {
+          "byte_size": 5796,
+          "path": "src/er_commons/collection_processing/bundle.py",
+          "sha256": "57f72b1fe157c5855f36835a4a84c3e5b1b702074a6db422636153caa1b045b2"
+        },
+        {
+          "byte_size": 1874,
+          "path": "src/er_commons/collection_processing/compatibility_v1.py",
+          "sha256": "102767c0d67f32b4f5564ecfc083184de0fbfcfee709d5a3fbce192e7c558593"
+        },
+        {
+          "byte_size": 2203,
+          "path": "src/er_commons/collection_processing/compatibility_v1_bundle.py",
+          "sha256": "1c957be4d2df276359b16ee55355ec4f66339d5c36710247ac22f46aef0f6bdc"
+        },
+        {
+          "byte_size": 1860,
+          "path": "src/er_commons/collection_processing/config.py",
+          "sha256": "407bc4cc996771a946f11da7c7c30ea1ca909a7328a7608b5cdeff926d89efec"
+        },
+        {
+          "byte_size": 3424,
+          "path": "src/er_commons/collection_processing/contract.py",
+          "sha256": "67e5fabcfc11239745c1b63a42e6af8653ac6ca6b779afb12cdfd305d283bf64"
+        },
+        {
+          "byte_size": 1848,
+          "path": "src/er_commons/collection_processing/contract_validation.py",
+          "sha256": "1aedaebe35b7aec3739d43dd1008e2604282f307c28cd93cbf906cdd023b7a9f"
+        },
+        {
+          "byte_size": 6556,
+          "path": "src/er_commons/collection_processing/cross_document_linking.py",
+          "sha256": "134b45ffc89ed2c11a86defceb8c4f1f2ef686a2c7459dbaabba52bd90fcf9f5"
+        },
+        {
+          "byte_size": 5697,
+          "path": "src/er_commons/collection_processing/cross_document_resolver.py",
+          "sha256": "438593755449f9277754a38f03d118c7acf1502955a0c86d625dbf971c959a12"
+        },
+        {
+          "byte_size": 3630,
+          "path": "src/er_commons/collection_processing/document_evidence.py",
+          "sha256": "7498f83155e5089db18e5d13ab24825b7ae4db8ac19b6644871e9b7c6f628aff"
+        },
+        {
+          "byte_size": 1779,
+          "path": "src/er_commons/collection_processing/document_targets.py",
+          "sha256": "327d69c8ad979c50591c3bb8490f72637bd9cad0c4fab0e365ac64b9453623cf"
+        },
+        {
+          "byte_size": 2123,
+          "path": "src/er_commons/collection_processing/domain.py",
+          "sha256": "2c4a3dc9351914572068bb1c7c7521f6423bae755f656a3ccf66d2856a2229e4"
+        },
+        {
+          "byte_size": 4787,
+          "path": "src/er_commons/collection_processing/handoff_assembly.py",
+          "sha256": "ac604353115ff129f5daeed3b85618b1bf310caa4e57a29074e67ca4654c92fc"
+        },
+        {
+          "byte_size": 6324,
+          "path": "src/er_commons/collection_processing/handoff_validation.py",
+          "sha256": "805142adde2f46f30e0bb207101f36964fcfd6ab65d44d4da7c804715f4fe943"
+        },
+        {
+          "byte_size": 5657,
+          "path": "src/er_commons/collection_processing/mentions.py",
+          "sha256": "c476d5506f4e2e3ffe116c46f9f15db7d80c9f6c85c9ab8a242641ebd90c654e"
+        },
+        {
+          "byte_size": 4626,
+          "path": "src/er_commons/collection_processing/pipeline.py",
+          "sha256": "47b71246923e1d2df9f698687064c4e6663cd10f87b4672e96ef87cc0e4908c4"
+        },
+        {
+          "byte_size": 4163,
+          "path": "src/er_commons/collection_processing/preflight.py",
+          "sha256": "30082e2a54f8bb1be246b37d35d679d4dda590c21f72832e9d8186809cc1c850"
+        },
+        {
+          "byte_size": 5328,
+          "path": "src/er_commons/collection_processing/publication.py",
+          "sha256": "de875b1f28506d77490da8a4bec4cce920f993b80768c7f0f3513b4853c67997"
+        },
+        {
+          "byte_size": 8738,
+          "path": "src/er_commons/collection_processing/record_target_indexing.py",
+          "sha256": "78f79550554a5b51aecfd84e15918a279534433f6775d57bb97d156753f7a6e4"
+        },
+        {
+          "byte_size": 9802,
+          "path": "src/er_commons/collection_processing/semantic_validation.py",
+          "sha256": "822521909869c87dbc8c41e4e9ec062078bbcab1ad8d7b8936af376437ed3a49"
+        },
+        {
+          "byte_size": 1140,
+          "path": "src/er_commons/collection_processing/source_family_inputs.py",
+          "sha256": "12e669bdb2b453dadb554feb522619067c3b26818d5eae602072b609e48f9e17"
+        },
+        {
+          "byte_size": 2670,
+          "path": "src/er_commons/collection_processing/storage.py",
+          "sha256": "7ba83f3e6430a9543636b77f94e01ac3020a75f19e9d6860dde7ad762beca484"
+        },
+        {
+          "byte_size": 2823,
+          "path": "src/er_commons/collection_processing/validation_support.py",
+          "sha256": "a2c6d6857bab844e9dc45acb2f5f041895014459c675f75e8daf897b0024db87"
+        },
+        {
+          "byte_size": 1191,
+          "path": "src/er_commons/collection_processing/workflow.py",
+          "sha256": "8f1426a521193d4b13c9807117200913606aaed8e439bc93596827564deba7eb"
+        },
+        {
+          "byte_size": 551,
+          "path": "src/er_commons/extraction_reporting/__init__.py",
+          "sha256": "a98948deea894efadfe69b5cd315714920d523315835307b9acca7f1806e740c"
+        },
+        {
+          "byte_size": 3428,
+          "path": "src/er_commons/extraction_reporting/anomalies.py",
+          "sha256": "f79e7db6a68bf29c9edb715e9799eb49e6d083088c20aa861c7e2395541d39de"
+        },
+        {
+          "byte_size": 10670,
+          "path": "src/er_commons/extraction_reporting/candidate_metrics.py",
+          "sha256": "8811773ab8cce815c8975fdcd54b365984e15814f1f9f5b08269190666a83b5f"
+        },
+        {
+          "byte_size": 2141,
+          "path": "src/er_commons/extraction_reporting/collection_metrics.py",
+          "sha256": "1de5b2bd92deeaeb62c36732e6dc502e9b8e1917a008cc65339faba9d427edfc"
+        },
+        {
+          "byte_size": 906,
+          "path": "src/er_commons/extraction_reporting/compatibility_v1.py",
+          "sha256": "329b9fbd4e9cfb97175a193f80e2978c2b62de01d6bb808e31e5dd060ec83fcf"
+        },
+        {
+          "byte_size": 7547,
+          "path": "src/er_commons/extraction_reporting/inputs.py",
+          "sha256": "b8db719b0107ecebda6501d29dd13a546e273f0b9341fda34ee63f8401a81aaa"
+        },
+        {
+          "byte_size": 2081,
+          "path": "src/er_commons/extraction_reporting/publication.py",
+          "sha256": "784f272355ce02a9254ae2b87591c995e2d7bbb07ffa65413c7244bec9bd14ee"
+        },
+        {
+          "byte_size": 6920,
+          "path": "src/er_commons/extraction_reporting/reporting.py",
+          "sha256": "b44bed06a6395d2747ce01c79f73000c9c93449033a86d62ca288c03f69f16e2"
+        },
+        {
+          "byte_size": 9125,
+          "path": "src/er_commons/source_family_catalog.py",
+          "sha256": "2bd35d23e49ab8f0ff0965fd3008a320853fa57d5c67a7cafe8ad42a7fb30927"
+        }
+      ],
+      "version": "task04d-collection-downstream-replay-v1"
+    },
+    "contract_revision": "task_04d_relink_downstream_replay_v1",
+    "document_process_contract": {
+      "artifacts": [
+        {
+          "byte_size": 127610,
+          "path": "benchmarks/er_bench/fixtures/document_publication/v4/task03h_production_identity.json",
+          "sha256": "07b51e1ee19c0183115602e7b6b717e48d85684e4dd98e9a3cf108c081e5e8cb"
+        },
+        {
+          "byte_size": 2727,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/alias.schema.json",
+          "sha256": "e8592fd4b2f905123ac8dd3722879147abc2ecf3a1dc853387a814e193fef115"
+        },
+        {
+          "byte_size": 980,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/completion.schema.json",
+          "sha256": "024d3ab334885ff624a3fb9419dff01d24da527e42d9adb25b427b4ce0aa0494"
+        },
+        {
+          "byte_size": 6551,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/document_link_run.schema.json",
+          "sha256": "7b29c5f8274b0f282f502ffb29edab7b48a58b96ddbc5ee8277d6c852b915510"
+        },
+        {
+          "byte_size": 3849,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/identity.schema.json",
+          "sha256": "e2bbab2d5b96bb8b33f57e1ca38723b7b99d206e08b96d22e39995a4b22a8c2c"
+        },
+        {
+          "byte_size": 1210,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/inventory.schema.json",
+          "sha256": "05df1698a75ff305bba9ca5bfaba580b206c64f32644f4be21bac97e0fd9f8b0"
+        },
+        {
+          "byte_size": 6981,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/linking_policy.schema.json",
+          "sha256": "70919c95a4317e84b147b30365ccc24c64a468b0ac19d013bc7a22db4a8d0924"
+        },
+        {
+          "byte_size": 2538,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/manifest.schema.json",
+          "sha256": "697fa206a23d9db64148c84193dbff7321bb423e893b4af12d1247d5a1887b7d"
+        },
+        {
+          "byte_size": 1882,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/navigation_decision.schema.json",
+          "sha256": "ce186781a3575c8e91460174ceeefbadef57cfe7dcd6b040d5cd669a451b6fb9"
+        },
+        {
+          "byte_size": 2756,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/navigation_entry.schema.json",
+          "sha256": "06d48a5fe5a92a5b839ee721f4eb195ecb8392f3b0a9f8d6d145c0f89f02acb3"
+        },
+        {
+          "byte_size": 1471,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/navigation_link.schema.json",
+          "sha256": "55f1fa41ccf8ee9e4aff2ef2e086f52ff230ea94e5916655592e80f3c64075c9"
+        },
+        {
+          "byte_size": 1690,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/navigation_relation.schema.json",
+          "sha256": "d496124c1a82137e4620eee4403306ec8bf6f534a51bd292332858150d76cfc6"
+        },
+        {
+          "byte_size": 3407,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/ordinary_reference.schema.json",
+          "sha256": "6c14ccc82eb5fe4dd6f3a8c259658014d89283ce00bb9183671ab5ccbbc0a2d3"
+        },
+        {
+          "byte_size": 3377,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/reviewed_navigation_bundle.schema.json",
+          "sha256": "14f4b0ce55a1fbc4c9ec0c28c8c7572f663e7761b3b707270ff0fc62e75c3476"
+        },
+        {
+          "byte_size": 4791,
+          "path": "benchmarks/er_bench/schemas/document_linking/v1/support.schema.json",
+          "sha256": "61cd2aedfc9b2fe813d3533652d7b21c5cdfb77b83b06dedaa3dc09a338efc7b"
+        },
+        {
+          "byte_size": 6275,
+          "path": "benchmarks/er_bench/schemas/document_publication/v2/document_run_spec.schema.json",
+          "sha256": "ac11477557ae1b590a6c6119932b0d0dd3d38b05b32e265f0153e9111847bd69"
+        },
+        {
+          "byte_size": 2841,
+          "path": "benchmarks/er_bench/schemas/document_publication/v2/production_identity.schema.json",
+          "sha256": "f40726cded6d9bc3f3cc14f812f0c46fae6c506f3a1219d77841394b253bea10"
+        },
+        {
+          "byte_size": 723,
+          "path": "configs/brisbane_baylands_2025_deir_task04d_downstream_replay_v1.json",
+          "sha256": "ae35011ed793692833fbc09b31463dee7b1c5b73e484edeece847d44e43f4b3f"
+        },
+        {
+          "byte_size": 4153,
+          "path": "configs/linking_policies/document_linking_v1.json",
+          "sha256": "2b2b15c1a3218d8227991ea850009a85ecaba3256f11416a4263a116ff049ddf"
+        }
+      ],
+      "owned_code": [
+        {
+          "byte_size": 10916,
+          "path": "src/er_commons/artifact_io.py",
+          "sha256": "742def5e35aa9a29f747149a06d77daf44106ddd5ce50c157181e19f6561236f"
+        },
+        {
+          "byte_size": 10473,
+          "path": "src/er_commons/cli.py",
+          "sha256": "24a6b661cd0395d7ab8970293ff4ddd5b616e8b4356abeda648d6bc1a9e22073"
+        },
+        {
+          "byte_size": 7093,
+          "path": "src/er_commons/document_publication/downstream_replay.py",
+          "sha256": "f82976369d9a5c2e6fac5af19008d8ed18e35171587b43612a866ebee2e2fc20"
+        },
+        {
+          "byte_size": 3301,
+          "path": "src/er_commons/document_publication/downstream_replay_validation.py",
+          "sha256": "d7ff3d9018200d64cd3ccf457f582b0da757c63f59df6148f059cc39fb5abd5f"
+        },
+        {
+          "byte_size": 1949,
+          "path": "src/er_commons/document_publication/identity.py",
+          "sha256": "b9ba915700b76907fd790d95323d08a64c48c9e03f319690e633a9cb73329581"
+        },
+        {
+          "byte_size": 5828,
+          "path": "src/er_commons/document_publication/production_identity.py",
+          "sha256": "7808d3cc84d50660d8242eea4a06f75a3779fd2a9e277af425aca68c368af664"
+        },
+        {
+          "byte_size": 7563,
+          "path": "src/er_commons/document_publication/records.py",
+          "sha256": "342865795c267c83a8387aa2e83485854566b01c43035c99172cfd88d5f08e8e"
+        },
+        {
+          "byte_size": 498,
+          "path": "src/er_commons/document_records/document_references/__init__.py",
+          "sha256": "9e22bc4ba7a8adc9f6766340c669929896d2db1a4801a06b1f71e0d717a6ba48"
+        },
+        {
+          "byte_size": 5892,
+          "path": "src/er_commons/document_records/document_references/config.py",
+          "sha256": "42ca4e89f3032c0f146be1d4a4fab8aaf6f61c2cd62b5189433acba37fddebb5"
+        },
+        {
+          "byte_size": 10231,
+          "path": "src/er_commons/document_records/document_references/construction.py",
+          "sha256": "38ae305b412fa245116c2e207d9b0856cbffe1262a54f837d7c5d0d6115b9a65"
+        },
+        {
+          "byte_size": 5103,
+          "path": "src/er_commons/document_records/document_references/detection.py",
+          "sha256": "94c4c48301c27c24a1375a0c96ad87edb967a731e597237b1e141cffc51da901"
+        },
+        {
+          "byte_size": 1039,
+          "path": "src/er_commons/document_records/document_references/errors.py",
+          "sha256": "3e503556f4f5835a5ec2cab5306c5227832ce7c5a53fe7abef6c9c79b3023c73"
+        },
+        {
+          "byte_size": 12660,
+          "path": "src/er_commons/document_records/document_references/exact_resolution.py",
+          "sha256": "58904f6a4e50b6b60454107de85dd493691dbd5651f9b6fd7fce4ca5e5cdd030"
+        },
+        {
+          "byte_size": 3880,
+          "path": "src/er_commons/document_records/document_references/identity.py",
+          "sha256": "06d10160fea19db8a136accb8101f2793d085f8713bad649b134a1d24d3f4642"
+        },
+        {
+          "byte_size": 10535,
+          "path": "src/er_commons/document_records/document_references/indexing.py",
+          "sha256": "b50e848ad5533cc486799590f79b684026dd6f7c2afe2680ad326e41b5b7b5f0"
+        },
+        {
+          "byte_size": 2525,
+          "path": "src/er_commons/document_records/document_references/linking_core.py",
+          "sha256": "30c41ec42132b7bfa0ce1bdc7d41ac4819b1c6230d8ae577d211646b53484dcf"
+        },
+        {
+          "byte_size": 5121,
+          "path": "src/er_commons/document_records/document_references/linking_policy.py",
+          "sha256": "dfb58aafcd6b687f52a4821bfbc69cc07eb07eedaef1b3bbbc5d0e495b85124d"
+        },
+        {
+          "byte_size": 2146,
+          "path": "src/er_commons/document_records/document_references/machine_link_resolution.py",
+          "sha256": "56b35d53cbc3f71660dc374959086c31072bab33580f872e4693e5ad8a009d8a"
+        },
+        {
+          "byte_size": 5233,
+          "path": "src/er_commons/document_records/document_references/policy.py",
+          "sha256": "5aa068fe75230f84d39d2c66966570f132fab98d7a495fedcdf25c0fdafca2ea"
+        },
+        {
+          "byte_size": 9730,
+          "path": "src/er_commons/document_records/document_references/publication.py",
+          "sha256": "0def2f53676a08c7b090a4532f78d089343690339cc20e3e9717cc31e9fe0636"
+        },
+        {
+          "byte_size": 4867,
+          "path": "src/er_commons/document_records/document_references/relink_preflight.py",
+          "sha256": "7e160e487375d8bd4b0e7cbda46b8733b82c9ae8cbdec13b227e2a06c4f14c70"
+        },
+        {
+          "byte_size": 38831,
+          "path": "src/er_commons/document_records/document_references/relink_publication.py",
+          "sha256": "1c28cd000da4451bc592d91a66a0b59c532c8586fe30736dcd87422f562dc60b"
+        },
+        {
+          "byte_size": 4789,
+          "path": "src/er_commons/document_records/document_references/relink_replay.py",
+          "sha256": "e181f862daa2274a542665c1f11d8fc3deb5e661c4d579c1474822e203f28419"
+        },
+        {
+          "byte_size": 35438,
+          "path": "src/er_commons/document_records/document_references/relinking.py",
+          "sha256": "eeaaca18cd8327c6f7ccf37c6eff234947680714e898e13ebb4ffa1153129ccb"
+        },
+        {
+          "byte_size": 8451,
+          "path": "src/er_commons/document_records/document_references/relinking_config.py",
+          "sha256": "d36c6f6012342d8f4798ee701c4f80c4ec955f6d2805a1692ecf7e7c325558ff"
+        },
+        {
+          "byte_size": 7370,
+          "path": "src/er_commons/document_records/document_references/resolution.py",
+          "sha256": "55d95241b7e9bdea544f760b202843ad554106514bb4c2932f00954863c699f8"
+        },
+        {
+          "byte_size": 23787,
+          "path": "src/er_commons/document_records/document_references/reviewed_navigation.py",
+          "sha256": "21763d45632df50e98c0b26377e167af8a05ded822d643b0b0c6117433577c43"
+        },
+        {
+          "byte_size": 2009,
+          "path": "src/er_commons/document_records/document_references/source_scope.py",
+          "sha256": "78e46e81a581800b3ef03332d138b5b53be33c1e131b3386a60a3cdf492472f1"
+        },
+        {
+          "byte_size": 1857,
+          "path": "src/er_commons/document_records/document_references/storage.py",
+          "sha256": "00ca5be3f97e415177c4cef8e9723c8189b1c97e90fa3f7d445998fad086aba5"
+        },
+        {
+          "byte_size": 7727,
+          "path": "src/er_commons/document_records/document_references/table_aliases.py",
+          "sha256": "489440afe0c14e8eedfc0e7a1cf1b7b486e5efb73ea3b4f5f81510c98b7b590a"
+        },
+        {
+          "byte_size": 9140,
+          "path": "src/er_commons/document_records/document_references/types.py",
+          "sha256": "02f049791a3c156779f027b2cdb64e60f255cd8e979eb11ff157aa0cab3cde98"
+        },
+        {
+          "byte_size": 24345,
+          "path": "src/er_commons/document_records/document_references/validation.py",
+          "sha256": "106df30a1d9c6bd930f13ab68107845b2dcb028ba04f2d80b7e8be159341b0d6"
+        },
+        {
+          "byte_size": 4030,
+          "path": "src/er_commons/document_records/document_references/workflow.py",
+          "sha256": "4cb1501d57f249e6d9ca296fc0aaca63fc54cfe7090a3c91c9d5168ec0d78caa"
+        },
+        {
+          "byte_size": 1915,
+          "path": "src/er_commons/navigation_overlay/link_resolution.py",
+          "sha256": "7de784fb6c1ae9bc30a68a19f74246e61fe1ba3e06b3c46b232d78a243b9cfb3"
+        },
+        {
+          "byte_size": 9125,
+          "path": "src/er_commons/source_family_catalog.py",
+          "sha256": "2bd35d23e49ab8f0ff0965fd3008a320853fa57d5c67a7cafe8ad42a7fb30927"
+        }
+      ],
+      "version": "task04d-document-linking-v1"
+    },
+    "extraction_version_name": "brisbane_baylands_2025_deir_task04d_relinked_v1",
+    "production_scope": {
+      "allowed_scope_kinds": [
+        "production_full"
+      ],
+      "ordered_source_ids": [
+        "deir_appendix_k4",
+        "deir_appendix_n1",
+        "deir_appendix_k5",
+        "deir_appendix_n2",
+        "deir_appendix_f2",
+        "deir_appendix_k6",
+        "deir_appendix_m3",
+        "deir_appendix_l",
+        "deir_appendix_o",
+        "deir_appendix_f1",
+        "deir_appendix_c",
+        "deir_appendix_j",
+        "deir_appendix_p",
+        "deir_appendix_m1",
+        "deir_appendix_b",
+        "deir_appendix_d",
+        "deir_appendix_e",
+        "deir_appendix_a",
+        "deir_appendix_k1_part_1_of_4",
+        "deir_appendix_m2",
+        "deir_appendix_k2_part_2_of_5",
+        "deir_appendix_k3",
+        "deir_appendix_k1_part_2_of_4",
+        "deir_appendix_k2_part_1_of_5",
+        "deir_main",
+        "deir_appendix_k2_part_5_of_5",
+        "deir_appendix_i",
+        "deir_appendix_g1",
+        "deir_appendix_k1_part_4_of_4",
+        "deir_appendix_h",
+        "deir_appendix_k1_part_3_of_4",
+        "deir_appendix_g2",
+        "deir_appendix_k2_part_4_of_5",
+        "deir_appendix_g3",
+        "deir_appendix_k2_part_3_of_5"
+      ],
+      "ordered_source_records_sha256": "a7f99c4d13cf8b557fc3b250e2a1ecdbc05012570ac0d96f6afcab64a6bc8c99",
+      "release_completion": {
+        "byte_size": 1336,
+        "path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/completion_record.json",
+        "sha256": "d1175d6bf54d2c557293cb7bb0e1191250a9b5db2aef5c9e563ebe01e58767a6"
+      },
+      "source_manifest": {
+        "byte_size": 2649317,
+        "path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+        "sha256": "fede3e4af815378b77a7f7f54c863ef095328da789859d4f4b25a524f3408f38"
+      },
+      "source_release_version": "brisbane_baylands_2025_deir_sources_v1"
+    },
+    "schema_version": "er_commons.document_publication_identity_preimage.v2"
+  },
+  "record_type": "production_identity",
+  "schema_version": "er_commons.document_publication_identity.v2"
+}

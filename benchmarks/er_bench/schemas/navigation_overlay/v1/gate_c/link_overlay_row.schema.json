@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_c/link_overlay_row.schema.json",
+  "title": "ER Commons navigation link overlay row v1",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "link_view_id", "semantic_view_id", "link_overlay_id", "reconciliation_id", "source_toc_entry_id", "source_id", "candidate_id", "operation", "normalized_marker", "terminal_destination_token", "existing_body_alias_id", "target_id", "target_page_id", "destination_page_alias_ids", "resolution_method"],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.link_overlay"},
+    "link_view_id": {"$ref": "#/$defs/linkViewId"}, "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "link_overlay_id": {"type": "string", "pattern": "^navlinkentryv1-[a-f0-9]{24}$"},
+    "reconciliation_id": {"type": "string", "pattern": "^navtocentryrecv1-[a-f0-9]{24}$"},
+    "source_toc_entry_id": {"type": "string", "pattern": "^navtocentryv1-[a-f0-9]{24}$"},
+    "source_id": {"type": "string", "minLength": 1}, "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+    "operation": {"const": "add"},
+    "normalized_marker": {"type": "string", "pattern": "^[0-9]+(?:\\.[0-9]+)*$"},
+    "terminal_destination_token": {"type": "string", "minLength": 1}, "existing_body_alias_id": {"type": "string", "minLength": 1},
+    "target_id": {"type": "string", "minLength": 1}, "target_page_id": {"type": "string", "minLength": 1},
+    "destination_page_alias_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "resolution_method": {"enum": ["existing_unique_body_alias_and_independent_printed_page_agreement", "existing_body_alias_and_printed_page_candidate_intersection"]}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"},
+    "linkViewId": {"type": "string", "pattern": "^navlinkv1-[a-f0-9]{64}$"}
+  }
+}

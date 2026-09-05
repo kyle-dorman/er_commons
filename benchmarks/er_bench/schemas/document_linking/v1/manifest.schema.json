@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/manifest.schema.json",
+  "title": "Document link manifest v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "extraction_id",
+    "identity_sha256",
+    "record_files",
+    "support_files",
+    "target_alias_count",
+    "cross_reference_count",
+    "navigation_entry_count",
+    "navigation_link_count"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.document_link_manifest.v1"
+    },
+    "extraction_id": {
+      "$ref": "#/$defs/extractionId"
+    },
+    "identity_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "record_files": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/recordFile"
+      }
+    },
+    "support_files": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/supportFile"
+      }
+    },
+    "target_alias_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cross_reference_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "navigation_entry_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "navigation_link_count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "extractionId": {
+      "type": "string",
+      "pattern": "^exv1-[0-9a-f]{64}$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "recordFile": {
+      "type": "object",
+      "required": [
+        "record_type",
+        "path",
+        "sha256",
+        "record_count"
+      ],
+      "properties": {
+        "record_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "record_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "supportFile": {
+      "type": "object",
+      "required": [
+        "role",
+        "path",
+        "sha256",
+        "schema_version"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

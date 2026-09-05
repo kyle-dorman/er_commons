@@ -100,6 +100,16 @@ scope, replace a numbered task, or record a completed experiment.
   frozen; valid alternatives would be linked to the same support requirement
   without making every duplicate passage mandatory for retrieval. DocScope's
   evidence-completeness review is a useful reference ([Appendix B.5](https://arxiv.org/pdf/2605.08888#page=29)).
+- When designing the evaluation and prompt-tuning loop, review Apple's
+  [Evaluations documentation](https://developer.apple.com/documentation/evaluations)
+  for inspiration. In particular, consider its evaluation-driven loop,
+  categorized datasets with core, edge, and adversarial cases, explicit
+  measurable criteria, separate code-based and model-as-judge evaluators,
+  pointwise and pairwise comparisons for prompt or model changes, detailed
+  per-case results alongside aggregate summaries, regression tracking, and
+  tool-call trajectory checks. Adapt only the ideas that fit `er_bench`'s
+  evidence-grounding, provenance, human-review, and locked-test boundaries;
+  this is a future design reference, not an adopted framework or dependency.
 - After the MVP, consider generating a publication-style benchmark release
   report with an appendix-equivalent asset index, human-readable prompts and
   schemas, full per-case results, negative experiments, and compute, runtime,

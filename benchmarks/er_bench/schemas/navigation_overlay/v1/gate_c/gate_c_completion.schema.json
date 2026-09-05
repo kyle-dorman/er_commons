@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_c/gate_c_completion.schema.json",
+  "title": "ER Commons navigation overlay Gate C completion v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "link_view_id", "semantic_view_id", "overlay_plan_id", "status",
+    "gate_c_specification", "artifact_inventory_sha256", "managed_files", "accounting",
+    "validation", "atomic_publication", "source_free_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.gate_c_completion"},
+    "link_view_id": {"$ref": "#/$defs/linkViewId"},
+    "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+    "status": {"const": "complete"},
+    "gate_c_specification": {"$ref": "#/$defs/artifactReference"},
+    "artifact_inventory_sha256": {"$ref": "#/$defs/sha256"},
+    "managed_files": {
+      "type": "array",
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "toc_text_pages.jsonl"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "toc_text_entries.jsonl"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "toc_entry_reconciliations.jsonl"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "alias_overlay.jsonl"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "link_overlay.jsonl"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "inherited_ambiguous_link_dispositions.jsonl"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "navigation_link_manifest.json"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "records/identity_preimage.json"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "records/artifact_inventory.json"}}}]}
+      ],
+      "items": false, "minItems": 9, "maxItems": 9
+    },
+    "accounting": {"$ref": "#/$defs/accounting"},
+    "validation": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "schema_validation_passed", "toc_text_page_coverage_complete", "toc_entry_coverage_complete",
+        "entry_locators_reproduced",
+        "created_records_meet_full_evidence_threshold", "all_unresolved_entries_are_closed",
+        "inherited_ambiguity_coverage_complete", "existing_machine_records_unchanged",
+        "output_ids_unique", "output_order_deterministic", "identity_rederived",
+        "repeated_build_reused_identical_namespace"
+      ],
+      "properties": {
+        "schema_validation_passed": {"const": true},
+        "toc_text_page_coverage_complete": {"const": true},
+        "toc_entry_coverage_complete": {"const": true},
+        "entry_locators_reproduced": {"const": true},
+        "created_records_meet_full_evidence_threshold": {"const": true},
+        "all_unresolved_entries_are_closed": {"const": true},
+        "inherited_ambiguity_coverage_complete": {"const": true},
+        "existing_machine_records_unchanged": {"const": true},
+        "output_ids_unique": {"const": true},
+        "output_order_deterministic": {"const": true},
+        "identity_rederived": {"const": true},
+        "repeated_build_reused_identical_namespace": {"const": true}
+      }
+    },
+    "atomic_publication": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "inventory_completed_before_completion", "completion_published_last",
+        "temporary_namespace_atomically_renamed", "no_clobber_reuse"
+      ],
+      "properties": {
+        "inventory_completed_before_completion": {"const": true},
+        "completion_published_last": {"const": true},
+        "temporary_namespace_atomically_renamed": {"const": true},
+        "no_clobber_reuse": {"const": true}
+      }
+    },
+    "source_free_boundary": {"$ref": "#/$defs/sourceFreeBoundary"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "count": {"type": "integer", "minimum": 0},
+    "overlayPlanId": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"},
+    "linkViewId": {"type": "string", "pattern": "^navlinkv1-[a-f0-9]{64}$"},
+    "artifactReference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "byte_size", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "byte_size": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "accounting": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "confirmed_navigation_table_count", "toc_text_page_count", "toc_text_entry_count",
+        "toc_entry_reconciliation_count", "toc_entry_outcome_counts", "resolved_toc_entry_count",
+        "unresolved_toc_entry_count", "alias_overlay_addition_count",
+        "link_overlay_addition_count", "existing_alias_invalidation_count",
+        "existing_link_invalidation_count", "inherited_ambiguous_disposition_count",
+        "inherited_ambiguous_in_affected_closure_count",
+        "inherited_ambiguous_outside_affected_closure_count"
+      ],
+      "properties": {
+        "confirmed_navigation_table_count": {"const": 15},
+        "toc_text_page_count": {"const": 15},
+        "toc_text_entry_count": {"$ref": "#/$defs/count"},
+        "toc_entry_reconciliation_count": {"$ref": "#/$defs/count"},
+        "toc_entry_outcome_counts": {"$ref": "#/$defs/outcomeCounts"},
+        "resolved_toc_entry_count": {"$ref": "#/$defs/count"},
+        "unresolved_toc_entry_count": {"$ref": "#/$defs/count"},
+        "alias_overlay_addition_count": {"const": 0},
+        "link_overlay_addition_count": {"$ref": "#/$defs/count"},
+        "existing_alias_invalidation_count": {"const": 0},
+        "existing_link_invalidation_count": {"const": 0},
+        "inherited_ambiguous_disposition_count": {"const": 725},
+        "inherited_ambiguous_in_affected_closure_count": {"const": 0},
+        "inherited_ambiguous_outside_affected_closure_count": {"const": 725}
+      }
+    },
+    "outcomeCounts": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "empty_entry", "unsupported_entry_shape", "unsupported_target_type",
+        "no_target_alias", "ambiguous_target_alias", "no_unique_destination_page",
+        "destination_target_page_mismatch", "resolved_unique"
+      ],
+      "properties": {
+        "empty_entry": {"$ref": "#/$defs/count"},
+        "unsupported_entry_shape": {"$ref": "#/$defs/count"},
+        "unsupported_target_type": {"$ref": "#/$defs/count"},
+        "no_target_alias": {"$ref": "#/$defs/count"},
+        "ambiguous_target_alias": {"$ref": "#/$defs/count"},
+        "no_unique_destination_page": {"$ref": "#/$defs/count"},
+        "destination_target_page_mismatch": {"$ref": "#/$defs/count"},
+        "resolved_unique": {"$ref": "#/$defs/count"}
+      }
+    },
+    "sourceFreeBoundary": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "source_pdf_bytes_read", "source_pdf_checksum_recomputed", "renders_generated",
+        "model_files_read", "large_task03j_files_rehashed", "task03j_files_written",
+        "task04a_files_written", "gate_a_files_written", "gate_b_files_written"
+      ],
+      "properties": {
+        "source_pdf_bytes_read": {"const": false},
+        "source_pdf_checksum_recomputed": {"const": false},
+        "renders_generated": {"const": false},
+        "model_files_read": {"const": false},
+        "large_task03j_files_rehashed": {"const": false},
+        "task03j_files_written": {"const": false},
+        "task04a_files_written": {"const": false},
+        "gate_a_files_written": {"const": false},
+        "gate_b_files_written": {"const": false}
+      }
+    }
+  }
+}

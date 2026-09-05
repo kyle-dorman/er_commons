@@ -1,0 +1,23 @@
+{
+  "schema_version": "er_commons.downstream_replay_authorization.v1",
+  "base_production_extraction_id": "exv1-6913f56bed93302d7cf5ef424ee63c0b7427e90e2b2cd5c4ec483d275009a773",
+  "scope_kind": "production_full",
+  "source_execution": "forbidden",
+  "document_attempt_allocation": "forbidden",
+  "reused_stage_names": [
+    "stable_content_evidence",
+    "heading_evidence",
+    "mapped_records",
+    "hierarchy_decisions",
+    "structured_document"
+  ],
+  "rebuilt_stage_names": [
+    "linked_document",
+    "document_publication",
+    "collection_accounting",
+    "collection_target_index",
+    "cross_document_resolution",
+    "collection_handoff"
+  ],
+  "collection_document_evidence_mode": "downstream_replay_only"
+}

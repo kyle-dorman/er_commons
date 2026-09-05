@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/decision_correspondence_row.schema.json",
+  "title": "ER Commons navigation overlay decision correspondence row v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_entry_id",
+    "disposition",
+    "source_id",
+    "candidate_id",
+    "page_id",
+    "physical_page",
+    "machine_navigation",
+    "machine_signals",
+    "decision_origin_class",
+    "visible_review_item_id",
+    "c17_positive_suffix_evidence",
+    "entity_ids_by_kind",
+    "mapping_outcome",
+    "reason"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.decision_correspondence"},
+    "decision_entry_id": {"type": "string", "pattern": "^tocpagev1-[a-f0-9]{24}$"},
+    "disposition": {"enum": ["toc", "not_toc"]},
+    "source_id": {"type": "string", "minLength": 1},
+    "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+    "page_id": {"type": "string", "minLength": 1},
+    "physical_page": {"type": "integer", "minimum": 1},
+    "machine_navigation": {"type": "boolean"},
+    "machine_signals": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "decision_origin_class": {
+      "enum": ["visible_c17_card", "accepted_nonvisible_origin_not_preserved"]
+    },
+    "visible_review_item_id": {
+      "type": ["string", "null"],
+      "pattern": "^reviewitem-[a-f0-9]{24}$"
+    },
+    "c17_positive_suffix_evidence": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["review_item_id", "run_start_page", "run_end_page"],
+          "properties": {
+            "review_item_id": {"type": "string", "pattern": "^reviewitem-[a-f0-9]{24}$"},
+            "run_start_page": {"type": "integer", "minimum": 1},
+            "run_end_page": {"type": "integer", "minimum": 1}
+          }
+        }
+      ]
+    },
+    "entity_ids_by_kind": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocks", "tables", "sections"],
+      "properties": {
+        "blocks": {"$ref": "#/$defs/idArray"},
+        "tables": {"$ref": "#/$defs/idArray"},
+        "sections": {"$ref": "#/$defs/idArray"}
+      }
+    },
+    "mapping_outcome": {
+      "enum": [
+        "mapped",
+        "no_existing_entity_evidence",
+        "mixed_page_insufficient_entity_evidence",
+        "missing",
+        "conflicting"
+      ]
+    },
+    "reason": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision_origin_class": {"const": "visible_c17_card"}}},
+      "then": {"properties": {"visible_review_item_id": {"type": "string"}}},
+      "else": {"properties": {"visible_review_item_id": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"mapping_outcome": {"const": "mapped"}}},
+      "then": {
+        "properties": {
+          "entity_ids_by_kind": {
+            "anyOf": [
+              {"properties": {"blocks": {"minItems": 1}}},
+              {"properties": {"tables": {"minItems": 1}}},
+              {"properties": {"sections": {"minItems": 1}}}
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "idArray": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    }
+  }
+}

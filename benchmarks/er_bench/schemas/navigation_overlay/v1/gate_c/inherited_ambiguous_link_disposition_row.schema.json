@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_c/inherited_ambiguous_link_disposition_row.schema.json",
+  "title": "ER Commons inherited ambiguous link disposition v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "link_view_id", "disposition_id", "reference_id", "source_id",
+    "candidate_id", "closure_membership", "disposition", "downstream_status",
+    "task04a_ambiguity_record_sha256", "sealed_candidate_completion_sha256", "reason"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.inherited_ambiguous_disposition"},
+    "link_view_id": {"$ref": "#/$defs/linkViewId"},
+    "disposition_id": {"type": "string", "pattern": "^navambigv1-[a-f0-9]{24}$"},
+    "reference_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+    "closure_membership": {"const": "outside_gate_c_affected_closure"},
+    "disposition": {"const": "inherited_unresolved_unchanged"},
+    "downstream_status": {"const": "excluded_from_trusted_resolved_link_use"},
+    "task04a_ambiguity_record_sha256": {"$ref": "#/$defs/sha256"},
+    "sealed_candidate_completion_sha256": {"$ref": "#/$defs/sha256"},
+    "reason": {"const": "outside_affected_closure_not_re_reviewed"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "linkViewId": {"type": "string", "pattern": "^navlinkv1-[a-f0-9]{64}$"}
+  }
+}

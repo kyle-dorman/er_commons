@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/navigation_relation.schema.json",
+  "title": "Explicit navigation parent relation row v1",
+  "type": "object",
+  "required": [
+    "source_id"
+  ],
+  "properties": {
+    "source_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "relation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_relation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "child_entry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "navigation_entry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "toc_text_entry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_entry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_navigation_entry_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "anyOf": [
+        {
+          "required": [
+            "relation_id"
+          ]
+        },
+        {
+          "required": [
+            "parent_relation_id"
+          ]
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        {
+          "required": [
+            "child_entry_id"
+          ]
+        },
+        {
+          "required": [
+            "navigation_entry_id"
+          ]
+        },
+        {
+          "required": [
+            "toc_text_entry_id"
+          ]
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        {
+          "required": [
+            "parent_entry_id"
+          ]
+        },
+        {
+          "required": [
+            "parent_navigation_entry_id"
+          ]
+        }
+      ]
+    }
+  ]
+}

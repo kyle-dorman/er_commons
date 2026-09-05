@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_a_specification.schema.json",
+  "title": "ER Commons navigation overlay Gate A specification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "overlay_plan_id",
+    "status",
+    "inputs",
+    "identity_preimage",
+    "reproduction",
+    "final_identity_requirements",
+    "accounting",
+    "source_free_boundary",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.gate_a_specification"},
+    "overlay_plan_id": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "status": {"const": "gate_a_complete"},
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task03j", "task04a"],
+      "properties": {
+        "task03j": {"$ref": "#/$defs/task03jBinding"},
+        "task04a": {"$ref": "#/$defs/task04aBinding"}
+      }
+    },
+    "identity_preimage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "task03j",
+        "task04a",
+        "correspondence_policy_sha256",
+        "affected_closure_policy_sha256",
+        "mixed_page_policy_sha256",
+        "overlay_schema_sha256",
+        "implementation_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.navigation_overlay.v1.identity_preimage"},
+        "task03j": {"$ref": "#/$defs/task03jBinding"},
+        "task04a": {"$ref": "#/$defs/task04aBinding"},
+        "correspondence_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "affected_closure_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "mixed_page_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "overlay_schema_sha256": {"$ref": "#/$defs/sha256"},
+        "implementation_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "reproduction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_api", "command", "arguments"],
+      "properties": {
+        "package_api": {
+          "const": "er_commons.navigation_overlay.prepare_and_publish_gate_a"
+        },
+        "command": {
+          "const": "uv run python scripts/prepare_task04c_gate_a.py --repo-root ."
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "data_root",
+            "repo_root",
+            "task03j_root",
+            "gate_a_path",
+            "review_root",
+            "output_parent"
+          ],
+          "properties": {
+            "data_root": {"const": "ER_COMMONS_DATA_ROOT"},
+            "repo_root": {"const": "."},
+            "task03j_root": {"type": "string", "minLength": 1},
+            "gate_a_path": {"type": "string", "minLength": 1},
+            "review_root": {"type": "string", "minLength": 1},
+            "output_parent": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "final_identity_requirements": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "implementation_sha256"},
+        {"const": "managed_output_digests"}
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "accounting": {"$ref": "#/$defs/accounting"},
+    "source_free_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_pdf_bytes_read",
+        "source_pdf_checksum_recomputed",
+        "renders_generated",
+        "model_files_read",
+        "large_task03j_files_rehashed",
+        "next_authorization"
+      ],
+      "properties": {
+        "source_pdf_bytes_read": {"const": false},
+        "source_pdf_checksum_recomputed": {"const": false},
+        "renders_generated": {"const": false},
+        "model_files_read": {"const": false},
+        "large_task03j_files_rehashed": {"const": false},
+        "next_authorization": {
+          "enum": [
+            "gate_b_implementation_without_source_reads",
+            "explicit_review_required_for_source_reads"
+          ]
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "byte_size", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "byte_size": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "task03jBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "production_extraction_id",
+        "scope_id",
+        "handoff_id",
+        "handoff_identity_preimage",
+        "candidate_records"
+      ],
+      "properties": {
+        "production_extraction_id": {"type": "string", "pattern": "^exv1-[a-f0-9]{64}$"},
+        "scope_id": {"type": "string", "pattern": "^scopev1-[a-f0-9]{64}$"},
+        "handoff_id": {"type": "string", "pattern": "^handoffv1-[a-f0-9]{64}$"},
+        "candidate_records": {
+          "type": "array",
+          "minItems": 35,
+          "maxItems": 35,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_id",
+              "source_ordinal",
+              "candidate_id",
+              "candidate_inventory",
+              "canonical_records",
+              "structured_document_completion",
+              "hierarchy_completion"
+            ],
+            "properties": {
+              "source_id": {"type": "string", "minLength": 1},
+              "source_ordinal": {"type": "integer", "minimum": 1},
+              "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+              "candidate_inventory": {"$ref": "#/$defs/digestReference"},
+              "canonical_records": {
+                "type": "array",
+                "minItems": 6,
+                "maxItems": 6,
+                "items": {"$ref": "#/$defs/artifactReference"}
+              },
+              "structured_document_completion": {"$ref": "#/$defs/digestReference"},
+              "hierarchy_completion": {"$ref": "#/$defs/digestReference"}
+            }
+          }
+        },
+        "handoff_identity_preimage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_version",
+            "production_extraction_id",
+            "scope_id",
+            "status",
+            "task04_status",
+            "accounting_completion_sha256",
+            "blocking_policy_sha256",
+            "blocking_reasons_sha256",
+            "index_completion_sha256",
+            "managed_inventory_sha256",
+            "resolution_completion_sha256"
+          ],
+          "properties": {
+            "schema_version": {"const": "er_commons.collection_handoff_identity.v2"},
+            "production_extraction_id": {"type": "string", "pattern": "^exv1-[a-f0-9]{64}$"},
+            "scope_id": {"type": "string", "pattern": "^scopev1-[a-f0-9]{64}$"},
+            "status": {"const": "ready"},
+            "task04_status": {"type": "string", "minLength": 1},
+            "accounting_completion_sha256": {"$ref": "#/$defs/sha256"},
+            "blocking_policy_sha256": {"$ref": "#/$defs/sha256"},
+            "blocking_reasons_sha256": {"$ref": "#/$defs/sha256"},
+            "index_completion_sha256": {"$ref": "#/$defs/sha256"},
+            "managed_inventory_sha256": {"$ref": "#/$defs/sha256"},
+            "resolution_completion_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "digestReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "task04aBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_run_id",
+        "gate_d_completion",
+        "release_freeze",
+        "toc_review_decisions",
+        "gate_a_census",
+        "selection_manifest",
+        "usability_registry",
+        "ambiguous_link_dispositions"
+      ],
+      "properties": {
+        "review_run_id": {"const": "reviewv1-task03j-final-c17"},
+        "gate_d_completion": {"$ref": "#/$defs/artifactReference"},
+        "release_freeze": {"$ref": "#/$defs/artifactReference"},
+        "toc_review_decisions": {"$ref": "#/$defs/artifactReference"},
+        "gate_a_census": {"$ref": "#/$defs/artifactReference"},
+        "selection_manifest": {"$ref": "#/$defs/artifactReference"},
+        "usability_registry": {"$ref": "#/$defs/artifactReference"},
+        "ambiguous_link_dispositions": {"$ref": "#/$defs/artifactReference"}
+      }
+    },
+    "count": {"type": "integer", "minimum": 0},
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_count",
+        "census_page_count",
+        "decision_count",
+        "toc_decision_count",
+        "not_toc_decision_count",
+        "visible_decision_count",
+        "nonvisible_decision_count",
+        "machine_human_agreement_count",
+        "machine_human_disagreement_count",
+        "newly_confirmed_navigation_count",
+        "rejected_machine_navigation_count",
+        "inherited_ambiguous_link_count"
+      ],
+      "properties": {
+        "source_count": {"$ref": "#/$defs/count"},
+        "census_page_count": {"$ref": "#/$defs/count"},
+        "decision_count": {"$ref": "#/$defs/count"},
+        "toc_decision_count": {"$ref": "#/$defs/count"},
+        "not_toc_decision_count": {"$ref": "#/$defs/count"},
+        "visible_decision_count": {"$ref": "#/$defs/count"},
+        "nonvisible_decision_count": {"$ref": "#/$defs/count"},
+        "machine_human_agreement_count": {"$ref": "#/$defs/count"},
+        "machine_human_disagreement_count": {"$ref": "#/$defs/count"},
+        "newly_confirmed_navigation_count": {"$ref": "#/$defs/count"},
+        "rejected_machine_navigation_count": {"$ref": "#/$defs/count"},
+        "inherited_ambiguous_link_count": {"$ref": "#/$defs/count"}
+      }
+    }
+  }
+}

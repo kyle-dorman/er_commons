@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_c/toc_entry_reconciliation_row.schema.json",
+  "title": "ER Commons navigation overlay TOC text-entry reconciliation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "link_view_id", "semantic_view_id", "overlay_plan_id",
+    "reconciliation_id", "toc_text_entry_id", "source_id", "candidate_id",
+    "source_page_id", "physical_page", "entry_locator",
+    "raw_entry_text", "normalized_entry_text", "supported_marker_count", "marker_kind",
+    "raw_marker", "normalized_marker", "marker_normalization_rule", "terminal_destination_token",
+    "target_alias_ids", "selected_target_alias_ids", "distinct_target_ids", "target_alias_count", "page_consistent_target_ids",
+    "page_disambiguation_applied", "destination_page_alias_ids",
+    "distinct_destination_page_ids", "destination_page_count", "target_physical_page_ids",
+    "entry_outcome", "link_overlay_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.toc_entry_reconciliation"},
+    "link_view_id": {"$ref": "#/$defs/linkViewId"},
+    "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+    "reconciliation_id": {"type": "string", "pattern": "^navtocentryrecv1-[a-f0-9]{24}$"},
+    "toc_text_entry_id": {"type": "string", "pattern": "^navtocentryv1-[a-f0-9]{24}$"},
+    "source_id": {"type": "string", "minLength": 1},
+    "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+    "source_page_id": {"type": "string", "minLength": 1},
+    "physical_page": {"type": "integer", "minimum": 1},
+    "entry_locator": {
+      "type": "object", "additionalProperties": false,
+      "required": ["toc_text_page_id", "entry_index", "entry_text_sha256"],
+      "properties": {
+        "toc_text_page_id": {"type": "string", "pattern": "^navtocpagev1-[a-f0-9]{24}$"},
+        "entry_index": {"type": "integer", "minimum": 0},
+        "entry_text_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "raw_entry_text": {"type": "string", "minLength": 1},
+    "normalized_entry_text": {"type": "string", "minLength": 1},
+    "supported_marker_count": {"type": "integer", "minimum": 0},
+    "marker_kind": {"enum": ["section", "table", "figure", null]},
+    "raw_marker": {"type": ["string", "null"], "minLength": 1},
+    "normalized_marker": {"type": ["string", "null"], "minLength": 1},
+    "marker_normalization_rule": {"const": "sealed_ascii_whitespace_casefold_then_trim_spaces_around_literal_dots_only"},
+    "terminal_destination_token": {"type": ["string", "null"], "minLength": 1},
+    "target_alias_ids": {"$ref": "#/$defs/uniqueStrings"},
+    "selected_target_alias_ids": {"$ref": "#/$defs/uniqueStrings"},
+    "distinct_target_ids": {"$ref": "#/$defs/uniqueStrings"},
+    "target_alias_count": {"type": "integer", "minimum": 0},
+    "page_consistent_target_ids": {"$ref": "#/$defs/uniqueStrings"},
+    "page_disambiguation_applied": {"type": "boolean"},
+    "destination_page_alias_ids": {"$ref": "#/$defs/uniqueStrings"},
+    "distinct_destination_page_ids": {"$ref": "#/$defs/uniqueStrings"},
+    "destination_page_count": {"type": "integer", "minimum": 0},
+    "target_physical_page_ids": {"$ref": "#/$defs/uniqueStrings"},
+    "entry_outcome": {"$ref": "#/$defs/outcome"},
+    "link_overlay_id": {"type": ["string", "null"], "pattern": "^navlinkentryv1-[a-f0-9]{24}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"marker_kind": {"const": "section"}}, "required": ["marker_kind"]},
+      "then": {"properties": {"raw_marker": {"type": "string"}, "normalized_marker": {"type": "string", "pattern": "^[0-9]+(?:\\.[0-9]+)*$"}}}
+    },
+    {
+      "if": {"properties": {"entry_outcome": {"const": "resolved_unique"}}, "required": ["entry_outcome"]},
+      "then": {
+        "properties": {
+          "marker_kind": {"const": "section"}, "raw_marker": {"type": "string"},
+          "supported_marker_count": {"const": 1},
+          "normalized_marker": {"type": "string", "pattern": "^[0-9]+(?:\\.[0-9]+)*$"},
+          "terminal_destination_token": {"type": "string"},
+          "target_alias_ids": {"minItems": 1},
+          "selected_target_alias_ids": {"minItems": 1, "maxItems": 1},
+          "distinct_target_ids": {"minItems": 1}, "target_alias_count": {"minimum": 1},
+          "page_consistent_target_ids": {"minItems": 1, "maxItems": 1},
+          "destination_page_alias_ids": {"minItems": 1},
+          "distinct_destination_page_ids": {"minItems": 1}, "destination_page_count": {"minimum": 1},
+          "target_physical_page_ids": {"minItems": 1, "maxItems": 1}, "link_overlay_id": {"type": "string"}
+        }
+      },
+      "else": {"properties": {"link_overlay_id": {"type": "null"}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "uniqueStrings": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "outcome": {"enum": ["empty_entry", "unsupported_entry_shape", "unsupported_target_type", "no_target_alias", "ambiguous_target_alias", "no_unique_destination_page", "destination_target_page_mismatch", "resolved_unique"]},
+    "overlayPlanId": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"},
+    "linkViewId": {"type": "string", "pattern": "^navlinkv1-[a-f0-9]{64}$"}
+  }
+}

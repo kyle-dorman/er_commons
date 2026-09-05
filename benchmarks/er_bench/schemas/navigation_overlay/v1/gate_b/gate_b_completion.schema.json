@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_b_completion.schema.json",
+  "title": "ER Commons navigation overlay Gate B completion v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "semantic_view_id",
+    "overlay_plan_id",
+    "status",
+    "gate_b_specification",
+    "artifact_inventory_sha256",
+    "managed_files",
+    "accounting",
+    "validation",
+    "source_free_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.gate_b_completion"},
+    "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+    "status": {"const": "complete"},
+    "gate_b_specification": {"$ref": "#/$defs/artifactReference"},
+    "artifact_inventory_sha256": {"$ref": "#/$defs/sha256"},
+    "managed_files": {
+      "type": "array",
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "semantic_dispositions.jsonl"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "decision_applications.jsonl"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "semantic_view_manifest.json"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "records/identity_preimage.json"}}}]},
+        {"allOf": [{"$ref": "#/$defs/artifactReference"}, {"properties": {"path": {"const": "records/artifact_inventory.json"}}}]}
+      ],
+      "items": false,
+      "minItems": 5,
+      "maxItems": 5
+    },
+    "accounting": {"$ref": "#/$defs/accounting"},
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_validation_passed",
+        "decision_coverage_complete",
+        "entity_ids_exist_in_bound_canonical_records",
+        "disposition_ids_unique",
+        "output_order_deterministic",
+        "repeated_build_reused_identical_namespace"
+      ],
+      "properties": {
+        "schema_validation_passed": {"const": true},
+        "decision_coverage_complete": {"const": true},
+        "entity_ids_exist_in_bound_canonical_records": {"const": true},
+        "disposition_ids_unique": {"const": true},
+        "output_order_deterministic": {"const": true},
+        "repeated_build_reused_identical_namespace": {"const": true}
+      }
+    },
+    "source_free_boundary": {"$ref": "#/$defs/sourceFreeBoundary"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "overlayPlanId": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"},
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "byte_size", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "byte_size": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "count": {"type": "integer", "minimum": 0},
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_count",
+        "machine_toc_human_toc_count",
+        "machine_not_toc_human_not_toc_count",
+        "human_confirmed_navigation_decision_count",
+        "human_rejected_machine_navigation_decision_count",
+        "fail_closed_decision_count",
+        "changed_content_entity_count",
+        "human_confirmed_navigation_entity_count",
+        "human_rejected_machine_navigation_entity_count",
+        "changed_block_count",
+        "changed_table_count",
+        "preserved_section_association_count"
+      ],
+      "properties": {
+        "decision_count": {"$ref": "#/$defs/count"},
+        "machine_toc_human_toc_count": {"$ref": "#/$defs/count"},
+        "machine_not_toc_human_not_toc_count": {"$ref": "#/$defs/count"},
+        "human_confirmed_navigation_decision_count": {"$ref": "#/$defs/count"},
+        "human_rejected_machine_navigation_decision_count": {"$ref": "#/$defs/count"},
+        "fail_closed_decision_count": {"$ref": "#/$defs/count"},
+        "changed_content_entity_count": {"$ref": "#/$defs/count"},
+        "human_confirmed_navigation_entity_count": {"$ref": "#/$defs/count"},
+        "human_rejected_machine_navigation_entity_count": {"$ref": "#/$defs/count"},
+        "changed_block_count": {"$ref": "#/$defs/count"},
+        "changed_table_count": {"$ref": "#/$defs/count"},
+        "preserved_section_association_count": {"$ref": "#/$defs/count"}
+      }
+    },
+    "sourceFreeBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_pdf_bytes_read",
+        "source_pdf_checksum_recomputed",
+        "renders_generated",
+        "model_files_read",
+        "large_task03j_files_rehashed",
+        "task03j_files_written",
+        "task04a_files_written"
+      ],
+      "properties": {
+        "source_pdf_bytes_read": {"const": false},
+        "source_pdf_checksum_recomputed": {"const": false},
+        "renders_generated": {"const": false},
+        "model_files_read": {"const": false},
+        "large_task03j_files_rehashed": {"const": false},
+        "task03j_files_written": {"const": false},
+        "task04a_files_written": {"const": false}
+      }
+    }
+  }
+}

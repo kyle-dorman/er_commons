@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_b/decision_application_row.schema.json",
+  "title": "ER Commons navigation overlay decision application row v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "semantic_view_id",
+    "overlay_plan_id",
+    "decision_entry_id",
+    "source_id",
+    "candidate_id",
+    "page_id",
+    "physical_page",
+    "machine_navigation",
+    "human_disposition",
+    "decision_origin_class",
+    "visible_review_item_id",
+    "c17_positive_suffix_evidence",
+    "correspondence_outcome",
+    "application_outcome",
+    "semantic_disposition_ids",
+    "reason"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.decision_application"},
+    "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+    "decision_entry_id": {"type": "string", "pattern": "^tocpagev1-[a-f0-9]{24}$"},
+    "source_id": {"type": "string", "minLength": 1},
+    "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+    "page_id": {"type": "string", "minLength": 1},
+    "physical_page": {"type": "integer", "minimum": 1},
+    "machine_navigation": {"type": "boolean"},
+    "human_disposition": {"enum": ["toc", "not_toc"]},
+    "decision_origin_class": {
+      "enum": ["visible_c17_card", "accepted_nonvisible_origin_not_preserved"]
+    },
+    "visible_review_item_id": {
+      "type": ["string", "null"],
+      "pattern": "^reviewitem-[a-f0-9]{24}$"
+    },
+    "c17_positive_suffix_evidence": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["review_item_id", "run_start_page", "run_end_page"],
+          "properties": {
+            "review_item_id": {"type": "string", "pattern": "^reviewitem-[a-f0-9]{24}$"},
+            "run_start_page": {"type": "integer", "minimum": 1},
+            "run_end_page": {"type": "integer", "minimum": 1}
+          }
+        }
+      ]
+    },
+    "correspondence_outcome": {
+      "enum": ["mapped", "no_existing_entity_evidence", "mixed_page_insufficient_entity_evidence"]
+    },
+    "application_outcome": {
+      "enum": [
+        "unchanged_machine_toc_human_toc",
+        "unchanged_machine_not_toc_human_not_toc",
+        "applied_human_confirmed_navigation",
+        "applied_human_rejected_machine_navigation",
+        "unchanged_no_existing_entity_evidence",
+        "unchanged_mixed_page_insufficient_entity_evidence"
+      ]
+    },
+    "semantic_disposition_ids": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^navdispv1-[a-f0-9]{24}$"},
+      "uniqueItems": true
+    },
+    "reason": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision_origin_class": {"const": "visible_c17_card"}}, "required": ["decision_origin_class"]},
+      "then": {"properties": {"visible_review_item_id": {"type": "string"}}},
+      "else": {"properties": {"visible_review_item_id": {"type": "null"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "application_outcome": {
+            "enum": ["applied_human_confirmed_navigation", "applied_human_rejected_machine_navigation"]
+          }
+        },
+        "required": ["application_outcome"]
+      },
+      "then": {
+        "properties": {
+          "correspondence_outcome": {"const": "mapped"},
+          "semantic_disposition_ids": {"minItems": 1}
+        }
+      },
+      "else": {"properties": {"semantic_disposition_ids": {"maxItems": 0}}}
+    },
+    {
+      "if": {"properties": {"application_outcome": {"const": "unchanged_machine_toc_human_toc"}}, "required": ["application_outcome"]},
+      "then": {"properties": {"machine_navigation": {"const": true}, "human_disposition": {"const": "toc"}, "correspondence_outcome": {"const": "mapped"}}}
+    },
+    {
+      "if": {"properties": {"application_outcome": {"const": "unchanged_machine_not_toc_human_not_toc"}}, "required": ["application_outcome"]},
+      "then": {"properties": {"machine_navigation": {"const": false}, "human_disposition": {"const": "not_toc"}, "correspondence_outcome": {"const": "mapped"}}}
+    },
+    {
+      "if": {"properties": {"application_outcome": {"const": "applied_human_confirmed_navigation"}}, "required": ["application_outcome"]},
+      "then": {"properties": {"machine_navigation": {"const": false}, "human_disposition": {"const": "toc"}}}
+    },
+    {
+      "if": {"properties": {"application_outcome": {"const": "applied_human_rejected_machine_navigation"}}, "required": ["application_outcome"]},
+      "then": {"properties": {"machine_navigation": {"const": true}, "human_disposition": {"const": "not_toc"}}}
+    },
+    {
+      "if": {"properties": {"application_outcome": {"const": "unchanged_no_existing_entity_evidence"}}, "required": ["application_outcome"]},
+      "then": {"properties": {"correspondence_outcome": {"const": "no_existing_entity_evidence"}}}
+    },
+    {
+      "if": {"properties": {"application_outcome": {"const": "unchanged_mixed_page_insufficient_entity_evidence"}}, "required": ["application_outcome"]},
+      "then": {"properties": {"correspondence_outcome": {"const": "mixed_page_insufficient_entity_evidence"}}}
+    }
+  ],
+  "$defs": {
+    "overlayPlanId": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"}
+  }
+}

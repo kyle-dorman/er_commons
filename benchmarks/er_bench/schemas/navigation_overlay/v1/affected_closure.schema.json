@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/affected_closure.schema.json",
+  "title": "ER Commons navigation overlay affected closure v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "overlay_plan_id",
+    "status",
+    "closure_policy_sha256",
+    "closure_rules",
+    "affected_source_ids",
+    "affected_page_ids",
+    "material_seeds",
+    "affected_alias_ids",
+    "affected_link_ids",
+    "affected_collection_resolution_ids",
+    "inherited_ambiguous_links",
+    "accounting"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.affected_closure"},
+    "overlay_plan_id": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "status": {"const": "complete"},
+    "closure_policy_sha256": {"$ref": "#/$defs/sha256"},
+    "closure_rules": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "page_resident_navigation_entities_on_machine_human_disagreement_pages",
+          "aliases_owned_or_derived_from_affected_entities",
+          "links_touching_affected_reference_alias_or_target_entities",
+          "collection_resolutions_referencing_affected_links"
+        ]
+      },
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "allOf": [
+        {"contains": {"const": "page_resident_navigation_entities_on_machine_human_disagreement_pages"}},
+        {"contains": {"const": "aliases_owned_or_derived_from_affected_entities"}},
+        {"contains": {"const": "links_touching_affected_reference_alias_or_target_entities"}},
+        {"contains": {"const": "collection_resolutions_referencing_affected_links"}}
+      ]
+    },
+    "affected_source_ids": {"$ref": "#/$defs/idArray"},
+    "affected_page_ids": {"$ref": "#/$defs/idArray"},
+    "material_seeds": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/materialSeed"}
+    },
+    "affected_alias_ids": {"$ref": "#/$defs/idArray"},
+    "affected_link_ids": {"$ref": "#/$defs/idArray"},
+    "affected_collection_resolution_ids": {"$ref": "#/$defs/idArray"},
+    "inherited_ambiguous_links": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["all_ids", "in_closure_ids", "outside_closure_ids", "default_disposition"],
+      "properties": {
+        "all_ids": {"$ref": "#/$defs/idArray"},
+        "in_closure_ids": {"$ref": "#/$defs/idArray"},
+        "outside_closure_ids": {"$ref": "#/$defs/idArray"},
+        "default_disposition": {"const": "unresolved_unless_unique_entity_level_evidence"}
+      }
+    },
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "material_seed_count",
+        "affected_source_count",
+        "affected_page_count",
+        "affected_entity_count",
+        "affected_alias_count",
+        "affected_link_count",
+        "affected_collection_resolution_count",
+        "inherited_ambiguous_link_count",
+        "inherited_ambiguous_link_in_closure_count",
+        "inherited_ambiguous_link_outside_closure_count"
+      ],
+      "properties": {
+        "material_seed_count": {"$ref": "#/$defs/count"},
+        "affected_source_count": {"$ref": "#/$defs/count"},
+        "affected_page_count": {"$ref": "#/$defs/count"},
+        "affected_entity_count": {"$ref": "#/$defs/count"},
+        "affected_alias_count": {"$ref": "#/$defs/count"},
+        "affected_link_count": {"$ref": "#/$defs/count"},
+        "affected_collection_resolution_count": {"$ref": "#/$defs/count"},
+        "inherited_ambiguous_link_count": {"$ref": "#/$defs/count"},
+        "inherited_ambiguous_link_in_closure_count": {"$ref": "#/$defs/count"},
+        "inherited_ambiguous_link_outside_closure_count": {"$ref": "#/$defs/count"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "count": {"type": "integer", "minimum": 0},
+    "idArray": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "entityIds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocks", "tables", "sections"],
+      "properties": {
+        "blocks": {"$ref": "#/$defs/idArray"},
+        "tables": {"$ref": "#/$defs/idArray"},
+        "sections": {"$ref": "#/$defs/idArray"}
+      }
+    },
+    "materialSeed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_entry_id",
+        "source_id",
+        "candidate_id",
+        "page_id",
+        "physical_page",
+        "change_kind",
+        "entity_ids_by_kind",
+        "mapping_outcome"
+      ],
+      "properties": {
+        "decision_entry_id": {"type": "string", "pattern": "^tocpagev1-[a-f0-9]{24}$"},
+        "source_id": {"type": "string", "minLength": 1},
+        "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+        "page_id": {"type": "string", "minLength": 1},
+        "physical_page": {"type": "integer", "minimum": 1},
+        "change_kind": {"enum": ["newly_confirmed_navigation", "rejected_machine_navigation"]},
+        "entity_ids_by_kind": {"$ref": "#/$defs/entityIds"},
+        "mapping_outcome": {
+          "enum": [
+            "mapped",
+            "no_existing_entity_evidence",
+            "mixed_page_insufficient_entity_evidence",
+            "missing",
+            "conflicting"
+          ]
+        }
+      }
+    }
+  }
+}

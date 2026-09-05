@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/completion.schema.json",
+  "title": "Document link completion v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "extraction_id",
+    "status",
+    "completion_last",
+    "artifact_inventory_sha256",
+    "preservation_status",
+    "undeclared_difference_count"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.document_link_completion.v1"
+    },
+    "extraction_id": {
+      "type": "string",
+      "pattern": "^exv1-[0-9a-f]{64}$"
+    },
+    "status": {
+      "const": "complete_with_warnings"
+    },
+    "completion_last": {
+      "const": true
+    },
+    "artifact_inventory_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "preservation_status": {
+      "const": "passed"
+    },
+    "undeclared_difference_count": {
+      "const": 0
+    }
+  }
+}

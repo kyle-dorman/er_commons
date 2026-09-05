@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/ordinary_reference.schema.json",
+  "title": "Document link ordinary reference row v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "extraction_id",
+    "id",
+    "document_id",
+    "sequence",
+    "source_record_id",
+    "mention_class",
+    "raw_text",
+    "source_charspan",
+    "pattern_version",
+    "lookup_key",
+    "candidates",
+    "resolution_status",
+    "unresolved_reason",
+    "cross_document_evidence",
+    "regions",
+    "raw_links"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.canonical_extraction.v3"
+    },
+    "extraction_id": {
+      "type": "string",
+      "pattern": "^exv1-[0-9a-f]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "document_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mention_class": {
+      "enum": [
+        "section",
+        "appendix",
+        "table",
+        "figure",
+        "printed_page",
+        "document"
+      ]
+    },
+    "raw_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_charspan": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        }
+      ],
+      "items": false
+    },
+    "pattern_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lookup_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "target_type",
+          "alias_origin",
+          "alias_record_ids",
+          "target_record_id",
+          "upstream_alias_record_ids",
+          "upstream_target_record_id",
+          "evidence"
+        ],
+        "properties": {
+          "target_type": {
+            "type": "string"
+          },
+          "alias_origin": {
+            "type": "string"
+          },
+          "alias_record_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "target_record_id": {
+            "type": "string"
+          },
+          "upstream_alias_record_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "upstream_target_record_id": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "page_distance": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "resolution_status": {
+      "enum": [
+        "unresolved",
+        "resolved",
+        "ambiguous"
+      ]
+    },
+    "unresolved_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "cross_document_evidence": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "raw_links": {
+      "type": "array"
+    }
+  }
+}

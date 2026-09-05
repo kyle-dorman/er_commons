@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_c/gate_c_specification.schema.json",
+  "title": "ER Commons navigation overlay Gate C specification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "link_view_id", "semantic_view_id", "overlay_plan_id", "status",
+    "inputs", "identity_preimage", "outputs", "reconciliation_rules", "outcome_precedence", "accounting",
+    "reproduction", "source_free_boundary", "warnings"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.gate_c_specification"},
+    "link_view_id": {"$ref": "#/$defs/linkViewId"},
+    "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+    "status": {"const": "gate_c_complete"},
+    "inputs": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "gate_a_specification", "gate_a_completion", "gate_a_inventory", "affected_closure",
+        "gate_b_specification", "gate_b_completion", "gate_b_inventory", "semantic_dispositions",
+        "task04a_ambiguous_link_dispositions", "sealed_candidates", "sealed_docling_pages"
+      ],
+      "properties": {
+        "gate_a_specification": {"$ref": "#/$defs/artifactReference"},
+        "gate_a_completion": {"$ref": "#/$defs/artifactReference"},
+        "gate_a_inventory": {"$ref": "#/$defs/artifactReference"},
+        "affected_closure": {"$ref": "#/$defs/artifactReference"},
+        "gate_b_specification": {"$ref": "#/$defs/artifactReference"},
+        "gate_b_completion": {"$ref": "#/$defs/artifactReference"},
+        "gate_b_inventory": {"$ref": "#/$defs/artifactReference"},
+        "semantic_dispositions": {"$ref": "#/$defs/artifactReference"},
+        "task04a_ambiguous_link_dispositions": {"$ref": "#/$defs/artifactReference"},
+        "sealed_candidates": {
+          "type": "array", "minItems": 35, "maxItems": 35,
+          "items": {"$ref": "#/$defs/sealedCandidate"}
+        },
+        "sealed_docling_pages": {
+          "type": "array", "minItems": 15, "maxItems": 15,
+          "items": {"$ref": "#/$defs/sealedDoclingPage"}
+        }
+      }
+    },
+    "identity_preimage": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "schema_version", "overlay_plan_id", "semantic_view_id", "gate_a_completion_sha256",
+        "gate_b_completion_sha256", "task04a_ambiguity_bytes_sha256",
+        "sealed_candidates_sha256", "sealed_docling_pages_sha256", "toc_text_parser_version",
+        "link_policy_sha256", "schema_bundle_sha256", "implementation_sha256",
+        "toc_text_implementation_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.navigation_overlay.v1.link_identity_preimage"},
+        "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+        "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+        "gate_a_completion_sha256": {"$ref": "#/$defs/sha256"},
+        "gate_b_completion_sha256": {"$ref": "#/$defs/sha256"},
+        "task04a_ambiguity_bytes_sha256": {"$ref": "#/$defs/sha256"},
+        "sealed_candidates_sha256": {"$ref": "#/$defs/sha256"},
+        "sealed_docling_pages_sha256": {"$ref": "#/$defs/sha256"},
+        "toc_text_parser_version": {"type": "string", "minLength": 1},
+        "link_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "implementation_sha256": {"$ref": "#/$defs/sha256"},
+        "toc_text_implementation_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "outputs": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "toc_text_pages", "toc_text_entries", "toc_entry_reconciliations",
+        "alias_overlay", "link_overlay",
+        "inherited_ambiguous_link_dispositions"
+      ],
+      "properties": {
+        "toc_text_pages": {"$ref": "#/$defs/artifactReference"},
+        "toc_text_entries": {"$ref": "#/$defs/artifactReference"},
+        "toc_entry_reconciliations": {"$ref": "#/$defs/artifactReference"},
+        "alias_overlay": {"$ref": "#/$defs/artifactReference"},
+        "link_overlay": {"$ref": "#/$defs/artifactReference"},
+        "inherited_ambiguous_link_dispositions": {"$ref": "#/$defs/artifactReference"}
+      }
+    },
+    "reconciliation_rules": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "replace_every_gate_b_human_confirmed_navigation_table_with_sealed_docling_text"},
+        {"const": "expose_the_same_ordered_text_entries_to_model_exploration_and_link_reconciliation"},
+        {"const": "identify_each_entry_by_page_line_span_and_ordered_source_cell_checksum"},
+        {"const": "after_sealed_ascii_whitespace_casefold_normalization_only_trim_spaces_around_literal_dots_in_numeric_target_markers"},
+        {"const": "count_supported_markers_across_the_whole_entry_and_reject_any_second_marker_as_unsupported_entry_shape"},
+        {"const": "require_exactly_one_terminal_printed_page_token"},
+        {"const": "collect_all_existing_printed_page_destinations_for_the_terminal_label"},
+        {"const": "intersect_existing_body_target_pages_with_printed_page_destinations"},
+        {"const": "require_exactly_one_page_consistent_body_target_alias"},
+        {"const": "create_sparse_link_records_only_when_every_threshold_passes"},
+        {"const": "never_create_a_new_alias_and_only_invalidate_existing_aliases_in_the_affected_closure"},
+        {"const": "otherwise_close_unresolved_without_guessing_or_mutating_machine_records_or_old_tables"},
+        {"const": "carry_all_inherited_ambiguous_links_forward_unchanged_outside_the_affected_closure"}
+      ],
+      "items": false, "minItems": 13, "maxItems": 13
+    },
+    "outcome_precedence": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "empty_entry"},
+        {"const": "unsupported_entry_shape"},
+        {"const": "unsupported_target_type"},
+        {"const": "no_target_alias"},
+        {"const": "ambiguous_target_alias"},
+        {"const": "no_unique_destination_page"},
+        {"const": "destination_target_page_mismatch"},
+        {"const": "resolved_unique"}
+      ],
+      "items": false, "minItems": 8, "maxItems": 8
+    },
+    "accounting": {"$ref": "#/$defs/accounting"},
+    "reproduction": {
+      "type": "object", "additionalProperties": false,
+      "required": ["package_api", "command", "arguments"],
+      "properties": {
+        "package_api": {"const": "er_commons.navigation_overlay.reconciliation.prepare_and_publish_gate_c"},
+        "command": {"type": "string", "minLength": 1},
+        "arguments": {
+          "type": "object", "additionalProperties": false,
+          "required": ["data_root", "repo_root", "gate_a_root", "gate_b_root", "output_parent"],
+          "properties": {
+            "data_root": {"const": "ER_COMMONS_DATA_ROOT"},
+            "repo_root": {"const": "."},
+            "gate_a_root": {"type": "string", "minLength": 1},
+            "gate_b_root": {"type": "string", "minLength": 1},
+            "output_parent": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "source_free_boundary": {"$ref": "#/$defs/sourceFreeBoundary"},
+    "warnings": {
+      "type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "count": {"type": "integer", "minimum": 0},
+    "overlayPlanId": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"},
+    "linkViewId": {"type": "string", "pattern": "^navlinkv1-[a-f0-9]{64}$"},
+    "artifactReference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "byte_size", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "byte_size": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sealedCandidate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_id", "candidate_id", "completion_record"],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+        "completion_record": {"$ref": "#/$defs/artifactReference"}
+      }
+    },
+    "sealedDoclingPage": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "plan_id", "range_id", "candidate_identity", "stable_content_completion",
+        "stable_content_inventory", "conversion_input", "conversion_completion",
+        "conversion_inventory", "aggregate_observation", "range_completion",
+        "range_inventory", "page_record"
+      ],
+      "properties": {
+        "plan_id": {"type": "string", "minLength": 1},
+        "range_id": {"type": "string", "minLength": 1},
+        "candidate_identity": {"$ref": "#/$defs/artifactReference"},
+        "stable_content_completion": {"$ref": "#/$defs/artifactReference"},
+        "stable_content_inventory": {"$ref": "#/$defs/artifactReference"},
+        "conversion_input": {"$ref": "#/$defs/artifactReference"},
+        "conversion_completion": {"$ref": "#/$defs/artifactReference"},
+        "conversion_inventory": {"$ref": "#/$defs/artifactReference"},
+        "aggregate_observation": {"$ref": "#/$defs/artifactReference"},
+        "range_completion": {"$ref": "#/$defs/artifactReference"},
+        "range_inventory": {"$ref": "#/$defs/artifactReference"},
+        "page_record": {"$ref": "#/$defs/artifactReference"}
+      }
+    },
+    "accounting": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "confirmed_navigation_table_count", "toc_text_page_count", "toc_text_entry_count",
+        "toc_entry_reconciliation_count", "toc_entry_outcome_counts", "resolved_toc_entry_count",
+        "unresolved_toc_entry_count", "alias_overlay_addition_count",
+        "link_overlay_addition_count", "existing_alias_invalidation_count",
+        "existing_link_invalidation_count", "inherited_ambiguous_disposition_count",
+        "inherited_ambiguous_in_affected_closure_count",
+        "inherited_ambiguous_outside_affected_closure_count"
+      ],
+      "properties": {
+        "confirmed_navigation_table_count": {"const": 15},
+        "toc_text_page_count": {"const": 15},
+        "toc_text_entry_count": {"$ref": "#/$defs/count"},
+        "toc_entry_reconciliation_count": {"$ref": "#/$defs/count"},
+        "toc_entry_outcome_counts": {"$ref": "#/$defs/outcomeCounts"},
+        "resolved_toc_entry_count": {"$ref": "#/$defs/count"},
+        "unresolved_toc_entry_count": {"$ref": "#/$defs/count"},
+        "alias_overlay_addition_count": {"const": 0},
+        "link_overlay_addition_count": {"$ref": "#/$defs/count"},
+        "existing_alias_invalidation_count": {"const": 0},
+        "existing_link_invalidation_count": {"const": 0},
+        "inherited_ambiguous_disposition_count": {"const": 725},
+        "inherited_ambiguous_in_affected_closure_count": {"const": 0},
+        "inherited_ambiguous_outside_affected_closure_count": {"const": 725}
+      }
+    },
+    "outcomeCounts": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "empty_entry", "unsupported_entry_shape", "unsupported_target_type",
+        "no_target_alias", "ambiguous_target_alias", "no_unique_destination_page",
+        "destination_target_page_mismatch", "resolved_unique"
+      ],
+      "properties": {
+        "empty_entry": {"$ref": "#/$defs/count"},
+        "unsupported_entry_shape": {"$ref": "#/$defs/count"},
+        "unsupported_target_type": {"$ref": "#/$defs/count"},
+        "no_target_alias": {"$ref": "#/$defs/count"},
+        "ambiguous_target_alias": {"$ref": "#/$defs/count"},
+        "no_unique_destination_page": {"$ref": "#/$defs/count"},
+        "destination_target_page_mismatch": {"$ref": "#/$defs/count"},
+        "resolved_unique": {"$ref": "#/$defs/count"}
+      }
+    },
+    "sourceFreeBoundary": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "source_pdf_bytes_read", "source_pdf_checksum_recomputed", "renders_generated",
+        "model_files_read", "large_task03j_files_rehashed", "task03j_files_written",
+        "task04a_files_written", "gate_a_files_written", "gate_b_files_written"
+      ],
+      "properties": {
+        "source_pdf_bytes_read": {"const": false},
+        "source_pdf_checksum_recomputed": {"const": false},
+        "renders_generated": {"const": false},
+        "model_files_read": {"const": false},
+        "large_task03j_files_rehashed": {"const": false},
+        "task03j_files_written": {"const": false},
+        "task04a_files_written": {"const": false},
+        "gate_a_files_written": {"const": false},
+        "gate_b_files_written": {"const": false}
+      }
+    }
+  }
+}

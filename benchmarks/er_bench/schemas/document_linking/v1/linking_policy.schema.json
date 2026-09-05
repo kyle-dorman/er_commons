@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/linking_policy.schema.json",
+  "title": "Document linking policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_name",
+    "exact_first",
+    "candidate_cardinality",
+    "fallback_evidence_policy",
+    "ambiguity_policy",
+    "alias_source_policy",
+    "destination_page_policy",
+    "parent_scope_policy",
+    "caller_profiles",
+    "section_rules",
+    "section_fallback_transforms",
+    "section_fallback_composition",
+    "table_alias_rule",
+    "table_caption_fallback_rule",
+    "deferred_capabilities"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.document_linking_policy.v1"},
+    "policy_name": {"type": "string", "minLength": 1},
+    "exact_first": {"const": true},
+    "candidate_cardinality": {"const": "target_id"},
+    "fallback_evidence_policy": {"const": "union_then_deduplicate"},
+    "ambiguity_policy": {"const": "fail_closed"},
+    "alias_source_policy": {"const": "independent_body_evidence_only"},
+    "destination_page_policy": {"const": "optional_intersection_never_page_only"},
+    "parent_scope_policy": {"const": "explicit_resolved_relation_only"},
+    "caller_profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["machine_reference", "effective_navigation"],
+      "properties": {
+        "machine_reference": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["claim_parser", "lookup_text", "section_fallback_profile", "table_fallback_profile", "destination_page_mapping", "table_window_policy"],
+          "properties": {
+            "claim_parser": {"const": "existing_v3_machine_mention_parser"},
+            "lookup_text": {"const": "existing_v3_structural_or_caption_key"},
+            "section_fallback_profile": {"const": "none"},
+            "table_fallback_profile": {"const": "R6a_after_exact_miss"},
+            "destination_page_mapping": {"const": "absent_is_null_explicit_empty_is_empty"},
+            "table_window_policy": {"const": "preserve_existing_v3_mention_window"}
+          }
+        },
+        "effective_navigation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["claim_parser", "lookup_text", "section_fallback_profile", "table_fallback_profile", "destination_page_mapping", "parent_mapping"],
+          "properties": {
+            "claim_parser": {"const": "effective_navigation_entry_parser"},
+            "lookup_text": {"const": "complete_heading_or_caption"},
+            "section_fallback_profile": {"const": "R2a_R2b_R5_after_exact_miss"},
+            "table_fallback_profile": {"const": "R6a_after_exact_miss"},
+            "destination_page_mapping": {"const": "absent_is_null_explicit_empty_is_empty"},
+            "parent_mapping": {"const": "explicit_resolved_parent_target_ids_only"}
+          }
+        }
+      }
+    },
+    "section_rules": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "operation", "activation", "allowed_callers"],
+        "properties": {
+          "rule_id": {"enum": ["R1", "R2", "R2a", "R2b", "R3", "R4", "R5"]},
+          "operation": {
+            "enum": [
+              "destination_page_intersection",
+              "complete_heading_lookup",
+              "strict_goal_prefix_projection",
+              "accepted_mechanical_title_fallbacks",
+              "complete_lettered_child_lookup",
+              "explicit_parent_scope",
+              "retained_ascii_hyphen_adjacent_whitespace"
+            ]
+          },
+          "activation": {"type": "string", "minLength": 1},
+          "allowed_callers": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"enum": ["machine_reference", "effective_navigation"]}
+          }
+        }
+      }
+    },
+    "section_fallback_transforms": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {"$ref": "#/$defs/transformName"}
+    },
+    "section_fallback_composition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["activation", "operation", "candidate_cardinality", "ambiguity_policy"],
+      "properties": {
+        "activation": {"const": "after_complete_exact_miss"},
+        "operation": {"const": "union_individual_fallbacks_and_goal_projection_with_at_most_one_mechanical_transform"},
+        "candidate_cardinality": {"const": "target_id"},
+        "ambiguity_policy": {"const": "fail_closed"}
+      }
+    },
+    "table_alias_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "alias_form", "source_entity_types", "target_type", "required_relations"],
+      "properties": {
+        "rule_id": {"const": "R6"},
+        "alias_form": {"const": "complete_normalized_caption"},
+        "source_entity_types": {
+          "type": "array",
+          "prefixItems": [{"const": "caption"}, {"const": "heading"}],
+          "items": false
+        },
+        "target_type": {"const": "table"},
+        "required_relations": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "immediately_following_in_canonical_page_order"},
+            {"const": "same_page"},
+            {"const": "same_section"},
+            {"const": "target_below_source"},
+            {"const": "positive_horizontal_overlap"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "table_caption_fallback_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "activation", "transforms"],
+      "properties": {
+        "rule_id": {"const": "R6a"},
+        "activation": {"const": "after_exact_miss"},
+        "transforms": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/transformName"}
+        }
+      }
+    },
+    "deferred_capabilities": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "figure_linking",
+          "footer_derived_printed_page_aliases",
+          "fuzzy_or_semantic_matching",
+          "stemming",
+          "page_only_linking",
+          "source_specific_repairs"
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "transformName": {
+      "enum": [
+        "terminal_period",
+        "standalone_ampersand_and",
+        "alphabetic_hyphen_separator",
+        "slash_adjacent_whitespace",
+        "split_fi_ligature",
+        "optional_comma_before_and",
+        "apostrophe_and_terminal_period",
+        "retained_ascii_hyphen_adjacent_whitespace",
+        "straight_curly_apostrophe",
+        "whitespace_before_comma",
+        "optional_digit_letter_hyphen"
+      ]
+    }
+  }
+}

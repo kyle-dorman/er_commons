@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_c/toc_text_page_row.schema.json",
+  "title": "ER Commons navigation overlay TOC text page v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "link_view_id", "semantic_view_id", "overlay_plan_id",
+    "toc_text_page_id", "source_id", "candidate_id", "source_page_id",
+    "physical_page", "source_table_id", "table_disposition_id", "representation",
+    "parser_version", "raw_docling_evidence", "lines", "entry_ids", "model_text", "warnings"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.toc_text_page"},
+    "link_view_id": {"$ref": "#/$defs/linkViewId"},
+    "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+    "toc_text_page_id": {"type": "string", "pattern": "^navtocpagev1-[a-f0-9]{24}$"},
+    "source_id": {"type": "string", "minLength": 1},
+    "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+    "source_page_id": {"type": "string", "minLength": 1},
+    "physical_page": {"type": "integer", "minimum": 1},
+    "source_table_id": {"type": "string", "minLength": 1},
+    "table_disposition_id": {"type": "string", "pattern": "^navdispv1-[a-f0-9]{24}$"},
+    "representation": {"const": "docling_text_supersedes_canonical_table_for_effective_navigation_view"},
+    "parser_version": {"type": "string", "minLength": 1},
+    "raw_docling_evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "plan_id", "range_id", "candidate_identity", "stable_content_completion",
+        "stable_content_inventory", "conversion_input", "conversion_completion",
+        "conversion_inventory", "aggregate_observation", "range_completion",
+        "range_inventory", "page_record", "document_index_element_id",
+        "document_index_bbox", "cell_count"
+      ],
+      "properties": {
+        "plan_id": {"type": "string", "minLength": 1},
+        "range_id": {"type": "string", "minLength": 1},
+        "candidate_identity": {"$ref": "#/$defs/artifactReference"},
+        "stable_content_completion": {"$ref": "#/$defs/artifactReference"},
+        "stable_content_inventory": {"$ref": "#/$defs/artifactReference"},
+        "conversion_input": {"$ref": "#/$defs/artifactReference"},
+        "conversion_completion": {"$ref": "#/$defs/artifactReference"},
+        "conversion_inventory": {"$ref": "#/$defs/artifactReference"},
+        "aggregate_observation": {"$ref": "#/$defs/artifactReference"},
+        "range_completion": {"$ref": "#/$defs/artifactReference"},
+        "range_inventory": {"$ref": "#/$defs/artifactReference"},
+        "page_record": {"$ref": "#/$defs/artifactReference"},
+        "document_index_element_id": {"type": "integer", "minimum": 0},
+        "document_index_bbox": {"$ref": "#/$defs/bbox"},
+        "cell_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "lines": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/line"}},
+    "entry_ids": {
+      "type": "array", "minItems": 1,
+      "items": {"type": "string", "pattern": "^navtocentryv1-[a-f0-9]{24}$"},
+      "uniqueItems": true
+    },
+    "model_text": {"type": "string", "minLength": 1},
+    "warnings": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "overlayPlanId": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"},
+    "linkViewId": {"type": "string", "pattern": "^navlinkv1-[a-f0-9]{64}$"},
+    "artifactReference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "byte_size", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "byte_size": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "bbox": {
+      "type": "object", "additionalProperties": false,
+      "required": ["l", "t", "r", "b", "coord_origin"],
+      "properties": {
+        "l": {"type": "number"}, "t": {"type": "number"},
+        "r": {"type": "number"}, "b": {"type": "number"},
+        "coord_origin": {"enum": ["TOPLEFT", "BOTTOMLEFT"]}
+      }
+    },
+    "line": {
+      "type": "object", "additionalProperties": false,
+      "required": ["line_index", "text", "bbox", "cell_indices"],
+      "properties": {
+        "line_index": {"type": "integer", "minimum": 0},
+        "text": {"type": "string", "minLength": 1},
+        "bbox": {"$ref": "#/$defs/lineBbox"},
+        "cell_indices": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0}, "uniqueItems": true}
+      }
+    },
+    "lineBbox": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number"}, {"type": "number"}, {"type": "number"}, {"type": "number"}
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    }
+  }
+}

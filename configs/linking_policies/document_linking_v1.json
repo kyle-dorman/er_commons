@@ -1,0 +1,123 @@
+{
+  "schema_version": "er_commons.document_linking_policy.v1",
+  "policy_name": "exact_local_document_linking_v1",
+  "exact_first": true,
+  "candidate_cardinality": "target_id",
+  "fallback_evidence_policy": "union_then_deduplicate",
+  "ambiguity_policy": "fail_closed",
+  "alias_source_policy": "independent_body_evidence_only",
+  "destination_page_policy": "optional_intersection_never_page_only",
+  "parent_scope_policy": "explicit_resolved_relation_only",
+  "caller_profiles": {
+    "machine_reference": {
+      "claim_parser": "existing_v3_machine_mention_parser",
+      "lookup_text": "existing_v3_structural_or_caption_key",
+      "section_fallback_profile": "none",
+      "table_fallback_profile": "R6a_after_exact_miss",
+      "destination_page_mapping": "absent_is_null_explicit_empty_is_empty",
+      "table_window_policy": "preserve_existing_v3_mention_window"
+    },
+    "effective_navigation": {
+      "claim_parser": "effective_navigation_entry_parser",
+      "lookup_text": "complete_heading_or_caption",
+      "section_fallback_profile": "R2a_R2b_R5_after_exact_miss",
+      "table_fallback_profile": "R6a_after_exact_miss",
+      "destination_page_mapping": "absent_is_null_explicit_empty_is_empty",
+      "parent_mapping": "explicit_resolved_parent_target_ids_only"
+    }
+  },
+  "section_rules": [
+    {
+      "rule_id": "R1",
+      "operation": "destination_page_intersection",
+      "activation": "when_destination_evidence_exists",
+      "allowed_callers": ["machine_reference", "effective_navigation"]
+    },
+    {
+      "rule_id": "R2",
+      "operation": "complete_heading_lookup",
+      "activation": "all_effective_navigation_section_claims",
+      "allowed_callers": ["effective_navigation"]
+    },
+    {
+      "rule_id": "R2a",
+      "operation": "strict_goal_prefix_projection",
+      "activation": "after_exact_miss",
+      "allowed_callers": ["effective_navigation"]
+    },
+    {
+      "rule_id": "R2b",
+      "operation": "accepted_mechanical_title_fallbacks",
+      "activation": "after_exact_miss",
+      "allowed_callers": ["effective_navigation"]
+    },
+    {
+      "rule_id": "R3",
+      "operation": "complete_lettered_child_lookup",
+      "activation": "effective_navigation_lettered_child_claim",
+      "allowed_callers": ["effective_navigation"]
+    },
+    {
+      "rule_id": "R4",
+      "operation": "explicit_parent_scope",
+      "activation": "effective_navigation_resolved_parent_relation_exists",
+      "allowed_callers": ["effective_navigation"]
+    },
+    {
+      "rule_id": "R5",
+      "operation": "retained_ascii_hyphen_adjacent_whitespace",
+      "activation": "after_exact_miss",
+      "allowed_callers": ["effective_navigation"]
+    }
+  ],
+  "section_fallback_transforms": [
+    "terminal_period",
+    "standalone_ampersand_and",
+    "alphabetic_hyphen_separator",
+    "slash_adjacent_whitespace",
+    "split_fi_ligature",
+    "optional_comma_before_and",
+    "apostrophe_and_terminal_period",
+    "retained_ascii_hyphen_adjacent_whitespace"
+  ],
+  "section_fallback_composition": {
+    "activation": "after_complete_exact_miss",
+    "operation": "union_individual_fallbacks_and_goal_projection_with_at_most_one_mechanical_transform",
+    "candidate_cardinality": "target_id",
+    "ambiguity_policy": "fail_closed"
+  },
+  "table_alias_rule": {
+    "rule_id": "R6",
+    "alias_form": "complete_normalized_caption",
+    "source_entity_types": [
+      "caption",
+      "heading"
+    ],
+    "target_type": "table",
+    "required_relations": [
+      "immediately_following_in_canonical_page_order",
+      "same_page",
+      "same_section",
+      "target_below_source",
+      "positive_horizontal_overlap"
+    ]
+  },
+  "table_caption_fallback_rule": {
+    "rule_id": "R6a",
+    "activation": "after_exact_miss",
+    "transforms": [
+      "retained_ascii_hyphen_adjacent_whitespace",
+      "straight_curly_apostrophe",
+      "whitespace_before_comma",
+      "optional_digit_letter_hyphen"
+    ]
+  },
+  "deferred_capabilities": [
+    "figure_linking",
+    "footer_derived_printed_page_aliases",
+    "fuzzy_or_semantic_matching",
+    "stemming",
+    "page_only_linking",
+    "source_specific_repairs"
+  ]
+}

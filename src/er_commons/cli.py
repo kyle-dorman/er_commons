@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Annotated
 
@@ -13,6 +14,16 @@ from er_commons.collection_processing import (
     validate_collection_handoff,
 )
 from er_commons.document_publication import publish_document
+from er_commons.document_records.document_references.relink_publication import (
+    execute_document_relink_from_spec,
+)
+from er_commons.document_records.document_references.relink_replay import (
+    relink_and_replay_document,
+    relink_replay_and_assemble_collection,
+)
+from er_commons.document_records.document_references.reviewed_navigation import (
+    materialize_reviewed_navigation_from_spec,
+)
 from er_commons.settings import ProjectSettings, load_settings
 from er_commons.source_release import freeze_release, verify_release
 
@@ -149,6 +160,83 @@ def publish_selected_document(
     typer.echo(f"document_completion={completion}")
 
 
+@documents_app.command("materialize-reviewed-navigation")
+def materialize_reviewed_navigation_command(
+    review_spec: Annotated[
+        Path,
+        typer.Option(
+            "--review-spec",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Portable reviewed-navigation materialization request.",
+        ),
+    ],
+) -> None:
+    """Seal prepared human navigation evidence for the shared linker."""
+    published = materialize_reviewed_navigation_from_spec(
+        data_root=load_settings().data_root,
+        review_spec=review_spec,
+    )
+    typer.echo(f"reviewed_navigation_bundle={published.descriptor_path}")
+
+
+@documents_app.command("relink")
+def relink_document(
+    link_spec: Annotated[
+        Path,
+        typer.Option(
+            "--link-spec",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Explicit portable document-link run specification.",
+        ),
+    ],
+    source_id: Annotated[
+        str,
+        typer.Option("--source-id", help="The sole selected source to relink."),
+    ],
+) -> None:
+    """Rebuild one source's linking products from sealed extraction records."""
+    result = execute_document_relink_from_spec(
+        data_root=load_settings().data_root,
+        link_spec=link_spec,
+        source_id=source_id,
+    )
+    typer.echo(f"document_link_completion={result.completion_path}")
+
+
+@documents_app.command("relink-and-replay")
+def relink_and_replay_selected_document(
+    link_spec: Annotated[
+        Path,
+        typer.Option(
+            "--link-spec",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Explicit portable document-link run specification.",
+        ),
+    ],
+    source_id: Annotated[
+        str,
+        typer.Option("--source-id", help="The sole selected source to relink and republish."),
+    ],
+) -> None:
+    """Relink one source and publish its downstream-only document descendant."""
+    result = relink_and_replay_document(
+        data_root=load_settings().data_root,
+        link_spec=link_spec,
+        source_id=source_id,
+    )
+    typer.echo(f"document_link_completion={result.linked.completion_path}")
+    typer.echo(f"document_completion={result.document_completion_path}")
+
+
 @collections_app.command("assemble-handoff")
 def assemble_handoff(
     collection_spec: Annotated[
@@ -166,6 +254,30 @@ def assemble_handoff(
     """Assemble or checksum-reuse one manifest-ordered collection handoff."""
     completion = assemble_collection_handoff(load_settings().data_root, collection_spec)
     typer.echo(f"handoff_completion={completion}")
+
+
+@collections_app.command("relink-and-assemble")
+def relink_and_assemble_collection(
+    link_spec: Annotated[
+        Path,
+        typer.Option(
+            "--link-spec",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Sealed relink run specification including its collection recipe.",
+        ),
+    ],
+) -> None:
+    """Relink and replay every selected document, then assemble one collection."""
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    result = relink_replay_and_assemble_collection(
+        data_root=load_settings().data_root,
+        link_spec=link_spec,
+    )
+    typer.echo(f"documents_replayed={len(result.documents)}")
+    typer.echo(f"handoff_completion={result.handoff_completion_path}")
 
 
 @collections_app.command("validate-handoff")

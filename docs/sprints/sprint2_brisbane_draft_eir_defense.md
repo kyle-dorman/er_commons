@@ -534,8 +534,10 @@ Task 02 and all Task 03 work are complete. Task 03J produced the current
 machine-only 35-source candidate and validated collection handoff. Task 04 and
 Task 03I are complete as the first-pass review and its bounded extraction
 disposition. Task 04A is complete and freezes Task 03J with its separate human
-TOC and source-usability layer. Task 04B is closed as a no-op. Provisional Task
-04C is next for review but remains inactive until explicitly activated.
+TOC and source-usability layer. Task 04B is closed as a no-op. Task 04C
+completed source-free Gates A through C; its Gate D is superseded by active
+Task 04D, which inspects linking improvements one at a time before a fresh
+linking-only machine replay.
 
 The task files preserve detailed outcomes, negative experiments, and identity
 history. The map below is retained as sprint scope and sequencing, not as a
@@ -742,20 +744,27 @@ distinct decision or validation boundary.
    linking view. Reconcile newly confirmed TOCs conservatively, retain unsupported
    links as unresolved, and do not mutate Task 03J or reinterpret browser state in
    each downstream consumer.
-5. **Task 05 — Build the complete curator-only response inventory.** Use a
+5. **[Task 04D](../../tasks/sprint2/04d_relink_frozen_extraction.md) — Relink the
+   frozen extraction.** Inspect source-general linking rules individually, then
+   implement them once in a shared exact target-resolution engine used by both
+   the machine and overlay adapters. Reuse Task 03J's sealed extraction and
+   replace only linking and its dependent document and collection publications
+   under fresh identities. Gates A through D are complete, and the validated
+   replacement handoff is designated for downstream use.
+6. **Task 05 — Build the complete curator-only response inventory.** Use a
    bounded, separately identified transcription/extraction route for Final EIR
    Volume 4; do not add it to the Task 03 model corpus. Enumerate every comment,
    individual response, general response, relationship, orphan, and official
    Draft EIR reference. Build the curator-only response graph and resolve its
    Draft EIR references against the frozen Task 03 target/alias index subject
    to the accepted review registry.
-6. **Task 06 — Pilot reference-case authoring.** Implement deterministic
+7. **Task 06 — Pilot reference-case authoring.** Implement deterministic
    high-recall curator search, a two-hop traversal/index view over the accepted
    Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence
    registry, and Label Studio review on a small varied pilot. Official-response
    references are curator-only seeds; accepted evidence requires exact
    canonical block or table anchors.
-7. **Task 07 — Curate, cluster, split, and freeze the benchmark.** Identify at
+8. **Task 07 — Curate, cluster, split, and freeze the benchmark.** Identify at
    least 35 plausible cases, finish two-pass single-curator review, accept at
    least 25 cases, and materialize the deterministic 10-development/15-test
    split. Build cluster edges only from commenter membership, Task 05
@@ -764,28 +773,28 @@ distinct decision or validation boundary.
    and shared Task 03 targets are warnings, never automatic edges. Preserve
    decisions, validate duplicate candidates, and publish the cross-split
    leakage audit.
-8. **Task 08 — Build and freeze human evaluation.** Implement the staged,
+9. **Task 08 — Build and freeze human evaluation.** Implement the staged,
    blinded evidence-support, responsiveness, and reference-coverage forms and
    anchored `0`/`1`/`2` rubric. Pin exports and forms to the accepted Task 03
    extraction, accepted review registry, and Task 07 case/split versions; link
    requested render cache separately.
-9. **Task 09 — Build and freeze BM25 retrieval.** Build units from accepted
+10. **Task 09 — Build and freeze BM25 retrieval.** Build units from accepted
    hierarchy and accepted-review-registry body content and tables. Analyze leaf-section
    lengths, choose whole sections or a documented contiguous fallback that
    never spans excluded content, run the lexical preprocessing pilot, freeze
    the index, and report development-only evidence-coverage curves. Do not
    graph-expand benchmark retrieval unless a later explicit decision adds that
    condition.
-10. **Task 10 — Build and freeze target generation.** Pin the full extraction,
+11. **Task 10 — Build and freeze target generation.** Pin the full extraction,
    usability, case, split, index, prompt, model, and schema identity chain.
    Implement the zero-shot Qwen3 4B prompt, abstention and citation validation,
    deterministic source-label rendering, output-length pilot, and development
    stability check without exposing curator-only or QA metadata.
-11. **Task 11 — Calibrate the automated judge.** Pin and verify the same
+12. **Task 11 — Calibrate the automated judge.** Pin and verify the same
     identity chain. Run the three staged Gemma 3 12B judge calls against locked
     human development scores without raw Final EIR response text, then freeze
     the judge or retain it as diagnostic-only under the accepted gate.
-12. **Task 12 — Run the locked test and close Sprint 2.** Verify the complete
+13. **Task 12 — Run the locked test and close Sprint 2.** Verify the complete
     identity chain before execution. Run the primary baseline first, then the
     pre-registered `A` and `A+B` oracle diagnostics; human-review every test
     prediction, preserve automated scores separately, analyze errors by stage,

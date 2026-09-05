@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/navigation_decision.schema.json",
+  "title": "Navigation link decision row v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "extraction_id",
+    "source_id",
+    "navigation_entry_id",
+    "sequence",
+    "outcome",
+    "match_basis",
+    "candidate_target_ids",
+    "unscoped_text_candidate_count",
+    "scoped_text_candidate_count",
+    "parent_scope_applied",
+    "destination_page_intersection_applied"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.navigation_link_decision.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "extraction_id": {
+      "type": "string",
+      "pattern": "^exv1-[0-9a-f]{64}$"
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "navigation_entry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "outcome": {
+      "enum": [
+        "no_text_match",
+        "parent_scope_mismatch",
+        "destination_page_mismatch",
+        "resolved_unique",
+        "ambiguous_target"
+      ]
+    },
+    "match_basis": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "candidate_target_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "unscoped_text_candidate_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "scoped_text_candidate_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "parent_scope_applied": {
+      "type": "boolean"
+    },
+    "destination_page_intersection_applied": {
+      "type": "boolean"
+    }
+  }
+}

@@ -55,11 +55,12 @@ Responsibilities are intentionally one-way:
 | --- | --- |
 | `document_parsing` | Stable content parsing, heading evidence, routing, and clean table reconstruction. |
 | `hierarchy_inference` | Hierarchy evidence and deterministic hierarchy decisions. |
-| `document_records` | Record mapping, sections, printed labels, aliases, and document-local reference links. |
+| `document_records` | Record mapping, sections, printed labels, aliases, document-local reference links, and the shared exact local target-resolution engine. |
 | `document_publication` | One-document attempts, lineage, reuse, and atomic publication. |
 | `collection_processing` | Scope accounting, target indexes, cross-document resolution, and handoff assembly. |
 | `extraction_reporting` | Machine summaries and terminal-status reporting. |
 | `human_review_support` | Candidate-neutral review selections, renders, and human findings. |
+| `navigation_overlay` | Source-free Task 04C input binding, page/entity correspondence, sealed Docling TOC-text projection, sparse effective-navigation read model, TOC-specific linking adapter, and derived publication. |
 
 The public production entry points are:
 
@@ -68,6 +69,8 @@ er-commons documents publish
 er-commons collections assemble-handoff
 er-commons collections validate-handoff
 er-commons collections validate-contract
+uv run python scripts/prepare_task04c_gate_a.py --repo-root <checkout>
+uv run python scripts/materialize_task04c_gate_b.py --repo-root <checkout>
 ```
 
 Document publication consumes an explicit v2 document specification. Collection
@@ -118,7 +121,8 @@ The current extraction keeps the following boundaries explicit:
 The stable persisted contracts are the [canonical extraction
 specification](specs/canonical_extraction_v1.md), [semantic structure
 specification](specs/semantic_structure_v2.md), [cross-reference
-specification](specs/cross_references_v3.md), and [restartable corpus
+specification](specs/cross_references_v3.md), [document-linking
+specification](specs/document_linking_v1.md), and [restartable corpus
 specification](specs/restartable_corpus_extraction_v1_1.md). The chunked
 conversion specification defines the independent range-evidence boundary used
 by the current production path.
@@ -135,6 +139,54 @@ approved Task 04A TOC/navigation stop handoff. When Task 03J is accepted without
 regeneration, Task 04C owns the separate derived consumer that combines the
 immutable machine candidate with the accepted human TOC layer for semantic
 navigation, aliases, and links.
+
+Task 04D owns the fresh replacement-linking boundary. It reuses Task 03J's
+sealed extraction through target-alias construction plus Task 04C's accepted
+navigation semantics and TOC text, changes only document linking behavior, and
+replays linked-document and collection descendants under fresh identities.
+Task 04D may not rerun or modify parsing, table reconstruction, hierarchy,
+section mapping, printed-page resolution, or existing canonical target-alias
+generation. Its only alias extension is the accepted R6/R6a body-derived table
+caption evidence; source navigation text and mentions may query but never
+generate aliases.
+
+The exact local target-resolution engine is shared beneath both callers and is
+owned by `document_records.document_references`. It owns exact typed alias
+matching, target-ID deduplication, optional destination-page intersection,
+deterministic ordering, and neutral candidate-cardinality outcomes. The machine
+linker and navigation overlay remain separate adapters for source parsing,
+caller-specific policy around the shared query, and schema-specific
+publication. `navigation_overlay` may depend on this core; the core may not
+depend on human-review or overlay packages.
+
+The reusable production stage is specified in
+[`specs/document_linking_v1.md`](specs/document_linking_v1.md). A single
+package-backed `er-commons documents relink` interface accepts a sealed
+canonical document, versioned linking policy, and optional sealed reviewed
+navigation. It publishes the complete replacement linked-document product,
+then delegates downstream-only document publication to the maintained replay
+publisher. Collections continue through the existing assembly interface under
+a fresh scope. Corpus-specific audits may compare this path but may not own a
+resolver, publisher, or identity recipe.
+
+Task 04D Gate D published and independently validated the designated
+downstream replacement under production identity
+`exv1-466e4e9aced080621fa81058acca95a4e37f1d9a63f2362a569bd9205830b5a3`.
+Linking-dependent consumers pin handoff
+`handoffv1-e54a72e4bb8f9ba34888c1fc1f51424c4cc52e5f24d6700b16b462e3a659b6d1`;
+they do not compose Task 03J machine links with the Task 04C overlay. Task 03J
+continues to own the immutable extraction inputs reused by this replacement.
+
+Gate C implements the record builder and caller adapters in `relinking.py` and
+keeps run-spec resolution, identity derivation, schema enforcement, and
+completion-last publication in `relink_publication.py`. This split preserves a
+single public command while keeping matching behavior independent from artifact
+transaction mechanics.
+
+Collection replay prepares and validates the sealed run once, then executes its
+35 sources sequentially with visible progress. Base-lineage membership is
+proved from sealed handoff, accounting, inventory-reference, and completion
+metadata; the preflight does not hash PDF or preserved document payloads.
 
 ## Configuration and paths
 

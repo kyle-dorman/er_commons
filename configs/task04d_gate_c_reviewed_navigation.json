@@ -1,0 +1,45 @@
+{
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_04d_reviewed_navigation",
+  "bundle_schema_ref": {
+    "authority": "repository",
+    "byte_size": 3377,
+    "path": "benchmarks/er_bench/schemas/document_linking/v1/reviewed_navigation_bundle.schema.json",
+    "sha256": "14f4b0ce55a1fbc4c9ec0c28c8c7572f663e7761b3b707270ff0fc62e75c3476"
+  },
+  "dispositions_ref": {
+    "authority": "artifact_root",
+    "byte_size": 722559,
+    "path": "pipelines/brisbane_baylands/task_04d_reviewed_navigation_preparation/gate_c_v1/dispositions.jsonl",
+    "sha256": "000a8c6d1cd0de4c64732beb879c4874398f3b12a8676c5c292c80fe8f808e15"
+  },
+  "parent_relations_ref": {
+    "authority": "artifact_root",
+    "byte_size": 25041,
+    "path": "pipelines/brisbane_baylands/task_04d_reviewed_navigation_preparation/gate_c_v1/parent_relations.jsonl",
+    "sha256": "ef705cf81b61497dd91b09a813c68e4dcd2adcdb01974989bea62e6ccccb88ad"
+  },
+  "review_decisions_ref": {
+    "authority": "artifact_root",
+    "byte_size": 55949,
+    "path": "pipelines/brisbane_baylands/task_04_review/reviewv1-task03j-final-c17/records/toc_review_decisions.json",
+    "sha256": "eb3c1242f13b76ffc0c1ac165954348cb6de560dbba8d58aba53c8d8237f46df"
+  },
+  "schema_version": "er_commons.reviewed_navigation_request.v1",
+  "semantic_view_ref": {
+    "authority": "artifact_root",
+    "byte_size": 4142,
+    "path": "pipelines/brisbane_baylands/task_04_navigation_overlay/navsemanticv1-ae00c6e6f70839f1ca15404c9dff14161f0a3e9aaa9e7902f51f65b36023c8fc/semantic_view_manifest.json",
+    "sha256": "6d3ff1bf46fc558520a0f18d84dab84d61407d8f3a552da75bab65d2546fd3fe"
+  },
+  "source_ids": [
+    "deir_appendix_a",
+    "deir_appendix_k2_part_1_of_5",
+    "deir_main"
+  ],
+  "text_entries_ref": {
+    "authority": "artifact_root",
+    "byte_size": 971080,
+    "path": "pipelines/brisbane_baylands/task_04d_reviewed_navigation_preparation/gate_c_v1/text_entries.jsonl",
+    "sha256": "2d4f90cf357dcb5b2e3b999d58c697318c29048a964e3b513b2da80064aa6e27"
+  }
+}

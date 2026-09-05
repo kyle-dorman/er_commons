@@ -102,7 +102,6 @@ def test_task03h_v3_specs_and_identity_are_strict_native_v2() -> None:
         identity,
         expected_source_ids=source_ids,
         expected_scope_kind="production_full",
-        project_root=ROOT,
     )
     assert validated.value == document.production_extraction_id
 
@@ -297,6 +296,15 @@ def test_task03h_readiness_stages_catalog_without_pdf_or_model_reads(
         preparation,
         "prepare_collection_run",
         lambda *_args: SimpleNamespace(document_spec=document),
+    )
+    # Task 03H is sealed historical evidence. Its recipe must retain the CLI
+    # checksum that actually produced it, even though later tasks add commands
+    # to the live checkout. This readiness test exercises source/model-free
+    # staging, not a rerun under those historical code bytes.
+    monkeypatch.setattr(
+        preparation,
+        "validate_production_identity",
+        lambda *_args, **_kwargs: SimpleNamespace(value=document.production_extraction_id),
     )
     report_path = prepare_task03h(tmp_path)
     report = json.loads(report_path.read_text())

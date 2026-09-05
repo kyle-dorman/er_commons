@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_b_specification.schema.json",
+  "title": "ER Commons navigation overlay Gate B specification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "semantic_view_id",
+    "overlay_plan_id",
+    "status",
+    "inputs",
+    "identity_preimage",
+    "semantic_rules",
+    "accounting",
+    "reproduction",
+    "source_free_boundary",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.gate_b_specification"},
+    "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+    "status": {"const": "gate_b_complete"},
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_a_specification",
+        "gate_a_completion",
+        "gate_a_inventory",
+        "decision_correspondence",
+        "affected_closure"
+      ],
+      "properties": {
+        "gate_a_specification": {"$ref": "#/$defs/artifactReference"},
+        "gate_a_completion": {"$ref": "#/$defs/artifactReference"},
+        "gate_a_inventory": {"$ref": "#/$defs/artifactReference"},
+        "decision_correspondence": {"$ref": "#/$defs/artifactReference"},
+        "affected_closure": {"$ref": "#/$defs/artifactReference"}
+      }
+    },
+    "identity_preimage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "overlay_plan_id",
+        "gate_a_completion_sha256",
+        "gate_a_inventory_sha256",
+        "semantic_policy_sha256",
+        "schema_bundle_sha256",
+        "implementation_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.navigation_overlay.v1.semantic_identity_preimage"},
+        "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+        "gate_a_completion_sha256": {"$ref": "#/$defs/sha256"},
+        "gate_a_inventory_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "implementation_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "semantic_rules": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "human_toc_confirms_existing_mapped_blocks_and_tables_as_navigation"},
+        {"const": "human_not_toc_excludes_only_existing_mapped_machine_navigation_blocks_and_tables"},
+        {"const": "machine_human_agreements_are_immutable_read_through"},
+        {"const": "original_machine_placement_is_preserved_as_provenance"},
+        {"const": "section_associations_are_preserved_as_context_not_semantic_dispositions"},
+        {"const": "mixed_missing_conflicting_or_entityless_decisions_leave_machine_semantics_unchanged"},
+        {"const": "page_labels_never_create_entities_aliases_targets_or_links"}
+      ],
+      "items": false,
+      "minItems": 7,
+      "maxItems": 7
+    },
+    "accounting": {"$ref": "#/$defs/accounting"},
+    "reproduction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_api", "command", "arguments"],
+      "properties": {
+        "package_api": {
+          "const": "er_commons.navigation_overlay.materialization.prepare_and_publish_gate_b"
+        },
+        "command": {"type": "string", "minLength": 1},
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["data_root", "repo_root", "gate_a_root", "output_parent"],
+          "properties": {
+            "data_root": {"const": "ER_COMMONS_DATA_ROOT"},
+            "repo_root": {"const": "."},
+            "gate_a_root": {"type": "string", "minLength": 1},
+            "output_parent": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "source_free_boundary": {"$ref": "#/$defs/sourceFreeBoundary"},
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "overlayPlanId": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"},
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "byte_size", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "byte_size": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "count": {"type": "integer", "minimum": 0},
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_count",
+        "machine_toc_human_toc_count",
+        "machine_not_toc_human_not_toc_count",
+        "human_confirmed_navigation_decision_count",
+        "human_rejected_machine_navigation_decision_count",
+        "fail_closed_decision_count",
+        "changed_content_entity_count",
+        "human_confirmed_navigation_entity_count",
+        "human_rejected_machine_navigation_entity_count",
+        "changed_block_count",
+        "changed_table_count",
+        "preserved_section_association_count"
+      ],
+      "properties": {
+        "decision_count": {"$ref": "#/$defs/count"},
+        "machine_toc_human_toc_count": {"$ref": "#/$defs/count"},
+        "machine_not_toc_human_not_toc_count": {"$ref": "#/$defs/count"},
+        "human_confirmed_navigation_decision_count": {"$ref": "#/$defs/count"},
+        "human_rejected_machine_navigation_decision_count": {"$ref": "#/$defs/count"},
+        "fail_closed_decision_count": {"$ref": "#/$defs/count"},
+        "changed_content_entity_count": {"$ref": "#/$defs/count"},
+        "human_confirmed_navigation_entity_count": {"$ref": "#/$defs/count"},
+        "human_rejected_machine_navigation_entity_count": {"$ref": "#/$defs/count"},
+        "changed_block_count": {"$ref": "#/$defs/count"},
+        "changed_table_count": {"$ref": "#/$defs/count"},
+        "preserved_section_association_count": {"$ref": "#/$defs/count"}
+      }
+    },
+    "sourceFreeBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_pdf_bytes_read",
+        "source_pdf_checksum_recomputed",
+        "renders_generated",
+        "model_files_read",
+        "large_task03j_files_rehashed",
+        "task03j_files_written",
+        "task04a_files_written"
+      ],
+      "properties": {
+        "source_pdf_bytes_read": {"const": false},
+        "source_pdf_checksum_recomputed": {"const": false},
+        "renders_generated": {"const": false},
+        "model_files_read": {"const": false},
+        "large_task03j_files_rehashed": {"const": false},
+        "task03j_files_written": {"const": false},
+        "task04a_files_written": {"const": false}
+      }
+    }
+  }
+}

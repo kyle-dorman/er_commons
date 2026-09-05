@@ -1,0 +1,24 @@
+{
+  "schema_version": "er_commons.reviewed_navigation_bundle.v1",
+  "bundle_id": "navreviewv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "source_ids": ["report_beta"],
+  "identity_preimage": {
+    "schema_version": "er_commons.reviewed_navigation_bundle_identity.v1",
+    "source_ids_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "review_decisions_ref": {"authority": "artifact_root", "path": "inputs/reviewed_navigation/review_decisions.jsonl", "sha256": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd", "byte_size": 301},
+    "semantic_view_ref": {"authority": "artifact_root", "path": "inputs/reviewed_navigation/semantic_view.json", "sha256": "dededededededededededededededededededededededededededededededede", "byte_size": 302},
+    "text_entries_ref": {"authority": "bundle", "path": "navigation/text_entries.jsonl", "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "byte_size": 303},
+    "dispositions_ref": {"authority": "bundle", "path": "navigation/dispositions.jsonl", "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "byte_size": 304},
+    "parent_relations_ref": {"authority": "bundle", "path": "navigation/parent_relations.jsonl", "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef", "byte_size": 305},
+    "schema_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "materializer_code_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "payloads": {
+    "text_entries_ref": {"authority": "bundle", "path": "navigation/text_entries.jsonl", "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "byte_size": 303},
+    "dispositions_ref": {"authority": "bundle", "path": "navigation/dispositions.jsonl", "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "byte_size": 304},
+    "parent_relations_ref": {"authority": "bundle", "path": "navigation/parent_relations.jsonl", "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef", "byte_size": 305}
+  },
+  "inventory_ref": {"authority": "artifact_root", "path": "outputs/reviewed_navigation/inventory.json", "sha256": "4444444444444444444444444444444444444444444444444444444444444444", "byte_size": 306},
+  "completion_ref": {"authority": "artifact_root", "path": "outputs/reviewed_navigation/completion.json", "sha256": "5555555555555555555555555555555555555555555555555555555555555555", "byte_size": 307},
+  "seal_policy": "verify_identity_digest_source_coverage_upstream_refs_payload_ref_equality_inventory_closure_and_completion_last"
+}

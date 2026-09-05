@@ -54,6 +54,25 @@ def test_restartable_document_command_requires_explicit_spec_and_source() -> Non
     assert "required" in result.output
 
 
+def test_reviewed_navigation_command_requires_explicit_spec() -> None:
+    """The generic review materializer has no corpus-specific default."""
+    result = CliRunner().invoke(app, ["documents", "materialize-reviewed-navigation", "--help"])
+
+    assert result.exit_code == 0
+    assert "--review-spec" in result.output
+    assert "required" in result.output
+
+
+def test_relink_command_requires_explicit_spec_and_source() -> None:
+    """The reusable linker cannot silently select a corpus or source."""
+    result = CliRunner().invoke(app, ["documents", "relink", "--help"])
+
+    assert result.exit_code == 0
+    assert "--link-spec" in result.output
+    assert "--source-id" in result.output
+    assert "required" in result.output
+
+
 def test_collection_handoff_command_requires_explicit_collection_spec() -> None:
     """Stage two has no implicit source scope or production default."""
     result = CliRunner().invoke(app, ["collections", "assemble-handoff", "--help"])
@@ -61,6 +80,36 @@ def test_collection_handoff_command_requires_explicit_collection_spec() -> None:
     assert result.exit_code == 0
     assert "--collection-spec" in result.output
     assert "required" in result.output
+
+
+def test_relink_collection_command_calls_closed_workflow(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    """One sealed link spec owns document replay and collection assembly."""
+    spec = tmp_path / "link.json"
+    spec.write_text("{}\n")
+    completion = tmp_path / "handoff.json"
+    calls: list[dict[str, Path]] = []
+    monkeypatch.setenv("ER_COMMONS_DATA_ROOT", str(tmp_path / "data"))
+    monkeypatch.setattr(
+        cli,
+        "relink_replay_and_assemble_collection",
+        lambda **kwargs: (
+            calls.append(kwargs)
+            or SimpleNamespace(documents=(object(), object()), handoff_completion_path=completion)
+        ),
+    )
+
+    result = CliRunner().invoke(
+        app,
+        ["collections", "relink-and-assemble", "--link-spec", str(spec)],
+    )
+
+    assert result.exit_code == 0
+    assert calls == [{"data_root": tmp_path / "data", "link_spec": spec}]
+    assert "documents_replayed=2" in result.output
+    assert f"handoff_completion={completion}" in result.output
 
 
 def test_handoff_validation_is_read_only_and_explicit() -> None:

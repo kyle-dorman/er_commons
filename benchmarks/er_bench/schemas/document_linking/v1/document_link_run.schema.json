@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v1/document_link_run.schema.json",
+  "title": "Document link run specification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_relative_root",
+    "base_collection",
+    "base_production_identity_ref",
+    "replacement_production_identity_recipe_ref",
+    "document_publication_spec_ref",
+    "collection_run_spec_ref",
+    "linking_policy_ref",
+    "linking_policy_schema_ref",
+    "source_family_catalog_ref",
+    "selected_source_ids",
+    "documents",
+    "reviewed_navigation",
+    "output_schema_refs"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.document_link_run_spec.v1"},
+    "artifact_relative_root": {"$ref": "#/$defs/relativePath"},
+    "base_collection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["handoff_ref", "contract_bundle_ref"],
+      "properties": {
+        "handoff_ref": {"$ref": "#/$defs/artifactRef"},
+        "contract_bundle_ref": {"$ref": "#/$defs/artifactRef"}
+      }
+    },
+    "base_production_identity_ref": {"$ref": "#/$defs/artifactRef"},
+    "replacement_production_identity_recipe_ref": {"$ref": "#/$defs/artifactRef"},
+    "document_publication_spec_ref": {"$ref": "#/$defs/artifactRef"},
+    "collection_run_spec_ref": {"$ref": "#/$defs/artifactRef"},
+    "linking_policy_ref": {"$ref": "#/$defs/artifactRef"},
+    "linking_policy_schema_ref": {"$ref": "#/$defs/artifactRef"},
+    "source_family_catalog_ref": {"$ref": "#/$defs/artifactRef"},
+    "selected_source_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "source_document", "structured_document"],
+        "properties": {
+          "source_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "source_document": {"$ref": "#/$defs/sealedDocumentCandidate"},
+          "structured_document": {"$ref": "#/$defs/sealedStructuredCandidate"}
+        }
+      }
+    },
+    "reviewed_navigation": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bundle_id",
+            "bundle_ref",
+            "schema_ref",
+            "source_ids",
+            "identity_ref",
+            "completion_ref",
+            "inventory_ref",
+            "review_decisions_ref",
+            "semantic_view_ref",
+            "disposition_ref",
+            "text_entries_ref",
+            "parent_relations_ref"
+          ],
+          "properties": {
+            "bundle_id": {"type": "string", "pattern": "^navreviewv1-[0-9a-f]{64}$"},
+            "bundle_ref": {"$ref": "#/$defs/artifactRef"},
+            "schema_ref": {"$ref": "#/$defs/artifactRef"},
+            "source_ids": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+            },
+            "identity_ref": {"$ref": "#/$defs/artifactRef"},
+            "completion_ref": {"$ref": "#/$defs/artifactRef"},
+            "inventory_ref": {"$ref": "#/$defs/artifactRef"},
+            "review_decisions_ref": {"$ref": "#/$defs/artifactRef"},
+            "semantic_view_ref": {"$ref": "#/$defs/artifactRef"},
+            "disposition_ref": {"$ref": "#/$defs/bundleRef"},
+            "text_entries_ref": {"$ref": "#/$defs/bundleRef"},
+            "parent_relations_ref": {"$ref": "#/$defs/bundleRef"}
+          }
+        }
+      ]
+    },
+    "output_schema_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "manifest", "inventory", "completion", "alias", "ordinary_reference", "navigation_entry", "navigation_relation", "navigation_decision", "navigation_link", "support"],
+      "properties": {
+        "identity": {"$ref": "#/$defs/artifactRef"},
+        "manifest": {"$ref": "#/$defs/artifactRef"},
+        "inventory": {"$ref": "#/$defs/artifactRef"},
+        "completion": {"$ref": "#/$defs/artifactRef"},
+        "alias": {"$ref": "#/$defs/artifactRef"},
+        "ordinary_reference": {"$ref": "#/$defs/artifactRef"},
+        "navigation_entry": {"$ref": "#/$defs/artifactRef"},
+        "navigation_relation": {"$ref": "#/$defs/artifactRef"},
+        "navigation_decision": {"$ref": "#/$defs/artifactRef"},
+        "navigation_link": {"$ref": "#/$defs/artifactRef"},
+        "support": {"$ref": "#/$defs/artifactRef"}
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "path", "sha256", "byte_size"],
+      "properties": {
+        "authority": {"enum": ["repository", "artifact_root"]},
+        "path": {"$ref": "#/$defs/relativePath"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "byte_size": {"type": "integer", "minimum": 1}
+      }
+    },
+    "bundleRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "path", "sha256", "byte_size"],
+      "properties": {
+        "authority": {"const": "bundle"},
+        "path": {"$ref": "#/$defs/relativePath"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "byte_size": {"type": "integer", "minimum": 1}
+      }
+    },
+    "sealedDocumentCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "completion_ref", "inventory_ref"],
+      "properties": {
+        "candidate_id": {"type": "string", "pattern": "^docv1-[0-9a-f]{64}$"},
+        "completion_ref": {"$ref": "#/$defs/artifactRef"},
+        "inventory_ref": {"$ref": "#/$defs/artifactRef"}
+      }
+    },
+    "sealedStructuredCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "completion_ref", "inventory_ref"],
+      "properties": {
+        "candidate_id": {"type": "string", "pattern": "^exv1-[0-9a-f]{64}$"},
+        "completion_ref": {"$ref": "#/$defs/artifactRef"},
+        "inventory_ref": {"$ref": "#/$defs/artifactRef"}
+      }
+    }
+  }
+}

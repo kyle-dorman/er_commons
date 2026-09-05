@@ -1,0 +1,58 @@
+{
+  "schema_version": "er_commons.document_link_run_spec.v1",
+  "artifact_relative_root": "pipelines/example_collection/reviewed_relink_run",
+  "base_collection": {
+    "handoff_ref": {"authority": "artifact_root", "path": "inputs/collection/handoff.json", "sha256": "1111111111111111111111111111111111111111111111111111111111111111", "byte_size": 201},
+    "contract_bundle_ref": {"authority": "artifact_root", "path": "inputs/collection/contract_bundle.json", "sha256": "2222222222222222222222222222222222222222222222222222222222222222", "byte_size": 202}
+  },
+  "base_production_identity_ref": {"authority": "artifact_root", "path": "inputs/identity/base.json", "sha256": "3333333333333333333333333333333333333333333333333333333333333333", "byte_size": 203},
+  "replacement_production_identity_recipe_ref": {"authority": "repository", "path": "configs/identity/replacement.json", "sha256": "4444444444444444444444444444444444444444444444444444444444444444", "byte_size": 204},
+  "document_publication_spec_ref": {"authority": "repository", "path": "configs/publication/document.json", "sha256": "5555555555555555555555555555555555555555555555555555555555555555", "byte_size": 205},
+  "collection_run_spec_ref": {"authority": "repository", "path": "configs/publication/collection.json", "sha256": "5656565656565656565656565656565656565656565656565656565656565656", "byte_size": 206},
+  "linking_policy_ref": {"authority": "repository", "path": "configs/linking/document_linking.json", "sha256": "6666666666666666666666666666666666666666666666666666666666666666", "byte_size": 206},
+  "linking_policy_schema_ref": {"authority": "repository", "path": "schemas/document_linking/linking_policy.schema.json", "sha256": "6767676767676767676767676767676767676767676767676767676767676767", "byte_size": 208},
+  "source_family_catalog_ref": {"authority": "repository", "path": "configs/sources/catalog.json", "sha256": "7777777777777777777777777777777777777777777777777777777777777777", "byte_size": 207},
+  "selected_source_ids": ["report_beta"],
+  "documents": [
+    {
+      "source_id": "report_beta",
+      "source_document": {
+        "candidate_id": "docv1-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "completion_ref": {"authority": "artifact_root", "path": "inputs/report_beta/document/completion.json", "sha256": "8888888888888888888888888888888888888888888888888888888888888888", "byte_size": 208},
+        "inventory_ref": {"authority": "artifact_root", "path": "inputs/report_beta/document/inventory.json", "sha256": "9999999999999999999999999999999999999999999999999999999999999999", "byte_size": 209}
+      },
+      "structured_document": {
+        "candidate_id": "exv1-dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "completion_ref": {"authority": "artifact_root", "path": "inputs/report_beta/structured/completion.json", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "byte_size": 210},
+        "inventory_ref": {"authority": "artifact_root", "path": "inputs/report_beta/structured/inventory.json", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "byte_size": 211}
+      }
+    }
+  ],
+  "reviewed_navigation": {
+    "bundle_id": "navreviewv1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bundle_ref": {"authority": "artifact_root", "path": "inputs/reviewed_navigation/bundle.json", "sha256": "acacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacac", "byte_size": 212},
+    "schema_ref": {"authority": "repository", "path": "schemas/document_linking/reviewed_navigation_bundle.json", "sha256": "bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc", "byte_size": 212},
+    "source_ids": ["report_beta"],
+    "identity_ref": {"authority": "artifact_root", "path": "inputs/reviewed_navigation/identity.json", "sha256": "abababababababababababababababababababababababababababababababab", "byte_size": 212},
+    "completion_ref": {"authority": "artifact_root", "path": "outputs/reviewed_navigation/completion.json", "sha256": "5555555555555555555555555555555555555555555555555555555555555555", "byte_size": 307},
+    "inventory_ref": {"authority": "artifact_root", "path": "outputs/reviewed_navigation/inventory.json", "sha256": "4444444444444444444444444444444444444444444444444444444444444444", "byte_size": 306},
+    "review_decisions_ref": {"authority": "artifact_root", "path": "inputs/reviewed_navigation/review_decisions.jsonl", "sha256": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd", "byte_size": 301},
+    "semantic_view_ref": {"authority": "artifact_root", "path": "inputs/reviewed_navigation/semantic_view.json", "sha256": "dededededededededededededededededededededededededededededededede", "byte_size": 302},
+    "disposition_ref": {"authority": "bundle", "path": "navigation/dispositions.jsonl", "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "byte_size": 304},
+    "text_entries_ref": {"authority": "bundle", "path": "navigation/text_entries.jsonl", "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "byte_size": 303},
+    "parent_relations_ref": {"authority": "bundle", "path": "navigation/parent_relations.jsonl", "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef", "byte_size": 305}
+  },
+  "output_schema_refs": {
+    "identity": {"authority": "repository", "path": "schemas/document_linking/identity.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "manifest": {"authority": "repository", "path": "schemas/document_linking/manifest.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "inventory": {"authority": "repository", "path": "schemas/document_linking/inventory.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "completion": {"authority": "repository", "path": "schemas/document_linking/completion.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "alias": {"authority": "repository", "path": "schemas/document_linking/alias.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "ordinary_reference": {"authority": "repository", "path": "schemas/document_linking/ordinary_reference.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "navigation_entry": {"authority": "repository", "path": "schemas/document_linking/navigation_entry.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "navigation_relation": {"authority": "repository", "path": "schemas/document_linking/navigation_relation.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "navigation_decision": {"authority": "repository", "path": "schemas/document_linking/navigation_decision.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "navigation_link": {"authority": "repository", "path": "schemas/document_linking/navigation_link.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217},
+    "support": {"authority": "repository", "path": "schemas/document_linking/support.json", "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210", "byte_size": 217}
+  }
+}

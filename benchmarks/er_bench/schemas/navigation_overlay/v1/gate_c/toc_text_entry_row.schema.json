@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/navigation-overlay/v1/gate_c/toc_text_entry_row.schema.json",
+  "title": "ER Commons navigation overlay TOC text entry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "link_view_id", "semantic_view_id", "overlay_plan_id",
+    "toc_text_entry_id", "toc_text_page_id", "source_id", "candidate_id", "source_page_id",
+    "physical_page", "source_table_id", "table_disposition_id", "entry_index", "entry_locator",
+    "raw_lines", "raw_text", "model_text", "marker_kind", "raw_marker", "normalized_marker",
+    "terminal_destination_token", "parser_version", "warnings"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.navigation_overlay.v1.toc_text_entry"},
+    "link_view_id": {"$ref": "#/$defs/linkViewId"},
+    "semantic_view_id": {"$ref": "#/$defs/semanticViewId"},
+    "overlay_plan_id": {"$ref": "#/$defs/overlayPlanId"},
+    "toc_text_entry_id": {"type": "string", "pattern": "^navtocentryv1-[a-f0-9]{24}$"},
+    "toc_text_page_id": {"type": "string", "pattern": "^navtocpagev1-[a-f0-9]{24}$"},
+    "source_id": {"type": "string", "minLength": 1},
+    "candidate_id": {"type": "string", "pattern": "^docv1-[a-f0-9]{64}$"},
+    "source_page_id": {"type": "string", "minLength": 1},
+    "physical_page": {"type": "integer", "minimum": 1},
+    "source_table_id": {"type": "string", "minLength": 1},
+    "table_disposition_id": {"type": "string", "pattern": "^navdispv1-[a-f0-9]{24}$"},
+    "entry_index": {"type": "integer", "minimum": 0},
+    "entry_locator": {
+      "type": "object", "additionalProperties": false,
+      "required": ["line_start", "line_end", "source_cell_indices", "source_cell_text_sha256"],
+      "properties": {
+        "line_start": {"type": "integer", "minimum": 0},
+        "line_end": {"type": "integer", "minimum": 0},
+        "source_cell_indices": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0}, "uniqueItems": true},
+        "source_cell_text_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "raw_lines": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "raw_text": {"type": "string", "minLength": 1},
+    "model_text": {"type": "string", "minLength": 1},
+    "marker_kind": {"enum": ["section", "table", "figure", null]},
+    "raw_marker": {"type": ["string", "null"], "minLength": 1},
+    "normalized_marker": {"type": ["string", "null"], "minLength": 1},
+    "terminal_destination_token": {"type": ["string", "null"], "minLength": 1},
+    "parser_version": {"type": "string", "minLength": 1},
+    "warnings": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"marker_kind": {"const": "section"}}, "required": ["marker_kind"]},
+      "then": {"properties": {"raw_marker": {"type": "string"}, "normalized_marker": {"type": "string", "pattern": "^[0-9]+(?:\\.[0-9]+)*$"}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "overlayPlanId": {"type": "string", "pattern": "^navoverlayplanv1-[a-f0-9]{64}$"},
+    "semanticViewId": {"type": "string", "pattern": "^navsemanticv1-[a-f0-9]{64}$"},
+    "linkViewId": {"type": "string", "pattern": "^navlinkv1-[a-f0-9]{64}$"}
+  }
+}
