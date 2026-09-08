@@ -5,7 +5,7 @@ Start with `AGENTS.md`, then use this page to decide what to read.
 
 ## Current status
 
-Sprint 2 is active. Tasks 02 through 04D are complete. Task 03J remains the
+Sprint 2 is active. Tasks 02 through 05A are complete. Task 03J remains the
 immutable extraction basis; Task 04A supplies the accepted usability registry;
 and Task 04D is the designated replacement for linking-dependent consumers.
 Task 04B is closed as a no-op and Task 04C remains superseded review evidence.
@@ -14,21 +14,23 @@ the completed task records.
 
 ## Next action
 
-Task 05 is now a seven-part planned umbrella. Task 05A is the next subtask and
-is not activated. Before activating it, read these files in order:
+Task 05 is a seven-part planned umbrella. Task 05A's 195-page profile is
+accepted, and Task 05B is active for source-free contract definition. Read these
+files in order:
 
 1. [Task 05 umbrella](../tasks/sprint2/05_build_curator_only_response_inventory.md)
-2. [Task 05A contract](../tasks/sprint2/05a_qualify_and_profile_response_source.md)
-3. [Architecture contract](architecture.md) and [data/artifact contract](data_artifacts.md)
+2. [Task 05B contract](../tasks/sprint2/05b_define_response_inventory_contract.md)
+3. [Task 05A accepted outcome](../tasks/sprint2/05a_qualify_and_profile_response_source.md)
+4. [Architecture contract](architecture.md) and [data/artifact contract](data_artifacts.md)
 
-Task 05A binds the immutable Task 03J extraction, Task 04A usability registry,
-and Task 04D linking-dependent handoff through compact sealed metadata without
-rehashing their large payloads. It then profiles only a bounded representative
-selection from Final EIR Volume 4. Tasks 05B through 05G remain provisional and
-must be revised in sequence from accepted preceding outcomes. The final
+Task 05A confirmed page-local PDFium extraction with independent Poppler and
+visual disagreement checks. It also found that Volume 4 contains General
+Responses 1-8; the advertised ninth topic is routed to Volume 5 and remains an
+explicit cross-volume exception. Task 05B may use retained 05A evidence but may
+not reopen the PDF. Tasks 05C through 05G remain provisional and must be revised
+in sequence from accepted preceding outcomes. The final
 inventory remains a separate curator-only artifact, not part of the model
-corpus. Read the full Task 03J, Task 04A, or Task 04D historical outcomes only
-if compact metadata disagree or Task 05A encounters an unresolved boundary.
+corpus.
 
 ## Document roles
 

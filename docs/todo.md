@@ -3,9 +3,9 @@
 ## Sprint status
 
 Sprint 2, Brisbane Draft-EIR defense vertical slice, is active. Tasks 02
-through 04D are complete.
+through 05A are complete.
 
-## Current action: Task 04D complete; Task 05A is next but not started
+## Current action: Task 05B active for source-free contract definition
 
 [Task 04D](../tasks/sprint2/04d_relink_frozen_extraction.md) is complete. Its
 validated handoff is the designated replacement for linking-dependent
@@ -15,11 +15,16 @@ remains the accepted usability decision. [Task 04C](../tasks/sprint2/04c_materia
 is superseded evidence, and Task 04B is a no-op. Detailed outcomes, identities,
 and validation evidence are retained in those task records.
 
-[Task 05](../tasks/sprint2/05_build_curator_only_response_inventory.md) is now a
+[Task 05](../tasks/sprint2/05_build_curator_only_response_inventory.md) is a
 seven-part umbrella. [Task 05A](../tasks/sprint2/05a_qualify_and_profile_response_source.md)
-is the next planned subtask and has not been activated. Tasks 05B through 05G
-remain provisional; revise each from the accepted preceding outcome rather than
-activating the complete sequence at once.
+has completed compact prerequisite binding and the separately authorized
+195-page source profile. PDFium was confirmed with independent Poppler and
+visual checks. Volume 4 contains General Responses 1-8; the advertised ninth is
+a cross-volume placement exception. The outcome is accepted, and
+[Task 05B](../tasks/sprint2/05b_define_response_inventory_contract.md) is active.
+Task 05B may use retained 05A evidence but may not reopen the PDF. Tasks 05C
+through 05G remain provisional; revise each from the accepted preceding outcome
+rather than activating the complete sequence at once.
 
 ## Later sequence
 
