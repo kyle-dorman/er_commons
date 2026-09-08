@@ -1,5 +1,7 @@
 # Task 05: Build the Curator-Only Response Inventory
 
+Status: **planned; not activated**.
+
 ## Abstract
 
 Build a complete, separately identified inventory of the comment and response
@@ -25,10 +27,15 @@ without losing the original response text or the source of incorporated text.
 - Frozen source release record for the Brisbane Baylands project.
 - Final EIR Volume 4, `Responses to Comments on the DEIR (Chapters 11 through
   13)`, source ID `feir_volume_4`.
-- The existing Sprint 2 plan and the Task 03 target/alias index, used only to
-  resolve Draft EIR references after Task 04 usability is available.
+- Task 03J's immutable extraction evidence.
+- Task 04A's accepted usability registry, used to exclude or flag references
+  whose required evidence is not usable.
+- Task 04D's designated linking-dependent handoff and target-resolution view,
+  used to resolve Draft EIR references. Do not resolve against the superseded
+  Task 03J linking state or compose it with the Task 04C overlay.
 
-The current local source is the 744-page PDF at:
+The frozen source is the 744-page PDF at this path relative to
+`ER_COMMONS_DATA_ROOT`:
 
 ```text
 datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/
@@ -43,8 +50,12 @@ oral testimony is required.
 
 ## Outputs
 
-Publish an immutable, checksum-inventoried inventory under the Task 05
-curator-only namespace. At minimum, preserve:
+Publish an immutable, checksum-inventoried inventory under
+`pipelines/brisbane_baylands/task_05_response_inventory/<inventoryv1-id>/`.
+The namespace must contain `records/`, `inventory/`, `review_views/`, and
+`diagnostics/`; its completion record must close the exact source, extraction or
+transcription contract, schema, configuration, implementation, managed-file
+inventory, and checksums. At minimum, preserve:
 
 - stable comment, response, and general-response IDs;
 - commenter, organization/agency, or meeting identity;

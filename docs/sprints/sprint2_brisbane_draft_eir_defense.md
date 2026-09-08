@@ -535,9 +535,9 @@ machine-only 35-source candidate and validated collection handoff. Task 04 and
 Task 03I are complete as the first-pass review and its bounded extraction
 disposition. Task 04A is complete and freezes Task 03J with its separate human
 TOC and source-usability layer. Task 04B is closed as a no-op. Task 04C
-completed source-free Gates A through C; its Gate D is superseded by active
-Task 04D, which inspects linking improvements one at a time before a fresh
-linking-only machine replay.
+is superseded review evidence. Task 04D is complete; its validated replacement
+handoff is designated for linking-dependent consumers. Task 05 is next and has
+not been activated.
 
 The task files preserve detailed outcomes, negative experiments, and identity
 history. The map below is retained as sprint scope and sequencing, not as a
@@ -756,8 +756,9 @@ distinct decision or validation boundary.
    Volume 4; do not add it to the Task 03 model corpus. Enumerate every comment,
    individual response, general response, relationship, orphan, and official
    Draft EIR reference. Build the curator-only response graph and resolve its
-   Draft EIR references against the frozen Task 03 target/alias index subject
-   to the accepted review registry.
+   Draft EIR references through Task 04D's designated linking-dependent view,
+   against the immutable Task 03J extraction and subject to Task 04A's accepted
+   usability registry.
 7. **Task 06 — Pilot reference-case authoring.** Implement deterministic
    high-recall curator search, a two-hop traversal/index view over the accepted
    Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence

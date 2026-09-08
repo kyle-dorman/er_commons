@@ -66,16 +66,17 @@ The public production entry points are:
 
 ```text
 er-commons documents publish
+er-commons documents relink
 er-commons collections assemble-handoff
 er-commons collections validate-handoff
 er-commons collections validate-contract
-uv run python scripts/prepare_task04c_gate_a.py --repo-root <checkout>
-uv run python scripts/materialize_task04c_gate_b.py --repo-root <checkout>
 ```
 
 Document publication consumes an explicit v2 document specification. Collection
 assembly consumes an explicit v2 collection specification. No source or
-Appendix P is selected by an implicit runtime default.
+Appendix P is selected by an implicit runtime default. Historical Task 04C
+utilities are retained in its task record rather than listed as production
+interfaces.
 
 ## Publication and identity boundaries
 
@@ -169,13 +170,11 @@ publisher. Collections continue through the existing assembly interface under
 a fresh scope. Corpus-specific audits may compare this path but may not own a
 resolver, publisher, or identity recipe.
 
-Task 04D Gate D published and independently validated the designated
-downstream replacement under production identity
-`exv1-466e4e9aced080621fa81058acca95a4e37f1d9a63f2362a569bd9205830b5a3`.
-Linking-dependent consumers pin handoff
-`handoffv1-e54a72e4bb8f9ba34888c1fc1f51424c4cc52e5f24d6700b16b462e3a659b6d1`;
-they do not compose Task 03J machine links with the Task 04C overlay. Task 03J
-continues to own the immutable extraction inputs reused by this replacement.
+Task 04D's validated handoff is the designated downstream replacement.
+Linking-dependent consumers pin that handoff; they do not compose Task 03J
+machine links with the Task 04C overlay. Task 03J continues to own the
+immutable extraction inputs reused by this replacement. The exact identity and
+completion evidence are retained in the [Task 04D outcome](../tasks/sprint2/04d_relink_frozen_extraction.md).
 
 Gate C implements the record builder and caller adapters in `relinking.py` and
 keeps run-spec resolution, identity derivation, schema enforcement, and
