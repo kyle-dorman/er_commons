@@ -1,0 +1,243 @@
+{
+  "description": "One-to-many and many-to-one edge cardinality with shared mention evidence.",
+  "records": [
+    {
+      "fixture_key": "activity",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "activity",
+      "stage": "05d",
+      "source_id": "feir_volume_4",
+      "page_ranges": [[1, 1]],
+      "config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "schema_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "code_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "tool_versions": {},
+      "input_refs": [
+        {"role": "source_record", "identity": "sourcev1-synthetic", "authority": "artifact_root", "path": "sources/feir_volume_4/source.json"},
+        {"role": "task05c_completion", "identity": "completionv1-05c-synthetic", "authority": "artifact_root", "path": "working/05c/completion.json"}
+      ]
+    },
+    {
+      "fixture_key": "activity-05e",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "activity",
+      "stage": "05e",
+      "source_id": null,
+      "page_ranges": [],
+      "config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "schema_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "code_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "tool_versions": {},
+      "input_refs": [
+        {"role": "task05d_completion", "identity": "completionv1-05d-synthetic", "authority": "artifact_root", "path": "working/05d/completion.json"}
+      ]
+    },
+    {
+      "fixture_key": "page",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 1,
+      "page_state": "mixed_markers",
+      "raw_text": "a b c d e",
+      "raw_text_sha256": "52cf9f06f83e0a0a90dc25dcf548c18421244f9520c577672cd27b6618f12134",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 9,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "span-b",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page", "text_start": 2, "text_end": 3, "character_slot_start": 2, "character_slot_end": 3, "bbox": null}]
+    },
+    {
+      "fixture_key": "comment-2-marker",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "marker_candidate",
+      "page_id": "@page",
+      "marker_kind": "comment",
+      "observed_label": "b",
+      "line_index": 0,
+      "line_initial": true,
+      "text_start": 2,
+      "text_end": 3,
+      "character_slot_start": 2,
+      "character_slot_end": 3,
+      "bbox": [2, 0, 3, 1],
+      "style_evidence": {"bold": true, "italic": false, "solid_rule": true, "dotted_rule": false},
+      "disposition": "unit_start"
+    },
+    {
+      "fixture_key": "span-c",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page", "text_start": 4, "text_end": 5, "character_slot_start": 4, "character_slot_end": 5, "bbox": null}]
+    },
+    {
+      "fixture_key": "response-2-marker",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "marker_candidate",
+      "page_id": "@page",
+      "marker_kind": "response",
+      "observed_label": "c",
+      "line_index": 0,
+      "line_initial": true,
+      "text_start": 4,
+      "text_end": 5,
+      "character_slot_start": 4,
+      "character_slot_end": 5,
+      "bbox": [4, 0, 5, 1],
+      "style_evidence": {"bold": false, "italic": true, "solid_rule": false, "dotted_rule": true},
+      "disposition": "unit_start"
+    },
+    {
+      "fixture_key": "span-d",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page", "text_start": 6, "text_end": 7, "character_slot_start": 6, "character_slot_end": 7, "bbox": null}]
+    },
+    {
+      "fixture_key": "response-1-marker",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "marker_candidate",
+      "page_id": "@page",
+      "marker_kind": "response",
+      "observed_label": "d",
+      "line_index": 0,
+      "line_initial": true,
+      "text_start": 6,
+      "text_end": 7,
+      "character_slot_start": 6,
+      "character_slot_end": 7,
+      "bbox": [6, 0, 7, 1],
+      "style_evidence": {"bold": false, "italic": true, "solid_rule": false, "dotted_rule": true},
+      "disposition": "unit_start"
+    },
+    {
+      "fixture_key": "span-e",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page", "text_start": 8, "text_end": 9, "character_slot_start": 8, "character_slot_end": 9, "bbox": null}]
+    },
+    {
+      "fixture_key": "comment-1-marker",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "marker_candidate",
+      "page_id": "@page",
+      "marker_kind": "comment",
+      "observed_label": "e",
+      "line_index": 0,
+      "line_initial": true,
+      "text_start": 8,
+      "text_end": 9,
+      "character_slot_start": 8,
+      "character_slot_end": 9,
+      "bbox": [8, 0, 9, 1],
+      "style_evidence": {"bold": true, "italic": false, "solid_rule": true, "dotted_rule": false},
+      "disposition": "unit_start"
+    },
+    {
+      "fixture_key": "comment-1",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "comment",
+      "official_label": "Comment X-1",
+      "start_marker_id": "@comment-1-marker",
+      "span_ids": ["@span-e"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "comment-2",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "comment",
+      "official_label": "Comment X-2",
+      "start_marker_id": "@comment-2-marker",
+      "span_ids": ["@span-b"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "response-1",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "response",
+      "official_label": "Response X-1",
+      "start_marker_id": "@response-1-marker",
+      "span_ids": ["@span-d"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "response-2",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "response",
+      "official_label": "Response X-2",
+      "start_marker_id": "@response-2-marker",
+      "span_ids": ["@span-c"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "shared-mention",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "reference_mention",
+      "source_unit_id": "@response-1",
+      "mention_span_id": "@span-d",
+      "raw_text_sha256": "18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4",
+      "target_labels": ["Comment X-1", "Comment X-2"],
+      "reference_domain": "intra_volume"
+    },
+    {
+      "fixture_key": "second-mention",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "reference_mention",
+      "source_unit_id": "@comment-1",
+      "mention_span_id": "@span-e",
+      "raw_text_sha256": "3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea",
+      "target_labels": ["Response X-2"],
+      "reference_domain": "intra_volume"
+    },
+    {
+      "fixture_key": "c1-r1",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "semantic_edge",
+      "relation_type": "comment_response",
+      "source_unit_id": "@comment-1",
+      "target_unit_id": "@response-1",
+      "activity_id": "@activity-05e",
+      "evidence_ids": ["@comment-1-marker", "@response-1-marker"]
+    },
+    {
+      "fixture_key": "c2-r1",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "semantic_edge",
+      "relation_type": "comment_response",
+      "source_unit_id": "@comment-2",
+      "target_unit_id": "@response-1",
+      "activity_id": "@activity-05e",
+      "evidence_ids": ["@comment-2-marker", "@response-1-marker"]
+    },
+    {
+      "fixture_key": "c1-r2",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "semantic_edge",
+      "relation_type": "comment_response",
+      "source_unit_id": "@comment-1",
+      "target_unit_id": "@response-2",
+      "activity_id": "@activity-05e",
+      "evidence_ids": ["@second-mention"]
+    }
+  ]
+}

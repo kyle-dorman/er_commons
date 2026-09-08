@@ -128,6 +128,12 @@ specification](specs/restartable_corpus_extraction_v1_1.md). The chunked
 conversion specification defines the independent range-evidence boundary used
 by the current production path.
 
+Task 05's separate curator-only response inventory uses the
+[response inventory v1 specification](specs/response_inventory_v1.md). Its
+source records, normalized relationship edges, sparse corrections, and derived
+review indexes remain separate. The contract is intentionally MVP-sized: one
+record-schema union and one semantic validator, not a new workflow framework.
+
 ## Review boundary
 
 Human review consumes published Task 03 evidence through a separate

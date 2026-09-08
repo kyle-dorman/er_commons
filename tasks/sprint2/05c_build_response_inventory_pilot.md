@@ -1,6 +1,6 @@
 # Task 05C: Build and Qualify the Response Inventory Pilot
 
-Status: **provisional; inactive until Task 05B is accepted**.
+Status: **provisional and inactive; begin only in a new chat with explicit authorization**.
 
 ## Abstract
 
@@ -21,8 +21,10 @@ to the 744-page run.
 
 ## Outputs
 
-- typed package-backed producer with structured logging and restartable bounded
-  range processing;
+- typed package-backed producer exposed through the isolated proposed
+  `er-responses build --run-spec <path>` command, with structured logging and
+  restartable bounded range processing; the adapter must not modify the sealed
+  Task 04D central CLI module;
 - bounded `pilots/<pilotv1-id>/` candidate without copied source bytes;
 - source-unit, anchor, membership, raw-reference, and diagnostic records for the
   selected ranges;
@@ -47,10 +49,11 @@ rendering the selected source PDF pages.
 
 ## Validation
 
-- Cover observed start/end boundary forms across all nine general responses plus
-  representative ordinary, cross-linked, meeting, continuation, multi-page, and
-  ambiguous structures; do not extract all nine responses merely to satisfy the
-  pilot.
+- Cover observed start/end boundary forms across representative Volume 4
+  General Responses 1-8 plus the General Response 9 placement exception and
+  representative ordinary, cross-linked, meeting, continuation, multi-page,
+  and ambiguous structures; do not extract all eight responses merely to
+  satisfy the pilot.
 - Check exact text and page anchors against source renders for the accepted set.
 - Prove restart behavior and deterministic semantic output.
 - Measure peak working space and verify no source or upstream payload copying.

@@ -1,0 +1,552 @@
+{
+  "description": "Synthetic and minimized 05A-derived structures covering the MVP record contract.",
+  "records": [
+    {
+      "fixture_key": "activity",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "activity",
+      "stage": "05c",
+      "source_id": "feir_volume_4",
+      "page_ranges": [[1, 2]],
+      "config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "schema_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "code_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "tool_versions": {"pypdfium2": "5.12.1"},
+      "input_refs": [
+        {"role": "source_record", "identity": "sourcev1-synthetic", "authority": "artifact_root", "path": "sources/feir_volume_4/source.json"},
+        {"role": "task05a_completion", "identity": "completionv1-05a-synthetic", "authority": "artifact_root", "path": "working/05a/completion.json"}
+      ]
+    },
+    {
+      "fixture_key": "activity-05e",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "activity",
+      "stage": "05e",
+      "source_id": null,
+      "page_ranges": [],
+      "config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "schema_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "code_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "tool_versions": {},
+      "input_refs": [
+        {"role": "task05d_completion", "identity": "completionv1-05d-synthetic", "authority": "artifact_root", "path": "working/05d/completion.json"}
+      ]
+    },
+    {
+      "fixture_key": "activity-05f",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "activity",
+      "stage": "05f",
+      "source_id": null,
+      "page_ranges": [],
+      "config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "schema_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "code_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "tool_versions": {},
+      "input_refs": [
+        {"role": "task04a_registry", "identity": "registryv1-task04a-synthetic", "authority": "artifact_root", "path": "working/04a/registry.json"},
+        {"role": "task04d_handoff", "identity": "handoffv1-task04d-synthetic", "authority": "artifact_root", "path": "working/04d/handoff.json"},
+        {"role": "task05d_completion", "identity": "completionv1-05d-synthetic", "authority": "artifact_root", "path": "working/05d/completion.json"},
+        {"role": "task05e_completion", "identity": "completionv1-05e-synthetic", "authority": "artifact_root", "path": "working/05e/completion.json"}
+      ]
+    },
+    {
+      "fixture_key": "activity-05g",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "activity",
+      "stage": "05g",
+      "source_id": null,
+      "page_ranges": [],
+      "config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "schema_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "code_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "tool_versions": {},
+      "input_refs": [
+        {"role": "task05d_completion", "identity": "completionv1-05d-synthetic", "authority": "artifact_root", "path": "working/05d/completion.json"},
+        {"role": "task05e_completion", "identity": "completionv1-05e-synthetic", "authority": "artifact_root", "path": "working/05e/completion.json"},
+        {"role": "task05f_completion", "identity": "completionv1-05f-synthetic", "authority": "artifact_root", "path": "working/05f/completion.json"}
+      ]
+    },
+    {
+      "fixture_key": "page-1",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 1,
+      "page_state": "mixed_markers",
+      "raw_text": "General Response 1\nGeneral Response 2\nGeneral Response 3\nGeneral Response 4\nGeneral Response 5\nGeneral Response 6\nGeneral Response 7\nGeneral Response 8\nComment A-1\nResponse A-1\nRefer to General Response 1.\nDraft EIR Section 3.1\n",
+      "raw_text_sha256": "80259f9ad39e9dd7ece6744bbdd13701d346465424bb83374bcd9ee105ea7230",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 229,
+      "geometry_ref": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "page-2",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 2,
+      "page_state": "continuation",
+      "raw_text": "continued response",
+      "raw_text_sha256": "e6b87cbd5654c223786537390fe2ee80e91e011f7e19a3f0cfe10c7c66cbf733",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 18,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "comment-marker",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "marker_candidate",
+      "page_id": "@page-1",
+      "marker_kind": "comment",
+      "observed_label": "Comment A-1",
+      "line_index": 8,
+      "line_initial": true,
+      "text_start": 152,
+      "text_end": 163,
+      "character_slot_start": 152,
+      "character_slot_end": 163,
+      "bbox": [72, 500, 150, 514],
+      "style_evidence": {"bold": true, "italic": false, "solid_rule": true, "dotted_rule": false},
+      "disposition": "unit_start"
+    },
+    {
+      "fixture_key": "inline-marker",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "marker_candidate",
+      "page_id": "@page-1",
+      "marker_kind": "comment",
+      "observed_label": "General Response",
+      "line_index": 10,
+      "line_initial": false,
+      "text_start": 186,
+      "text_end": 202,
+      "character_slot_start": 186,
+      "character_slot_end": 202,
+      "bbox": [110, 540, 210, 554],
+      "style_evidence": {"bold": false, "italic": false, "solid_rule": false, "dotted_rule": false},
+      "disposition": "inline_reference"
+    },
+    {
+      "fixture_key": "response-marker",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "marker_candidate",
+      "page_id": "@page-1",
+      "marker_kind": "response",
+      "observed_label": "Response A-1",
+      "line_index": 9,
+      "line_initial": true,
+      "text_start": 164,
+      "text_end": 176,
+      "character_slot_start": 164,
+      "character_slot_end": 176,
+      "bbox": [72, 520, 160, 534],
+      "style_evidence": {"bold": false, "italic": true, "solid_rule": false, "dotted_rule": true},
+      "disposition": "unit_start"
+    },
+    {
+      "fixture_key": "continuation",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page_continuation",
+      "from_page_id": "@page-1",
+      "to_page_id": "@page-2",
+      "continuation_kind": "response",
+      "evidence_ids": ["@comment-marker"]
+    },
+    {
+      "fixture_key": "gr1-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 0, "text_end": 18, "character_slot_start": 0, "character_slot_end": 18, "bbox": [72, 72, 220, 86]}]
+    },
+    {
+      "fixture_key": "gr2-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 19, "text_end": 37, "character_slot_start": 19, "character_slot_end": 37, "bbox": [72, 90, 220, 104]}]
+    },
+    {
+      "fixture_key": "gr3-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 38, "text_end": 56, "character_slot_start": 38, "character_slot_end": 56, "bbox": [72, 108, 220, 122]}]
+    },
+    {
+      "fixture_key": "gr4-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 57, "text_end": 75, "character_slot_start": 57, "character_slot_end": 75, "bbox": [72, 126, 220, 140]}]
+    },
+    {
+      "fixture_key": "gr5-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 76, "text_end": 94, "character_slot_start": 76, "character_slot_end": 94, "bbox": [72, 144, 220, 158]}]
+    },
+    {
+      "fixture_key": "gr6-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 95, "text_end": 113, "character_slot_start": 95, "character_slot_end": 113, "bbox": [72, 162, 220, 176]}]
+    },
+    {
+      "fixture_key": "gr7-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 114, "text_end": 132, "character_slot_start": 114, "character_slot_end": 132, "bbox": [72, 180, 220, 194]}]
+    },
+    {
+      "fixture_key": "gr8-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 133, "text_end": 151, "character_slot_start": 133, "character_slot_end": 151, "bbox": [72, 198, 220, 212]}]
+    },
+    {
+      "fixture_key": "comment-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 152, "text_end": 163, "character_slot_start": 152, "character_slot_end": 163, "bbox": [72, 500, 150, 514]}]
+    },
+    {
+      "fixture_key": "response-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [
+        {"page_id": "@page-1", "text_start": 164, "text_end": 227, "character_slot_start": 164, "character_slot_end": 227, "bbox": [72, 520, 260, 574]},
+        {"page_id": "@page-2", "text_start": 0, "text_end": 18, "character_slot_start": null, "character_slot_end": null, "bbox": [72, 72, 190, 86]}
+      ]
+    },
+    {
+      "fixture_key": "gr-ref-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 177, "text_end": 205, "character_slot_start": 177, "character_slot_end": 205, "bbox": [72, 540, 260, 554]}]
+    },
+    {
+      "fixture_key": "deir-ref-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-1", "text_start": 206, "text_end": 227, "character_slot_start": 206, "character_slot_end": 227, "bbox": [72, 560, 225, 574]}]
+    },
+    {
+      "fixture_key": "unknown-ref-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [{"page_id": "@page-2", "text_start": 0, "text_end": 18, "character_slot_start": null, "character_slot_end": null, "bbox": [72, 72, 190, 86]}]
+    },
+    {
+      "fixture_key": "commenter",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "commenter",
+      "source_id": "feir_volume_4",
+      "source_label": "Synthetic Agency",
+      "opener_span_id": "@comment-span"
+    },
+    {
+      "fixture_key": "submission",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "submission",
+      "source_id": "feir_volume_4",
+      "submission_kind": "letter",
+      "official_code": "A",
+      "opener_span_id": "@comment-span",
+      "commenter_ids": ["@commenter"]
+    },
+    {
+      "fixture_key": "gr1",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "general_response",
+      "official_label": "General Response 1",
+      "start_marker_id": null,
+      "span_ids": ["@gr1-span"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "gr2",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "general_response",
+      "official_label": "General Response 2",
+      "start_marker_id": null,
+      "span_ids": ["@gr2-span"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "gr3",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "general_response",
+      "official_label": "General Response 3",
+      "start_marker_id": null,
+      "span_ids": ["@gr3-span"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "gr4",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "general_response",
+      "official_label": "General Response 4",
+      "start_marker_id": null,
+      "span_ids": ["@gr4-span"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "gr5",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "general_response",
+      "official_label": "General Response 5",
+      "start_marker_id": null,
+      "span_ids": ["@gr5-span"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "gr6",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "general_response",
+      "official_label": "General Response 6",
+      "start_marker_id": null,
+      "span_ids": ["@gr6-span"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "gr7",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "general_response",
+      "official_label": "General Response 7",
+      "start_marker_id": null,
+      "span_ids": ["@gr7-span"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "gr8",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "general_response",
+      "official_label": "General Response 8",
+      "start_marker_id": null,
+      "span_ids": ["@gr8-span"],
+      "submission_id": null,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "comment",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "comment",
+      "official_label": "Comment A-1",
+      "start_marker_id": "@comment-marker",
+      "span_ids": ["@comment-span"],
+      "submission_id": "@submission",
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "response",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_unit",
+      "source_id": "feir_volume_4",
+      "unit_kind": "response",
+      "official_label": "Response A-1",
+      "start_marker_id": "@response-marker",
+      "span_ids": ["@response-span"],
+      "submission_id": "@submission",
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "membership",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "membership_claim",
+      "general_response_unit_id": "@gr1",
+      "mention_span_id": "@gr1-span",
+      "target_label": "Comment A-1"
+    },
+    {
+      "fixture_key": "gr-mention",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "reference_mention",
+      "source_unit_id": "@response",
+      "mention_span_id": "@gr-ref-span",
+      "raw_text_sha256": "056405d01933c834213f067e2a29ba4ac199a2b9004da67f89492ea3ba312d91",
+      "target_labels": ["General Response 1"],
+      "reference_domain": "intra_volume"
+    },
+    {
+      "fixture_key": "deir-mention",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "reference_mention",
+      "source_unit_id": "@response",
+      "mention_span_id": "@deir-ref-span",
+      "raw_text_sha256": "31ad3553064e7339658563954712c3e85e9239a474380d4d62f2ed3d9e525fb0",
+      "target_labels": ["Section 3.1"],
+      "reference_domain": "draft_eir"
+    },
+    {
+      "fixture_key": "unknown-mention",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "reference_mention",
+      "source_unit_id": "@response",
+      "mention_span_id": "@unknown-ref-span",
+      "raw_text_sha256": "e6b87cbd5654c223786537390fe2ee80e91e011f7e19a3f0cfe10c7c66cbf733",
+      "target_labels": ["Response Z-9"],
+      "reference_domain": "intra_volume"
+    },
+    {
+      "fixture_key": "comment-response-edge",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "semantic_edge",
+      "relation_type": "comment_response",
+      "source_unit_id": "@comment",
+      "target_unit_id": "@response",
+      "activity_id": "@activity-05e",
+      "evidence_ids": ["@comment-marker", "@response-marker"]
+    },
+    {
+      "fixture_key": "general-response-edge",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "semantic_edge",
+      "relation_type": "response_general_response",
+      "source_unit_id": "@response",
+      "target_unit_id": "@gr1",
+      "activity_id": "@activity-05e",
+      "evidence_ids": ["@gr-mention"]
+    },
+    {
+      "fixture_key": "deir-link",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "draft_eir_link",
+      "source_unit_id": "@response",
+      "mention_id": "@deir-mention",
+      "target_id": "sectionv1-synthetic",
+      "task04d_handoff_id": "handoffv1-task04d-synthetic",
+      "task04a_registry_id": "registryv1-task04a-synthetic",
+      "activity_id": "@activity-05f",
+      "resolver_rule": "exact_section",
+      "task04a_usability": "usable"
+    },
+    {
+      "fixture_key": "geometry-diagnostic",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "diagnostic",
+      "stage": "05c",
+      "activity_id": "@activity",
+      "code": "geometry_text_mismatch",
+      "severity": "warning",
+      "terminal": false,
+      "subject_ids": ["@page-1"],
+      "evidence_ids": ["@comment-marker"],
+      "message": "Character slots remain evidence and do not replace raw-text offsets."
+    },
+    {
+      "fixture_key": "terminal-reference-diagnostic",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "diagnostic",
+      "stage": "05e",
+      "activity_id": "@activity-05e",
+      "code": "dangling_reference",
+      "severity": "info",
+      "terminal": true,
+      "subject_ids": ["@unknown-mention"],
+      "evidence_ids": ["@unknown-ref-span"],
+      "message": "Synthetic dangling reference closes without a guessed edge."
+    },
+    {
+      "fixture_key": "gr9-exception",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_placement_exception",
+      "source_id": "feir_volume_4",
+      "activity_id": "@activity",
+      "exception_code": "general_response_9_not_in_volume_4",
+      "advertised_label": "General Response 9",
+      "routed_volume": 5,
+      "disposition": "cross_volume_scope_exception",
+      "evidence_ids": ["@page-1"]
+    },
+    {
+      "fixture_key": "text-correction",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "correction",
+      "correction_kind": "text_overlay",
+      "activity_id": "@activity-05g",
+      "target_ids": ["@response"],
+      "replacement_ids": [],
+      "evidence_ids": ["@response-span"],
+      "replacement_text": "Response A-1",
+      "disposition": null,
+      "reason": "Synthetic manual-transcription example.",
+      "reviewer_id": "curator-example",
+      "recorded_at": "2026-09-08T12:00:00Z",
+      "transcription_method": "manual_from_render",
+      "requires_replay": false
+    },
+    {
+      "fixture_key": "review-view",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "review_view",
+      "root_unit_id": "@comment",
+      "activity_id": "@activity-05g",
+      "ordered_unit_ids": ["@comment", "@response", "@gr1"],
+      "edge_ids": ["@comment-response-edge", "@general-response-edge"],
+      "anchor_span_ids": ["@comment-span", "@response-span", "@gr1-span"],
+      "rendering_recipe": "source_text_with_accepted_overlays"
+    },
+    {
+      "fixture_key": "inventory",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "managed_file_inventory",
+      "stage": "05g",
+      "activity_id": "@activity-05g",
+      "dependencies": [
+        {"role": "task05d_completion", "identity": "completionv1-05d-synthetic", "authority": "artifact_root", "path": "working/05d/completion.json"},
+        {"role": "task05e_completion", "identity": "completionv1-05e-synthetic", "authority": "artifact_root", "path": "working/05e/completion.json"},
+        {"role": "task05f_completion", "identity": "completionv1-05f-synthetic", "authority": "artifact_root", "path": "working/05f/completion.json"}
+      ],
+      "files": [{"authority": "bundle", "path": "inventory/source_units.jsonl", "sha256": "2222222222222222222222222222222222222222222222222222222222222222", "byte_size": 123}]
+    },
+    {
+      "fixture_key": "completion",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "stage_completion",
+      "stage": "05g",
+      "status": "complete_with_warnings",
+      "activity_id": "@activity-05g",
+      "inventory_id": "@inventory",
+      "counts": {"general_responses": 8, "placement_exceptions": 1},
+      "warnings": ["Synthetic fixture only."],
+      "completed_at": "2026-09-08T12:00:00Z"
+    }
+  ]
+}

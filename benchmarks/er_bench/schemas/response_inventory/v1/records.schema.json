@@ -1,0 +1,469 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/response_inventory/v1/records.schema.json",
+  "title": "ER Commons response inventory record v1",
+  "type": "object",
+  "required": ["schema_version", "record_type"],
+  "properties": {
+    "schema_version": {"const": "er_commons.response_inventory.v1"},
+    "record_type": {"type": "string"}
+  },
+  "oneOf": [
+    {"$ref": "#/$defs/activity"},
+    {"$ref": "#/$defs/page"},
+    {"$ref": "#/$defs/page_continuation"},
+    {"$ref": "#/$defs/marker_candidate"},
+    {"$ref": "#/$defs/source_span"},
+    {"$ref": "#/$defs/commenter"},
+    {"$ref": "#/$defs/submission"},
+    {"$ref": "#/$defs/source_unit"},
+    {"$ref": "#/$defs/membership_claim"},
+    {"$ref": "#/$defs/reference_mention"},
+    {"$ref": "#/$defs/semantic_edge"},
+    {"$ref": "#/$defs/draft_eir_link"},
+    {"$ref": "#/$defs/diagnostic"},
+    {"$ref": "#/$defs/source_placement_exception"},
+    {"$ref": "#/$defs/correction"},
+    {"$ref": "#/$defs/review_view"},
+    {"$ref": "#/$defs/managed_file_inventory"},
+    {"$ref": "#/$defs/stage_completion"}
+  ],
+  "unevaluatedProperties": false,
+  "$defs": {
+    "typed_id": {"type": "string", "pattern": "^[a-z0-9]+v1-[a-f0-9]{64}$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonempty_string": {"type": "string", "minLength": 1},
+    "id_list": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/typed_id"},
+      "uniqueItems": true
+    },
+    "bbox": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number"},
+        {"type": "number"},
+        {"type": "number"},
+        {"type": "number"}
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "artifact_ref": {
+      "type": "object",
+      "required": ["authority", "path", "sha256", "byte_size"],
+      "properties": {
+        "authority": {"enum": ["repository", "artifact_root", "bundle"]},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "byte_size": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "dependency_ref": {
+      "type": "object",
+      "required": ["role", "identity", "authority", "path"],
+      "properties": {
+        "role": {
+          "enum": [
+            "source_record",
+            "task05a_completion",
+            "task05c_completion",
+            "task05d_completion",
+            "task05e_completion",
+            "task05f_completion",
+            "task04a_registry",
+            "task04d_handoff"
+          ]
+        },
+        "identity": {"$ref": "#/$defs/nonempty_string"},
+        "authority": {"enum": ["repository", "artifact_root", "bundle"]},
+        "path": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "fragment": {
+      "type": "object",
+      "required": [
+        "page_id",
+        "text_start",
+        "text_end",
+        "character_slot_start",
+        "character_slot_end",
+        "bbox"
+      ],
+      "properties": {
+        "page_id": {"$ref": "#/$defs/typed_id"},
+        "text_start": {"type": "integer", "minimum": 0},
+        "text_end": {"type": "integer", "minimum": 1},
+        "character_slot_start": {"type": ["integer", "null"], "minimum": 0},
+        "character_slot_end": {"type": ["integer", "null"], "minimum": 1},
+        "bbox": {"anyOf": [{"$ref": "#/$defs/bbox"}, {"type": "null"}]},
+        "revision_marks": {
+          "type": "array",
+          "items": {"enum": ["underline", "strikethrough"]},
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "activity": {
+      "properties": {
+        "record_type": {"const": "activity"},
+        "activity_id": {"$ref": "#/$defs/typed_id"},
+        "stage": {"enum": ["05c", "05d", "05e", "05f", "05g"]},
+        "source_id": {"type": ["string", "null"], "minLength": 1},
+        "page_ranges": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {"type": "integer", "minimum": 1},
+              {"type": "integer", "minimum": 1}
+            ],
+            "items": false,
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "config_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_sha256": {"$ref": "#/$defs/sha256"},
+        "code_sha256": {"$ref": "#/$defs/sha256"},
+        "tool_versions": {
+          "type": "object",
+          "additionalProperties": {"type": "string", "minLength": 1}
+        },
+        "input_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/dependency_ref"},
+          "minItems": 1
+        }
+      },
+      "required": ["activity_id", "stage", "source_id", "page_ranges", "config_sha256", "schema_sha256", "code_sha256", "tool_versions", "input_refs"]
+    },
+    "page": {
+      "properties": {
+        "record_type": {"const": "page"},
+        "page_id": {"$ref": "#/$defs/typed_id"},
+        "source_id": {"$ref": "#/$defs/nonempty_string"},
+        "physical_page": {"type": "integer", "minimum": 1},
+        "page_state": {
+          "enum": [
+            "blank",
+            "labeled_blank",
+            "section_opener",
+            "zero_comment_section",
+            "continuation",
+            "unit_start",
+            "mixed_markers",
+            "figure_or_table",
+            "revision_markup",
+            "layout_exception"
+          ]
+        },
+        "raw_text": {"type": "string"},
+        "raw_text_sha256": {"$ref": "#/$defs/sha256"},
+        "page_box": {
+          "type": "object",
+          "required": ["width_points", "height_points", "rotation"],
+          "properties": {
+            "width_points": {"type": "number", "exclusiveMinimum": 0},
+            "height_points": {"type": "number", "exclusiveMinimum": 0},
+            "rotation": {"enum": [0, 90, 180, 270]}
+          },
+          "additionalProperties": false
+        },
+        "character_slot_count": {"type": "integer", "minimum": 0},
+        "geometry_ref": {"anyOf": [{"$ref": "#/$defs/artifact_ref"}, {"type": "null"}]},
+        "activity_id": {"$ref": "#/$defs/typed_id"}
+      },
+      "required": [
+        "page_id",
+        "source_id",
+        "physical_page",
+        "page_state",
+        "raw_text",
+        "raw_text_sha256",
+        "page_box",
+        "character_slot_count",
+        "activity_id"
+      ]
+    },
+    "page_continuation": {
+      "properties": {
+        "record_type": {"const": "page_continuation"},
+        "continuation_id": {"$ref": "#/$defs/typed_id"},
+        "from_page_id": {"$ref": "#/$defs/typed_id"},
+        "to_page_id": {"$ref": "#/$defs/typed_id"},
+        "continuation_kind": {"enum": ["comment", "response", "general_response", "submission", "unknown"]},
+        "evidence_ids": {"$ref": "#/$defs/id_list"}
+      },
+      "required": ["continuation_id", "from_page_id", "to_page_id", "continuation_kind", "evidence_ids"]
+    },
+    "marker_candidate": {
+      "properties": {
+        "record_type": {"const": "marker_candidate"},
+        "marker_id": {"$ref": "#/$defs/typed_id"},
+        "page_id": {"$ref": "#/$defs/typed_id"},
+        "marker_kind": {"enum": ["comment", "response", "general_response", "submission", "section"]},
+        "observed_label": {"$ref": "#/$defs/nonempty_string"},
+        "line_index": {"type": "integer", "minimum": 0},
+        "line_initial": {"type": "boolean"},
+        "text_start": {"type": "integer", "minimum": 0},
+        "text_end": {"type": "integer", "minimum": 1},
+        "character_slot_start": {"type": ["integer", "null"], "minimum": 0},
+        "character_slot_end": {"type": ["integer", "null"], "minimum": 1},
+        "bbox": {"$ref": "#/$defs/bbox"},
+        "style_evidence": {
+          "type": "object",
+          "required": ["bold", "italic", "solid_rule", "dotted_rule"],
+          "properties": {
+            "bold": {"type": "boolean"},
+            "italic": {"type": "boolean"},
+            "solid_rule": {"type": "boolean"},
+            "dotted_rule": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        },
+        "disposition": {
+          "enum": ["unit_start", "inline_reference", "nested_heading", "section_opener", "rejected_other", "needs_review"]
+        }
+      },
+      "required": [
+        "marker_id",
+        "page_id",
+        "marker_kind",
+        "observed_label",
+        "line_index",
+        "line_initial",
+        "text_start",
+        "text_end",
+        "character_slot_start",
+        "character_slot_end",
+        "bbox",
+        "style_evidence",
+        "disposition"
+      ]
+    },
+    "source_span": {
+      "properties": {
+        "record_type": {"const": "source_span"},
+        "span_id": {"$ref": "#/$defs/typed_id"},
+        "source_id": {"$ref": "#/$defs/nonempty_string"},
+        "fragments": {"type": "array", "items": {"$ref": "#/$defs/fragment"}, "minItems": 1}
+      },
+      "required": ["span_id", "source_id", "fragments"]
+    },
+    "commenter": {
+      "properties": {
+        "record_type": {"const": "commenter"},
+        "commenter_id": {"$ref": "#/$defs/typed_id"},
+        "source_id": {"$ref": "#/$defs/nonempty_string"},
+        "source_label": {"$ref": "#/$defs/nonempty_string"},
+        "opener_span_id": {"$ref": "#/$defs/typed_id"}
+      },
+      "required": ["commenter_id", "source_id", "source_label", "opener_span_id"]
+    },
+    "submission": {
+      "properties": {
+        "record_type": {"const": "submission"},
+        "submission_id": {"$ref": "#/$defs/typed_id"},
+        "source_id": {"$ref": "#/$defs/nonempty_string"},
+        "submission_kind": {"enum": ["letter", "meeting"]},
+        "official_code": {"$ref": "#/$defs/nonempty_string"},
+        "opener_span_id": {"$ref": "#/$defs/typed_id"},
+        "commenter_ids": {"$ref": "#/$defs/id_list"}
+      },
+      "required": ["submission_id", "source_id", "submission_kind", "official_code", "opener_span_id", "commenter_ids"]
+    },
+    "source_unit": {
+      "properties": {
+        "record_type": {"const": "source_unit"},
+        "unit_id": {"$ref": "#/$defs/typed_id"},
+        "source_id": {"$ref": "#/$defs/nonempty_string"},
+        "unit_kind": {"enum": ["comment", "response", "general_response"]},
+        "official_label": {"$ref": "#/$defs/nonempty_string"},
+        "start_marker_id": {"anyOf": [{"$ref": "#/$defs/typed_id"}, {"type": "null"}]},
+        "span_ids": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/typed_id"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "submission_id": {"anyOf": [{"$ref": "#/$defs/typed_id"}, {"type": "null"}]},
+        "activity_id": {"$ref": "#/$defs/typed_id"}
+      },
+      "required": ["unit_id", "source_id", "unit_kind", "official_label", "start_marker_id", "span_ids", "submission_id", "activity_id"]
+    },
+    "membership_claim": {
+      "properties": {
+        "record_type": {"const": "membership_claim"},
+        "membership_id": {"$ref": "#/$defs/typed_id"},
+        "general_response_unit_id": {"$ref": "#/$defs/typed_id"},
+        "mention_span_id": {"$ref": "#/$defs/typed_id"},
+        "target_label": {"$ref": "#/$defs/nonempty_string"}
+      },
+      "required": ["membership_id", "general_response_unit_id", "mention_span_id", "target_label"]
+    },
+    "reference_mention": {
+      "properties": {
+        "record_type": {"const": "reference_mention"},
+        "mention_id": {"$ref": "#/$defs/typed_id"},
+        "source_unit_id": {"$ref": "#/$defs/typed_id"},
+        "mention_span_id": {"$ref": "#/$defs/typed_id"},
+        "raw_text_sha256": {"$ref": "#/$defs/sha256"},
+        "target_labels": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/nonempty_string"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "reference_domain": {"enum": ["intra_volume", "draft_eir", "final_eir", "appendix_q", "external", "unknown"]}
+      },
+      "required": ["mention_id", "source_unit_id", "mention_span_id", "raw_text_sha256", "target_labels", "reference_domain"]
+    },
+    "semantic_edge": {
+      "properties": {
+        "record_type": {"const": "semantic_edge"},
+        "edge_id": {"$ref": "#/$defs/typed_id"},
+        "relation_type": {"enum": ["comment_response", "response_response", "response_general_response", "general_response_membership"]},
+        "source_unit_id": {"$ref": "#/$defs/typed_id"},
+        "target_unit_id": {"$ref": "#/$defs/typed_id"},
+        "activity_id": {"$ref": "#/$defs/typed_id"},
+        "evidence_ids": {"type": "array", "items": {"$ref": "#/$defs/typed_id"}, "minItems": 1, "uniqueItems": true}
+      },
+      "required": ["edge_id", "relation_type", "source_unit_id", "target_unit_id", "activity_id", "evidence_ids"]
+    },
+    "draft_eir_link": {
+      "properties": {
+        "record_type": {"const": "draft_eir_link"},
+        "link_id": {"$ref": "#/$defs/typed_id"},
+        "source_unit_id": {"$ref": "#/$defs/typed_id"},
+        "mention_id": {"$ref": "#/$defs/typed_id"},
+        "target_id": {"$ref": "#/$defs/nonempty_string"},
+        "task04d_handoff_id": {"$ref": "#/$defs/nonempty_string"},
+        "task04a_registry_id": {"$ref": "#/$defs/nonempty_string"},
+        "activity_id": {"$ref": "#/$defs/typed_id"},
+        "resolver_rule": {"$ref": "#/$defs/nonempty_string"},
+        "task04a_usability": {"enum": ["usable", "usable_with_warning", "unusable", "not_applicable"]}
+      },
+      "required": ["link_id", "source_unit_id", "mention_id", "target_id", "task04d_handoff_id", "task04a_registry_id", "activity_id", "resolver_rule", "task04a_usability"]
+    },
+    "diagnostic": {
+      "properties": {
+        "record_type": {"const": "diagnostic"},
+        "diagnostic_id": {"$ref": "#/$defs/typed_id"},
+        "stage": {"enum": ["05c", "05d", "05e", "05f", "05g"]},
+        "activity_id": {"$ref": "#/$defs/typed_id"},
+        "code": {
+          "enum": [
+            "page_unclassified",
+            "marker_ambiguous",
+            "span_gap",
+            "unit_boundary_ambiguous",
+            "dangling_reference",
+            "ambiguous_reference",
+            "unsupported_reference_form",
+            "unresolved_target",
+            "orphan_unit",
+            "cycle_detected",
+            "unusable_target",
+            "visual_only_reference",
+            "final_eir_only",
+            "external_reference",
+            "appendix_q_verification_required",
+            "geometry_text_mismatch"
+          ]
+        },
+        "severity": {"enum": ["info", "warning", "error"]},
+        "terminal": {"type": "boolean"},
+        "subject_ids": {"$ref": "#/$defs/id_list"},
+        "evidence_ids": {"$ref": "#/$defs/id_list"},
+        "message": {"$ref": "#/$defs/nonempty_string"}
+      },
+      "required": ["diagnostic_id", "stage", "activity_id", "code", "severity", "terminal", "subject_ids", "evidence_ids", "message"]
+    },
+    "source_placement_exception": {
+      "properties": {
+        "record_type": {"const": "source_placement_exception"},
+        "exception_id": {"$ref": "#/$defs/typed_id"},
+        "source_id": {"$ref": "#/$defs/nonempty_string"},
+        "activity_id": {"$ref": "#/$defs/typed_id"},
+        "exception_code": {"const": "general_response_9_not_in_volume_4"},
+        "advertised_label": {"const": "General Response 9"},
+        "routed_volume": {"const": 5},
+        "disposition": {"const": "cross_volume_scope_exception"},
+        "evidence_ids": {"$ref": "#/$defs/id_list"}
+      },
+      "required": ["exception_id", "source_id", "activity_id", "exception_code", "advertised_label", "routed_volume", "disposition", "evidence_ids"]
+    },
+    "correction": {
+      "properties": {
+        "record_type": {"const": "correction"},
+        "correction_id": {"$ref": "#/$defs/typed_id"},
+        "correction_kind": {"enum": ["text_overlay", "metadata_disposition", "resegment", "reanchor", "relink"]},
+        "activity_id": {"$ref": "#/$defs/typed_id"},
+        "target_ids": {"type": "array", "items": {"$ref": "#/$defs/typed_id"}, "minItems": 1, "uniqueItems": true},
+        "replacement_ids": {"$ref": "#/$defs/id_list"},
+        "evidence_ids": {"type": "array", "items": {"$ref": "#/$defs/typed_id"}, "minItems": 1, "uniqueItems": true},
+        "replacement_text": {"type": ["string", "null"]},
+        "disposition": {
+          "type": ["string", "null"],
+          "enum": ["accepted", "rejected", "no_change", "requires_followup", null]
+        },
+        "reason": {"$ref": "#/$defs/nonempty_string"},
+        "reviewer_id": {"$ref": "#/$defs/nonempty_string"},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "transcription_method": {
+          "type": ["string", "null"],
+          "enum": ["manual_from_render", "manual_from_source_comparison", null]
+        },
+        "requires_replay": {"type": "boolean"}
+      },
+      "required": ["correction_id", "correction_kind", "activity_id", "target_ids", "replacement_ids", "evidence_ids", "replacement_text", "disposition", "reason", "reviewer_id", "recorded_at", "transcription_method", "requires_replay"]
+    },
+    "review_view": {
+      "properties": {
+        "record_type": {"const": "review_view"},
+        "view_id": {"$ref": "#/$defs/typed_id"},
+        "root_unit_id": {"$ref": "#/$defs/typed_id"},
+        "activity_id": {"$ref": "#/$defs/typed_id"},
+        "ordered_unit_ids": {"type": "array", "items": {"$ref": "#/$defs/typed_id"}, "minItems": 1, "uniqueItems": true},
+        "edge_ids": {"$ref": "#/$defs/id_list"},
+        "anchor_span_ids": {"type": "array", "items": {"$ref": "#/$defs/typed_id"}, "minItems": 1, "uniqueItems": true},
+        "rendering_recipe": {"const": "source_text_with_accepted_overlays"}
+      },
+      "required": ["view_id", "root_unit_id", "activity_id", "ordered_unit_ids", "edge_ids", "anchor_span_ids", "rendering_recipe"]
+    },
+    "managed_file_inventory": {
+      "properties": {
+        "record_type": {"const": "managed_file_inventory"},
+        "inventory_id": {"$ref": "#/$defs/typed_id"},
+        "stage": {"enum": ["05c", "05d", "05e", "05f", "05g"]},
+        "activity_id": {"$ref": "#/$defs/typed_id"},
+        "dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/dependency_ref"},
+          "minItems": 1
+        },
+        "files": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}, "minItems": 1}
+      },
+      "required": ["inventory_id", "stage", "activity_id", "dependencies", "files"]
+    },
+    "stage_completion": {
+      "properties": {
+        "record_type": {"const": "stage_completion"},
+        "completion_id": {"$ref": "#/$defs/typed_id"},
+        "stage": {"enum": ["05c", "05d", "05e", "05f", "05g"]},
+        "status": {"enum": ["complete", "complete_with_warnings", "failed"]},
+        "activity_id": {"$ref": "#/$defs/typed_id"},
+        "inventory_id": {"$ref": "#/$defs/typed_id"},
+        "counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "warnings": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "completed_at": {"type": "string", "format": "date-time"}
+      },
+      "required": ["completion_id", "stage", "status", "activity_id", "inventory_id", "counts", "warnings", "completed_at"]
+    }
+  }
+}

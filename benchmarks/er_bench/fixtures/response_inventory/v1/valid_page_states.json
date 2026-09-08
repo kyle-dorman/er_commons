@@ -1,0 +1,163 @@
+{
+  "description": "Compact page-state and negative-boundary coverage.",
+  "records": [
+    {
+      "fixture_key": "activity",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "activity",
+      "stage": "05c",
+      "source_id": "feir_volume_4",
+      "page_ranges": [[1, 7]],
+      "config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "schema_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "code_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "tool_versions": {},
+      "input_refs": [
+        {"role": "source_record", "identity": "sourcev1-synthetic", "authority": "artifact_root", "path": "sources/feir_volume_4/source.json"},
+        {"role": "task05a_completion", "identity": "completionv1-05a-synthetic", "authority": "artifact_root", "path": "working/05a/completion.json"}
+      ]
+    },
+    {
+      "fixture_key": "blank",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 1,
+      "page_state": "blank",
+      "raw_text": "",
+      "raw_text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 0,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "labeled-blank",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 2,
+      "page_state": "labeled_blank",
+      "raw_text": "x",
+      "raw_text_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 1,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "section",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 3,
+      "page_state": "section_opener",
+      "raw_text": "x",
+      "raw_text_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 1,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "zero-comment",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 4,
+      "page_state": "zero_comment_section",
+      "raw_text": "x",
+      "raw_text_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 1,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "figure",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 5,
+      "page_state": "figure_or_table",
+      "raw_text": "x",
+      "raw_text_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 1,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "revision",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 6,
+      "page_state": "revision_markup",
+      "raw_text": "x",
+      "raw_text_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 1,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "layout",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "page",
+      "source_id": "feir_volume_4",
+      "physical_page": 7,
+      "page_state": "layout_exception",
+      "raw_text": "x",
+      "raw_text_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+      "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+      "character_slot_count": 1,
+      "activity_id": "@activity"
+    },
+    {
+      "fixture_key": "nested-heading",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "marker_candidate",
+      "page_id": "@section",
+      "marker_kind": "comment",
+      "observed_label": "x",
+      "line_index": 0,
+      "line_initial": true,
+      "text_start": 0,
+      "text_end": 1,
+      "character_slot_start": 0,
+      "character_slot_end": 1,
+      "bbox": [0, 0, 1, 1],
+      "style_evidence": {"bold": true, "italic": false, "solid_rule": false, "dotted_rule": false},
+      "disposition": "nested_heading"
+    },
+    {
+      "fixture_key": "response-marker",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "marker_candidate",
+      "page_id": "@revision",
+      "marker_kind": "response",
+      "observed_label": "x",
+      "line_index": 0,
+      "line_initial": true,
+      "text_start": 0,
+      "text_end": 1,
+      "character_slot_start": null,
+      "character_slot_end": null,
+      "bbox": [0, 0, 1, 1],
+      "style_evidence": {"bold": false, "italic": true, "solid_rule": false, "dotted_rule": true},
+      "disposition": "unit_start"
+    },
+    {
+      "fixture_key": "revision-span",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_span",
+      "source_id": "feir_volume_4",
+      "fragments": [
+        {
+          "page_id": "@revision",
+          "text_start": 0,
+          "text_end": 1,
+          "character_slot_start": null,
+          "character_slot_end": null,
+          "bbox": [0, 0, 1, 1],
+          "revision_marks": ["underline"]
+        }
+      ]
+    }
+  ]
+}

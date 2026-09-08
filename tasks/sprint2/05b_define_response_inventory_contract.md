@@ -1,6 +1,6 @@
 # Task 05B: Define the Response Inventory Contract
 
-Status: **active; source-free contract definition authorized**.
+Status: **complete and accepted**.
 
 Activated 2026-09-08 after explicit acceptance of Task 05A. This activation
 authorizes contract research, specification, schemas, fixtures, validators, and
@@ -28,7 +28,8 @@ and independently validatable inventory.
 
 ## Outputs
 
-- versioned specification and compact JSON Schemas for source spans, commenters,
+- versioned specification and one compact JSON Schema union for source spans,
+  commenters,
   letters or meetings, comments, responses, general responses, raw reference
   mentions, resolved edges, diagnostics, review views, corrections, inventories,
   and completion records;
@@ -116,3 +117,33 @@ The contract must encode the Task 05A findings rather than rediscover them:
 - Reading new source pages, production parsing, full-source execution, graph
   resolution, or curator eligibility decisions.
 - A generic workflow engine, graph database, or content-addressed storage system.
+
+## Outcome
+
+Task 05B produced the source-free
+[response inventory v1 specification](../../docs/specs/response_inventory_v1.md),
+one closed 18-record JSON Schema union, compact positive/negative fixtures, a
+deterministic identity implementation, and one semantic validator exposed by
+`make validate-response-inventory-contract`. The design remains MVP-sized: raw
+source records, sparse corrections, normalized edges, and derived review views
+are separate, but there is no workflow framework, graph database, or rich
+ontology.
+
+Stable source-span IDs bind only page/raw-text intervals; PDFium character
+slots, rectangles, and revision marks remain review evidence. Activities bind
+the small required dependency-role set for their stage. Draft EIR links retain
+the exact target, Task 04D handoff, and Task 04A registry identities. Working
+inventories close relative paths and byte counts, while only 05G requires
+publication-time output digests and may derive the final `inventoryv1` ID.
+
+The source-free fixture gate passes eight compound cases. Focused contract
+tests pass 11/11, and the repository gate passes Ruff, strict mypy, and
+1,173/1,173 tests. JSON files also parse with no duplicate object keys, and
+`git diff --check` passes. The central `er_commons.cli` file remains unchanged,
+preserving the sealed Task 04D identity; the proposed 05C producer uses a
+separate `er-responses` entry point.
+
+No source PDF was opened, no Volume 5 content was accessed, and no Task 05C
+pilot was started. The user accepted this outcome on 2026-09-08 and requested
+that Task 05C remain inactive for a new chat. Its bounded source-read plan still
+requires separate authorization.

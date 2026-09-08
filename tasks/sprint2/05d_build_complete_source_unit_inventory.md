@@ -44,8 +44,9 @@ separate bounded task. Obtain explicit user authorization before starting the
 ## Validation
 
 - Account for every PDF page and processing range exactly once.
-- Verify General Responses 1-9 and all detected structural regions have records
-  or explicit diagnostics.
+- Verify General Responses 1-8, the General Response 9 cross-volume placement
+  exception, and all detected structural regions have records or explicit
+  diagnostics.
 - Compare full-run structural signatures with the accepted Task 05A profile and
   Task 05C pilot. A previously unseen structural regime is a stop-and-review
   condition, not an invitation to repair the running producer.
@@ -61,8 +62,9 @@ separate bounded task. Obtain explicit user authorization before starting the
 
 ## Review pass
 
-- **Completeness:** Is every page, structural region, and General Response 1-9
-  accounted for exactly once?
+- **Completeness:** Is every page and structural region accounted for exactly
+  once, with Volume 4 General Responses 1-8 represented as units and General
+  Response 9 represented only by its placement exception?
 - **Source fidelity:** Are sampled original texts, boundaries, and anchors
   correct rather than merely schema-valid?
 - **Operations:** Did restart, resource guards, and failure isolation behave as

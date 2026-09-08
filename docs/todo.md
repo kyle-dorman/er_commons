@@ -3,9 +3,9 @@
 ## Sprint status
 
 Sprint 2, Brisbane Draft-EIR defense vertical slice, is active. Tasks 02
-through 05A are complete.
+through 05B are complete.
 
-## Current action: Task 05B active for source-free contract definition
+## Current action: no active implementation; start Task 05C in a new chat
 
 [Task 04D](../tasks/sprint2/04d_relink_frozen_extraction.md) is complete. Its
 validated handoff is the designated replacement for linking-dependent
@@ -20,11 +20,14 @@ seven-part umbrella. [Task 05A](../tasks/sprint2/05a_qualify_and_profile_respons
 has completed compact prerequisite binding and the separately authorized
 195-page source profile. PDFium was confirmed with independent Poppler and
 visual checks. Volume 4 contains General Responses 1-8; the advertised ninth is
-a cross-volume placement exception. The outcome is accepted, and
-[Task 05B](../tasks/sprint2/05b_define_response_inventory_contract.md) is active.
-Task 05B may use retained 05A evidence but may not reopen the PDF. Tasks 05C
-through 05G remain provisional; revise each from the accepted preceding outcome
-rather than activating the complete sequence at once.
+a cross-volume placement exception. The outcome is accepted.
+[Task 05B](../tasks/sprint2/05b_define_response_inventory_contract.md) is
+complete and accepted. No PDF was reopened.
+[Task 05C](../tasks/sprint2/05c_build_response_inventory_pilot.md) remains
+provisional and inactive for a new chat. When that chat begins, revise 05C and
+present its exact bounded source-read plan for separate authorization before
+opening the PDF. Tasks 05D through 05G remain provisional and should be revised
+one at a time from accepted preceding outcomes.
 
 ## Later sequence
 
