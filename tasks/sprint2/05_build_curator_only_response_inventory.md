@@ -1,191 +1,181 @@
 # Task 05: Build the Curator-Only Response Inventory
 
-Status: **planned; not activated**.
+Status: **planned umbrella; decomposed into provisional Tasks 05A through 05G;
+not activated**.
 
 ## Abstract
 
 Build a complete, separately identified inventory of the comment and response
-units in Final EIR Volume 4. Preserve the source structure and provenance
-needed to review whether each response defends existing Draft EIR evidence,
-acknowledges a concern, redirects it, or produces a Final EIR revision.
+units in Final EIR Volume 4. Preserve source structure, provenance, explicit
+relationships, and official Draft EIR references without adding Volume 4 to the
+Task 03 model corpus.
 
-This is a curator-only artifact. Final EIR Volume 4 is not part of the Task 03
-model corpus and must not be added to the accepted Draft EIR extraction
-release. The exploratory `classify_volume4.py` script and its heuristic labels
-are not production inputs; rebuild this task from the authoritative source and
-the contract below.
+Task 05 is an umbrella, not an executable contract. Only Task 05A may be
+activated first. Tasks 05B through 05G remain provisional and must be revised
+from the accepted preceding outcome before activation. This prevents source
+discovery, contract design, implementation, full-source execution, graph
+resolution, human QA, and publication from accumulating inside one task.
 
 ## Goal
 
-Create a restartable, auditable inventory for every identifiable comment,
-individual response, general response, and relationship in Volume 4, including
-cross-references and source page anchors. Make linked-response cases reviewable
-without losing the original response text or the source of incorporated text.
+Produce one curator-only inventory that later Task 06 and Task 07 work can pin,
+while keeping every semantic transition independently reviewable:
+
+```text
+frozen source
+  -> bounded structural understanding
+  -> record and identity contract
+  -> qualified producer
+  -> complete source-unit inventory
+  -> intra-Volume response graph
+  -> Draft EIR target links
+  -> reviewed and frozen inventory
+```
+
+## Fixed boundaries
+
+- Final EIR Volume 4, source ID `feir_volume_4`, is curator-only and never
+  enters the Task 03 model corpus.
+- Task 03J remains the immutable extraction source. Linking-dependent use pins
+  Task 04D's designated replacement handoff and Task 04A's accepted usability
+  registry; it does not compose superseded Task 03J links with Task 04C.
+- Appendix Q is not a second Task 05 extraction source. Record
+  `requires_appendix_q_verification` when Volume 4 lacks necessary full-letter,
+  attachment, or testimony context.
+- Inventory construction is deterministic. No LLM creates, segments, links,
+  triages, or repairs source units.
+- Task 05 human review decides transcription, segmentation, anchor, and link
+  correctness. Task 07 owns response-outcome judgment, two-pass eligibility,
+  substantive-link classification for clustering, and benchmark acceptance.
+- A linked response remains a separately identified source unit. Derived review
+  views never flatten away its ID, anchor, or relationship provenance.
+- Every unmatched unit or reference has an explicit diagnostic; nothing is
+  silently dropped or guessed into a one-to-one relationship.
+
+## MVP hashing and storage policy
+
+Task 05 must remain cheap to iterate:
+
+- Bind the 744-page source PDF by the already-frozen Task 02 source record,
+  checksum, byte size, and source ID. Routine Task 05 preparation, pilots,
+  reruns, and validation must not reread the PDF solely to recompute its hash.
+- Bind Task 03J, Task 04A, and Task 04D through their owning completion records,
+  identities, inventories, and recorded checksums. Do not recursively rehash
+  their large document or collection payloads.
+- Check existence, expected path, recorded size, identity membership, terminal
+  state, and compact completion metadata before use. Rehash a large sealed input
+  only when its owning validator requires it, recorded metadata disagree, or a
+  specific integrity concern is approved for investigation.
+- Keep mutable experiments under
+  `pipelines/brisbane_baylands/task_05_response_inventory/working/`, using
+  `<stage>/<revision-id>/` for records and `cache/` for replaceable renders and
+  materialized views. Working artifacts are not authoritative releases and are
+  excluded from final production identity. Material cleanup still requires
+  explicit approval.
+- Keep pilots bounded under `pilots/<pilotv1-id>/`. Retain only the compact
+  decision evidence needed by the next task; do not duplicate the source PDF or
+  sealed upstream payloads.
+- At each gate, name one accepted working revision for every declared downstream
+  Task 05 consumer and hold it fixed until those consumers finish. It is not a
+  no-clobber release: if evidence requires a change, create a new working
+  revision and compact decision record rather than modifying a consumed revision
+  or preserving a full copy of every attempt.
+- Publish one immutable accepted release only under `<inventoryv1-id>/` in Task
+  05G. Earlier task outputs are working candidates, not releases.
+- Store source-derived text once. Graphs, target links, corrections, and release
+  descriptors reference stable IDs rather than copying payloads.
+- Hash compact schemas, configs, decisions, manifests, and authoritative final
+  records once at publication. For a large Task-05-owned output, calculate its
+  digest while writing it when practical. Routine reuse checks the sealed
+  inventory, exact file set, and sizes; a separate deep byte audit is exceptional
+  rather than part of every task gate or rerun.
+- Treat HTML, renders, joined review views, and other regenerable caches as
+  non-authoritative unless a curator decision explicitly cites one as reviewed
+  evidence.
 
 ## Inputs
 
-- Frozen source release record for the Brisbane Baylands project.
+- Frozen Task 02 source record for `feir_volume_4`.
 - Final EIR Volume 4, `Responses to Comments on the DEIR (Chapters 11 through
-  13)`, source ID `feir_volume_4`.
-- Task 03J's immutable extraction evidence.
-- Task 04A's accepted usability registry, used to exclude or flag references
-  whose required evidence is not usable.
-- Task 04D's designated linking-dependent handoff and target-resolution view,
-  used to resolve Draft EIR references. Do not resolve against the superseded
-  Task 03J linking state or compose it with the Task 04C overlay.
+  13)`, a 744-page PDF beneath the external artifact root.
+- Task 03J production extraction
+  `exv1-6913f56bed93302d7cf5ef424ee63c0b7427e90e2b2cd5c4ec483d275009a773`.
+- Task 04A accepted usability registry under
+  `reviewv1-task03j-final-c17/gate_d/`.
+- Task 04D designated handoff
+  `handoffv1-e54a72e4bb8f9ba34888c1fc1f51424c4cc52e5f24d6700b16b462e3a659b6d1`.
 
-The frozen source is the 744-page PDF at this path relative to
-`ER_COMMONS_DATA_ROOT`:
+The source path relative to `ER_COMMONS_DATA_ROOT` is:
 
 ```text
 datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/
   sources/curator_only_response_source/feir_volume_4.pdf
 ```
 
-Appendix Q, `DEIR Comments and Public Meeting Transcript`, is a separate Final
-EIR appendix. Volume 4 contains organized comment excerpts and responses and
-often provides enough context for issue/response extraction, but it does not
-replace Appendix Q when exact full-letter context, attachments, or complete
-oral testimony is required.
+## Subtasks
 
-## Outputs
+1. [Task 05A](05a_qualify_and_profile_response_source.md): bind upstream inputs,
+   profile representative Volume 4 structures, select the bounded route, and
+   estimate workload without implementing the production producer.
+2. [Task 05B](05b_define_response_inventory_contract.md): freeze schemas,
+   identities, anchors, correction semantics, artifact dependencies, and
+   source-free validators.
+3. [Task 05C](05c_build_response_inventory_pilot.md): implement the narrow
+   producer and qualify it on a bounded, structurally varied pilot.
+4. [Task 05D](05d_build_complete_source_unit_inventory.md): complete the
+   source-unit run and name one accepted working revision without
+   relationship-policy experiments or immutable release publication.
+5. [Task 05E](05e_build_response_relationship_graph.md): resolve intra-Volume
+   comment and response relationships and publish graph diagnostics and views.
+6. [Task 05F](05f_resolve_official_draft_eir_references.md): resolve official
+   Draft EIR references against Task 04D and annotate Task 04A usability.
+7. [Task 05G](05g_review_and_freeze_response_inventory.md): conduct curator QA,
+   record sparse dispositions, route output-affecting corrections back to their
+   owning stage, and publish the sole immutable Task 05 release after re-review.
 
-Publish an immutable, checksum-inventoried inventory under
-`pipelines/brisbane_baylands/task_05_response_inventory/<inventoryv1-id>/`.
-The namespace must contain `records/`, `inventory/`, `review_views/`, and
-`diagnostics/`; its completion record must close the exact source, extraction or
-transcription contract, schema, configuration, implementation, managed-file
-inventory, and checksums. At minimum, preserve:
+Unexpected failures do not silently enlarge the active task. Preserve a compact
+stop record, define a bounded remediation task only when evidence requires it,
+and create a fresh accepted candidate when output-affecting code or policy
+changes.
 
-- stable comment, response, and general-response IDs;
-- commenter, organization/agency, or meeting identity;
-- commenter class and source-letter membership;
-- Volume 4 PDF start page and text anchors;
-- original comment and direct-response text;
-- explicit Draft EIR, Final EIR, appendix, chapter, section, table, figure,
-  page, and mitigation-measure references;
-- direct response-to-response links;
-- direct response-to-general-response links;
-- one-to-many and many-to-one relationships;
-- orphan and unresolved-link diagnostics; and
-- source, extraction, schema, and artifact checksums.
+## Final outputs
 
-For every linked case, also publish a derived review view containing:
+The accepted namespace must contain `records/`, `inventory/`, `review_views/`,
+and `diagnostics/`. At minimum it preserves:
 
-```text
-comment -> direct response -> linked response(s) and/or general response(s)
-```
+- stable comment, response, general-response, commenter, and letter IDs;
+- exact Volume 4 page and text anchors plus original text;
+- explicit one-to-many and many-to-one response relationships;
+- raw and resolved response, general-response, and Draft EIR references;
+- Task 04A usability annotations without copying the registry;
+- orphan, ambiguous, unresolved, and Appendix-Q-needed diagnostics;
+- compact linked-view indexes and rendering recipes that preserve unit, edge,
+  anchor, and ordering provenance without duplicating source text; and
+- one final identity, managed-file inventory, publication-time output digests,
+  and compact completion record.
 
-The derived view must retain each incorporated unit's ID and source anchor. A
-linked response can support a classification but must not be silently merged
-into the original response.
+## Umbrella acceptance criteria
 
-## Provisional response-outcome policy
-
-Use four compact outcome classes for exploratory and later curator review:
-
-1. **Defense**: the response answers the concern using existing Draft/Final EIR
-   analysis, a cited section, appendix, table, figure, or existing mitigation
-   measure, with no substantive new Final EIR change.
-2. **Acknowledge**: the response recognizes, records, introduces, or declines
-   to substantively answer the concern without defending it with existing
-   evidence.
-3. **Outside scope/deferred**: the response genuinely redirects the issue to a
-   separate process, later approval, permitting action, future project, or
-   other decision boundary.
-4. **Revision**: the response produces or identifies a substantive Final EIR
-   change, including revised text, analysis, table, figure, mitigation, or a
-   new/revised appendix.
-
-Clarification and mitigation/action are not separate final classes. A
-clarification is `Defense` only when it supplies an existing-document answer.
-An existing mitigation measure supports `Defense`; a new or changed measure is
-`Revision`; a later permitting action is `Outside scope/deferred`.
-
-## Required linked-response review
-
-Run this as two stages:
-
-1. **Deterministic resolution:** detect and resolve explicit references such as
-   `Refer to Response SA-CDFW-10`, `As stated in Response M-CSSC-39`, and
-   `Refer to General Response 5`. Preserve unresolved references rather than
-   dropping them. Extract the full General Response 1 through General Response
-   9 units before classifying dependent individual responses.
-2. **Human semantic disposition:** review the original comment together with
-   the direct response and resolved linked text. Confirm whether the linked
-   material answers this specific comment. A cross-reference alone never proves
-   `Defense`.
-
-Use a temporary review flag for mixed, partial, or unclear cases. In
-particular, a response such as `O-GA-8`, which says only `Refer to General
-Response 5`, should not be accepted as a defense merely because General
-Response 5 discusses enforceability. Its comment alleges that mitigation could
-make the project infeasible; the linked response discusses implementation and
-enforcement but does not directly analyze project feasibility.
-
-## Known source findings to preserve
-
-- Volume 4 is separate from Appendix Q and is part of the Final EIR response
-  package.
-- Its contents identify General Response 1 through General Response 9 and say
-  that individual responses may refer to general or other responses.
-- The current exploratory parse found approximately 1,017 identifiable
-  comment/response units. This count is diagnostic only until the structural
-  inventory and relationship validation are complete.
-- The City’s Final EIR package identifies Appendix F3 as new and identifies a
-  revised greenhouse-gas package as H1/H2. These are Final EIR package changes,
-  not evidence that the original Draft EIR corpus was incomplete.
-- Existing exploratory outcome counts are not acceptance evidence. They changed
-  substantially when cross-referenced general responses were resolved, which
-  demonstrates that linked context must be part of review.
-
-## Research / learning checkpoint
-
-Before implementation, inspect the existing Task 03 inventory and response
-section structure, then document the best-practice choice of a normalized
-relationship graph plus a provenance-preserving materialized review view.
-Explain plainly why this is preferable to flattening linked responses: the
-same general response can answer many comments differently, and reviewers must
-see both the incorporated text and where it came from.
-
-## Validation
-
-- Verify every identifiable comment, direct response, and General Response 1–9
-  has a stable record or an explicit diagnostic.
-- Verify every relationship resolves to an existing record or is retained as an
-  unresolved link with a reason.
-- Verify source PDF page anchors and text checksums against the frozen input.
-- Verify one-to-many and many-to-one relationships without synthetic one-to-one
-  duplication.
-- Verify linked review views retain original IDs, text, pages, and relationship
-  type.
-- Verify repeated construction produces byte-identical inventory and review
-  artifacts.
-- Inspect a varied manual sample, including direct answers, general-response
-  links, response-to-response links, Planning Commission comments, and apparent
-  orphans.
-
-## Acceptance criteria
-
-- Complete inventory and relationship graph are published atomically under the
-  Task 05 namespace.
-- No source unit is silently dropped because it lacks a detected response or
-  reference target.
-- General responses are separately identified and resolvable.
-- Every linked case has an independently reviewable combined view.
-- The four outcome labels, if produced, are marked provisional until human
-  disposition; deterministic cues do not accept or reject a case.
-- The artifact identity binds the exact Volume 4 source, extraction contract,
-  schema, configuration, and implementation inputs.
+- Tasks 05A through 05G close in order, with only one active at a time.
+- Each task owns one semantic transition and revises its successor from observed
+  evidence.
+- The final inventory accounts for every identifiable source unit or diagnostic
+  and validates graph relationships in both directions.
+- Repeated construction from the same sealed inputs produces the same semantic
+  records and stable IDs.
+- No large sealed upstream input is repeatedly rehashed or copied as routine
+  Task 05 validation.
+- Working and pilot iterations remain separate from the immutable final
+  publication, and the final package is independently understandable and
+  restartable.
 
 ## Non-goals
 
-- Adding Volume 4 or Appendix Q to the Task 03 model corpus.
-- Replacing Appendix Q with Volume 4 for exact comment-letter or transcript
-  provenance.
-- Automatically accepting a defense because a response cites another response
-  or General Response.
-- Manually comparing every possible pair for duplicate clustering; Task 07 owns
-  reviewed clustering for benchmark cases.
-- Benchmark retrieval, response generation, model evaluation, or final human
-  evaluation.
+- Adding Volume 4 or Appendix Q to the model corpus.
+- Extracting Appendix Q as part of Task 05.
+- Response-outcome classification, eligibility screening, clustering, or split
+  selection; Task 07 owns those decisions.
+- Benchmark retrieval, reference-defense authoring, target generation, judging,
+  or evaluation.
+- A workflow framework, permissions system, content-addressed artifact store, or
+  repeated integrity scan of previously sealed large artifacts.

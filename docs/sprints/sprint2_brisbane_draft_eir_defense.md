@@ -149,6 +149,34 @@ inventory in this sprint. Model assistance for inventory work is out of scope
 for now; it may be evaluated later against the completed human-reviewed
 inventory as a QA reference.
 
+Task 05 is a seven-part umbrella rather than one execution contract:
+
+1. Task 05A qualifies sealed inputs and profiles bounded representative source
+   structures.
+2. Task 05B freezes source-unit, relationship, provenance, correction, identity,
+   and publication contracts.
+3. Task 05C implements and reviews a bounded, structurally varied producer
+   pilot, including a maintainability gate before scale-up.
+4. Task 05D creates the complete working source-unit inventory without resolving
+   graph relationships.
+5. Task 05E resolves the intra-Volume response graph and materializes linked
+   review views without judging substantive adequacy.
+6. Task 05F resolves official Draft EIR references through Task 04D and applies
+   Task 04A usability as a separate cross-system link layer.
+7. Task 05G reviews corrections and publishes the sole immutable Task 05
+   inventory release.
+
+Only Task 05A may activate first. Tasks 05B through 05G remain provisional and
+must be revised from accepted preceding outcomes. Use replaceable working space
+and bounded pilots for iteration; do not seal every experiment. Routine Task 05
+validation pins the Task 02 source checksum and Task 03J/04A/04D identities
+through compact completion metadata without rehashing or copying their large
+payloads. Hash newly authored authoritative Task 05 records once at final
+publication, preferably while writing them, and reserve a full byte audit for a
+specific integrity concern or separately approved archival boundary.
+
+### Task 07 eligibility, clustering, and split boundary
+
 Human reviewers alone determine candidate eligibility. Deterministic checks
 may flag language, source references, or missing links for reviewer attention,
 but they do not accept or reject cases. Exclude an entire comment-response case
@@ -167,8 +195,8 @@ EIR evidence spans, requested review-cache renders, source-usability status,
 and relevant cross-references, then reapplies the eligibility criteria. A case
 becomes accepted only after passing both reviews.
 
-Preserve every inventory, screening, evidence-verification, acceptance, and
-selection decision as a versioned record rather than overwriting earlier
+Preserve every screening, evidence-verification, acceptance, and selection
+decision as a versioned record rather than overwriting earlier
 dispositions. Each decision records the stable source or case ID, review stage,
 disposition, reason code, reviewer, timestamp, and the input artifact version
 that was reviewed. Produce an annotation attrition waterfall with raw counts at
@@ -244,7 +272,10 @@ changes as new named runs rather than replacing the primary result.
 
 ### Model-assisted reference-case authoring
 
-After a candidate passes initial human screening, a curation model may use the
+For the bounded Task 06 pilot, the curator may select a small, varied set of
+plausibly eligible Task 05 cases for exploratory authoring. This pilot inclusion
+is not formal eligibility, acceptance, or a substitute for Task 07's complete
+two-pass review. For each selected pilot case, a curation model may use the
 original comment, resolved individual and general responses, and candidate
 Draft EIR evidence to propose three distinct artifacts in order:
 
@@ -534,10 +565,11 @@ Task 02 and all Task 03 work are complete. Task 03J produced the current
 machine-only 35-source candidate and validated collection handoff. Task 04 and
 Task 03I are complete as the first-pass review and its bounded extraction
 disposition. Task 04A is complete and freezes Task 03J with its separate human
-TOC and source-usability layer. Task 04B is closed as a no-op. Task 04C
-is superseded review evidence. Task 04D is complete; its validated replacement
-handoff is designated for linking-dependent consumers. Task 05 is next and has
-not been activated.
+TOC and source-usability layer. Task 04B is closed as a no-op. Task 04C is
+superseded review evidence. Task 04D is complete; its validated replacement
+handoff is designated for linking-dependent consumers. Task 05 is now a planned
+seven-part umbrella. Task 05A is next and not activated; Tasks 05B through 05G
+remain provisional.
 
 The task files preserve detailed outcomes, negative experiments, and identity
 history. The map below is retained as sprint scope and sequencing, not as a
@@ -751,14 +783,31 @@ distinct decision or validation boundary.
    replace only linking and its dependent document and collection publications
    under fresh identities. Gates A through D are complete, and the validated
    replacement handoff is designated for downstream use.
-6. **Task 05 — Build the complete curator-only response inventory.** Use a
-   bounded, separately identified transcription/extraction route for Final EIR
-   Volume 4; do not add it to the Task 03 model corpus. Enumerate every comment,
-   individual response, general response, relationship, orphan, and official
-   Draft EIR reference. Build the curator-only response graph and resolve its
-   Draft EIR references through Task 04D's designated linking-dependent view,
-   against the immutable Task 03J extraction and subject to Task 04A's accepted
-   usability registry.
+6. **[Task 05](../../tasks/sprint2/05_build_curator_only_response_inventory.md)
+   — Build the complete curator-only response inventory.** This planned umbrella
+   is split into sequential stop-and-review contracts:
+
+   - [Task 05A](../../tasks/sprint2/05a_qualify_and_profile_response_source.md)
+     binds compact upstream records, profiles bounded Volume 4 structures, and
+     selects the extraction/transcription route;
+   - [Task 05B](../../tasks/sprint2/05b_define_response_inventory_contract.md)
+     freezes schemas, IDs, anchors, provenance, corrections, identity, and the
+     working-to-publication lifecycle;
+   - [Task 05C](../../tasks/sprint2/05c_build_response_inventory_pilot.md)
+     implements and qualifies a bounded producer pilot before scale-up;
+   - [Task 05D](../../tasks/sprint2/05d_build_complete_source_unit_inventory.md)
+     creates the complete structural working candidate over all 744 pages;
+   - [Task 05E](../../tasks/sprint2/05e_build_response_relationship_graph.md)
+     resolves the intra-Volume comment and response graph and linked views;
+   - [Task 05F](../../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
+     resolves official Draft EIR references through Task 04D subject to Task
+     04A usability; and
+   - [Task 05G](../../tasks/sprint2/05g_review_and_freeze_response_inventory.md)
+     applies curator QA and publishes the sole immutable Task 05 release.
+
+   Only Task 05A may activate first. The later contracts remain provisional and
+   are revised from accepted preceding evidence. Task 05 uses replaceable working
+   space for iteration and does not routinely copy or rehash sealed large inputs.
 7. **Task 06 — Pilot reference-case authoring.** Implement deterministic
    high-recall curator search, a two-hop traversal/index view over the accepted
    Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence

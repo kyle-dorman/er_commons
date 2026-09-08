@@ -99,20 +99,55 @@ benchmarks/er_bench/
   runs/
 ```
 
-Task 05's Final EIR Volume 4 inventory uses a separately identified namespace:
+Task 05's Final EIR Volume 4 inventory uses separate working, pilot, and final
+publication layers:
 
 ```text
-pipelines/brisbane_baylands/task_05_response_inventory/<inventoryv1-id>/
-  records/
-  inventory/
-  review_views/
-  diagnostics/
+pipelines/brisbane_baylands/task_05_response_inventory/
+  working/
+    cache/                    # replaceable renders and materialized views
+    <stage>/<revision-id>/    # named working revisions
+  pilots/<pilotv1-id>/        # bounded qualification candidates
+  <inventoryv1-id>/           # sole accepted Task 05 release, created by 05G
+    records/
+    inventory/
+    review_views/
+    diagnostics/
 ```
 
-The completion record must close the exact source identity, extraction or
-transcription contract, schema, configuration, implementation, managed-file
-inventory, and checksums. This namespace is not part of the Task 03 model
-corpus or accepted Draft EIR extraction release; it must not copy the raw PDF.
+Working and pilot outputs are not immutable releases. A compact gate record may
+name one accepted working revision for declared downstream Task 05 consumers;
+hold that revision fixed until those consumers finish. An output-affecting
+change creates a new named revision rather than modifying one already consumed.
+Do not promote working revisions as durable inputs beyond Task 05. Retain
+compact configs, counts, findings, and fixtures needed to explain an accepted
+decision, but allow regenerable records, HTML, renders, joined views, and caches
+to be replaced or pruned after separate approval. Do not preserve every failed
+iteration as a full payload.
+
+Task 05 trusts the Task 02 source record and its recorded checksum for the
+744-page Volume 4 PDF. Routine preflight verifies compact completion metadata,
+expected path and byte size, source membership, and terminal state; it does not
+reread the PDF solely to recompute its hash. Task 03J, Task 04A, and Task 04D
+are likewise pinned through their exact identities, inventories, and compact
+completion records without recursively hashing or copying their large payloads.
+A deep byte audit is exceptional: use it only when a seal is missing, recorded
+metadata disagree, corruption is suspected, or an explicitly approved archival
+boundary requires it.
+
+The 05G completion record closes the exact upstream identities, accepted Task
+05 stages, schema, configuration, implementation, authoritative managed files,
+counts, and final checksums. Hash newly authored authoritative records once at
+publication, preferably while writing large Task-05-owned files. Routine reuse
+then checks the sealed inventory, exact file set, and sizes. Regenerable review
+views and caches remain outside checksum closure unless a curator decision
+explicitly cites one as reviewed evidence. The final `review_views/` directory
+contains compact ordered unit/edge indexes and rendering recipes; joined text,
+HTML, and renders live in `working/cache/` and are regenerated from the single
+source-text store. Store source-derived text once;
+later graphs, target links, corrections, and release descriptors reference
+stable IDs rather than duplicate payloads. The Task 05 namespace is not part of
+the Task 03 model corpus and must not copy the raw PDF.
 
 ## Git policy
 

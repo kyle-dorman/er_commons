@@ -14,19 +14,21 @@ the completed task records.
 
 ## Next action
 
-Task 05 is planned and not activated. Before activating it, read these files in
-order:
+Task 05 is now a seven-part planned umbrella. Task 05A is the next subtask and
+is not activated. Before activating it, read these files in order:
 
-1. [Task 05 contract](../tasks/sprint2/05_build_curator_only_response_inventory.md)
-2. [Task 04D outcome](../tasks/sprint2/04d_relink_frozen_extraction.md)
-3. [Task 04A outcome](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md)
-4. [Task 03J outcome](../tasks/sprint2/03j_run_final_canonical_extraction.md)
-5. [Architecture contract](architecture.md) and [data/artifact contract](data_artifacts.md)
+1. [Task 05 umbrella](../tasks/sprint2/05_build_curator_only_response_inventory.md)
+2. [Task 05A contract](../tasks/sprint2/05a_qualify_and_profile_response_source.md)
+3. [Architecture contract](architecture.md) and [data/artifact contract](data_artifacts.md)
 
-Task 05 must bind the immutable Task 03J extraction, Task 04A usability
-registry, and the Task 04D linking-dependent handoff. Its Final EIR Volume 4
+Task 05A binds the immutable Task 03J extraction, Task 04A usability registry,
+and Task 04D linking-dependent handoff through compact sealed metadata without
+rehashing their large payloads. It then profiles only a bounded representative
+selection from Final EIR Volume 4. Tasks 05B through 05G remain provisional and
+must be revised in sequence from accepted preceding outcomes. The final
 inventory remains a separate curator-only artifact, not part of the model
-corpus.
+corpus. Read the full Task 03J, Task 04A, or Task 04D historical outcomes only
+if compact metadata disagree or Task 05A encounters an unresolved boundary.
 
 ## Document roles
 
