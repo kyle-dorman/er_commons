@@ -92,6 +92,14 @@ scope, replace a numbered task, or record a completed experiment.
   ([paper](https://arxiv.org/pdf/2412.18424)) and BRIDGE's grounding,
   evidence-coverage, and comparison-error framing
   ([paper](https://arxiv.org/pdf/2603.07931)) provide useful starting points.
+- For Tasks 06 and 08, review Surge AI's [GDP.pdf paper](https://arxiv.org/abs/2607.11192),
+  [dataset card](https://huggingface.co/datasets/surgeai/GDP.pdf), and
+  [evaluation harness](https://github.com/surge-ai/gdp-pdf) as design references
+  for expert-authored document tasks, atomic must-answer and must-not-claim
+  criteria, failure tags, and partial plus strict metrics. Use these as
+  references only: GDP.pdf is a separate broad multimodal benchmark, its PDF
+  files are third-party with reuse rights not cleared, and its held-out data
+  must not enter training or become an ER Commons dependency or contract.
 - Before expanding beyond the first vertical slice, consider a gold-evidence
   completeness audit. Review plausible non-reference evidence surfaced by
   curator search or development runs and classify it as `required_missing`,
