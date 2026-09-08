@@ -198,3 +198,88 @@ def test_directed_edge_rejects_reverse_mention_evidence() -> None:
     schema = json.loads(SCHEMA_PATH.read_text())
     with pytest.raises(ValueError, match="mention evidence does not name an endpoint"):
         validate_record_bundle(records, schema)
+
+
+def test_activity_inputs_must_equal_managed_inventory_dependencies() -> None:
+    fixture = json.loads((FIXTURE_ROOT / "valid_page_states.json").read_text())
+    inventory = next(
+        record for record in fixture["records"] if record["record_type"] == "managed_file_inventory"
+    )
+    inventory["dependencies"][0]["identity"] = "sourcev1-different"
+    records = _materialize_fixture_records(fixture["records"])
+    schema = json.loads(SCHEMA_PATH.read_text())
+    with pytest.raises(
+        ValueError, match="activity input_refs differ from managed inventory dependencies"
+    ):
+        validate_record_bundle(records, schema)
+
+
+def test_gr9_placement_exception_requires_nonempty_same_activity_evidence() -> None:
+    fixture = json.loads((FIXTURE_ROOT / "valid_page_states.json").read_text())
+    exception = next(
+        record
+        for record in fixture["records"]
+        if record["record_type"] == "source_placement_exception"
+    )
+    exception["evidence_ids"] = []
+    records = _materialize_fixture_records(fixture["records"])
+    schema = json.loads(SCHEMA_PATH.read_text())
+    with pytest.raises(ValueError, match="fails JSON Schema"):
+        validate_record_bundle(records, schema)
+
+    fixture = json.loads((FIXTURE_ROOT / "valid_page_states.json").read_text())
+    exception = next(
+        record
+        for record in fixture["records"]
+        if record["record_type"] == "source_placement_exception"
+    )
+    foreign_activity = {
+        **next(record for record in fixture["records"] if record["record_type"] == "activity"),
+        "fixture_key": "foreign-activity",
+        "source_id": "another_source",
+        "page_ranges": [[1, 1]],
+    }
+    foreign_page = {
+        **next(record for record in fixture["records"] if record.get("fixture_key") == "section"),
+        "fixture_key": "foreign-page",
+        "source_id": "another_source",
+        "physical_page": 1,
+        "activity_id": "@foreign-activity",
+    }
+    fixture["records"].extend([foreign_activity, foreign_page])
+    exception["evidence_ids"] = ["@foreign-page"]
+    records = _materialize_fixture_records(fixture["records"])
+    with pytest.raises(
+        ValueError, match="source-placement exception evidence must use its source activity"
+    ):
+        validate_record_bundle(records, schema)
+
+
+@pytest.mark.parametrize(
+    ("count_name", "wrong_value"),
+    [
+        ("completed_ranges", 0),
+        ("emitted_pages", 6),
+        ("marker_candidates", 1),
+        ("general_response_units", 8),
+        ("placement_exceptions", 0),
+    ],
+)
+def test_05c_completion_counts_reconcile_with_records(count_name: str, wrong_value: int) -> None:
+    fixture = json.loads((FIXTURE_ROOT / "valid_page_states.json").read_text())
+    completion = next(
+        record for record in fixture["records"] if record["record_type"] == "stage_completion"
+    )
+    completion["counts"][count_name] = wrong_value
+    records = _materialize_fixture_records(fixture["records"])
+    schema = json.loads(SCHEMA_PATH.read_text())
+    with pytest.raises(ValueError, match=f"05C completion count differs for {count_name}"):
+        validate_record_bundle(records, schema)
+
+
+def test_05c_completion_does_not_require_all_general_responses() -> None:
+    fixture = json.loads((FIXTURE_ROOT / "valid_page_states.json").read_text())
+    records = _materialize_fixture_records(fixture["records"])
+    assert not any(record["record_type"] == "source_unit" for record in records)
+    schema = json.loads(SCHEMA_PATH.read_text())
+    validate_record_bundle(records, schema)

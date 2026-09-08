@@ -24,6 +24,7 @@ dependencies = [
 
 [project.scripts]
 er-commons = "er_commons.cli:main"
+er-responses = "er_commons.response_inventory.cli:main"
 
 [build-system]
 requires = ["uv_build>=0.11.0,<0.12.0"]

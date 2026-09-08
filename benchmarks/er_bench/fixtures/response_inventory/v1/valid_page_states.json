@@ -158,6 +158,63 @@
           "revision_marks": ["underline"]
         }
       ]
+    },
+    {
+      "fixture_key": "gr9-exception",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "source_placement_exception",
+      "source_id": "feir_volume_4",
+      "activity_id": "@activity",
+      "exception_code": "general_response_9_not_in_volume_4",
+      "advertised_label": "General Response 9",
+      "routed_volume": 5,
+      "disposition": "cross_volume_scope_exception",
+      "evidence_ids": ["@section"]
+    },
+    {
+      "fixture_key": "inventory",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "managed_file_inventory",
+      "stage": "05c",
+      "activity_id": "@activity",
+      "dependencies": [
+        {"role": "source_record", "identity": "sourcev1-synthetic", "authority": "artifact_root", "path": "sources/feir_volume_4/source.json"},
+        {"role": "task05a_completion", "identity": "completionv1-05a-synthetic", "authority": "artifact_root", "path": "working/05a/completion.json"}
+      ],
+      "files": [
+        {"authority": "bundle", "path": "records/pages.jsonl", "sha256": null, "byte_size": 7}
+      ]
+    },
+    {
+      "fixture_key": "completion",
+      "schema_version": "er_commons.response_inventory.v1",
+      "record_type": "stage_completion",
+      "stage": "05c",
+      "status": "complete",
+      "activity_id": "@activity",
+      "inventory_id": "@inventory",
+      "counts": {
+        "declared_ranges": 1,
+        "completed_ranges": 1,
+        "failed_ranges": 0,
+        "declared_pages": 7,
+        "emitted_pages": 7,
+        "marker_candidates": 2,
+        "source_spans": 1,
+        "commenters": 0,
+        "submissions": 0,
+        "source_units": 0,
+        "comment_units": 0,
+        "response_units": 0,
+        "general_response_units": 0,
+        "membership_claims": 0,
+        "reference_mentions": 0,
+        "placement_exceptions": 1,
+        "diagnostics": 0,
+        "open_range_boundary_diagnostics": 0
+      },
+      "warnings": [],
+      "completed_at": "2026-09-08T12:00:00Z"
     }
   ]
 }

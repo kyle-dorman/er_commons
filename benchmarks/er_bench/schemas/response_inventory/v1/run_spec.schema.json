@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/response-inventory/v1/run_spec.schema.json",
+  "title": "ER Commons Task 05C response inventory run specification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "task_stage", "scope_kind", "source", "accepted_inputs", "repository_bindings", "producer_code_sha256", "page_ranges", "declared_page_count", "restart_unit", "cross_gap_continuations_allowed", "output_policy", "cache_policy", "stop_behavior"],
+  "properties": {
+    "schema_version": {"const": "er_commons.response_inventory_run_spec.v1"},
+    "task_stage": {"const": "05c"},
+    "scope_kind": {"const": "representative_pilot"},
+    "source": {"$ref": "#/$defs/source"},
+    "accepted_inputs": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/artifact_reference"}},
+    "repository_bindings": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/repository_binding"}},
+    "producer_code_sha256": {"$ref": "#/$defs/sha256"},
+    "page_ranges": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/page_range"}},
+    "declared_page_count": {"type": "integer", "minimum": 1},
+    "restart_unit": {"const": "declared_page_range"},
+    "cross_gap_continuations_allowed": {"const": false},
+    "output_policy": {"$ref": "#/$defs/output_policy"},
+    "cache_policy": {"$ref": "#/$defs/cache_policy"},
+    "stop_behavior": {"$ref": "#/$defs/stop_behavior"}
+  },
+  "$defs": {
+    "relative_path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "page_range": {
+      "type": "object", "additionalProperties": false,
+      "required": ["range_id", "first_page", "last_page"],
+      "properties": {"range_id": {"type": "string", "pattern": "^p[0-9]{4}-p[0-9]{4}$"}, "first_page": {"type": "integer", "minimum": 1}, "last_page": {"type": "integer", "minimum": 1}}
+    },
+    "artifact_reference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "authority", "path", "byte_size", "sha256"],
+      "properties": {"role": {"enum": ["task05a_completion", "source_release_completion", "source_manifest"]}, "authority": {"const": "artifact_root"}, "path": {"$ref": "#/$defs/relative_path"}, "byte_size": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "repository_binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "authority", "path", "sha256"],
+      "properties": {"role": {"enum": ["response_record_schema", "producer_run_spec_code"]}, "authority": {"const": "repository"}, "path": {"$ref": "#/$defs/relative_path"}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_id", "source_role", "source_release_version", "path", "recorded_sha256", "recorded_byte_size", "recorded_page_count", "retrieval_status", "validation_status", "member_of_model_corpus"],
+      "properties": {"source_id": {"const": "feir_volume_4"}, "source_role": {"const": "curator_only_response_source"}, "source_release_version": {"const": "brisbane_baylands_2025_deir_sources_v1"}, "path": {"$ref": "#/$defs/relative_path"}, "recorded_sha256": {"$ref": "#/$defs/sha256"}, "recorded_byte_size": {"type": "integer", "minimum": 1}, "recorded_page_count": {"type": "integer", "minimum": 1}, "retrieval_status": {"const": "downloaded"}, "validation_status": {"const": "valid"}, "member_of_model_corpus": {"const": false}}
+    },
+    "output_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["artifact_relative_root", "pilot_namespace_template", "completion_written_last", "copy_source_payload", "copy_upstream_payloads"],
+      "properties": {"artifact_relative_root": {"$ref": "#/$defs/relative_path"}, "pilot_namespace_template": {"const": "pilots/pilotv1-{activity_hash}"}, "completion_written_last": {"const": true}, "copy_source_payload": {"const": false}, "copy_upstream_payloads": {"const": false}}
+    },
+    "cache_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["relative_path_template", "replaceable", "selected_pages_only", "retain_range_receipts"],
+      "properties": {"relative_path_template": {"$ref": "#/$defs/relative_path"}, "replaceable": {"const": true}, "selected_pages_only": {"const": true}, "retain_range_receipts": {"const": true}}
+    },
+    "stop_behavior": {
+      "type": "object", "additionalProperties": false,
+      "required": ["on_source_binding_mismatch", "on_invalid_anchor_or_schema", "on_unclassified_page", "on_new_structural_regime", "on_nondeterministic_semantic_output", "on_unsafe_restart_state", "allow_additional_pages", "allow_policy_repair_during_run", "allowed_terminal_warning_codes"],
+      "properties": {"on_source_binding_mismatch": {"const": "stop"}, "on_invalid_anchor_or_schema": {"const": "stop"}, "on_unclassified_page": {"const": "stop"}, "on_new_structural_regime": {"const": "stop"}, "on_nondeterministic_semantic_output": {"const": "stop"}, "on_unsafe_restart_state": {"const": "stop"}, "allow_additional_pages": {"const": false}, "allow_policy_repair_during_run": {"const": false}, "allowed_terminal_warning_codes": {"type": "array", "prefixItems": [{"const": "unit_boundary_ambiguous"}], "items": false, "minItems": 1}}
+    }
+  }
+}

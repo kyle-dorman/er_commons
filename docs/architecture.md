@@ -133,6 +133,11 @@ Task 05's separate curator-only response inventory uses the
 source records, normalized relationship edges, sparse corrections, and derived
 review indexes remain separate. The contract is intentionally MVP-sized: one
 record-schema union and one semantic validator, not a new workflow framework.
+The isolated `er-responses validate-spec` command is source-free.
+`er-responses build --run-spec <path>` is curator-only and may access only the
+exact ranges accepted by the Task 05C run specification. It writes replaceable
+range receipts and a nonterminal visual-review packet before any terminal pilot
+completion.
 
 ## Review boundary
 

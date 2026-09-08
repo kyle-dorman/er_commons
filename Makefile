@@ -7,7 +7,7 @@ export ER_COMMONS_DATA_ROOT
 .PHONY: help bootstrap sync check-env data-dirs about paths freeze-brisbane-sources \
 	verify-brisbane-sources validate-collection-contract publish-document \
 	assemble-collection-handoff validate-collection-handoff \
-	validate-response-inventory-contract \
+	validate-response-inventory-contract validate-response-inventory-pilot-spec \
 	format format-check lint lint-fix type test check fix
 
 help:
@@ -19,6 +19,7 @@ help:
 	@echo "  make verify-brisbane-sources  Verify the frozen release without network access"
 	@echo "  make validate-collection-contract  Validate the current v2 contract fixtures"
 	@echo "  make validate-response-inventory-contract  Validate source-free Task 05 records"
+	@echo "  make validate-response-inventory-pilot-spec  Validate the source-free Task 05C run spec"
 	@echo "  make publish-document DOCUMENT_SPEC=PATH SOURCE_ID=ID  Publish one document"
 	@echo "  make assemble-collection-handoff COLLECTION_SPEC=PATH  Assemble one collection handoff"
 	@echo "  make validate-collection-handoff COLLECTION_ROOT=DIR SCOPE_ID=ID SCHEMA=FILE"
@@ -62,6 +63,10 @@ validate-response-inventory-contract:
 	uv run python -m er_commons.response_inventory \
 		--schema benchmarks/er_bench/schemas/response_inventory/v1/records.schema.json \
 		--fixtures benchmarks/er_bench/fixtures/response_inventory/v1
+
+validate-response-inventory-pilot-spec:
+	uv run er-responses validate-spec \
+		--run-spec configs/brisbane_baylands_2025_feir_task05c_pilot_v1.json
 
 publish-document: check-env
 	@test -n "$(DOCUMENT_SPEC)" || (echo "DOCUMENT_SPEC=PATH is required"; exit 1)

@@ -3,9 +3,9 @@
 ## Sprint status
 
 Sprint 2, Brisbane Draft-EIR defense vertical slice, is active. Tasks 02
-through 05B are complete.
+through 05C are complete and accepted.
 
-## Current action: no active implementation; start Task 05C in a new chat
+## Current action: revise Task 05D before activation
 
 [Task 04D](../tasks/sprint2/04d_relink_frozen_extraction.md) is complete. Its
 validated handoff is the designated replacement for linking-dependent
@@ -23,11 +23,16 @@ visual checks. Volume 4 contains General Responses 1-8; the advertised ninth is
 a cross-volume placement exception. The outcome is accepted.
 [Task 05B](../tasks/sprint2/05b_define_response_inventory_contract.md) is
 complete and accepted. No PDF was reopened.
-[Task 05C](../tasks/sprint2/05c_build_response_inventory_pilot.md) remains
-provisional and inactive for a new chat. When that chat begins, revise 05C and
-present its exact bounded source-read plan for separate authorization before
-opening the PDF. Tasks 05D through 05G remain provisional and should be revised
-one at a time from accepted preceding outcomes.
+[Task 05C](../tasks/sprint2/05c_build_response_inventory_pilot.md) has completed
+its separately authorized 89-page run across all 14 frozen ranges. Required
+visual review is complete, a clean repeat reused every range, and the terminal
+candidate carries only the expected page-372 boundary warning. Its reopened
+maintainability, editability, readability, and debugging gate is complete after
+repair and deterministic rerun. The outcome is accepted. Revise the provisional
+Task 05D contract from this evidence before requesting authorization for the
+744-page run. Tasks 05D through 05G remain
+provisional and should be revised one at a time from accepted preceding
+outcomes.
 
 ## Later sequence
 

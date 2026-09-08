@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 from collections.abc import Iterable, Mapping, Sequence
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final
 
@@ -16,10 +17,27 @@ from jsonschema import (  # type: ignore[import-untyped]
 )
 
 from er_commons.artifact_io import canonical_json_sha256
+from er_commons.response_inventory.pilot_policy import TASK05C_PILOT_RANGES
 
 type JsonObject = dict[str, Any]
 
 SCHEMA_VERSION: Final = "er_commons.response_inventory.v1"
+
+
+@dataclass(frozen=True)
+class _ValidationContext:
+    """Pre-indexed record families shared by the bundle validation phases."""
+
+    records: Sequence[JsonObject]
+    by_id: Mapping[str, JsonObject]
+    pages: Mapping[str, JsonObject]
+    spans: Mapping[str, JsonObject]
+    units: Mapping[str, JsonObject]
+    mentions: Mapping[str, JsonObject]
+    memberships: Mapping[str, JsonObject]
+    inventories: Mapping[str, JsonObject]
+    activities: Mapping[str, JsonObject]
+
 
 # These projections are the complete semantic ID policy. Runtime timestamps,
 # working paths, review dispositions, and normalized display text are excluded.
@@ -180,6 +198,17 @@ def build_publication_id(completion: Mapping[str, Any], inventory: Mapping[str, 
 
 def validate_record_bundle(records: Sequence[JsonObject], schema: JsonObject) -> str:
     """Validate record shapes, identities, references, and MVP semantic invariants."""
+    _validate_schema_shapes(records, schema)
+    context = _index_validation_records(records)
+    _validate_source_evidence(context)
+    _validate_source_entities(context)
+    _validate_relationships(context)
+    _validate_bundle_policies(context)
+    return semantic_bundle_digest(records)
+
+
+def _validate_schema_shapes(records: Sequence[JsonObject], schema: JsonObject) -> None:
+    """Validate every record against the shared JSON Schema before dereferencing it."""
     Draft202012Validator.check_schema(schema)
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
     for index, record in enumerate(records):
@@ -188,6 +217,9 @@ def validate_record_bundle(records: Sequence[JsonObject], schema: JsonObject) ->
         except ValidationError as error:
             raise ValueError(f"record {index} fails JSON Schema: {error.message}") from error
 
+
+def _index_validation_records(records: Sequence[JsonObject]) -> _ValidationContext:
+    """Check stable identities once and expose the record families used by later phases."""
     by_id: dict[str, JsonObject] = {}
     for record in records:
         record_id = _record_id(record)
@@ -197,212 +229,328 @@ def validate_record_bundle(records: Sequence[JsonObject], schema: JsonObject) ->
         if record_id != expected:
             raise ValueError(f"record ID does not derive from its preimage: {record_id}")
         by_id[record_id] = record
+    return _ValidationContext(
+        records=records,
+        by_id=by_id,
+        pages=_records_of_type(records, "page"),
+        spans=_records_of_type(records, "source_span"),
+        units=_records_of_type(records, "source_unit"),
+        mentions=_records_of_type(records, "reference_mention"),
+        memberships=_records_of_type(records, "membership_claim"),
+        inventories=_records_of_type(records, "managed_file_inventory"),
+        activities=_records_of_type(records, "activity"),
+    )
 
-    pages = _records_of_type(records, "page")
-    spans = _records_of_type(records, "source_span")
-    units = _records_of_type(records, "source_unit")
-    mentions = _records_of_type(records, "reference_mention")
-    memberships = _records_of_type(records, "membership_claim")
-    inventories = _records_of_type(records, "managed_file_inventory")
-    activities = _records_of_type(records, "activity")
 
-    page_keys = [(page["source_id"], page["physical_page"]) for page in pages.values()]
+def _validate_source_evidence(context: _ValidationContext) -> None:
+    """Validate page-local evidence, continuations, markers, and source spans."""
+    page_keys = [(page["source_id"], page["physical_page"]) for page in context.pages.values()]
     if len(page_keys) != len(set(page_keys)):
         raise ValueError("physical pages must be unique within a source")
+    _validate_pages(context)
+    _validate_page_continuations(context)
+    _validate_markers(context)
+    _validate_spans(context)
 
-    for page in pages.values():
+
+def _validate_pages(context: _ValidationContext) -> None:
+    """Validate page content digests, activity references, and page geometry."""
+    for page in context.pages.values():
         digest = hashlib.sha256(page["raw_text"].encode("utf-8")).hexdigest()
         if page["raw_text_sha256"] != digest:
             raise ValueError(f"page raw-text digest mismatch: {page['page_id']}")
-        _require_ref(page["activity_id"], activities, expected_type="activity")
+        _require_ref(page["activity_id"], context.activities, expected_type="activity")
         _validate_page_box(page)
         if page.get("geometry_ref") is not None:
             _validate_artifact_reference(page["geometry_ref"], require_digest=False)
 
-    for record in _records_of_type(records, "page_continuation").values():
-        _require_refs(record, ("from_page_id", "to_page_id"), pages)
+
+def _validate_page_continuations(context: _ValidationContext) -> None:
+    """Require continuation edges to point forward within one source."""
+    for record in _records_of_type(context.records, "page_continuation").values():
+        _require_refs(record, ("from_page_id", "to_page_id"), context.pages)
         for evidence_id in record["evidence_ids"]:
-            if evidence_id not in by_id:
+            if evidence_id not in context.by_id:
                 raise ValueError(f"continuation references missing evidence: {evidence_id}")
-        if (
-            pages[record["from_page_id"]]["physical_page"]
-            >= pages[record["to_page_id"]]["physical_page"]
-        ):
+        from_page = context.pages[record["from_page_id"]]
+        to_page = context.pages[record["to_page_id"]]
+        if from_page["physical_page"] >= to_page["physical_page"]:
             raise ValueError("page continuation must point forward")
-        if pages[record["from_page_id"]]["source_id"] != pages[record["to_page_id"]]["source_id"]:
+        if from_page["source_id"] != to_page["source_id"]:
             raise ValueError("page continuation cannot cross source identities")
 
-    for marker in _records_of_type(records, "marker_candidate").values():
-        _require_refs(marker, ("page_id",), pages)
-        _require_text_interval(marker, pages[marker["page_id"]]["raw_text"])
-        _validate_bbox(marker["bbox"], pages[marker["page_id"]])
-        if marker["disposition"] == "unit_start":
-            style = marker["style_evidence"]
-            expected_style = (
-                marker["marker_kind"] == "comment" and style["bold"] and style["solid_rule"]
-            ) or (marker["marker_kind"] == "response" and style["italic"] and style["dotted_rule"])
-            if not marker["line_initial"]:
-                raise ValueError("unit-start marker must be line-initial")
-            if marker["marker_kind"] in {"comment", "response"} and not expected_style:
-                raise ValueError("unit-start marker lacks required style and rule evidence")
 
-    for span in spans.values():
+def _validate_markers(context: _ValidationContext) -> None:
+    """Validate marker anchors and the style evidence required for accepted starts."""
+    for marker in _records_of_type(context.records, "marker_candidate").values():
+        _require_refs(marker, ("page_id",), context.pages)
+        page = context.pages[marker["page_id"]]
+        _require_text_interval(marker, page["raw_text"])
+        _validate_bbox(marker["bbox"], page)
+        if marker["disposition"] == "unit_start":
+            _validate_unit_start_marker(marker)
+
+
+def _validate_unit_start_marker(marker: JsonObject) -> None:
+    """Require an accepted comment or response marker to retain layout evidence."""
+    style = marker["style_evidence"]
+    expected_style = (
+        marker["marker_kind"] == "comment" and style["bold"] and style["solid_rule"]
+    ) or (marker["marker_kind"] == "response" and style["italic"] and style["dotted_rule"])
+    if not marker["line_initial"]:
+        raise ValueError("unit-start marker must be line-initial")
+    if marker["marker_kind"] in {"comment", "response"} and not expected_style:
+        raise ValueError("unit-start marker lacks required style and rule evidence")
+
+
+def _validate_spans(context: _ValidationContext) -> None:
+    """Validate source-span containment, ordering, anchors, and character slots."""
+    for span in context.spans.values():
         previous: tuple[int, int] | None = None
         for fragment in span["fragments"]:
             page_id = fragment["page_id"]
-            if page_id not in pages:
+            if page_id not in context.pages:
                 raise ValueError(f"source span references missing page: {page_id}")
-            if span["source_id"] != pages[page_id]["source_id"]:
+            page = context.pages[page_id]
+            if span["source_id"] != page["source_id"]:
                 raise ValueError(f"source span crosses source identities: {span['span_id']}")
-            _require_text_interval(fragment, pages[page_id]["raw_text"])
+            _require_text_interval(fragment, page["raw_text"])
             if fragment["bbox"] is not None:
-                _validate_bbox(fragment["bbox"], pages[page_id])
+                _validate_bbox(fragment["bbox"], page)
             if (
                 fragment["character_slot_end"] is not None
-                and fragment["character_slot_end"] > pages[page_id]["character_slot_count"]
+                and fragment["character_slot_end"] > page["character_slot_count"]
             ):
                 raise ValueError("PDFium character-slot interval exceeds page slot count")
-            current = (pages[page_id]["physical_page"], fragment["text_start"])
+            current = (page["physical_page"], fragment["text_start"])
             if previous is not None and current < previous:
                 raise ValueError(f"source span fragments are not ordered: {span['span_id']}")
             previous = current
 
-    for commenter in _records_of_type(records, "commenter").values():
-        _require_refs(commenter, ("opener_span_id",), spans)
-        if spans[commenter["opener_span_id"]]["source_id"] != commenter["source_id"]:
+
+def _validate_source_entities(context: _ValidationContext) -> None:
+    """Validate commenters, submissions, units, memberships, and mentions."""
+    _validate_commenters_and_submissions(context)
+    _validate_units(context)
+    _validate_memberships_and_mentions(context)
+
+
+def _validate_commenters_and_submissions(context: _ValidationContext) -> None:
+    """Validate source ownership and commenter references for submission entities."""
+    for commenter in _records_of_type(context.records, "commenter").values():
+        _require_refs(commenter, ("opener_span_id",), context.spans)
+        if context.spans[commenter["opener_span_id"]]["source_id"] != commenter["source_id"]:
             raise ValueError("commenter opener span crosses source identities")
-    for submission in _records_of_type(records, "submission").values():
-        _require_refs(submission, ("opener_span_id",), spans)
-        if spans[submission["opener_span_id"]]["source_id"] != submission["source_id"]:
+    for submission in _records_of_type(context.records, "submission").values():
+        _require_refs(submission, ("opener_span_id",), context.spans)
+        if context.spans[submission["opener_span_id"]]["source_id"] != submission["source_id"]:
             raise ValueError("submission opener span crosses source identities")
-        _require_list_refs(submission, "commenter_ids", by_id, expected_type="commenter")
+        _require_list_refs(submission, "commenter_ids", context.by_id, expected_type="commenter")
         if any(
-            by_id[item]["source_id"] != submission["source_id"]
+            context.by_id[item]["source_id"] != submission["source_id"]
             for item in submission["commenter_ids"]
         ):
             raise ValueError("submission commenter crosses source identities")
-    for unit in units.values():
-        _require_list_refs(unit, "span_ids", spans)
-        _require_ref(unit["activity_id"], activities, expected_type="activity")
-        if any(spans[span_id]["source_id"] != unit["source_id"] for span_id in unit["span_ids"]):
+
+
+def _validate_units(context: _ValidationContext) -> None:
+    """Validate unit ownership, submission scope, and accepted start anchors."""
+    for unit in context.units.values():
+        _require_list_refs(unit, "span_ids", context.spans)
+        _require_ref(unit["activity_id"], context.activities, expected_type="activity")
+        if any(
+            context.spans[span_id]["source_id"] != unit["source_id"] for span_id in unit["span_ids"]
+        ):
             raise ValueError(f"source unit crosses source identities: {unit['unit_id']}")
-        if unit["submission_id"] is not None:
-            _require_ref(unit["submission_id"], by_id, expected_type="submission")
-            if by_id[unit["submission_id"]]["source_id"] != unit["source_id"]:
-                raise ValueError(
-                    f"source unit references another source's submission: {unit['unit_id']}"
-                )
-        if unit["unit_kind"] in {"comment", "response"}:
-            if unit["start_marker_id"] is None:
-                raise ValueError("comment and response units require an accepted start marker")
-            start_marker = by_id.get(unit["start_marker_id"])
-            if (
-                start_marker is None
-                or start_marker["record_type"] != "marker_candidate"
-                or start_marker["disposition"] != "unit_start"
-                or start_marker["marker_kind"] != unit["unit_kind"]
-            ):
-                raise ValueError("source unit start marker is missing or incompatible")
-            first_fragment = spans[unit["span_ids"][0]]["fragments"][0]
-            if (
-                start_marker["page_id"] != first_fragment["page_id"]
-                or start_marker["text_start"] != first_fragment["text_start"]
-            ):
-                raise ValueError("source unit start marker differs from its first span anchor")
-        elif unit["start_marker_id"] is not None:
-            _require_ref(unit["start_marker_id"], by_id, expected_type="marker_candidate")
+        _validate_unit_submission(unit, context)
+        _validate_unit_marker(unit, context)
         if unit["unit_kind"] == "general_response" and _is_general_response_nine(
             unit["official_label"]
         ):
             raise ValueError("General Response 9 cannot be a Volume 4 source unit")
 
-    for membership in memberships.values():
-        _require_ref(membership["general_response_unit_id"], units, expected_type="source_unit")
-        if units[membership["general_response_unit_id"]]["unit_kind"] != "general_response":
+
+def _validate_unit_submission(unit: JsonObject, context: _ValidationContext) -> None:
+    """Validate an optional unit-to-submission relationship."""
+    if unit["submission_id"] is None:
+        return
+    _require_ref(unit["submission_id"], context.by_id, expected_type="submission")
+    if context.by_id[unit["submission_id"]]["source_id"] != unit["source_id"]:
+        raise ValueError(f"source unit references another source's submission: {unit['unit_id']}")
+
+
+def _validate_unit_marker(unit: JsonObject, context: _ValidationContext) -> None:
+    """Validate a unit's marker kind, disposition, and first-span anchor."""
+    if unit["unit_kind"] not in {"comment", "response"}:
+        if unit["start_marker_id"] is not None:
+            _require_ref(unit["start_marker_id"], context.by_id, expected_type="marker_candidate")
+        return
+    if unit["start_marker_id"] is None:
+        raise ValueError("comment and response units require an accepted start marker")
+    start_marker = context.by_id.get(unit["start_marker_id"])
+    if (
+        start_marker is None
+        or start_marker["record_type"] != "marker_candidate"
+        or start_marker["disposition"] != "unit_start"
+        or start_marker["marker_kind"] != unit["unit_kind"]
+    ):
+        raise ValueError("source unit start marker is missing or incompatible")
+    first_fragment = context.spans[unit["span_ids"][0]]["fragments"][0]
+    if (
+        start_marker["page_id"] != first_fragment["page_id"]
+        or start_marker["text_start"] != first_fragment["text_start"]
+    ):
+        raise ValueError("source unit start marker differs from its first span anchor")
+
+
+def _validate_memberships_and_mentions(context: _ValidationContext) -> None:
+    """Validate General Response memberships and raw reference mentions."""
+    for membership in context.memberships.values():
+        _require_ref(
+            membership["general_response_unit_id"], context.units, expected_type="source_unit"
+        )
+        if context.units[membership["general_response_unit_id"]]["unit_kind"] != "general_response":
             raise ValueError("membership owner must be a general response")
-        _require_ref(membership["mention_span_id"], spans, expected_type="source_span")
+        _require_ref(membership["mention_span_id"], context.spans, expected_type="source_span")
+    for mention in context.mentions.values():
+        _require_ref(mention["source_unit_id"], context.units, expected_type="source_unit")
+        _require_ref(mention["mention_span_id"], context.spans, expected_type="source_span")
+        _validate_mention_text(mention, context.units, context.spans, context.pages)
 
-    for mention in mentions.values():
-        _require_ref(mention["source_unit_id"], units, expected_type="source_unit")
-        _require_ref(mention["mention_span_id"], spans, expected_type="source_span")
-        _validate_mention_text(mention, units, spans, pages)
 
-    for edge in _records_of_type(records, "semantic_edge").values():
-        _require_refs(edge, ("source_unit_id", "target_unit_id"), units)
-        source_kind = units[edge["source_unit_id"]]["unit_kind"]
-        target_kind = units[edge["target_unit_id"]]["unit_kind"]
-        expected_kinds = {
-            "comment_response": ("comment", "response"),
-            "response_response": ("response", "response"),
-            "response_general_response": ("response", "general_response"),
-            "general_response_membership": ("general_response", "comment"),
-        }
-        if (source_kind, target_kind) != expected_kinds[edge["relation_type"]]:
+def _validate_relationships(context: _ValidationContext) -> None:
+    """Validate semantic edges and Draft EIR links after source entities close."""
+    _validate_semantic_edges(context)
+    _validate_draft_eir_links(context)
+
+
+def _validate_semantic_edges(context: _ValidationContext) -> None:
+    """Validate relationship endpoint kinds and supporting evidence."""
+    expected_kinds = {
+        "comment_response": ("comment", "response"),
+        "response_response": ("response", "response"),
+        "response_general_response": ("response", "general_response"),
+        "general_response_membership": ("general_response", "comment"),
+    }
+    for edge in _records_of_type(context.records, "semantic_edge").values():
+        _require_refs(edge, ("source_unit_id", "target_unit_id"), context.units)
+        endpoint_kinds = (
+            context.units[edge["source_unit_id"]]["unit_kind"],
+            context.units[edge["target_unit_id"]]["unit_kind"],
+        )
+        if endpoint_kinds != expected_kinds[edge["relation_type"]]:
             raise ValueError("semantic edge endpoint kinds contradict relation type")
-        for evidence_id in edge["evidence_ids"]:
-            if (
-                evidence_id not in mentions
-                and evidence_id not in memberships
-                and by_id.get(evidence_id, {}).get("record_type") != "marker_candidate"
-            ):
-                raise ValueError(f"semantic edge has missing evidence: {evidence_id}")
-        _validate_edge_evidence(edge, units, mentions, memberships, by_id)
+        _validate_edge_references(edge, context)
+        _validate_edge_evidence(
+            edge, context.units, context.mentions, context.memberships, context.by_id
+        )
 
-    for link in _records_of_type(records, "draft_eir_link").values():
-        _require_ref(link["source_unit_id"], units, expected_type="source_unit")
-        _require_ref(link["mention_id"], mentions, expected_type="reference_mention")
-        if mentions[link["mention_id"]]["source_unit_id"] != link["source_unit_id"]:
+
+def _validate_edge_references(edge: JsonObject, context: _ValidationContext) -> None:
+    """Require every edge evidence ID to name an allowed evidence record."""
+    for evidence_id in edge["evidence_ids"]:
+        if (
+            evidence_id not in context.mentions
+            and evidence_id not in context.memberships
+            and context.by_id.get(evidence_id, {}).get("record_type") != "marker_candidate"
+        ):
+            raise ValueError(f"semantic edge has missing evidence: {evidence_id}")
+
+
+def _validate_draft_eir_links(context: _ValidationContext) -> None:
+    """Validate Draft EIR links against their mention and activity inputs."""
+    for link in _records_of_type(context.records, "draft_eir_link").values():
+        _require_ref(link["source_unit_id"], context.units, expected_type="source_unit")
+        _require_ref(link["mention_id"], context.mentions, expected_type="reference_mention")
+        mention = context.mentions[link["mention_id"]]
+        if mention["source_unit_id"] != link["source_unit_id"]:
             raise ValueError("Draft EIR link source differs from its mention source")
-        if mentions[link["mention_id"]]["reference_domain"] != "draft_eir":
+        if mention["reference_domain"] != "draft_eir":
             raise ValueError("Draft EIR link must use a draft_eir mention")
-        activity = activities[link["activity_id"]]
+        activity = context.activities[link["activity_id"]]
         input_identities = {item["role"]: item["identity"] for item in activity["input_refs"]}
         if link["task04d_handoff_id"] != input_identities.get("task04d_handoff"):
             raise ValueError("Draft EIR link differs from its Task 04D handoff input")
         if link["task04a_registry_id"] != input_identities.get("task04a_registry"):
             raise ValueError("Draft EIR link differs from its Task 04A registry input")
 
+
+def _validate_bundle_policies(context: _ValidationContext) -> None:
+    """Validate diagnostics, stage closure, inventories, and activity scope."""
     closed_stages = {
         completion["stage"]
-        for completion in _records_of_type(records, "stage_completion").values()
+        for completion in _records_of_type(context.records, "stage_completion").values()
         if completion["status"] != "failed"
     }
-    _validate_diagnostics(records, by_id, mentions, closed_stages)
-    _validate_placement(records, units)
-    _validate_corrections(records, by_id)
-    _validate_views(records, units, spans, by_id)
+    _validate_diagnostics(context.records, context.by_id, context.mentions, closed_stages)
+    _validate_placement(
+        context.records,
+        context.by_id,
+        context.activities,
+        context.pages,
+        context.spans,
+        context.units,
+    )
+    _validate_corrections(context.records, context.by_id)
+    _validate_views(context.records, context.units, context.spans, context.by_id)
+    _validate_completions(context)
+    _validate_inventories(context.inventories, context.activities)
+    _validate_activity_scopes(context.activities, context.pages)
+    _validate_derived_activities(context.records, context.activities)
 
-    for completion in _records_of_type(records, "stage_completion").values():
-        _require_ref(completion["activity_id"], activities, expected_type="activity")
-        _require_ref(
-            completion["inventory_id"], inventories, expected_type="managed_file_inventory"
-        )
-        if activities[completion["activity_id"]]["stage"] != completion["stage"]:
-            raise ValueError("completion stage differs from its activity")
-        if inventories[completion["inventory_id"]]["stage"] != completion["stage"]:
-            raise ValueError("completion stage differs from its inventory")
+
+def _validate_completions(context: _ValidationContext) -> None:
+    """Validate completion ownership and stage-specific terminal invariants."""
+    for completion in _records_of_type(context.records, "stage_completion").values():
+        _validate_completion_ownership(completion, context)
+        if completion["stage"] == "05c" and completion["status"] != "failed":
+            _validate_05c_completion_counts(
+                completion,
+                context.activities[completion["activity_id"]],
+                context.records,
+                context.pages,
+                context.spans,
+                context.units,
+            )
         if completion["stage"] in {"05d", "05g"} and completion["status"] != "failed":
-            general_responses = [
-                unit for unit in units.values() if unit["unit_kind"] == "general_response"
-            ]
-            placement_exceptions = _records_of_type(records, "source_placement_exception")
-            if completion["counts"].get("general_responses") != len(general_responses):
-                raise ValueError("completion General Response count differs from records")
-            if len(general_responses) != 8:
-                raise ValueError("complete source inventory must account for 8 General Responses")
-            if completion["counts"].get("placement_exceptions") != len(placement_exceptions):
-                raise ValueError("completion placement-exception count differs from records")
-            if len(placement_exceptions) != 1:
-                raise ValueError("complete source inventory must account for the GR9 exception")
-            labels = {unit["official_label"].strip().lower() for unit in general_responses}
-            if labels != {f"general response {number}" for number in range(1, 9)}:
-                raise ValueError("complete source inventory must contain General Responses 1-8")
+            _validate_complete_source_inventory(completion, context)
 
-    _validate_inventories(inventories, activities)
-    _validate_activity_scopes(activities, pages)
-    _validate_derived_activities(records, activities)
 
-    return semantic_bundle_digest(records)
+def _validate_completion_ownership(completion: JsonObject, context: _ValidationContext) -> None:
+    """Require completion, activity, and inventory to describe the same stage."""
+    _require_ref(completion["activity_id"], context.activities, expected_type="activity")
+    _require_ref(
+        completion["inventory_id"], context.inventories, expected_type="managed_file_inventory"
+    )
+    activity = context.activities[completion["activity_id"]]
+    inventory = context.inventories[completion["inventory_id"]]
+    if activity["stage"] != completion["stage"]:
+        raise ValueError("completion stage differs from its activity")
+    if inventory["stage"] != completion["stage"]:
+        raise ValueError("completion stage differs from its inventory")
+    if inventory["activity_id"] != completion["activity_id"]:
+        raise ValueError("completion inventory differs from its activity")
+
+
+def _validate_complete_source_inventory(
+    completion: JsonObject, context: _ValidationContext
+) -> None:
+    """Require a terminal full-source inventory to contain GR1-8 and the GR9 exception."""
+    general_responses = [
+        unit for unit in context.units.values() if unit["unit_kind"] == "general_response"
+    ]
+    placement_exceptions = _records_of_type(context.records, "source_placement_exception")
+    if completion["counts"].get("general_responses") != len(general_responses):
+        raise ValueError("completion General Response count differs from records")
+    if len(general_responses) != 8:
+        raise ValueError("complete source inventory must account for 8 General Responses")
+    if completion["counts"].get("placement_exceptions") != len(placement_exceptions):
+        raise ValueError("completion placement-exception count differs from records")
+    if len(placement_exceptions) != 1:
+        raise ValueError("complete source inventory must account for the GR9 exception")
+    labels = {unit["official_label"].strip().lower() for unit in general_responses}
+    if labels != {f"general response {number}" for number in range(1, 9)}:
+        raise ValueError("complete source inventory must contain General Responses 1-8")
 
 
 def validate_contract_fixtures(schema_path: Path, fixture_root: Path) -> int:
@@ -413,7 +561,12 @@ def validate_contract_fixtures(schema_path: Path, fixture_root: Path) -> int:
         raise ValueError(
             f"response-inventory fixture directory has no valid bundles: {fixture_root}"
         )
-    count = 0
+    count = _validate_positive_fixtures(valid_paths, schema)
+    return count + _validate_negative_fixtures(fixture_root / "invalid_cases.json", schema)
+
+
+def _validate_positive_fixtures(valid_paths: Sequence[Path], schema: JsonObject) -> int:
+    """Require each positive fixture to validate independent of record order."""
     for path in valid_paths:
         fixture = _load_object(path)
         records = _materialize_fixture_records(_record_list(fixture, path))
@@ -421,9 +574,11 @@ def validate_contract_fixtures(schema_path: Path, fixture_root: Path) -> int:
         reversed_digest = validate_record_bundle(list(reversed(records)), schema)
         if digest != reversed_digest:
             raise ValueError(f"fixture is not discovery-order deterministic: {path}")
-        count += 1
+    return len(valid_paths)
 
-    invalid_path = fixture_root / "invalid_cases.json"
+
+def _validate_negative_fixtures(invalid_path: Path, schema: JsonObject) -> int:
+    """Require every negative fixture to fail for its documented reason."""
     invalid = _load_object(invalid_path)
     cases = invalid.get("cases")
     if not isinstance(cases, list) or not cases:
@@ -446,8 +601,7 @@ def validate_contract_fixtures(schema_path: Path, fixture_root: Path) -> int:
                 ) from error
         else:
             raise ValueError(f"invalid fixture unexpectedly passed: {case.get('case_id')}")
-        count += 1
-    return count
+    return len(cases)
 
 
 def validate_managed_files(
@@ -486,17 +640,10 @@ def _validate_diagnostics(
 ) -> None:
     terminal_subjects: set[str] = set()
     for diagnostic in _records_of_type(records, "diagnostic").values():
-        if diagnostic["subject_ids"] != sorted(set(diagnostic["subject_ids"])):
-            raise ValueError("diagnostic subject_ids must be sorted and unique")
-        if diagnostic["evidence_ids"] != sorted(set(diagnostic["evidence_ids"])):
-            raise ValueError("diagnostic evidence_ids must be sorted and unique")
-        for record_id in diagnostic["subject_ids"] + diagnostic["evidence_ids"]:
-            if record_id not in by_id:
-                raise ValueError(f"diagnostic references missing record: {record_id}")
-        if diagnostic["terminal"]:
-            terminal_subjects.update(diagnostic["subject_ids"])
+        _validate_diagnostic_references(diagnostic, by_id)
+        terminal_subjects.update(diagnostic["subject_ids"] if diagnostic["terminal"] else ())
 
-    resolved_mentions = {
+    resolved_mentions: set[str] = {
         evidence_id
         for edge in _records_of_type(records, "semantic_edge").values()
         for evidence_id in edge["evidence_ids"]
@@ -505,11 +652,7 @@ def _validate_diagnostics(
     resolved_mentions.update(
         link["mention_id"] for link in _records_of_type(records, "draft_eir_link").values()
     )
-    required_domains: set[str] = set()
-    if closed_stages & {"05e", "05f", "05g"}:
-        required_domains.add("intra_volume")
-    if closed_stages & {"05f", "05g"}:
-        required_domains.update({"draft_eir", "final_eir", "appendix_q", "external", "unknown"})
+    required_domains = _required_resolved_domains(closed_stages)
     for mention_id, mention in mentions.items():
         if (
             mention["reference_domain"] in required_domains
@@ -519,7 +662,34 @@ def _validate_diagnostics(
             raise ValueError(f"reference mention lacks resolved or terminal outcome: {mention_id}")
 
 
-def _validate_placement(records: Sequence[JsonObject], units: Mapping[str, JsonObject]) -> None:
+def _validate_diagnostic_references(
+    diagnostic: JsonObject, by_id: Mapping[str, JsonObject]
+) -> None:
+    """Validate deterministic diagnostic lists and their record references."""
+    for field in ("subject_ids", "evidence_ids"):
+        if diagnostic[field] != sorted(set(diagnostic[field])):
+            raise ValueError(f"diagnostic {field} must be sorted and unique")
+    for record_id in diagnostic["subject_ids"] + diagnostic["evidence_ids"]:
+        if record_id not in by_id:
+            raise ValueError(f"diagnostic references missing record: {record_id}")
+
+
+def _required_resolved_domains(closed_stages: set[str]) -> set[str]:
+    """Return reference domains whose lifecycle closes at the completed stages."""
+    domains = {"intra_volume"} if closed_stages & {"05e", "05f", "05g"} else set()
+    if closed_stages & {"05f", "05g"}:
+        domains.update({"draft_eir", "final_eir", "appendix_q", "external", "unknown"})
+    return domains
+
+
+def _validate_placement(
+    records: Sequence[JsonObject],
+    by_id: Mapping[str, JsonObject],
+    activities: Mapping[str, JsonObject],
+    pages: Mapping[str, JsonObject],
+    spans: Mapping[str, JsonObject],
+    units: Mapping[str, JsonObject],
+) -> None:
     exceptions = _records_of_type(records, "source_placement_exception")
     general_numbers = {
         unit["official_label"].strip().lower()
@@ -532,37 +702,203 @@ def _validate_placement(records: Sequence[JsonObject], units: Mapping[str, JsonO
     for exception in exceptions.values():
         if exception["exception_code"] != "general_response_9_not_in_volume_4":
             raise ValueError("unsupported source-placement exception")
+        activity_id = exception["activity_id"]
+        _require_ref(activity_id, activities, expected_type="activity")
+        activity = activities[activity_id]
+        if activity["source_id"] != exception["source_id"]:
+            raise ValueError("source-placement exception differs from its source activity")
+        for evidence_id in exception["evidence_ids"]:
+            evidence = by_id.get(evidence_id)
+            if evidence is None:
+                raise ValueError(
+                    f"source-placement exception references missing evidence: {evidence_id}"
+                )
+            anchors = _source_activity_anchors(evidence, by_id, pages, spans, units)
+            if not anchors or anchors != {(exception["source_id"], activity_id)}:
+                raise ValueError("source-placement exception evidence must use its source activity")
+
+
+def _validate_05c_completion_counts(
+    completion: JsonObject,
+    activity: JsonObject,
+    records: Sequence[JsonObject],
+    pages: Mapping[str, JsonObject],
+    spans: Mapping[str, JsonObject],
+    units: Mapping[str, JsonObject],
+) -> None:
+    """Reconcile a successful pilot completion without imposing full-volume counts."""
+    activity_id = activity["activity_id"]
+    source_id = activity["source_id"]
+    activity_pages = {
+        page_id: page for page_id, page in pages.items() if page["activity_id"] == activity_id
+    }
+    page_ids = set(activity_pages)
+    activity_spans = {
+        span_id: span
+        for span_id, span in spans.items()
+        if {fragment["page_id"] for fragment in span["fragments"]}.issubset(page_ids)
+    }
+    activity_units = {
+        unit_id: unit for unit_id, unit in units.items() if unit["activity_id"] == activity_id
+    }
+    record_counts = {
+        "marker_candidates": sum(
+            record["page_id"] in page_ids
+            for record in records
+            if record["record_type"] == "marker_candidate"
+        ),
+        "source_spans": len(activity_spans),
+        "commenters": sum(
+            record["source_id"] == source_id and record["opener_span_id"] in activity_spans
+            for record in records
+            if record["record_type"] == "commenter"
+        ),
+        "submissions": sum(
+            record["source_id"] == source_id and record["opener_span_id"] in activity_spans
+            for record in records
+            if record["record_type"] == "submission"
+        ),
+        "source_units": len(activity_units),
+        "comment_units": sum(unit["unit_kind"] == "comment" for unit in activity_units.values()),
+        "response_units": sum(unit["unit_kind"] == "response" for unit in activity_units.values()),
+        "general_response_units": sum(
+            unit["unit_kind"] == "general_response" for unit in activity_units.values()
+        ),
+        "membership_claims": sum(
+            record["general_response_unit_id"] in activity_units
+            for record in records
+            if record["record_type"] == "membership_claim"
+        ),
+        "reference_mentions": sum(
+            record["source_unit_id"] in activity_units
+            for record in records
+            if record["record_type"] == "reference_mention"
+        ),
+        "placement_exceptions": sum(
+            record["activity_id"] == activity_id
+            for record in records
+            if record["record_type"] == "source_placement_exception"
+        ),
+        "diagnostics": sum(
+            record["activity_id"] == activity_id
+            for record in records
+            if record["record_type"] == "diagnostic"
+        ),
+        "open_range_boundary_diagnostics": sum(
+            record["activity_id"] == activity_id
+            and record["code"] == "unit_boundary_ambiguous"
+            and record["terminal"] is True
+            for record in records
+            if record["record_type"] == "diagnostic"
+        ),
+    }
+    ranges = activity["page_ranges"]
+    declared_pages = sum(end - start + 1 for start, end in ranges)
+    expected = {
+        "declared_ranges": len(ranges),
+        "completed_ranges": len(ranges),
+        "failed_ranges": 0,
+        "declared_pages": declared_pages,
+        "emitted_pages": len(activity_pages),
+        **record_counts,
+    }
+    counts = completion["counts"]
+    for name, value in expected.items():
+        if counts.get(name) != value:
+            raise ValueError(f"05C completion count differs for {name}")
+    if record_counts["placement_exceptions"] != 1:
+        raise ValueError("complete 05C pilot must account for the GR9 exception")
+    if (
+        tuple(tuple(item) for item in ranges) == TASK05C_PILOT_RANGES
+        and record_counts["open_range_boundary_diagnostics"] != 1
+    ):
+        raise ValueError("complete 05C pilot must retain its one right-censored boundary")
+    if tuple(tuple(item) for item in ranges) == TASK05C_PILOT_RANGES:
+        boundary = next(
+            record
+            for record in records
+            if record["record_type"] == "diagnostic"
+            and record["activity_id"] == activity_id
+            and record["code"] == "unit_boundary_ambiguous"
+            and record["terminal"] is True
+        )
+        subject = next(
+            record for record in records if record.get("marker_id") == boundary["subject_ids"][0]
+        )
+        if subject["observed_label"].casefold() != "response m-osec-137":
+            raise ValueError("05C right-censored boundary must be Response M-OSEC-137")
+
+
+def _source_activity_anchors(
+    record: JsonObject,
+    by_id: Mapping[str, JsonObject],
+    pages: Mapping[str, JsonObject],
+    spans: Mapping[str, JsonObject],
+    units: Mapping[str, JsonObject],
+) -> set[tuple[str, str]]:
+    """Resolve source/activity anchors for source-derived placement evidence."""
+    record_type = record["record_type"]
+    if record_type == "page":
+        return {(record["source_id"], record["activity_id"])}
+    if record_type == "marker_candidate":
+        return _source_activity_anchors(pages[record["page_id"]], by_id, pages, spans, units)
+    if record_type == "source_span":
+        return {
+            (pages[fragment["page_id"]]["source_id"], pages[fragment["page_id"]]["activity_id"])
+            for fragment in record["fragments"]
+        }
+    if record_type == "source_unit":
+        return {(record["source_id"], record["activity_id"])}
+    if record_type == "page_continuation":
+        return {
+            *(_source_activity_anchors(pages[record["from_page_id"]], by_id, pages, spans, units)),
+            *(_source_activity_anchors(pages[record["to_page_id"]], by_id, pages, spans, units)),
+        }
+    if record_type == "commenter" or record_type == "submission":
+        return _source_activity_anchors(spans[record["opener_span_id"]], by_id, pages, spans, units)
+    if record_type == "membership_claim":
+        return _source_activity_anchors(
+            units[record["general_response_unit_id"]], by_id, pages, spans, units
+        ) | _source_activity_anchors(spans[record["mention_span_id"]], by_id, pages, spans, units)
+    if record_type == "reference_mention":
+        return _source_activity_anchors(
+            units[record["source_unit_id"]], by_id, pages, spans, units
+        ) | _source_activity_anchors(spans[record["mention_span_id"]], by_id, pages, spans, units)
+    return set()
 
 
 def _validate_corrections(records: Sequence[JsonObject], by_id: Mapping[str, JsonObject]) -> None:
     for correction in _records_of_type(records, "correction").values():
-        for target_id in correction["target_ids"]:
-            if target_id not in by_id:
-                raise ValueError(f"correction target is missing: {target_id}")
-        for replacement_id in correction["replacement_ids"]:
-            if replacement_id not in by_id:
-                raise ValueError(f"correction replacement is missing: {replacement_id}")
-        structural = correction["correction_kind"] in {"resegment", "reanchor", "relink"}
-        if correction["requires_replay"] != structural:
-            raise ValueError("correction replay flag contradicts correction kind")
-        if correction["correction_kind"] == "text_overlay" and not correction["replacement_text"]:
-            raise ValueError("text overlay correction requires replacement_text")
-        if (
-            correction["correction_kind"] == "text_overlay"
-            and not correction["transcription_method"]
-        ):
-            raise ValueError("text overlay correction requires a transcription method")
-        if correction["correction_kind"] != "text_overlay" and correction["transcription_method"]:
-            raise ValueError("only text overlays may carry a transcription method")
-        if (
-            correction["correction_kind"] == "metadata_disposition"
-            and not correction["disposition"]
-        ):
-            raise ValueError("metadata correction requires a disposition")
-        if correction["correction_kind"] != "metadata_disposition" and correction["disposition"]:
-            raise ValueError("only metadata corrections may carry a disposition")
-        if structural and not correction["replacement_ids"]:
-            raise ValueError("structural correction requires replacement IDs")
+        _validate_correction(correction, by_id)
+
+
+def _validate_correction(correction: JsonObject, by_id: Mapping[str, JsonObject]) -> None:
+    """Validate one correction's references and kind-specific fields."""
+    for field, label in (("target_ids", "target"), ("replacement_ids", "replacement")):
+        for record_id in correction[field]:
+            if record_id not in by_id:
+                raise ValueError(f"correction {label} is missing: {record_id}")
+    kind = correction["correction_kind"]
+    structural = kind in {"resegment", "reanchor", "relink"}
+    if correction["requires_replay"] != structural:
+        raise ValueError("correction replay flag contradicts correction kind")
+    _validate_correction_text_fields(correction, kind)
+    if structural and not correction["replacement_ids"]:
+        raise ValueError("structural correction requires replacement IDs")
+
+
+def _validate_correction_text_fields(correction: JsonObject, kind: str) -> None:
+    """Validate fields that are exclusive to text and metadata corrections."""
+    if kind == "text_overlay" and not correction["replacement_text"]:
+        raise ValueError("text overlay correction requires replacement_text")
+    if kind == "text_overlay" and not correction["transcription_method"]:
+        raise ValueError("text overlay correction requires a transcription method")
+    if kind != "text_overlay" and correction["transcription_method"]:
+        raise ValueError("only text overlays may carry a transcription method")
+    if kind == "metadata_disposition" and not correction["disposition"]:
+        raise ValueError("metadata correction requires a disposition")
+    if kind != "metadata_disposition" and correction["disposition"]:
+        raise ValueError("only metadata corrections may carry a disposition")
 
 
 def _validate_mention_text(
@@ -652,6 +988,9 @@ def _validate_inventories(
             raise ValueError("managed inventory dependency roles must be unique")
         for dependency in inventory["dependencies"]:
             _validate_dependency_reference(dependency)
+        activity = activities[inventory["activity_id"]]
+        if inventory["dependencies"] != activity["input_refs"]:
+            raise ValueError("activity input_refs differ from managed inventory dependencies")
         paths = [item["path"] for item in inventory["files"]]
         if paths != sorted(paths) or len(paths) != len(set(paths)):
             raise ValueError("managed inventory files must have sorted unique paths")
@@ -667,56 +1006,58 @@ def _validate_activity_scopes(
     activities: Mapping[str, JsonObject], pages: Mapping[str, JsonObject]
 ) -> None:
     for activity_id, activity in activities.items():
-        input_keys = [
-            (item["role"], item["identity"], item["path"]) for item in activity["input_refs"]
-        ]
-        if input_keys != sorted(input_keys) or len(input_keys) != len(set(input_keys)):
-            raise ValueError("activity input references must have sorted unique paths")
-        input_roles = [item["role"] for item in activity["input_refs"]]
-        if len(input_roles) != len(set(input_roles)):
-            raise ValueError("activity input dependency roles must be unique")
-        for item in activity["input_refs"]:
-            _validate_dependency_reference(item)
-        required_roles = {
-            "05c": {"source_record", "task05a_completion"},
-            "05d": {"source_record", "task05c_completion"},
-            "05e": {"task05d_completion"},
-            "05f": {
-                "task04a_registry",
-                "task04d_handoff",
-                "task05d_completion",
-                "task05e_completion",
-            },
-            "05g": {"task05d_completion", "task05e_completion", "task05f_completion"},
-        }[activity["stage"]]
-        if not required_roles.issubset({item["role"] for item in activity["input_refs"]}):
-            raise ValueError("activity is missing a required stage dependency role")
-        ranges = activity["page_ranges"]
+        _validate_activity_dependencies(activity)
         if activity["stage"] in {"05c", "05d"}:
-            if not activity["source_id"] or not ranges:
-                raise ValueError("05C/05D activity requires an explicit source and page ranges")
-            expected_pages: list[int] = []
-            for start, end in ranges:
-                if end < start:
-                    raise ValueError("activity page range ends before it starts")
-                expected_pages.extend(range(start, end + 1))
-            if expected_pages != sorted(set(expected_pages)):
-                raise ValueError("activity page ranges must be ordered and non-overlapping")
-            observed_pages = sorted(
-                page["physical_page"]
-                for page in pages.values()
-                if page["activity_id"] == activity_id
-            )
-            if observed_pages != expected_pages:
-                raise ValueError("activity page records do not close the declared page ranges")
-            if any(
-                page["source_id"] != activity["source_id"]
-                for page in pages.values()
-                if page["activity_id"] == activity_id
-            ):
-                raise ValueError("activity page records cross source identities")
-        elif activity["source_id"] is not None or ranges:
+            _validate_source_activity_scope(activity_id, activity, pages)
+        elif activity["source_id"] is not None or activity["page_ranges"]:
             raise ValueError("non-source activity cannot declare source page ranges")
+
+
+def _validate_activity_dependencies(activity: JsonObject) -> None:
+    """Validate deterministic dependencies and stage-required roles."""
+    input_keys = [(item["role"], item["identity"], item["path"]) for item in activity["input_refs"]]
+    if input_keys != sorted(input_keys) or len(input_keys) != len(set(input_keys)):
+        raise ValueError("activity input references must have sorted unique paths")
+    input_roles = [item["role"] for item in activity["input_refs"]]
+    if len(input_roles) != len(set(input_roles)):
+        raise ValueError("activity input dependency roles must be unique")
+    for item in activity["input_refs"]:
+        _validate_dependency_reference(item)
+    required_roles = {
+        "05c": {"source_record", "task05a_completion"},
+        "05d": {"source_record", "task05c_completion"},
+        "05e": {"task05d_completion"},
+        "05f": {
+            "task04a_registry",
+            "task04d_handoff",
+            "task05d_completion",
+            "task05e_completion",
+        },
+        "05g": {"task05d_completion", "task05e_completion", "task05f_completion"},
+    }[activity["stage"]]
+    if not required_roles.issubset(input_roles):
+        raise ValueError("activity is missing a required stage dependency role")
+
+
+def _validate_source_activity_scope(
+    activity_id: str, activity: JsonObject, pages: Mapping[str, JsonObject]
+) -> None:
+    """Require source activities to close exact ordered ranges and source identity."""
+    ranges = activity["page_ranges"]
+    if not activity["source_id"] or not ranges:
+        raise ValueError("05C/05D activity requires an explicit source and page ranges")
+    expected_pages: list[int] = []
+    for start, end in ranges:
+        if end < start:
+            raise ValueError("activity page range ends before it starts")
+        expected_pages.extend(range(start, end + 1))
+    if expected_pages != sorted(set(expected_pages)):
+        raise ValueError("activity page ranges must be ordered and non-overlapping")
+    activity_pages = [page for page in pages.values() if page["activity_id"] == activity_id]
+    if sorted(page["physical_page"] for page in activity_pages) != expected_pages:
+        raise ValueError("activity page records do not close the declared page ranges")
+    if any(page["source_id"] != activity["source_id"] for page in activity_pages):
+        raise ValueError("activity page records cross source identities")
 
 
 def _validate_derived_activities(

@@ -394,7 +394,12 @@
         "advertised_label": {"const": "General Response 9"},
         "routed_volume": {"const": 5},
         "disposition": {"const": "cross_volume_scope_exception"},
-        "evidence_ids": {"$ref": "#/$defs/id_list"}
+        "evidence_ids": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/typed_id"},
+          "minItems": 1,
+          "uniqueItems": true
+        }
       },
       "required": ["exception_id", "source_id", "activity_id", "exception_code", "advertised_label", "routed_volume", "disposition", "evidence_ids"]
     },
@@ -459,11 +464,68 @@
         "status": {"enum": ["complete", "complete_with_warnings", "failed"]},
         "activity_id": {"$ref": "#/$defs/typed_id"},
         "inventory_id": {"$ref": "#/$defs/typed_id"},
-        "counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "counts": {
+          "type": "object",
+          "properties": {
+            "declared_ranges": {"type": "integer", "minimum": 0},
+            "completed_ranges": {"type": "integer", "minimum": 0},
+            "failed_ranges": {"type": "integer", "minimum": 0},
+            "declared_pages": {"type": "integer", "minimum": 0},
+            "emitted_pages": {"type": "integer", "minimum": 0},
+            "marker_candidates": {"type": "integer", "minimum": 0},
+            "source_spans": {"type": "integer", "minimum": 0},
+            "commenters": {"type": "integer", "minimum": 0},
+            "submissions": {"type": "integer", "minimum": 0},
+            "source_units": {"type": "integer", "minimum": 0},
+            "comment_units": {"type": "integer", "minimum": 0},
+            "response_units": {"type": "integer", "minimum": 0},
+            "general_response_units": {"type": "integer", "minimum": 0},
+            "membership_claims": {"type": "integer", "minimum": 0},
+            "reference_mentions": {"type": "integer", "minimum": 0},
+            "placement_exceptions": {"type": "integer", "minimum": 0},
+            "diagnostics": {"type": "integer", "minimum": 0},
+            "open_range_boundary_diagnostics": {"type": "integer", "minimum": 0}
+          },
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        },
         "warnings": {"type": "array", "items": {"type": "string", "minLength": 1}},
         "completed_at": {"type": "string", "format": "date-time"}
       },
-      "required": ["completion_id", "stage", "status", "activity_id", "inventory_id", "counts", "warnings", "completed_at"]
+      "required": ["completion_id", "stage", "status", "activity_id", "inventory_id", "counts", "warnings", "completed_at"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {"stage": {"const": "05c"}, "status": {"enum": ["complete", "complete_with_warnings"]}},
+            "required": ["stage", "status"]
+          },
+          "then": {
+            "properties": {
+              "counts": {
+                "required": [
+                  "declared_ranges",
+                  "completed_ranges",
+                  "failed_ranges",
+                  "declared_pages",
+                  "emitted_pages",
+                  "marker_candidates",
+                  "source_spans",
+                  "commenters",
+                  "submissions",
+                  "source_units",
+                  "comment_units",
+                  "response_units",
+                  "general_response_units",
+                  "membership_claims",
+                  "reference_mentions",
+                  "placement_exceptions",
+                  "diagnostics",
+                  "open_range_boundary_diagnostics"
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }
