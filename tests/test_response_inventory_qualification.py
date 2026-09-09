@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import subprocess
 from copy import deepcopy
 from pathlib import Path
@@ -10,8 +11,10 @@ import pytest
 
 from er_commons.response_inventory.observations import LineObservation, PageObservation
 from er_commons.response_inventory.qualification import (
+    apply_full_visual_dispositions,
     apply_visual_dispositions,
     flag_record_review_pages,
+    qualify_all_pages,
     qualify_selected_pages,
     required_visual_review_pages,
     token_multiset_f1,
@@ -149,6 +152,177 @@ def test_poppler_timeout_names_tool_page_and_bound(tmp_path: Path) -> None:
             tmp_path / "qualification",
             runner=timeout_runner,
         )
+
+
+def test_full_qualification_binds_render_and_structured_disposition(tmp_path: Path) -> None:
+    observation = _observation_without_geometry(6)
+
+    def fake_runner(command: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+        if command[0] == "pdftoppm":
+            Path(command[-1]).with_suffix(".png").write_bytes(b"synthetic-png")
+            stdout = ""
+        else:
+            stdout = "<doc><word>source</word><word>text</word></doc>"
+        return subprocess.CompletedProcess(command, 0, stdout=stdout, stderr="")
+
+    cache_root = tmp_path / "qualification"
+    report = qualify_all_pages(
+        tmp_path / "source.pdf", [observation], cache_root, runner=fake_runner
+    )
+    row = report["pages"][0]
+    assert row["render_id"].startswith("renderv1-")
+    assert row["review_reasons"] == ["missing_or_invalid_geometry"]
+    report["review_population"] = [
+        {"physical_page": 6, "page_id": "pagev1-test", "reasons": row["review_reasons"]}
+    ]
+    decision = {
+        6: {
+            "status": "accepted",
+            "reviewer": "reviewer-test",
+            "reason": "source and render agree",
+            "evidence_id": row["render_id"],
+        }
+    }
+    updated, unresolved = apply_full_visual_dispositions(report, decision)
+    assert unresolved == ()
+    assert updated["review_complete"] is True
+    validate_qualification_report(updated, [observation], cache_root)
+
+    wrong = {6: {**decision[6], "evidence_id": "renderv1-" + "0" * 64}}
+    with pytest.raises(ValueError, match="another render"):
+        apply_full_visual_dispositions(report, wrong)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        ({"status": "maybe"}, "unsupported visual disposition for page 6"),
+        ({"reviewer": 7}, "invalid reviewer"),
+        ({"reason": ""}, "invalid reason"),
+        ({"evidence_id": None}, "invalid evidence_id"),
+        ({"extra": "field"}, "unexpected fields"),
+    ],
+    ids=["status", "reviewer-type", "blank-reason", "evidence-type", "extra-field"],
+)
+def test_full_visual_dispositions_localize_invalid_fields(
+    tmp_path: Path, mutation: dict[str, object], message: str
+) -> None:
+    observation = _observation_without_geometry(6)
+    report = _full_report(tmp_path, observation)
+    row = report["pages"][0]
+    decision: dict[str, object] = {
+        "status": "accepted",
+        "reviewer": "reviewer-test",
+        "reason": "source and render agree",
+        "evidence_id": row["render_id"],
+    }
+    decision.update(mutation)
+    report["review_population"] = [
+        {"physical_page": 6, "page_id": "pagev1-test", "reasons": row["review_reasons"]}
+    ]
+    with pytest.raises(ValueError, match=message):
+        apply_full_visual_dispositions(report, {6: decision})  # type: ignore[arg-type]
+
+
+def test_full_visual_dispositions_name_unexpected_pages(tmp_path: Path) -> None:
+    observation = _observation_without_geometry(6)
+    report = _full_report(tmp_path, observation)
+    report["review_population"] = []
+    with pytest.raises(ValueError, match=r"required review set: \[99\]"):
+        apply_full_visual_dispositions(report, {99: {}})
+
+
+def test_full_qualification_resumes_validated_page_checkpoints(tmp_path: Path) -> None:
+    observations = [_observation_without_geometry(6), _observation_without_geometry(7)]
+    cache_root = tmp_path / "qualification"
+    first_calls: list[tuple[str, int]] = []
+
+    def interrupted_runner(
+        command: list[str], **_kwargs: object
+    ) -> subprocess.CompletedProcess[str]:
+        page = int(command[command.index("-f") + 1])
+        first_calls.append((command[0], page))
+        if page == 7:
+            raise subprocess.CalledProcessError(1, command, stderr="synthetic interruption")
+        if command[0] == "pdftoppm":
+            Path(command[-1]).with_suffix(".png").write_bytes(b"synthetic-png")
+            stdout = ""
+        else:
+            stdout = "<doc><word>source</word><word>text</word></doc>"
+        return subprocess.CompletedProcess(command, 0, stdout=stdout, stderr="")
+
+    with pytest.raises(RuntimeError, match="pdftotext failed for physical page 7"):
+        qualify_all_pages(
+            tmp_path / "source.pdf", observations, cache_root, runner=interrupted_runner
+        )
+    assert (cache_root / "page_evidence/page-0006.json").is_file()
+
+    resumed_calls: list[tuple[str, int]] = []
+
+    def resumed_runner(command: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+        page = int(command[command.index("-f") + 1])
+        resumed_calls.append((command[0], page))
+        if command[0] == "pdftoppm":
+            Path(command[-1]).with_suffix(".png").write_bytes(b"synthetic-png")
+            stdout = ""
+        else:
+            stdout = "<doc><word>source</word><word>text</word></doc>"
+        return subprocess.CompletedProcess(command, 0, stdout=stdout, stderr="")
+
+    report = qualify_all_pages(
+        tmp_path / "source.pdf", observations, cache_root, runner=resumed_runner
+    )
+    assert [row["physical_page"] for row in report["pages"]] == [6, 7]
+    assert resumed_calls == [("pdftotext", 7), ("pdftoppm", 7)]
+
+
+def _full_report(tmp_path: Path, observation: PageObservation) -> dict[str, object]:
+    def fake_runner(command: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+        if command[0] == "pdftoppm":
+            Path(command[-1]).with_suffix(".png").write_bytes(b"synthetic-png")
+            stdout = ""
+        else:
+            stdout = "<doc><word>source</word><word>text</word></doc>"
+        return subprocess.CompletedProcess(command, 0, stdout=stdout, stderr="")
+
+    return qualify_all_pages(
+        tmp_path / "source.pdf", [observation], tmp_path / "qualification", runner=fake_runner
+    )
+
+
+def test_poppler_progress_is_ordinal_and_only_on_all_page_path(
+    tmp_path: Path, caplog: pytest.LogCaptureFixture
+) -> None:
+    observations = [_observation_without_geometry(6), _observation_without_geometry(40)]
+
+    def fake_runner(command: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+        if command[0] == "pdftoppm":
+            Path(command[-1]).with_suffix(".png").write_bytes(b"synthetic-png")
+            stdout = ""
+        else:
+            stdout = "<doc><word>source</word><word>text</word></doc>"
+        return subprocess.CompletedProcess(command, 0, stdout=stdout, stderr="")
+
+    caplog.set_level(logging.INFO, logger="er_commons.response_inventory.qualification")
+    qualify_selected_pages(
+        tmp_path / "source.pdf",
+        observations,
+        tmp_path / "selected",
+        runner=fake_runner,
+    )
+    assert not [record for record in caplog.records if "Poppler comparison" in record.message]
+
+    caplog.clear()
+    qualify_all_pages(
+        tmp_path / "source.pdf",
+        observations,
+        tmp_path / "all",
+        runner=fake_runner,
+    )
+    assert [record.message for record in caplog.records] == [
+        "Poppler comparison and render 1/2 (physical page 6)",
+        "Poppler comparison and render 2/2 (physical page 40)",
+    ]
 
 
 def _observation_without_geometry(page: int) -> PageObservation:

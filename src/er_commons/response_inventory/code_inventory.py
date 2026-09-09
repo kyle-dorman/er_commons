@@ -1,4 +1,4 @@
-"""Small output-affecting code inventory for Task 05C identity."""
+"""Small output-affecting code inventory shared by Task 05 response stages."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from er_commons.artifact_io import canonical_json_sha256
 
 
 def owned_code_paths(repository_root: Path) -> tuple[Path, ...]:
-    """Return the response producer modules and packaging entry that affect output."""
+    """Return shared response-inventory modules and packaging that affect output."""
     package = repository_root / "src/er_commons/response_inventory"
     paths = {path.resolve() for path in package.glob("*.py") if path.name not in {"__main__.py"}}
     paths.add((repository_root / "pyproject.toml").resolve())
@@ -20,7 +20,7 @@ def owned_code_paths(repository_root: Path) -> tuple[Path, ...]:
 
 
 def owned_code_digest(repository_root: Path) -> str:
-    """Hash paths and bytes for all output-affecting Task 05C code."""
+    """Hash paths and bytes for all output-affecting response-inventory code."""
     root = repository_root.resolve()
     inventory = [
         {

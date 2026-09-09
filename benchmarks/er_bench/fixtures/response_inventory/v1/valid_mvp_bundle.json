@@ -544,7 +544,7 @@
       "status": "complete_with_warnings",
       "activity_id": "@activity-05g",
       "inventory_id": "@inventory",
-      "counts": {"general_responses": 8, "placement_exceptions": 1},
+      "counts": {"general_response_units": 8, "placement_exceptions": 1},
       "warnings": ["Synthetic fixture only."],
       "completed_at": "2026-09-08T12:00:00Z"
     }

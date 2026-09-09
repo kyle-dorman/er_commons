@@ -135,9 +135,29 @@ review indexes remain separate. The contract is intentionally MVP-sized: one
 record-schema union and one semantic validator, not a new workflow framework.
 The isolated `er-responses validate-spec` command is source-free.
 `er-responses build --run-spec <path>` is curator-only and may access only the
-exact ranges accepted by the Task 05C run specification. It writes replaceable
-range receipts and a nonterminal visual-review packet before any terminal pilot
-completion.
+exact range or ranges accepted by its strict Task 05C or 05D run specification.
+Task 05D declares one `1-744` range, compares and renders every page, freezes a
+deterministic review population, and requires a later receipt-reuse invocation
+before terminal completion. Both stages write replaceable range receipts and a
+nonterminal visual-review packet before terminal publication.
+The full-source workflow exposes named preflight, source-record, review, and
+publication phases. Its all-page Poppler qualification writes and validates one
+atomic page checkpoint at a time, allowing an interrupted pass to resume
+without repeating accepted page evidence. Cache rejection reports bounded
+mismatched receipt fields before source access, and terminal resource reporting
+combines the source pass with the later source-free closure. Candidate
+acceptance uses the same public read-only validator available to maintainers;
+the writing transition remains separately authorized.
+For Task 05D, an exact source-independent same-page comment/response pairing may
+promote a response-style comment marker without relaxing the ordinary marker
+policy. A numbered source-authored missing response heading is retained as the
+terminal `source_response_heading_absent` diagnostic; no response record is
+invented. The run specification may allow that diagnostic class, and reviewed
+zero, one, or multiple occurrences determine `complete` versus
+`complete_with_warnings` from the records.
+`er-responses accept` is a separate explicit transition for an already terminal
+05D candidate; it writes a compact adjacent acceptance pointer outside the
+candidate's managed-file closure and does not change candidate identity.
 
 ## Review boundary
 

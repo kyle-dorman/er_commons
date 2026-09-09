@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -16,11 +18,37 @@ from er_commons.response_inventory import (
     validate_record_bundle,
 )
 from er_commons.response_inventory.__main__ import main
-from er_commons.response_inventory.contract import _materialize_fixture_records
+from er_commons.response_inventory.contract import (
+    _materialize_fixture_records,
+    task05d_completion_counts,
+)
 
 REPO_ROOT = Path(__file__).parents[1]
 SCHEMA_PATH = REPO_ROOT / "benchmarks/er_bench/schemas/response_inventory/v1/records.schema.json"
 FIXTURE_ROOT = REPO_ROOT / "benchmarks/er_bench/fixtures/response_inventory/v1"
+
+SOURCE_COUNT_NAMES = (
+    "declared_ranges",
+    "completed_ranges",
+    "failed_ranges",
+    "declared_pages",
+    "emitted_pages",
+    "page_continuations",
+    "marker_candidates",
+    "source_spans",
+    "commenters",
+    "submissions",
+    "source_units",
+    "comment_units",
+    "response_units",
+    "general_response_units",
+    "membership_claims",
+    "reference_mentions",
+    "placement_exceptions",
+    "diagnostics",
+    "open_range_boundary_diagnostics",
+    "source_response_heading_absent_diagnostics",
+)
 
 
 def test_checked_in_source_free_contract_fixtures() -> None:
@@ -120,7 +148,7 @@ def test_publication_identity_excludes_working_path_and_timestamp() -> None:
         "status": "complete",
         "activity_id": activity_id,
         "inventory_id": inventory["inventory_id"],
-        "counts": {"general_responses": 8, "placement_exceptions": 1},
+        "counts": {"general_response_units": 8, "placement_exceptions": 1},
         "completed_at": "2026-09-08T12:00:00Z",
     }
     completion["completion_id"] = build_record_id(completion)
@@ -283,3 +311,425 @@ def test_05c_completion_does_not_require_all_general_responses() -> None:
     assert not any(record["record_type"] == "source_unit" for record in records)
     schema = json.loads(SCHEMA_PATH.read_text())
     validate_record_bundle(records, schema)
+
+
+def test_complete_05d_bundle_reconciles_full_source_counts() -> None:
+    records = _complete_05d_bundle()
+    schema = json.loads(SCHEMA_PATH.read_text())
+
+    validate_record_bundle(records, schema)
+
+
+@pytest.mark.parametrize("count_name", SOURCE_COUNT_NAMES)
+def test_05d_completion_reconciles_every_source_count(count_name: str) -> None:
+    records = _complete_05d_bundle()
+    completion = _record_for_stage(records, "stage_completion", "05d")
+    completion["counts"][count_name] += 1
+    completion["completion_id"] = build_record_id(completion)
+    schema = json.loads(SCHEMA_PATH.read_text())
+
+    with pytest.raises(ValueError, match=f"05D completion count differs for {count_name}"):
+        validate_record_bundle(records, schema)
+
+
+def test_05d_completion_schema_requires_explicit_continuation_count() -> None:
+    records = _complete_05d_bundle()
+    completion = _record_for_stage(records, "stage_completion", "05d")
+    del completion["counts"]["page_continuations"]
+    completion["completion_id"] = build_record_id(completion)
+    schema = json.loads(SCHEMA_PATH.read_text())
+
+    with pytest.raises(ValueError, match="fails JSON Schema"):
+        validate_record_bundle(records, schema)
+
+
+def test_05d_completion_requires_exact_full_volume_scope() -> None:
+    records = _complete_05d_bundle(last_page=743)
+    schema = json.loads(SCHEMA_PATH.read_text())
+
+    with pytest.raises(ValueError, match="exact 1-744 range"):
+        validate_record_bundle(records, schema)
+
+
+def test_05d_completion_rejects_range_boundary_diagnostic() -> None:
+    records = _complete_05d_bundle(include_boundary_diagnostic=True)
+    schema = json.loads(SCHEMA_PATH.read_text())
+
+    with pytest.raises(ValueError, match="cannot retain a range-boundary diagnostic"):
+        validate_record_bundle(records, schema)
+
+
+def test_05d_activity_rejects_extra_dependency_role() -> None:
+    records = _complete_05d_bundle(extra_dependency=True)
+    schema = json.loads(SCHEMA_PATH.read_text())
+
+    with pytest.raises(ValueError, match="exact stage contract"):
+        validate_record_bundle(records, schema)
+
+
+def test_05d_completion_requires_distinct_general_response_labels_1_through_8() -> None:
+    records = _complete_05d_bundle()
+    general_responses = [
+        record
+        for record in records
+        if record["record_type"] == "source_unit" and record["unit_kind"] == "general_response"
+    ]
+    general_responses[-1]["official_label"] = "General Response 7"
+    general_responses[-1]["unit_id"] = build_record_id(general_responses[-1])
+    schema = json.loads(SCHEMA_PATH.read_text())
+
+    with pytest.raises(ValueError, match="must contain General Responses 1-8"):
+        validate_record_bundle(records, schema)
+
+
+def test_05d_general_response_accounting_is_scoped_to_its_activity() -> None:
+    records = _complete_05d_bundle()
+    records.extend(_foreign_05c_placement_records())
+    schema = json.loads(SCHEMA_PATH.read_text())
+
+    validate_record_bundle(records, schema)
+
+
+def test_05d_completion_counts_exclude_foreign_activity_records() -> None:
+    records = _complete_05d_bundle()
+    activity = _record_for_stage(records, "activity", "05d")
+    baseline = task05d_completion_counts(activity, records)
+    foreign = _foreign_counted_source_records()
+
+    assert task05d_completion_counts(activity, [*records, *foreign]) == baseline
+
+
+def _complete_05d_bundle(
+    *,
+    last_page: int = 744,
+    include_boundary_diagnostic: bool = False,
+    extra_dependency: bool = False,
+) -> list[dict[str, object]]:
+    """Build a compact semantic 05D bundle while retaining all 744 page rows."""
+    dependencies: list[dict[str, object]] = [
+        {
+            "role": "source_record",
+            "identity": "sourcev1-synthetic",
+            "authority": "artifact_root",
+            "path": "sources/feir_volume_4/source.json",
+        },
+        {
+            "role": "task05c_completion",
+            "identity": "completionv1-05c-synthetic",
+            "authority": "artifact_root",
+            "path": "pilots/05c/records/stage_completion.json",
+        },
+    ]
+    if extra_dependency:
+        dependencies.append(
+            {
+                "role": "task05a_completion",
+                "identity": "completionv1-05a-synthetic",
+                "authority": "artifact_root",
+                "path": "working/05a/records/stage_completion.json",
+            }
+        )
+    dependencies.sort(key=lambda item: (item["role"], item["identity"], item["path"]))
+    activity: dict[str, object] = {
+        "schema_version": "er_commons.response_inventory.v1",
+        "record_type": "activity",
+        "stage": "05d",
+        "source_id": "feir_volume_4",
+        "page_ranges": [[1, last_page]],
+        "config_sha256": "0" * 64,
+        "schema_sha256": "1" * 64,
+        "code_sha256": "2" * 64,
+        "tool_versions": {},
+        "input_refs": dependencies,
+    }
+    activity["activity_id"] = build_record_id(activity)
+    source_text = "\n".join(
+        [
+            *(f"General Response {number}" for number in range(1, 9)),
+            "General Response 9 is in Volume 5",
+        ]
+    )
+    pages: list[dict[str, object]] = []
+    for number in range(1, last_page + 1):
+        raw_text = source_text if number == 1 else ""
+        page: dict[str, object] = {
+            "schema_version": "er_commons.response_inventory.v1",
+            "record_type": "page",
+            "source_id": "feir_volume_4",
+            "physical_page": number,
+            "page_state": "section_opener" if number == 1 else "blank",
+            "raw_text": raw_text,
+            "raw_text_sha256": hashlib.sha256(raw_text.encode()).hexdigest(),
+            "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+            "character_slot_count": len(raw_text),
+            "activity_id": activity["activity_id"],
+        }
+        page["page_id"] = build_record_id(page)
+        pages.append(page)
+    first_page = pages[0]
+    spans: list[dict[str, object]] = []
+    units: list[dict[str, object]] = []
+    for number in range(1, 9):
+        label = f"General Response {number}"
+        start = source_text.index(label)
+        span = _single_fragment_span(first_page, start, start + len(label))
+        unit: dict[str, object] = {
+            "schema_version": "er_commons.response_inventory.v1",
+            "record_type": "source_unit",
+            "source_id": "feir_volume_4",
+            "unit_kind": "general_response",
+            "official_label": label,
+            "start_marker_id": None,
+            "span_ids": [span["span_id"]],
+            "submission_id": None,
+            "activity_id": activity["activity_id"],
+        }
+        unit["unit_id"] = build_record_id(unit)
+        spans.append(span)
+        units.append(unit)
+    gr9_start = source_text.index("General Response 9")
+    gr9_span = _single_fragment_span(first_page, gr9_start, len(source_text))
+    exception: dict[str, object] = {
+        "schema_version": "er_commons.response_inventory.v1",
+        "record_type": "source_placement_exception",
+        "source_id": "feir_volume_4",
+        "activity_id": activity["activity_id"],
+        "exception_code": "general_response_9_not_in_volume_4",
+        "advertised_label": "General Response 9",
+        "routed_volume": 5,
+        "disposition": "cross_volume_scope_exception",
+        "evidence_ids": [gr9_span["span_id"]],
+    }
+    exception["exception_id"] = build_record_id(exception)
+    continuation: dict[str, object] = {
+        "schema_version": "er_commons.response_inventory.v1",
+        "record_type": "page_continuation",
+        "from_page_id": pages[0]["page_id"],
+        "to_page_id": pages[1]["page_id"],
+        "continuation_kind": "general_response",
+        "evidence_ids": [units[0]["unit_id"]],
+    }
+    continuation["continuation_id"] = build_record_id(continuation)
+    records: list[dict[str, object]] = [
+        activity,
+        *pages,
+        *spans,
+        gr9_span,
+        *units,
+        continuation,
+        exception,
+    ]
+    if include_boundary_diagnostic:
+        diagnostic: dict[str, object] = {
+            "schema_version": "er_commons.response_inventory.v1",
+            "record_type": "diagnostic",
+            "stage": "05d",
+            "activity_id": activity["activity_id"],
+            "code": "unit_boundary_ambiguous",
+            "severity": "warning",
+            "terminal": True,
+            "subject_ids": [units[0]["unit_id"]],
+            "evidence_ids": [spans[0]["span_id"]],
+            "message": "Synthetic boundary warning.",
+        }
+        diagnostic["diagnostic_id"] = build_record_id(diagnostic)
+        records.append(diagnostic)
+    inventory: dict[str, object] = {
+        "schema_version": "er_commons.response_inventory.v1",
+        "record_type": "managed_file_inventory",
+        "stage": "05d",
+        "activity_id": activity["activity_id"],
+        "dependencies": deepcopy(dependencies),
+        "files": [
+            {
+                "authority": "bundle",
+                "path": "inventory/source_records.jsonl",
+                "sha256": None,
+                "byte_size": 1,
+            }
+        ],
+    }
+    inventory["inventory_id"] = build_record_id(inventory)
+    counts = {
+        "declared_ranges": 1,
+        "completed_ranges": 1,
+        "failed_ranges": 0,
+        "declared_pages": last_page,
+        "emitted_pages": last_page,
+        "page_continuations": 1,
+        "marker_candidates": 0,
+        "source_spans": 9,
+        "commenters": 0,
+        "submissions": 0,
+        "source_units": 8,
+        "comment_units": 0,
+        "response_units": 0,
+        "general_response_units": 8,
+        "membership_claims": 0,
+        "reference_mentions": 0,
+        "placement_exceptions": 1,
+        "diagnostics": int(include_boundary_diagnostic),
+        "open_range_boundary_diagnostics": int(include_boundary_diagnostic),
+        "source_response_heading_absent_diagnostics": 0,
+    }
+    completion: dict[str, object] = {
+        "schema_version": "er_commons.response_inventory.v1",
+        "record_type": "stage_completion",
+        "stage": "05d",
+        "status": "complete_with_warnings" if include_boundary_diagnostic else "complete",
+        "activity_id": activity["activity_id"],
+        "inventory_id": inventory["inventory_id"],
+        "counts": counts,
+        "warnings": ["Synthetic boundary warning."] if include_boundary_diagnostic else [],
+        "completed_at": "2026-09-08T12:00:00Z",
+    }
+    completion["completion_id"] = build_record_id(completion)
+    return [*records, inventory, completion]
+
+
+def _single_fragment_span(page: dict[str, object], start: int, end: int) -> dict[str, object]:
+    span: dict[str, object] = {
+        "schema_version": "er_commons.response_inventory.v1",
+        "record_type": "source_span",
+        "source_id": page["source_id"],
+        "fragments": [
+            {
+                "page_id": page["page_id"],
+                "text_start": start,
+                "text_end": end,
+                "character_slot_start": None,
+                "character_slot_end": None,
+                "bbox": None,
+                "revision_marks": [],
+            }
+        ],
+    }
+    span["span_id"] = build_record_id(span)
+    return span
+
+
+def _record_for_stage(
+    records: list[dict[str, object]], record_type: str, stage: str
+) -> dict[str, object]:
+    return next(
+        record
+        for record in records
+        if record["record_type"] == record_type and record.get("stage") == stage
+    )
+
+
+def _foreign_05c_placement_records() -> list[dict[str, object]]:
+    dependencies = [
+        {
+            "role": "source_record",
+            "identity": "sourcev1-foreign",
+            "authority": "artifact_root",
+            "path": "sources/foreign/source.json",
+        },
+        {
+            "role": "task05a_completion",
+            "identity": "completionv1-05a-foreign",
+            "authority": "artifact_root",
+            "path": "working/05a/foreign-completion.json",
+        },
+    ]
+    activity: dict[str, object] = {
+        "schema_version": "er_commons.response_inventory.v1",
+        "record_type": "activity",
+        "stage": "05c",
+        "source_id": "foreign_source",
+        "page_ranges": [[1, 1]],
+        "config_sha256": "3" * 64,
+        "schema_sha256": "4" * 64,
+        "code_sha256": "5" * 64,
+        "tool_versions": {},
+        "input_refs": dependencies,
+    }
+    activity["activity_id"] = build_record_id(activity)
+    raw_text = "General Response 9 is in Volume 5"
+    page: dict[str, object] = {
+        "schema_version": "er_commons.response_inventory.v1",
+        "record_type": "page",
+        "source_id": "foreign_source",
+        "physical_page": 1,
+        "page_state": "section_opener",
+        "raw_text": raw_text,
+        "raw_text_sha256": hashlib.sha256(raw_text.encode()).hexdigest(),
+        "page_box": {"width_points": 612, "height_points": 792, "rotation": 0},
+        "character_slot_count": len(raw_text),
+        "activity_id": activity["activity_id"],
+    }
+    page["page_id"] = build_record_id(page)
+    span = _single_fragment_span(page, 0, len(raw_text))
+    exception: dict[str, object] = {
+        "schema_version": "er_commons.response_inventory.v1",
+        "record_type": "source_placement_exception",
+        "source_id": "foreign_source",
+        "activity_id": activity["activity_id"],
+        "exception_code": "general_response_9_not_in_volume_4",
+        "advertised_label": "General Response 9",
+        "routed_volume": 5,
+        "disposition": "cross_volume_scope_exception",
+        "evidence_ids": [span["span_id"]],
+    }
+    exception["exception_id"] = build_record_id(exception)
+    return [activity, page, span, exception]
+
+
+def _foreign_counted_source_records() -> list[dict[str, object]]:
+    """Return foreign rows covering every activity-scoped count family."""
+    records = _foreign_05c_placement_records()
+    activity, page, span = records[:3]
+    marker_id = "markerv1-" + "6" * 64
+    unit_id = "unitv1-" + "7" * 64
+    records.extend(
+        [
+            {
+                "record_type": "page_continuation",
+                "continuation_id": "continuationv1-" + "6" * 64,
+                "from_page_id": page["page_id"],
+                "to_page_id": page["page_id"],
+            },
+            {
+                "record_type": "marker_candidate",
+                "marker_id": marker_id,
+                "page_id": page["page_id"],
+            },
+            {
+                "record_type": "commenter",
+                "commenter_id": "commenterv1-" + "6" * 64,
+                "source_id": activity["source_id"],
+                "opener_span_id": span["span_id"],
+            },
+            {
+                "record_type": "submission",
+                "submission_id": "submissionv1-" + "6" * 64,
+                "source_id": activity["source_id"],
+                "opener_span_id": span["span_id"],
+            },
+            {
+                "record_type": "source_unit",
+                "unit_id": unit_id,
+                "unit_kind": "comment",
+                "activity_id": activity["activity_id"],
+            },
+            {
+                "record_type": "membership_claim",
+                "claim_id": "membershipv1-" + "6" * 64,
+                "general_response_unit_id": unit_id,
+            },
+            {
+                "record_type": "reference_mention",
+                "mention_id": "mentionv1-" + "6" * 64,
+                "source_unit_id": unit_id,
+            },
+            {
+                "record_type": "diagnostic",
+                "diagnostic_id": "diagnosticv1-" + "6" * 64,
+                "activity_id": activity["activity_id"],
+                "code": "unit_boundary_ambiguous",
+                "terminal": True,
+            },
+        ]
+    )
+    return records

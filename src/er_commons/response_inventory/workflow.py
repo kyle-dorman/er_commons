@@ -47,9 +47,10 @@ from er_commons.response_inventory.range_receipts import (
     build_range_receipt,
     contiguous_range_key,
     pilot_aggregation_is_ready,
-    range_receipt_is_reusable,
+    range_receipt_reuse_mismatches,
 )
 from er_commons.response_inventory.run_spec import (
+    AnyResponseInventoryRunSpec,
     ResponseInventoryRunSpec,
     load_response_inventory_run_spec,
     verify_repository_bindings,
@@ -84,6 +85,8 @@ def build_pilot(
 ) -> JsonObject:
     """Build one exact pilot, reusing only evidence-matched range receipts."""
     spec, config_sha256 = load_response_inventory_run_spec(run_spec_path)
+    if not isinstance(spec, ResponseInventoryRunSpec):
+        raise ValueError("pilot build requires a Task 05C v1 run specification")
     verify_repository_bindings(spec, repository_root)
     _verify_artifact_bindings(spec, artifact_root)
     schema_path = _repository_binding_path(spec, repository_root, "response_record_schema")
@@ -201,7 +204,7 @@ def build_pilot(
 
 
 def _collect_range_evidence(
-    spec: ResponseInventoryRunSpec,
+    spec: AnyResponseInventoryRunSpec,
     activity: JsonObject,
     schema: JsonObject,
     source_path: Path,
@@ -248,7 +251,7 @@ def _load_or_build_range(
     if current is not None:
         current = _apply_range_boundary_policy(current, bounds)
     receipt = _load_optional_object(receipt_path)
-    if current is not None and _range_cache_is_reusable(
+    mismatches = _range_cache_reuse_mismatches(
         current,
         receipt,
         bounds,
@@ -256,13 +259,20 @@ def _load_or_build_range(
         schema,
         observations_path,
         receipt_digests,
-    ):
-        LOGGER.info("reusing Task 05C pilot range %s", key)
+    )
+    if not mismatches and current is not None:
+        LOGGER.info("reusing Task %s range %s", str(activity["stage"]).upper(), key)
         if receipt is None:  # Defensive: reuse requires a receipt.
             raise RuntimeError(f"range {key} reuse lost its receipt")
         return _RangeResult(current, receipt, True)
 
-    LOGGER.info("building Task 05C pilot range %s", key)
+    LOGGER.info(
+        "Task %s range %s cache is not reusable for activity %s (%s); source read required",
+        str(activity["stage"]).upper(),
+        key,
+        activity["activity_id"],
+        ", ".join(mismatches),
+    )
     try:
         current = page_reader(source_path, *bounds)
         _require_exact_range(current, bounds)
@@ -297,10 +307,33 @@ def _range_cache_is_reusable(
     receipt_digests: JsonObject,
 ) -> bool:
     """Compare cached range evidence with every current semantic binding."""
+    return not _range_cache_reuse_mismatches(
+        observations,
+        receipt,
+        bounds,
+        activity,
+        schema,
+        observations_path,
+        receipt_digests,
+    )
+
+
+def _range_cache_reuse_mismatches(
+    observations: Sequence[PageObservation] | None,
+    receipt: JsonObject | None,
+    bounds: tuple[int, int],
+    activity: JsonObject,
+    schema: JsonObject,
+    observations_path: Path,
+    receipt_digests: JsonObject,
+) -> tuple[str, ...]:
+    """Explain exactly why cached range evidence cannot be reused."""
+    if observations is None:
+        return ("observations_missing_or_invalid",)
     if receipt is None:
-        return False
+        return ("receipt_missing_or_invalid",)
     semantic_digest = _range_semantic_digest(activity, bounds, observations, schema)
-    return range_receipt_is_reusable(
+    return range_receipt_reuse_mismatches(
         receipt,
         bounds,
         bindings=activity["input_refs"],
@@ -337,7 +370,7 @@ def _record_range_failure(
         write_json_atomic(receipt_path, failed_receipt)
     except Exception:
         LOGGER.exception("could not persist failed range receipt for %s", key)
-    LOGGER.exception("Task 05C pilot range %s failed", key)
+    LOGGER.exception("Task %s range %s failed", str(activity["stage"]).upper(), key)
 
 
 def _reuse_completed_pilot(

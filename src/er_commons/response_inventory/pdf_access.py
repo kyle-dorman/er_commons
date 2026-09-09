@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import re
 from collections.abc import Iterable, Iterator
 from pathlib import Path
@@ -34,6 +35,8 @@ _MIN_LARGE_IMAGE_PAGE_AREA_RATIO: Final = 0.15
 
 type RuleBox = tuple[tuple[float, float, float, float], bool]
 
+LOGGER = logging.getLogger(__name__)
+
 
 def read_pdfium_range(pdf_path: Path, first_page: int, last_page: int) -> list[PageObservation]:
     """Read only one authorized inclusive physical-page range and close all handles."""
@@ -45,6 +48,14 @@ def read_pdfium_range(pdf_path: Path, first_page: int, last_page: int) -> list[P
         if last_page > len(document):
             raise ValueError("authorized PDF page range exceeds the document")
         for physical_page in range(first_page, last_page + 1):
+            if physical_page == first_page or physical_page % 25 == 0 or physical_page == last_page:
+                LOGGER.info(
+                    "PDFium page %d/%d in authorized range %d-%d",
+                    physical_page,
+                    last_page,
+                    first_page,
+                    last_page,
+                )
             page = document[physical_page - 1]
             text_page = page.get_textpage()
             try:

@@ -56,3 +56,16 @@ cannot configure or relax production document or collection commands. Task
 03G.2 configurations and their compatibility tools are immutable historical
 evidence; do not regenerate or mix their v1/v1.1 vocabulary with the current
 native-v2 production contracts.
+
+## Task 05 response inventory
+
+The maintained source-free specification checks are:
+
+- `make validate-response-inventory-pilot-spec` for the accepted historical
+  Task 05C pilot recipe; and
+- `make validate-response-inventory-complete-spec` for the Gate-1 Task 05D
+  complete-source recipe.
+
+Validation checks bindings and declared scope only. It does not authorize or
+perform PDF access. The `er-responses build` command remains curator-only and
+requires the separately authorized source gate named by the active task.

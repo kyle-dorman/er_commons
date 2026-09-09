@@ -39,10 +39,14 @@ def _activity(page_ranges: list[list[int]], *, stage: str = "05c") -> JsonObject
                 "path": "datasets/source_manifest.json",
             },
             {
-                "role": "task05a_completion",
+                "role": "task05c_completion" if stage == "05d" else "task05a_completion",
                 "identity": "3" * 64,
                 "authority": "artifact_root",
-                "path": "pipelines/task05a_completion.json",
+                "path": (
+                    "pipelines/task05c_completion.json"
+                    if stage == "05d"
+                    else "pipelines/task05a_completion.json"
+                ),
             },
         ],
     }
@@ -73,6 +77,25 @@ def _lines(text: str, styles: dict[int, dict[str, bool]]) -> tuple[LineObservati
         )
         offset += len(value)
     return tuple(observations)
+
+
+def _page(
+    number: int,
+    text: str,
+    styles: dict[int, dict[str, bool]],
+    *,
+    closes_open_unit: bool = False,
+) -> PageObservation:
+    return PageObservation(
+        physical_page=number,
+        raw_text=text,
+        width_points=612,
+        height_points=792,
+        rotation=0,
+        character_slot_count=len(text),
+        lines=_lines(text, styles),
+        closes_open_unit=closes_open_unit,
+    )
 
 
 def test_builds_closed_units_continuation_and_raw_reference() -> None:
@@ -156,6 +179,191 @@ def test_open_boundary_diagnostic_uses_activity_stage() -> None:
 
     diagnostic = next(record for record in records if record["record_type"] == "diagnostic")
     assert diagnostic["stage"] == "05d"
+
+
+def test_response_style_comment_requires_adjacent_same_label_response() -> None:
+    text = "Comment A-1\nComment body.\nResponse A-1\nResponse body.\nComment A-2\nNext comment.\n"
+    page = _page(
+        1,
+        text,
+        {
+            0: {"italic": True, "dotted_rule": True},
+            2: {"italic": True, "dotted_rule": True},
+            4: {"bold": True, "solid_rule": True},
+        },
+        closes_open_unit=True,
+    )
+
+    records = build_source_records(_activity([[1, 1]], stage="05d"), [page])
+    validate_record_bundle(records, json.loads(SCHEMA_PATH.read_text()))
+
+    markers = [record for record in records if record["record_type"] == "marker_candidate"]
+    target = next(record for record in markers if record["observed_label"] == "Comment A-1")
+    assert target["disposition"] == "unit_start"
+    units = [record for record in records if record["record_type"] == "source_unit"]
+    assert [record["official_label"] for record in units] == [
+        "Comment A-1",
+        "Response A-1",
+        "Comment A-2",
+    ]
+    comment = units[0]
+    span = next(record for record in records if record.get("span_id") in comment["span_ids"])
+    response_marker = next(
+        record for record in markers if record["observed_label"] == "Response A-1"
+    )
+    assert span["fragments"][0]["text_end"] == response_marker["text_start"]
+    assert not [record for record in records if record["record_type"] == "diagnostic"]
+
+
+@pytest.mark.parametrize(
+    ("comment_line", "comment_style", "response_label"),
+    [
+        ("Comment A-1", {"dotted_rule": True}, "Response A-1"),
+        ("Comment A-1", {"italic": True}, "Response A-1"),
+        (
+            "Comment A-1",
+            {"bold": True, "italic": True, "dotted_rule": True},
+            "Response A-1",
+        ),
+        (
+            "Comment A-1",
+            {"italic": True, "solid_rule": True, "dotted_rule": True},
+            "Response A-1",
+        ),
+        ("Comment A-1", {"italic": True, "dotted_rule": True}, "Response A-2"),
+        (
+            "Comment A-1 trailing prose",
+            {"italic": True, "dotted_rule": True},
+            "Response A-1",
+        ),
+    ],
+)
+def test_response_style_comment_promotion_fails_closed(
+    comment_line: str,
+    comment_style: dict[str, bool],
+    response_label: str,
+) -> None:
+    text = f"{comment_line}\n{response_label}\nResponse body.\n"
+    page = _page(
+        1,
+        text,
+        {0: comment_style, 1: {"italic": True, "dotted_rule": True}},
+        closes_open_unit=True,
+    )
+
+    records = build_source_records(_activity([[1, 1]], stage="05d"), [page])
+
+    target = next(
+        record
+        for record in records
+        if record.get("record_type") == "marker_candidate"
+        and record.get("observed_label") == "Comment A-1"
+    )
+    assert target["disposition"] == "needs_review"
+    assert not [
+        record
+        for record in records
+        if record.get("record_type") == "source_unit"
+        and record.get("official_label") == "Comment A-1"
+    ]
+
+
+def test_response_style_comment_rule_is_isolated_from_05c() -> None:
+    text = "Comment A-1\nResponse A-1\nResponse body.\n"
+    page = _page(
+        1,
+        text,
+        {
+            0: {"italic": True, "dotted_rule": True},
+            1: {"italic": True, "dotted_rule": True},
+        },
+        closes_open_unit=True,
+    )
+
+    records = build_source_records(_activity([[1, 1]], stage="05c"), [page])
+
+    target = next(
+        record
+        for record in records
+        if record.get("record_type") == "marker_candidate"
+        and record.get("observed_label") == "Comment A-1"
+    )
+    assert target["disposition"] == "needs_review"
+
+
+def test_missing_response_heading_is_diagnostic_without_synthesis() -> None:
+    pages = [
+        _page(
+            1,
+            "Comment A-1\nFirst comment.\n",
+            {0: {"bold": True, "solid_rule": True}},
+        ),
+        _page(2, "Continued comment.\n", {}),
+        _page(
+            3,
+            "Comment A-2\nSecond comment.\nResponse A-2\nSecond response.\n",
+            {
+                0: {"bold": True, "solid_rule": True},
+                2: {"italic": True, "dotted_rule": True},
+            },
+            closes_open_unit=True,
+        ),
+    ]
+
+    records = build_source_records(_activity([[1, 3]], stage="05d"), pages)
+    validate_record_bundle(records, json.loads(SCHEMA_PATH.read_text()))
+
+    diagnostics = [record for record in records if record["record_type"] == "diagnostic"]
+    assert len(diagnostics) == 1
+    diagnostic = diagnostics[0]
+    assert diagnostic["code"] == "source_response_heading_absent"
+    assert diagnostic["severity"] == "warning"
+    assert diagnostic["terminal"] is True
+    assert diagnostic["subject_ids"] == sorted(set(diagnostic["subject_ids"]))
+    assert diagnostic["evidence_ids"] == sorted(set(diagnostic["evidence_ids"]))
+    assert (
+        "no response marker, span, continuation, or unit was synthesized"
+        in diagnostic["message"].lower()
+    )
+    assert not any(
+        record.get("observed_label") == "Response A-1"
+        or record.get("official_label") == "Response A-1"
+        for record in records
+    )
+    without_diagnostic = [record for record in records if record["record_type"] != "diagnostic"]
+    with pytest.raises(ValueError, match="differ from source-unit gaps"):
+        validate_record_bundle(without_diagnostic, json.loads(SCHEMA_PATH.read_text()))
+
+
+def test_multiple_missing_response_headings_are_not_silently_dropped() -> None:
+    text = (
+        "Comment A-1\nA one.\n"
+        "Comment A-2\nA two.\n"
+        "Response A-2\nA response.\n"
+        "Comment B-1\nB one.\n"
+        "Comment B-2\nB two.\n"
+        "Response B-2\nB response.\n"
+    )
+    page = _page(
+        1,
+        text,
+        {
+            0: {"bold": True, "solid_rule": True},
+            2: {"bold": True, "solid_rule": True},
+            4: {"italic": True, "dotted_rule": True},
+            6: {"bold": True, "solid_rule": True},
+            8: {"bold": True, "solid_rule": True},
+            10: {"italic": True, "dotted_rule": True},
+        },
+        closes_open_unit=True,
+    )
+
+    records = build_source_records(_activity([[1, 1]], stage="05d"), [page])
+    validate_record_bundle(records, json.loads(SCHEMA_PATH.read_text()))
+
+    diagnostics = [record for record in records if record["record_type"] == "diagnostic"]
+    assert len(diagnostics) == 2
+    assert {record["code"] for record in diagnostics} == {"source_response_heading_absent"}
 
 
 def test_gr9_creates_placement_exception_but_no_unit() -> None:

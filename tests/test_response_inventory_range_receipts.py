@@ -8,11 +8,28 @@ import pytest
 
 from er_commons.response_inventory.pilot_policy import TASK05C_PILOT_RANGES
 from er_commons.response_inventory.range_receipts import (
+    aggregation_is_ready,
     build_range_receipt,
     contiguous_range_key,
     pilot_aggregation_is_ready,
     range_receipt_is_reusable,
+    range_receipt_reuse_mismatches,
 )
+
+
+def test_generic_aggregation_closes_one_exact_full_range() -> None:
+    receipt = build_range_receipt(
+        (1, 744),
+        status="complete",
+        bindings=BINDINGS,
+        digests=DIGESTS,
+        files=[{"path": "ranges/000001-000744/observations.json", "byte_size": 1}],
+        semantic_digest="e" * 64,
+    )
+    assert aggregation_is_ready([receipt], [(1, 744)])
+    assert not aggregation_is_ready([receipt], [(1, 743)])
+    assert not aggregation_is_ready([], [(1, 744)])
+
 
 DIGESTS = {
     "code_sha256": "1" * 64,
@@ -84,6 +101,23 @@ def test_receipt_is_deterministic_and_reuse_requires_exact_evidence() -> None:
             files=[{"path": "ranges/000031-000044/records.jsonl", "byte_size": 101}],
             semantic_digest="a" * 64,
         )
+
+    assert range_receipt_reuse_mismatches(
+        changed_size,
+        page_range,
+        bindings=BINDINGS,
+        digests=DIGESTS,
+        files=[{"path": "ranges/000031-000044/records.jsonl", "byte_size": 101}],
+        semantic_digest="a" * 64,
+    ) == ("files",)
+    assert range_receipt_reuse_mismatches(
+        changed_digest,
+        page_range,
+        bindings=BINDINGS,
+        digests=DIGESTS,
+        files=[{"path": "ranges/000031-000044/records.jsonl", "byte_size": 101}],
+        semantic_digest="a" * 64,
+    ) == ("digests",)
 
 
 def test_partial_or_failed_receipt_cannot_count_complete() -> None:

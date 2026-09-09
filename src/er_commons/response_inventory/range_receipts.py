@@ -92,6 +92,26 @@ def range_receipt_is_reusable(
     semantic_digest: str,
 ) -> bool:
     """Decide reuse by exact comparison with currently observed range evidence."""
+    return not range_receipt_reuse_mismatches(
+        receipt,
+        page_range,
+        bindings=bindings,
+        digests=digests,
+        files=files,
+        semantic_digest=semantic_digest,
+    )
+
+
+def range_receipt_reuse_mismatches(
+    receipt: Mapping[str, object],
+    page_range: PageRange,
+    *,
+    bindings: Iterable[Mapping[str, object]],
+    digests: Mapping[str, str],
+    files: Iterable[Mapping[str, object]],
+    semantic_digest: str,
+) -> tuple[str, ...]:
+    """Name the bounded receipt fields that prevent safe cache reuse."""
     try:
         expected = build_range_receipt(
             page_range,
@@ -102,19 +122,29 @@ def range_receipt_is_reusable(
             semantic_digest=semantic_digest,
         )
     except (TypeError, ValueError):
-        return False
-    return dict(receipt) == expected
+        return ("expected_receipt_invalid",)
+    observed = dict(receipt)
+    fields = sorted(set(observed) | set(expected))
+    return tuple(field for field in fields if observed.get(field) != expected.get(field))
 
 
 def pilot_aggregation_is_ready(receipts: Iterable[Mapping[str, object]]) -> bool:
     """Accept aggregation only after all 14 exact pilot ranges close successfully."""
+    return aggregation_is_ready(receipts, TASK05C_PILOT_RANGES)
+
+
+def aggregation_is_ready(
+    receipts: Iterable[Mapping[str, object]], expected_ranges: Iterable[PageRange]
+) -> bool:
+    """Accept aggregation only after every exact expected range closes successfully."""
     materialized = list(receipts)
-    if len(materialized) != len(TASK05C_PILOT_RANGES):
+    expected = tuple(expected_ranges)
+    if not expected or len(materialized) != len(expected):
         return False
 
-    expected_by_key = {
-        contiguous_range_key(page_range): page_range for page_range in TASK05C_PILOT_RANGES
-    }
+    expected_by_key = {contiguous_range_key(page_range): page_range for page_range in expected}
+    if len(expected_by_key) != len(expected):
+        return False
     observed_by_key: dict[str, JsonObject] = {}
     shared_bindings: object | None = None
     shared_digests: object | None = None
@@ -229,3 +259,13 @@ def _optional_string(value: object) -> str | None:
     if value is None or isinstance(value, str):
         return value
     raise ValueError("expected a string or null")
+
+
+__all__ = [
+    "aggregation_is_ready",
+    "build_range_receipt",
+    "contiguous_range_key",
+    "pilot_aggregation_is_ready",
+    "range_receipt_is_reusable",
+    "range_receipt_reuse_mismatches",
+]

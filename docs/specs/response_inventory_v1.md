@@ -191,7 +191,7 @@ The closed v1 diagnostic codes are:
 
 | Group | Codes |
 | --- | --- |
-| Structure | `page_unclassified`, `marker_ambiguous`, `span_gap`, `unit_boundary_ambiguous`, `geometry_text_mismatch` |
+| Structure | `page_unclassified`, `marker_ambiguous`, `span_gap`, `source_response_heading_absent`, `unit_boundary_ambiguous`, `geometry_text_mismatch` |
 | Intra-Volume graph | `dangling_reference`, `ambiguous_reference`, `orphan_unit`, `cycle_detected` |
 | Official references | `unsupported_reference_form`, `unresolved_target`, `unusable_target`, `visual_only_reference`, `final_eir_only`, `external_reference`, `appendix_q_verification_required` |
 

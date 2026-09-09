@@ -10,6 +10,12 @@ from typing import Any, Final, Literal
 
 from er_commons.response_inventory.contract import SCHEMA_VERSION, build_record_id
 from er_commons.response_inventory.observations import LineObservation, PageObservation
+from er_commons.response_inventory.source_structure import (
+    SOURCE_RESPONSE_HEADING_ABSENT,
+    SOURCE_RESPONSE_HEADING_ABSENT_MESSAGE,
+    missing_response_heading_gaps,
+    paired_response_style_comment_marker_ids,
+)
 
 type JsonObject = dict[str, Any]
 type UnitKind = Literal["comment", "response", "general_response"]
@@ -110,7 +116,7 @@ _PLACEMENT_CONTEXT_STOP_WORDS: Final[frozenset[str]] = frozenset(
 
 @dataclass(frozen=True)
 class _Marker:
-    """Accepted boundary marker paired with its materialized record."""
+    """Unit-marker candidate paired with its materialized record."""
 
     page: PageObservation
     line: LineObservation
@@ -183,8 +189,16 @@ def build_source_records(
         if page_submissions:
             section_pages.add(page.physical_page)
 
+    paired_comment_ids = (
+        paired_response_style_comment_marker_ids(records)
+        if activity["stage"] == "05d"
+        else frozenset()
+    )
+    for marker in markers:
+        if marker.record["marker_id"] in paired_comment_ids:
+            marker.record["disposition"] = "unit_start"
     accepted = sorted(
-        markers,
+        (marker for marker in markers if marker.record["disposition"] == "unit_start"),
         key=lambda marker: (marker.page.physical_page, marker.line.text_start),
     )
     ordered_submissions = sorted(
@@ -198,16 +212,22 @@ def build_source_records(
     records.extend(
         _placement_exceptions(source_id, str(activity["activity_id"]), ordered_pages, page_records)
     )
+    unit_records = _materialize_units(
+        source_id,
+        str(activity["activity_id"]),
+        str(activity["stage"]),
+        ordered_pages,
+        page_records,
+        accepted,
+        boundaries,
+        ordered_submissions,
+    )
+    records.extend(unit_records)
     records.extend(
-        _materialize_units(
-            source_id,
-            str(activity["activity_id"]),
-            str(activity["stage"]),
-            ordered_pages,
-            page_records,
-            accepted,
-            boundaries,
-            ordered_submissions,
+        _missing_response_heading_diagnostics(
+            records,
+            activity_id=str(activity["activity_id"]),
+            stage=str(activity["stage"]),
         )
     )
     _assign_page_states(ordered_pages, page_records, accepted, section_pages)
@@ -301,8 +321,7 @@ def _markers_for_page(
                     disposition,
                 )
                 records.append(record)
-                if disposition == "unit_start":
-                    accepted.append(_Marker(page, line, kind, label, record))
+                accepted.append(_Marker(page, line, kind, label, record))
     return accepted, records
 
 
@@ -773,6 +792,31 @@ def _open_boundary_diagnostic(
     }
     record["diagnostic_id"] = build_record_id(record)
     return record
+
+
+def _missing_response_heading_diagnostics(
+    records: Sequence[JsonObject], *, activity_id: str, stage: str
+) -> list[JsonObject]:
+    """Materialize every source-backed missing response heading for Task 05D."""
+    if stage != "05d":
+        return []
+    diagnostics: list[JsonObject] = []
+    for gap in missing_response_heading_gaps(records, activity_id):
+        record: JsonObject = {
+            "schema_version": SCHEMA_VERSION,
+            "record_type": "diagnostic",
+            "stage": stage,
+            "activity_id": activity_id,
+            "code": SOURCE_RESPONSE_HEADING_ABSENT,
+            "severity": "warning",
+            "terminal": True,
+            "subject_ids": [gap.comment_unit_id],
+            "evidence_ids": list(gap.evidence_ids),
+            "message": SOURCE_RESPONSE_HEADING_ABSENT_MESSAGE,
+        }
+        record["diagnostic_id"] = build_record_id(record)
+        diagnostics.append(record)
+    return diagnostics
 
 
 def _reference_records(

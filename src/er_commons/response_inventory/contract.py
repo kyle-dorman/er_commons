@@ -18,6 +18,16 @@ from jsonschema import (  # type: ignore[import-untyped]
 
 from er_commons.artifact_io import canonical_json_sha256
 from er_commons.response_inventory.pilot_policy import TASK05C_PILOT_RANGES
+from er_commons.response_inventory.source_structure import (
+    SOURCE_RESPONSE_HEADING_ABSENT,
+    SOURCE_RESPONSE_HEADING_ABSENT_MESSAGE,
+    missing_response_heading_gaps,
+    paired_response_style_comment_marker_ids,
+)
+from er_commons.response_inventory.task05d_policy import (
+    TASK05D_ALLOWED_WARNING_CODES,
+    TASK05D_RANGE,
+)
 
 type JsonObject = dict[str, Any]
 
@@ -282,21 +292,30 @@ def _validate_page_continuations(context: _ValidationContext) -> None:
 
 def _validate_markers(context: _ValidationContext) -> None:
     """Validate marker anchors and the style evidence required for accepted starts."""
+    paired_comment_ids = paired_response_style_comment_marker_ids(context.records)
     for marker in _records_of_type(context.records, "marker_candidate").values():
         _require_refs(marker, ("page_id",), context.pages)
         page = context.pages[marker["page_id"]]
         _require_text_interval(marker, page["raw_text"])
         _validate_bbox(marker["bbox"], page)
         if marker["disposition"] == "unit_start":
-            _validate_unit_start_marker(marker)
+            activity = context.activities[page["activity_id"]]
+            _validate_unit_start_marker(
+                marker,
+                paired_response_style=(
+                    activity["stage"] == "05d" and marker["marker_id"] in paired_comment_ids
+                ),
+            )
 
 
-def _validate_unit_start_marker(marker: JsonObject) -> None:
+def _validate_unit_start_marker(marker: JsonObject, *, paired_response_style: bool) -> None:
     """Require an accepted comment or response marker to retain layout evidence."""
     style = marker["style_evidence"]
     expected_style = (
         marker["marker_kind"] == "comment" and style["bold"] and style["solid_rule"]
     ) or (marker["marker_kind"] == "response" and style["italic"] and style["dotted_rule"])
+    if paired_response_style:
+        expected_style = True
     if not marker["line_initial"]:
         raise ValueError("unit-start marker must be line-initial")
     if marker["marker_kind"] in {"comment", "response"} and not expected_style:
@@ -504,13 +523,24 @@ def _validate_completions(context: _ValidationContext) -> None:
     for completion in _records_of_type(context.records, "stage_completion").values():
         _validate_completion_ownership(completion, context)
         if completion["stage"] == "05c" and completion["status"] != "failed":
-            _validate_05c_completion_counts(
+            _validate_source_completion_counts(
                 completion,
                 context.activities[completion["activity_id"]],
                 context.records,
                 context.pages,
                 context.spans,
                 context.units,
+                stage="05c",
+            )
+        if completion["stage"] == "05d" and completion["status"] != "failed":
+            _validate_source_completion_counts(
+                completion,
+                context.activities[completion["activity_id"]],
+                context.records,
+                context.pages,
+                context.spans,
+                context.units,
+                stage="05d",
             )
         if completion["stage"] in {"05d", "05g"} and completion["status"] != "failed":
             _validate_complete_source_inventory(completion, context)
@@ -536,11 +566,19 @@ def _validate_complete_source_inventory(
     completion: JsonObject, context: _ValidationContext
 ) -> None:
     """Require a terminal full-source inventory to contain GR1-8 and the GR9 exception."""
+    activity_id = completion["activity_id"]
     general_responses = [
-        unit for unit in context.units.values() if unit["unit_kind"] == "general_response"
+        unit
+        for unit in context.units.values()
+        if unit["unit_kind"] == "general_response"
+        and (completion["stage"] != "05d" or unit["activity_id"] == activity_id)
     ]
-    placement_exceptions = _records_of_type(context.records, "source_placement_exception")
-    if completion["counts"].get("general_responses") != len(general_responses):
+    placement_exceptions = [
+        exception
+        for exception in _records_of_type(context.records, "source_placement_exception").values()
+        if completion["stage"] != "05d" or exception["activity_id"] == activity_id
+    ]
+    if completion["counts"].get("general_response_units") != len(general_responses):
         raise ValueError("completion General Response count differs from records")
     if len(general_responses) != 8:
         raise ValueError("complete source inventory must account for 8 General Responses")
@@ -642,6 +680,7 @@ def _validate_diagnostics(
     for diagnostic in _records_of_type(records, "diagnostic").values():
         _validate_diagnostic_references(diagnostic, by_id)
         terminal_subjects.update(diagnostic["subject_ids"] if diagnostic["terminal"] else ())
+    _validate_missing_response_heading_diagnostics(records)
 
     resolved_mentions: set[str] = {
         evidence_id
@@ -672,6 +711,46 @@ def _validate_diagnostic_references(
     for record_id in diagnostic["subject_ids"] + diagnostic["evidence_ids"]:
         if record_id not in by_id:
             raise ValueError(f"diagnostic references missing record: {record_id}")
+
+
+def _validate_missing_response_heading_diagnostics(records: Sequence[JsonObject]) -> None:
+    """Require a one-to-one match between 05D response gaps and diagnostics."""
+    activities = {
+        str(record["activity_id"]): record
+        for record in records
+        if record.get("record_type") == "activity" and record.get("stage") == "05d"
+    }
+    diagnostics = [
+        record
+        for record in records
+        if record.get("record_type") == "diagnostic"
+        and record.get("code") == SOURCE_RESPONSE_HEADING_ABSENT
+    ]
+    if any(str(record.get("activity_id")) not in activities for record in diagnostics):
+        raise ValueError("missing-response-heading diagnostic requires an 05D activity")
+    for activity_id in activities:
+        expected = {
+            (gap.comment_unit_id, gap.evidence_ids)
+            for gap in missing_response_heading_gaps(records, activity_id)
+        }
+        actual_rows = [record for record in diagnostics if record.get("activity_id") == activity_id]
+        actual = {
+            (
+                str(record["subject_ids"][0]) if len(record["subject_ids"]) == 1 else "",
+                tuple(str(value) for value in record["evidence_ids"]),
+            )
+            for record in actual_rows
+        }
+        if actual != expected or len(actual_rows) != len(expected):
+            raise ValueError("missing-response-heading diagnostics differ from source-unit gaps")
+        for record in actual_rows:
+            if (
+                record["stage"] != "05d"
+                or record["severity"] != "warning"
+                or record["terminal"] is not True
+                or record["message"] != SOURCE_RESPONSE_HEADING_ABSENT_MESSAGE
+            ):
+                raise ValueError("missing-response-heading diagnostic policy differs")
 
 
 def _required_resolved_domains(closed_stages: set[str]) -> set[str]:
@@ -718,15 +797,62 @@ def _validate_placement(
                 raise ValueError("source-placement exception evidence must use its source activity")
 
 
-def _validate_05c_completion_counts(
+def _validate_source_completion_counts(
     completion: JsonObject,
     activity: JsonObject,
     records: Sequence[JsonObject],
     pages: Mapping[str, JsonObject],
     spans: Mapping[str, JsonObject],
     units: Mapping[str, JsonObject],
+    *,
+    stage: str,
 ) -> None:
-    """Reconcile a successful pilot completion without imposing full-volume counts."""
+    """Reconcile successful source-stage counts against activity-owned records."""
+    expected = _source_completion_counts(activity, records, pages, spans, units)
+    activity_id = activity["activity_id"]
+    ranges = activity["page_ranges"]
+    if stage == "05c":
+        # Accepted 05C completions predate the explicit continuation count.
+        expected.pop("page_continuations")
+        expected.pop("source_response_heading_absent_diagnostics")
+    counts = completion["counts"]
+    for name, value in expected.items():
+        if counts.get(name) != value:
+            raise ValueError(f"{stage.upper()} completion count differs for {name}")
+    if stage == "05d":
+        _validate_05d_completion_rules(completion, activity, expected, records)
+        return
+    if expected["placement_exceptions"] != 1:
+        raise ValueError("complete 05C pilot must account for the GR9 exception")
+    if (
+        tuple(tuple(item) for item in ranges) == TASK05C_PILOT_RANGES
+        and expected["open_range_boundary_diagnostics"] != 1
+    ):
+        raise ValueError("complete 05C pilot must retain its one right-censored boundary")
+    if tuple(tuple(item) for item in ranges) == TASK05C_PILOT_RANGES:
+        boundary = next(
+            record
+            for record in records
+            if record["record_type"] == "diagnostic"
+            and record["activity_id"] == activity_id
+            and record["code"] == "unit_boundary_ambiguous"
+            and record["terminal"] is True
+        )
+        subject = next(
+            record for record in records if record.get("marker_id") == boundary["subject_ids"][0]
+        )
+        if subject["observed_label"].casefold() != "response m-osec-137":
+            raise ValueError("05C right-censored boundary must be Response M-OSEC-137")
+
+
+def _source_completion_counts(
+    activity: Mapping[str, Any],
+    records: Sequence[JsonObject],
+    pages: Mapping[str, JsonObject],
+    spans: Mapping[str, JsonObject],
+    units: Mapping[str, JsonObject],
+) -> JsonObject:
+    """Derive source-stage counts through one activity's pages, spans, and units."""
     activity_id = activity["activity_id"]
     source_id = activity["source_id"]
     activity_pages = {
@@ -741,7 +867,23 @@ def _validate_05c_completion_counts(
     activity_units = {
         unit_id: unit for unit_id, unit in units.items() if unit["activity_id"] == activity_id
     }
-    record_counts = {
+    diagnostics = [
+        record
+        for record in records
+        if record["record_type"] == "diagnostic" and record["activity_id"] == activity_id
+    ]
+    ranges = activity["page_ranges"]
+    return {
+        "declared_ranges": len(ranges),
+        "completed_ranges": len(ranges),
+        "failed_ranges": 0,
+        "declared_pages": sum(end - start + 1 for start, end in ranges),
+        "emitted_pages": len(activity_pages),
+        "page_continuations": sum(
+            record["from_page_id"] in page_ids and record["to_page_id"] in page_ids
+            for record in records
+            if record["record_type"] == "page_continuation"
+        ),
         "marker_candidates": sum(
             record["page_id"] in page_ids
             for record in records
@@ -779,54 +921,75 @@ def _validate_05c_completion_counts(
             for record in records
             if record["record_type"] == "source_placement_exception"
         ),
-        "diagnostics": sum(
-            record["activity_id"] == activity_id
-            for record in records
-            if record["record_type"] == "diagnostic"
-        ),
+        "diagnostics": len(diagnostics),
         "open_range_boundary_diagnostics": sum(
-            record["activity_id"] == activity_id
-            and record["code"] == "unit_boundary_ambiguous"
-            and record["terminal"] is True
-            for record in records
-            if record["record_type"] == "diagnostic"
+            record["code"] == "unit_boundary_ambiguous" and record["terminal"] is True
+            for record in diagnostics
+        ),
+        "source_response_heading_absent_diagnostics": sum(
+            record["code"] == SOURCE_RESPONSE_HEADING_ABSENT for record in diagnostics
         ),
     }
-    ranges = activity["page_ranges"]
-    declared_pages = sum(end - start + 1 for start, end in ranges)
-    expected = {
-        "declared_ranges": len(ranges),
-        "completed_ranges": len(ranges),
-        "failed_ranges": 0,
-        "declared_pages": declared_pages,
-        "emitted_pages": len(activity_pages),
-        **record_counts,
-    }
-    counts = completion["counts"]
-    for name, value in expected.items():
-        if counts.get(name) != value:
-            raise ValueError(f"05C completion count differs for {name}")
-    if record_counts["placement_exceptions"] != 1:
-        raise ValueError("complete 05C pilot must account for the GR9 exception")
-    if (
-        tuple(tuple(item) for item in ranges) == TASK05C_PILOT_RANGES
-        and record_counts["open_range_boundary_diagnostics"] != 1
-    ):
-        raise ValueError("complete 05C pilot must retain its one right-censored boundary")
-    if tuple(tuple(item) for item in ranges) == TASK05C_PILOT_RANGES:
-        boundary = next(
-            record
-            for record in records
-            if record["record_type"] == "diagnostic"
-            and record["activity_id"] == activity_id
-            and record["code"] == "unit_boundary_ambiguous"
-            and record["terminal"] is True
-        )
-        subject = next(
-            record for record in records if record.get("marker_id") == boundary["subject_ids"][0]
-        )
-        if subject["observed_label"].casefold() != "response m-osec-137":
-            raise ValueError("05C right-censored boundary must be Response M-OSEC-137")
+
+
+def _validate_05d_completion_rules(
+    completion: JsonObject,
+    activity: JsonObject,
+    record_counts: Mapping[str, int],
+    records: Sequence[JsonObject],
+) -> None:
+    """Enforce full-source closure and exact terminal-warning reconciliation."""
+    if activity["page_ranges"] != [list(TASK05D_RANGE)]:
+        raise ValueError("complete 05D inventory must cover the exact 1-744 range")
+    if record_counts["open_range_boundary_diagnostics"] != 0:
+        raise ValueError("complete 05D inventory cannot retain a range-boundary diagnostic")
+    warnings = task05d_warning_entries(
+        records,
+        str(activity["activity_id"]),
+        allowed_codes=TASK05D_ALLOWED_WARNING_CODES,
+    )
+    expected_status = "complete_with_warnings" if warnings else "complete"
+    if completion["status"] != expected_status:
+        raise ValueError("05D completion status differs from its diagnostics")
+    if completion["warnings"] != list(warnings):
+        raise ValueError("05D completion warnings differ from its diagnostics")
+
+
+def task05d_warning_entries(
+    records: Sequence[JsonObject],
+    activity_id: str,
+    *,
+    allowed_codes: Sequence[str],
+) -> tuple[str, ...]:
+    """Validate allowed 05D diagnostics and return deterministic warning entries."""
+    _validate_missing_response_heading_diagnostics(records)
+    diagnostics = [
+        record
+        for record in records
+        if record.get("record_type") == "diagnostic" and record.get("activity_id") == activity_id
+    ]
+    allowed = set(allowed_codes)
+    for diagnostic in diagnostics:
+        if (
+            diagnostic["code"] not in allowed
+            or diagnostic["severity"] != "warning"
+            or diagnostic["terminal"] is not True
+        ):
+            raise ValueError("05D diagnostic is not an allowed terminal warning")
+    return tuple(sorted(f"{record['code']}:{record['diagnostic_id']}" for record in diagnostics))
+
+
+def task05d_completion_counts(
+    activity: Mapping[str, Any], records: Sequence[JsonObject]
+) -> JsonObject:
+    """Derive the exact Task 05D completion counts from activity records."""
+    return _source_completion_counts(
+        activity,
+        records,
+        _records_of_type(records, "page"),
+        _records_of_type(records, "source_span"),
+        _records_of_type(records, "source_unit"),
+    )
 
 
 def _source_activity_anchors(
@@ -1035,8 +1198,8 @@ def _validate_activity_dependencies(activity: JsonObject) -> None:
         },
         "05g": {"task05d_completion", "task05e_completion", "task05f_completion"},
     }[activity["stage"]]
-    if not required_roles.issubset(input_roles):
-        raise ValueError("activity is missing a required stage dependency role")
+    if set(input_roles) != required_roles:
+        raise ValueError("activity dependency roles differ from the exact stage contract")
 
 
 def _validate_source_activity_scope(
@@ -1296,6 +1459,8 @@ __all__ = [
     "build_record_id",
     "build_publication_id",
     "semantic_bundle_digest",
+    "task05d_completion_counts",
+    "task05d_warning_entries",
     "validate_contract_fixtures",
     "validate_managed_files",
     "validate_record_bundle",
