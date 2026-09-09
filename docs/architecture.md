@@ -158,6 +158,13 @@ zero, one, or multiple occurrences determine `complete` versus
 `er-responses accept` is a separate explicit transition for an already terminal
 05D candidate; it writes a compact adjacent acceptance pointer outside the
 candidate's managed-file closure and does not change candidate identity.
+For Task 05E, `er-responses finalize-05e` verifies one closed source-free review
+receipt, binds a passing file-checksummed human-maintainability report, and
+atomically wraps the unchanged graph in managed-inventory and completion
+records. It does not rerun matching or copy accepted source records. Candidate
+acceptance uses the separate `er-responses accept-05e` transition, which
+revalidates the terminal candidate and writes a compact adjacent pointer without
+changing the candidate's managed closure.
 
 ## Review boundary
 

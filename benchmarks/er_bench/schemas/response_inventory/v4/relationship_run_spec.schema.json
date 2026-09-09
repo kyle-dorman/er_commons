@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/response_inventory/v4/relationship_run_spec.schema.json",
+  "title": "ER Commons Task 05E bounded relationship review run specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_stage",
+    "scope_kind",
+    "accepted_task05d",
+    "accepted_gate1",
+    "repository_bindings",
+    "producer_code_sha256",
+    "output_policy",
+    "resolution_policy"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.response_relationship_run_spec.v4"},
+    "task_stage": {"const": "05e"},
+    "scope_kind": {"const": "bounded_relationship_review"},
+    "accepted_task05d": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_root", "acceptance_path", "revision_id", "acceptance_id", "activity_id", "completion_id", "inventory_id", "semantic_digest"],
+      "properties": {
+        "candidate_root": {"$ref": "#/$defs/relative_path"},
+        "acceptance_path": {"$ref": "#/$defs/relative_path"},
+        "revision_id": {"const": "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"},
+        "acceptance_id": {"const": "acceptancev1-7edf64ffd5e283c736e9980c79f682997ce06c135038d4ceb3ecbc496ce6c027"},
+        "activity_id": {"const": "activityv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"},
+        "completion_id": {"const": "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f"},
+        "inventory_id": {"const": "fileinventoryv1-a04c715a6dff6bdfe6d28eaed9b40211382d60a74d540cdf46cd3b2c993c60a0"},
+        "semantic_digest": {"const": "f7aa9fd6e6d4e464b27b270e6f61a8dcbfb0d998dc44e7eda84abd07db5d9247"}
+      }
+    },
+    "accepted_gate1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline_root", "activity_id", "census_digest"],
+      "properties": {
+        "baseline_root": {"$ref": "#/$defs/relative_path"},
+        "activity_id": {"const": "activityv1-50ae2f7de5f28e882e62627db103e03f0059677fcdfc1e1f8be3a9bf5232b778"},
+        "census_digest": {"const": "ff509e0a5434b7a4e41a83ac94b950c3a70a84f99f954aca57d1fd0f087ff246"}
+      }
+    },
+    "repository_bindings": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/repository_binding"}
+    },
+    "producer_code_sha256": {"$ref": "#/$defs/sha256"},
+    "output_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_relative_root", "review_namespace_template", "completion_written", "copy_source_payload", "copy_upstream_payloads"],
+      "properties": {
+        "artifact_relative_root": {"$ref": "#/$defs/relative_path"},
+        "review_namespace_template": {"const": "working/05e/reviewpassv1-{activity_hash}"},
+        "completion_written": {"const": false},
+        "copy_source_payload": {"const": false},
+        "copy_upstream_payloads": {"const": false}
+      }
+    },
+    "resolution_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["normalize_case", "collapse_whitespace", "recover_u0002_separator_in_reference_mentions", "classify_self_mentions_without_edges", "allow_general_response_response_edges", "allow_general_response_general_response_edges", "classify_running_headers_without_edges", "classify_response_section_headings_without_edges", "classify_ordinary_response_prose_without_edges", "terminal_unresolved_reference_labels", "terminal_unpaired_source_labels", "typed_membership_suffix", "membership_aliases", "strip_one_terminal_period", "infer_letter_suffix_relationships", "fuzzy_or_semantic_matching"],
+      "properties": {
+        "normalize_case": {"const": true},
+        "collapse_whitespace": {"const": true},
+        "recover_u0002_separator_in_reference_mentions": {"const": true},
+        "classify_self_mentions_without_edges": {"const": true},
+        "allow_general_response_response_edges": {"const": true},
+        "allow_general_response_general_response_edges": {"const": true},
+        "classify_running_headers_without_edges": {"const": true},
+        "classify_response_section_headings_without_edges": {"const": true},
+        "classify_ordinary_response_prose_without_edges": {"const": true},
+        "terminal_unresolved_reference_labels": {"const": ["Response OSEC-21"]},
+        "terminal_unpaired_source_labels": {"const": ["Comment SA-Caltrans-48", "Response SA-Caltrans-48a"]},
+        "typed_membership_suffix": {"const": true},
+        "membership_aliases": {
+          "const": {
+            "O-OSEC-106": "M-OSEC-106",
+            "O-OSEC-370": "M-OSEC-370",
+            "O-OSEC-371": "M-OSEC-371",
+            "O-OSEC-375": "M-OSEC-375",
+            "O-OSEC-379": "M-OSEC-379"
+          }
+        },
+        "strip_one_terminal_period": {"const": true},
+        "infer_letter_suffix_relationships": {"const": false},
+        "fuzzy_or_semantic_matching": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "relative_path": {"type": "string", "minLength": 1, "not": {"pattern": "(^/|(^|/)\\.\\.(/|$))"}},
+    "repository_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "authority", "path", "sha256"],
+      "properties": {
+        "role": {"enum": ["response_record_schema", "producer_run_spec_code", "relationship_run_spec_schema"]},
+        "authority": {"const": "repository"},
+        "path": {"$ref": "#/$defs/relative_path"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

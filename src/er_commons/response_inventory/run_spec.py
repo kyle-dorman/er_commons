@@ -66,7 +66,11 @@ class ArtifactReference(StrictModel):
 class RepositoryBinding(StrictModel):
     """Digest-bound checked-in schema or producer module."""
 
-    role: Literal["response_record_schema", "producer_run_spec_code"]
+    role: Literal[
+        "response_record_schema",
+        "producer_run_spec_code",
+        "relationship_run_spec_schema",
+    ]
     authority: Literal["repository"]
     path: Path
     sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
@@ -238,6 +242,88 @@ class CompleteStopBehavior(StrictModel):
         return self
 
 
+class AcceptedTask05D(StrictModel):
+    """Exact accepted 05D candidate consumed by the source-free graph stage."""
+
+    candidate_root: Path
+    acceptance_path: Path
+    revision_id: Literal[
+        "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"
+    ]
+    acceptance_id: Literal[
+        "acceptancev1-7edf64ffd5e283c736e9980c79f682997ce06c135038d4ceb3ecbc496ce6c027"
+    ]
+    activity_id: Literal[
+        "activityv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"
+    ]
+    completion_id: Literal[
+        "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f"
+    ]
+    inventory_id: Literal[
+        "fileinventoryv1-a04c715a6dff6bdfe6d28eaed9b40211382d60a74d540cdf46cd3b2c993c60a0"
+    ]
+    semantic_digest: Literal["f7aa9fd6e6d4e464b27b270e6f61a8dcbfb0d998dc44e7eda84abd07db5d9247"]
+
+    @model_validator(mode="after")
+    def validate_paths(self) -> AcceptedTask05D:
+        """Keep both accepted paths portable and require an adjacent pointer."""
+        _require_contained_path(self.candidate_root, "05D candidate")
+        _require_contained_path(self.acceptance_path, "05D acceptance")
+        expected = Path(f"{self.candidate_root.as_posix()}.acceptance.json")
+        if self.acceptance_path != expected:
+            raise ValueError("05D acceptance path must be adjacent to its candidate")
+        if self.candidate_root.name != self.revision_id:
+            raise ValueError("05D candidate path differs from its accepted revision ID")
+        return self
+
+
+class RelationshipOutputPolicy(StrictModel):
+    """Replaceable, nonterminal namespace for the exact-only 05E baseline."""
+
+    artifact_relative_root: Path
+    baseline_namespace_template: Literal["working/05e/baselinev1-{activity_hash}"]
+    completion_written: Literal[False]
+    copy_source_payload: Literal[False]
+    copy_upstream_payloads: Literal[False]
+
+    @model_validator(mode="after")
+    def validate_path(self) -> RelationshipOutputPolicy:
+        """Keep Task 05E baseline output below the configured artifact root."""
+        _require_contained_path(self.artifact_relative_root, "output")
+        return self
+
+
+class RelationshipReviewOutputPolicy(StrictModel):
+    """Replaceable namespace for one bounded, nonterminal Gate 2 review pass."""
+
+    artifact_relative_root: Path
+    review_namespace_template: Literal["working/05e/reviewpassv1-{activity_hash}"]
+    completion_written: Literal[False]
+    copy_source_payload: Literal[False]
+    copy_upstream_payloads: Literal[False]
+
+    @model_validator(mode="after")
+    def validate_path(self) -> RelationshipReviewOutputPolicy:
+        """Keep the amended review pass below the configured artifact root."""
+        _require_contained_path(self.artifact_relative_root, "output")
+        return self
+
+
+class RelationshipStopBehavior(StrictModel):
+    """Freeze exact-only Gate 1 and forbid in-run matching expansion."""
+
+    on_input_binding_mismatch: Literal["stop"]
+    on_invalid_record_or_schema: Literal["stop"]
+    on_nondeterministic_semantic_output: Literal["stop"]
+    exact_official_labels_only: Literal[True]
+    normalize_whitespace: Literal[False]
+    normalize_punctuation: Literal[False]
+    normalize_case: Literal[False]
+    infer_letter_suffix_relationships: Literal[False]
+    fuzzy_or_semantic_matching: Literal[False]
+    allow_policy_repair_during_run: Literal[False]
+
+
 class ResponseInventoryRunSpec(StrictModel):
     """One explicit and bounded Task 05C pilot recipe."""
 
@@ -341,7 +427,133 @@ class ResponseInventoryRunSpecV2(StrictModel):
         return self
 
 
-AnyResponseInventoryRunSpec = ResponseInventoryRunSpec | ResponseInventoryRunSpecV2
+class ResponseRelationshipRunSpecV3(StrictModel):
+    """One source-free exact-only Task 05E baseline recipe."""
+
+    schema_version: Literal["er_commons.response_relationship_run_spec.v3"]
+    task_stage: Literal["05e"]
+    scope_kind: Literal["exact_relationship_baseline"]
+    accepted_task05d: AcceptedTask05D
+    repository_bindings: tuple[RepositoryBinding, ...]
+    producer_code_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    output_policy: RelationshipOutputPolicy
+    stop_behavior: RelationshipStopBehavior
+
+    @model_validator(mode="after")
+    def validate_exact_gate(self) -> ResponseRelationshipRunSpecV3:
+        """Require all source-free schema/code bindings for the frozen baseline."""
+        _require_exact_roles(
+            [item.role for item in self.repository_bindings],
+            {
+                "response_record_schema",
+                "producer_run_spec_code",
+                "relationship_run_spec_schema",
+            },
+            "repository binding",
+        )
+        return self
+
+
+class AcceptedRelationshipBaseline(StrictModel):
+    """Exact Gate 1 evidence that the bounded review pass must preserve."""
+
+    baseline_root: Path
+    activity_id: Literal[
+        "activityv1-50ae2f7de5f28e882e62627db103e03f0059677fcdfc1e1f8be3a9bf5232b778"
+    ]
+    census_digest: Literal["ff509e0a5434b7a4e41a83ac94b950c3a70a84f99f954aca57d1fd0f087ff246"]
+
+    @model_validator(mode="after")
+    def validate_path(self) -> AcceptedRelationshipBaseline:
+        """Require the exact named Gate 1 namespace under the artifact root."""
+        _require_contained_path(self.baseline_root, "05E Gate 1 baseline")
+        expected = f"baselinev1-{self.activity_id.removeprefix('activityv1-')}"
+        if self.baseline_root.name != expected:
+            raise ValueError("Gate 1 baseline path differs from its activity ID")
+        return self
+
+
+class RelationshipReviewPolicy(StrictModel):
+    """Exact bounded amendments authorized for the current Gate 2 review replay."""
+
+    normalize_case: Literal[True]
+    collapse_whitespace: Literal[True]
+    recover_u0002_separator_in_reference_mentions: Literal[True]
+    classify_self_mentions_without_edges: Literal[True]
+    allow_general_response_response_edges: Literal[True]
+    allow_general_response_general_response_edges: Literal[True]
+    classify_running_headers_without_edges: Literal[True]
+    classify_response_section_headings_without_edges: Literal[True]
+    classify_ordinary_response_prose_without_edges: Literal[True]
+    terminal_unresolved_reference_labels: tuple[Literal["Response OSEC-21"], ...]
+    terminal_unpaired_source_labels: tuple[
+        Literal["Comment SA-Caltrans-48", "Response SA-Caltrans-48a"], ...
+    ]
+    typed_membership_suffix: Literal[True]
+    membership_aliases: dict[
+        Literal["O-OSEC-106", "O-OSEC-370", "O-OSEC-371", "O-OSEC-375", "O-OSEC-379"],
+        Literal["M-OSEC-106", "M-OSEC-370", "M-OSEC-371", "M-OSEC-375", "M-OSEC-379"],
+    ]
+    strip_one_terminal_period: Literal[True]
+    infer_letter_suffix_relationships: Literal[False]
+    fuzzy_or_semantic_matching: Literal[False]
+
+    @model_validator(mode="after")
+    def validate_aliases(self) -> RelationshipReviewPolicy:
+        """Freeze the reviewed aliases and terminal document-specific exceptions."""
+        expected = {
+            "O-OSEC-106": "M-OSEC-106",
+            "O-OSEC-370": "M-OSEC-370",
+            "O-OSEC-371": "M-OSEC-371",
+            "O-OSEC-375": "M-OSEC-375",
+            "O-OSEC-379": "M-OSEC-379",
+        }
+        if self.membership_aliases != expected:
+            raise ValueError("membership aliases must be exactly the five reviewed O-OSEC typos")
+        if self.terminal_unresolved_reference_labels != ("Response OSEC-21",):
+            raise ValueError("terminal unresolved references differ from the reviewed typo")
+        if self.terminal_unpaired_source_labels != (
+            "Comment SA-Caltrans-48",
+            "Response SA-Caltrans-48a",
+        ):
+            raise ValueError("terminal unpaired labels differ from the reviewed source form")
+        return self
+
+
+class ResponseRelationshipReviewRunSpecV4(StrictModel):
+    """One source-free bounded-amendment review replay for Task 05E."""
+
+    schema_version: Literal["er_commons.response_relationship_run_spec.v4"]
+    task_stage: Literal["05e"]
+    scope_kind: Literal["bounded_relationship_review"]
+    accepted_task05d: AcceptedTask05D
+    accepted_gate1: AcceptedRelationshipBaseline
+    repository_bindings: tuple[RepositoryBinding, ...]
+    producer_code_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    output_policy: RelationshipReviewOutputPolicy
+    resolution_policy: RelationshipReviewPolicy
+
+    @model_validator(mode="after")
+    def validate_review_gate(self) -> ResponseRelationshipReviewRunSpecV4:
+        """Require the same closed schema/code roles as the exact baseline."""
+        _require_exact_roles(
+            [item.role for item in self.repository_bindings],
+            {
+                "response_record_schema",
+                "producer_run_spec_code",
+                "relationship_run_spec_schema",
+            },
+            "repository binding",
+        )
+        return self
+
+
+AnyResponseInventoryRunSpec = (
+    ResponseInventoryRunSpec
+    | ResponseInventoryRunSpecV2
+    | ResponseRelationshipRunSpecV3
+    | ResponseRelationshipReviewRunSpecV4
+)
 
 
 def load_response_inventory_run_spec(path: Path) -> tuple[AnyResponseInventoryRunSpec, str]:
@@ -350,8 +562,13 @@ def load_response_inventory_run_spec(path: Path) -> tuple[AnyResponseInventoryRu
     payload = json.loads(raw)
     if not isinstance(payload, dict):
         raise ValueError("response inventory run spec must be a JSON object")
-    if payload.get("schema_version") == "er_commons.response_inventory_run_spec.v2":
-        spec: AnyResponseInventoryRunSpec = ResponseInventoryRunSpecV2.model_validate_json(raw)
+    spec: AnyResponseInventoryRunSpec
+    if payload.get("schema_version") == "er_commons.response_relationship_run_spec.v4":
+        spec = ResponseRelationshipReviewRunSpecV4.model_validate_json(raw)
+    elif payload.get("schema_version") == "er_commons.response_relationship_run_spec.v3":
+        spec = ResponseRelationshipRunSpecV3.model_validate_json(raw)
+    elif payload.get("schema_version") == "er_commons.response_inventory_run_spec.v2":
+        spec = ResponseInventoryRunSpecV2.model_validate_json(raw)
     else:
         spec = ResponseInventoryRunSpec.model_validate_json(raw)
     return spec, hashlib.sha256(raw).hexdigest()
@@ -385,6 +602,8 @@ __all__ = [
     "AnyResponseInventoryRunSpec",
     "ResponseInventoryRunSpec",
     "ResponseInventoryRunSpecV2",
+    "ResponseRelationshipRunSpecV3",
+    "ResponseRelationshipReviewRunSpecV4",
     "load_response_inventory_run_spec",
     "verify_repository_bindings",
 ]

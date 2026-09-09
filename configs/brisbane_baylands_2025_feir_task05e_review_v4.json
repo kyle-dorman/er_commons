@@ -1,0 +1,77 @@
+{
+  "schema_version": "er_commons.response_relationship_run_spec.v4",
+  "task_stage": "05e",
+  "scope_kind": "bounded_relationship_review",
+  "accepted_task05d": {
+    "candidate_root": "pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030",
+    "acceptance_path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030.acceptance.json",
+    "revision_id": "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030",
+    "acceptance_id": "acceptancev1-7edf64ffd5e283c736e9980c79f682997ce06c135038d4ceb3ecbc496ce6c027",
+    "activity_id": "activityv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030",
+    "completion_id": "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f",
+    "inventory_id": "fileinventoryv1-a04c715a6dff6bdfe6d28eaed9b40211382d60a74d540cdf46cd3b2c993c60a0",
+    "semantic_digest": "f7aa9fd6e6d4e464b27b270e6f61a8dcbfb0d998dc44e7eda84abd07db5d9247"
+  },
+  "accepted_gate1": {
+    "baseline_root": "pipelines/brisbane_baylands/task_05_response_inventory/working/05e/baselinev1-50ae2f7de5f28e882e62627db103e03f0059677fcdfc1e1f8be3a9bf5232b778",
+    "activity_id": "activityv1-50ae2f7de5f28e882e62627db103e03f0059677fcdfc1e1f8be3a9bf5232b778",
+    "census_digest": "ff509e0a5434b7a4e41a83ac94b950c3a70a84f99f954aca57d1fd0f087ff246"
+  },
+  "repository_bindings": [
+    {
+      "role": "producer_run_spec_code",
+      "authority": "repository",
+      "path": "src/er_commons/response_inventory/run_spec.py",
+      "sha256": "bfa40f0459041509977ae9d912dba45fe897ba2380ff9cbd6ea1020e8f45b536"
+    },
+    {
+      "role": "relationship_run_spec_schema",
+      "authority": "repository",
+      "path": "benchmarks/er_bench/schemas/response_inventory/v4/relationship_run_spec.schema.json",
+      "sha256": "d42acb94e56a0c1ab40d13f77eede3502dffd4b73e504b7a986721abc7622516"
+    },
+    {
+      "role": "response_record_schema",
+      "authority": "repository",
+      "path": "benchmarks/er_bench/schemas/response_inventory/v1/records.schema.json",
+      "sha256": "fa8cac55243db90b94ac451e9d00dba5d509ef0e07a72a739570dd6994b625ba"
+    }
+  ],
+  "producer_code_sha256": "c1a1e10879e4e6dcdfb4c6462e2c78d192f26dbe9f681de3dea0d5e83693a81a",
+  "output_policy": {
+    "artifact_relative_root": "pipelines/brisbane_baylands/task_05_response_inventory",
+    "review_namespace_template": "working/05e/reviewpassv1-{activity_hash}",
+    "completion_written": false,
+    "copy_source_payload": false,
+    "copy_upstream_payloads": false
+  },
+  "resolution_policy": {
+    "normalize_case": true,
+    "collapse_whitespace": true,
+    "recover_u0002_separator_in_reference_mentions": true,
+    "classify_self_mentions_without_edges": true,
+    "allow_general_response_response_edges": true,
+    "allow_general_response_general_response_edges": true,
+    "classify_running_headers_without_edges": true,
+    "classify_response_section_headings_without_edges": true,
+    "classify_ordinary_response_prose_without_edges": true,
+    "terminal_unresolved_reference_labels": [
+      "Response OSEC-21"
+    ],
+    "terminal_unpaired_source_labels": [
+      "Comment SA-Caltrans-48",
+      "Response SA-Caltrans-48a"
+    ],
+    "typed_membership_suffix": true,
+    "membership_aliases": {
+      "O-OSEC-106": "M-OSEC-106",
+      "O-OSEC-370": "M-OSEC-370",
+      "O-OSEC-371": "M-OSEC-371",
+      "O-OSEC-375": "M-OSEC-375",
+      "O-OSEC-379": "M-OSEC-379"
+    },
+    "strip_one_terminal_period": true,
+    "infer_letter_suffix_relationships": false,
+    "fuzzy_or_semantic_matching": false
+  }
+}

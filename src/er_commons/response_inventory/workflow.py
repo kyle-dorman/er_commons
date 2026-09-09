@@ -50,8 +50,8 @@ from er_commons.response_inventory.range_receipts import (
     range_receipt_reuse_mismatches,
 )
 from er_commons.response_inventory.run_spec import (
-    AnyResponseInventoryRunSpec,
     ResponseInventoryRunSpec,
+    ResponseInventoryRunSpecV2,
     load_response_inventory_run_spec,
     verify_repository_bindings,
 )
@@ -204,7 +204,7 @@ def build_pilot(
 
 
 def _collect_range_evidence(
-    spec: AnyResponseInventoryRunSpec,
+    spec: ResponseInventoryRunSpec | ResponseInventoryRunSpecV2,
     activity: JsonObject,
     schema: JsonObject,
     source_path: Path,

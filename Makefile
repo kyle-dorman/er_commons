@@ -8,7 +8,9 @@ export ER_COMMONS_DATA_ROOT
 	verify-brisbane-sources validate-collection-contract publish-document \
 	assemble-collection-handoff validate-collection-handoff \
 	validate-response-inventory-contract validate-response-inventory-pilot-spec \
-	validate-response-inventory-complete-spec \
+	validate-response-inventory-complete-spec validate-response-relationship-review-spec \
+	build-response-relationship-review-pass build-response-relationship-review \
+	finalize-response-relationship-candidate \
 	format format-check lint lint-fix type test check fix
 
 help:
@@ -22,6 +24,9 @@ help:
 	@echo "  make validate-response-inventory-contract  Validate source-free Task 05 records"
 	@echo "  make validate-response-inventory-pilot-spec  Validate the source-free Task 05C run spec"
 	@echo "  make validate-response-inventory-complete-spec  Validate the source-free Task 05D run spec"
+	@echo "  make build-response-relationship-review  Build the lazy read-only Task 05E review page"
+	@echo "  make build-response-relationship-review-pass  Replay accepted bounded Task 05E rules"
+	@echo "  make finalize-response-relationship-candidate  Close the reviewed Task 05E candidate"
 	@echo "  make publish-document DOCUMENT_SPEC=PATH SOURCE_ID=ID  Publish one document"
 	@echo "  make assemble-collection-handoff COLLECTION_SPEC=PATH  Assemble one collection handoff"
 	@echo "  make validate-collection-handoff COLLECTION_ROOT=DIR SCOPE_ID=ID SCHEMA=FILE"
@@ -73,6 +78,37 @@ validate-response-inventory-pilot-spec:
 validate-response-inventory-complete-spec:
 	uv run er-responses validate-spec \
 		--run-spec configs/brisbane_baylands_2025_feir_task05d_complete_v2.json
+
+validate-response-relationship-exact-spec:
+	uv run er-responses validate-spec \
+		--run-spec configs/brisbane_baylands_2025_feir_task05e_exact_v3.json
+
+validate-response-relationship-review-spec:
+	uv run er-responses validate-spec \
+		--run-spec configs/brisbane_baylands_2025_feir_task05e_review_v4.json
+
+build-response-relationship-review-pass: check-env
+	uv run er-responses build \
+		--run-spec configs/brisbane_baylands_2025_feir_task05e_review_v4.json
+
+TASK05E_REVIEW_ROOT := $(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05e/reviewpassv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1
+
+finalize-response-relationship-candidate: check-env
+	uv run er-responses finalize-05e \
+		--review-root "$(TASK05E_REVIEW_ROOT)" \
+		--quality-report configs/brisbane_baylands_2025_feir_task05e_code_quality_v1.json
+
+RELATIONSHIP_ROOT ?= $(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05e/baselinev1-50ae2f7de5f28e882e62627db103e03f0059677fcdfc1e1f8be3a9bf5232b778
+REVIEW_TOOL_ROOT ?= $(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05e/review_tool_gate1_v1
+
+build-response-relationship-review: check-env
+	uv run er-responses build-review \
+		--relationship-root "$(RELATIONSHIP_ROOT)" \
+		--source-records "$(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/inventory/source_records.jsonl" \
+		--qualification "$(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/diagnostics/qualification.json" \
+		--render-root "$(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05d/cache/857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/qualification" \
+		--output-root "$(REVIEW_TOOL_ROOT)" \
+		--served-root "$(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory"
 
 publish-document: check-env
 	@test -n "$(DOCUMENT_SPEC)" || (echo "DOCUMENT_SPEC=PATH is required"; exit 1)

@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -450,6 +451,8 @@ def _validate_semantic_edges(context: _ValidationContext) -> None:
         "response_response": ("response", "response"),
         "response_general_response": ("response", "general_response"),
         "general_response_membership": ("general_response", "comment"),
+        "general_response_response": ("general_response", "response"),
+        "general_response_general_response": ("general_response", "general_response"),
     }
     for edge in _records_of_type(context.records, "semantic_edge").values():
         _require_refs(edge, ("source_unit_id", "target_unit_id"), context.units)
@@ -461,7 +464,13 @@ def _validate_semantic_edges(context: _ValidationContext) -> None:
             raise ValueError("semantic edge endpoint kinds contradict relation type")
         _validate_edge_references(edge, context)
         _validate_edge_evidence(
-            edge, context.units, context.mentions, context.memberships, context.by_id
+            edge,
+            context.units,
+            context.mentions,
+            context.memberships,
+            context.spans,
+            context.pages,
+            context.by_id,
         )
 
 
@@ -1096,19 +1105,32 @@ def _validate_edge_evidence(
     units: Mapping[str, JsonObject],
     mentions: Mapping[str, JsonObject],
     memberships: Mapping[str, JsonObject],
+    spans: Mapping[str, JsonObject],
+    pages: Mapping[str, JsonObject],
     by_id: Mapping[str, JsonObject],
 ) -> None:
     source = units[edge["source_unit_id"]]
     target = units[edge["target_unit_id"]]
+    raw_resolutions = edge.get("evidence_resolutions", [])
+    resolutions = {item["evidence_id"]: item["resolver_rule"] for item in raw_resolutions}
+    if len(resolutions) != len(raw_resolutions) or not set(resolutions).issubset(
+        edge["evidence_ids"]
+    ):
+        raise ValueError("semantic edge evidence resolutions must uniquely name edge evidence")
     marker_evidence: set[str] = set()
     for evidence_id in edge["evidence_ids"]:
         if evidence_id in mentions:
             mention = mentions[evidence_id]
             if mention["reference_domain"] != "intra_volume":
                 raise ValueError("semantic edge mention evidence must be intra_volume")
-            forward = (
-                mention["source_unit_id"] == source["unit_id"]
-                and target["official_label"] in mention["target_labels"]
+            forward = mention["source_unit_id"] == source[
+                "unit_id"
+            ] and _mention_evidence_names_target(
+                mention,
+                target,
+                resolutions.get(evidence_id),
+                spans,
+                pages,
             )
             if not forward:
                 raise ValueError("semantic edge mention evidence does not name an endpoint")
@@ -1117,7 +1139,9 @@ def _validate_edge_evidence(
             if (
                 edge["relation_type"] != "general_response_membership"
                 or membership["general_response_unit_id"] != source["unit_id"]
-                or membership["target_label"] != target["official_label"]
+                or not _membership_evidence_names_target(
+                    membership, target, resolutions.get(evidence_id)
+                )
             ):
                 raise ValueError("membership evidence does not support the semantic edge")
         else:
@@ -1130,6 +1154,119 @@ def _validate_edge_evidence(
         target["start_marker_id"],
     }:
         raise ValueError("direct-pair edge must retain both endpoint markers")
+
+
+def _mention_evidence_names_target(
+    mention: JsonObject,
+    target: JsonObject,
+    rule: str | None,
+    spans: Mapping[str, JsonObject],
+    pages: Mapping[str, JsonObject],
+) -> bool:
+    """Validate exact or explicitly declared bounded mention normalization."""
+    target_label = str(target["official_label"])
+    if target_label in mention["target_labels"]:
+        return rule is None
+    if len(mention["target_labels"]) != 1 or rule is None:
+        return False
+    raw = str(mention["target_labels"][0])
+    if rule == "u0002_separator_to_hyphen_reference_mention_v1":
+        return _u0002_evidence_names_target(mention, raw, target_label, spans, pages)
+    if rule == "u0002_separator_to_hyphen_casefold_reference_mention_v1":
+        recovered = _u0002_recovered_label(mention, raw, spans, pages)
+        return recovered is not None and recovered.casefold() == target_label.casefold()
+    normalized = _text_rule_target(raw, rule)
+    if normalized is None:
+        return False
+    return (
+        normalized == target_label
+        if "casefold" not in rule
+        else normalized.casefold() == target_label.casefold() and normalized != target_label
+    )
+
+
+def _text_rule_target(raw: str, rule: str) -> str | None:
+    """Apply one declared whitespace, case, or terminal-period transformation."""
+    collapsed = " ".join(raw.split())
+    if rule == "collapsed_whitespace_official_label_v1":
+        return collapsed if raw != collapsed else None
+    if rule == "casefold_official_label_v1":
+        return raw
+    if rule == "collapsed_whitespace_casefold_official_label_v1":
+        return collapsed if raw != collapsed else None
+    if rule == "one_terminal_period_official_label_v1":
+        return raw[:-1] if raw.endswith(".") and not raw.endswith("..") else None
+    if rule == "one_terminal_period_casefold_official_label_v1":
+        return raw[:-1] if raw.endswith(".") and not raw.endswith("..") else None
+    if rule == "collapsed_whitespace_one_terminal_period_v1":
+        return (
+            collapsed[:-1]
+            if raw != collapsed and collapsed.endswith(".") and not collapsed.endswith("..")
+            else None
+        )
+    if rule == "collapsed_whitespace_one_terminal_period_casefold_v1":
+        return (
+            collapsed[:-1]
+            if raw != collapsed and collapsed.endswith(".") and not collapsed.endswith("..")
+            else None
+        )
+    return None
+
+
+def _u0002_evidence_names_target(
+    mention: JsonObject,
+    raw: str,
+    target_label: str,
+    spans: Mapping[str, JsonObject],
+    pages: Mapping[str, JsonObject],
+) -> bool:
+    """Verify U+0002 and the recovered suffix directly against accepted page text."""
+    recovered = _u0002_recovered_label(mention, raw, spans, pages)
+    return recovered == target_label
+
+
+def _u0002_recovered_label(
+    mention: JsonObject,
+    raw: str,
+    spans: Mapping[str, JsonObject],
+    pages: Mapping[str, JsonObject],
+) -> str | None:
+    """Reconstruct one U+0002-separated label from accepted page text."""
+    span = spans[mention["mention_span_id"]]
+    fragments = span["fragments"]
+    if not fragments:
+        return None
+    fragment = fragments[-1]
+    page_text = pages[fragment["page_id"]]["raw_text"]
+    suffix = page_text[fragment["text_end"] : fragment["text_end"] + 32]
+    match = re.match(r"\x02(?P<tail>[A-Z]+-[0-9]+[A-Za-z]?)\b", suffix)
+    if match is None or not re.fullmatch(r"(?:Comment|Response) [A-Z]", raw, re.IGNORECASE):
+        return None
+    return f"{raw}-{match.group('tail')}"
+
+
+def _membership_evidence_names_target(
+    membership: JsonObject, target: JsonObject, rule: str | None
+) -> bool:
+    """Validate exact, typed-prefix, or five reviewed membership typo resolutions."""
+    raw = str(membership["target_label"])
+    target_label = str(target["official_label"])
+    if raw == target_label:
+        return rule is None
+    if rule == "typed_comment_suffix_v1":
+        return target_label == f"Comment {raw}"
+    aliases = {
+        "O-OSEC-106": "M-OSEC-106",
+        "O-OSEC-370": "M-OSEC-370",
+        "O-OSEC-371": "M-OSEC-371",
+        "O-OSEC-375": "M-OSEC-375",
+        "O-OSEC-379": "M-OSEC-379",
+    }
+    return (
+        rule == "reviewed_o_osec_to_m_osec_membership_alias_v1"
+        and raw in aliases
+        and target_label == f"Comment {aliases[raw]}"
+    )
 
 
 def _validate_inventories(
@@ -1198,7 +1335,10 @@ def _validate_activity_dependencies(activity: JsonObject) -> None:
         },
         "05g": {"task05d_completion", "task05e_completion", "task05f_completion"},
     }[activity["stage"]]
-    if set(input_roles) != required_roles:
+    allowed_roles = [required_roles]
+    if activity["stage"] == "05e":
+        allowed_roles.append({"task05d_completion", "task05e_gate1_census"})
+    if set(input_roles) not in allowed_roles:
         raise ValueError("activity dependency roles differ from the exact stage contract")
 
 

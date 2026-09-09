@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/response_inventory/v3/relationship_run_spec.schema.json",
+  "title": "ER Commons Task 05E exact relationship baseline run specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_stage",
+    "scope_kind",
+    "accepted_task05d",
+    "repository_bindings",
+    "producer_code_sha256",
+    "output_policy",
+    "stop_behavior"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.response_relationship_run_spec.v3"},
+    "task_stage": {"const": "05e"},
+    "scope_kind": {"const": "exact_relationship_baseline"},
+    "accepted_task05d": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_root",
+        "acceptance_path",
+        "revision_id",
+        "acceptance_id",
+        "activity_id",
+        "completion_id",
+        "inventory_id",
+        "semantic_digest"
+      ],
+      "properties": {
+        "candidate_root": {"$ref": "#/$defs/relative_path"},
+        "acceptance_path": {"$ref": "#/$defs/relative_path"},
+        "revision_id": {"const": "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"},
+        "acceptance_id": {"const": "acceptancev1-7edf64ffd5e283c736e9980c79f682997ce06c135038d4ceb3ecbc496ce6c027"},
+        "activity_id": {"const": "activityv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"},
+        "completion_id": {"const": "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f"},
+        "inventory_id": {"const": "fileinventoryv1-a04c715a6dff6bdfe6d28eaed9b40211382d60a74d540cdf46cd3b2c993c60a0"},
+        "semantic_digest": {"const": "f7aa9fd6e6d4e464b27b270e6f61a8dcbfb0d998dc44e7eda84abd07db5d9247"}
+      }
+    },
+    "repository_bindings": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/repository_binding"}
+    },
+    "producer_code_sha256": {"$ref": "#/$defs/sha256"},
+    "output_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_relative_root",
+        "baseline_namespace_template",
+        "completion_written",
+        "copy_source_payload",
+        "copy_upstream_payloads"
+      ],
+      "properties": {
+        "artifact_relative_root": {"$ref": "#/$defs/relative_path"},
+        "baseline_namespace_template": {"const": "working/05e/baselinev1-{activity_hash}"},
+        "completion_written": {"const": false},
+        "copy_source_payload": {"const": false},
+        "copy_upstream_payloads": {"const": false}
+      }
+    },
+    "stop_behavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "on_input_binding_mismatch",
+        "on_invalid_record_or_schema",
+        "on_nondeterministic_semantic_output",
+        "exact_official_labels_only",
+        "normalize_whitespace",
+        "normalize_punctuation",
+        "normalize_case",
+        "infer_letter_suffix_relationships",
+        "fuzzy_or_semantic_matching",
+        "allow_policy_repair_during_run"
+      ],
+      "properties": {
+        "on_input_binding_mismatch": {"const": "stop"},
+        "on_invalid_record_or_schema": {"const": "stop"},
+        "on_nondeterministic_semantic_output": {"const": "stop"},
+        "exact_official_labels_only": {"const": true},
+        "normalize_whitespace": {"const": false},
+        "normalize_punctuation": {"const": false},
+        "normalize_case": {"const": false},
+        "infer_letter_suffix_relationships": {"const": false},
+        "fuzzy_or_semantic_matching": {"const": false},
+        "allow_policy_repair_during_run": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "(^/|(^|/)\\.\\.(/|$))"}
+    },
+    "repository_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "authority", "path", "sha256"],
+      "properties": {
+        "role": {
+          "enum": [
+            "response_record_schema",
+            "producer_run_spec_code",
+            "relationship_run_spec_schema"
+          ]
+        },
+        "authority": {"const": "repository"},
+        "path": {"$ref": "#/$defs/relative_path"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

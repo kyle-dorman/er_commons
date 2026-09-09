@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Read-only review of Task 05E relationship cases." />
+    <title>Task 05E relationship review</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Brisbane Baylands · Final EIR Volume 4</p>
+        <h1 id="page-title">Task 05E relationship review</h1>
+      </div>
+      <div class="topbar-note">
+        <strong>Read only</strong>
+        <span>No decisions or feedback are stored here.</span>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="case-browser" aria-label="Review cases">
+        <div class="browser-tools">
+          <label for="search">Find a label or target</label>
+          <input id="search" type="search" placeholder="Search 102 cases" autocomplete="off" />
+          <div id="filters" class="filters" aria-label="Filter cases"></div>
+        </div>
+        <div class="list-status"><span id="visible-count">Loading…</span></div>
+        <div id="case-list" class="case-list" aria-live="polite"></div>
+      </aside>
+
+      <section id="detail" class="detail" aria-live="polite">
+        <div class="loading-panel">
+          <div class="loading-mark"></div>
+          <p>Loading the compact review index…</p>
+        </div>
+      </section>
+    </main>
+
+    <template id="error-template">
+      <div class="empty-panel">
+        <h2>That case could not be loaded</h2>
+        <p>Confirm the review folder is being served from the Task 05 artifact root.</p>
+      </div>
+    </template>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

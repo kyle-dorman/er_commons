@@ -3,9 +3,9 @@
 ## Sprint status
 
 Sprint 2, Brisbane Draft-EIR defense vertical slice, is active. Tasks 02
-through 05D are complete and accepted.
+through 05E are complete and accepted.
 
-## Current action: revise Task 05E from the accepted Task 05D outcome
+## Current action: paused after accepted Task 05E
 
 [Task 04D](../tasks/sprint2/04d_relink_frozen_extraction.md) is complete. Its
 validated handoff is the designated replacement for linking-dependent
@@ -58,10 +58,61 @@ third no-input invocation passed, producing validated terminal candidate
 with the same record topology and sole allowed missing-heading warning. The
 candidate was explicitly accepted through its compact adjacent pointer without
 changing the candidate closure. Task 05D is complete and accepted. No cleanup,
-commit, push, or Task 05E work is currently authorized. Revise the provisional
-Task 05E contract from this accepted outcome before requesting implementation
-authorization; Tasks 05F and 05G remain provisional and should be revised one
-at a time from accepted preceding outcomes.
+commit, or push is currently authorized.
+[Task 05E](../tasks/sprint2/05e_build_response_relationship_graph.md) now has a
+revised provisional contract bound to this accepted outcome. Its first
+execution gate is entirely source-free: build an exact-only graph baseline,
+account individually for all 759 intra-Volume mentions and 101 General Response
+membership claims, and stop with a failure census before promoting any
+normalization or suffix rule. The 8 whitespace candidates remain unresolved in
+that baseline. Parent/sub-answer forms such as `Comment SA-Caltrans-48` versus
+`Response SA-Caltrans-48a` require post-baseline human review because a letter
+suffix may represent separately answered questions but is not automatically a
+relationship. The revised contract was accepted and source-free Gate 1
+completed on 2026-09-09. Its repeatable exact baseline produced 1,243 unique
+edges: 1,009 direct comment-response pairs and 234 response-response links. It
+resolved 241 of 759 intra-Volume mentions; the other 518 have individual
+terminal outcomes. All 101 General Response membership claims remain
+unresolved under byte-exact policy. The exact pass preserves
+`Comment SA-CHSRA-29` as the accepted source-authored orphan and leaves
+`Comment SA-Caltrans-48` versus `Response SA-Caltrans-48a` for
+parent/sub-answer review. Two reciprocal response cycles are explicit
+diagnostics. No PDF was accessed, and no 05E completion record was created.
+
+The user authorized bounded source-free Gate 2 review replays containing only
+the reviewed identity, typed-membership, structural-text, ordinary-prose,
+terminal-period, General-Response edge, and narrow U+0002 separator rules. The
+latest replay resolves 448 of 759 mentions and 100 of 101 memberships into
+1,538 unique edges. Forty-four running headers, eight `b. Response` section
+labels, 251 ordinary-prose mentions, and seven genuine self-mentions close
+without edges. `Response OSEC-21` and the grouped Caltrans source form are
+explicit terminal unresolved outcomes with no edges, leaving zero cases in the
+final read-only review page. The separately authorized terminal gate then
+recorded a passing human-maintainability review with no material findings and
+atomically published the unchanged graph as
+`revisionv1-beb0801712d3a921226201aa437133ae0d3459d510603b54f34a2f6f072fd593`.
+Before acceptance, the user required a deeper human code-quality gate. That
+review found and repaired resolver complexity, composed-rule provenance,
+review-page terminology and asynchronous selection behavior, and staged
+publication/acceptance validation. A fresh source-free replay preserved the
+same 1,538-edge topology and all terminal outcomes.
+
+The accepted post-repair candidate is
+`revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1`.
+Its completion is
+`completionv1-867b3e6f9d9cc1e2666cb184523590c2fd02154347ea9787144e61bb43851555`,
+its managed inventory is
+`fileinventoryv1-924533bd3c59160bd0853aa38dc095965b07b2d4bf2d78a5ad9431cd2836f667`,
+its semantic digest is
+`3a6f5b0f4f116b2800e0a8b02bb98fde9d37a48ccc0baff321fd484f2489e71b`,
+and its adjacent acceptance pointer is
+`acceptancev1-4b8a13393c57660fdb0a6b303912150ca9d1380688a86a6728267a4c79aacac5`.
+The candidate and acceptance transitions are repeatable. Formatting, linting,
+explicit complexity linting, strict typing, 21 focused tests, all 1,377
+repository tests, and managed-file validation pass. No PDF was accessed.
+Further matching or schema changes, cleanup, commit, push, Task 05F, and later
+work remain unauthorized. Tasks 05F and 05G remain provisional and should be
+revised one at a time from accepted preceding outcomes.
 
 ## Later sequence
 

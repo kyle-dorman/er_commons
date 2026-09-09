@@ -171,6 +171,15 @@ Task 05E may resolve only `intra_volume` mentions and membership claims into
 `semantic_edge`. One edge may cite multiple evidence IDs. Ambiguous candidates
 remain diagnostics; they do not create multiple guessed edges.
 
+The accepted intra-Volume edge vocabulary is `comment_response`,
+`response_response`, `response_general_response`,
+`general_response_membership`, `general_response_response`, and
+`general_response_general_response`. The final two types are directional: a
+General Response explicitly refers to an individual response or another
+General Response.
+Normalized evidence records its exact resolver rule; undeclared fuzzy or
+semantic matching remains invalid.
+
 Task 05F may resolve only `draft_eir` mentions into `draft_eir_link`. Final EIR,
 Appendix Q, external, and unsupported forms receive terminal diagnostic
 outcomes. Each Draft EIR link names the exact Task 04D target ID, handoff ID,

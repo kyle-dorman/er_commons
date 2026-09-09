@@ -71,6 +71,7 @@
             "task05a_completion",
             "task05c_completion",
             "task05d_completion",
+            "task05e_gate1_census",
             "task05e_completion",
             "task05f_completion",
             "task04a_registry",
@@ -327,11 +328,24 @@
       "properties": {
         "record_type": {"const": "semantic_edge"},
         "edge_id": {"$ref": "#/$defs/typed_id"},
-        "relation_type": {"enum": ["comment_response", "response_response", "response_general_response", "general_response_membership"]},
+        "relation_type": {"enum": ["comment_response", "response_response", "response_general_response", "general_response_membership", "general_response_response", "general_response_general_response"]},
         "source_unit_id": {"$ref": "#/$defs/typed_id"},
         "target_unit_id": {"$ref": "#/$defs/typed_id"},
         "activity_id": {"$ref": "#/$defs/typed_id"},
-        "evidence_ids": {"type": "array", "items": {"$ref": "#/$defs/typed_id"}, "minItems": 1, "uniqueItems": true}
+        "evidence_ids": {"type": "array", "items": {"$ref": "#/$defs/typed_id"}, "minItems": 1, "uniqueItems": true},
+        "evidence_resolutions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "evidence_id": {"$ref": "#/$defs/typed_id"},
+              "resolver_rule": {"$ref": "#/$defs/nonempty_string"}
+            },
+            "required": ["evidence_id", "resolver_rule"]
+          },
+          "uniqueItems": true
+        }
       },
       "required": ["edge_id", "relation_type", "source_unit_id", "target_unit_id", "activity_id", "evidence_ids"]
     },

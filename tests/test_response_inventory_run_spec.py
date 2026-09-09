@@ -13,6 +13,8 @@ from pydantic import ValidationError
 from er_commons.response_inventory.run_spec import (
     ResponseInventoryRunSpec,
     ResponseInventoryRunSpecV2,
+    ResponseRelationshipReviewRunSpecV4,
+    ResponseRelationshipRunSpecV3,
     load_response_inventory_run_spec,
     verify_repository_bindings,
 )
@@ -23,6 +25,18 @@ SCHEMA_PATH = REPO_ROOT / "benchmarks/er_bench/schemas/response_inventory/v1/run
 COMPLETE_CONFIG_PATH = REPO_ROOT / "configs/brisbane_baylands_2025_feir_task05d_complete_v2.json"
 COMPLETE_SCHEMA_PATH = (
     REPO_ROOT / "benchmarks/er_bench/schemas/response_inventory/v2/run_spec.schema.json"
+)
+RELATIONSHIP_CONFIG_PATH = REPO_ROOT / "configs/brisbane_baylands_2025_feir_task05e_exact_v3.json"
+RELATIONSHIP_SCHEMA_PATH = (
+    REPO_ROOT
+    / "benchmarks/er_bench/schemas/response_inventory/v3/relationship_run_spec.schema.json"
+)
+RELATIONSHIP_REVIEW_CONFIG_PATH = (
+    REPO_ROOT / "configs/brisbane_baylands_2025_feir_task05e_review_v4.json"
+)
+RELATIONSHIP_REVIEW_SCHEMA_PATH = (
+    REPO_ROOT
+    / "benchmarks/er_bench/schemas/response_inventory/v4/relationship_run_spec.schema.json"
 )
 EXPECTED_RANGES = (
     (1, 5),
@@ -50,6 +64,14 @@ def _complete_config_payload() -> dict[str, object]:
     return cast(dict[str, object], json.loads(COMPLETE_CONFIG_PATH.read_text()))
 
 
+def _relationship_config_payload() -> dict[str, object]:
+    return cast(dict[str, object], json.loads(RELATIONSHIP_CONFIG_PATH.read_text()))
+
+
+def _relationship_review_config_payload() -> dict[str, object]:
+    return cast(dict[str, object], json.loads(RELATIONSHIP_REVIEW_CONFIG_PATH.read_text()))
+
+
 def test_checked_in_pilot_config_is_schema_valid_and_exact() -> None:
     payload = _config_payload()
     schema = json.loads(SCHEMA_PATH.read_text())
@@ -57,6 +79,7 @@ def test_checked_in_pilot_config_is_schema_valid_and_exact() -> None:
     Draft202012Validator(schema).validate(payload)
 
     spec, config_sha256 = load_response_inventory_run_spec(CONFIG_PATH)
+    assert isinstance(spec, ResponseInventoryRunSpec)
     assert len(config_sha256) == 64
     assert tuple((item.first_page, item.last_page) for item in spec.page_ranges) == EXPECTED_RANGES
     assert len(spec.page_ranges) == 14
@@ -67,6 +90,7 @@ def test_checked_in_pilot_config_is_schema_valid_and_exact() -> None:
 
 def test_pilot_config_preserves_accepted_historical_bindings() -> None:
     spec, config_sha256 = load_response_inventory_run_spec(CONFIG_PATH)
+    assert isinstance(spec, ResponseInventoryRunSpec)
     task05a = next(item for item in spec.accepted_inputs if item.role == "task05a_completion")
     assert task05a.sha256 == "649ec0664a6f7aebdfc6b7da011161d696385ed246bc726becaf89c416f652dd"
     assert task05a.byte_size == 2119
@@ -199,3 +223,78 @@ def test_complete_config_requires_every_evidence_role_exactly_once() -> None:
     accepted_inputs[-1] = accepted_inputs[-2]
     with pytest.raises(ValidationError, match="accepted input roles must be exactly"):
         ResponseInventoryRunSpecV2.model_validate(payload)
+
+
+def test_checked_in_relationship_config_is_schema_valid_and_exact_only() -> None:
+    payload = _relationship_config_payload()
+    schema = json.loads(RELATIONSHIP_SCHEMA_PATH.read_text())
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema).validate(payload)
+
+    spec, digest = load_response_inventory_run_spec(RELATIONSHIP_CONFIG_PATH)
+    assert isinstance(spec, ResponseRelationshipRunSpecV3)
+    assert len(digest) == 64
+    assert spec.task_stage == "05e"
+    assert spec.stop_behavior.exact_official_labels_only is True
+    assert spec.stop_behavior.normalize_whitespace is False
+    assert spec.stop_behavior.infer_letter_suffix_relationships is False
+    assert spec.output_policy.completion_written is False
+
+
+def test_relationship_config_rejects_normalization_and_nonadjacent_acceptance() -> None:
+    payload = _relationship_config_payload()
+    stop = payload["stop_behavior"]
+    assert isinstance(stop, dict)
+    stop["normalize_whitespace"] = True
+    with pytest.raises(ValidationError, match="Input should be False"):
+        ResponseRelationshipRunSpecV3.model_validate(payload)
+
+    payload = _relationship_config_payload()
+    accepted = payload["accepted_task05d"]
+    assert isinstance(accepted, dict)
+    accepted["acceptance_path"] = "working/not-adjacent.acceptance.json"
+    with pytest.raises(ValidationError, match="must be adjacent"):
+        ResponseRelationshipRunSpecV3.model_validate(payload)
+
+
+def test_checked_in_relationship_review_config_is_schema_valid_and_bounded() -> None:
+    payload = _relationship_review_config_payload()
+    schema = json.loads(RELATIONSHIP_REVIEW_SCHEMA_PATH.read_text())
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema).validate(payload)
+
+    spec, digest = load_response_inventory_run_spec(RELATIONSHIP_REVIEW_CONFIG_PATH)
+    assert isinstance(spec, ResponseRelationshipReviewRunSpecV4)
+    assert len(digest) == 64
+    assert spec.resolution_policy.normalize_case is True
+    assert spec.resolution_policy.collapse_whitespace is True
+    assert spec.resolution_policy.strip_one_terminal_period is True
+    assert spec.resolution_policy.allow_general_response_general_response_edges is True
+    assert spec.resolution_policy.classify_running_headers_without_edges is True
+    assert spec.resolution_policy.classify_response_section_headings_without_edges is True
+    assert spec.resolution_policy.classify_ordinary_response_prose_without_edges is True
+    assert spec.resolution_policy.terminal_unresolved_reference_labels == ("Response OSEC-21",)
+    assert spec.resolution_policy.terminal_unpaired_source_labels == (
+        "Comment SA-Caltrans-48",
+        "Response SA-Caltrans-48a",
+    )
+    assert spec.resolution_policy.infer_letter_suffix_relationships is False
+    assert spec.output_policy.completion_written is False
+
+
+def test_relationship_review_config_rejects_unreviewed_policy_expansion() -> None:
+    payload = _relationship_review_config_payload()
+    policy = payload["resolution_policy"]
+    assert isinstance(policy, dict)
+    policy["fuzzy_or_semantic_matching"] = True
+    with pytest.raises(ValidationError, match="Input should be False"):
+        ResponseRelationshipReviewRunSpecV4.model_validate(payload)
+
+    payload = _relationship_review_config_payload()
+    policy = payload["resolution_policy"]
+    assert isinstance(policy, dict)
+    aliases = policy["membership_aliases"]
+    assert isinstance(aliases, dict)
+    aliases["O-OSEC-106"] = "M-OSEC-107"
+    with pytest.raises(ValidationError, match="M-OSEC-106"):
+        ResponseRelationshipReviewRunSpecV4.model_validate(payload)
