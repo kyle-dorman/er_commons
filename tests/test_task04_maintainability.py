@@ -3,7 +3,7 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
-PACKAGE_ROOT = Path(__file__).parents[1] / "src/er_commons/human_review_support/task04"
+PACKAGE_ROOT = Path(__file__).parents[1] / "src/er_commons/human_review_support/extraction_review"
 SCRIPT_ROOT = Path(__file__).parents[1] / "scripts"
 
 
@@ -25,7 +25,7 @@ def test_task04_modules_and_functions_remain_bounded() -> None:
 
 
 def test_task04_cli_scripts_are_thin() -> None:
-    for name in ("build_task04_review_bundle.py", "record_task04_finding.py"):
+    for name in ("build_extraction_review_bundle.py", "record_review_finding.py"):
         lines = (SCRIPT_ROOT / name).read_text().splitlines()
         assert len(lines) <= 60, f"{name} has {len(lines)} lines; move logic into the package"
 
@@ -63,7 +63,7 @@ def test_task04_runbook_uses_canonical_artifact_path_and_derived_anchors() -> No
     repo_root = Path(__file__).parents[1]
     runbook = (repo_root / "docs/task04_maintainer_runbook.md").read_text()
     finding_guide = (PACKAGE_ROOT / "FINDINGS.md").read_text()
-    finding_cli = (SCRIPT_ROOT / "record_task04_finding.py").read_text()
+    finding_cli = (SCRIPT_ROOT / "record_review_finding.py").read_text()
 
     canonical = "pipelines/brisbane_baylands/task_04_review"
     assert canonical in runbook

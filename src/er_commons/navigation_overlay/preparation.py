@@ -26,22 +26,11 @@ from er_commons.artifact_io import (
     sha256_file,
 )
 
+from .input_specs import PreparationBindings
+
 JsonObject = dict[str, Any]
 
-PRODUCTION_EXTRACTION_ID = "exv1-6913f56bed93302d7cf5ef424ee63c0b7427e90e2b2cd5c4ec483d275009a773"
-SCOPE_ID = "scopev1-bd4b7ca85b299ae528376b1a6e88b9d0fdba02e4f7e8862c5fa91a28b719e893"
-HANDOFF_ID = "handoffv1-44d510d545026a427ccdb47497d30f1d46c66130291af66fc0d5883a35102325"
-TASK04A_REVIEW_ID = "reviewv1-task03j-final-c17"
-TASK04A_GATE_A_ID = "reviewv1-task03j-final-b19a7a36b04bda89"
-EXPECTED_SOURCE_COUNT = 35
-EXPECTED_CENSUS_PAGE_COUNT = 5_624
-EXPECTED_DECISION_COUNT = 757
-EXPECTED_DECISION_COUNTS = {"toc": 60, "not_toc": 697}
-EXPECTED_AMBIGUOUS_LINK_COUNT = 725
 
-_TASK03J_RELATIVE = "pipelines/brisbane_baylands/task_03h_clean_full_v4"
-_REVIEW_RELATIVE = "pipelines/brisbane_baylands/task_04_review"
-_OUTPUT_RELATIVE = "pipelines/brisbane_baylands/task_04_navigation_overlay"
 _CANONICAL_FILES = (
     "content/canonical/pages.jsonl",
     "content/canonical/sections.jsonl",
@@ -70,32 +59,28 @@ class GateAPreparationRequest:
 
     data_root: Path
     repo_root: Path
-    task03j_root: Path | None = None
-    gate_a_path: Path | None = None
-    review_root: Path | None = None
-    output_parent: Path | None = None
+    specification_schema: Path
+    bindings: PreparationBindings
+    extraction_root: Path
+    gate_a_path: Path
+    review_root: Path
+    output_parent: Path
 
-    def resolved_task03j_root(self) -> Path:
-        """Return the explicit or production Task 03J lineage root."""
-        return (self.task03j_root or self.data_root / _TASK03J_RELATIVE).resolve()
+    def resolved_extraction_root(self) -> Path:
+        """Resolve the explicit invocation path."""
+        return self.extraction_root.resolve()
 
     def resolved_gate_a_path(self) -> Path:
-        """Return the exact accepted Task 04A source-free census record."""
-        return (
-            self.gate_a_path
-            or self.data_root
-            / _REVIEW_RELATIVE
-            / TASK04A_GATE_A_ID
-            / "records/gate_a_preparation.json"
-        ).resolve()
+        """Resolve the explicit invocation path."""
+        return self.gate_a_path.resolve()
 
     def resolved_review_root(self) -> Path:
-        """Return the exact accepted Task 04A Gate C/D root."""
-        return (self.review_root or self.data_root / _REVIEW_RELATIVE / TASK04A_REVIEW_ID).resolve()
+        """Resolve the explicit invocation path."""
+        return self.review_root.resolve()
 
     def resolved_output_parent(self) -> Path:
-        """Return the separate Task 04C derived namespace parent."""
-        return (self.output_parent or self.data_root / _OUTPUT_RELATIVE).resolve()
+        """Resolve the explicit invocation path."""
+        return self.output_parent.resolve()
 
 
 @dataclass(frozen=True)
@@ -117,13 +102,17 @@ def prepare_and_publish_gate_a(request: GateAPreparationRequest) -> Path:
     inputs = _load_and_validate_review_inputs(request)
     machine, candidate_roots = _machine_inventory(request, inputs.gate_a)
     rows, direct = _decision_correspondence(
-        inputs.gate_a, inputs.decisions, inputs.selection, candidate_roots
+        inputs.gate_a,
+        inputs.decisions,
+        inputs.selection,
+        candidate_roots,
+        bindings=request.bindings,
     )
     row_bytes = jsonl_bytes(rows)
     task03j_binding = {
-        "production_extraction_id": PRODUCTION_EXTRACTION_ID,
-        "scope_id": SCOPE_ID,
-        "handoff_id": HANDOFF_ID,
+        "production_extraction_id": request.bindings.production_extraction_id,
+        "scope_id": request.bindings.scope_id,
+        "handoff_id": request.bindings.handoff_id,
         "handoff_identity_preimage": _mapping(
             _mapping(inputs.gate_a.get("inputs"), "gate_a.inputs").get("task03j"),
             "gate_a.inputs.task03j",
@@ -131,7 +120,7 @@ def prepare_and_publish_gate_a(request: GateAPreparationRequest) -> Path:
         "candidate_records": machine,
     }
     task04a_binding = {
-        "review_run_id": TASK04A_REVIEW_ID,
+        "review_run_id": request.bindings.task04a_review_id,
         "gate_d_completion": inputs.refs["gate_d_completion"],
         "release_freeze": inputs.refs["release_freeze"],
         "toc_review_decisions": inputs.refs["toc_review_decisions"],
@@ -142,7 +131,12 @@ def prepare_and_publish_gate_a(request: GateAPreparationRequest) -> Path:
     }
     schema_root = request.repo_root.resolve() / "benchmarks/er_bench/schemas/navigation_overlay/v1"
     schema_refs = [
-        file_reference(path, root=request.repo_root.resolve())
+        file_reference(
+            request.specification_schema
+            if path.name == "gate_a_specification.schema.json"
+            else path,
+            root=request.repo_root.resolve(),
+        )
         for path in sorted(schema_root.glob("*.schema.json"))
     ]
     _require(len(schema_refs) == 3, "navigation overlay schema bundle is incomplete")
@@ -174,12 +168,13 @@ def prepare_and_publish_gate_a(request: GateAPreparationRequest) -> Path:
         inputs=inputs,
         candidate_roots=candidate_roots,
         direct=direct,
-        task03j_root=request.resolved_task03j_root(),
+        extraction_root=request.resolved_extraction_root(),
         plan_id=plan_id,
         closure_policy_sha256=closure_policy_sha256,
+        bindings=request.bindings,
     )
     closure_bytes = json_bytes(closure)
-    accounting = _gate_a_accounting(rows)
+    accounting = _gate_a_accounting(rows, bindings=request.bindings)
     specification: JsonObject = {
         "schema_version": "er_commons.navigation_overlay.v1.gate_a_specification",
         "overlay_plan_id": plan_id,
@@ -188,16 +183,19 @@ def prepare_and_publish_gate_a(request: GateAPreparationRequest) -> Path:
         "identity_preimage": preimage,
         "reproduction": {
             "package_api": "er_commons.navigation_overlay.prepare_and_publish_gate_a",
-            "command": "uv run python scripts/prepare_task04c_gate_a.py --repo-root .",
+            "command": (
+                "uv run python scripts/prepare_reviewed_navigation.py "
+                "--input-spec INPUT_SPEC --output-root OUTPUT_ROOT"
+            ),
             "arguments": {
                 "data_root": "ER_COMMONS_DATA_ROOT",
                 "repo_root": ".",
-                "task03j_root": _TASK03J_RELATIVE,
+                "task03j_root": str(request.resolved_extraction_root()),
                 "gate_a_path": inputs.refs["gate_a_preparation"]["path"],
                 "review_root": str(
                     Path(cast(str, inputs.refs["release_freeze"]["path"])).parents[1]
                 ),
-                "output_parent": _OUTPUT_RELATIVE,
+                "output_parent": str(request.resolved_output_parent()),
             },
         },
         "final_identity_requirements": ["implementation_sha256", "managed_output_digests"],
@@ -218,7 +216,9 @@ def prepare_and_publish_gate_a(request: GateAPreparationRequest) -> Path:
             }
         ),
     }
-    _validate_output_schemas(schema_root, rows, closure, specification)
+    _validate_output_schemas(
+        schema_root, rows, closure, specification, specification_schema=request.specification_schema
+    )
     return _publish(
         request.resolved_output_parent(), plan_id, row_bytes, closure_bytes, specification
     )
@@ -230,7 +230,7 @@ def _validate_roots(request: GateAPreparationRequest) -> None:
     if not data_root.is_dir():
         raise FileNotFoundError(data_root)
     for path in (
-        request.resolved_task03j_root(),
+        request.resolved_extraction_root(),
         request.resolved_gate_a_path(),
         request.resolved_review_root(),
         request.resolved_output_parent(),
@@ -262,28 +262,43 @@ def _load_and_validate_review_inputs(request: GateAPreparationRequest) -> _Input
     freeze = values["release_freeze"]
     completion = values["gate_d_completion"]
     ambiguous = values["ambiguous_link_dispositions"]
-    _require(gate_a.get("review_run_id") == TASK04A_GATE_A_ID, "unexpected Gate A review ID")
+    _require(
+        gate_a.get("review_run_id") == request.bindings.task04a_gate_a_id,
+        "unexpected Gate A review ID",
+    )
     _require(gate_a.get("pass") == "task03j_final", "Gate A pass is not Task 03J final")
     _require(gate_a.get("status") == "source_free_prepared", "Gate A is not prepared")
     boundary = _mapping(gate_a.get("source_free_boundary"), "source_free_boundary")
     for key in ("source_pdf_bytes_read", "renders_generated", "model_files_read"):
         _require(boundary.get(key) is False, f"Gate A violates source-free boundary: {key}")
-    _require(selection.get("review_run_id") == TASK04A_REVIEW_ID, "stale selection manifest")
-    _require(freeze.get("review_run_id") == TASK04A_REVIEW_ID, "stale release freeze")
-    _require(freeze.get("status") == "frozen", "Task 04A release is not frozen")
-    _require(completion.get("review_run_id") == TASK04A_REVIEW_ID, "stale Gate D completion")
-    _require(completion.get("status") == "complete", "Task 04A Gate D is incomplete")
-    _require(completion.get("source_count") == EXPECTED_SOURCE_COUNT, "Gate D source count differs")
     _require(
-        completion.get("toc_decision_count") == EXPECTED_DECISION_COUNT,
+        selection.get("review_run_id") == request.bindings.task04a_review_id,
+        "stale selection manifest",
+    )
+    _require(
+        freeze.get("review_run_id") == request.bindings.task04a_review_id, "stale release freeze"
+    )
+    _require(freeze.get("status") == "frozen", "Task 04A release is not frozen")
+    _require(
+        completion.get("review_run_id") == request.bindings.task04a_review_id,
+        "stale Gate D completion",
+    )
+    _require(completion.get("status") == "complete", "Task 04A Gate D is incomplete")
+    _require(
+        completion.get("source_count") == request.bindings.expected_source_count,
+        "Gate D source count differs",
+    )
+    _require(
+        completion.get("toc_decision_count") == request.bindings.expected_decision_count,
         "Gate D decision count differs",
     )
     machine = _mapping(freeze.get("machine_candidate"), "release_freeze.machine_candidate")
     _require(
-        machine.get("production_extraction_id") == PRODUCTION_EXTRACTION_ID, "wrong extraction"
+        machine.get("production_extraction_id") == request.bindings.production_extraction_id,
+        "wrong extraction",
     )
-    _require(machine.get("scope_id") == SCOPE_ID, "wrong scope")
-    _require(machine.get("handoff_id") == HANDOFF_ID, "wrong handoff")
+    _require(machine.get("scope_id") == request.bindings.scope_id, "wrong scope")
+    _require(machine.get("handoff_id") == request.bindings.handoff_id, "wrong handoff")
     _validate_managed_review_refs(completion, paths, refs)
     decision_ref = _mapping(freeze.get("human_toc_decisions"), "human_toc_decisions")
     _require(
@@ -296,17 +311,23 @@ def _load_and_validate_review_inputs(request: GateAPreparationRequest) -> _Input
         entry = _mapping(value, f"toc_review_decisions.entries[{index}]")
         entry_id = _string(entry.get("entry_id"), f"entries[{index}].entry_id")
         disposition = _string(entry.get("disposition"), f"entries[{index}].disposition")
-        _require(disposition in EXPECTED_DECISION_COUNTS, "unsupported TOC disposition")
+        _require(
+            disposition in request.bindings.expected_decision_counts, "unsupported TOC disposition"
+        )
         _require(entry_id not in decisions, f"duplicate decision: {entry_id}")
         decisions[entry_id] = disposition
-    _require(len(decisions) == EXPECTED_DECISION_COUNT, "accepted decision count differs")
     _require(
-        dict(Counter(decisions.values())) == EXPECTED_DECISION_COUNTS, "decision totals differ"
+        len(decisions) == request.bindings.expected_decision_count,
+        "accepted decision count differs",
+    )
+    _require(
+        dict(Counter(decisions.values())) == request.bindings.expected_decision_counts,
+        "decision totals differ",
     )
     _validate_selection(selection, decisions)
     ambiguous_entries = _list(ambiguous.get("entries"), "ambiguous_link_dispositions.entries")
     _require(
-        len(ambiguous_entries) == EXPECTED_AMBIGUOUS_LINK_COUNT,
+        len(ambiguous_entries) == request.bindings.expected_ambiguous_link_count,
         "inherited ambiguous-link count differs",
     )
     return _Inputs(gate_a, decisions, selection, freeze, completion, ambiguous, refs)
@@ -340,10 +361,12 @@ def _machine_inventory(
     request: GateAPreparationRequest, gate_a: JsonObject
 ) -> tuple[list[JsonObject], dict[tuple[str, str], Path]]:
     """Reference sealed machine rows from inventories without rehashing their files."""
-    task03j = request.resolved_task03j_root()
+    task03j = request.resolved_extraction_root()
     document_root = task03j / "document_publications/documents"
     censuses = _list(gate_a.get("toc_candidate_census"), "toc_candidate_census")
-    _require(len(censuses) == EXPECTED_SOURCE_COUNT, "Task 04A source census differs")
+    _require(
+        len(censuses) == request.bindings.expected_source_count, "Task 04A source census differs"
+    )
     machine: list[JsonObject] = []
     roots: dict[tuple[str, str], Path] = {}
     census_pages = 0
@@ -361,7 +384,8 @@ def _machine_inventory(
         _require(completion.get("completion_last") is True, "candidate publication is incomplete")
         _require(identity.get("candidate_id") == candidate_id, "candidate identity differs")
         _require(
-            identity.get("production_extraction_id") == PRODUCTION_EXTRACTION_ID, "stale candidate"
+            identity.get("production_extraction_id") == request.bindings.production_extraction_id,
+            "stale candidate",
         )
         source = _mapping(identity.get("source"), "document_identity.source")
         _require(source.get("source_id") == source_id, "candidate source differs")
@@ -388,7 +412,9 @@ def _machine_inventory(
         )
         roots[key] = candidate
         census_pages += len(_list(census.get("candidate_pages"), "candidate_pages"))
-    _require(census_pages == EXPECTED_CENSUS_PAGE_COUNT, "Task 04A page census differs")
+    _require(
+        census_pages == request.bindings.expected_census_page_count, "Task 04A page census differs"
+    )
     machine.sort(key=lambda row: (int(row["source_ordinal"]), str(row["source_id"])))
     return machine, roots
 
@@ -414,6 +440,8 @@ def _decision_correspondence(
     decisions: Mapping[str, str],
     selection: JsonObject,
     candidate_roots: Mapping[tuple[str, str], Path],
+    *,
+    bindings: PreparationBindings,
 ) -> tuple[list[JsonObject], dict[tuple[str, str], dict[str, Any]]]:
     """Join every accepted page decision to exact existing canonical entities."""
     page_map: dict[str, tuple[JsonObject, JsonObject]] = {}
@@ -584,7 +612,9 @@ def _decision_correspondence(
             str(row["decision_entry_id"]),
         )
     )
-    _require(len(rows) == EXPECTED_DECISION_COUNT, "correspondence does not cover all decisions")
+    _require(
+        len(rows) == bindings.expected_decision_count, "correspondence does not cover all decisions"
+    )
     return rows, direct
 
 
@@ -613,7 +643,7 @@ def _selection_origins(selection: JsonObject) -> tuple[dict[str, str], dict[str,
     return visible, suffix
 
 
-def _gate_a_accounting(rows: list[JsonObject]) -> JsonObject:
+def _gate_a_accounting(rows: list[JsonObject], *, bindings: PreparationBindings) -> JsonObject:
     """Return the exact accepted review and machine-disagreement accounting."""
     visible = sum(row["decision_origin_class"] == "visible_c17_card" for row in rows)
     newly_confirmed = sum(
@@ -627,18 +657,18 @@ def _gate_a_accounting(rows: list[JsonObject]) -> JsonObject:
     _require(rejected == 391, "rejected machine navigation accounting differs")
     disagreement = newly_confirmed + rejected
     return {
-        "source_count": EXPECTED_SOURCE_COUNT,
-        "census_page_count": EXPECTED_CENSUS_PAGE_COUNT,
+        "source_count": bindings.expected_source_count,
+        "census_page_count": bindings.expected_census_page_count,
         "decision_count": len(rows),
-        "toc_decision_count": EXPECTED_DECISION_COUNTS["toc"],
-        "not_toc_decision_count": EXPECTED_DECISION_COUNTS["not_toc"],
+        "toc_decision_count": bindings.expected_decision_counts["toc"],
+        "not_toc_decision_count": bindings.expected_decision_counts["not_toc"],
         "visible_decision_count": visible,
         "nonvisible_decision_count": len(rows) - visible,
         "machine_human_agreement_count": len(rows) - disagreement,
         "machine_human_disagreement_count": disagreement,
         "newly_confirmed_navigation_count": newly_confirmed,
         "rejected_machine_navigation_count": rejected,
-        "inherited_ambiguous_link_count": EXPECTED_AMBIGUOUS_LINK_COUNT,
+        "inherited_ambiguous_link_count": bindings.expected_ambiguous_link_count,
     }
 
 
@@ -647,9 +677,10 @@ def _affected_closure(
     inputs: _Inputs,
     candidate_roots: Mapping[tuple[str, str], Path],
     direct: Mapping[tuple[str, str], dict[str, Any]],
-    task03j_root: Path,
+    extraction_root: Path,
     plan_id: str,
     closure_policy_sha256: str,
+    bindings: PreparationBindings,
 ) -> JsonObject:
     """Census conservative alias and local/collection-link dependencies."""
     by_source: dict[str, JsonObject] = {}
@@ -697,7 +728,7 @@ def _affected_closure(
             candidate,
             source_id,
             {int(direct[(source_id, page)]["physical_page"]) for page in pages},
-            task03j_root,
+            extraction_root,
         )
         aliases: list[JsonObject] = []
         for alias in iter_jsonl(candidate / "content/canonical/target_aliases.jsonl"):
@@ -752,7 +783,11 @@ def _affected_closure(
                 affected_reference_ids.add(str(reference["id"]))
         by_source[source_id] = {"candidate_id": candidate_id}
     collection = _collection_closure(
-        task03j_root, affected_reference_ids, affected_alias_ids, affected_target_ids
+        extraction_root,
+        affected_reference_ids,
+        affected_alias_ids,
+        affected_target_ids,
+        bindings=bindings,
     )
     all_ambiguous_ids = sorted(
         _string(_mapping(value, "ambiguous entries[]").get("reference_id"), "reference_id")
@@ -807,24 +842,24 @@ def _affected_closure(
 
 
 def _visible_toc_alias_provenance(
-    candidate: Path, source_id: str, physical_pages: set[int], task03j_root: Path
+    candidate: Path, source_id: str, physical_pages: set[int], extraction_root: Path
 ) -> tuple[set[str], set[str]]:
     """Trace final aliases back to exact sealed v2 visible-TOC evidence."""
     identity = read_json_object(candidate / "records/document_identity.json")
     stages = _mapping(identity.get("stage_completions"), "stage_completions")
     structured_ref = _mapping(stages.get("structured_document"), "structured_document")
     structured_completion = (
-        task03j_root.parent.parent.parent / str(structured_ref["path"])
+        extraction_root.parent.parent.parent / str(structured_ref["path"])
     ).resolve()
     # Stage references are rooted at ER_COMMONS_DATA_ROOT, three levels above Task 03J.
     if not structured_completion.is_file():
-        data_root = task03j_root.parents[2]
+        data_root = extraction_root.parents[2]
         structured_completion = (data_root / str(structured_ref["path"])).resolve()
     structured_root = structured_completion.parent.parent
     extraction_identity = read_json_object(structured_root / "records/extraction_identity.json")
     hierarchy = _mapping(extraction_identity.get("hierarchy_correction"), "hierarchy_correction")
     hierarchy_completion_ref = _mapping(hierarchy.get("completion"), "hierarchy completion")
-    data_root = task03j_root.parents[2]
+    data_root = extraction_root.parents[2]
     hierarchy_completion = (data_root / str(hierarchy_completion_ref["path"])).resolve()
     hierarchy_root = hierarchy_completion.parent.parent
     visible = {
@@ -859,16 +894,18 @@ def _visible_toc_alias_provenance(
 
 
 def _collection_closure(
-    task03j_root: Path,
+    extraction_root: Path,
     reference_ids: set[str],
     alias_ids: set[str],
     target_ids: set[str],
+    *,
+    bindings: PreparationBindings,
 ) -> JsonObject:
     """Use the exact handoff-pinned collection index and resolution IDs."""
-    scope = task03j_root / "document_publications/scopes" / SCOPE_ID
-    handoff_path = scope / "handoffs" / HANDOFF_ID / "records/completion_record.json"
+    scope = extraction_root / "document_publications/scopes" / bindings.scope_id
+    handoff_path = scope / "handoffs" / bindings.handoff_id / "records/completion_record.json"
     handoff = read_json_object(handoff_path)
-    _require(handoff.get("handoff_id") == HANDOFF_ID, "collection handoff differs")
+    _require(handoff.get("handoff_id") == bindings.handoff_id, "collection handoff differs")
     index_id = _string(handoff.get("index_id"), "handoff.index_id")
     resolution_id = _string(handoff.get("resolution_id"), "handoff.resolution_id")
     index_root = scope / "target_indexes" / index_id
@@ -980,7 +1017,7 @@ def _implementation_reference(repo_root: Path) -> JsonObject:
     paths = (
         repo_root / "src/er_commons/navigation_overlay/__init__.py",
         repo_root / "src/er_commons/navigation_overlay/preparation.py",
-        repo_root / "scripts/prepare_task04c_gate_a.py",
+        repo_root / "scripts/prepare_reviewed_navigation.py",
     )
     refs = [file_reference(path, root=repo_root) for path in paths]
     return {"files": refs, "sha256": canonical_json_sha256(refs)}
@@ -991,6 +1028,8 @@ def _validate_output_schemas(
     rows: list[JsonObject],
     closure: JsonObject,
     specification: JsonObject,
+    *,
+    specification_schema: Path | None = None,
 ) -> None:
     """Validate every emitted semantic record before creating its namespace."""
     schemas = {
@@ -998,7 +1037,9 @@ def _validate_output_schemas(
             schema_root / "decision_correspondence_row.schema.json"
         ),
         "affected_closure": read_json_object(schema_root / "affected_closure.schema.json"),
-        "gate_a_specification": read_json_object(schema_root / "gate_a_specification.schema.json"),
+        "gate_a_specification": read_json_object(
+            specification_schema or schema_root / "gate_a_specification.schema.json"
+        ),
     }
     row_validator = Draft202012Validator(schemas["decision_correspondence"])
     for index, row in enumerate(rows):

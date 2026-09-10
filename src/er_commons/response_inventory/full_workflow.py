@@ -27,6 +27,10 @@ from er_commons.artifact_io import (
     write_json_atomic,
 )
 from er_commons.response_inventory.code_inventory import owned_code_digest
+from er_commons.response_inventory.complete_source_policy import (
+    ACCEPTED_COMPLETE_PAGE_COUNT,
+    ACCEPTED_COMPLETE_RANGE,
+)
 from er_commons.response_inventory.contract import (
     SCHEMA_VERSION,
     build_record_id,
@@ -58,10 +62,6 @@ from er_commons.response_inventory.run_spec import (
     ResponseInventoryRunSpecV2,
     load_response_inventory_run_spec,
     verify_repository_bindings,
-)
-from er_commons.response_inventory.task05d_policy import (
-    TASK05D_PAGE_COUNT,
-    TASK05D_RANGE,
 )
 from er_commons.response_inventory.workflow import (
     _collect_range_evidence,
@@ -232,7 +232,7 @@ def _prepare_source_records(
         _receipt_digests(context.activity, context.config_sha256),
         page_reader,
     )
-    if not aggregation_is_ready(receipts, (TASK05D_RANGE,)):
+    if not aggregation_is_ready(receipts, (ACCEPTED_COMPLETE_RANGE,)):
         raise ValueError("05D range receipt does not close the exact 1-744 selection")
     records = build_source_records(context.activity, observations)
     source_digest = validate_record_bundle(records, context.schema)
@@ -484,7 +484,7 @@ def _verify_source_manifest(spec: ResponseInventoryRunSpecV2, root: Path) -> Non
         "local_path": spec.source.path.as_posix(),
         "sha256": spec.source.recorded_sha256,
         "byte_size": spec.source.recorded_byte_size,
-        "pdf_page_count": TASK05D_PAGE_COUNT,
+        "pdf_page_count": ACCEPTED_COMPLETE_PAGE_COUNT,
         "retrieval_status": spec.source.retrieval_status,
         "validation_status": spec.source.validation_status,
     }
@@ -538,7 +538,7 @@ def _activity_record(
         "record_type": "activity",
         "stage": "05d",
         "source_id": spec.source.source_id,
-        "page_ranges": [list(TASK05D_RANGE)],
+        "page_ranges": [list(ACCEPTED_COMPLETE_RANGE)],
         "config_sha256": config_sha256,
         "schema_sha256": next(
             binding.sha256
@@ -743,7 +743,7 @@ def _reuse_completed_full(
             "records/stage_completion.json",
         },
     )
-    range_key = contiguous_range_key(TASK05D_RANGE)
+    range_key = contiguous_range_key(ACCEPTED_COMPLETE_RANGE)
     receipt = _load_optional_object(cache_root / f"ranges/{range_key}/receipt.json")
     observations_path = cache_root / f"ranges/{range_key}/observations.json"
     observations = _load_observations(observations_path)
@@ -753,14 +753,17 @@ def _reuse_completed_full(
     if not _range_cache_is_reusable(
         observations,
         receipt,
-        TASK05D_RANGE,
+        ACCEPTED_COMPLETE_RANGE,
         activity,
         schema,
         observations_path,
         receipt_digests,
     ):
         raise ValueError("completed 05D candidate range receipt is stale or mismatched")
-    if receipt.get("page_range") != list(TASK05D_RANGE) or len(observations) != TASK05D_PAGE_COUNT:
+    if (
+        receipt.get("page_range") != list(ACCEPTED_COMPLETE_RANGE)
+        or len(observations) != ACCEPTED_COMPLETE_PAGE_COUNT
+    ):
         raise ValueError("completed 05D receipt does not close pages 1-744")
     return {
         "candidate_root": str(candidate_root),

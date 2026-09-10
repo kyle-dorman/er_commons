@@ -14,13 +14,13 @@ from er_commons.artifact_io import (
     read_json_object,
     read_jsonl,
 )
+from er_commons.response_inventory.complete_source_policy import ACCEPTED_WARNING_CODES
 from er_commons.response_inventory.contract import (
     semantic_bundle_digest,
     task05d_completion_counts,
     task05d_warning_entries,
     validate_managed_files,
 )
-from er_commons.response_inventory.task05d_policy import TASK05D_ALLOWED_WARNING_CODES
 
 type JsonObject = dict[str, Any]
 
@@ -154,7 +154,7 @@ def _validate_candidate_warnings(
 ) -> None:
     """Reconcile allowed warning classes, occurrences, status, and counts."""
     allowed_codes = summary.get("allowed_terminal_warning_codes")
-    if allowed_codes != list(TASK05D_ALLOWED_WARNING_CODES):
+    if allowed_codes != list(ACCEPTED_WARNING_CODES):
         raise ValueError("05D summary warning policy differs from the accepted run spec")
     warnings = task05d_warning_entries(
         records,

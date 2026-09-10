@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 
 from er_commons.collection_processing.config import load_collection_run_spec
@@ -23,7 +24,7 @@ LINK_SPEC = ROOT / "configs/brisbane_baylands_2025_deir_task04d_link_v1.json"
 COLLECTION_SPEC = ROOT / "configs/brisbane_baylands_2025_deir_task04d_collection_v1.json"
 
 
-def test_gate_c_specs_bind_one_fresh_closed_35_source_lineage() -> None:
+def test_gate_c_specs_bind_one_historical_closed_35_source_lineage() -> None:
     """Keep production, document, and link specs mutually consistent."""
     identity = json.loads(IDENTITY.read_bytes())
     document, _ = load_document_run_spec(DOCUMENT_SPEC)
@@ -35,8 +36,9 @@ def test_gate_c_specs_bind_one_fresh_closed_35_source_lineage() -> None:
         identity,
         expected_source_ids=source_ids,
         expected_scope_kind="production_full",
-        project_root=ROOT,
     )
+    with pytest.raises(ValueError, match="artifact differs"):
+        validate_production_identity(identity, project_root=ROOT)
     assert len(source_ids) == 35
     assert validated.value == document.production_extraction_id
     assert document.production_identity_relative_path == IDENTITY.relative_to(ROOT)

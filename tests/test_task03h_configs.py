@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import importlib
 import json
-import sys
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -16,13 +14,14 @@ from er_commons.collection_processing.config import load_collection_run_spec
 from er_commons.document_parsing.content_parsing.config import load_content_parsing_config
 from er_commons.document_publication import fresh_preflight
 from er_commons.document_publication.config import load_document_run_spec
+from er_commons.document_publication.config_generation import process_templates
 from er_commons.document_publication.fresh_preflight import validate_fresh_build_templates
+from er_commons.document_publication.input_preparation import completed_candidate_markers
 from er_commons.document_publication.process_inputs import (
     ProcessConfigs,
     verify_process_resource_contract,
 )
 from er_commons.document_publication.production_identity import validate_production_identity
-from er_commons.document_publication.task03h_preparation import prepare_task03h
 from er_commons.document_records.document_references.config import DocumentReferenceConfig
 from er_commons.document_records.document_structure.config import (
     load_document_structure_config,
@@ -33,13 +32,6 @@ from er_commons.source_family_catalog import SourceFamilyCatalog
 
 ROOT = Path(__file__).parents[1]
 CONFIG_ROOT = ROOT / "configs"
-SCRIPT_ROOT = ROOT / "scripts"
-sys.path.insert(0, str(SCRIPT_ROOT))
-try:
-    process_templates = importlib.import_module("task03h_generation.process_templates")
-    TASK_TEMPLATE_ROOT = importlib.import_module("task03h_generation.shared").TASK_TEMPLATE_ROOT
-finally:
-    sys.path.remove(str(SCRIPT_ROOT))
 DOCUMENT_SPEC = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03h_document_v3.json"
 COLLECTION_SPEC = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03h_collection_v3.json"
 CATALOG = CONFIG_ROOT / "brisbane_baylands_2025_deir_task03h_v3_source_family_catalog_v1.json"
@@ -168,7 +160,14 @@ def test_all_210_task03h_process_configs_load_and_match_their_source(
 
 
 def test_task03h_generation_owns_current_templates() -> None:
-    templates = process_templates.load_process_templates()
+    request = SimpleNamespace(
+        templates={
+            role: Path("configs/task03h_templates") / f"{role}.json"
+            for role in process_templates.PROCESS_ROLES
+        },
+        project_path=lambda path: ROOT / path,
+    )
+    templates = process_templates.load_process_templates(request)
 
     assert set(templates) == {
         "content_parsing",
@@ -178,7 +177,6 @@ def test_task03h_generation_owns_current_templates() -> None:
         "document_structure",
         "document_reference_linking",
     }
-    assert TASK_TEMPLATE_ROOT == CONFIG_ROOT / "task03h_templates"
     assert all((CONFIG_ROOT / "task03h_templates" / f"{role}.json").is_file() for role in templates)
 
 
@@ -234,114 +232,16 @@ def test_task03h_collection_hashes_exact_accepted_policy_bytes() -> None:
     assert collection.resolution_policy_sha256 == sha256_file(resolution)
 
 
-def test_task03h_readiness_stages_catalog_without_pdf_or_model_reads(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    from er_commons.document_publication import preflight
-    from er_commons.document_publication import task03h_preparation as preparation
-
-    document, _ = load_document_run_spec(DOCUMENT_SPEC)
-    catalog = json.loads(CATALOG.read_text())
-    manifest_path = tmp_path / document.source_manifest_relative_path
-    manifest_path.parent.mkdir(parents=True)
-    sources = [
-        {
-            **source["source"],
-            "source_role": "model_corpus",
-            "warnings": (
-                [
-                    "source_edition_override: Draft landing page omitted K2 part 2; "
-                    "user approved Final-EIR record 2965 on 2026-07-24."
-                ]
-                if source["source"]["source_id"] == "deir_appendix_k2_part_2_of_5"
-                else []
-            ),
-        }
-        for source in catalog["sources"]
-    ]
-    manifest_path.write_text(
-        json.dumps(
-            {
-                "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
-                "sources": sources,
-            }
-        )
-    )
-    completion_path = manifest_path.parent / "completion_record.json"
-    completion_path.write_text("{}\n")
-    historical_completion = (
-        tmp_path
-        / "pipelines/brisbane_baylands/task_03h/document_publications/historical/records"
-        / "completion_record.json"
-    )
-    historical_completion.parent.mkdir(parents=True)
-    historical_completion.write_text("{}\n")
-    historical_v1_completion = (
-        tmp_path / "pipelines/brisbane_baylands/task_03h_clean_full_v1/"
-        "document_publications/historical/records/completion_record.json"
-    )
-    historical_v1_completion.parent.mkdir(parents=True)
-    historical_v1_completion.write_text("{}\n")
-
-    def fake_source_hash(path: Path) -> str:
-        if path == manifest_path:
-            return "fede3e4af815378b77a7f7f54c863ef095328da789859d4f4b25a524f3408f38"
-        if path == completion_path:
-            return "d1175d6bf54d2c557293cb7bb0e1191250a9b5db2aef5c9e563ebe01e58767a6"
-        return sha256_file(path)
-
-    monkeypatch.setattr(preflight, "sha256_file", fake_source_hash)
-    monkeypatch.setattr(fresh_preflight, "sha256_file", fake_source_hash)
-    monkeypatch.setattr(
-        preparation,
-        "prepare_collection_run",
-        lambda *_args: SimpleNamespace(document_spec=document),
-    )
-    # Task 03H is sealed historical evidence. Its recipe must retain the CLI
-    # checksum that actually produced it, even though later tasks add commands
-    # to the live checkout. This readiness test exercises source/model-free
-    # staging, not a rerun under those historical code bytes.
-    monkeypatch.setattr(
-        preparation,
-        "validate_production_identity",
-        lambda *_args, **_kwargs: SimpleNamespace(value=document.production_extraction_id),
-    )
-    report_path = prepare_task03h(tmp_path)
-    report = json.loads(report_path.read_text())
-
-    assert report["status"] == "ready_for_user_authorized_clean_run"
-    assert report["source_scope"]["source_count"] == 35
-    assert report["source_scope"]["page_count"] == 48_341
-    assert len(report["owner_configs"]) == 210
-    assert report["source_pdf_bytes_read"] is False
-    assert report["model_files_read"] is False
-    assert report["producer_identity_derivation_run"] is False
-    assert report["freshness"]["task_root"] == (
-        "pipelines/brisbane_baylands/task_03h_clean_full_v3"
-    )
-    assert report["freshness"]["completed_candidate_markers"] == []
-    assert (report_path.parent / CATALOG.name).read_bytes() == CATALOG.read_bytes()
-
-
-def test_task03h_readiness_scans_only_the_v3_namespace(tmp_path: Path) -> None:
-    """Historical completions are ignored while a v3 completion blocks readiness."""
-    from er_commons.document_publication import task03h_preparation as preparation
-
-    historical = (
-        tmp_path / "pipelines/brisbane_baylands/task_03h_clean_full_v1/"
-        "document_publications/old/records/completion_record.json"
-    )
+def test_preparation_scans_only_the_explicit_namespace(tmp_path: Path) -> None:
+    """Historical completions do not block a distinct explicitly selected namespace."""
+    historical = tmp_path / "old/records/completion_record.json"
     historical.parent.mkdir(parents=True)
-    historical.write_text("{}\n")
-    assert preparation._completed_candidate_markers(tmp_path) == []
-
-    current = (
-        tmp_path / "pipelines/brisbane_baylands/task_03h_clean_full_v3/"
-        "document_publications/current/records/completion_record.json"
-    )
+    historical.write_text("{}")
+    selected = tmp_path / "new"
+    assert completed_candidate_markers(selected) == []
+    current = selected / "documents/current/records/completion_record.json"
     current.parent.mkdir(parents=True)
-    current.write_text("{}\n")
-    assert preparation._completed_candidate_markers(tmp_path) == [
-        "pipelines/brisbane_baylands/task_03h_clean_full_v3/"
-        "document_publications/current/records/completion_record.json"
+    current.write_text("{}")
+    assert completed_candidate_markers(selected) == [
+        "documents/current/records/completion_record.json"
     ]

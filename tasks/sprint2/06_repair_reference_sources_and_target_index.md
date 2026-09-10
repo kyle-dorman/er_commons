@@ -380,3 +380,13 @@ Detailed planning contracts have been authored for 06A–06H, with 06B combining
 reuse/identity and cleanup as two gates. No evidence qualification,
 implementation, source acquisition, conversion, replay, or review acceptance has
 been performed as part of writing this plan.
+
+
+### Current gate handoff
+
+[Task 06B](06b_refactor_pipeline_identity_and_reuse.md) completed both gates on
+2026-09-10: source-free identity/reuse implementation, finite maintained-code
+migration, compact accepted-seal qualification, synthetic integration and
+independent review. Its outcome owns exact evidence, limits and maintained owner
+map. Task 06C is ready for contract revalidation; 06C–06H execution remains behind
+their separate source, conversion, replay and review gates.

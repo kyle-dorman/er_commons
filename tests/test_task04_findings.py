@@ -13,9 +13,9 @@ from task04_test_support import (
     synthetic_build_request,
 )
 
-import er_commons.human_review_support.task04.finding_transaction as transaction_module
+import er_commons.human_review_support.extraction_review.finding_transaction as transaction_module
 from er_commons.artifact_io import sha256_file, write_json_atomic
-from er_commons.human_review_support.task04 import (
+from er_commons.human_review_support.extraction_review import (
     FindingClass,
     FindingDraft,
     FindingStatus,
@@ -23,13 +23,13 @@ from er_commons.human_review_support.task04 import (
     default_schema_root,
     record_finding,
 )
-from er_commons.human_review_support.task04.json_io import (
+from er_commons.human_review_support.extraction_review.json_io import (
     read_json_object,
     require_list,
     require_mapping,
     require_string,
 )
-from er_commons.human_review_support.task04.models import JsonValue
+from er_commons.human_review_support.extraction_review.models import JsonValue
 
 
 def test_status_change_updates_stable_finding_and_handoff_projection(tmp_path: Path) -> None:

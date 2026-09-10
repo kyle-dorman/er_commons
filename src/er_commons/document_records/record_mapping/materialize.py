@@ -77,6 +77,46 @@ def _observation(name: str, started: float, *, units: int = 0) -> dict[str, obje
 def _owned_paths(config_path: Path, mapping_policy_path: Path) -> tuple[Path, ...]:
     """Return every source/config byte bound into candidate identity."""
     module_root = Path(__file__).parent
+    module_names = (
+        "__init__.py",
+        "assets.py",
+        "bundle.py",
+        "candidate.py",
+        "candidate_identity.py",
+        "config.py",
+        "constants.py",
+        "content_records.py",
+        "context.py",
+        "context_assembly.py",
+        "context_preparation.py",
+        "context_types.py",
+        "errors.py",
+        "geometry.py",
+        "identifiers.py",
+        "identity.py",
+        "inputs.py",
+        "layout.py",
+        "materialize.py",
+        "no_table_handoff.py",
+        "policies/__init__.py",
+        "policies/bundle.py",
+        "policies/content.py",
+        "policies/lineage.py",
+        "provenance.py",
+        "publication.py",
+        "record_sets.py",
+        "support_records.py",
+        "table_artifacts.py",
+        "table_cleanup.py",
+        "table_families.py",
+        "table_projection.py",
+        "table_records.py",
+        "table_regions.py",
+        "table_text_ownership.py",
+        "tables.py",
+        "traversal.py",
+        "validation.py",
+    )
     shared_dependencies = (
         PROJECT_ROOT / "src" / "er_commons" / "artifact_io.py",
         PROJECT_ROOT
@@ -95,8 +135,7 @@ def _owned_paths(config_path: Path, mapping_policy_path: Path) -> tuple[Path, ..
         PROJECT_ROOT / "src" / "er_commons" / "document_parsing" / "content_parsing" / "sources.py",
         PROJECT_ROOT / "src" / "er_commons" / "source_release" / "models.py",
     )
-    return tuple(sorted((*module_root.rglob("*.py"), *shared_dependencies))) + (
-        PROJECT_ROOT / "src" / "er_commons" / "cli.py",
+    return tuple(sorted((*(module_root / name for name in module_names), *shared_dependencies))) + (
         SCHEMA_PATH,
         mapping_policy_path,
         config_path.resolve(),

@@ -91,24 +91,27 @@ build-response-relationship-review-pass: check-env
 	uv run er-responses build \
 		--run-spec configs/brisbane_baylands_2025_feir_task05e_review_v4.json
 
-TASK05E_REVIEW_ROOT := $(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05e/reviewpassv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1
-
 finalize-response-relationship-candidate: check-env
+	@test -n "$(RELATIONSHIP_REVIEW_ROOT)" || (echo "RELATIONSHIP_REVIEW_ROOT=PATH is required"; exit 1)
+	@test -n "$(QUALITY_REPORT)" || (echo "QUALITY_REPORT=PATH is required"; exit 1)
 	uv run er-responses finalize-05e \
-		--review-root "$(TASK05E_REVIEW_ROOT)" \
-		--quality-report configs/brisbane_baylands_2025_feir_task05e_code_quality_v1.json
-
-RELATIONSHIP_ROOT ?= $(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05e/baselinev1-50ae2f7de5f28e882e62627db103e03f0059677fcdfc1e1f8be3a9bf5232b778
-REVIEW_TOOL_ROOT ?= $(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05e/review_tool_gate1_v1
+		--review-root "$(RELATIONSHIP_REVIEW_ROOT)" \
+		--quality-report "$(QUALITY_REPORT)"
 
 build-response-relationship-review: check-env
+	@test -n "$(RELATIONSHIP_ROOT)" || (echo "RELATIONSHIP_ROOT=PATH is required"; exit 1)
+	@test -n "$(SOURCE_RECORDS)" || (echo "SOURCE_RECORDS=PATH is required"; exit 1)
+	@test -n "$(QUALIFICATION)" || (echo "QUALIFICATION=PATH is required"; exit 1)
+	@test -n "$(RENDER_ROOT)" || (echo "RENDER_ROOT=PATH is required"; exit 1)
+	@test -n "$(REVIEW_TOOL_ROOT)" || (echo "REVIEW_TOOL_ROOT=PATH is required"; exit 1)
+	@test -n "$(SERVED_ROOT)" || (echo "SERVED_ROOT=PATH is required"; exit 1)
 	uv run er-responses build-review \
 		--relationship-root "$(RELATIONSHIP_ROOT)" \
-		--source-records "$(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/inventory/source_records.jsonl" \
-		--qualification "$(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/diagnostics/qualification.json" \
-		--render-root "$(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory/working/05d/cache/857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/qualification" \
+		--source-records "$(SOURCE_RECORDS)" \
+		--qualification "$(QUALIFICATION)" \
+		--render-root "$(RENDER_ROOT)" \
 		--output-root "$(REVIEW_TOOL_ROOT)" \
-		--served-root "$(ER_COMMONS_DATA_ROOT)/pipelines/brisbane_baylands/task_05_response_inventory"
+		--served-root "$(SERVED_ROOT)"
 
 publish-document: check-env
 	@test -n "$(DOCUMENT_SPEC)" || (echo "DOCUMENT_SPEC=PATH is required"; exit 1)

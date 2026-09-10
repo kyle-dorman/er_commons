@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from er_commons.artifact_io import sha256_file
+from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_parsing.content_parsing.config import ContentParsingConfig
 from er_commons.document_parsing.content_parsing.conversion_identity import (
     COMMON_HEADING_HIERARCHY,
@@ -43,8 +44,10 @@ def prepare_content_parsing(
     *,
     config: ContentParsingConfig,
     config_sha256: str,
+    budget: VerificationBudget | None = None,
 ) -> PreparedContentParsing:
     """Verify source/models/runtime and derive the code-bound producer identity."""
+    budget = budget or VerificationBudget()
     manifest = load_sealed_manifest(data_root, config)
     source = resolve_complete_source(data_root, config.source, manifest)
     source_manifest_path = (data_root / config.source_manifest_relative_path).resolve()
@@ -60,6 +63,7 @@ def prepare_content_parsing(
         source_completion_path=source_completion_path,
         model_inventory_path=model_inventory_path,
         model_inventory=model_inventory,
+        budget=budget,
     )
     options, format_option = build_converter_options(
         models_root,
@@ -67,7 +71,7 @@ def prepare_content_parsing(
         heading_hierarchy_options=COMMON_HEADING_HIERARCHY,
     )
     runtime = effective_runtime_identity(config, options, format_option)
-    project_code = code_identity(parsing_code_paths(repo_root), repo_root=repo_root)
+    project_code = code_identity(parsing_code_paths(repo_root), repo_root=repo_root, budget=budget)
     identity = build_content_parsing_identity(
         config=config,
         source=source,

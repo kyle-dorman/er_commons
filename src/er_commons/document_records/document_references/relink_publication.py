@@ -13,16 +13,27 @@ import os
 import shutil
 import tempfile
 from collections.abc import Callable, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
+from typing import cast
 
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 
 from er_commons.artifact_io import canonical_json_sha256
-from er_commons.document_publication.config import DocumentRunSpec, load_document_run_spec
+from er_commons.artifact_verification import VerificationBudget
+from er_commons.document_publication.accepted_inputs import (
+    PreparedPublicationInputs,
+    capture_verified_stamps,
+    file_stamp,
+    prepare_publication_inputs,
+)
+from er_commons.document_publication.config import DocumentRunSpec
 from er_commons.document_publication.production_identity import validate_production_identity
 from er_commons.document_publication.records import SourceIdentity
-from er_commons.document_publication.storage import verify_candidate as verify_document_candidate
+from er_commons.document_publication.storage import (
+    verify_candidate_metadata as verify_document_candidate,
+)
+from er_commons.document_publication.storage import verify_inventory_metadata
 from er_commons.document_records.document_references.construction import (
     CROSS_REFERENCE_PATH,
     TARGET_ALIAS_PATH,
@@ -46,7 +57,6 @@ from er_commons.document_records.document_references.relinking_config import (
     OUTPUT_SCHEMA_ROLES,
     DocumentLinkRunSpec,
     ExternalArtifactRef,
-    load_document_link_run_spec,
 )
 from er_commons.document_records.document_references.reviewed_navigation import (
     ArtifactRoots,
@@ -122,6 +132,8 @@ class RelinkExecutionRequest:
     output_schema_paths: Mapping[str, Path]
     reviewed_navigation_root: Path | None = None
     reviewed_navigation_completion_path: Path | None = None
+    prepared_navigation: NavigationInputs | None = None
+    budget: VerificationBudget | None = None
 
 
 @dataclass(frozen=True)
@@ -132,6 +144,17 @@ class RelinkExecutionResult:
     build: RelinkBuild
     root: Path
     completion_path: Path
+
+
+@dataclass(frozen=True)
+class PreparedReviewedNavigation:
+    """One validated shared bundle with source-local navigation projections."""
+
+    root: Path
+    completion_path: Path
+    bundle_id: str
+    completion_sha256: str
+    inputs_by_source: Mapping[str, NavigationInputs]
 
 
 @dataclass(frozen=True)
@@ -153,29 +176,49 @@ class PreparedRelinkRun:
     catalog_path: Path
     output_schema_paths: Mapping[str, Path]
     owned_code_bundle_sha256: str
+    budget: VerificationBudget
+    reviewed_navigation: PreparedReviewedNavigation | None
+    shared_refs: tuple[ExternalArtifactRef, ...]
+    publication_inputs: PreparedPublicationInputs | None = None
+    input_stamps: Mapping[Path, tuple[int, int, int, int]] | None = None
 
 
 def prepare_document_relink_run(
-    *, data_root: Path, link_spec: Path, repository_root: Path | None = None
+    *,
+    data_root: Path,
+    link_spec: Path,
+    repository_root: Path | None = None,
+    prepare_publication: bool = False,
 ) -> PreparedRelinkRun:
     """Load and globally preflight a relink specification exactly once."""
     spec_path = link_spec.resolve()
-    spec, spec_sha256 = load_document_link_run_spec(spec_path)
     repo_root = (repository_root or Path(__file__).resolve().parents[4]).resolve()
     artifact_root = data_root.resolve()
+    budget = VerificationBudget()
+    spec_sha256 = budget.hash_file(
+        spec_path, role="run_descriptor", source_id="shared", root=repo_root
+    )
+    spec = DocumentLinkRunSpec.model_validate(
+        budget.read_json(spec_path, role="run_descriptor", source_id="shared", root=repo_root)
+    )
 
     def resolve(reference: ExternalArtifactRef) -> Path:
-        return reference.resolve(repository_root=repo_root, artifact_root=artifact_root)
+        return reference.resolve(
+            repository_root=repo_root, artifact_root=artifact_root, budget=budget
+        )
 
-    handoff = _read_object(resolve(spec.base_collection.handoff_ref))
-    contract_bundle = _read_object(resolve(spec.base_collection.contract_bundle_ref))
-    base_identity = _read_object(resolve(spec.base_production_identity_ref))
-    replacement_identity = _read_object(resolve(spec.replacement_production_identity_recipe_ref))
+    handoff = _read_object(resolve(spec.base_collection.handoff_ref), budget=budget)
+    contract_bundle = _read_object(resolve(spec.base_collection.contract_bundle_ref), budget=budget)
+    base_identity = _read_object(resolve(spec.base_production_identity_ref), budget=budget)
+    replacement_identity = _read_object(
+        resolve(spec.replacement_production_identity_recipe_ref), budget=budget
+    )
     base = validate_production_identity(base_identity)
     replacement = validate_production_identity(
         replacement_identity,
         expected_source_ids=list(spec.selected_source_ids),
         project_root=repo_root,
+        budget=budget,
     )
     validate_base_collection_selection(
         spec=spec,
@@ -184,7 +227,11 @@ def prepare_document_relink_run(
         contract_bundle=contract_bundle,
     )
     document_spec_path = resolve(spec.document_publication_spec_ref)
-    document_spec, _ = load_document_run_spec(document_spec_path)
+    document_spec = DocumentRunSpec.model_validate(
+        budget.read_json(
+            document_spec_path, role="run_descriptor", source_id="shared", root=repo_root
+        )
+    )
     document_source_ids = tuple(item.source_id for item in document_spec.document_processes)
     if (
         document_spec.production_extraction_id != replacement.value
@@ -195,7 +242,7 @@ def prepare_document_relink_run(
         field_name: resolve(getattr(spec.output_schema_refs, field_name))
         for field_name in spec.output_schema_refs.__class__.model_fields
     }
-    return PreparedRelinkRun(
+    prepared = PreparedRelinkRun(
         spec=spec,
         spec_path=spec_path,
         spec_sha256=spec_sha256,
@@ -210,13 +257,51 @@ def prepare_document_relink_run(
         policy_schema_path=resolve(spec.linking_policy_schema_ref),
         catalog_path=resolve(spec.source_family_catalog_ref),
         output_schema_paths=output_schema_paths,
-        owned_code_bundle_sha256=_owned_code_bundle_sha256(),
+        owned_code_bundle_sha256=_owned_code_bundle_sha256(budget),
+        budget=budget,
+        reviewed_navigation=_resolve_reviewed_navigation(
+            spec=spec,
+            source_id=(
+                spec.reviewed_navigation.source_ids[0]
+                if spec.reviewed_navigation
+                else spec.selected_source_ids[0]
+            ),
+            resolve=resolve,
+            repository_root=repo_root,
+            artifact_root=artifact_root,
+            budget=budget,
+        ),
+        shared_refs=(
+            spec.document_publication_spec_ref,
+            spec.collection_run_spec_ref,
+            spec.linking_policy_ref,
+            spec.linking_policy_schema_ref,
+            spec.source_family_catalog_ref,
+            *tuple(getattr(spec.output_schema_refs, role) for role in OUTPUT_SCHEMA_ROLES),
+        ),
     )
+
+    publication_inputs = (
+        prepare_publication_inputs(
+            artifact_root, document_spec_path, repository_root=repo_root, budget=budget
+        )
+        if prepare_publication
+        else None
+    )
+    stamps = capture_verified_stamps(budget)
+    return replace(prepared, publication_inputs=publication_inputs, input_stamps=stamps)
 
 
 def verify_prepared_link_spec(prepared: PreparedRelinkRun) -> None:
     """Fail if the small run specification changes during a collection run."""
-    _verify_digest(prepared.spec_path, prepared.spec_sha256, "prepared link specification")
+    digest = prepared.budget.hash_file(
+        prepared.spec_path, role="run_descriptor", source_id="shared", root=prepared.repository_root
+    )
+    if digest != prepared.spec_sha256:
+        raise ValueError("prepared link specification changed")
+    for path, expected in (prepared.input_stamps or {}).items():
+        if file_stamp(path) != expected:
+            raise ValueError(f"prepared link input changed: {path}")
 
 
 def execute_document_relink_from_spec(
@@ -245,7 +330,9 @@ def execute_prepared_document_relink(
     selection = spec.document(source_id)
 
     def resolve(reference: ExternalArtifactRef) -> Path:
-        return reference.resolve(repository_root=repo_root, artifact_root=artifact_root)
+        return reference.resolve(
+            repository_root=repo_root, artifact_root=artifact_root, budget=prepared.budget
+        )
 
     policy_path = prepared.policy_path
     policy_schema_path = prepared.policy_schema_path
@@ -258,11 +345,14 @@ def execute_prepared_document_relink(
         or source_document_root.name != selection.source_document.candidate_id
     ):
         raise ValueError("source document completion, inventory, or identity differs")
-    source_document_completion = _read_object(source_completion)
+    source_document_completion = _read_object(
+        source_completion, budget=prepared.budget, role="completion"
+    )
     verify_document_candidate(
         source_document_root,
         selection.source_document.candidate_id,
         SourceIdentity.model_validate(source_document_completion.get("source")),
+        budget=prepared.budget,
     )
     structured_completion = resolve(selection.structured_document.completion_ref)
     structured_inventory = resolve(selection.structured_document.inventory_ref)
@@ -275,19 +365,18 @@ def execute_prepared_document_relink(
         expected_source_id=source_id,
         expected_production_id=prepared.base_production_id,
         selected_structured_completion=selection.structured_document.completion_ref,
+        budget=prepared.budget,
     )
 
     schema_refs = spec.output_schema_refs.model_dump()
     output_schema_paths = prepared.output_schema_paths
-    reviewed_root, reviewed_completion, reviewed_id, reviewed_completion_sha256 = (
-        _resolve_reviewed_navigation(
-            spec=spec,
-            source_id=source_id,
-            resolve=resolve,
-            repository_root=repo_root,
-            artifact_root=artifact_root,
-        )
-    )
+    reviewed = prepared.reviewed_navigation
+    if reviewed is not None and source_id not in reviewed.inputs_by_source:
+        reviewed = None
+    reviewed_root = reviewed.root if reviewed is not None else None
+    reviewed_completion = reviewed.completion_path if reviewed is not None else None
+    reviewed_id = reviewed.bundle_id if reviewed is not None else None
+    reviewed_completion_sha256 = reviewed.completion_sha256 if reviewed is not None else None
     identity_inputs = RelinkIdentityInputs(
         source_id=source_id,
         source_document_id=selection.source_document.candidate_id,
@@ -319,6 +408,8 @@ def execute_prepared_document_relink(
             output_schema_paths=output_schema_paths,
             reviewed_navigation_root=reviewed_root,
             reviewed_navigation_completion_path=reviewed_completion,
+            prepared_navigation=(reviewed.inputs_by_source[source_id] if reviewed else None),
+            budget=prepared.budget,
         )
     )
 
@@ -330,12 +421,13 @@ def _resolve_reviewed_navigation(
     resolve: Callable[[ExternalArtifactRef], Path],
     repository_root: Path,
     artifact_root: Path,
-) -> tuple[Path | None, Path | None, str | None, str | None]:
+    budget: VerificationBudget,
+) -> PreparedReviewedNavigation | None:
     """Verify an optional reviewed-navigation bundle and its selected references."""
     # Kept behind this small adapter so the main spec executor remains readable.
     reviewed = spec.reviewed_navigation
     if reviewed is None or source_id not in reviewed.source_ids:
-        return None, None, None, None
+        return None
     descriptor_path = resolve(reviewed.bundle_ref)
     schema_path = resolve(reviewed.schema_ref)
     published = load_reviewed_navigation_bundle(
@@ -343,9 +435,12 @@ def _resolve_reviewed_navigation(
         roots=ArtifactRoots(repository_root, artifact_root),
         schema_path=schema_path,
         selected_source_ids=spec.selected_source_ids,
+        budget=budget,
     )
     if published.descriptor["bundle_id"] != reviewed.bundle_id:
         raise ValueError("reviewed bundle selection differs from verified descriptor")
+    if tuple(published.descriptor["source_ids"]) != reviewed.source_ids:
+        raise ValueError("reviewed source coverage differs from verified descriptor")
     descriptor = published.descriptor
     expected_refs = {
         "review_decisions_ref": descriptor["identity_preimage"]["review_decisions_ref"],
@@ -360,16 +455,20 @@ def _resolve_reviewed_navigation(
         selected = getattr(reviewed, field_name)
         if selected.model_dump() != expected:
             raise ValueError(f"reviewed bundle reference differs: {field_name}")
-        selected.resolve(
-            repository_root=repository_root,
-            artifact_root=artifact_root,
-            bundle_root=published.root,
-        )
     identity_path = resolve(reviewed.identity_ref)
     if identity_path != published.root / "records/identity_preimage.json":
         raise ValueError("reviewed bundle identity reference differs")
     completion = resolve(reviewed.completion_ref)
-    return published.root, completion, reviewed.bundle_id, reviewed.completion_ref.sha256
+    return PreparedReviewedNavigation(
+        published.root,
+        completion,
+        reviewed.bundle_id,
+        reviewed.completion_ref.sha256,
+        {
+            source: NavigationInputs.from_records(published.payload_records, source_id=source)
+            for source in reviewed.source_ids
+        },
+    )
 
 
 def _verify_source_document_reuse_boundary(
@@ -379,9 +478,14 @@ def _verify_source_document_reuse_boundary(
     expected_source_id: str,
     expected_production_id: str,
     selected_structured_completion: ExternalArtifactRef,
+    budget: VerificationBudget | None = None,
 ) -> None:
     """Verify all five frozen upstream products named by the source document."""
-    identity = _read_object(source_document_root / "records/document_identity.json")
+    identity = _read_object(
+        source_document_root / "records/document_identity.json",
+        budget=budget,
+        role="identity_preimage",
+    )
     source = identity.get("source")
     if (
         identity.get("candidate_id") != source_document_root.name
@@ -411,7 +515,7 @@ def _verify_source_document_reuse_boundary(
         path = (artifact_root / relative).resolve()
         if not path.is_relative_to(artifact_root) or not path.is_file():
             raise ValueError(f"reused stage is absent or escapes artifact root: {stage_name}")
-        _verify_digest(path, digest, f"reused {stage_name}")
+        _verify_digest(path, digest, f"reused {stage_name}", budget=budget, role="completion")
     structured = stages["structured_document"]
     if (
         structured.get("path") != selected_structured_completion.path
@@ -440,6 +544,31 @@ def execute_document_relink(request: RelinkExecutionRequest) -> RelinkExecutionR
     """Verify sealed inputs, build one source, and no-clobber publish its result."""
     inputs = request.identity_inputs
     _verify_execution_inputs(request)
+    if request.budget is not None:
+        manifest = request.budget.read_json(
+            request.structured_root / "records/manifest.json",
+            role="input_binding",
+            source_id=inputs.source_id,
+            root=request.structured_root,
+        )
+        manifest_record = cast(JsonObject, manifest)
+        for item in manifest_record["record_files"]:
+            request.budget.reserve_read(
+                request.structured_root / item["path"],
+                role="canonical_records",
+                source_id=inputs.source_id,
+                root=request.structured_root,
+            )
+    if request.budget is not None:
+        for path, role in (
+            (request.structured_root / "records/manifest.json", "input_binding"),
+            (request.linking_policy_path, "config"),
+            (request.linking_policy_schema_path, "schema"),
+            (request.source_family_catalog_path, "input_binding"),
+        ):
+            request.budget.reserve_read(
+                path, role=role, source_id=inputs.source_id, root=path.parent
+            )
     source = CandidateSource.load(request.structured_root)
     if inputs.reviewed_navigation_bundle_id is None:
         if request.reviewed_navigation_root or request.reviewed_navigation_completion_path:
@@ -450,7 +579,9 @@ def execute_document_relink(request: RelinkExecutionRequest) -> RelinkExecutionR
     else:
         navigation = _load_reviewed_navigation(request, source)
         source_document_root = request.source_document_completion_path.parent.parent
-        prior_linked_manifest = _read_object(source_document_root / "content/records/manifest.json")
+        prior_linked_manifest = _read_object(
+            source_document_root / "content/records/manifest.json", budget=request.budget
+        )
         prior_linked_id = prior_linked_manifest.get("extraction_id")
         if not isinstance(prior_linked_id, str) or not prior_linked_id:
             raise ValueError("source document content lacks its linked extraction identity")
@@ -484,6 +615,7 @@ def execute_document_relink(request: RelinkExecutionRequest) -> RelinkExecutionR
         build=build,
         identity=identity,
         schema_paths=request.output_schema_paths,
+        budget=request.budget,
     )
     return RelinkExecutionResult(identity, build, root, completion)
 
@@ -519,11 +651,18 @@ def _verify_execution_inputs(request: RelinkExecutionRequest) -> None:
         ),
     )
     for path, digest, label in pairs:
-        _verify_digest(path, digest, label)
+        _verify_digest(
+            path,
+            digest,
+            label,
+            budget=request.budget,
+            role="managed_inventory" if label.endswith("inventory") else "input_binding",
+        )
     _verify_completion_inventory(
         request.structured_root / "records/completion_record.json",
         request.structured_root / "records/artifact_inventory.json",
         label="structured candidate",
+        budget=request.budget,
     )
 
 
@@ -539,15 +678,24 @@ def _load_reviewed_navigation(
         raise ValueError("reviewed identity requires its verified bundle paths")
     if request.reviewed_navigation_root.name != inputs.reviewed_navigation_bundle_id:
         raise ValueError("reviewed navigation bundle identity differs")
+    if request.prepared_navigation is not None:
+        navigation = request.prepared_navigation
+        for row in (*navigation.entries, *navigation.relations):
+            if row.get("source_id") != inputs.source_id:
+                raise ValueError("prepared reviewed navigation source coverage differs")
+        return navigation
     _verify_digest(
         request.reviewed_navigation_completion_path,
         inputs.reviewed_navigation_completion_sha256,
         "reviewed navigation completion",
+        budget=request.budget,
+        role="completion",
     )
     _verify_completion_inventory(
         request.reviewed_navigation_completion_path,
         request.reviewed_navigation_root / "records/artifact_inventory.json",
         label="reviewed navigation",
+        budget=request.budget,
     )
     return NavigationInputs.from_bundle_root(
         request.reviewed_navigation_root, source_id=inputs.source_id
@@ -561,6 +709,7 @@ def publish_relink_candidate(
     build: RelinkBuild,
     identity: JsonObject,
     schema_paths: Mapping[str, Path],
+    budget: VerificationBudget | None = None,
 ) -> Path:
     """Atomically publish an absent candidate and validate exact inventory closure."""
     candidate_id = str(identity["extraction_id"])
@@ -571,11 +720,12 @@ def publish_relink_candidate(
             schema_paths=schema_paths,
             expected_identity=identity,
             expected_build=build,
+            budget=budget,
         )
     root.parent.mkdir(parents=True, exist_ok=True)
     staging = Path(tempfile.mkdtemp(prefix=f".{candidate_id}.", dir=root.parent))
     try:
-        _write_candidate(staging, source, build, identity, schema_paths)
+        _write_candidate(staging, source, build, identity, schema_paths, budget=budget)
         os.rename(staging, root)
     except BaseException:
         shutil.rmtree(staging, ignore_errors=True)
@@ -586,6 +736,7 @@ def publish_relink_candidate(
         schema_paths=schema_paths,
         expected_identity=identity,
         expected_build=build,
+        budget=budget,
     )
 
 
@@ -596,6 +747,7 @@ def verify_relink_candidate(
     schema_paths: Mapping[str, Path],
     expected_identity: JsonObject | None = None,
     expected_build: RelinkBuild | None = None,
+    budget: VerificationBudget | None = None,
 ) -> Path:
     """Reject incomplete, changed, or non-closed linked-product candidates."""
     completion_path = root / "records/completion_record.json"
@@ -605,7 +757,7 @@ def verify_relink_candidate(
     for path in (completion_path, inventory_path, identity_path, manifest_path):
         if not path.is_file():
             raise ValueError(f"relink candidate lacks terminal record: {path.name}")
-    identity = _read_object(identity_path)
+    identity = _read_object(identity_path, budget=budget, role="identity_preimage")
     if identity.get("extraction_id") != candidate_id:
         raise ValueError("relink identity differs from candidate namespace")
     preimage = identity.get("document_link_contract")
@@ -615,24 +767,39 @@ def verify_relink_candidate(
         raise ValueError("relink identity preimage differs")
     if expected_identity is not None and identity != expected_identity:
         raise ValueError("existing relink identity differs from the requested build")
-    completion = _read_object(completion_path)
+    completion = _read_object(completion_path, budget=budget, role="completion")
     if completion != {
         "schema_version": "er_commons.document_link_completion.v1",
         "extraction_id": candidate_id,
         "status": "complete_with_warnings",
         "completion_last": True,
-        "artifact_inventory_sha256": sha256_file(inventory_path),
+        "artifact_inventory_sha256": (
+            budget.hash_file(
+                inventory_path, role="managed_inventory", source_id=candidate_id, root=root
+            )
+            if budget is not None
+            else sha256_file(inventory_path)
+        ),
         "preservation_status": "passed",
         "undeclared_difference_count": 0,
     }:
         raise ValueError("relink completion fields differ")
-    if _read_object(inventory_path) != build_inventory(root):
+    if budget is not None:
+        verify_inventory_metadata(
+            root,
+            _read_object(inventory_path, budget=budget, role="managed_inventory"),
+            budget=budget,
+            source_id=candidate_id,
+        )
+    elif _read_object(inventory_path, budget=budget, role="managed_inventory") != build_inventory(
+        root
+    ):
         raise ValueError("relink inventory differs from managed files")
     if any(path.is_symlink() for path in root.rglob("*")):
         raise ValueError("relink candidate contains a managed symlink")
-    _validate_published_outputs(root, schema_paths)
+    _validate_published_outputs(root, schema_paths, budget=budget)
     if expected_build is not None:
-        _verify_expected_linking_outputs(root, expected_build)
+        _verify_expected_linking_outputs(root, expected_build, budget=budget)
     return completion_path
 
 
@@ -642,6 +809,8 @@ def _write_candidate(
     build: RelinkBuild,
     identity: JsonObject,
     schema_paths: Mapping[str, Path],
+    *,
+    budget: VerificationBudget | None = None,
 ) -> None:
     write_json(root / "records/extraction_identity.json", identity)
     record_files: list[JsonObject] = []
@@ -661,15 +830,7 @@ def _write_candidate(
                 "record_count": len(rows),
             }
         )
-    support_files: list[JsonObject] = []
-    for item in source.manifest.get("support_files", []):
-        relative = str(item["path"])
-        destination = root / relative
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source.root / relative, destination)
-        support_files.append(
-            {**item, "sha256": sha256_file(destination), "reused_from_structured_candidate": True}
-        )
+    support_files, inherited_files = _copy_preserved_support(source, root, budget)
     for role, path in _SUPPORT_PATHS.items():
         write_json(root / path, build.support[role])
         support_files.append(
@@ -698,16 +859,21 @@ def _write_candidate(
     write_json(root / "records/manifest.json", manifest)
     upstream_summary = source.root / "records/canonicalization_summary.json"
     if upstream_summary.is_file():
-        summary = remapper.value(_read_object(upstream_summary))
+        summary = remapper.value(_read_object(upstream_summary, budget=budget))
         summary["schema_version"] = "er_commons.document_link_summary.v1"
         summary["candidate_id"] = identity["extraction_id"]
         summary["document_link_accounting"] = build.support["accounting"]
         write_json(root / "records/canonicalization_summary.json", summary)
+    if budget is not None:
+        for schema_path in schema_paths.values():
+            budget.reserve_read(
+                schema_path, role="schema", source_id="linking", root=schema_path.parent
+            )
     validators = _output_validators(schema_paths)
     _validate_pre_completion_outputs(
         validators=validators, identity=identity, manifest=manifest, build=build
     )
-    inventory_path = write_inventory(root)
+    inventory_path = write_inventory(root, recorded_files=inherited_files)
     _validate_schema_value(validators["inventory"], _read_object(inventory_path), "inventory")
     completion = {
         "schema_version": "er_commons.document_link_completion.v1",
@@ -720,6 +886,41 @@ def _write_candidate(
     }
     _validate_schema_value(validators["completion"], completion, "completion")
     write_json(root / "records/completion_record.json", completion)
+
+
+def _copy_preserved_support(
+    source: CandidateSource,
+    root: Path,
+    budget: VerificationBudget | None,
+) -> tuple[list[JsonObject], dict[str, JsonObject]]:
+    """Copy only explicitly inventoried support and propagate its recorded digest."""
+    support_files: list[JsonObject] = []
+    inherited_files: dict[str, JsonObject] = {}
+    source_inventory_path = source.root / "records/artifact_inventory.json"
+    source_rows = (
+        _read_object(source_inventory_path, budget=budget, role="managed_inventory")["files"]
+        if source_inventory_path.is_file()
+        else []
+    )
+    source_inventory = {row["path"]: row for row in source_rows}
+    for item in source.manifest.get("support_files", []):
+        relative = str(item["path"])
+        if relative not in source_inventory:
+            raise ValueError(f"inherited support lacks sealed inventory binding: {relative}")
+        if Path(relative).is_absolute() or ".." in Path(relative).parts:
+            raise ValueError(f"inherited support path escapes candidate: {relative}")
+        destination = root / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source.root / relative, destination)
+        inherited_files[relative] = source_inventory[relative]
+        support_files.append(
+            {
+                **item,
+                "sha256": source_inventory[relative]["sha256"],
+                "reused_from_structured_candidate": True,
+            }
+        )
+    return support_files, inherited_files
 
 
 def _output_validators(schema_paths: Mapping[str, Path]) -> dict[str, Draft202012Validator]:
@@ -770,23 +971,37 @@ def _validate_relink_build_products(
         _validate_schema_value(validators["support"], payload, f"support.{role}")
 
 
-def _validate_published_outputs(root: Path, schema_paths: Mapping[str, Path]) -> None:
+def _validate_published_outputs(
+    root: Path, schema_paths: Mapping[str, Path], *, budget: VerificationBudget | None = None
+) -> None:
+    def read(path: Path) -> JsonObject:
+        return _read_object(path, budget=budget)
+
+    if budget is not None:
+        for schema_path in schema_paths.values():
+            budget.reserve_read(
+                schema_path, role="schema", source_id="linking", root=schema_path.parent
+            )
     validators = _output_validators(schema_paths)
     _validate_schema_value(
-        validators["identity"], _read_object(root / "records/extraction_identity.json"), "identity"
+        validators["identity"], read(root / "records/extraction_identity.json"), "identity"
     )
-    manifest = _read_object(root / "records/manifest.json")
+    manifest = read(root / "records/manifest.json")
     _validate_schema_value(validators["manifest"], manifest, "manifest")
     _validate_schema_value(
-        validators["inventory"], _read_object(root / "records/artifact_inventory.json"), "inventory"
+        validators["inventory"], read(root / "records/artifact_inventory.json"), "inventory"
     )
     _validate_schema_value(
         validators["completion"],
-        _read_object(root / "records/completion_record.json"),
+        read(root / "records/completion_record.json"),
         "completion",
     )
     row_counts: dict[str, int] = {}
     for role, relative in _OUTPUT_ROW_PATHS.items():
+        if budget is not None:
+            budget.reserve_read(
+                root / relative, role="linking_records", source_id="linking", root=root
+            )
         rows = read_jsonl(root / relative)
         row_counts[role] = len(rows)
         for index, row in enumerate(rows):
@@ -800,25 +1015,32 @@ def _validate_published_outputs(root: Path, schema_paths: Mapping[str, Path]) ->
     if any(manifest.get(name) != count for name, count in expected.items()):
         raise ValueError("relink manifest output counts differ")
     for role, relative in _SUPPORT_PATHS.items():
-        _validate_schema_value(
-            validators["support"], _read_object(root / relative), f"support.{role}"
-        )
+        _validate_schema_value(validators["support"], read(root / relative), f"support.{role}")
 
 
-def _verify_expected_linking_outputs(root: Path, build: RelinkBuild) -> None:
+def _verify_expected_linking_outputs(
+    root: Path, build: RelinkBuild, *, budget: VerificationBudget | None = None
+) -> None:
     """Compare reuse against regenerated linking-owned records, never large source payloads."""
+
+    def read(path: Path) -> JsonObject:
+        return _read_object(path, budget=budget)
+
     expected_rows = _product_rows(build.products)
     for role, relative in _OUTPUT_ROW_PATHS.items():
+        if budget is not None:
+            budget.reserve_read(
+                root / relative, role="linking_records", source_id="linking", root=root
+            )
         if tuple(read_jsonl(root / relative)) != expected_rows[role]:
             raise ValueError(f"existing relink {role} rows differ from requested build")
     for role, relative in _SUPPORT_PATHS.items():
-        if _read_object(root / relative) != build.support[role]:
+        if read(root / relative) != build.support[role]:
             raise ValueError(f"existing relink support differs from requested build: {role}")
     summary_path = root / "records/canonicalization_summary.json"
     if (
         summary_path.is_file()
-        and _read_object(summary_path).get("document_link_accounting")
-        != build.support["accounting"]
+        and read(summary_path).get("document_link_accounting") != build.support["accounting"]
     ):
         raise ValueError("existing relink summary differs from requested build")
 
@@ -864,49 +1086,136 @@ def _product_rows(products: LinkedSourceProducts) -> dict[str, tuple[JsonObject,
     }
 
 
-def _read_object(path: Path) -> JsonObject:
+def _read_object(
+    path: Path, *, budget: VerificationBudget | None = None, role: str = "input_binding"
+) -> JsonObject:
+    """Read one selected record, reserving accepted-input bytes when requested."""
+    if budget is not None:
+        budget.reserve_read(path, role=role, source_id="linking", root=path.parent)
     value = json.loads(path.read_bytes())
     if not isinstance(value, dict):
         raise TypeError(f"expected JSON object: {path}")
     return value
 
 
-def _verify_digest(path: Path, expected: str, label: str) -> None:
+def _verify_digest(
+    path: Path,
+    expected: str,
+    label: str,
+    *,
+    budget: VerificationBudget | None = None,
+    role: str = "input_binding",
+) -> None:
     if not path.is_file():
         raise ValueError(f"{label} is absent: {path}")
-    if sha256_file(path) != expected:
+    if (
+        budget is not None
+        and role == "managed_inventory"
+        and path.stat().st_size > budget.hash_file_limit
+    ):
+        budget.check_metadata(path, role=role, source_id=label, root=path.parent)
+        return
+    digest = (
+        budget.hash_file(path, role=role, source_id=label, root=path.parent)
+        if budget is not None
+        else sha256_file(path)
+    )
+    if digest != expected:
         raise ValueError(f"{label} seal differs (SHA-256): {path}")
 
 
 def _verify_completion_inventory(
-    completion_path: Path, inventory_path: Path, *, label: str
+    completion_path: Path,
+    inventory_path: Path,
+    *,
+    label: str,
+    budget: VerificationBudget | None = None,
 ) -> None:
-    completion = _read_object(completion_path)
-    if completion.get("artifact_inventory_sha256") != sha256_file(inventory_path):
-        raise ValueError(f"{label} completion does not seal its inventory")
+    """Validate terminal seals and choose explicit deep or compact managed closure."""
     root = completion_path.parent.parent
-    if inventory_path.parent.parent != root or _read_object(inventory_path) != build_inventory(
-        root
-    ):
+    if inventory_path.parent.parent != root:
+        raise ValueError(f"{label} terminal records have different roots")
+    if budget is not None:
+        budget.reserve_read(completion_path, role="completion", source_id=label, root=root)
+        budget.reserve_read(inventory_path, role="managed_inventory", source_id=label, root=root)
+    completion = _read_object(completion_path)
+    if completion.get("status") not in {"complete", "complete_with_warnings"}:
+        raise ValueError(f"{label} completion is not terminal")
+    recorded_digest = completion.get("artifact_inventory_sha256")
+    if budget is not None and inventory_path.stat().st_size > budget.hash_file_limit:
+        inventory_digest = recorded_digest
+    else:
+        inventory_digest = (
+            budget.hash_file(inventory_path, role="managed_inventory", source_id=label, root=root)
+            if budget is not None
+            else sha256_file(inventory_path)
+        )
+    if not isinstance(recorded_digest, str) or recorded_digest != inventory_digest:
+        raise ValueError(f"{label} completion does not seal its inventory")
+    inventory = _read_object(inventory_path)
+    if budget is not None:
+        verify_inventory_metadata(root, inventory, budget=budget, source_id=label)
+    elif inventory != build_inventory(root):
         raise ValueError(f"{label} inventory differs from managed files")
 
 
-def _owned_code_bundle_sha256() -> str:
+def _owned_code_bundle_sha256(budget: VerificationBudget | None = None) -> str:
     """Bind every output-affecting linking module in stable repository order."""
     repo_root = Path(__file__).resolve().parents[4]
-    package_root = repo_root / "src/er_commons/document_records/document_references"
+    modules = (
+        "construction",
+        "detection",
+        "errors",
+        "exact_resolution",
+        "indexing",
+        "linking_core",
+        "linking_policy",
+        "machine_link_resolution",
+        "policy",
+        "relink_preflight",
+        "relink_publication",
+        "relinking",
+        "relinking_config",
+        "resolution",
+        "reviewed_navigation",
+        "source_scope",
+        "storage",
+        "table_aliases",
+        "types",
+    )
     relative_paths = sorted(
-        {path.relative_to(repo_root).as_posix() for path in package_root.glob("*.py")}
-        | {
+        [f"src/er_commons/document_records/document_references/{name}.py" for name in modules]
+        + [
             "src/er_commons/artifact_io.py",
-            "src/er_commons/cli.py",
+            "src/er_commons/artifact_verification.py",
+            "src/er_commons/document_publication/accepted_inputs.py",
+            "src/er_commons/document_publication/candidate_identity_validation.py",
+            "src/er_commons/document_parsing/content_parsing/sources.py",
+            "src/er_commons/document_publication/sources.py",
             "src/er_commons/document_records/record_mapping/publication.py",
+            "src/er_commons/document_records/record_mapping/errors.py",
             "src/er_commons/source_family_catalog.py",
-        }
+            "src/er_commons/source_release/models.py",
+            "src/er_commons/document_publication/config.py",
+            "src/er_commons/document_publication/production_identity.py",
+            "src/er_commons/document_publication/identity.py",
+            "src/er_commons/document_publication/records.py",
+            "src/er_commons/document_publication/storage.py",
+            "src/er_commons/collection_processing/contract.py",
+        ]
     )
     return canonical_json_sha256(
         [
-            {"path": relative, "sha256": sha256_file(repo_root / relative)}
+            {
+                "path": relative,
+                "sha256": (
+                    budget.hash_file(
+                        repo_root / relative, role="code", source_id="linking", root=repo_root
+                    )
+                    if budget is not None
+                    else sha256_file(repo_root / relative)
+                ),
+            }
             for relative in relative_paths
         ]
     )

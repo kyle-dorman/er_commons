@@ -5,10 +5,13 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
-from er_commons.artifact_io import sha256_file, write_json_atomic
+from er_commons.artifact_io import write_json_atomic
 from er_commons.document_publication.attempts import record_attempt
+from er_commons.document_publication.candidate_identity_validation import (
+    verify_identity_and_upstreams,
+)
 from er_commons.document_publication.downstream_replay_validation import (
     verify_downstream_replay,
 )
@@ -71,6 +74,7 @@ def build_candidate_identity(
     *,
     content_root: Path,
     result: PipelineResult,
+    recorded_content_inventory: dict[str, Any] | None = None,
 ) -> CandidateIdentity:
     """Derive the document ID from content and all publication controls."""
     terminal_state: SuccessDisposition = "complete_with_warnings" if result.warnings else "complete"
@@ -86,7 +90,11 @@ def build_candidate_identity(
             "terminal_state": terminal_state,
         }
     )
-    digest = content_digest(content_root)
+    digest = (
+        canonical_digest(recorded_content_inventory)
+        if recorded_content_inventory is not None
+        else content_digest(content_root)
+    )
     candidate_id = build_candidate_id(
         production_extraction_id=run.spec.production_extraction_id,
         source_id=run.source.source_id,
@@ -247,43 +255,6 @@ def _matches_run(identity: dict[str, object], run: DocumentRun) -> bool:
         and identity.get("run_spec_sha256") == run.spec_sha256
         and identity.get("hierarchy_disposition") == run.hierarchy_disposition
     )
-
-
-def verify_identity_and_upstreams(
-    root: Path, *, identity: dict[str, object], data_root: Path
-) -> None:
-    """Recompute the candidate ID and every document-product completion seal."""
-    control_digest = canonical_digest(
-        {
-            "hierarchy_disposition": identity.get("hierarchy_disposition"),
-            "run_spec_sha256": identity.get("run_spec_sha256"),
-            "stage_completions": identity.get("stage_completions"),
-            "terminal_state": identity.get("terminal_state"),
-        }
-    )
-    if identity.get("control_digest") != control_digest:
-        raise ValueError("document candidate control digest differs")
-    source = SourceIdentity.model_validate(identity["source"])
-    candidate_id = build_candidate_id(
-        production_extraction_id=str(identity["production_extraction_id"]),
-        source_id=source.source_id,
-        content_digest=content_digest(root / "content"),
-        control_digest=control_digest,
-    )
-    if identity.get("candidate_id") != candidate_id or root.name != candidate_id:
-        raise ValueError("document candidate identity does not derive from managed inputs")
-    completions = identity.get("stage_completions")
-    if not isinstance(completions, dict):
-        raise ValueError("document candidate lacks typed stage completions")
-    for role, value in completions.items():
-        reference = ArtifactRef.model_validate(value)
-        path = (data_root / reference.path).resolve()
-        if (
-            not path.is_relative_to(data_root.resolve())
-            or not path.is_file()
-            or sha256_file(path) != reference.sha256
-        ):
-            raise ValueError(f"document candidate upstream seal differs: {role}")
 
 
 def _write_recovered_success_event(

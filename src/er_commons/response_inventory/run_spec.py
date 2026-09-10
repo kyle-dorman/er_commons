@@ -9,13 +9,13 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from er_commons.response_inventory.code_inventory import owned_code_digest
-from er_commons.response_inventory.pilot_policy import TASK05C_PILOT_RANGES
-from er_commons.response_inventory.task05d_policy import (
-    TASK05D_ALLOWED_WARNING_CODES,
-    TASK05D_PAGE_COUNT,
-    TASK05D_RANGE,
+from er_commons.response_inventory.code_inventory import ResponseStage, owned_code_digest
+from er_commons.response_inventory.complete_source_policy import (
+    ACCEPTED_COMPLETE_PAGE_COUNT,
+    ACCEPTED_COMPLETE_RANGE,
+    ACCEPTED_WARNING_CODES,
 )
+from er_commons.response_inventory.pilot_policy import ACCEPTED_PILOT_RANGES
 
 
 class StrictModel(BaseModel):
@@ -240,7 +240,7 @@ class CompleteStopBehavior(StrictModel):
     @model_validator(mode="after")
     def validate_allowed_warning_class(self) -> CompleteStopBehavior:
         """Allow only reviewed source-authored missing response headings."""
-        if self.allowed_terminal_warning_codes != TASK05D_ALLOWED_WARNING_CODES:
+        if self.allowed_terminal_warning_codes != ACCEPTED_WARNING_CODES:
             raise ValueError("05D allows only the source_response_heading_absent warning class")
         return self
 
@@ -492,7 +492,7 @@ class ResponseInventoryRunSpec(StrictModel):
                 f"declared={self.declared_page_count}, ranges={actual_page_count}"
             )
         observed_ranges = tuple((item.first_page, item.last_page) for item in self.page_ranges)
-        if observed_ranges != TASK05C_PILOT_RANGES:
+        if observed_ranges != ACCEPTED_PILOT_RANGES:
             raise ValueError("05C run spec differs from the exact authorized pilot ranges")
         _require_exact_roles(
             [item.role for item in self.accepted_inputs],
@@ -532,9 +532,9 @@ class ResponseInventoryRunSpecV2(StrictModel):
     def validate_complete_scope_and_roles(self) -> ResponseInventoryRunSpecV2:
         """Require the sole full-source range and every exact evidence role."""
         observed_ranges = tuple((item.first_page, item.last_page) for item in self.page_ranges)
-        if observed_ranges != (TASK05D_RANGE,):
+        if observed_ranges != (ACCEPTED_COMPLETE_RANGE,):
             raise ValueError("05D run spec must declare only the exact 1-744 range")
-        if self.source.recorded_page_count != TASK05D_PAGE_COUNT:
+        if self.source.recorded_page_count != ACCEPTED_COMPLETE_PAGE_COUNT:
             raise ValueError("05D source binding must record exactly 744 pages")
         _require_exact_roles(
             [item.role for item in self.accepted_inputs],
@@ -740,7 +740,7 @@ def load_response_inventory_run_spec(path: Path) -> tuple[AnyResponseInventoryRu
 
 
 def verify_repository_bindings(spec: AnyResponseInventoryRunSpec, repository_root: Path) -> None:
-    """Verify small checked-in dependencies without touching source artifacts."""
+    """Verify current-writer dependencies; historical spec loading is separate."""
     root = repository_root.resolve()
     for binding in spec.repository_bindings:
         path = (root / binding.path).resolve()
@@ -749,8 +749,17 @@ def verify_repository_bindings(spec: AnyResponseInventoryRunSpec, repository_roo
         observed = hashlib.sha256(path.read_bytes()).hexdigest()
         if observed != binding.sha256:
             raise ValueError(f"repository binding digest mismatch: {binding.role}")
-    if owned_code_digest(root) != spec.producer_code_sha256:
+    if owned_code_digest(root, stage=response_stage(spec)) != spec.producer_code_sha256:
         raise ValueError("producer code digest mismatch")
+
+
+def response_stage(spec: AnyResponseInventoryRunSpec) -> ResponseStage:
+    """Select the behavior owner for a validated current execution spec."""
+    if isinstance(spec, ResponseReferenceRunSpecV5):
+        return "reference"
+    if isinstance(spec, (ResponseRelationshipRunSpecV3, ResponseRelationshipReviewRunSpecV4)):
+        return "relationship"
+    return "source"
 
 
 def _require_contained_path(path: Path, label: str) -> None:
@@ -772,4 +781,5 @@ __all__ = [
     "ResponseReferenceRunSpecV5",
     "load_response_inventory_run_spec",
     "verify_repository_bindings",
+    "response_stage",
 ]

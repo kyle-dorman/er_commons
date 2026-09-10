@@ -23,9 +23,8 @@ module rename changes only future code-bound identities.
 
 For future production work, `document_parsing` produces parser evidence,
 `document_publication` publishes one complete document, and `collection_processing`
-assembles collection accounting, indexes, cross-document links, and handoffs. Task
-03H must add the independently sealed content-conversion restart boundary before any
-full-collection execution.
+assembles collection accounting, indexes, cross-document links, and handoffs. Independently sealed content conversion and completed ranges are reused through
+the historical compact readers; fresh execution has separate current identities.
 
 Maintainer route: begin with `er_commons.cli`, enter the public facade exported by
 `er_commons.document_publication` or `er_commons.collection_processing`, and then read
@@ -38,3 +37,8 @@ Machine-only reporting follows the same pattern through
 Start each pipeline as the smallest restartable sequence of existing
 open-source tools. Add project code only for an adapter, provenance manifest,
 or stable integration boundary that cannot be expressed cleanly otherwise.
+
+The [maintained command map](../docs/pipeline_commands.md) separates preparation,
+execution, compact validation, deep audit, and review. Historical task names remain
+in accepted artifact paths and record contracts; maintained wrappers use explicit
+request files and responsibility names. Task 06B does not authorize a production run.

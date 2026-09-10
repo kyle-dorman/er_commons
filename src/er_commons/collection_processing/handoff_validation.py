@@ -15,7 +15,9 @@ from er_commons.collection_processing.semantic_validation import (
     CollectionArtifactReader,
     validate_collection_bundle,
 )
-from er_commons.document_publication.candidates import verify_identity_and_upstreams
+from er_commons.document_publication.candidate_identity_validation import (
+    verify_identity_and_upstreams,
+)
 from er_commons.document_publication.records import (
     DocumentCompletion,
     DocumentIdentityRecord,

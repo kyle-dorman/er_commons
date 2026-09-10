@@ -138,7 +138,7 @@ def test_accepted_v1_identity_remains_legacy_evidence() -> None:
 
 def test_current_runtime_cannot_import_or_write_legacy_collection_contracts() -> None:
     """V1 readers stay explicit; maintained v2 modules own their write vocabulary."""
-    allowed = {"compatibility_v1.py", "compatibility_v1_bundle.py"}
+    allowed = {"compatibility_v1.py"}
     legacy_schemas = (".v1_1", "corpus_target_order_v1")
     for path in RUNTIME_ROOT.glob("*.py"):
         if path.name in allowed:

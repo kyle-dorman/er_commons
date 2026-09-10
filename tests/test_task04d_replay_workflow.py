@@ -80,6 +80,11 @@ def test_document_bridge_passes_fresh_link_completion_to_downstream_replay(
         return tmp_path / "published/records/completion_record.json"
 
     monkeypatch.setattr(relink_replay, "publish_downstream_replay", publish)
+    prepared.budget = None
+    prepared.document_spec = None
+    prepared.publication_inputs = None
+    spec.document_publication_spec_ref.sha256 = "a" * 64
+    monkeypatch.setattr(relink_replay, "prepare_accepted_document_run", lambda *_a, **_k: None)
 
     result = relink_replay.relink_and_replay_document(
         data_root=tmp_path,

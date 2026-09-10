@@ -10,7 +10,7 @@ from pathlib import Path
 from er_commons.artifact_io import json_bytes
 from er_commons.response_inventory.code_inventory import owned_code_digest
 from er_commons.response_inventory.observations import LineObservation, PageObservation
-from er_commons.response_inventory.pilot_policy import TASK05C_PILOT_RANGES
+from er_commons.response_inventory.pilot_policy import ACCEPTED_PILOT_RANGES
 from er_commons.response_inventory.qualification import qualification_observation_digest
 from er_commons.response_inventory.workflow import _apply_range_boundary_policy, build_pilot
 
@@ -48,7 +48,7 @@ def test_build_is_completion_last_and_reuses_exact_range_receipts(tmp_path: Path
         tool_versions=_fake_tool_versions(),
         completed_at="2026-09-08T12:00:00Z",
     )
-    assert calls == list(TASK05C_PILOT_RANGES)
+    assert calls == list(ACCEPTED_PILOT_RANGES)
     pilot_root = Path(first["pilot_root"])
     assert (pilot_root / "records/stage_completion.json").is_file()
     assert (pilot_root / "records/managed_file_inventory.json").is_file()
@@ -84,7 +84,7 @@ def test_interrupted_build_reuses_closed_ranges(tmp_path: Path) -> None:
 
     def interrupting_reader(_path: Path, first: int, last: int) -> list[PageObservation]:
         calls.append((first, last))
-        if (first, last) == TASK05C_PILOT_RANGES[2]:
+        if (first, last) == ACCEPTED_PILOT_RANGES[2]:
             raise RuntimeError("simulated interruption")
         return [_fake_page(page) for page in range(first, last + 1)]
 
@@ -101,7 +101,7 @@ def test_interrupted_build_reuses_closed_ranges(tmp_path: Path) -> None:
         assert "simulated interruption" in str(error)
     else:  # pragma: no cover - failure branch
         raise AssertionError("simulated interruption should escape")
-    assert calls == list(TASK05C_PILOT_RANGES[:3])
+    assert calls == list(ACCEPTED_PILOT_RANGES[:3])
     failed_key = "000031-000044"
     cache_receipts = list(
         (artifact_root / "pipelines/task05c-test/working/05c/cache").glob(
@@ -129,7 +129,7 @@ def test_interrupted_build_reuses_closed_ranges(tmp_path: Path) -> None:
         tool_versions=_fake_tool_versions(),
         completed_at="2026-09-08T12:00:00Z",
     )
-    assert calls == list(TASK05C_PILOT_RANGES[2:])
+    assert calls == list(ACCEPTED_PILOT_RANGES[2:])
     assert result["reused_ranges"] == 2
 
 
@@ -270,7 +270,7 @@ def _qualification_pages(
 
 def _fixed_review_pages() -> set[int]:
     return {
-        *(page for first, last in TASK05C_PILOT_RANGES for page in (first, last)),
+        *(page for first, last in ACCEPTED_PILOT_RANGES for page in (first, last)),
         *range(368, 373),
         *range(551, 556),
         *range(668, 672),
@@ -384,7 +384,7 @@ def _write_run_spec(path: Path, root: Path) -> None:
                 "first_page": first,
                 "last_page": last,
             }
-            for first, last in TASK05C_PILOT_RANGES
+            for first, last in ACCEPTED_PILOT_RANGES
         ],
         "declared_page_count": 89,
         "restart_unit": "declared_page_range",

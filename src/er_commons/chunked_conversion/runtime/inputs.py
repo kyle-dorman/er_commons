@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
+import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
 
 from er_commons.artifact_io import canonical_json_sha256, sha256_file
-from er_commons.chunked_conversion.range_contract import RangePlan
+from er_commons.artifact_verification import VerificationBudget
+from er_commons.chunked_conversion.range_contract import (
+    RangeCompletion,
+    RangePlan,
+    validate_range_completion,
+)
 from er_commons.document_parsing.content_parsing.config import load_content_parsing_config
+from er_commons.document_parsing.content_parsing.evidence import read_accepted_inventory
 from er_commons.document_parsing.content_parsing.identity import code_identity
 from er_commons.document_parsing.content_parsing.preparation import (
     PreparedContentParsing,
@@ -82,12 +89,26 @@ def verify_chunk_inputs(
     return VerifiedChunkInputs(prepared=prepared, plan=plan)
 
 
-def behavior_code_identity(project_root: Path) -> RuntimeCodeIdentity:
+def behavior_code_identity(
+    project_root: Path, *, budget: VerificationBudget | None = None
+) -> RuntimeCodeIdentity:
     """Hash only production modules able to alter plan, child, or aggregate bytes."""
 
+    budget = budget or VerificationBudget()
+
     def digest(*project_relative_paths: str) -> str:
-        paths = [project_root / path for path in project_relative_paths]
-        return str(code_identity(paths, repo_root=project_root)["sha256"])
+        shared = (
+            "src/er_commons/artifact_io.py",
+            "src/er_commons/artifact_verification.py",
+            "src/er_commons/chunked_conversion/range_contract.py",
+            "src/er_commons/chunked_conversion/runtime/contracts.py",
+            "src/er_commons/chunked_conversion/runtime/diagnostics.py",
+            "src/er_commons/chunked_conversion/page_evidence.py",
+            "src/er_commons/chunked_conversion/page_evidence_store.py",
+            "src/er_commons/document_parsing/content_parsing/identity.py",
+        )
+        paths = [project_root / path for path in dict.fromkeys((*shared, *project_relative_paths))]
+        return str(code_identity(paths, repo_root=project_root, budget=budget)["sha256"])
 
     return RuntimeCodeIdentity(
         page_evidence=digest(
@@ -97,6 +118,11 @@ def behavior_code_identity(project_root: Path) -> RuntimeCodeIdentity:
         range_conversion=digest(
             "src/er_commons/chunked_conversion/runtime/docling_adapter.py",
             "src/er_commons/chunked_conversion/runtime/range_store.py",
+            "src/er_commons/document_parsing/content_parsing/page_projection.py",
+            "src/er_commons/document_parsing/content_parsing/routing.py",
+            "src/er_commons/document_parsing/content_parsing/table_markers.py",
+            "src/er_commons/document_parsing/content_parsing/records.py",
+            "src/er_commons/document_parsing/content_parsing/runtime.py",
             "src/er_commons/chunked_conversion/runtime/worker.py",
             "src/er_commons/document_parsing/content_parsing/pdfium_backend.py",
             "src/er_commons/document_parsing/content_parsing/routing_geometry.py",
@@ -104,10 +130,13 @@ def behavior_code_identity(project_root: Path) -> RuntimeCodeIdentity:
         planning=digest(
             "src/er_commons/chunked_conversion/range_contract.py",
             "src/er_commons/chunked_conversion/runtime/planning.py",
+            "src/er_commons/document_parsing/content_parsing/routing.py",
+            "src/er_commons/document_parsing/content_parsing/routing_geometry.py",
         ),
         aggregate=digest(
             "src/er_commons/chunked_conversion/runtime/docling_adapter.py",
             "src/er_commons/chunked_conversion/runtime/aggregate.py",
+            "src/er_commons/chunked_conversion/runtime/range_store.py",
             "src/er_commons/chunked_conversion/runtime/aggregate_memory.py",
             "src/er_commons/document_parsing/content_parsing/ordering_projection.py",
             "src/er_commons/document_parsing/content_parsing/ordering_projection_records.py",
@@ -164,3 +193,42 @@ __all__ = [
     "resolve_data_root",
     "verify_chunk_inputs",
 ]
+
+
+def read_accepted_range(
+    root: Path,
+    plan: RangePlan,
+    range_id: str,
+    *,
+    budget: VerificationBudget,
+) -> RangeCompletion:
+    """Read a completed historical range under its frozen plan, never resume it."""
+    source_id = plan.inputs.source.source_id
+    path = root / "records/completion_record.json"
+    completion = RangeCompletion.model_validate_json(
+        json.dumps(budget.read_json(path, role="completion", source_id=source_id, root=root))
+    )
+    budget.hash_file(path, role="completion", source_id=source_id, root=root)
+    if completion.range_id != range_id:
+        raise ValueError(f"source={source_id} range={range_id}: completion range differs: {path}")
+    validate_range_completion(plan, completion, path=root.as_posix())
+    inventory = read_accepted_inventory(
+        root,
+        expected_sha256=completion.artifact_inventory_sha256,
+        source_id=source_id,
+        budget=budget,
+    )
+    required = {
+        "pages/index.json",
+        "records/alignment_pages.jsonl",
+        "records/outline.json",
+        "records/warnings.json",
+        "records/range_observation.json",
+        "records/page_projections.json",
+    }
+    managed = {row["path"] for row in inventory["files"]}
+    if not required <= managed:
+        raise ValueError(
+            f"source={source_id} range={range_id}: missing range roles {sorted(required - managed)}"
+        )
+    return completion

@@ -6,7 +6,7 @@ import re
 from collections.abc import Iterable, Mapping
 from typing import Any, Final, Literal, cast
 
-from er_commons.response_inventory.pilot_policy import TASK05C_PILOT_RANGES
+from er_commons.response_inventory.pilot_policy import ACCEPTED_PILOT_RANGES
 
 type JsonObject = dict[str, Any]
 type PageRange = tuple[int, int]
@@ -130,7 +130,7 @@ def range_receipt_reuse_mismatches(
 
 def pilot_aggregation_is_ready(receipts: Iterable[Mapping[str, object]]) -> bool:
     """Accept aggregation only after all 14 exact pilot ranges close successfully."""
-    return aggregation_is_ready(receipts, TASK05C_PILOT_RANGES)
+    return aggregation_is_ready(receipts, ACCEPTED_PILOT_RANGES)
 
 
 def aggregation_is_ready(

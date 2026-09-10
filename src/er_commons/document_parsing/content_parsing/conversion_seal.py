@@ -9,10 +9,13 @@ from typing import Any, Literal, cast
 
 from pydantic import BaseModel, ConfigDict
 
-from er_commons.artifact_io import artifact_inventory, read_json_object, sha256_file
+from er_commons.artifact_io import read_json_object, sha256_file
+from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_parsing.content_parsing.conversion import ConversionOutput
 from er_commons.document_parsing.content_parsing.evidence import (
     CompletedRunInvariantError,
+    read_accepted_inventory,
+    require_compact_identity_seal,
     verify_inventory,
     verify_inventory_metadata,
 )
@@ -309,9 +312,128 @@ def deep_audit_conversion_bundle(root: Path, conversion_id: str) -> SealedConver
     sealed = verify_conversion_bundle(root, conversion_id)
     inventory = read_json_object(sealed.inventory_path)
     verify_inventory(root, inventory)
-    actual = artifact_inventory(
-        root,
-        excluded={"records/artifact_inventory.json", "records/completion_record.json"},
-    )
-    _require("complete_file_set", actual == inventory, "inventory differs from actual files")
     return sealed
+
+
+def read_accepted_conversion(
+    root: Path,
+    conversion_id: str,
+    *,
+    budget: VerificationBudget,
+    source_id: str,
+) -> dict[str, Any]:
+    """Validate historical conversion metadata without loading its document payload."""
+    records, identity_digest = _read_accepted_terminal_records(root, budget, source_id)
+    completion = records.completion
+    identity = _verify_identity(records, conversion_id)
+    _require(
+        "identity_schema",
+        identity.get("identity_schema_version")
+        in {"er_commons.docling_conversion_identity.v1", "er_commons.chunked_docling_aggregate.v1"},
+        f"source={source_id}: unsupported conversion identity schema",
+    )
+    source = _verify_source(records, identity)
+    _require(
+        "selected_source",
+        source.get("source_id") == source_id,
+        f"source={source_id}: selected source differs",
+    )
+    inventory = read_accepted_inventory(
+        root,
+        expected_sha256=completion.artifact_inventory_sha256,
+        source_id=source_id,
+        budget=budget,
+    )
+    require_compact_identity_seal(inventory, "records/conversion_identity.json", identity_digest)
+    _require_accepted_conversion_roles(root, source_id, inventory)
+    _verify_accepted_observation(root, source_id, source, completion, budget)
+    return {
+        "conversion_id": conversion_id,
+        "identity": identity,
+        "completion": completion.model_dump(mode="json"),
+        "inventory": inventory,
+        "verification_mode": "metadata_checked",
+    }
+
+
+def _read_accepted_terminal_records(
+    root: Path,
+    budget: VerificationBudget,
+    source_id: str,
+) -> tuple[_TerminalRecords, str]:
+    """Read and account for the historical compact identity and completion."""
+    completion_path = root / "records/completion_record.json"
+    identity_path = root / "records/conversion_identity.json"
+    completion = ConversionCompletion.model_validate(
+        budget.read_json(completion_path, role="completion", source_id=source_id, root=root)
+    )
+    budget.hash_file(completion_path, role="completion", source_id=source_id, root=root)
+    identity_record = cast(
+        dict[str, Any],
+        budget.read_json(identity_path, role="identity_preimage", source_id=source_id, root=root),
+    )
+    identity_digest = budget.hash_file(
+        identity_path, role="identity_preimage", source_id=source_id, root=root
+    )
+    records = _TerminalRecords(
+        completion_path, root / "records/artifact_inventory.json", completion, identity_record, {}
+    )
+    return records, identity_digest
+
+
+def _require_accepted_conversion_roles(
+    root: Path, source_id: str, inventory: dict[str, Any]
+) -> None:
+    """Require every durable conversion role to be explicitly managed."""
+    producer = root / "documents" / source_id / "producer"
+    required_paths = {"records/conversion_identity.json"} | {
+        (producer / relative).relative_to(root).as_posix()
+        for relative in (
+            "docling/document.json",
+            "docling/conversion_observation.json",
+            "docling/alignment_pages.jsonl",
+            "docling/heading_overlay.jsonl",
+            "asset_inventory.json",
+        )
+    }
+    managed = {row["path"] for row in inventory["files"]}
+    _require(
+        "required_conversion_files",
+        required_paths <= managed,
+        f"source={source_id}: missing roles {sorted(required_paths - managed)}",
+    )
+
+
+def _verify_accepted_observation(
+    root: Path,
+    source_id: str,
+    source: dict[str, Any],
+    completion: ConversionCompletion,
+    budget: VerificationBudget,
+) -> None:
+    """Check terminal conversion and full page accounting without loading Docling JSON."""
+    producer = root / "documents" / source_id / "producer"
+    observation = ConversionObservation.model_validate(
+        budget.read_json(
+            producer / "docling/conversion_observation.json",
+            role="conversion_observation",
+            source_id=source_id,
+            root=root,
+        )
+    )
+    _require(
+        "terminal_observation",
+        observation.source_id == source_id
+        and observation.status == completion.status
+        and observation.raw_status == "success"
+        and not observation.errors,
+        f"source={source_id}: terminal observation differs",
+    )
+    expected_pages = _expected_pages(source)
+    _require(
+        "observation_page_coverage",
+        observation.expected_physical_pages == expected_pages
+        and observation.converted_physical_pages == expected_pages
+        and observation.page_coverage_complete,
+        f"source={source_id}: page coverage differs",
+    )

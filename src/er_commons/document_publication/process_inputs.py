@@ -7,9 +7,12 @@ import os
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Protocol
+from typing import Any, Protocol
 
-from er_commons.document_parsing.content_parsing.config import load_content_parsing_config
+from er_commons.document_parsing.content_parsing.config import (
+    ContentParsingConfig,
+    load_content_parsing_config,
+)
 from er_commons.document_publication.config import DocumentRunSpec, ResourcePolicy
 
 
@@ -102,7 +105,12 @@ def _require_selected_source(path: Path, source_id: str) -> None:
         )
 
 
-def verify_process_resource_contract(configs: ProcessConfigs, run_spec: ResourcePolicySpec) -> None:
+def verify_process_resource_contract(
+    configs: ProcessConfigs,
+    run_spec: ResourcePolicySpec,
+    *,
+    parsed_values: dict[str, dict[str, Any]] | None = None,
+) -> None:
     """Join declared bounds to the effective producer settings."""
     policy = run_spec.resource_policy
     expected_batches = (4, 4, 100)
@@ -120,7 +128,11 @@ def verify_process_resource_contract(configs: ProcessConfigs, run_spec: Resource
         ("content_parsing", configs.content_parsing),
         ("heading_evidence_parsing", configs.heading_evidence_parsing),
     ):
-        producer, _digest = load_content_parsing_config(path)
+        producer = (
+            ContentParsingConfig.model_validate(parsed_values[role])
+            if parsed_values is not None
+            else load_content_parsing_config(path)[0]
+        )
         expected = (
             policy.cpu_threads_per_document,
             policy.device,

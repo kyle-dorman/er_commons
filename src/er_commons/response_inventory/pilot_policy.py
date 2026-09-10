@@ -10,7 +10,7 @@ from typing import Final
 
 type PageRange = tuple[int, int]
 
-TASK05C_PILOT_RANGES: Final[tuple[PageRange, ...]] = (
+ACCEPTED_PILOT_RANGES: Final[tuple[PageRange, ...]] = (
     (1, 5),
     (23, 25),
     (31, 44),
@@ -26,7 +26,7 @@ TASK05C_PILOT_RANGES: Final[tuple[PageRange, ...]] = (
     (720, 726),
     (738, 744),
 )
-TASK05C_RIGHT_CENSORED_RANGE: Final[PageRange] = (368, 372)
+ACCEPTED_RIGHT_CENSORED_RANGE: Final[PageRange] = (368, 372)
 
 # The contract combines range edges, dense high-risk ranges, and a small set of
 # representative layouts. Evidence-triggered pages are added at runtime.
@@ -34,9 +34,9 @@ _FULL_REVIEW_RANGES: Final[tuple[PageRange, ...]] = ((368, 372), (551, 555), (66
 _REPRESENTATIVE_REVIEW_PAGES: Final[frozenset[int]] = frozenset(
     {2, 4, 38, 39, 83, 84, 721, 722, 744}
 )
-TASK05C_FIXED_REVIEW_PAGES: Final[frozenset[int]] = frozenset(
+ACCEPTED_PILOT_REVIEW_PAGES: Final[frozenset[int]] = frozenset(
     {
-        *(page for first, last in TASK05C_PILOT_RANGES for page in (first, last)),
+        *(page for first, last in ACCEPTED_PILOT_RANGES for page in (first, last)),
         *(page for first, last in _FULL_REVIEW_RANGES for page in range(first, last + 1)),
         *_REPRESENTATIVE_REVIEW_PAGES,
     }
@@ -52,7 +52,7 @@ __all__ = [
     "POPPLER_PAGE_TIMEOUT_SECONDS",
     "QUALIFICATION_RENDER_DPI",
     "QUALIFICATION_TOKEN_F1_THRESHOLD",
-    "TASK05C_FIXED_REVIEW_PAGES",
-    "TASK05C_PILOT_RANGES",
-    "TASK05C_RIGHT_CENSORED_RANGE",
+    "ACCEPTED_PILOT_REVIEW_PAGES",
+    "ACCEPTED_PILOT_RANGES",
+    "ACCEPTED_RIGHT_CENSORED_RANGE",
 ]

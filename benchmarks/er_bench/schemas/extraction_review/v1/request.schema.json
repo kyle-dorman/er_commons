@@ -1,0 +1,238 @@
+{
+  "additionalProperties": false,
+  "description": "Closed request; historical profiles are selected explicitly, never inferred.",
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.extraction_review_request.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "operation": {
+      "enum": [
+        "prepare",
+        "build_bundle",
+        "build_final",
+        "publish"
+      ],
+      "title": "Operation",
+      "type": "string"
+    },
+    "review_pass": {
+      "enum": [
+        "task03h_first",
+        "task03j_final"
+      ],
+      "title": "Review Pass",
+      "type": "string"
+    },
+    "data_root": {
+      "format": "path",
+      "title": "Data Root",
+      "type": "string"
+    },
+    "retained_root": {
+      "anyOf": [
+        {
+          "format": "path",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Retained Root"
+    },
+    "source_pdf_root": {
+      "anyOf": [
+        {
+          "format": "path",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Pdf Root"
+    },
+    "prior_review_root": {
+      "anyOf": [
+        {
+          "format": "path",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Prior Review Root"
+    },
+    "gate_a_path": {
+      "anyOf": [
+        {
+          "format": "path",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gate A Path"
+    },
+    "gate_c_root": {
+      "anyOf": [
+        {
+          "format": "path",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gate C Root"
+    },
+    "schema_root": {
+      "format": "path",
+      "title": "Schema Root",
+      "type": "string"
+    },
+    "review_run_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Review Run Id"
+    },
+    "scope_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Scope Id"
+    },
+    "handoff_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Handoff Id"
+    },
+    "expected_source_count": {
+      "exclusiveMinimum": 0,
+      "title": "Expected Source Count",
+      "type": "integer"
+    },
+    "required_readiness_status": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Required Readiness Status"
+    },
+    "expected_decision_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Decision Count"
+    },
+    "expected_visible_toc_card_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Visible Toc Card Count"
+    },
+    "expected_ambiguous_link_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Ambiguous Link Count"
+    },
+    "toc_decisions_path": {
+      "anyOf": [
+        {
+          "format": "path",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Toc Decisions Path"
+    },
+    "render_pages": {
+      "default": false,
+      "title": "Render Pages",
+      "type": "boolean"
+    },
+    "validate_upstream": {
+      "default": false,
+      "title": "Validate Upstream",
+      "type": "boolean"
+    },
+    "raw_docling_scan": {
+      "default": false,
+      "title": "Raw Docling Scan",
+      "type": "boolean"
+    },
+    "build_census": {
+      "default": false,
+      "title": "Build Census",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "operation",
+    "review_pass",
+    "data_root",
+    "schema_root",
+    "expected_source_count"
+  ],
+  "title": "ReviewRequestSpec",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/extraction-review/v1/request.schema.json"
+}

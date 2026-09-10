@@ -7,11 +7,11 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any, Final
 
-from er_commons.response_inventory.task05d_policy import TASK05D_ALLOWED_WARNING_CODES
+from er_commons.response_inventory.complete_source_policy import ACCEPTED_WARNING_CODES
 
 type JsonObject = dict[str, Any]
 
-SOURCE_RESPONSE_HEADING_ABSENT: Final = TASK05D_ALLOWED_WARNING_CODES[0]
+SOURCE_RESPONSE_HEADING_ABSENT: Final = ACCEPTED_WARNING_CODES[0]
 SOURCE_RESPONSE_HEADING_ABSENT_MESSAGE: Final = (
     "Source lacks the corresponding response heading; no response marker, span, "
     "continuation, or unit was synthesized."

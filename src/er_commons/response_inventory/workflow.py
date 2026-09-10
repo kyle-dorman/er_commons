@@ -34,7 +34,7 @@ from er_commons.response_inventory.observations import (
     observation_to_dict,
 )
 from er_commons.response_inventory.pdf_access import read_pdfium_range
-from er_commons.response_inventory.pilot_policy import TASK05C_RIGHT_CENSORED_RANGE
+from er_commons.response_inventory.pilot_policy import ACCEPTED_RIGHT_CENSORED_RANGE
 from er_commons.response_inventory.producer import build_source_records
 from er_commons.response_inventory.qualification import (
     apply_visual_dispositions,
@@ -574,7 +574,7 @@ def _apply_range_boundary_policy(
                 observation.closes_open_unit
                 or (
                     observation.physical_page == bounds[1]
-                    and bounds != TASK05C_RIGHT_CENSORED_RANGE
+                    and bounds != ACCEPTED_RIGHT_CENSORED_RANGE
                 )
             ),
         )

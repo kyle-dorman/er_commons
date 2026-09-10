@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from er_commons.artifact_io import (
     artifact_inventory,
@@ -14,6 +14,7 @@ from er_commons.artifact_io import (
     write_json_atomic_streaming,
     write_jsonl,
 )
+from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_parsing.content_parsing.identity import canonical_json_sha256
 from er_commons.document_parsing.content_parsing.records import (
     CompletionRecord,
@@ -131,6 +132,11 @@ def verify_inventory_metadata(root: Path, inventory: dict[str, Any]) -> None:
     expected: dict[str, int] = {}
     for relative, byte_size, _sha256 in records:
         path = root / relative
+        _require(
+            "contained_inventory_path",
+            path.resolve().is_relative_to(root.resolve()),
+            f"escaping symlink: {relative}",
+        )
         _require("inventory_file_exists", path.is_file(), f"missing: {relative}")
         expected[relative.as_posix()] = byte_size
         _require(
@@ -325,3 +331,153 @@ def write_inventory(root: Path) -> Path:
     )
     write_json_atomic(path, payload)
     return path
+
+
+def read_accepted_inventory(
+    root: Path,
+    *,
+    expected_sha256: str,
+    source_id: str,
+    budget: VerificationBudget,
+) -> dict[str, Any]:
+    """Check a historical inventory seal and closure without hashing payloads."""
+    path = root / "records/artifact_inventory.json"
+    inventory = cast(
+        dict[str, Any],
+        budget.read_json(path, role="managed_inventory", source_id=source_id, root=root),
+    )
+    if path.stat().st_size <= 1_048_576:
+        observed = budget.hash_file(path, role="managed_inventory", source_id=source_id, root=root)
+        _require(
+            "completion_inventory_seal", observed == expected_sha256, f"source={source_id}: {path}"
+        )
+    else:
+        budget.observations.append(
+            {
+                "source_id": source_id,
+                "role": "managed_inventory",
+                "path": str(path),
+                "recorded_digest": expected_sha256,
+                "verification_mode": "metadata_checked",
+                "limitation": "oversized inventory digest not freshly verified",
+            }
+        )
+    verify_inventory_metadata(root, inventory)
+    return inventory
+
+
+def read_accepted_producer(
+    root: Path,
+    producer_run_id: str,
+    *,
+    budget: VerificationBudget,
+    source_id: str,
+) -> dict[str, Any]:
+    """Consume the recorded producer identity without deriving today's recipe."""
+    completion_path = root / "records/completion_record.json"
+    completion = CompletionRecord.model_validate(
+        budget.read_json(completion_path, role="completion", source_id=source_id, root=root)
+    )
+    budget.hash_file(completion_path, role="completion", source_id=source_id, root=root)
+    identity_path = root / "records/producer_identity.json"
+    record = cast(
+        dict[str, Any],
+        budget.read_json(identity_path, role="identity_preimage", source_id=source_id, root=root),
+    )
+    identity_digest = budget.hash_file(
+        identity_path, role="identity_preimage", source_id=source_id, root=root
+    )
+    _require(
+        "identity_record_id",
+        record.get("producer_run_id") == producer_run_id,
+        f"source={source_id}: identity record ID differs",
+    )
+    identity = record["identity"]
+    _require(
+        "terminal_status",
+        completion.producer_status in {"complete", "complete_with_warnings"},
+        f"source={source_id}: producer is not terminal",
+    )
+    _require(
+        "derived_run_id",
+        f"prv1-{canonical_json_sha256(identity)}" == producer_run_id,
+        f"source={source_id}: recorded producer preimage differs",
+    )
+    _require(
+        "completion_run_id",
+        completion.producer_run_id == producer_run_id,
+        f"source={source_id}: completion identity differs",
+    )
+    _require(
+        "identity_schema",
+        identity.get("identity_schema_version")
+        in {"er_commons.routing_table_identity.v2", "er_commons.content_parsing_identity.v1"},
+        f"source={source_id}: unsupported producer identity schema",
+    )
+    _require(
+        "identity_source",
+        completion.source_id == identity["source"]["source_id"] == source_id,
+        f"source={source_id}: source differs",
+    )
+    _require(
+        "identity_source_checksum",
+        completion.source_sha256 == identity["source"]["sha256"],
+        f"source={source_id}: source checksum differs",
+    )
+    _require(
+        "identity_manifest_checksum",
+        completion.source_manifest_sha256 == identity["sealed_release"]["manifest_sha256"],
+        f"source={source_id}: manifest differs",
+    )
+    inventory = read_accepted_inventory(
+        root,
+        expected_sha256=completion.artifact_inventory_sha256,
+        source_id=source_id,
+        budget=budget,
+    )
+    require_compact_identity_seal(inventory, "records/producer_identity.json", identity_digest)
+    _require(
+        "required_producer_summary",
+        any(row["path"] == "records/producer_summary.json" for row in inventory["files"]),
+        f"source={source_id}: summary is not managed",
+    )
+    summary = ProducerSummary.model_validate(
+        budget.read_json(
+            root / "records/producer_summary.json",
+            role="producer_summary",
+            source_id=source_id,
+            root=root,
+        )
+    )
+    _require(
+        "summary_identity",
+        summary.producer_run_id == producer_run_id and summary.source_id == source_id,
+        f"source={source_id}: summary identity differs",
+    )
+    _require(
+        "summary_status",
+        summary.producer_status == completion.producer_status and summary.error_count == 0,
+        f"source={source_id}: summary status differs",
+    )
+    _require(
+        "summary_page_count",
+        summary.physical_page_count == identity["source"]["pdf_page_count"],
+        f"source={source_id}: summary page count differs",
+    )
+    return {
+        "producer_run_id": producer_run_id,
+        "identity": identity,
+        "completion": completion.model_dump(mode="json"),
+        "inventory": inventory,
+        "verification_mode": "metadata_checked",
+    }
+
+
+def require_compact_identity_seal(inventory: dict[str, Any], relative: str, digest: str) -> None:
+    """Reconcile a freshly hashed compact identity with its recorded inventory digest."""
+    selected = [row for row in inventory["files"] if row["path"] == relative]
+    _require(
+        "identity_inventory_seal",
+        len(selected) == 1 and selected[0]["sha256"] == digest,
+        f"identity preimage digest differs from managed inventory: {relative}",
+    )

@@ -1,0 +1,208 @@
+{
+  "additionalProperties": false,
+  "description": "No production fallback, discovery, or inherited current-code inventory.",
+  "properties": {
+    "repo_root": {
+      "format": "path",
+      "title": "Repo Root",
+      "type": "string"
+    },
+    "data_root": {
+      "format": "path",
+      "title": "Data Root",
+      "type": "string"
+    },
+    "reviewed_descriptor": {
+      "format": "path",
+      "title": "Reviewed Descriptor",
+      "type": "string"
+    },
+    "base_identity": {
+      "format": "path",
+      "title": "Base Identity",
+      "type": "string"
+    },
+    "base_document_spec": {
+      "format": "path",
+      "title": "Base Document Spec",
+      "type": "string"
+    },
+    "base_collection_spec": {
+      "format": "path",
+      "title": "Base Collection Spec",
+      "type": "string"
+    },
+    "production_identity": {
+      "format": "path",
+      "title": "Production Identity",
+      "type": "string"
+    },
+    "document_spec": {
+      "format": "path",
+      "title": "Document Spec",
+      "type": "string"
+    },
+    "link_spec": {
+      "format": "path",
+      "title": "Link Spec",
+      "type": "string"
+    },
+    "collection_spec": {
+      "format": "path",
+      "title": "Collection Spec",
+      "type": "string"
+    },
+    "collection_schema": {
+      "format": "path",
+      "title": "Collection Schema",
+      "type": "string"
+    },
+    "document_schema": {
+      "format": "path",
+      "title": "Document Schema",
+      "type": "string"
+    },
+    "production_identity_schema": {
+      "format": "path",
+      "title": "Production Identity Schema",
+      "type": "string"
+    },
+    "replacement_scope": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Replacement Scope"
+    },
+    "link_schema_root": {
+      "format": "path",
+      "title": "Link Schema Root",
+      "type": "string"
+    },
+    "source_catalog": {
+      "format": "path",
+      "title": "Source Catalog",
+      "type": "string"
+    },
+    "document_artifact_root": {
+      "format": "path",
+      "title": "Document Artifact Root",
+      "type": "string"
+    },
+    "link_artifact_root": {
+      "format": "path",
+      "title": "Link Artifact Root",
+      "type": "string"
+    },
+    "document_roots": {
+      "additionalProperties": {
+        "format": "path",
+        "type": "string"
+      },
+      "title": "Document Roots",
+      "type": "object"
+    },
+    "scope_root": {
+      "format": "path",
+      "title": "Scope Root",
+      "type": "string"
+    },
+    "handoff_root": {
+      "format": "path",
+      "title": "Handoff Root",
+      "type": "string"
+    },
+    "linking_policy": {
+      "format": "path",
+      "title": "Linking Policy",
+      "type": "string"
+    },
+    "contract_revision": {
+      "title": "Contract Revision",
+      "type": "string"
+    },
+    "extraction_version_name": {
+      "title": "Extraction Version Name",
+      "type": "string"
+    },
+    "document_contract_version": {
+      "title": "Document Contract Version",
+      "type": "string"
+    },
+    "collection_contract_version": {
+      "title": "Collection Contract Version",
+      "type": "string"
+    },
+    "document_artifacts": {
+      "items": {
+        "format": "path",
+        "type": "string"
+      },
+      "title": "Document Artifacts",
+      "type": "array"
+    },
+    "document_owned_code": {
+      "items": {
+        "format": "path",
+        "type": "string"
+      },
+      "title": "Document Owned Code",
+      "type": "array"
+    },
+    "collection_artifacts": {
+      "items": {
+        "format": "path",
+        "type": "string"
+      },
+      "title": "Collection Artifacts",
+      "type": "array"
+    },
+    "collection_owned_code": {
+      "items": {
+        "format": "path",
+        "type": "string"
+      },
+      "title": "Collection Owned Code",
+      "type": "array"
+    }
+  },
+  "required": [
+    "repo_root",
+    "data_root",
+    "reviewed_descriptor",
+    "base_identity",
+    "base_document_spec",
+    "base_collection_spec",
+    "production_identity",
+    "document_spec",
+    "link_spec",
+    "collection_spec",
+    "collection_schema",
+    "document_schema",
+    "production_identity_schema",
+    "link_schema_root",
+    "source_catalog",
+    "document_artifact_root",
+    "link_artifact_root",
+    "document_roots",
+    "scope_root",
+    "handoff_root",
+    "linking_policy",
+    "contract_revision",
+    "extraction_version_name",
+    "document_contract_version",
+    "collection_contract_version",
+    "document_artifacts",
+    "document_owned_code",
+    "collection_artifacts",
+    "collection_owned_code"
+  ],
+  "title": "RelinkPreparationSpec",
+  "type": "object"
+}

@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 from er_commons.artifact_io import artifact_inventory, sha256_file, write_json_atomic
-from er_commons.document_performance.task03h_gateb import (
+from er_commons.document_performance.conversion_compatibility_audit import (
     audit_assembled_partition,
     benchmark_projection_packaging,
     conversion_pages_consumer_audit,

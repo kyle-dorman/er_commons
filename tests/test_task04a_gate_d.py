@@ -4,7 +4,10 @@ import json
 from pathlib import Path
 
 from er_commons.artifact_io import sha256_file
-from er_commons.human_review_support.task04.gate_d import GateDRequest, publish_gate_d
+from er_commons.human_review_support.extraction_review.gate_d import (
+    GateDRequest,
+    publish_extraction_review,
+)
 
 SCHEMA_ROOT = Path(__file__).parents[1] / "benchmarks/er_bench/schemas/task04a_review/v1"
 
@@ -12,7 +15,11 @@ SCHEMA_ROOT = Path(__file__).parents[1] / "benchmarks/er_bench/schemas/task04a_r
 def test_gate_d_publishes_compact_records_without_hashing_gate_a(tmp_path: Path) -> None:
     gate_a_path, gate_c_root = _gate_d_fixture(tmp_path)
 
-    output = publish_gate_d(GateDRequest(gate_a_path, gate_c_root, SCHEMA_ROOT))
+    output = publish_extraction_review(
+        GateDRequest(
+            gate_a_path, gate_c_root, SCHEMA_ROOT, gate_c_root / "gate_d", gate_c_root.name
+        )
+    )
 
     assert output == gate_c_root / "gate_d"
     completion = _read(output / "gate_d_completion.json")

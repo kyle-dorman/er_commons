@@ -60,7 +60,7 @@ class _Line:
 def project_toc_text(
     *,
     data_root: Path,
-    task03j_root: Path,
+    extraction_root: Path,
     document_root: Path,
     source_id: str,
     candidate_id: str,
@@ -72,7 +72,7 @@ def project_toc_text(
     """Build a source-free TOC view from the core-owned sealed range page."""
     evidence, raw_page = _load_sealed_raw_page(
         data_root=data_root,
-        task03j_root=task03j_root,
+        extraction_root=extraction_root,
         document_root=document_root,
         source_id=source_id,
         physical_page=physical_page,
@@ -189,7 +189,7 @@ def project_toc_text(
 def _load_sealed_raw_page(
     *,
     data_root: Path,
-    task03j_root: Path,
+    extraction_root: Path,
     document_root: Path,
     source_id: str,
     physical_page: int,
@@ -233,7 +233,7 @@ def _load_sealed_raw_page(
     _require(len(owners) == 1, f"page {physical_page} lacks one core-owned Docling range")
     plan_id = str(aggregate["plan_id"])
     range_id = str(owners[0]["range_id"])
-    parse_root = task03j_root / "document_parse_evidence"
+    parse_root = extraction_root / "document_parse_evidence"
     range_root = parse_root / "chunked_runs/plans" / plan_id / "ranges" / range_id
     range_completion_path = range_root / "records/completion_record.json"
     range_inventory_path = range_root / "records/artifact_inventory.json"

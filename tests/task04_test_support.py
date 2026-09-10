@@ -6,14 +6,14 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from er_commons.document_publication.records import SourceIdentity
-from er_commons.human_review_support.task04.models import (
+from er_commons.human_review_support.extraction_review.models import (
     BlockEvidence,
     BuildRequest,
     PageEvidence,
     RenderOutput,
 )
-from er_commons.human_review_support.task04.scope_policy import InputScopePolicy
-from er_commons.human_review_support.task04.verification import CandidateSeal
+from er_commons.human_review_support.extraction_review.scope_policy import InputScopePolicy
+from er_commons.human_review_support.extraction_review.verification import CandidateSeal
 
 
 @dataclass(frozen=True)
@@ -31,6 +31,7 @@ def synthetic_build_request(tree: SyntheticReviewTree) -> BuildRequest:
         tree.retained_root,
         tree.data_root,
         tree.output_root,
+        source_pdf_root=tree.source_pdf.parent,
         input_scope=InputScopePolicy.synthetic_fixture(source_count=1),
     )
 

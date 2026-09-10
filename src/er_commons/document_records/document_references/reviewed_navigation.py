@@ -28,6 +28,7 @@ from er_commons.artifact_io import (
     sha256_bytes,
     sha256_file,
 )
+from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_records.document_references.relinking_config import (
     ExternalArtifactRef,
 )
@@ -94,6 +95,7 @@ class PublishedReviewedNavigation:
     root: Path
     descriptor_path: Path
     descriptor: JsonObject
+    payload_records: Mapping[str, tuple[JsonObject, ...]]
 
 
 class ReviewedNavigationRequestSpec(BaseModel):
@@ -214,11 +216,13 @@ def load_reviewed_navigation_bundle(
     roots: ArtifactRoots,
     schema_path: Path,
     selected_source_ids: Sequence[str] | None = None,
+    budget: VerificationBudget | None = None,
 ) -> PublishedReviewedNavigation:
     """Load a bundle only after revalidating identity, evidence, and every seal."""
     resolved_roots = roots.resolved()
-    descriptor = cast(JsonObject, read_json_object(descriptor_path))
-    schema = _load_schema(schema_path)
+    descriptor = _read_bounded_object(descriptor_path, budget=budget, role="input_binding")
+    schema = _read_bounded_object(schema_path, budget=budget, role="schema")
+    Draft202012Validator.check_schema(schema)
     _validate_schema(schema, descriptor, schema_path)
     source_ids = _validate_source_ids(cast(Sequence[str], descriptor["source_ids"]))
     if selected_source_ids is not None:
@@ -235,19 +239,41 @@ def load_reviewed_navigation_bundle(
         preimage.get("source_ids_sha256") == canonical_json_sha256(list(source_ids)),
         "source coverage digest differs",
     )
-    _require(preimage.get("schema_sha256") == sha256_file(schema_path), "schema digest differs")
-    _require(
-        preimage.get("materializer_code_sha256") == _materializer_code_sha256(),
-        "materializer code digest differs",
+    schema_digest = (
+        budget.hash_file(
+            schema_path,
+            role="schema",
+            source_id="reviewed_navigation",
+            root=resolved_roots.repository,
+        )
+        if budget is not None
+        else sha256_file(schema_path)
     )
+    _require(preimage.get("schema_sha256") == schema_digest, "schema digest differs")
+    if budget is None:
+        _require(
+            preimage.get("materializer_code_sha256") == _materializer_code_sha256(),
+            "materializer code digest differs",
+        )
     for name in ("review_decisions_ref", "semantic_view_ref"):
-        _validate_external_ref(_object(preimage.get(name), name), resolved_roots)
+        _validate_external_ref(
+            _object(preimage.get(name), name),
+            resolved_roots,
+            budget=budget,
+            role="preserved_payload",
+        )
 
     inventory_ref = _validate_external_ref(
-        _object(descriptor.get("inventory_ref"), "inventory_ref"), resolved_roots
+        _object(descriptor.get("inventory_ref"), "inventory_ref"),
+        resolved_roots,
+        budget=budget,
+        role="managed_inventory",
     )
     completion_ref = _validate_external_ref(
-        _object(descriptor.get("completion_ref"), "completion_ref"), resolved_roots
+        _object(descriptor.get("completion_ref"), "completion_ref"),
+        resolved_roots,
+        budget=budget,
+        role="completion",
     )
     inventory_path = _resolve_ref(inventory_ref, resolved_roots)
     completion_path = _resolve_ref(completion_ref, resolved_roots)
@@ -260,19 +286,33 @@ def load_reviewed_navigation_bundle(
         ref = _validate_bundle_ref(_object(payloads.get(name), name), relative)
         _require(ref == preimage.get(name), f"{name} differs from identity preimage")
         path = _resolve_bundle_ref(ref, root)
-        _verify_file_ref(path, ref)
+        _verify_file_ref(path, ref, budget=budget)
+        if budget is not None:
+            budget.reserve_read(
+                path, role="navigation_evidence", source_id="reviewed_navigation", root=root
+            )
         payload_bytes[name] = path.read_bytes()
 
     _require(
         not any(path.is_symlink() for path in root.rglob("*")),
         "bundle contains a managed symlink",
     )
-    inventory = read_json_object(inventory_path)
-    _require(inventory == build_inventory(root), "bundle inventory closure differs")
-    completion = read_json_object(completion_path)
-    _validate_completion(completion, root, bundle_id, source_ids, inventory_path, payloads)
+    inventory = _read_bounded_object(inventory_path, budget=budget, role="managed_inventory")
+    if budget is None:
+        _require(inventory == build_inventory(root), "bundle inventory closure differs")
+    else:
+        from er_commons.document_publication.storage import verify_inventory_metadata
+
+        verify_inventory_metadata(root, inventory, budget=budget, source_id="reviewed_navigation")
+    completion = _read_bounded_object(completion_path, budget=budget, role="completion")
+    _validate_completion(
+        completion, root, bundle_id, source_ids, str(inventory_ref["sha256"]), payloads
+    )
     _validate_navigation_records(payload_bytes, source_ids)
-    return PublishedReviewedNavigation(root, descriptor_path.resolve(), descriptor)
+    records = {
+        name: tuple(_jsonl_objects(content, name)) for name, content in payload_bytes.items()
+    }
+    return PublishedReviewedNavigation(root, descriptor_path.resolve(), descriptor, records)
 
 
 def _publish_candidate(
@@ -405,7 +445,7 @@ def _validate_completion(
     root: Path,
     bundle_id: str,
     source_ids: tuple[str, ...],
-    inventory_path: Path,
+    inventory_sha256: str,
     payloads: JsonObject,
 ) -> None:
     expected = {
@@ -414,11 +454,19 @@ def _validate_completion(
         "source_ids": list(source_ids),
         "status": "complete",
         "completion_last": True,
-        "artifact_inventory_sha256": sha256_file(inventory_path),
+        "artifact_inventory_sha256": inventory_sha256,
         "payloads": payloads,
     }
     _require(completion == expected, "completion record differs")
     _require(not any(root.rglob("*.part")), "bundle contains incomplete atomic writes")
+
+
+def _read_bounded_object(path: Path, *, budget: VerificationBudget | None, role: str) -> JsonObject:
+    """Charge every accepted record read before accessing its JSON bytes."""
+    if budget is None:
+        return cast(JsonObject, read_json_object(path))
+    value = budget.read_json(path, role=role, source_id="reviewed_navigation", root=path.parent)
+    return _object(value, role)
 
 
 def _load_schema(path: Path) -> JsonObject:
@@ -448,11 +496,17 @@ def _validate_source_ids(values: Sequence[str]) -> tuple[str, ...]:
     return source_ids
 
 
-def _validate_external_ref(ref: JsonObject, roots: ArtifactRoots) -> JsonObject:
+def _validate_external_ref(
+    ref: JsonObject,
+    roots: ArtifactRoots,
+    *,
+    budget: VerificationBudget | None = None,
+    role: str = "preserved_payload",
+) -> JsonObject:
     _require(ref.get("authority") in {"repository", "artifact_root"}, "invalid external authority")
     _require(set(ref) == {"authority", "path", "sha256", "byte_size"}, "artifact ref shape differs")
     path = _resolve_ref(ref, roots)
-    _verify_file_ref(path, ref)
+    _verify_file_ref(path, ref, budget=budget, role=role)
     return dict(ref)
 
 
@@ -481,14 +535,35 @@ def _resolve_bundle_ref(ref: Mapping[str, Any], root: Path) -> Path:
     return path
 
 
-def _verify_file_ref(path: Path, ref: Mapping[str, Any]) -> None:
+def _verify_file_ref(
+    path: Path,
+    ref: Mapping[str, Any],
+    *,
+    budget: VerificationBudget | None = None,
+    role: str = "preserved_payload",
+) -> None:
     _require(path.is_file(), f"referenced artifact is absent: {path}")
     byte_size = ref.get("byte_size")
     digest = ref.get("sha256")
     _require(isinstance(byte_size, int) and not isinstance(byte_size, bool), "invalid byte size")
     _require(path.stat().st_size == byte_size, f"artifact byte size differs: {path}")
     _require(
-        isinstance(digest, str) and digest == sha256_file(path),
+        isinstance(digest, str) and re.fullmatch(r"[0-9a-f]{64}", digest) is not None,
+        f"invalid recorded artifact digest: {path}",
+    )
+    if budget is not None:
+        budget.check_metadata(
+            path, root=path.parent, role=role, source_id="reviewed_navigation", byte_size=byte_size
+        )
+        if role == "preserved_payload":
+            return
+        observed = budget.hash_file(
+            path, root=path.parent, role=role, source_id="reviewed_navigation"
+        )
+    else:
+        observed = sha256_file(path)
+    _require(
+        isinstance(digest, str) and digest == observed,
         f"artifact digest differs: {path}",
     )
 

@@ -13,12 +13,13 @@ handoff. Completed task records own exact identities and validation evidence.
 
 ## Next action
 
-[Task 06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md) completed
-source-free qualification and its recovery/cleanup packet. The
-[Task 06 umbrella](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
-routes the remaining sequence. [Task 06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md)
-is next, with implementation inactive until authorized. Tasks 06C–06H remain
-provisional; no source acquisition, conversion, or replay is authorized.
+[Task 06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md) is complete:
+both gates passed synthetic integration, compact accepted-seal qualification,
+and independent review. Revalidate the provisional [Task 06C contract](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md)
+against that outcome before its separately authorized source/conversion work.
+The [maintained command map](pipeline_commands.md) and
+[executed owner map](specs/task06b_gate2_executed_inventory.md) route current interfaces.
+Tasks 06C–06H have not executed.
 
 Read in this order:
 

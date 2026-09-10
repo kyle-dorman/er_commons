@@ -9,6 +9,7 @@ from typing import Protocol
 from pydantic import BaseModel
 
 from er_commons.artifact_io import assert_contained, sha256_file
+from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_parsing.content_parsing.config import CompleteSource
 from er_commons.source_release.models import SourceManifest, SourceRole
 
@@ -16,7 +17,9 @@ from er_commons.source_release.models import SourceManifest, SourceRole
 class SealedReleaseSelection(Protocol):
     """Minimal release identity required to verify a sealed manifest."""
 
-    source_release_version: str
+    @property
+    def source_release_version(self) -> str:
+        """Return the original sealed release version."""
 
     @property
     def source_manifest_path(self) -> Path:
@@ -45,6 +48,69 @@ def load_sealed_manifest(
     manifest = SourceManifest.model_validate_json(manifest_path.read_bytes())
     if manifest.source_release_version != selection.source_release_version:
         raise ValueError("source manifest release differs from selection")
+    return manifest
+
+
+def load_sealed_manifest_metadata(
+    data_root: Path,
+    selection: SealedReleaseSelection,
+    budget: VerificationBudget,
+) -> SourceManifest:
+    """Consume a historical release seal without hashing or opening source PDFs."""
+    path = assert_contained(data_root, selection.source_manifest_path.as_posix())
+    completion_path = path.parent / "completion_record.json"
+    context = selection.source_release_version
+    budget.hash_file(completion_path, root=data_root, role="completion", source_id=context)
+    completion = budget.read_json(
+        completion_path,
+        root=data_root,
+        role="completion",
+        source_id=context,
+    )
+    if not isinstance(completion, dict) or completion.get("schema_version") != (
+        "er_commons.source_release_completion.v1"
+    ):
+        raise ValueError(f"unsupported source completion schema: {completion_path}")
+    if completion.get("source_release_version") != selection.source_release_version:
+        raise ValueError("completion record release differs from selection")
+    sealed = completion.get("manifest")
+    if not isinstance(sealed, dict) or sealed.get("local_path") != (
+        selection.source_manifest_path.as_posix()
+    ):
+        raise ValueError("completion record does not seal the selected manifest")
+    size, digest = sealed.get("byte_size"), sealed.get("sha256")
+    if not isinstance(size, int) or not isinstance(digest, str) or len(digest) != 64:
+        raise ValueError(f"source manifest seal lacks size/digest: {path}")
+    budget.check_metadata(
+        path, root=data_root, role="source_manifest", source_id=context, byte_size=size
+    )
+    if size <= budget.hash_file_limit:
+        if (
+            budget.hash_file(path, root=data_root, role="source_manifest", source_id=context)
+            != digest
+        ):
+            raise ValueError(f"sealed source manifest checksum changed: {path}")
+    else:
+        budget.observations.append(
+            {
+                "source_id": context,
+                "role": "source_manifest",
+                "path": str(path),
+                "byte_size": size,
+                "recorded_digest": digest,
+                "verification_mode": "metadata_checked",
+                "limitation": "oversized manifest digest retained; bytes not freshly hashed",
+            }
+        )
+    raw = budget.read_json(path, root=data_root, role="source_manifest", source_id=context)
+    manifest = SourceManifest.model_validate(raw)
+    if manifest.source_release_version != selection.source_release_version:
+        raise ValueError("source manifest release differs from selection")
+    if manifest.source_spec_sha256 != completion.get("source_spec_sha256"):
+        raise ValueError("source specification binding differs from completion")
+    ids = [record.source_id for record in manifest.sources]
+    if len(ids) != len(set(ids)):
+        raise ValueError("sealed source manifest contains duplicate source IDs")
     return manifest
 
 

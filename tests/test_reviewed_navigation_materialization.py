@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from dataclasses import replace
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import pytest
 
@@ -294,3 +294,92 @@ def test_portable_request_spec_drives_the_same_materializer(tmp_path: Path) -> N
 
     assert published.root.parent == tmp_path / "portable_bundles"
     assert published.descriptor["source_ids"] == ["report_alpha"]
+
+
+def test_compact_navigation_reads_once_for_two_cached_source_consumers(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """One bounded global read supplies two sources without hashing preserved payloads."""
+    from types import SimpleNamespace
+
+    from er_commons.artifact_verification import VerificationBudget
+    from er_commons.document_records.document_references import relink_publication
+    from er_commons.document_records.document_references.relinking import NavigationInputs
+
+    request = _request(tmp_path)
+    for reference in (
+        request.text_entries_ref,
+        request.dispositions_ref,
+        request.parent_relations_ref,
+    ):
+        path = tmp_path / reference["path"]
+        rows = [json.loads(line) for line in path.read_text().splitlines()]
+        duplicates = [
+            {
+                key: (
+                    value.replace("report_alpha", "report_beta")
+                    .replace("entry-", "beta-entry-")
+                    .replace("disposition-", "beta-disposition-")
+                    .replace("relation-", "beta-relation-")
+                    if isinstance(value, str)
+                    else value
+                )
+                for key, value in row.items()
+            }
+            for row in rows
+        ]
+        path.write_bytes(jsonl_bytes(rows + duplicates))
+    request = replace(
+        request,
+        source_ids=("report_alpha", "report_beta"),
+        text_entries_ref=_reference(tmp_path / request.text_entries_ref["path"], tmp_path),
+        dispositions_ref=_reference(tmp_path / request.dispositions_ref["path"], tmp_path),
+        parent_relations_ref=_reference(tmp_path / request.parent_relations_ref["path"], tmp_path),
+    )
+    published = materialize_reviewed_navigation(request)
+
+    def forbidden(*_args: Any, **_kwargs: Any) -> None:
+        raise AssertionError("unbudgeted or repeated preserved evidence access")
+
+    monkeypatch.setattr(reviewed_navigation, "sha256_file", forbidden)
+    monkeypatch.setattr(reviewed_navigation, "_materializer_code_sha256", forbidden)
+    budget = VerificationBudget()
+    loaded = load_reviewed_navigation_bundle(
+        published.descriptor_path,
+        roots=request.roots,
+        schema_path=request.schema_path,
+        selected_source_ids=request.source_ids,
+        budget=budget,
+    )
+    payload_reads = [
+        item
+        for item in budget.observations
+        if item["role"] == "navigation_evidence" and item["verification_mode"] == "evidence_read"
+    ]
+    assert len(payload_reads) == 3
+    assert len({item["path"] for item in payload_reads}) == 3
+    assert not any(
+        item["verification_mode"] == "bytes_verified" and "/navigation/" in item["path"]
+        for item in budget.observations
+    )
+    monkeypatch.setattr(relink_publication, "_verify_digest", forbidden)
+    monkeypatch.setattr(relink_publication, "_verify_completion_inventory", forbidden)
+    monkeypatch.setattr(NavigationInputs, "from_bundle_root", forbidden)
+    before = (budget.read_bytes, budget.hashed_bytes)
+    for source_id in request.source_ids:
+        navigation = NavigationInputs.from_records(loaded.payload_records, source_id=source_id)
+        cached_request: Any = SimpleNamespace(
+            identity_inputs=SimpleNamespace(
+                source_id=source_id,
+                reviewed_navigation_bundle_id=loaded.root.name,
+                reviewed_navigation_completion_sha256=loaded.descriptor["completion_ref"]["sha256"],
+            ),
+            reviewed_navigation_root=loaded.root,
+            reviewed_navigation_completion_path=loaded.root / "records/completion_record.json",
+            prepared_navigation=navigation,
+            budget=budget,
+        )
+        selected = relink_publication._load_reviewed_navigation(cached_request, cast(Any, None))
+        assert len(selected.entries) == 2
+        assert all(row["source_id"] == source_id for row in selected.entries)
+    assert before == (budget.read_bytes, budget.hashed_bytes)

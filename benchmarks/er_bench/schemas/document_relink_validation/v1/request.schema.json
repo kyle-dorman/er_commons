@@ -1,0 +1,94 @@
+{
+  "$defs": {
+    "NavigationControl": {
+      "additionalProperties": false,
+      "description": "Expected result counts for a disjoint, named population.",
+      "properties": {
+        "population": {
+          "minimum": 0,
+          "title": "Population",
+          "type": "integer"
+        },
+        "resolved": {
+          "minimum": 0,
+          "title": "Resolved",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "population",
+        "resolved"
+      ],
+      "title": "NavigationControl",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Select regression evidence without silently choosing a corpus or pass.",
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.document_relink_validation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "expected_source_count": {
+      "minimum": 1,
+      "title": "Expected Source Count",
+      "type": "integer"
+    },
+    "reviewed_source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reviewed Source Ids",
+      "type": "array"
+    },
+    "context_entries": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Context Entries",
+      "type": "array"
+    },
+    "parent_relations": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Parent Relations",
+      "type": "array"
+    },
+    "navigation_controls": {
+      "additionalProperties": {
+        "$ref": "#/$defs/NavigationControl"
+      },
+      "title": "Navigation Controls",
+      "type": "object"
+    },
+    "primary_rule_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Primary Rule Counts",
+      "type": "object"
+    },
+    "expected_baseline_count": {
+      "minimum": 0,
+      "title": "Expected Baseline Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "expected_source_count",
+    "reviewed_source_ids",
+    "context_entries",
+    "parent_relations",
+    "navigation_controls",
+    "primary_rule_counts",
+    "expected_baseline_count"
+  ],
+  "title": "RelinkValidationSpec",
+  "type": "object"
+}

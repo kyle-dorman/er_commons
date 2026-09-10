@@ -25,22 +25,11 @@ from er_commons.artifact_io import (
     sha256_file,
 )
 
+from .input_specs import MaterializationBindings
+
 JsonObject = dict[str, Any]
 
-ACCEPTED_GATE_A_ID = (
-    "navoverlayplanv1-72af852ffe39c272ce958147c74974008269b6e72db2c0c7b03e0f66ba366741"
-)
-EXPECTED_DECISION_COUNT = 757
-EXPECTED_AGREEMENT_COUNT = 351
-EXPECTED_DISAGREEMENT_COUNT = 406
-EXPECTED_CONFIRMED_ENTITY_COUNT = 72
-EXPECTED_REJECTED_ENTITY_COUNT = 5_728
-EXPECTED_BLOCK_DISPOSITION_COUNT = 5_785
-EXPECTED_TABLE_DISPOSITION_COUNT = 15
-EXPECTED_CONTEXT_SECTION_COUNT = 23
 
-_TASK03J_RELATIVE = "pipelines/brisbane_baylands/task_03h_clean_full_v4"
-_OUTPUT_RELATIVE = "pipelines/brisbane_baylands/task_04_navigation_overlay"
 _GATE_B_SCHEMA_RELATIVE = "benchmarks/er_bench/schemas/navigation_overlay/v1/gate_b"
 _SEMANTIC_RULES = [
     "human_toc_confirms_existing_mapped_blocks_and_tables_as_navigation",
@@ -80,23 +69,23 @@ class GateBMaterializationRequest:
 
     data_root: Path
     repo_root: Path
-    gate_a_root: Path | None = None
-    task03j_root: Path | None = None
-    output_parent: Path | None = None
+    specification_schema: Path
+    bindings: MaterializationBindings
+    gate_a_root: Path
+    extraction_root: Path
+    output_parent: Path
 
     def resolved_gate_a_root(self) -> Path:
-        """Return the explicitly accepted Gate A namespace."""
-        return (
-            self.gate_a_root or self.data_root / _OUTPUT_RELATIVE / ACCEPTED_GATE_A_ID
-        ).resolve()
+        """Resolve the explicit invocation path."""
+        return self.gate_a_root.resolve()
 
-    def resolved_task03j_root(self) -> Path:
-        """Return the sealed Task 03J production root."""
-        return (self.task03j_root or self.data_root / _TASK03J_RELATIVE).resolve()
+    def resolved_extraction_root(self) -> Path:
+        """Resolve the explicit invocation path."""
+        return self.extraction_root.resolve()
 
     def resolved_output_parent(self) -> Path:
-        """Return the Task 04C publication parent."""
-        return (self.output_parent or self.data_root / _OUTPUT_RELATIVE).resolve()
+        """Resolve the explicit invocation path."""
+        return self.output_parent.resolve()
 
 
 @dataclass(frozen=True)
@@ -142,10 +131,10 @@ def prepare_and_publish_gate_b(request: GateBMaterializationRequest) -> Path:
     inputs = _load_and_validate_gate_a(request)
     entities = _load_bound_canonical_entities(request, inputs)
     applications, dispositions, context_sections = _materialize_semantic_view(
-        inputs.correspondence, entities, semantic_view_id=None
+        inputs.correspondence, entities, semantic_view_id=None, bindings=request.bindings
     )
     accounting = _accounting(applications, dispositions)
-    _validate_production_accounting(accounting, context_sections)
+    _validate_production_accounting(accounting, context_sections, bindings=request.bindings)
 
     schema_root = request.repo_root.resolve() / _GATE_B_SCHEMA_RELATIVE
     schema_refs = [
@@ -156,7 +145,7 @@ def prepare_and_publish_gate_b(request: GateBMaterializationRequest) -> Path:
     implementation = _implementation_reference(request.repo_root.resolve())
     preimage = {
         "schema_version": "er_commons.navigation_overlay.v1.semantic_identity_preimage",
-        "overlay_plan_id": ACCEPTED_GATE_A_ID,
+        "overlay_plan_id": request.bindings.accepted_gate_a_id,
         "gate_a_completion_sha256": inputs.refs["gate_a_completion"]["sha256"],
         "gate_a_inventory_sha256": inputs.refs["gate_a_inventory"]["sha256"],
         "semantic_policy_sha256": canonical_json_sha256(_POLICY),
@@ -165,12 +154,15 @@ def prepare_and_publish_gate_b(request: GateBMaterializationRequest) -> Path:
     }
     semantic_view_id = f"navsemanticv1-{canonical_json_sha256(preimage)}"
     applications, dispositions, context_sections = _materialize_semantic_view(
-        inputs.correspondence, entities, semantic_view_id=semantic_view_id
+        inputs.correspondence,
+        entities,
+        semantic_view_id=semantic_view_id,
+        bindings=request.bindings,
     )
     specification: JsonObject = {
         "schema_version": "er_commons.navigation_overlay.v1.gate_b_specification",
         "semantic_view_id": semantic_view_id,
-        "overlay_plan_id": ACCEPTED_GATE_A_ID,
+        "overlay_plan_id": request.bindings.accepted_gate_a_id,
         "status": "gate_b_complete",
         "inputs": {
             "gate_a_specification": inputs.refs["gate_a_specification"],
@@ -186,12 +178,15 @@ def prepare_and_publish_gate_b(request: GateBMaterializationRequest) -> Path:
             "package_api": (
                 "er_commons.navigation_overlay.materialization.prepare_and_publish_gate_b"
             ),
-            "command": "uv run python scripts/materialize_task04c_gate_b.py --repo-root .",
+            "command": (
+                "uv run python scripts/materialize_reviewed_navigation.py "
+                "--input-spec INPUT_SPEC --output-root OUTPUT_ROOT"
+            ),
             "arguments": {
                 "data_root": "ER_COMMONS_DATA_ROOT",
                 "repo_root": ".",
-                "gate_a_root": f"{_OUTPUT_RELATIVE}/{ACCEPTED_GATE_A_ID}",
-                "output_parent": _OUTPUT_RELATIVE,
+                "gate_a_root": str(request.resolved_gate_a_root()),
+                "output_parent": str(request.resolved_output_parent()),
             },
         },
         "source_free_boundary": _SOURCE_FREE_BOUNDARY,
@@ -206,6 +201,7 @@ def prepare_and_publish_gate_b(request: GateBMaterializationRequest) -> Path:
         specification,
         accounting,
         schema_root,
+        bindings=request.bindings,
     )
 
 
@@ -217,6 +213,9 @@ class EffectiveNavigationView:
         self.publication = publication.resolve()
         _validate_published_namespace(self.publication)
         rows = list(iter_jsonl(self.publication / "semantic_dispositions.jsonl"))
+        plan_id = read_json_object(self.publication / "records/completion_record.json").get(
+            "overlay_plan_id"
+        )
         by_entity: dict[str, bool] = {}
         for row in rows:
             entity_id = _string(row.get("entity_id"), "semantic disposition entity_id")
@@ -225,7 +224,7 @@ class EffectiveNavigationView:
                 f"semantic disposition view differs: {entity_id}",
             )
             _require(
-                row.get("overlay_plan_id") == ACCEPTED_GATE_A_ID,
+                row.get("overlay_plan_id") == plan_id,
                 f"semantic disposition plan differs: {entity_id}",
             )
             disposition = row.get("disposition")
@@ -254,12 +253,12 @@ def _validate_roots(request: GateBMaterializationRequest) -> None:
     data_root = request.data_root.resolve()
     _require(data_root.is_dir(), f"data root is not a directory: {data_root}")
     _require(
-        request.resolved_gate_a_root().name == ACCEPTED_GATE_A_ID,
+        request.resolved_gate_a_root().name == request.bindings.accepted_gate_a_id,
         "Gate B requires the accepted Gate A overlay plan",
     )
     for path in (
         request.resolved_gate_a_root(),
-        request.resolved_task03j_root(),
+        request.resolved_extraction_root(),
         request.resolved_output_parent(),
     ):
         _require(path.is_relative_to(data_root), f"Task 04C path escapes data root: {path}")
@@ -282,7 +281,9 @@ def _load_and_validate_gate_a(request: GateBMaterializationRequest) -> _GateAInp
     )
     _require(inventory == actual_inventory, "changed Gate A managed artifact inventory")
     completion = read_json_object(paths["gate_a_completion"])
-    _require(completion.get("plan_id") == ACCEPTED_GATE_A_ID, "stale Gate A completion")
+    _require(
+        completion.get("plan_id") == request.bindings.accepted_gate_a_id, "stale Gate A completion"
+    )
     _require(completion.get("status") == "complete", "Gate A is incomplete")
     _require(completion.get("completion_last") is True, "Gate A was not completion-last")
     _require(
@@ -292,7 +293,7 @@ def _load_and_validate_gate_a(request: GateBMaterializationRequest) -> _GateAInp
     specification = read_json_object(paths["gate_a_specification"])
     closure = read_json_object(paths["affected_closure"])
     _require(
-        specification.get("overlay_plan_id") == ACCEPTED_GATE_A_ID,
+        specification.get("overlay_plan_id") == request.bindings.accepted_gate_a_id,
         "stale Gate A specification",
     )
     _require(specification.get("status") == "gate_a_complete", "Gate A status differs")
@@ -304,12 +305,21 @@ def _load_and_validate_gate_a(request: GateBMaterializationRequest) -> _GateAInp
     _require_derived_identity(
         "navoverlayplanv1-",
         specification["identity_preimage"],
-        ACCEPTED_GATE_A_ID,
+        request.bindings.accepted_gate_a_id,
         "Gate A",
     )
     correspondence = list(iter_jsonl(paths["decision_correspondence"]))
-    _validate_gate_a_schemas(request.repo_root.resolve(), specification, closure, correspondence)
-    _require(len(correspondence) == EXPECTED_DECISION_COUNT, "Gate A decision count differs")
+    _validate_gate_a_schemas(
+        request.repo_root.resolve(),
+        specification,
+        closure,
+        correspondence,
+        specification_schema=request.specification_schema,
+    )
+    _require(
+        len(correspondence) == request.bindings.expected_decision_count,
+        "Gate A decision count differs",
+    )
     decision_ids = [
         _string(row.get("decision_entry_id"), "decision_entry_id") for row in correspondence
     ]
@@ -350,13 +360,13 @@ def _validate_gate_a_schemas(
     specification: JsonObject,
     closure: JsonObject,
     correspondence: list[JsonObject],
+    *,
+    specification_schema: Path,
 ) -> None:
     """Revalidate the accepted Gate A compact records before consuming them."""
     root = repo_root / "benchmarks/er_bench/schemas/navigation_overlay/v1"
     validators = {
-        "specification": Draft202012Validator(
-            read_json_object(root / "gate_a_specification.schema.json")
-        ),
+        "specification": Draft202012Validator(read_json_object(specification_schema)),
         "closure": Draft202012Validator(read_json_object(root / "affected_closure.schema.json")),
         "correspondence": Draft202012Validator(
             read_json_object(root / "decision_correspondence_row.schema.json")
@@ -405,7 +415,7 @@ def _load_bound_canonical_entities(
                 pages_by_entity[entity_id].add(page_id)
 
     found: dict[str, _CanonicalEntity] = {}
-    documents = request.resolved_task03j_root() / "document_publications/documents"
+    documents = request.resolved_extraction_root() / "document_publications/documents"
     for key in sorted(wanted_by_key):
         source_id, candidate_id = key
         bound = candidate_by_key[key]
@@ -478,6 +488,7 @@ def _materialize_semantic_view(
     entities: Mapping[str, _CanonicalEntity],
     *,
     semantic_view_id: str | None,
+    bindings: MaterializationBindings,
 ) -> tuple[list[JsonObject], list[JsonObject], set[str]]:
     """Build one application per decision and unique aggregate entity overrides."""
     pending: dict[str, _PendingDisposition] = {}
@@ -563,7 +574,7 @@ def _materialize_semantic_view(
             {
                 "schema_version": "er_commons.navigation_overlay.v1.decision_application",
                 "semantic_view_id": semantic_view_id or "navsemanticv1-" + "0" * 64,
-                "overlay_plan_id": ACCEPTED_GATE_A_ID,
+                "overlay_plan_id": bindings.accepted_gate_a_id,
                 "decision_entry_id": decision_id,
                 "source_id": row.get("source_id"),
                 "candidate_id": row.get("candidate_id"),
@@ -594,7 +605,7 @@ def _materialize_semantic_view(
         evidence_pages = {str(item["page_id"]) for item in aggregate_evidence}
         _require_exact_page_membership(entity_id, set(entity.page_ids), evidence_pages)
         identity = {
-            "overlay_plan_id": ACCEPTED_GATE_A_ID,
+            "overlay_plan_id": bindings.accepted_gate_a_id,
             "entity_id": entity_id,
             "effective_navigation": effective,
             "decision_entry_ids": sorted(
@@ -610,7 +621,7 @@ def _materialize_semantic_view(
             {
                 "schema_version": "er_commons.navigation_overlay.v1.semantic_disposition",
                 "semantic_view_id": semantic_view_id or "navsemanticv1-" + "0" * 64,
-                "overlay_plan_id": ACCEPTED_GATE_A_ID,
+                "overlay_plan_id": bindings.accepted_gate_a_id,
                 "disposition_id": disposition_id,
                 "source_id": entity.source_id,
                 "candidate_id": entity.candidate_id,
@@ -674,27 +685,15 @@ def _accounting(applications: list[JsonObject], dispositions: list[JsonObject]) 
     }
 
 
-def _validate_production_accounting(accounting: JsonObject, context_sections: set[str]) -> None:
+def _validate_production_accounting(
+    accounting: JsonObject, context_sections: set[str], *, bindings: MaterializationBindings
+) -> None:
     """Reject any drift from Gate A's accepted production closure."""
-    expected = {
-        "decision_count": EXPECTED_DECISION_COUNT,
-        "machine_toc_human_toc_count": 45,
-        "machine_not_toc_human_not_toc_count": 303,
-        "human_confirmed_navigation_decision_count": 15,
-        "human_rejected_machine_navigation_decision_count": 391,
-        "fail_closed_decision_count": 3,
-        "changed_content_entity_count": (
-            EXPECTED_CONFIRMED_ENTITY_COUNT + EXPECTED_REJECTED_ENTITY_COUNT
-        ),
-        "human_confirmed_navigation_entity_count": EXPECTED_CONFIRMED_ENTITY_COUNT,
-        "human_rejected_machine_navigation_entity_count": EXPECTED_REJECTED_ENTITY_COUNT,
-        "changed_block_count": EXPECTED_BLOCK_DISPOSITION_COUNT,
-        "changed_table_count": EXPECTED_TABLE_DISPOSITION_COUNT,
-        "preserved_section_association_count": EXPECTED_CONTEXT_SECTION_COUNT,
-    }
+    expected = bindings.expected_accounting
     _require(accounting == expected, f"Gate B production accounting differs: {accounting}")
     _require(
-        len(context_sections) == EXPECTED_CONTEXT_SECTION_COUNT,
+        len(context_sections)
+        == bindings.expected_accounting["preserved_section_association_count"],
         "Gate B contextual section accounting differs",
     )
 
@@ -734,6 +733,8 @@ def _publish(
     specification: JsonObject,
     accounting: JsonObject,
     schema_root: Path,
+    *,
+    bindings: MaterializationBindings,
 ) -> Path:
     """Publish the immutable semantic namespace through an atomic rename."""
     application_bytes = jsonl_bytes(applications)
@@ -776,7 +777,7 @@ def _publish(
         completion = {
             "schema_version": "er_commons.navigation_overlay.v1.gate_b_completion",
             "semantic_view_id": semantic_view_id,
-            "overlay_plan_id": ACCEPTED_GATE_A_ID,
+            "overlay_plan_id": bindings.accepted_gate_a_id,
             "status": "complete",
             "artifact_inventory_sha256": sha256_bytes(json_bytes(inventory)),
             "gate_b_specification": file_reference(
@@ -858,7 +859,7 @@ def _implementation_reference(repo_root: Path) -> JsonObject:
     """Bind only the new Gate B owner and its thin command wrapper."""
     paths = (
         repo_root / "src/er_commons/navigation_overlay/materialization.py",
-        repo_root / "scripts/materialize_task04c_gate_b.py",
+        repo_root / "scripts/materialize_reviewed_navigation.py",
     )
     refs = [file_reference(path, root=repo_root) for path in paths]
     return {"files": refs, "sha256": canonical_json_sha256(refs)}

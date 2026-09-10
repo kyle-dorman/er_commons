@@ -6,7 +6,7 @@ from copy import deepcopy
 
 import pytest
 
-from er_commons.response_inventory.pilot_policy import TASK05C_PILOT_RANGES
+from er_commons.response_inventory.pilot_policy import ACCEPTED_PILOT_RANGES
 from er_commons.response_inventory.range_receipts import (
     aggregation_is_ready,
     build_range_receipt,
@@ -121,12 +121,12 @@ def test_receipt_is_deterministic_and_reuse_requires_exact_evidence() -> None:
 
 
 def test_partial_or_failed_receipt_cannot_count_complete() -> None:
-    receipts = [_receipt(page_range) for page_range in TASK05C_PILOT_RANGES]
+    receipts = [_receipt(page_range) for page_range in ACCEPTED_PILOT_RANGES]
     assert pilot_aggregation_is_ready(receipts)
     assert not pilot_aggregation_is_ready(receipts[:-1])
 
     failed = build_range_receipt(
-        TASK05C_PILOT_RANGES[-1],
+        ACCEPTED_PILOT_RANGES[-1],
         status="failed",
         bindings=BINDINGS,
         digests=DIGESTS,
@@ -142,7 +142,7 @@ def test_partial_or_failed_receipt_cannot_count_complete() -> None:
 
 
 def test_aggregation_requires_the_exact_14_ranges_and_shared_bindings() -> None:
-    receipts = [_receipt(page_range) for page_range in TASK05C_PILOT_RANGES]
+    receipts = [_receipt(page_range) for page_range in ACCEPTED_PILOT_RANGES]
 
     wrong_range = _receipt((739, 744))
     assert not pilot_aggregation_is_ready([*receipts[:-1], wrong_range])

@@ -6,8 +6,8 @@ from pathlib import Path
 import pytest
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 
-from er_commons.human_review_support.task04.models import JsonValue
-from er_commons.human_review_support.task04.records import RecordValidator
+from er_commons.human_review_support.extraction_review.models import JsonValue
+from er_commons.human_review_support.extraction_review.records import RecordValidator
 
 SCHEMA_PARENT = Path(__file__).parents[1] / "benchmarks/er_bench/schemas"
 SCHEMA_ROOT = SCHEMA_PARENT / "task04_review/v1"

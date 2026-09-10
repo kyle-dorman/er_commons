@@ -7,16 +7,17 @@ from pathlib import Path
 from typing import Any
 
 from er_commons.artifact_io import write_json_atomic
-from er_commons.document_performance.task03h_gate1 import (
-    SOURCE_ID,
+from er_commons.document_performance.conversion_scaling import (
     benchmark_alignment_scaling,
     build_alignment_projection,
-    build_task03h_gate1_ledger,
+    build_conversion_scaling_ledger,
     compare_table_bundles,
     profile_assembled_reconstruction,
     profile_conversion_pages,
     profile_document_level_overlay,
 )
+
+SOURCE_ID = "deir_appendix_k2_part_5_of_5"
 
 
 def test_ledger_uses_seals_without_reading_large_payloads(tmp_path: Path) -> None:
@@ -33,7 +34,11 @@ def test_ledger_uses_seals_without_reading_large_payloads(tmp_path: Path) -> Non
             },
         )
 
-    report = build_task03h_gate1_ledger(tmp_path)
+    report = build_conversion_scaling_ledger(
+        tmp_path,
+        run_relative_root=Path("pipelines/brisbane_baylands/task_03h"),
+        source_id=SOURCE_ID,
+    )
 
     assert report["execution_boundary"]["large_payload_bytes_read"] is False
     assert report["payload_totals"]["path_count"] == 4
@@ -51,7 +56,11 @@ def test_ledger_retains_unknown_incomplete_payload_without_hashing(tmp_path: Pat
     attempt = _owner(tmp_path, "document_parse_evidence/.tmp/prv1-a.attempt")
     _payload(attempt, "conversion_pages.json", b"partial")
 
-    report = build_task03h_gate1_ledger(tmp_path)
+    report = build_conversion_scaling_ledger(
+        tmp_path,
+        run_relative_root=Path("pipelines/brisbane_baylands/task_03h"),
+        source_id=SOURCE_ID,
+    )
 
     [payload] = report["large_payloads"]
     assert payload["publication_state"] == "incomplete"
@@ -64,7 +73,11 @@ def test_ledger_collects_only_k2_completed_stage_timings(tmp_path: Path) -> None
     _attempt(attempts, "wanted", SOURCE_ID, 31.25)
     _attempt(attempts, "other", "another_source", 99.0)
 
-    report = build_task03h_gate1_ledger(tmp_path)
+    report = build_conversion_scaling_ledger(
+        tmp_path,
+        run_relative_root=Path("pipelines/brisbane_baylands/task_03h"),
+        source_id=SOURCE_ID,
+    )
 
     [timing] = report["document_process_timings"]
     assert timing["stage"] == "record_mapping"
@@ -83,7 +96,11 @@ def test_ledger_keeps_interrupted_attempt_without_terminal_record(tmp_path: Path
         {"stage": "content_parsing", "state": "completed", "wall_seconds": 90.0},
     )
 
-    report = build_task03h_gate1_ledger(tmp_path)
+    report = build_conversion_scaling_ledger(
+        tmp_path,
+        run_relative_root=Path("pipelines/brisbane_baylands/task_03h"),
+        source_id=SOURCE_ID,
+    )
 
     [timing] = report["document_process_timings"]
     assert timing["attempt_record_present"] is False
@@ -117,7 +134,7 @@ def test_conversion_pages_profile_builds_only_page_scoped_measurements(tmp_path:
         },
     )
 
-    report = profile_conversion_pages(path, expected_page_count=2)
+    report = profile_conversion_pages(path, expected_page_count=2, source_id=SOURCE_ID)
 
     assert report["page_count"] == 2
     assert report["execution_boundary"]["complete_json_object_constructed"] is False
@@ -133,7 +150,7 @@ def test_document_overlay_profile_proves_only_level_changes(tmp_path: Path) -> N
     baseline.write_text('{\n  "text": "same",\n  "level": 1\n}\n')
     heading.write_text('{\n  "text": "same",\n  "level": 4\n}\n')
 
-    report = profile_document_level_overlay(baseline, heading)
+    report = profile_document_level_overlay(baseline, heading, source_id=SOURCE_ID)
 
     assert report["level_field_count"] == 1
     assert report["differing_level_field_count"] == 1
@@ -148,7 +165,7 @@ def test_document_overlay_profile_rejects_other_differences(tmp_path: Path) -> N
     baseline.write_text('{"text": "first"}\n')
     heading.write_text('{"text": "second"}\n')
 
-    report = profile_document_level_overlay(baseline, heading)
+    report = profile_document_level_overlay(baseline, heading, source_id=SOURCE_ID)
 
     assert report["non_level_differing_line_count"] == 1
     assert report["level_normalized_documents_identical"] is False
@@ -172,7 +189,7 @@ def test_table_bundle_comparison_ignores_only_runtime_measurements(tmp_path: Pat
         write_json_atomic(root / "result.json", {"value": 3, "wall_seconds": seconds})
         _table_inventory(root)
 
-    report = compare_table_bundles(baseline, heading)
+    report = compare_table_bundles(baseline, heading, source_id=SOURCE_ID)
 
     assert report["path_sets_equal"] is True
     assert report["runtime_measurement_only_file_count"] == 1
@@ -214,7 +231,7 @@ def test_assembled_reconstruction_matches_concatenated_page_lists(tmp_path: Path
         },
     )
 
-    report = profile_assembled_reconstruction(path, expected_page_count=2)
+    report = profile_assembled_reconstruction(path, expected_page_count=2, source_id=SOURCE_ID)
 
     assert report["all_lists_identical"] is True
     assert {item["field"]: item["page_item_count"] for item in report["comparisons"]} == {
@@ -247,7 +264,7 @@ def test_alignment_projection_is_compact_json_and_preserves_states(tmp_path: Pat
         },
     )
 
-    report = build_alignment_projection(source, output, expected_page_count=1)
+    report = build_alignment_projection(source, output, expected_page_count=1, source_id=SOURCE_ID)
     [record] = [json.loads(line) for line in output.read_text().splitlines()]
 
     assert record["alignment_index"] == [

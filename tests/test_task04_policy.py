@@ -2,17 +2,17 @@ from __future__ import annotations
 
 import pytest
 
-from er_commons.human_review_support.task04.models import (
+from er_commons.human_review_support.extraction_review.models import (
     PageProfile,
     TableFamilyCandidate,
     WarningInstance,
 )
-from er_commons.human_review_support.task04.page_selection import (
+from er_commons.human_review_support.extraction_review.page_selection import (
     select_content_pages,
     select_nearby_content_page,
     select_table_families,
 )
-from er_commons.human_review_support.task04.warning_policy import (
+from er_commons.human_review_support.extraction_review.warning_policy import (
     build_warning_classes,
     normalize_warning_message,
 )

@@ -70,12 +70,12 @@ def test_task03h_runtime_functions_remain_human_sized() -> None:
         "src/er_commons/document_records/document_structure/parser_evidence.py",
         "src/er_commons/document_records/document_structure/producer_alignment.py",
         "src/er_commons/document_records/document_structure/replacement_evidence.py",
-        "scripts/generate_task03h_configs.py",
-        "scripts/task03h_generation/process_templates.py",
-        "scripts/task03h_generation/specifications.py",
-        "scripts/task03h_generation/production_identity.py",
-        "scripts/task03h_generation/workflow.py",
-        "src/er_commons/document_publication/task03h_preparation.py",
+        "scripts/generate_document_configs.py",
+        "src/er_commons/document_publication/config_generation/process_templates.py",
+        "src/er_commons/document_publication/config_generation/specifications.py",
+        "src/er_commons/document_publication/config_generation/production_identity.py",
+        "src/er_commons/document_publication/config_generation/workflow.py",
+        "src/er_commons/document_publication/input_preparation.py",
     )
     for relative_path in paths:
         lengths = _function_lengths(_source(relative_path))
@@ -106,7 +106,7 @@ def test_task03h_facades_do_not_reabsorb_implementation() -> None:
         "src/er_commons/document_parsing/heading_evidence_parsing/pdf_observations.py": 70,
         "src/er_commons/document_records/record_mapping/tables.py": 60,
         "src/er_commons/document_records/document_structure/workflow.py": 90,
-        "scripts/generate_task03h_configs.py": 40,
+        "scripts/generate_document_configs.py": 40,
     }
     for relative_path, limit in maximum_lines.items():
         actual = len(_source(relative_path).read_text().splitlines())
@@ -146,15 +146,20 @@ def test_pdf_outline_owners_have_bounded_responsibilities() -> None:
 
 def test_task03h_generation_has_named_one_way_owners() -> None:
     """Templates, specs, and identity closure remain separate from the CLI facade."""
-    facade_imports = _imported_modules(_source("scripts/generate_task03h_configs.py"))
-    assert "task03h_generation.workflow" in facade_imports
-    template_source = _source("scripts/task03h_generation/process_templates.py").read_text()
+    facade_imports = _imported_modules(_source("scripts/generate_document_configs.py"))
+    assert "er_commons.document_publication.config_generation.workflow" in facade_imports
+    template_source = _source(
+        "src/er_commons/document_publication/config_generation/process_templates.py"
+    ).read_text()
     assert "task03g2_main" not in template_source
     assert "generate_task03g2" not in template_source
     identity_imports = _imported_modules(
-        _source("scripts/task03h_generation/production_identity.py")
+        _source("src/er_commons/document_publication/config_generation/production_identity.py")
     )
-    assert "task03h_generation.process_templates" not in identity_imports
+    assert (
+        "er_commons.document_publication.config_generation.process_templates"
+        not in identity_imports
+    )
 
 
 def test_storage_and_seal_dependencies_point_in_one_direction() -> None:

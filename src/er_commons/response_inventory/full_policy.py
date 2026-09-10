@@ -10,11 +10,11 @@ from dataclasses import dataclass
 from typing import Any, Final
 
 from er_commons.artifact_io import canonical_json_sha256
-from er_commons.response_inventory.observations import PageObservation
-from er_commons.response_inventory.task05d_policy import (
-    TASK05D_ALLOWED_WARNING_CODES,
-    TASK05D_RANGE,
+from er_commons.response_inventory.complete_source_policy import (
+    ACCEPTED_COMPLETE_RANGE,
+    ACCEPTED_WARNING_CODES,
 )
+from er_commons.response_inventory.observations import PageObservation
 
 type JsonObject = dict[str, Any]
 
@@ -32,7 +32,7 @@ TASK05D_CONTROL_PAGES: Final[frozenset[int]] = frozenset(
         *range(668, 672),
         721,
         722,
-        TASK05D_RANGE[1],
+        ACCEPTED_COMPLETE_RANGE[1],
     }
 )
 
@@ -41,7 +41,7 @@ _STRUCTURAL_DIAGNOSTIC_CODES: Final = frozenset(
         "page_unclassified",
         "marker_ambiguous",
         "span_gap",
-        *TASK05D_ALLOWED_WARNING_CODES,
+        *ACCEPTED_WARNING_CODES,
         "unit_boundary_ambiguous",
         "geometry_text_mismatch",
     }
@@ -544,7 +544,7 @@ def _nested_counts(records: Sequence[JsonObject], left: str, right: str) -> Json
 __all__ = [
     "StructuralSignatureEvidence",
     "TASK05D_CONTROL_PAGES",
-    "TASK05D_RANGE",
+    "ACCEPTED_COMPLETE_RANGE",
     "accepted_signature_digests_from_pilot",
     "build_structural_accounting",
     "build_structural_signature",

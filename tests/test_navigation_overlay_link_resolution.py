@@ -15,12 +15,12 @@ from er_commons.document_records.document_references.linking_policy import (
 from er_commons.navigation_overlay.link_resolution import (
     resolve_toc_heading as _resolve_toc_heading,
 )
-from er_commons.navigation_overlay.task04d_reconciliation import (
-    Task04DDocumentIndex,
-    load_task04d_document_index,
+from er_commons.navigation_overlay.linking_reconciliation import (
+    LinkingDocumentIndex,
+    load_linking_document_index,
 )
-from er_commons.navigation_overlay.task04d_reconciliation import (
-    reconcile_task04d_entry as _reconcile_task04d_entry,
+from er_commons.navigation_overlay.linking_reconciliation import (
+    reconcile_linking_entry as _reconcile_linking_entry,
 )
 
 ROOT = Path(__file__).parents[1]
@@ -38,8 +38,8 @@ def resolve_toc_heading(**kwargs: Any):
     return _resolve_toc_heading(policy=_policy(), **kwargs)
 
 
-def reconcile_task04d_entry(*args: Any, **kwargs: Any):
-    return _reconcile_task04d_entry(*args, policy=_policy(), **kwargs)
+def reconcile_linking_entry(*args: Any, **kwargs: Any):
+    return _reconcile_linking_entry(*args, policy=_policy(), **kwargs)
 
 
 def _alias(
@@ -229,12 +229,12 @@ def test_task04d_reconciler_integrates_no_page_goal_fallback() -> None:
         "marker_kind": "section",
         "terminal_destination_token": None,
     }
-    index = Task04DDocumentIndex(
+    index = LinkingDocumentIndex(
         exact_aliases=(_alias("GOAL 2.2.1: Development Requirements of the Specific Plan"),),
         destination_page_ids={},
     )
 
-    record = reconcile_task04d_entry(entry, index)
+    record = reconcile_linking_entry(entry, index)
 
     assert record["outcome"] == "resolved_unique"
     assert record["target_ids"] == ["target-1"]
@@ -250,12 +250,12 @@ def test_task04d_reconciler_reports_destination_target_page_mismatch() -> None:
         "marker_kind": "section",
         "terminal_destination_token": "39",
     }
-    index = Task04DDocumentIndex(
+    index = LinkingDocumentIndex(
         exact_aliases=(_alias("4.2.1 Soil Conditions", page_id="page-38"),),
         destination_page_ids={"39": ("page-39",)},
     )
 
-    record = reconcile_task04d_entry(entry, index)
+    record = reconcile_linking_entry(entry, index)
 
     assert record["outcome"] == "destination_target_page_mismatch"
     assert record["target_ids"] == []
@@ -266,7 +266,7 @@ def test_task04d_reconciler_reports_destination_target_page_mismatch() -> None:
 def test_document_index_loads_typed_section_and_page_evidence(tmp_path) -> None:
     document_root = _write_document_index_fixture(tmp_path)
 
-    index = load_task04d_document_index(document_root)
+    index = load_linking_document_index(document_root)
 
     assert len(index.exact_aliases) == 1
     assert index.exact_aliases[0].target_id == "heading-without-id-type-coupling"
@@ -280,7 +280,7 @@ def test_document_index_rejects_incomplete_canonical_evidence(tmp_path) -> None:
     missing.unlink()
 
     with pytest.raises(ValueError, match=r"canonical evidence is incomplete.*figures\.jsonl"):
-        load_task04d_document_index(document_root)
+        load_linking_document_index(document_root)
 
 
 def _write_document_index_fixture(tmp_path):

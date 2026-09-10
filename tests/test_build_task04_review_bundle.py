@@ -15,19 +15,19 @@ from task04_test_support import (
 )
 
 from er_commons.document_parsing.content_parsing.routing_geometry import DisplayedPageTransform
-from er_commons.human_review_support.task04 import build_review_bundle
-from er_commons.human_review_support.task04.geometry import (
+from er_commons.human_review_support.extraction_review import build_review_bundle
+from er_commons.human_review_support.extraction_review.geometry import (
     bboxes_overlap,
     canonical_region_display_bbox,
     review_display_bbox,
 )
-from er_commons.human_review_support.task04.json_io import (
+from er_commons.human_review_support.extraction_review.json_io import (
     read_json_object,
     require_list,
     require_mapping,
     require_string,
 )
-from er_commons.human_review_support.task04.models import (
+from er_commons.human_review_support.extraction_review.models import (
     BlockEvidence,
     JsonValue,
     PageEvidence,
@@ -36,7 +36,7 @@ from er_commons.human_review_support.task04.models import (
     TableEvidence,
     TableParserEvidence,
 )
-from er_commons.human_review_support.task04.presentation import (
+from er_commons.human_review_support.extraction_review.presentation import (
     render_page_comparison,
     render_parser_evidence,
 )
@@ -146,7 +146,9 @@ def test_build_publishes_valid_separated_selection_and_render_evidence(tmp_path:
 
 
 def test_positive_toc_asset_shows_explicit_reviewed_state() -> None:
-    asset = Path("src/er_commons/human_review_support/task04/assets/review.js").read_text()
+    asset = Path(
+        "src/er_commons/human_review_support/extraction_review/assets/review.js"
+    ).read_text()
 
     assert "click to clear" in asset
     assert "button.dataset.runSuffixEntryIds" in asset

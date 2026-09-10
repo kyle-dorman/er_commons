@@ -3,10 +3,12 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
 import pytest
+from navigation_input_fixtures import PREPARATION as BINDINGS
 
 from er_commons.artifact_io import file_reference, json_bytes, sha256_bytes, sha256_file
 from er_commons.navigation_overlay import preparation
@@ -16,7 +18,7 @@ SCHEMA_ROOT = Path(__file__).parents[1] / "benchmarks/er_bench/schemas/navigatio
 
 def test_gate_a_script_requires_an_explicit_repo_root() -> None:
     """The thin command wrapper exposes the portable checkout-root boundary."""
-    script = Path(__file__).parents[1] / "scripts/prepare_task04c_gate_a.py"
+    script = Path(__file__).parents[1] / "scripts/prepare_reviewed_navigation.py"
 
     result = subprocess.run(
         [sys.executable, str(script), "--help"],
@@ -26,7 +28,8 @@ def test_gate_a_script_requires_an_explicit_repo_root() -> None:
     )
 
     assert result.returncode == 0
-    assert "--repo-root" in result.stdout
+    assert "--input-spec" in result.stdout
+    assert "--output-root" in result.stdout
 
 
 def test_review_inputs_reject_stale_release_freeze(tmp_path: Path) -> None:
@@ -60,8 +63,12 @@ def test_machine_inventory_rejects_candidate_identity_mismatch(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     request, gate_a = _machine_fixture(tmp_path, mismatched_completion=True)
-    monkeypatch.setattr(preparation, "EXPECTED_SOURCE_COUNT", 1)
-    monkeypatch.setattr(preparation, "EXPECTED_CENSUS_PAGE_COUNT", 0)
+    request = replace(
+        request,
+        bindings=BINDINGS.model_copy(
+            update={"expected_source_count": 1, "expected_census_page_count": 0}
+        ),
+    )
 
     with pytest.raises(ValueError, match="candidate completion differs"):
         preparation._machine_inventory(request, gate_a)
@@ -92,10 +99,13 @@ def test_explicit_mixed_page_fails_closed_without_entity_mapping(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     gate_a, decisions, candidate_roots = _correspondence_fixture(tmp_path, mixed=True)
-    monkeypatch.setattr(preparation, "EXPECTED_DECISION_COUNT", 1)
 
     rows, direct = preparation._decision_correspondence(
-        gate_a, decisions, {"items": []}, candidate_roots
+        gate_a,
+        decisions,
+        {"items": []},
+        candidate_roots,
+        bindings=BINDINGS.model_copy(update={"expected_decision_count": 1}),
     )
 
     assert rows[0]["mapping_outcome"] == "mixed_page_insufficient_entity_evidence"
@@ -109,10 +119,13 @@ def test_ordinary_toc_page_preserves_expected_entity_correspondence(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     gate_a, decisions, candidate_roots = _correspondence_fixture(tmp_path, mixed=False)
-    monkeypatch.setattr(preparation, "EXPECTED_DECISION_COUNT", 1)
 
     rows, direct = preparation._decision_correspondence(
-        gate_a, decisions, {"items": []}, candidate_roots
+        gate_a,
+        decisions,
+        {"items": []},
+        candidate_roots,
+        bindings=BINDINGS.model_copy(update={"expected_decision_count": 1}),
     )
 
     assert rows[0]["mapping_outcome"] == "mapped"
@@ -129,15 +142,15 @@ def _review_fixture(
     decision_variant: str = "valid",
 ) -> preparation.GateAPreparationRequest:
     data_root = root / "data"
-    task03j_root = data_root / "task03j"
+    extraction_root = data_root / "task03j"
     review_root = data_root / "review"
     gate_a_path = data_root / "gate_a.json"
     output_parent = data_root / "output"
-    task03j_root.mkdir(parents=True)
+    extraction_root.mkdir(parents=True)
     (review_root / "records").mkdir(parents=True)
     (review_root / "gate_d").mkdir()
     gate_a = {
-        "review_run_id": preparation.TASK04A_GATE_A_ID,
+        "review_run_id": BINDINGS.task04a_gate_a_id,
         "pass": "task03j_final",
         "status": "source_free_prepared",
         "source_free_boundary": {
@@ -159,7 +172,7 @@ def _review_fixture(
         entries.pop()
     decisions = {"entries": entries}
     selection = {
-        "review_run_id": preparation.TASK04A_REVIEW_ID,
+        "review_run_id": BINDINGS.task04a_review_id,
         "items": [
             {
                 "queue": "toc_review",
@@ -172,7 +185,7 @@ def _review_fixture(
     ambiguous = {
         "entries": [
             {"reference_id": f"xref-{index:04d}"}
-            for index in range(preparation.EXPECTED_AMBIGUOUS_LINK_COUNT)
+            for index in range(BINDINGS.expected_ambiguous_link_count)
         ]
     }
     paths = {
@@ -191,12 +204,12 @@ def _review_fixture(
     _write(paths["ambiguous_link_dispositions"], ambiguous)
     decision_sha = "0" * 64 if wrong_decision_hash else sha256_file(paths["toc_review_decisions"])
     freeze = {
-        "review_run_id": "stale-review" if stale_freeze else preparation.TASK04A_REVIEW_ID,
+        "review_run_id": "stale-review" if stale_freeze else BINDINGS.task04a_review_id,
         "status": "frozen",
         "machine_candidate": {
-            "production_extraction_id": preparation.PRODUCTION_EXTRACTION_ID,
-            "scope_id": preparation.SCOPE_ID,
-            "handoff_id": preparation.HANDOFF_ID,
+            "production_extraction_id": BINDINGS.production_extraction_id,
+            "scope_id": BINDINGS.scope_id,
+            "handoff_id": BINDINGS.handoff_id,
         },
         "human_toc_decisions": {"sha256": decision_sha},
     }
@@ -207,10 +220,10 @@ def _review_fixture(
         if name != "gate_d_completion"
     }
     completion = {
-        "review_run_id": preparation.TASK04A_REVIEW_ID,
+        "review_run_id": BINDINGS.task04a_review_id,
         "status": "complete",
-        "source_count": preparation.EXPECTED_SOURCE_COUNT,
-        "toc_decision_count": preparation.EXPECTED_DECISION_COUNT,
+        "source_count": BINDINGS.expected_source_count,
+        "toc_decision_count": BINDINGS.expected_decision_count,
         "managed_records": {
             name: {"sha256": refs[name]["sha256"], "byte_size": refs[name]["byte_size"]}
             for name in ("release_freeze", "usability_registry", "ambiguous_link_dispositions")
@@ -220,10 +233,12 @@ def _review_fixture(
     return preparation.GateAPreparationRequest(
         data_root=data_root,
         repo_root=Path(__file__).parents[1],
-        task03j_root=task03j_root,
+        extraction_root=extraction_root,
         gate_a_path=gate_a_path,
         review_root=review_root,
         output_parent=output_parent,
+        specification_schema=SCHEMA_ROOT / "gate_a_specification.schema.json",
+        bindings=BINDINGS,
     )
 
 
@@ -231,9 +246,9 @@ def _machine_fixture(
     root: Path, *, mismatched_completion: bool
 ) -> tuple[preparation.GateAPreparationRequest, dict[str, Any]]:
     data_root = root / "data"
-    task03j_root = data_root / "task03j"
+    extraction_root = data_root / "task03j"
     candidate_id = "docv1-" + "a" * 64
-    candidate = task03j_root / "document_publications/documents/source-a" / candidate_id
+    candidate = extraction_root / "document_publications/documents/source-a" / candidate_id
     records = candidate / "records"
     records.mkdir(parents=True)
     completion_id = "docv1-" + "b" * 64 if mismatched_completion else candidate_id
@@ -245,7 +260,7 @@ def _machine_fixture(
         records / "document_identity.json",
         {
             "candidate_id": candidate_id,
-            "production_extraction_id": preparation.PRODUCTION_EXTRACTION_ID,
+            "production_extraction_id": BINDINGS.production_extraction_id,
             "source": {"source_id": "source-a"},
             "stage_completions": {"structured_document": {}, "hierarchy_decisions": {}},
         },
@@ -272,10 +287,12 @@ def _machine_fixture(
     request = preparation.GateAPreparationRequest(
         data_root=data_root,
         repo_root=Path(__file__).parents[1],
-        task03j_root=task03j_root,
+        extraction_root=extraction_root,
         gate_a_path=data_root / "unused.json",
         review_root=data_root / "unused-review",
         output_parent=data_root / "output",
+        specification_schema=SCHEMA_ROOT / "gate_a_specification.schema.json",
+        bindings=BINDINGS,
     )
     return request, gate_a
 

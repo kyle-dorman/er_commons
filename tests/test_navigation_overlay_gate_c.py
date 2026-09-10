@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import cast
 
 import pytest
+from navigation_input_fixtures import RECONCILIATION as BINDINGS
 
 from er_commons.artifact_io import (
     canonical_json_sha256,
@@ -14,7 +15,6 @@ from er_commons.artifact_io import (
     sha256_file,
 )
 from er_commons.navigation_overlay.reconciliation import (
-    ACCEPTED_GATE_B_ID,
     GateCReconciliationRequest,
     _accounting,
     _DocumentIndex,
@@ -72,6 +72,7 @@ def test_resolved_entry_uses_existing_alias_and_creates_only_link() -> None:
         entry=_entry("4 . 2 . 1 Soil ........ 38", "38"),
         index=_index(),
         link_view_id=None,
+        bindings=BINDINGS,
     )
     assert row["entry_outcome"] == "resolved_unique"
     assert row["normalized_marker"] == "4.2.1"
@@ -97,6 +98,7 @@ def test_printed_page_disambiguates_multiple_body_targets() -> None:
         entry=_entry("4.2.1 Soil ........ 38", "38"),
         index=index,
         link_view_id=None,
+        bindings=BINDINGS,
     )
 
     assert row["distinct_target_ids"] == [target_id, competing_id]
@@ -125,6 +127,7 @@ def test_page_intersection_stays_ambiguous_when_two_targets_remain() -> None:
         entry=_entry("4.2.1 Soil ........ 38", "38"),
         index=index,
         link_view_id=None,
+        bindings=BINDINGS,
     )
 
     assert row["entry_outcome"] == "ambiguous_target_alias"
@@ -142,6 +145,7 @@ def test_page_intersection_rejects_zero_compatible_targets() -> None:
         entry=_entry("4.2.1 Soil ........ 38", "38"),
         index=index,
         link_view_id=None,
+        bindings=BINDINGS,
     )
 
     assert row["entry_outcome"] == "destination_target_page_mismatch"
@@ -156,6 +160,7 @@ def test_second_supported_marker_fails_closed_before_linking() -> None:
         entry=_entry("4.2.1 Soil Table 2: merged OCR content 38", "38"),
         index=_index(),
         link_view_id=None,
+        bindings=BINDINGS,
     )
     assert row["supported_marker_count"] == 2
     assert row["entry_outcome"] == "unsupported_entry_shape"
@@ -164,7 +169,7 @@ def test_second_supported_marker_fails_closed_before_linking() -> None:
 
 def test_production_accounting_is_fail_closed() -> None:
     with pytest.raises(ValueError, match="production accounting differs"):
-        _accounting([], [], [], [], [])
+        _accounting([], [], [], [], [], bindings=BINDINGS)
 
 
 def test_ambiguity_population_must_equal_gate_a_closure() -> None:
@@ -175,10 +180,10 @@ def test_ambiguity_population_must_equal_gate_a_closure() -> None:
             "outside_closure_ids": [f"xref-{index}" for index in range(725)],
         }
     }
-    _validate_ambiguity_population(entries, closure)
+    _validate_ambiguity_population(entries, closure, bindings=BINDINGS)
     entries[-1] = {"reference_id": "substituted-xref"}
     with pytest.raises(ValueError, match="differs from the Gate A closure"):
-        _validate_ambiguity_population(entries, closure)
+        _validate_ambiguity_population(entries, closure, bindings=BINDINGS)
 
 
 def test_gate_a_closure_rejects_nonzero_alias_or_link_scope() -> None:
@@ -196,7 +201,7 @@ def test_gate_a_closure_rejects_nonzero_alias_or_link_scope() -> None:
         },
     }
     with pytest.raises(ValueError, match="ambiguity closure differs"):
-        _validate_gate_a_closure(closure)
+        _validate_gate_a_closure(closure, bindings=BINDINGS)
 
 
 def test_candidate_inventory_size_check_rejects_changed_canonical_input(
@@ -234,7 +239,12 @@ def test_candidate_inventory_size_check_rejects_changed_canonical_input(
     request = GateCReconciliationRequest(
         data_root=tmp_path,
         repo_root=tmp_path,
-        task03j_root=tmp_path / "task03j",
+        extraction_root=tmp_path / "task03j",
+        gate_a_root=tmp_path / "a",
+        gate_b_root=tmp_path / "b",
+        ambiguous_dispositions_path=tmp_path / "ambiguity.json",
+        output_parent=tmp_path / "out",
+        bindings=BINDINGS,
     )
     with pytest.raises(ValueError, match="changed or unsealed"):
         _validate_candidate_files(request, candidate)
@@ -276,7 +286,16 @@ def test_publication_reuses_identical_and_rejects_tamper(tmp_path: Path) -> None
         preimage,
         {},
         _accepted_accounting(),
-        object(),  # type: ignore[arg-type]
+        GateCReconciliationRequest(
+            data_root=tmp_path,
+            repo_root=tmp_path,
+            extraction_root=tmp_path / "task03j",
+            gate_a_root=tmp_path / "a",
+            gate_b_root=tmp_path / "b",
+            ambiguous_dispositions_path=tmp_path / "ambiguity.json",
+            output_parent=tmp_path / "out",
+            bindings=BINDINGS,
+        ),
     )
     schema_root = (
         Path(__file__).parents[1] / "benchmarks/er_bench/schemas/navigation_overlay/v1/gate_c"
@@ -292,6 +311,7 @@ def test_publication_reuses_identical_and_rejects_tamper(tmp_path: Path) -> None
         specification,
         _accepted_accounting(),
         schema_root,
+        bindings=BINDINGS,
     )
     second = _publish(
         tmp_path,
@@ -304,10 +324,11 @@ def test_publication_reuses_identical_and_rejects_tamper(tmp_path: Path) -> None
         specification,
         _accepted_accounting(),
         schema_root,
+        bindings=BINDINGS,
     )
     assert first == second
     assert (first / "alias_overlay.jsonl").read_bytes() == b""
-    assert ACCEPTED_GATE_B_ID in (first / "navigation_link_manifest.json").read_text()
+    assert BINDINGS.accepted_gate_b_id in (first / "navigation_link_manifest.json").read_text()
     (first / "link_overlay.jsonl").write_text("tampered\n")
     with pytest.raises(FileExistsError, match="refusing to reuse changed"):
         _publish(
@@ -321,4 +342,5 @@ def test_publication_reuses_identical_and_rejects_tamper(tmp_path: Path) -> None
             specification,
             _accepted_accounting(),
             schema_root,
+            bindings=BINDINGS,
         )

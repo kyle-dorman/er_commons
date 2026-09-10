@@ -10,6 +10,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from er_commons.artifact_io import sha256_file
+from er_commons.artifact_verification import VerificationBudget
 
 OUTPUT_SCHEMA_ROLES = (
     "identity",
@@ -50,7 +51,14 @@ class RelinkArtifactRef(_StrictModel):
         return self
 
     def resolve(
-        self, *, repository_root: Path, artifact_root: Path, bundle_root: Path | None = None
+        self,
+        *,
+        repository_root: Path,
+        artifact_root: Path,
+        bundle_root: Path | None = None,
+        budget: VerificationBudget | None = None,
+        role: str = "input_binding",
+        source_id: str = "shared",
     ) -> Path:
         """Resolve and verify this reference under its declared authority."""
         roots = {"repository": repository_root, "artifact_root": artifact_root}
@@ -68,7 +76,21 @@ class RelinkArtifactRef(_StrictModel):
             raise ValueError(f"relink artifact is absent from {self.authority}: {self.path}")
         if path.stat().st_size != self.byte_size:
             raise ValueError(f"relink artifact seal differs (byte size): {self.path}")
-        if sha256_file(path) != self.sha256:
+        if (
+            budget is not None
+            and self.byte_size > budget.hash_file_limit
+            and role in {"managed_inventory", "input_binding", "source_manifest", "completion"}
+        ):
+            budget.check_metadata(
+                path, root=resolved_root, role=role, source_id=source_id, byte_size=self.byte_size
+            )
+            return path
+        digest = (
+            budget.hash_file(path, role=role, source_id=source_id, root=resolved_root)
+            if budget is not None
+            else sha256_file(path)
+        )
+        if digest != self.sha256:
             raise ValueError(f"relink artifact seal differs (SHA-256): {self.path}")
         return path
 

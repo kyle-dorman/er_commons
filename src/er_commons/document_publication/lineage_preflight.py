@@ -73,8 +73,10 @@ def build_execution_preflight(
     )
     lineage = _derive_producer_lineage(data_root, configs)
     lineage_mode = run_spec.lineage_mode(source_id)
-    if lineage_mode == "fresh_build" and not is_fresh_document_root(
-        run_spec.artifact_relative_root
+    if (
+        run_spec.schema_version.endswith(".v2")
+        and lineage_mode == "fresh_build"
+        and not is_fresh_document_root(run_spec.artifact_relative_root)
     ):
         raise ValueError("fresh document artifact root must use a task_03g2 or task_03h namespace")
     final_relative_root, authorization_ref = validate_lineage_bindings(
@@ -85,6 +87,11 @@ def build_execution_preflight(
         data_root=data_root,
         project_root=project_root,
         lineage_mode=lineage_mode,
+        declared_artifact_root=(
+            run_spec.artifact_relative_root.parent
+            if run_spec.schema_version.endswith(".v3")
+            else None
+        ),
     )
     return ExecutionPreflight(
         run_spec_sha256=run_spec_sha256,
@@ -139,6 +146,11 @@ def verify_execution_preflight(
         data_root=data_root,
         project_root=project_root,
         lineage_mode=snapshot.lineage_mode,
+        declared_artifact_root=(
+            run_spec.artifact_relative_root.parent
+            if run_spec.schema_version.endswith(".v3")
+            else None
+        ),
     )
     if final_root != snapshot.final_artifact_relative_root:
         raise ValueError("final document-product root changed after parent preflight")

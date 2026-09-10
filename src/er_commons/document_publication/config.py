@@ -73,6 +73,20 @@ class DocumentProcessSelection(StrictModel):
     source_id: str = Field(pattern=r"^[a-z0-9][a-z0-9_]*$")
     lineage_mode: Literal["sealed_inputs", "fresh_build"] = "sealed_inputs"
     configs: DocumentProcessConfigs
+    source_manifest_relative_path: Path | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    source_release_version: str | None = Field(default=None, exclude_if=lambda value: value is None)
+
+    @model_validator(mode="after")
+    def validate_original_manifest_binding(self) -> DocumentProcessSelection:
+        """Keep an accepted source bound to its original release as one explicit pair."""
+        path = self.source_manifest_relative_path
+        if (path is None) != (self.source_release_version is None):
+            raise ValueError("per-source manifest and release version must be selected together")
+        if path is not None and (path.is_absolute() or ".." in path.parts):
+            raise ValueError("per-source manifest must be a contained relative path")
+        return self
 
 
 class HierarchyDisposition(StrictModel):
@@ -98,7 +112,7 @@ class HierarchyDisposition(StrictModel):
 class DocumentRunSpec(StrictModel):
     """One explicit manifest-selected document publication recipe."""
 
-    schema_version: Literal["er_commons.document_run_spec.v2"]
+    schema_version: Literal["er_commons.document_run_spec.v2", "er_commons.document_run_spec.v3"]
     production_extraction_id: str = Field(pattern=r"^exv1-[0-9a-f]{64}$")
     production_identity_relative_path: Path
     scope_kind: Literal["fixture", "engineering_smoke", "representative_pilot", "production_full"]
@@ -117,6 +131,10 @@ class DocumentRunSpec(StrictModel):
     @model_validator(mode="after")
     def validate_paths_and_dispositions(self) -> DocumentRunSpec:
         """Keep outputs contained and hierarchy authority unambiguous."""
+        if self.schema_version.endswith(".v2") and any(
+            item.source_manifest_relative_path is not None for item in self.document_processes
+        ):
+            raise ValueError("explicit per-source manifests require document run spec v3")
         for path in (
             self.production_identity_relative_path,
             self.source_manifest_relative_path,

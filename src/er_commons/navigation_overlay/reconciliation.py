@@ -26,20 +26,10 @@ from er_commons.artifact_io import (
 )
 from er_commons.navigation_overlay.toc_text import PARSER_VERSION, project_toc_text
 
+from .input_specs import ReconciliationBindings
+
 JsonObject = dict[str, Any]
 
-ACCEPTED_GATE_A_ID = (
-    "navoverlayplanv1-72af852ffe39c272ce958147c74974008269b6e72db2c0c7b03e0f66ba366741"
-)
-ACCEPTED_GATE_B_ID = (
-    "navsemanticv1-ae00c6e6f70839f1ca15404c9dff14161f0a3e9aaa9e7902f51f65b36023c8fc"
-)
-_OUTPUT_RELATIVE = "pipelines/brisbane_baylands/task_04_navigation_overlay"
-_TASK03J_RELATIVE = "pipelines/brisbane_baylands/task_03h_clean_full_v4"
-_AMBIGUITY_RELATIVE = (
-    "pipelines/brisbane_baylands/task_04_review/"
-    "reviewv1-task03j-final-c17/gate_d/ambiguous_link_dispositions.json"
-)
 _SCHEMA_RELATIVE = "benchmarks/er_bench/schemas/navigation_overlay/v1/gate_c"
 _OUTCOMES = (
     "empty_entry",
@@ -108,30 +98,32 @@ class GateCReconciliationRequest:
 
     data_root: Path
     repo_root: Path
-    gate_a_root: Path | None = None
-    gate_b_root: Path | None = None
-    task03j_root: Path | None = None
-    task04a_ambiguous_path: Path | None = None
-    output_parent: Path | None = None
+    bindings: ReconciliationBindings
+    gate_a_root: Path
+    gate_b_root: Path
+    extraction_root: Path
+    ambiguous_dispositions_path: Path
+    output_parent: Path
 
     def resolved_gate_a_root(self) -> Path:
-        return (
-            self.gate_a_root or self.data_root / _OUTPUT_RELATIVE / ACCEPTED_GATE_A_ID
-        ).resolve()
+        """Resolve the explicit invocation path."""
+        return self.gate_a_root.resolve()
 
     def resolved_gate_b_root(self) -> Path:
-        return (
-            self.gate_b_root or self.data_root / _OUTPUT_RELATIVE / ACCEPTED_GATE_B_ID
-        ).resolve()
+        """Resolve the explicit invocation path."""
+        return self.gate_b_root.resolve()
 
-    def resolved_task03j_root(self) -> Path:
-        return (self.task03j_root or self.data_root / _TASK03J_RELATIVE).resolve()
+    def resolved_extraction_root(self) -> Path:
+        """Resolve the explicit invocation path."""
+        return self.extraction_root.resolve()
 
     def resolved_ambiguity_path(self) -> Path:
-        return (self.task04a_ambiguous_path or self.data_root / _AMBIGUITY_RELATIVE).resolve()
+        """Resolve the explicit invocation path."""
+        return self.ambiguous_dispositions_path.resolve()
 
     def resolved_output_parent(self) -> Path:
-        return (self.output_parent or self.data_root / _OUTPUT_RELATIVE).resolve()
+        """Resolve the explicit invocation path."""
+        return self.output_parent.resolve()
 
 
 @dataclass(frozen=True)
@@ -147,15 +139,29 @@ def prepare_and_publish_gate_c(request: GateCReconciliationRequest) -> Path:
     """Build the effective TOC text view, reconcile its entries, and publish."""
     repo_root = request.repo_root.resolve()
     _require(repo_root.is_dir(), f"repository root is absent: {repo_root}")
-    gate_a, gate_a_refs = _validate_gate(request.resolved_gate_a_root(), ACCEPTED_GATE_A_ID)
-    gate_b, gate_b_refs = _validate_gate(request.resolved_gate_b_root(), ACCEPTED_GATE_B_ID)
-    _require(gate_b.get("overlay_plan_id") == ACCEPTED_GATE_A_ID, "Gate B does not bind Gate A")
+    gate_a, gate_a_refs = _validate_gate(
+        request.resolved_gate_a_root(),
+        request.bindings.accepted_gate_a_id,
+        bindings=request.bindings,
+    )
+    gate_b, gate_b_refs = _validate_gate(
+        request.resolved_gate_b_root(),
+        request.bindings.accepted_gate_b_id,
+        bindings=request.bindings,
+    )
+    _require(
+        gate_b.get("overlay_plan_id") == request.bindings.accepted_gate_a_id,
+        "Gate B does not bind Gate A",
+    )
     closure = read_json_object(request.resolved_gate_a_root() / "affected_closure.json")
-    _validate_gate_a_closure(closure)
+    _validate_gate_a_closure(closure, bindings=request.bindings)
 
     task03j_inputs = cast(JsonObject, cast(JsonObject, gate_a["inputs"])["task03j"])
     candidate_records = cast(list[JsonObject], task03j_inputs["candidate_records"])
-    _require(len(candidate_records) == 35, "Gate A must bind exactly 35 sealed candidates")
+    _require(
+        len(candidate_records) == request.bindings.expected_source_count,
+        "Gate A must bind the declared sealed candidate population",
+    )
     sealed: list[JsonObject] = []
     for row in candidate_records:
         recorded_completion = cast(JsonObject, row["structured_document_completion"])
@@ -182,7 +188,10 @@ def prepare_and_publish_gate_c(request: GateCReconciliationRequest) -> Path:
         if row.get("entity_kind") == "table"
         and row.get("disposition") == "human_confirmed_navigation"
     ]
-    _require(len(table_dispositions) == 15, "Gate B must select exactly 15 navigation tables")
+    _require(
+        len(table_dispositions) == request.bindings.expected_table_count,
+        "Gate B must select exactly 15 navigation tables",
+    )
     selected_candidates = {
         (str(row["source_id"]), str(row["candidate_id"])) for row in table_dispositions
     }
@@ -199,7 +208,7 @@ def prepare_and_publish_gate_c(request: GateCReconciliationRequest) -> Path:
         key = (str(disposition["source_id"]), str(disposition["candidate_id"]))
         _require(key in bound, f"Gate B table is absent from Gate A candidates: {key}")
         document_root = (
-            request.resolved_task03j_root() / "document_publications/documents" / key[0] / key[1]
+            request.resolved_extraction_root() / "document_publications/documents" / key[0] / key[1]
         )
         index = indexes.setdefault(key, _load_document_index(document_root))
         table = _find_table(document_root, str(disposition["entity_id"]))
@@ -213,7 +222,7 @@ def prepare_and_publish_gate_c(request: GateCReconciliationRequest) -> Path:
         _require(decision_pages == [physical_page], "Gate B table page differs from canonical page")
         projection = project_toc_text(
             data_root=request.data_root.resolve(),
-            task03j_root=request.resolved_task03j_root(),
+            extraction_root=request.resolved_extraction_root(),
             document_root=document_root,
             source_id=key[0],
             candidate_id=key[1],
@@ -232,12 +241,19 @@ def prepare_and_publish_gate_c(request: GateCReconciliationRequest) -> Path:
                 entry=entry,
                 index=index,
                 link_view_id=None,
+                bindings=request.bindings,
             )
             reconciliations.append(record)
             if link is not None:
                 links.append(link)
-    _require(len(pages) == 15, f"expected 15 TOC text pages, got {len(pages)}")
-    _require(len(entries) == 560, f"expected 560 TOC text entries, got {len(entries)}")
+    _require(
+        len(pages) == request.bindings.expected_table_count,
+        f"expected 15 TOC text pages, got {len(pages)}",
+    )
+    _require(
+        len(entries) == request.bindings.expected_entry_count,
+        f"expected 560 TOC text entries, got {len(entries)}",
+    )
 
     ambiguity_path = request.resolved_ambiguity_path()
     task04a_inputs = cast(JsonObject, cast(JsonObject, gate_a["inputs"])["task04a"])
@@ -249,7 +265,7 @@ def prepare_and_publish_gate_c(request: GateCReconciliationRequest) -> Path:
     )
     ambiguity_payload = read_json_object(ambiguity_path)
     ambiguity_entries = cast(list[JsonObject], ambiguity_payload.get("entries"))
-    _validate_ambiguity_population(ambiguity_entries, closure)
+    _validate_ambiguity_population(ambiguity_entries, closure, bindings=request.bindings)
     inherited = _inherit_ambiguities(ambiguity_entries, bound, link_view_id=None)
 
     schema_root = repo_root / _SCHEMA_RELATIVE
@@ -263,8 +279,8 @@ def prepare_and_publish_gate_c(request: GateCReconciliationRequest) -> Path:
     )
     preimage = {
         "schema_version": "er_commons.navigation_overlay.v1.link_identity_preimage",
-        "overlay_plan_id": ACCEPTED_GATE_A_ID,
-        "semantic_view_id": ACCEPTED_GATE_B_ID,
+        "overlay_plan_id": request.bindings.accepted_gate_a_id,
+        "semantic_view_id": request.bindings.accepted_gate_b_id,
         "gate_a_completion_sha256": gate_a_refs["completion"]["sha256"],
         "gate_b_completion_sha256": gate_b_refs["completion"]["sha256"],
         "task04a_ambiguity_bytes_sha256": ambiguity_reference["sha256"],
@@ -277,12 +293,16 @@ def prepare_and_publish_gate_c(request: GateCReconciliationRequest) -> Path:
         "toc_text_implementation_sha256": parser_implementation["sha256"],
     }
     link_view_id = f"navlinkv1-{canonical_json_sha256(preimage)}"
-    pages = [_bind_effective_view(row, link_view_id) for row in pages]
-    entries = [_bind_effective_view(row, link_view_id) for row in entries]
+    pages = [_bind_effective_view(row, link_view_id, bindings=request.bindings) for row in pages]
+    entries = [
+        _bind_effective_view(row, link_view_id, bindings=request.bindings) for row in entries
+    ]
     reconciliations = [_bind_link_view(row, link_view_id) for row in reconciliations]
     links = [_bind_link_view(row, link_view_id) for row in links]
     inherited = [_bind_link_view(row, link_view_id) for row in inherited]
-    accounting = _accounting(pages, entries, reconciliations, links, inherited)
+    accounting = _accounting(
+        pages, entries, reconciliations, links, inherited, bindings=request.bindings
+    )
     refs = {
         "gate_a_specification": gate_a_refs["manifest"],
         "gate_a_completion": gate_a_refs["completion"],
@@ -317,33 +337,38 @@ def prepare_and_publish_gate_c(request: GateCReconciliationRequest) -> Path:
         specification,
         accounting,
         schema_root,
+        bindings=request.bindings,
     )
 
 
-def _validate_gate_a_closure(closure: JsonObject) -> None:
+def _validate_gate_a_closure(closure: JsonObject, *, bindings: ReconciliationBindings) -> None:
     """Require the accepted zero-invalidation Gate A closure accounting."""
     inherited_closure = cast(JsonObject, closure.get("inherited_ambiguous_links"))
     closure_accounting = cast(JsonObject, closure.get("accounting"))
     _require(
         len(cast(list[str], inherited_closure.get("in_closure_ids"))) == 0
-        and len(cast(list[str], inherited_closure.get("outside_closure_ids"))) == 725
+        and len(cast(list[str], inherited_closure.get("outside_closure_ids")))
+        == bindings.expected_ambiguity_count
         and closure_accounting.get("affected_alias_count") == 0
         and closure_accounting.get("affected_link_count") == 0
         and closure_accounting.get("affected_collection_resolution_count") == 0
         and closure_accounting.get("inherited_ambiguous_link_in_closure_count") == 0
-        and closure_accounting.get("inherited_ambiguous_link_outside_closure_count") == 725,
+        and closure_accounting.get("inherited_ambiguous_link_outside_closure_count")
+        == bindings.expected_ambiguity_count,
         "Gate A ambiguity closure differs",
     )
 
 
-def _validate_ambiguity_population(entries: list[JsonObject], closure: JsonObject) -> None:
+def _validate_ambiguity_population(
+    entries: list[JsonObject], closure: JsonObject, *, bindings: ReconciliationBindings
+) -> None:
     """Require exact one-to-one coverage of Gate A's inherited ambiguity IDs."""
     inherited = cast(JsonObject, closure["inherited_ambiguous_links"])
     reference_ids = [str(entry.get("reference_id")) for entry in entries]
     outside_ids = cast(list[str], inherited["outside_closure_ids"])
     all_ids = cast(list[str], inherited["all_ids"])
     _require(
-        len(reference_ids) == len(set(reference_ids)) == 725
+        len(reference_ids) == len(set(reference_ids)) == bindings.expected_ambiguity_count
         and sorted(reference_ids) == sorted(outside_ids) == sorted(all_ids),
         "Task 04A ambiguity register differs from the Gate A closure",
     )
@@ -375,6 +400,7 @@ def _reconcile_entry(
     entry: JsonObject,
     index: _DocumentIndex,
     link_view_id: str | None,
+    bindings: ReconciliationBindings,
 ) -> tuple[JsonObject, JsonObject | None]:
     """Apply the documented fail-closed link policy to one effective text entry."""
     identity = {
@@ -513,7 +539,7 @@ def _reconcile_entry(
                     link = {
                         "schema_version": "er_commons.navigation_overlay.v1.link_overlay",
                         "link_view_id": link_view_id or "navlinkv1-" + "0" * 64,
-                        "semantic_view_id": ACCEPTED_GATE_B_ID,
+                        "semantic_view_id": bindings.accepted_gate_b_id,
                         "link_overlay_id": link_id,
                         "reconciliation_id": reconciliation_id,
                         "source_id": source_id,
@@ -531,8 +557,8 @@ def _reconcile_entry(
     record = {
         "schema_version": "er_commons.navigation_overlay.v1.toc_entry_reconciliation",
         "link_view_id": link_view_id or "navlinkv1-" + "0" * 64,
-        "semantic_view_id": ACCEPTED_GATE_B_ID,
-        "overlay_plan_id": ACCEPTED_GATE_A_ID,
+        "semantic_view_id": bindings.accepted_gate_b_id,
+        "overlay_plan_id": bindings.accepted_gate_a_id,
         "reconciliation_id": reconciliation_id,
         "toc_text_entry_id": entry["toc_text_entry_id"],
         "source_id": source_id,
@@ -647,7 +673,7 @@ def _validate_candidate_files(
     candidate: JsonObject,
 ) -> None:
     """Validate compact seals and size-check every Task 03J file Gate C reads."""
-    publication_root = request.resolved_task03j_root() / "document_publications"
+    publication_root = request.resolved_extraction_root() / "document_publications"
     inventory_ref = cast(JsonObject, candidate["candidate_inventory"])
     inventory_path = publication_root / str(inventory_ref["path"])
     _require(
@@ -750,13 +776,15 @@ def _bind_link_view(row: JsonObject, link_view_id: str) -> JsonObject:
     return {**row, "link_view_id": link_view_id}
 
 
-def _bind_effective_view(row: JsonObject, link_view_id: str) -> JsonObject:
+def _bind_effective_view(
+    row: JsonObject, link_view_id: str, *, bindings: ReconciliationBindings
+) -> JsonObject:
     """Bind a parser output to the accepted semantic and Gate A identities."""
     return {
         **row,
         "link_view_id": link_view_id,
-        "semantic_view_id": ACCEPTED_GATE_B_ID,
-        "overlay_plan_id": ACCEPTED_GATE_A_ID,
+        "semantic_view_id": bindings.accepted_gate_b_id,
+        "overlay_plan_id": bindings.accepted_gate_a_id,
     }
 
 
@@ -766,10 +794,12 @@ def _accounting(
     reconciliations: list[JsonObject],
     links: list[JsonObject],
     inherited: list[JsonObject],
+    *,
+    bindings: ReconciliationBindings,
 ) -> JsonObject:
     counts = Counter(str(row["entry_outcome"]) for row in reconciliations)
     accounting = {
-        "confirmed_navigation_table_count": 15,
+        "confirmed_navigation_table_count": bindings.expected_table_count,
         "toc_text_page_count": len(pages),
         "toc_text_entry_count": len(entries),
         "toc_entry_reconciliation_count": len(reconciliations),
@@ -785,7 +815,9 @@ def _accounting(
         "inherited_ambiguous_outside_affected_closure_count": len(inherited),
     }
     _require(
-        len(pages) == 15 and len(entries) == len(reconciliations) == 560 and len(inherited) == 725,
+        len(pages) == bindings.expected_table_count
+        and len(entries) == len(reconciliations) == bindings.expected_entry_count
+        and len(inherited) == bindings.expected_ambiguity_count,
         f"Gate C production accounting differs: {accounting}",
     )
     return accounting
@@ -801,8 +833,8 @@ def _specification(
     return {
         "schema_version": "er_commons.navigation_overlay.v1.gate_c_specification",
         "link_view_id": link_view_id,
-        "semantic_view_id": ACCEPTED_GATE_B_ID,
-        "overlay_plan_id": ACCEPTED_GATE_A_ID,
+        "semantic_view_id": request.bindings.accepted_gate_b_id,
+        "overlay_plan_id": request.bindings.accepted_gate_a_id,
         "status": "gate_c_complete",
         "inputs": refs,
         "identity_preimage": preimage,
@@ -837,13 +869,16 @@ def _specification(
             "package_api": (
                 "er_commons.navigation_overlay.reconciliation.prepare_and_publish_gate_c"
             ),
-            "command": "uv run python scripts/reconcile_task04c_gate_c.py --repo-root .",
+            "command": (
+                "uv run python scripts/reconcile_reviewed_navigation.py "
+                "--input-spec INPUT_SPEC --output-root OUTPUT_ROOT"
+            ),
             "arguments": {
                 "data_root": "ER_COMMONS_DATA_ROOT",
                 "repo_root": ".",
-                "gate_a_root": f"{_OUTPUT_RELATIVE}/{ACCEPTED_GATE_A_ID}",
-                "gate_b_root": f"{_OUTPUT_RELATIVE}/{ACCEPTED_GATE_B_ID}",
-                "output_parent": _OUTPUT_RELATIVE,
+                "gate_a_root": str(request.resolved_gate_a_root()),
+                "gate_b_root": str(request.resolved_gate_b_root()),
+                "output_parent": str(request.resolved_output_parent()),
             },
         },
         "source_free_boundary": _SOURCE_FREE,
@@ -851,7 +886,9 @@ def _specification(
     }
 
 
-def _validate_gate(root: Path, expected_id: str) -> tuple[JsonObject, JsonObject]:
+def _validate_gate(
+    root: Path, expected_id: str, *, bindings: ReconciliationBindings
+) -> tuple[JsonObject, JsonObject]:
     _require(root.name == expected_id and root.is_dir(), f"accepted gate root differs: {root}")
     completion_path = root / "records/completion_record.json"
     inventory_path = root / "records/artifact_inventory.json"
@@ -867,7 +904,7 @@ def _validate_gate(root: Path, expected_id: str) -> tuple[JsonObject, JsonObject
         )
     manifest_name = (
         "gate_a_specification.json"
-        if expected_id == ACCEPTED_GATE_A_ID
+        if expected_id == bindings.accepted_gate_a_id
         else "semantic_view_manifest.json"
     )
     refs = {
@@ -927,6 +964,8 @@ def _publish(
     specification: JsonObject,
     accounting: JsonObject,
     schema_root: Path,
+    *,
+    bindings: ReconciliationBindings,
 ) -> Path:
     payloads = {
         "toc_text_pages.jsonl": jsonl_bytes(pages),
@@ -980,8 +1019,8 @@ def _publish(
         completion = {
             "schema_version": "er_commons.navigation_overlay.v1.gate_c_completion",
             "link_view_id": link_view_id,
-            "semantic_view_id": ACCEPTED_GATE_B_ID,
-            "overlay_plan_id": ACCEPTED_GATE_A_ID,
+            "semantic_view_id": bindings.accepted_gate_b_id,
+            "overlay_plan_id": bindings.accepted_gate_a_id,
             "status": "complete",
             "gate_c_specification": file_reference(
                 staging / "navigation_link_manifest.json", root=staging

@@ -26,10 +26,10 @@ from er_commons.response_inventory.observations import (
     observation_to_dict,
 )
 from er_commons.response_inventory.pilot_policy import (
+    ACCEPTED_PILOT_REVIEW_PAGES,
     POPPLER_PAGE_TIMEOUT_SECONDS,
     QUALIFICATION_RENDER_DPI,
     QUALIFICATION_TOKEN_F1_THRESHOLD,
-    TASK05C_FIXED_REVIEW_PAGES,
 )
 
 type JsonObject = dict[str, Any]
@@ -107,7 +107,7 @@ def qualify_selected_pages(
                 "physical_page": page,
                 "pdfium_poppler_token_multiset_f1": round(token_f1, 8),
                 "render_path": render_path.relative_to(cache_root).as_posix(),
-                "fixed_review_page": page in TASK05C_FIXED_REVIEW_PAGES,
+                "fixed_review_page": page in ACCEPTED_PILOT_REVIEW_PAGES,
                 "flagged_for_review": flagged,
                 "visual_disposition": None,
             }
@@ -361,7 +361,7 @@ def _validate_qualification_page(
     score = item.get("pdfium_poppler_token_multiset_f1")
     if isinstance(score, bool) or not isinstance(score, (int, float)) or not 0 <= score <= 1:
         raise ValueError(f"qualification page {page} has an invalid comparison score")
-    expected_fixed = page in TASK05C_FIXED_REVIEW_PAGES
+    expected_fixed = page in ACCEPTED_PILOT_REVIEW_PAGES
     fixed = item.get("fixed_review_page")
     if not isinstance(fixed, bool) or (
         schema_version == _QUALIFICATION_SCHEMA_VERSION and fixed is not expected_fixed

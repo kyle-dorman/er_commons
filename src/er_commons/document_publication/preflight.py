@@ -8,6 +8,11 @@ from pathlib import Path
 from typing import Literal, Protocol
 
 from er_commons.artifact_io import assert_contained, sha256_file
+from er_commons.artifact_verification import VerificationBudget
+from er_commons.document_publication.accepted_inputs import (
+    PreparedPublicationInputs,
+    prepare_publication_inputs,
+)
 from er_commons.document_publication.config import (
     DocumentProcessSelection,
     DocumentRunSpec,
@@ -35,6 +40,7 @@ class DocumentRun:
     final_parent: Path
     hierarchy_disposition: dict[str, object]
     execution_preflight: ExecutionPreflight | None = None
+    verification_budget: VerificationBudget | None = None
 
     @property
     def maximum_attempts(self) -> int:
@@ -179,3 +185,43 @@ def build_production_scope_evidence(
         "ordered_source_records_sha256": canonical_digest(ordered_source_records),
     }
     return source_ids, evidence
+
+
+def prepare_accepted_document_run(
+    data_root: Path,
+    run_spec_path: Path,
+    source_id: str,
+    *,
+    budget: VerificationBudget,
+    repository_root: Path | None = None,
+    prepared_inputs: PreparedPublicationInputs | None = None,
+) -> DocumentRun:
+    """Select a source from once-verified current controls and historical releases."""
+    project_root = (repository_root or Path(__file__).resolve().parents[3]).resolve()
+    prepared = prepared_inputs or prepare_publication_inputs(
+        data_root, run_spec_path, repository_root=project_root, budget=budget
+    )
+    if prepared.budget is not budget:
+        raise ValueError("prepared publication requires its shared invocation budget")
+    prepared.verify(data_root, run_spec_path, source_id)
+    if prepared.repository_root != project_root:
+        raise ValueError("prepared publication repository differs")
+    spec, observed = prepared.spec, prepared.spec_sha256
+    source = prepared.sources[source_id]
+    scope_id = build_scope_id(
+        run_spec_sha256=observed, production_extraction_id=spec.production_extraction_id
+    )
+    extraction_root = assert_contained(data_root, spec.artifact_relative_root.as_posix())
+    return DocumentRun(
+        verification_budget=budget,
+        data_root=data_root,
+        project_root=project_root,
+        run_spec_path=run_spec_path.resolve(),
+        spec=spec,
+        spec_sha256=observed,
+        source=source,
+        scope_id=scope_id,
+        extraction_root=extraction_root,
+        final_parent=extraction_root / "documents" / source_id,
+        hierarchy_disposition=spec.hierarchy_disposition(source_id).model_dump(mode="json"),
+    )

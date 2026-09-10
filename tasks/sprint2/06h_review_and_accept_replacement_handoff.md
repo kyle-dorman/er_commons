@@ -244,3 +244,15 @@ cleanup, commit, push, or a new review application.
 Pending. Record selected/reused review counts, terminal dispositions and risks,
 exact replacement handoff/registry/correspondence/acceptance identities,
 validation, authorization evidence, and the Task 05G handoff location.
+
+## Task 06B interface handoff
+
+Both Task 06B gates now supply the maintained
+[command map](../../docs/pipeline_commands.md) and
+[executed owner map](../../docs/specs/task06b_gate2_executed_inventory.md).
+Use explicit current requests with original per-source accepted manifests and
+seals; historical recipe validation does not reopen removed implementation paths.
+Document/collection v3 supports declared replacement membership. Compact checks
+must retain the shared verification budget and must not claim new payload-byte
+equality. This handoff updates interfaces only; the task's provisional policy and
+separate source, conversion, replay or review authorization boundaries still apply.

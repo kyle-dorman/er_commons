@@ -16,10 +16,10 @@ from task04_test_support import (
     make_synthetic_review_tree,
 )
 
-import er_commons.human_review_support.task04.finding_transaction as transaction_module
-import er_commons.human_review_support.task04.records as records_module
+import er_commons.human_review_support.extraction_review.finding_transaction as transaction_module
+import er_commons.human_review_support.extraction_review.records as records_module
 from er_commons.artifact_io import sha256_file
-from er_commons.human_review_support.task04 import (
+from er_commons.human_review_support.extraction_review import (
     BuildRequest,
     FindingClass,
     FindingDraft,
@@ -32,16 +32,16 @@ from er_commons.human_review_support.task04 import (
     record_finding,
     set_finding_register_status,
 )
-from er_commons.human_review_support.task04.discovery import discover_inputs
-from er_commons.human_review_support.task04.finding_anchors import (
+from er_commons.human_review_support.extraction_review.discovery import discover_inputs
+from er_commons.human_review_support.extraction_review.finding_anchors import (
     FindingSelectors as AnchorSelectors,
 )
-from er_commons.human_review_support.task04.finding_anchors import (
+from er_commons.human_review_support.extraction_review.finding_anchors import (
     anchor_records,
     derive_evidence_anchors,
 )
-from er_commons.human_review_support.task04.json_io import read_json_object
-from er_commons.human_review_support.task04.models import (
+from er_commons.human_review_support.extraction_review.json_io import read_json_object
+from er_commons.human_review_support.extraction_review.models import (
     BlockEvidence,
     JsonValue,
     PageEvidence,
@@ -60,6 +60,7 @@ def test_production_scope_rejects_a_valid_one_source_fixture(tmp_path: Path) -> 
         discover_inputs(
             tree.retained_root,
             tree.data_root,
+            source_pdf_root=tree.source_pdf.parent,
             candidate_verifier=AcceptingCandidateVerifier(),
         )
 
@@ -365,6 +366,7 @@ def _discover_fixture(tree: SyntheticReviewTree) -> object:
     return discover_inputs(
         tree.retained_root,
         tree.data_root,
+        source_pdf_root=tree.source_pdf.parent,
         candidate_verifier=AcceptingCandidateVerifier(),
         input_scope=InputScopePolicy.synthetic_fixture(source_count=1),
     )
@@ -382,6 +384,7 @@ def _build(tree: SyntheticReviewTree, *, evidence_loader: object | None = None) 
             tree.data_root,
             tree.output_root,
             InputScopePolicy.synthetic_fixture(source_count=1),
+            source_pdf_root=tree.source_pdf.parent,
         ),
         **kwargs,  # type: ignore[arg-type]
     )
@@ -466,5 +469,5 @@ def _first(record: dict[str, JsonValue], field: str) -> dict[str, JsonValue]:
 
 
 def test_new_register_status_cli_remains_thin() -> None:
-    script = Path(__file__).parents[1] / "scripts/set_task04_finding_register_status.py"
+    script = Path(__file__).parents[1] / "scripts/set_review_register_status.py"
     assert len(script.read_text().splitlines()) <= 60

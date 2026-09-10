@@ -11,6 +11,7 @@ from typing import Any
 import rfc8785
 
 from er_commons.artifact_io import sha256_file
+from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_parsing.content_parsing.config import ContentParsingConfig
 from er_commons.document_parsing.content_parsing.sources import CompleteResolvedSource
 
@@ -65,20 +66,58 @@ def parsing_code_paths(repo_root: Path) -> list[Path]:
         "table_request.py",
         "table_stage_reference.py",
     )
+    table_names = (
+        "__init__.py",
+        "boundaries.py",
+        "continuations.py",
+        "families.py",
+        "fragments.py",
+        "learned_fallback.py",
+        "learned_table_acceptance.py",
+        "learned_table_cells.py",
+        "learned_table_geometry.py",
+        "learned_table_page.py",
+        "learned_table_text.py",
+        "learned_table_types.py",
+        "models.py",
+        "native_text.py",
+        "otsl.py",
+        "page.py",
+        "page_content.py",
+        "page_geometry.py",
+        "page_parsers.py",
+        "page_persistence.py",
+        "page_routing.py",
+        "page_types.py",
+        "pipeline.py",
+        "region_stream_fallback.py",
+        "region_stream_geometry.py",
+        "region_stream_parser.py",
+        "region_stream_text.py",
+        "region_stream_types.py",
+        "tableformer_fallback.py",
+    )
     candidates = [
         *(content / name for name in content_names),
-        *sorted(tables.rglob("*.py")),
+        *(tables / name for name in table_names),
+        repo_root / "src/er_commons/source_release/models.py",
         repo_root / "src/er_commons/artifact_io.py",
+        repo_root / "src/er_commons/artifact_verification.py",
     ]
-    return [path for path in candidates if path.is_file()]
+    return candidates
 
 
-def code_identity(paths: list[Path], *, repo_root: Path) -> dict[str, Any]:
+def code_identity(
+    paths: list[Path], *, repo_root: Path, budget: VerificationBudget | None = None
+) -> dict[str, Any]:
     """Hash the relative path and content of every parsing-owned code file."""
+    budget = budget or VerificationBudget()
     records = [
         {
             "path": path.resolve().relative_to(repo_root.resolve()).as_posix(),
-            "sha256": sha256_file(path),
+            "sha256": budget.hash_file(
+                path, role="code", source_id="current_writer", root=repo_root
+            ),
         }
         for path in sorted(paths)
     ]

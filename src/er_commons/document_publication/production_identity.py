@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
 from er_commons.artifact_io import sha256_file
+from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_publication.identity import canonical_digest
 from er_commons.document_publication.records import JsonObject
 
@@ -44,6 +46,7 @@ def validate_production_identity(
     expected_scope: JsonObject | None = None,
     expected_scope_kind: ProductionScopeKind | None = None,
     project_root: Path | None = None,
+    budget: VerificationBudget | None = None,
 ) -> ProductionIdentity:
     """Verify the native v2 recipe, source scope, and optional code references."""
     if record.get("record_type") != "production_identity":
@@ -92,12 +95,54 @@ def validate_production_identity(
         }
         if observed_scope != expected_scope:
             raise ValueError("document production scope differs from checked evidence")
+    _validate_contract_shapes(preimage)
     if project_root is not None:
-        _verify_contract_references(preimage, project_root)
+        _verify_contract_references(preimage, project_root, budget=budget)
     return ProductionIdentity(extraction_id, preimage)
 
 
-def _verify_contract_references(preimage: JsonObject, project_root: Path) -> None:
+def _validate_contract_shapes(preimage: JsonObject) -> None:
+    """Validate historical contract records without consulting today's paths."""
+    for section_name in CONTRACT_SECTIONS:
+        section = _object(preimage, section_name)
+        if set(section) != {"version", "artifacts", "owned_code"}:
+            raise ValueError(f"document production contract fields differ: {section_name}")
+        if not isinstance(section["version"], str) or not section["version"]:
+            raise ValueError(f"document production contract version is missing: {section_name}")
+        for collection in ("artifacts", "owned_code"):
+            references = section[collection]
+            if not isinstance(references, list):
+                raise ValueError(f"{section_name}.{collection} must be a list")
+            for reference in references:
+                _validate_reference_shape(reference)
+
+
+def _validate_reference_shape(reference: object) -> JsonObject:
+    """Require a portable closed byte reference independently of file availability."""
+    if not isinstance(reference, dict) or set(reference) != {"path", "sha256", "byte_size"}:
+        raise ValueError("document production artifact reference is not closed")
+    relative = reference["path"]
+    if (
+        not isinstance(relative, str)
+        or not relative
+        or Path(relative).is_absolute()
+        or ".." in Path(relative).parts
+        or Path(relative) == Path(".")
+    ):
+        raise ValueError("document production artifact path must be a contained relative path")
+    digest = reference["sha256"]
+    if not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None:
+        raise ValueError("document production artifact digest must be SHA-256")
+    size = reference["byte_size"]
+    if not isinstance(size, int) or isinstance(size, bool) or size < 0:
+        raise ValueError("document production artifact size must be a nonnegative integer")
+    return reference
+
+
+def _verify_contract_references(
+    preimage: JsonObject, project_root: Path, *, budget: VerificationBudget | None = None
+) -> None:
+    """Verify current writer files only after the recorded recipe shape is valid."""
     root = project_root.resolve()
     for section_name in CONTRACT_SECTIONS:
         section = _object(preimage, section_name)
@@ -106,21 +151,31 @@ def _verify_contract_references(preimage: JsonObject, project_root: Path) -> Non
             if not isinstance(references, list) or not references:
                 raise ValueError(f"{section_name}.{collection} must be non-empty")
             for reference in references:
-                _verify_reference(reference, root)
+                _verify_reference(
+                    reference,
+                    root,
+                    budget=budget,
+                    role="code" if collection == "owned_code" else "config",
+                )
 
 
-def _verify_reference(reference: object, root: Path) -> None:
-    if not isinstance(reference, dict) or set(reference) != {"path", "sha256", "byte_size"}:
-        raise ValueError("document production artifact reference is not closed")
-    relative = reference.get("path")
-    if not isinstance(relative, str):
-        raise ValueError("document production artifact path must be a string")
+def _verify_reference(
+    reference: object, root: Path, *, budget: VerificationBudget | None = None, role: str = "config"
+) -> None:
+    """Match one current repository file to its already validated byte reference."""
+    reference = _validate_reference_shape(reference)
+    relative = str(reference["path"])
     path = (root / relative).resolve()
     if (
         not path.is_relative_to(root)
         or not path.is_file()
         or path.stat().st_size != reference.get("byte_size")
-        or sha256_file(path) != reference.get("sha256")
+        or (
+            budget.hash_file(path, role=role, source_id="production_recipe", root=root)
+            if budget is not None
+            else sha256_file(path)
+        )
+        != reference.get("sha256")
     ):
         raise ValueError(f"document production artifact differs: {relative}")
 

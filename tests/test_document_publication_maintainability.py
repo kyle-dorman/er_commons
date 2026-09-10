@@ -14,8 +14,6 @@ RUNTIME_ROOT = Path("src/er_commons/document_publication")
 def test_runtime_modules_and_functions_have_bounded_responsibilities() -> None:
     """Large control modules and functions require an explicit ownership split."""
     for path in RUNTIME_ROOT.glob("*.py"):
-        if path.name == "task03g2_preparation.py":
-            continue  # Historical read-only preservation helper.
         source = path.read_text()
         assert len(source.splitlines()) <= 350, f"split the responsibilities in {path.name}"
         tree = ast.parse(source)
@@ -77,3 +75,14 @@ def test_current_runtime_does_not_import_the_legacy_collection_contract() -> Non
         assert not any(
             module.startswith("er_commons.corpus_extraction_contract_v1_1") for module in modules
         ), path.name
+
+
+def test_downstream_replay_owners_remain_small() -> None:
+    """Retain maintained replay ownership coverage after retiring the pilot harness."""
+    for name in ("downstream_replay.py", "downstream_replay_validation.py"):
+        path = RUNTIME_ROOT / name
+        source = path.read_text()
+        assert len(source.splitlines()) <= 220
+        for node in ast.walk(ast.parse(source)):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                assert (node.end_lineno or node.lineno) - node.lineno + 1 <= 60

@@ -54,6 +54,9 @@ def validate_gate_c_navigation_population(
     decisions: Iterable[JsonObject],
     *,
     baseline_targets: Mapping[str, str],
+    controls: Mapping[str, AcceptedNavigationControl] = ACCEPTED_NAVIGATION_CONTROLS,
+    primary_rule_counts: Mapping[str, int] = ACCEPTED_PRIMARY_RULE_COUNTS,
+    expected_baseline_count: int = 28,
 ) -> JsonObject:
     """Validate the complete accepted navigation census and old-link targets.
 
@@ -63,18 +66,21 @@ def validate_gate_c_navigation_population(
     """
     rows = list(decisions)
     entry_ids = [_required_text(row, "entry_id") for row in rows]
-    if len(rows) != 560 or len(set(entry_ids)) != 560:
-        raise ValueError("Gate C navigation decisions must contain 560 unique entry IDs")
-    if len(baseline_targets) != 28:
-        raise ValueError("Task 04C baseline must contain exactly 28 links")
+    expected_population = sum(control.population for control in controls.values())
+    if len(rows) != expected_population or len(set(entry_ids)) != expected_population:
+        raise ValueError(
+            f"navigation decisions must contain {expected_population} unique entry IDs"
+        )
+    if len(baseline_targets) != expected_baseline_count:
+        raise ValueError(f"baseline must contain exactly {expected_baseline_count} links")
 
     population_counts: Counter[str] = Counter()
     resolved_counts: Counter[str] = Counter()
-    primary_rule_counts: Counter[str] = Counter()
+    observed_primary_rule_counts: Counter[str] = Counter()
     selected_targets: dict[str, str] = {}
     for row in rows:
         control_class = _required_text(row, "control_class")
-        if control_class not in ACCEPTED_NAVIGATION_CONTROLS:
+        if control_class not in controls:
             raise ValueError(f"unknown Gate C control class: {control_class!r}")
         population_counts[control_class] += 1
         outcome = _required_text(row, "outcome")
@@ -85,20 +91,20 @@ def validate_gate_c_navigation_population(
         target_id = _required_text(row, "target_id")
         rule_id = _required_text(row, "primary_rule_id")
         resolved_counts[control_class] += 1
-        primary_rule_counts[rule_id] += 1
+        observed_primary_rule_counts[rule_id] += 1
         selected_targets[_required_text(row, "entry_id")] = target_id
 
     _require_counts(
         "control populations",
         population_counts,
-        {name: value.population for name, value in ACCEPTED_NAVIGATION_CONTROLS.items()},
+        {name: value.population for name, value in controls.items()},
     )
     _require_counts(
         "resolved control populations",
         resolved_counts,
-        {name: value.resolved for name, value in ACCEPTED_NAVIGATION_CONTROLS.items()},
+        {name: value.resolved for name, value in controls.items()},
     )
-    _require_counts("primary rules", primary_rule_counts, ACCEPTED_PRIMARY_RULE_COUNTS)
+    _require_counts("primary rules", observed_primary_rule_counts, primary_rule_counts)
 
     invalidated = {
         entry_id: {"expected": target_id, "actual": selected_targets.get(entry_id)}
@@ -106,14 +112,17 @@ def validate_gate_c_navigation_population(
         if selected_targets.get(entry_id) != target_id
     }
     if invalidated:
-        raise ValueError(f"Task 04C baseline links changed: {invalidated}")
+        raise ValueError(
+            f"Task 04C baseline links changed: count={len(invalidated)} "
+            f"examples={dict(list(invalidated.items())[:8])}"
+        )
     return {
         "population_count": len(rows),
         "resolved_count": len(selected_targets),
         "unresolved_count": len(rows) - len(selected_targets),
         "control_population_counts": dict(sorted(population_counts.items())),
         "control_resolved_counts": dict(sorted(resolved_counts.items())),
-        "primary_rule_counts": dict(sorted(primary_rule_counts.items())),
+        "primary_rule_counts": dict(sorted(observed_primary_rule_counts.items())),
         "existing_link_invalidation_count": 0,
     }
 
@@ -133,7 +142,9 @@ def compare_ordinary_machine_population(
     added = sorted(set(new).difference(old))
     if missing or added:
         raise ValueError(
-            f"ordinary-reference mention keys changed: missing={missing}, added={added}"
+            "ordinary-reference mention keys changed: "
+            f"missing_count={len(missing)} examples={missing[:8]}, "
+            f"added_count={len(added)} examples={added[:8]}"
         )
 
     changed_existing: list[str] = []
@@ -149,7 +160,10 @@ def compare_ordinary_machine_population(
         else:
             unchanged += 1
     if changed_existing:
-        raise ValueError(f"existing ordinary-reference targets changed: {changed_existing}")
+        raise ValueError(
+            f"existing ordinary-reference targets changed: count={len(changed_existing)} "
+            f"examples={changed_existing[:8]}"
+        )
     return {
         "population_count": len(old),
         "unchanged_count": unchanged,

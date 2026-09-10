@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from navigation_input_fixtures import MATERIALIZATION as BINDINGS
 
 from er_commons.artifact_io import canonical_json_sha256, json_bytes
 from er_commons.navigation_overlay import materialization
@@ -18,7 +19,7 @@ ZERO_VIEW = "navsemanticv1-" + "0" * 64
 
 def test_gate_b_script_requires_an_explicit_repo_root() -> None:
     """The command wrapper keeps checkout selection explicit."""
-    script = REPO_ROOT / "scripts/materialize_task04c_gate_b.py"
+    script = REPO_ROOT / "scripts/materialize_reviewed_navigation.py"
 
     result = subprocess.run(
         [sys.executable, str(script), "--help"],
@@ -28,7 +29,8 @@ def test_gate_b_script_requires_an_explicit_repo_root() -> None:
     )
 
     assert result.returncode == 0
-    assert "--repo-root" in result.stdout
+    assert "--input-spec" in result.stdout
+    assert "--output-root" in result.stdout
 
 
 def test_materialization_changes_only_exact_block_and_table_entities() -> None:
@@ -69,7 +71,7 @@ def test_materialization_changes_only_exact_block_and_table_entities() -> None:
     }
 
     applications, dispositions, sections = materialization._materialize_semantic_view(
-        rows, entities, semantic_view_id=ZERO_VIEW
+        rows, entities, semantic_view_id=ZERO_VIEW, bindings=BINDINGS
     )
 
     assert [row["application_outcome"] for row in applications] == [
@@ -97,7 +99,7 @@ def test_same_entity_evidence_is_aggregated_deterministically() -> None:
     )
 
     applications, dispositions, _ = materialization._materialize_semantic_view(
-        rows, {"block-old": entity}, semantic_view_id=ZERO_VIEW
+        rows, {"block-old": entity}, semantic_view_id=ZERO_VIEW, bindings=BINDINGS
     )
 
     assert len(dispositions) == 1
@@ -117,7 +119,7 @@ def test_mixed_and_entityless_decisions_fail_closed() -> None:
     entityless["mapping_outcome"] = "no_existing_entity_evidence"
 
     applications, dispositions, _ = materialization._materialize_semantic_view(
-        [mixed, entityless], {}, semantic_view_id=ZERO_VIEW
+        [mixed, entityless], {}, semantic_view_id=ZERO_VIEW, bindings=BINDINGS
     )
 
     assert dispositions == []
@@ -139,7 +141,7 @@ def test_run_propagated_decision_keeps_provenance_and_uses_same_semantics() -> N
     entity = _entity("block-new", kind="block", navigation=False, pages={"page-2"})
 
     applications, dispositions, _ = materialization._materialize_semantic_view(
-        [row], {"block-new": entity}, semantic_view_id=ZERO_VIEW
+        [row], {"block-new": entity}, semantic_view_id=ZERO_VIEW, bindings=BINDINGS
     )
 
     assert applications[0]["application_outcome"] == "applied_human_confirmed_navigation"
@@ -151,7 +153,9 @@ def test_missing_and_conflicting_entity_evidence_is_rejected() -> None:
     """Missing entities and opposing decisions cannot silently alter semantics."""
     missing = _decision(1, machine=False, human="toc", entities=["absent"])
     with pytest.raises(ValueError, match="missing canonical entity"):
-        materialization._materialize_semantic_view([missing], {}, semantic_view_id=ZERO_VIEW)
+        materialization._materialize_semantic_view(
+            [missing], {}, semantic_view_id=ZERO_VIEW, bindings=BINDINGS
+        )
 
     rows = [
         _decision(1, machine=False, human="toc", entities=["shared"]),
@@ -161,7 +165,9 @@ def test_missing_and_conflicting_entity_evidence_is_rejected() -> None:
         "shared": _entity("shared", kind="block", navigation=True, pages={"page-1", "page-2"})
     }
     with pytest.raises(ValueError, match="conflicting entity decisions"):
-        materialization._materialize_semantic_view(rows, entities, semantic_view_id=ZERO_VIEW)
+        materialization._materialize_semantic_view(
+            rows, entities, semantic_view_id=ZERO_VIEW, bindings=BINDINGS
+        )
 
 
 def test_identity_preimage_changes_are_rejected() -> None:
@@ -217,6 +223,7 @@ def test_reader_inherits_machine_and_rejects_changed_completion_binding(tmp_path
         specification,
         accounting,
         SCHEMA_ROOT,
+        bindings=BINDINGS,
     )
     repeated = materialization._publish(
         tmp_path,
@@ -226,6 +233,7 @@ def test_reader_inherits_machine_and_rejects_changed_completion_binding(tmp_path
         specification,
         accounting,
         SCHEMA_ROOT,
+        bindings=BINDINGS,
     )
 
     assert repeated == publication
@@ -257,6 +265,7 @@ def test_reader_recomputes_namespace_identity_from_manifest(tmp_path: Path) -> N
         specification,
         _empty_accounting(),
         SCHEMA_ROOT,
+        bindings=BINDINGS,
     )
 
     with pytest.raises(ValueError, match="Gate B identity digest differs"):
@@ -277,6 +286,7 @@ def test_publication_refuses_changed_existing_bytes(tmp_path: Path) -> None:
         specification,
         _empty_accounting(),
         SCHEMA_ROOT,
+        bindings=BINDINGS,
     )
     (publication / "semantic_dispositions.jsonl").write_bytes(b'{"changed":true}\n')
 
@@ -289,6 +299,7 @@ def test_publication_refuses_changed_existing_bytes(tmp_path: Path) -> None:
             specification,
             _empty_accounting(),
             SCHEMA_ROOT,
+            bindings=BINDINGS,
         )
 
 
@@ -318,6 +329,7 @@ def test_reader_rejects_malformed_semantic_rows(
         specification,
         accounting,
         SCHEMA_ROOT,
+        bindings=BINDINGS,
     )
 
     with pytest.raises(ValueError, match=message):
@@ -366,7 +378,7 @@ def _semantic_row(view_id: str) -> dict[str, Any]:
     return {
         "schema_version": "er_commons.navigation_overlay.v1.semantic_disposition",
         "semantic_view_id": view_id,
-        "overlay_plan_id": materialization.ACCEPTED_GATE_A_ID,
+        "overlay_plan_id": BINDINGS.accepted_gate_a_id,
         "disposition_id": "navdispv1-" + "a" * 24,
         "source_id": "source-a",
         "candidate_id": "docv1-" + "a" * 64,

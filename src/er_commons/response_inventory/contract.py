@@ -18,16 +18,16 @@ from jsonschema import (  # type: ignore[import-untyped]
 )
 
 from er_commons.artifact_io import canonical_json_sha256
-from er_commons.response_inventory.pilot_policy import TASK05C_PILOT_RANGES
+from er_commons.response_inventory.complete_source_policy import (
+    ACCEPTED_COMPLETE_RANGE,
+    ACCEPTED_WARNING_CODES,
+)
+from er_commons.response_inventory.pilot_policy import ACCEPTED_PILOT_RANGES
 from er_commons.response_inventory.source_structure import (
     SOURCE_RESPONSE_HEADING_ABSENT,
     SOURCE_RESPONSE_HEADING_ABSENT_MESSAGE,
     missing_response_heading_gaps,
     paired_response_style_comment_marker_ids,
-)
-from er_commons.response_inventory.task05d_policy import (
-    TASK05D_ALLOWED_WARNING_CODES,
-    TASK05D_RANGE,
 )
 
 type JsonObject = dict[str, Any]
@@ -834,11 +834,11 @@ def _validate_source_completion_counts(
     if expected["placement_exceptions"] != 1:
         raise ValueError("complete 05C pilot must account for the GR9 exception")
     if (
-        tuple(tuple(item) for item in ranges) == TASK05C_PILOT_RANGES
+        tuple(tuple(item) for item in ranges) == ACCEPTED_PILOT_RANGES
         and expected["open_range_boundary_diagnostics"] != 1
     ):
         raise ValueError("complete 05C pilot must retain its one right-censored boundary")
-    if tuple(tuple(item) for item in ranges) == TASK05C_PILOT_RANGES:
+    if tuple(tuple(item) for item in ranges) == ACCEPTED_PILOT_RANGES:
         boundary = next(
             record
             for record in records
@@ -948,14 +948,14 @@ def _validate_05d_completion_rules(
     records: Sequence[JsonObject],
 ) -> None:
     """Enforce full-source closure and exact terminal-warning reconciliation."""
-    if activity["page_ranges"] != [list(TASK05D_RANGE)]:
+    if activity["page_ranges"] != [list(ACCEPTED_COMPLETE_RANGE)]:
         raise ValueError("complete 05D inventory must cover the exact 1-744 range")
     if record_counts["open_range_boundary_diagnostics"] != 0:
         raise ValueError("complete 05D inventory cannot retain a range-boundary diagnostic")
     warnings = task05d_warning_entries(
         records,
         str(activity["activity_id"]),
-        allowed_codes=TASK05D_ALLOWED_WARNING_CODES,
+        allowed_codes=ACCEPTED_WARNING_CODES,
     )
     expected_status = "complete_with_warnings" if warnings else "complete"
     if completion["status"] != expected_status:

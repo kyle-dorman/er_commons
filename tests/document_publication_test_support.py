@@ -71,6 +71,8 @@ def _workspace(tmp_path: Path, *, retry_limit: int = 0) -> tuple[Path, Path]:
     write_json_atomic(
         records / "completion_record.json",
         {
+            "schema_version": "er_commons.source_release_completion.v1",
+            "source_spec_sha256": "a" * 64,
             "source_release_version": "release",
             "manifest": {
                 "local_path": manifest_path.relative_to(data_root).as_posix(),

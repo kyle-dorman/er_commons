@@ -9,6 +9,7 @@ from pathlib import Path
 from er_commons.collection_processing.config import load_collection_run_spec
 from er_commons.collection_processing.workflow import assemble_collection_handoff
 from er_commons.document_publication.downstream_replay import publish_downstream_replay
+from er_commons.document_publication.preflight import prepare_accepted_document_run
 from er_commons.document_records.document_references.relink_publication import (
     PreparedRelinkRun,
     RelinkExecutionResult,
@@ -45,7 +46,10 @@ def relink_and_replay_document(
 ) -> RelinkReplayResult:
     """Publish one linked product, then republish only its document descendants."""
     prepared = prepare_document_relink_run(
-        data_root=data_root, link_spec=link_spec, repository_root=repository_root
+        data_root=data_root,
+        link_spec=link_spec,
+        repository_root=repository_root,
+        prepare_publication=True,
     )
     return _relink_and_replay_prepared(prepared, source_id=source_id)
 
@@ -59,6 +63,9 @@ def _relink_and_replay_prepared(
     source_completion = selection.source_document.completion_ref.resolve(
         repository_root=prepared.repository_root,
         artifact_root=prepared.artifact_root,
+        budget=prepared.budget,
+        role="completion",
+        source_id=source_id,
     )
     linked = execute_prepared_document_relink(prepared, source_id=source_id)
     document_completion = publish_downstream_replay(
@@ -67,6 +74,15 @@ def _relink_and_replay_prepared(
         source_id=source_id,
         source_candidate_root=source_completion.parent.parent,
         cross_reference_completion=linked.completion_path,
+        budget=prepared.budget,
+        prepared_run=prepare_accepted_document_run(
+            prepared.artifact_root,
+            prepared.document_spec_path,
+            source_id,
+            budget=prepared.budget,
+            repository_root=prepared.repository_root,
+            prepared_inputs=prepared.publication_inputs,
+        ),
     )
     return RelinkReplayResult(
         linked=linked,
@@ -82,7 +98,10 @@ def relink_replay_and_assemble_collection(
 ) -> CollectionRelinkReplayResult:
     """Replay every source sequentially, then assemble its sealed collection once."""
     prepared = prepare_document_relink_run(
-        data_root=data_root, link_spec=link_spec, repository_root=repository_root
+        data_root=data_root,
+        link_spec=link_spec,
+        repository_root=repository_root,
+        prepare_publication=True,
     )
     spec = prepared.spec
     collection_spec = prepared.collection_spec_path

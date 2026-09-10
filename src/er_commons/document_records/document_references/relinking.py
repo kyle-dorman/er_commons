@@ -120,23 +120,36 @@ class NavigationInputs:
     @classmethod
     def from_bundle_root(cls, root: Path, *, source_id: str) -> NavigationInputs:
         """Load only bundle-owned payloads after its seal has been verified upstream."""
+        return cls.from_records(
+            {
+                name: read_jsonl(root / path)
+                for name, path in (
+                    ("dispositions_ref", "navigation/dispositions.jsonl"),
+                    ("text_entries_ref", "navigation/text_entries.jsonl"),
+                    ("parent_relations_ref", "navigation/parent_relations.jsonl"),
+                )
+            },
+            source_id=source_id,
+        )
+
+    @classmethod
+    def from_records(
+        cls, records: Mapping[str, Sequence[JsonObject]], *, source_id: str
+    ) -> NavigationInputs:
+        """Select one source from already verified shared navigation evidence."""
         dispositions = {
             _required_text(row, "disposition_id", "semantic_disposition_id"): row
-            for row in read_jsonl(root / "navigation/dispositions.jsonl")
+            for row in records["dispositions_ref"]
             if row.get("source_id") == source_id
         }
         candidate_entries = tuple(
-            row
-            for row in read_jsonl(root / "navigation/text_entries.jsonl")
-            if row.get("source_id") == source_id
+            row for row in records["text_entries_ref"] if row.get("source_id") == source_id
         )
         entries = tuple(
             row for row in candidate_entries if _entry_is_effective(row, dispositions=dispositions)
         )
         relations = tuple(
-            row
-            for row in read_jsonl(root / "navigation/parent_relations.jsonl")
-            if row.get("source_id") == source_id
+            row for row in records["parent_relations_ref"] if row.get("source_id") == source_id
         )
         return cls(entries=entries, relations=relations)
 

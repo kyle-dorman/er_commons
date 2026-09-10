@@ -5,25 +5,25 @@ from pathlib import Path
 
 import pytest
 
-from er_commons.human_review_support.task04 import toc_page_shapes
-from er_commons.human_review_support.task04.final_pass import final_review_policy
-from er_commons.human_review_support.task04.toc_census import build_toc_census
-from er_commons.human_review_support.task04.toc_decisions import load_toc_decisions
-from er_commons.human_review_support.task04.toc_models import (
+from er_commons.human_review_support.extraction_review import toc_page_shapes
+from er_commons.human_review_support.extraction_review.final_pass import final_review_policy
+from er_commons.human_review_support.extraction_review.toc_census import build_toc_census
+from er_commons.human_review_support.extraction_review.toc_decisions import load_toc_decisions
+from er_commons.human_review_support.extraction_review.toc_models import (
     contiguous_page_runs,
     parse_toc_censuses,
 )
-from er_commons.human_review_support.task04.toc_page_shapes import (
+from er_commons.human_review_support.extraction_review.toc_page_shapes import (
     decided_not_toc_run_suffixes,
 )
-from er_commons.human_review_support.task04.toc_review_selection import (
+from er_commons.human_review_support.extraction_review.toc_review_selection import (
     basic_project_information_pages,
     build_positive_toc_items,
     build_toc_review_selection,
     intentional_blank_pages,
     recognized_toc_run_suffixes,
 )
-from er_commons.human_review_support.task04.toc_table_filters import (
+from er_commons.human_review_support.extraction_review.toc_table_filters import (
     is_two_column_decimal_table,
     left_column,
 )

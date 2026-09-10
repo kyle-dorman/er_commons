@@ -7,7 +7,6 @@ from pathlib import Path
 OWNED_CODE_RELATIVE_PATHS = (
     "pyproject.toml",
     "src/er_commons/artifact_io.py",
-    "src/er_commons/cli.py",
     "src/er_commons/document_parsing/content_parsing/config.py",
     "src/er_commons/document_parsing/content_parsing/evidence.py",
     "src/er_commons/document_parsing/content_parsing/records.py",

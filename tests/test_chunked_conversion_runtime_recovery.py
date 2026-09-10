@@ -103,7 +103,9 @@ def test_behavior_identity_separates_coordinator_from_child_and_aggregate(
     (tmp_path / "src/er_commons/chunked_conversion").mkdir(parents=True)
     observed: list[tuple[str, ...]] = []
 
-    def fake_code_identity(paths: list[Path], *, repo_root: Path) -> dict[str, str]:
+    def fake_code_identity(
+        paths: list[Path], *, repo_root: Path, budget: object = None
+    ) -> dict[str, str]:
         assert repo_root == tmp_path
         relative = tuple(path.relative_to(tmp_path).as_posix() for path in paths)
         observed.append(relative)

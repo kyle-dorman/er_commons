@@ -623,6 +623,8 @@ def test_reviewed_source_with_zero_effective_entries_stays_empty(
         ),
         reviewed_navigation_root=bundle,
         reviewed_navigation_completion_path=completion,
+        prepared_navigation=None,
+        budget=None,
     )
     monkeypatch.setattr(relink_publication, "_verify_digest", lambda *_a, **_k: None)
     monkeypatch.setattr(relink_publication, "_verify_completion_inventory", lambda *_a, **_k: None)

@@ -1,5 +1,3 @@
-import importlib
-import sys
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, cast
@@ -24,13 +22,7 @@ from er_commons.document_parsing.content_parsing.preparation import PreparedCont
 from er_commons.document_publication import process_sequence
 from er_commons.document_publication.process_inputs import ProcessConfigs
 
-SCRIPT_ROOT = Path(__file__).parents[1] / "scripts"
-sys.path.insert(0, str(SCRIPT_ROOT))
-shared = importlib.import_module("task03h_generation.shared")
-sys.path.remove(str(SCRIPT_ROOT))
-CHUNKED_PAGE_THRESHOLD = shared.CHUNKED_PAGE_THRESHOLD
-TASK_CONFIG_ROOT = shared.TASK_CONFIG_ROOT
-chunked_policy_paths = shared.chunked_policy_paths
+CHUNKED_PAGE_THRESHOLD = 300
 
 
 def _prepared(page_count: int = 601) -> PreparedContentParsing:
@@ -77,13 +69,22 @@ def _policy(path: Path) -> Path:
     return path
 
 
-def test_chunk_policy_paths_use_source_neutral_page_threshold() -> None:
+def test_chunk_policy_paths_use_source_neutral_page_threshold(tmp_path: Path) -> None:
+    from er_commons.document_publication.config_generation.shared import GenerationSpec
+
+    request = SimpleNamespace(
+        chunked_page_threshold=CHUNKED_PAGE_THRESHOLD,
+        config_root=Path("configs/custom"),
+        project_path=lambda path: tmp_path / path,
+    )
     sources = [
         {"source_id": "small", "pdf_page_count": CHUNKED_PAGE_THRESHOLD},
         {"source_id": "large", "pdf_page_count": CHUNKED_PAGE_THRESHOLD + 1},
     ]
 
-    assert chunked_policy_paths(sources) == (TASK_CONFIG_ROOT / "large/chunked_conversion.json",)
+    assert GenerationSpec.chunked_policy_paths(request, sources) == (
+        tmp_path / "configs/custom/large/chunked_conversion.json",
+    )
 
 
 def test_generated_policy_records_maintained_threshold() -> None:

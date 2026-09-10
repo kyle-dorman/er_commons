@@ -1,0 +1,362 @@
+{
+  "$defs": {
+    "ResourcePolicy": {
+      "additionalProperties": false,
+      "description": "Bound process, batching, accelerator, and retry resources.",
+      "properties": {
+        "document_concurrency": {
+          "maximum": 4,
+          "minimum": 1,
+          "title": "Document Concurrency",
+          "type": "integer"
+        },
+        "page_batch_size": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Page Batch Size",
+          "type": "integer"
+        },
+        "stage_batch_size": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Stage Batch Size",
+          "type": "integer"
+        },
+        "queue_capacity": {
+          "maximum": 256,
+          "minimum": 1,
+          "title": "Queue Capacity",
+          "type": "integer"
+        },
+        "cpu_threads_per_document": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Cpu Threads Per Document",
+          "type": "integer"
+        },
+        "device": {
+          "enum": [
+            "cpu",
+            "mps",
+            "cuda",
+            "auto"
+          ],
+          "title": "Device",
+          "type": "string"
+        },
+        "memory_estimate_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Memory Estimate Bytes",
+          "type": "integer"
+        },
+        "storage_estimate_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Storage Estimate Bytes",
+          "type": "integer"
+        },
+        "docling_timeout_seconds": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Docling Timeout Seconds"
+        },
+        "outer_process_deadline_seconds": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Outer Process Deadline Seconds"
+        },
+        "cancellation_grace_seconds": {
+          "exclusiveMinimum": 0,
+          "maximum": 60,
+          "title": "Cancellation Grace Seconds",
+          "type": "number"
+        },
+        "retry_limit": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Retry Limit",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "document_concurrency",
+        "page_batch_size",
+        "stage_batch_size",
+        "queue_capacity",
+        "cpu_threads_per_document",
+        "device",
+        "memory_estimate_bytes",
+        "storage_estimate_bytes",
+        "cancellation_grace_seconds",
+        "retry_limit"
+      ],
+      "title": "ResourcePolicy",
+      "type": "object"
+    },
+    "SourceBinding": {
+      "additionalProperties": false,
+      "description": "One ordered physical source and its original sealed manifest.",
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_release_version": {
+          "title": "Source Release Version",
+          "type": "string"
+        },
+        "source_manifest_relative_path": {
+          "format": "path",
+          "title": "Source Manifest Relative Path",
+          "type": "string"
+        },
+        "expected_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Expected Sha256",
+          "type": "string"
+        },
+        "reference_aliases": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Reference Aliases",
+          "type": "array"
+        },
+        "logical_source_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Logical Source Id"
+        },
+        "substitution_relative_path": {
+          "anyOf": [
+            {
+              "format": "path",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Substitution Relative Path"
+        }
+      },
+      "required": [
+        "source_id",
+        "source_release_version",
+        "source_manifest_relative_path",
+        "expected_sha256",
+        "reference_aliases"
+      ],
+      "title": "SourceBinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "All variable generation choices; no hidden corpus/version defaults.",
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.document_config_generation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "repository_root": {
+      "format": "path",
+      "title": "Repository Root",
+      "type": "string"
+    },
+    "data_root": {
+      "format": "path",
+      "title": "Data Root",
+      "type": "string"
+    },
+    "templates": {
+      "additionalProperties": {
+        "format": "path",
+        "type": "string"
+      },
+      "title": "Templates",
+      "type": "object"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceBinding"
+      },
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    },
+    "baseline_manifest_relative_path": {
+      "format": "path",
+      "title": "Baseline Manifest Relative Path",
+      "type": "string"
+    },
+    "baseline_release_version": {
+      "title": "Baseline Release Version",
+      "type": "string"
+    },
+    "config_root": {
+      "format": "path",
+      "title": "Config Root",
+      "type": "string"
+    },
+    "run_root": {
+      "format": "path",
+      "title": "Run Root",
+      "type": "string"
+    },
+    "catalog_output": {
+      "format": "path",
+      "title": "Catalog Output",
+      "type": "string"
+    },
+    "catalog_data_relative_path": {
+      "format": "path",
+      "title": "Catalog Data Relative Path",
+      "type": "string"
+    },
+    "document_spec_output": {
+      "format": "path",
+      "title": "Document Spec Output",
+      "type": "string"
+    },
+    "collection_spec_output": {
+      "format": "path",
+      "title": "Collection Spec Output",
+      "type": "string"
+    },
+    "identity_output": {
+      "format": "path",
+      "title": "Identity Output",
+      "type": "string"
+    },
+    "model_inventory_relative_path": {
+      "format": "path",
+      "title": "Model Inventory Relative Path",
+      "type": "string"
+    },
+    "target_policy": {
+      "format": "path",
+      "title": "Target Policy",
+      "type": "string"
+    },
+    "resolution_policy": {
+      "format": "path",
+      "title": "Resolution Policy",
+      "type": "string"
+    },
+    "resource_policy": {
+      "$ref": "#/$defs/ResourcePolicy"
+    },
+    "chunked_page_threshold": {
+      "const": 300,
+      "title": "Chunked Page Threshold",
+      "type": "integer"
+    },
+    "chunked_policy": {
+      "additionalProperties": true,
+      "title": "Chunked Policy",
+      "type": "object"
+    },
+    "name_prefix": {
+      "title": "Name Prefix",
+      "type": "string"
+    },
+    "source_family_id": {
+      "title": "Source Family Id",
+      "type": "string"
+    },
+    "family_root_source_id": {
+      "title": "Family Root Source Id",
+      "type": "string"
+    },
+    "document_code": {
+      "items": {
+        "format": "path",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Document Code",
+      "type": "array"
+    },
+    "collection_code": {
+      "items": {
+        "format": "path",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Collection Code",
+      "type": "array"
+    },
+    "document_contracts": {
+      "items": {
+        "format": "path",
+        "type": "string"
+      },
+      "title": "Document Contracts",
+      "type": "array"
+    },
+    "collection_contracts": {
+      "items": {
+        "format": "path",
+        "type": "string"
+      },
+      "title": "Collection Contracts",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "repository_root",
+    "data_root",
+    "templates",
+    "sources",
+    "baseline_manifest_relative_path",
+    "baseline_release_version",
+    "config_root",
+    "run_root",
+    "catalog_output",
+    "catalog_data_relative_path",
+    "document_spec_output",
+    "collection_spec_output",
+    "identity_output",
+    "model_inventory_relative_path",
+    "target_policy",
+    "resolution_policy",
+    "resource_policy",
+    "chunked_page_threshold",
+    "chunked_policy",
+    "name_prefix",
+    "source_family_id",
+    "family_root_source_id",
+    "document_code",
+    "collection_code",
+    "document_contracts",
+    "collection_contracts"
+  ],
+  "title": "GenerationSpec",
+  "type": "object"
+}

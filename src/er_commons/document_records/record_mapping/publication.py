@@ -91,12 +91,21 @@ def build_inventory(
     root: Path,
     *,
     excluded: frozenset[str] = _INVENTORY_EXCLUDED,
+    recorded_files: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Inventory every candidate-owned file except terminal self-references."""
     files = []
     for path in sorted(item for item in root.rglob("*") if item.is_file()):
         relative = path.relative_to(root).as_posix()
         if relative in excluded:
+            continue
+        inherited = (recorded_files or {}).get(relative)
+        if inherited is not None:
+            if inherited["byte_size"] != path.stat().st_size:
+                raise MappingContractError(
+                    f"inherited publication payload size differs: {relative}"
+                )
+            files.append(dict(inherited))
             continue
         files.append(
             {
@@ -113,10 +122,10 @@ def build_inventory(
     }
 
 
-def write_inventory(root: Path) -> Path:
+def write_inventory(root: Path, *, recorded_files: dict[str, dict[str, Any]] | None = None) -> Path:
     """Write the non-self-referential candidate inventory."""
     path = root / "records" / "artifact_inventory.json"
-    write_json(path, build_inventory(root))
+    write_json(path, build_inventory(root, recorded_files=recorded_files))
     return path
 
 

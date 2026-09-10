@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from er_commons.artifact_io import sha256_file
+from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_parsing.content_parsing.config import (
     ContentParsingConfig,
     HeadingHierarchyConfig,
@@ -46,6 +47,10 @@ def conversion_code_paths(repo_root: Path) -> list[Path]:
     """List code that can change conversion bytes without routing/table policy."""
     relative_paths = (
         "src/er_commons/artifact_io.py",
+        "src/er_commons/artifact_verification.py",
+        "src/er_commons/document_parsing/content_parsing/config.py",
+        "src/er_commons/document_parsing/content_parsing/identity.py",
+        "src/er_commons/source_release/models.py",
         "src/er_commons/document_parsing/content_parsing/artifacts.py",
         "src/er_commons/document_parsing/content_parsing/conversion.py",
         "src/er_commons/document_parsing/content_parsing/conversion_bundle.py",
@@ -56,6 +61,7 @@ def conversion_code_paths(repo_root: Path) -> list[Path]:
         "src/er_commons/document_parsing/content_parsing/evidence.py",
         "src/er_commons/document_parsing/content_parsing/pdfium_backend.py",
         "src/er_commons/document_parsing/content_parsing/records.py",
+        "src/er_commons/document_parsing/content_parsing/publication.py",
         "src/er_commons/document_parsing/content_parsing/routing_geometry.py",
         "src/er_commons/document_parsing/content_parsing/runtime.py",
         "src/er_commons/document_parsing/content_parsing/services.py",
@@ -66,9 +72,7 @@ def conversion_code_paths(repo_root: Path) -> list[Path]:
         "src/er_commons/document_parsing/heading_evidence_parsing/text_evidence.py",
         "src/er_commons/document_parsing/heading_evidence_parsing/types.py",
     )
-    source_release = sorted((repo_root / "src/er_commons/source_release").rglob("*.py"))
-    candidates = [*(repo_root / path for path in relative_paths), *source_release]
-    return [path for path in candidates if path.is_file()]
+    return [repo_root / path for path in relative_paths]
 
 
 def conversion_policy(config: ContentParsingConfig) -> dict[str, Any]:
@@ -170,6 +174,7 @@ def derive_conversion_identity(
     source_completion_path: Path,
     model_inventory_path: Path,
     model_inventory: ModelInventory,
+    budget: VerificationBudget | None = None,
 ) -> ContentParsingIdentity:
     """Build a conversion identity from the maintained conversion code inventory."""
     return build_conversion_identity(
@@ -179,5 +184,7 @@ def derive_conversion_identity(
         source_completion_path=source_completion_path,
         model_inventory_path=model_inventory_path,
         model_inventory=model_inventory,
-        project_code=code_identity(conversion_code_paths(repo_root), repo_root=repo_root),
+        project_code=code_identity(
+            conversion_code_paths(repo_root), repo_root=repo_root, budget=budget
+        ),
     )

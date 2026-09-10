@@ -13,82 +13,35 @@ Both passes use a separate review namespace:
 $ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/
 ```
 
-The existing `record_task04_finding.py` and
-`set_task04_finding_register_status.py` commands maintain the completed
-first-pass register only. They do not create the Task 04A usability registry or
-release-freeze record.
+The maintained `record_review_finding.py` and `set_review_register_status.py`
+commands update the explicitly selected first-pass register. They preserve its
+historical schema and do not create a later usability registry.
 
-Task 04A allocates a new review run bound to the completed Task 03J candidate
-under `task_03h_clean_full_v4/`. The source-free MVP preparation command is:
-
-```bash
-uv run python scripts/prepare_task04a_review.py --no-upstream-validator
-```
-
-It performs record-shape checks using the prior read-only owning-validator
-evidence, binds sealed upstream identities without recomputing large file
-checksums, and publishes a no-clobber Gate A preparation record. The default
-path does not scan the large candidate JSONL products. Gate B was completed
-with the explicit census opt-in:
+The four preparation/build/publication commands now take a closed request and
+an explicit output root:
 
 ```bash
-uv run python scripts/prepare_task04a_review.py --no-upstream-validator \
-  --build-census
+uv run python scripts/prepare_extraction_review.py --review-spec "$REVIEW_SPEC" --output-root "$OUTPUT_ROOT"
+uv run python scripts/build_extraction_review_bundle.py --review-spec "$REVIEW_SPEC" --output-root "$OUTPUT_ROOT"
+uv run python scripts/build_final_extraction_review.py --review-spec "$REVIEW_SPEC" --output-root "$OUTPUT_ROOT"
+uv run python scripts/publish_extraction_review.py --review-spec "$REVIEW_SPEC" --output-root "$OUTPUT_ROOT"
 ```
 
-Neither command reads source PDFs or generates renders. Do not run the
-historical first-pass build command against the Task 03J root or reuse
-first-pass review IDs, anchors, renders, or approvals.
+Each request selects exactly one operation and declares its review pass, source
+and evidence roots, schema root, IDs, and expected populations. See the
+[request schema](../benchmarks/er_bench/schemas/extraction_review/v1/request.schema.json)
+and [maintained command map](pipeline_commands.md). Preparation and publication
+are source-free by default. Building a rendered review requires an explicit
+`render_pages: true` request and the applicable later task authorization.
+Upstream deep validation, raw Docling scans, and census work are separate explicit
+request fields. There is no newest-pass or newest-TOC-decision fallback.
 
-The completed Gate B record is:
-
-```text
-$ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_04_review/
-  reviewv1-task03j-final-b19a7a36b04bda89/records/gate_a_preparation.json
-```
-
-It contains 35 source censuses and 5,624 unique candidate-page IDs. Three
-sources have zero machine-detectable candidates; they remain explicit census
-entries and are not silently excluded. Gate C remains the separate
-source-PDF/render authorization boundary. After authorization, the machine
-side of Gate C can be run with:
-
-```bash
-uv run python scripts/build_task03j_final_review.py \
-  --data-root "$ER_COMMONS_DATA_ROOT" \
-  --gate-a "$ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_04_review/reviewv1-task03j-final-b19a7a36b04bda89/records/gate_a_preparation.json" \
-  --output-root "$ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_04_review/reviewv1-task03j-final-c17"
-```
-
-The corrected MVP package is at `reviewv1-task03j-final-c17/`. It contains one
-six-tab reviewer with bounded page, warning, table, finding-recheck, and TOC
-false-negative samples. The TOC tab has one representative per contiguous run
-of page-dominant tables, excludes already recognized TOC pages and substantive
-controls, and keeps imported human positives visible and pre-tagged. The
-Positive TOCs tab skips only a supported navigation prefix and lists every
-reviewable later page, including already labeled pages. It bypasses intentional-blank pages and
-auto-labels the suffix from each machine-positive `Basic Project Information`
-body boundary through the end of its contiguous run as `not_toc`. It keeps one
-task per reviewable page. Both TOC tabs expose explicit TOC and Not TOC controls;
-clicking the active choice clears it. Positive `Not TOC` applies through the run
-end. Hide reviewed filters labeled cards.
-The two TOC queues have separate progress text. Decisions are stored locally for
-JSON export named with the review ID. Earlier Gate C packages are superseded.
-The 757 persisted decisions are stored in `records/toc_review_decisions.json`;
-later `c*` runs automatically use the newest such record unless an explicit
-`--toc-decisions` export is supplied.
-
-After human approval, Gate D was published with:
-
-```bash
-uv run python scripts/publish_task04a_gate_d.py
-```
-
-The command accepts only compact review-record paths, refuses to hash an input
-larger than 1 MB, and publishes a no-clobber `gate_d/` directory beneath c17.
-It does not offer PDF, render, model, or machine-regeneration options. The
-completed package freezes 35 eligible sources, 757 TOC decisions, 725 unresolved
-ambiguous links, and the fixed Task 03I recheck.
+The retained final profile remains the accepted Task 03J/04A profile: 35 sources,
+757 decisions, 341 visible TOC cards, and 725 unresolved ambiguous links.
+A later task must define a new profile before changing those semantics. Original
+execution commands, review IDs, and evidence remain in the completed
+[Task 04A record](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md).
+Gate 2 does not regenerate renders or human decisions.
 
 ## Serve a completed review bundle
 
@@ -105,7 +58,7 @@ Open `http://localhost:8000/`. Stop the server with Ctrl-C.
 
 Use the supported CLI after reviewing an item in `html/index.html`; do not edit
 JSON or checksums by hand. The concise example is in
-[`FINDINGS.md`](../src/er_commons/human_review_support/task04/FINDINGS.md).
+[`FINDINGS.md`](../src/er_commons/human_review_support/extraction_review/FINDINGS.md).
 
 The command derives typed anchors and source/candidate terminal checksums from
 the selected item. Use repeatable `--table-id`, `--block-id`, or
@@ -117,9 +70,9 @@ When all first-pass findings have terminal dispositions, approve and close the
 register:
 
 ```bash
-uv run python scripts/set_task04_finding_register_status.py \
+uv run python scripts/set_review_register_status.py \
   --review-root "$REVIEW_ROOT" --status approved
-uv run python scripts/set_task04_finding_register_status.py \
+uv run python scripts/set_review_register_status.py \
   --review-root "$REVIEW_ROOT" --status closed
 ```
 
@@ -133,20 +86,20 @@ empty register is a valid no-finding outcome.
 These checks are source-free and apply to the completed first-pass support:
 
 ```bash
-uv run ruff check src/er_commons/human_review_support/task04 \
-  scripts/build_task04_review_bundle.py scripts/record_task04_finding.py \
-  scripts/set_task04_finding_register_status.py \
+uv run ruff check src/er_commons/human_review_support/extraction_review \
+  scripts/build_extraction_review_bundle.py scripts/record_review_finding.py \
+  scripts/set_review_register_status.py \
   tests/task04_test_support.py tests/test_task04_*.py \
   tests/test_build_task04_review_bundle.py
-uv run mypy src/er_commons/human_review_support/task04 \
-  scripts/build_task04_review_bundle.py scripts/record_task04_finding.py \
-  scripts/set_task04_finding_register_status.py \
+uv run mypy src/er_commons/human_review_support/extraction_review \
+  scripts/build_extraction_review_bundle.py scripts/record_review_finding.py \
+  scripts/set_review_register_status.py \
   tests/task04_test_support.py tests/test_task04_*.py \
   tests/test_build_task04_review_bundle.py
 uv run pytest -q tests/test_task04_*.py tests/test_build_task04_review_bundle.py
-uv run python scripts/build_task04_review_bundle.py --help
-uv run python scripts/record_task04_finding.py --help
-uv run python scripts/set_task04_finding_register_status.py --help
+uv run python scripts/build_extraction_review_bundle.py --help
+uv run python scripts/record_review_finding.py --help
+uv run python scripts/set_review_register_status.py --help
 git diff --check
 ```
 

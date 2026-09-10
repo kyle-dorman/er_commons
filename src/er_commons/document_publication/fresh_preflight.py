@@ -19,9 +19,18 @@ def validate_fresh_build_templates(
     source_id: str,
     disposition: HierarchyDisposition,
     data_root: Path,
+    declared_artifact_root: Path | None = None,
+    recorded_manifest_digest: tuple[Path, str] | None = None,
+    parsed_values: dict[str, JsonObject] | None = None,
 ) -> tuple[Path, None]:
     """Validate fresh policy templates without requiring not-yet-built candidates."""
-    values = {role: _json(path) for role, path in configs.as_dict().items()}
+    values = (
+        parsed_values
+        if parsed_values is not None
+        else {role: _json(path) for role, path in configs.as_dict().items()}
+    )
+    if set(values) != set(configs.as_dict()):
+        raise ValueError("parsed process controls must cover the six configured roles")
     mismatches: list[str] = []
     if disposition.authority != "machine_validation" or (
         disposition.authorization_relative_path is not None
@@ -44,9 +53,27 @@ def validate_fresh_build_templates(
     )
     if any(document_structure.get(field) is not None for field in bounded_fields):
         mismatches.append("fresh document_structure template carries historical review controls")
-    _validate_manifest(data_root, source_id, values["document_reference_linking"], mismatches)
+    _validate_manifest(
+        data_root,
+        source_id,
+        values["document_reference_linking"],
+        mismatches,
+        recorded_manifest_digest,
+    )
     artifact_roots = _fresh_artifact_roots(values)
-    invalid_roots = [str(path) for path in artifact_roots if not is_fresh_document_root(path)]
+    invalid_roots = (
+        [
+            str(path)
+            for path in artifact_roots
+            if not (
+                path.is_relative_to(declared_artifact_root)
+                and not path.is_absolute()
+                and ".." not in path.parts
+            )
+        ]
+        if declared_artifact_root is not None
+        else [str(path) for path in artifact_roots if not is_fresh_document_root(path)]
+    )
     if invalid_roots:
         mismatches.append(
             "fresh process artifact roots must use a task_03g2 or task_03h namespace: "
@@ -80,6 +107,7 @@ def _validate_manifest(
     source_id: str,
     cross_reference: JsonObject,
     mismatches: list[str],
+    recorded_digest: tuple[Path, str] | None = None,
 ) -> None:
     if cross_reference.get("source_id") != source_id:
         mismatches.append("fresh cross-reference template selects another source")
@@ -89,7 +117,14 @@ def _validate_manifest(
         manifest_path is None
         or not manifest_path.resolve().is_relative_to(data_root.resolve())
         or not manifest_path.is_file()
-        or sha256_file(manifest_path) != cross_reference.get("source_manifest_sha256")
+        or (
+            (
+                recorded_digest[0] != Path(str(manifest_value))
+                or recorded_digest[1] != cross_reference.get("source_manifest_sha256")
+            )
+            if recorded_digest is not None
+            else sha256_file(manifest_path) != cross_reference.get("source_manifest_sha256")
+        )
     ):
         mismatches.append("fresh cross-reference source manifest seal differs")
 

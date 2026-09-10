@@ -8,13 +8,13 @@ from pathlib import Path
 import pytest
 from task04_test_support import AcceptingCandidateVerifier, make_synthetic_review_tree
 
-import er_commons.human_review_support.task04.verification as verification_module
+import er_commons.human_review_support.extraction_review.verification as verification_module
 from er_commons.document_publication.records import SourceIdentity
-from er_commons.human_review_support.task04.config import review_policy
-from er_commons.human_review_support.task04.discovery import discover_inputs
-from er_commons.human_review_support.task04.records import create_identity
-from er_commons.human_review_support.task04.scope_policy import InputScopePolicy
-from er_commons.human_review_support.task04.verification import (
+from er_commons.human_review_support.extraction_review.config import review_policy
+from er_commons.human_review_support.extraction_review.discovery import discover_inputs
+from er_commons.human_review_support.extraction_review.records import create_identity
+from er_commons.human_review_support.extraction_review.scope_policy import InputScopePolicy
+from er_commons.human_review_support.extraction_review.verification import (
     CandidateSeal,
     DocumentPublicationVerifier,
     Sha256SourceFileVerifier,
@@ -36,6 +36,7 @@ def test_completion_record_alone_does_not_make_candidate_selectable(tmp_path: Pa
         discover_inputs(
             tree.retained_root,
             tree.data_root,
+            source_pdf_root=tree.source_pdf.parent,
             candidate_verifier=RejectingCandidateVerifier(),
             input_scope=FIXTURE_SCOPE,
         )
@@ -49,6 +50,7 @@ def test_existing_source_pdf_must_match_catalog_bytes(tmp_path: Path) -> None:
         discover_inputs(
             tree.retained_root,
             tree.data_root,
+            source_pdf_root=tree.source_pdf.parent,
             candidate_verifier=AcceptingCandidateVerifier(),
             input_scope=FIXTURE_SCOPE,
         )
@@ -79,6 +81,7 @@ def test_readiness_scope_must_exactly_match_discovered_catalog(
         discover_inputs(
             tree.retained_root,
             tree.data_root,
+            source_pdf_root=tree.source_pdf.parent,
             candidate_verifier=AcceptingCandidateVerifier(),
             input_scope=FIXTURE_SCOPE,
         )
@@ -89,12 +92,14 @@ def test_candidate_seal_and_renderer_version_change_review_identity(tmp_path: Pa
     first_inputs = discover_inputs(
         tree.retained_root,
         tree.data_root,
+        source_pdf_root=tree.source_pdf.parent,
         candidate_verifier=AcceptingCandidateVerifier(completion="a" * 64),
         input_scope=FIXTURE_SCOPE,
     )
     second_inputs = discover_inputs(
         tree.retained_root,
         tree.data_root,
+        source_pdf_root=tree.source_pdf.parent,
         candidate_verifier=AcceptingCandidateVerifier(completion="d" * 64),
         input_scope=FIXTURE_SCOPE,
     )
