@@ -25,6 +25,14 @@ Task 05H owns final curator review and immutable inventory publication.
   passing human code-quality gate; and
 - the future accepted Task 06 replacement handoff and usability registry.
 
+Use Task 06H's accepted handoff and Task 06B's maintained-owner map to revise
+this provisional contract before implementation. This task owns replacing the
+current hardcoded Task 04 consumer bindings with validated explicit replacement
+inputs, preserving historical accepted records and their readers. Carry Final
+F1 substitution/revision warnings, target-specific limitations, and figure
+visual/text-only usability from the handoff. Updating bindings must not reopen
+Task 05D source extraction or silently change the accepted matching rules.
+
 ## Required behavior
 
 1. Validate compact accepted identities and reuse unaffected Task 05 evidence.

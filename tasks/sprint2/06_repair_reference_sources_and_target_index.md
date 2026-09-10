@@ -1,36 +1,134 @@
-# Task 06: Repair Reference Sources and Target Index
+# Task 06: Repair Reference Sources and Targets, and Simplify Reuse
 
-Status: **provisional umbrella and inactive; its final scope and subtasks must be
-designed in a new chat before source access or implementation**.
+Status: **eight-part planning umbrella; detailed contracts written, execution
+not started**. Task 06A is the current planning entry. Tasks 06B–06H remain
+provisional and inactive until their prerequisites are accepted and their
+respective work is authorized. Writing this plan authorizes no implementation,
+source access, model execution, or production replay.
 
 ## Abstract
 
-Repair four upstream defects discovered while qualifying Task 05F:
+Recover from four upstream defects found during Task 05F while making the
+maintained pipeline easier to run a second time. Replace the incorrectly
+identified F1 source with the selected Final EIR F1, repair duplicate and missing
+chapter targets, and publish caption-backed figure targets. Combine that repair
+with bounded code-identity, verification, and task-era script cleanup.
 
-1. the accepted `deir_appendix_f1` source is not the advertised Transportation
-   Impact Assessment; it is a 75-page Bayshore Mobility Study; and
-2. repeated chapter-divider and opening-page headings in `deir_appendix_a`
-   become separate section targets, creating exact collisions such as
-   `06 CIRCULATION` versus `06 | CIRCULATION`; and
-3. canonical Draft EIR figures and their captions exist, but Task 04D did not
-   publish figure targets or aliases in its designated target index; and
-4. the main Draft EIR has no chapter-level targets for Chapter 8, Alternatives,
-   or Chapter 9, Subsequent EIR Analysis and Findings, even though accepted TOC
-   evidence and body subsection boundaries identify both chapters.
+Preserving expensive accepted chunked conversion is a product requirement.
+First prove that the maintained workflow can consume existing sealed evidence;
+then clean its interfaces and replay only affected descendants. Reuse accepted
+human review wherever evidence correspondence supports it. Return one coherent
+replacement handoff to Task 05G, which owns response-reference replay.
 
-Use the City of Brisbane's Final EIR Appendix F1 as an explicit, provenance-
-marked substitute for the unavailable Draft EIR F1. Implement one
-source-general repair for duplicate chapter targets, rebuild only invalidated
-document and collection descendants under fresh identities, add exact caption-
-backed figure targets, conduct a targeted human recheck, and return one
-replacement handoff to Task 05G.
+This is an MVP recovery and maintenance effort, not a new extraction pipeline,
+workflow engine, resolver, or review application.
 
-This is an MVP recovery umbrella. Its current gates preserve discovered work and
-open questions; they are not an accepted execution contract. It must not
-redesign source acquisition, canonical extraction, human review, or Task 05F
-resolution.
+## Accepted planning directions
 
-## Observed stop evidence
+The user settled these directions during Task 06 planning:
+
+- Use Final EIR Appendix F1 as the replacement. Preserve its actual edition and
+  substitution provenance; do not reopen the choice as an eligibility question
+  or describe it as original Draft bytes. Carry the explicit F1 exception into
+  affected current policy docs without broadening the exception to other Final
+  EIR documents. Task 06 does not perform benchmark case selection.
+- Recover a missing body chapter heading where possible. Otherwise provide a
+  supported fallback from accepted TOC evidence and coherent chapter children,
+  with explicit provenance and extent, rather than abandoning the chapter or
+  pretending its first subsection is the entire chapter.
+- Inspect repeated headings' actual child/sibling relationships and TOC
+  destinations before choosing a repair. Human review can resolve cases where
+  code checks cannot decide; a human decision that changes structure must be
+  materialized and replayed before acceptance.
+- Keep hashing limited. Hash a newly downloaded F1 once during its acquisition
+  stream; avoid standalone/repeated PDF hashes and routine rehashing of sealed
+  large payloads. Keep explicit deep-audit operations available when separately
+  warranted. Small code, configuration, and new record hashes remain useful.
+- Preserve existing conversion and review evidence as far as its actual
+  dependencies allow. A source-ID match or unchanged file size alone is not
+  proof of content or review equivalence.
+- Rename maintained task-specific executable code by responsibility and document
+  it. Remove proven one-offs; retain necessary historical artifact readers.
+  Preserve historical task records, accepted schema identifiers, artifact paths,
+  and identity strings as historical evidence.
+- Combine the reuse/identity work and code cleanup in **Task 06B with two gates**.
+  They can require coordinated edits inside one task; neither is an excuse to
+  redo unchanged conversion.
+
+## Goal
+
+1. Preserve accepted Task 02, Task 03J, Task 04A, Task 04D, Task 05D, Task 05E,
+   and Task 05F baseline/partial artifacts unchanged.
+2. Establish narrow future stage identities and explicit consumption of old
+   seals before moving code or starting source processing.
+3. Remove hidden PDF access and repeated large-payload verification from routine
+   downstream replay, while keeping truthful verification claims and exact
+   managed-file closure.
+4. Give maintained preparation, generation, replay, and review tools clear
+   responsibility-based names, explicit inputs, and current documentation.
+5. Produce correctly identified new F1 evidence and source-general duplicate-
+   chapter, missing-chapter, and figure-target repairs.
+6. Rebuild the smallest justified document and collection descendants under fresh
+   identities, with complete old/new correspondence and change accounting.
+7. Publish a replacement usability registry and accepted handoff for Task 05G
+   after targeted review; retain explicit unresolved outcomes where warranted.
+
+## Subtasks and dependency order
+
+| Task | Owned work | Terminal result |
+| --- | --- | --- |
+| [06A](06a_freeze_recovery_and_cleanup_plan.md) | Source-free input qualification, stage/identity map, script classification, repair evidence and resource plan | Accepted evidence/cleanup packet and bounded implementation decisions |
+| [06B](06b_refactor_pipeline_identity_and_reuse.md) | Gate 1: safe sealed reuse and stage identities; Gate 2: maintained interface cleanup and integrated proof | Tested reusable workflow, executed rename/remove/retain inventory, documented commands |
+| [06C](06c_qualify_and_process_replacement_f1.md) | Source identity checks, separately gated F1 acquisition and conversion | Qualified Final F1 source and sealed replacement document evidence |
+| [06D](06d_repair_duplicate_chapter_targets.md) | Repeated-heading interpretation and source-general structural repair | Tested policy, provenance, and review candidates for duplicate chapters |
+| [06E](06e_restore_missing_chapter_targets.md) | Recovered-heading or TOC/children chapter representation | Tested Chapter 8/9 targets, boundary policy, and explicit inferred provenance |
+| [06F](06f_publish_caption_backed_figure_targets.md) | Independent exact figure-caption target publication | Tested alias extension and complete eligibility/ambiguity accounting |
+| [06G](06g_replay_repaired_document_and_collection_stages.md) | Final-policy replay of affected descendants and unchanged-input composition | Validated replacement candidates, collection handoff, and exact comparison report |
+| [06H](06h_review_and_accept_replacement_handoff.md) | Reuse prior review, review changed evidence, resolve or retain risks, accept handoff | Accepted replacement handoff/usability binding for Task 05G |
+
+Execute sequentially by default. Bounded subagents may inspect independent
+questions or work within an active task's file scopes, but that does not activate
+later tasks. Revise each provisional contract from the preceding accepted
+outcome, especially the old/new owner map produced by 06B. Do not create another
+numbered task for every small repair or exact-rule amendment.
+
+06C seals new F1 conversion before the structural/alias policies are finalized.
+06G must reuse that conversion and rebuild only its descendants affected by
+later policies. If a review finding changes products, return to the owning
+06D/06E/06F policy and 06G replay under fresh identities; 06H cannot fix machine
+products by changing their review label alone.
+
+## Accepted inputs and authority
+
+The records below are locators for 06A's qualification. The owning completed
+contracts contain full paths, inventories, completions, and acceptance evidence.
+Do not replace compact verification with a recursive payload hash.
+
+| Input | Recorded designation |
+| --- | --- |
+| Original source release | Task 02 `brisbane_baylands_2025_deir_sources_v1`; immutable source records and landing-page inventory |
+| Task 03J extraction | `exv1-6913f56bed93302d7cf5ef424ee63c0b7427e90e2b2cd5c4ec483d275009a773` |
+| Task 03J handoff | `handoffv1-44d510d545026a427ccdb47497d30f1d46c66130291af66fc0d5883a35102325` |
+| Task 04A review | `reviewv1-task03j-final-c17/gate_d/`; usability registry SHA-256 `0453aaf13cb7762e7718ce869ee3f1521a67625224bd35c83b641cc5ae8d47e1` |
+| Task 04D designated handoff | `handoffv1-e54a72e4bb8f9ba34888c1fc1f51424c4cc52e5f24d6700b16b462e3a659b6d1` |
+| Task 04D target index | `idxv1-31a3eacee1d03001d44f79d2fa15563cfd416b9a80c02e8d178d0843e4bb4a00` |
+| Task 05D accepted source inventory | `revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030` and adjacent acceptance pointer |
+| Task 05E accepted graph | `revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1` and adjacent acceptance pointer |
+| Task 05F accepted partial rules | `rulesv1-9e67959aefc07f9ffd65605ad9d886a53022dcaccc5c9c8bed1494c41b4c0a83`; semantic digest `8dcd3af81b10003c49ee0588bd01a5ce8f5e778f41159bdf8b3769794dbf80ac` |
+
+The starting population is 511 mentions: 509 Draft EIR and 2 Appendix Q;
+295 links and 216 explicit nonlinks. Preserve all 11 comment-authored closures,
+Appendix Q verification outcomes, exact collisions, and source-routing controls.
+The 05F partial working candidate is accepted task evidence, not a published
+immutable Task 05 inventory. Its older exact baseline remains preserved too.
+
+Use [Task 05F](05f_resolve_official_draft_eir_references.md) for the full accepted
+05D/05E/04A/04D bindings and failure census, and the individual Task 03J/04A/04D
+outcomes for their native authoritative records. Resolve disagreements before
+execution rather than choosing whichever ID is easier to load.
+
+## Observed repair evidence
+
 
 ### F1 source identity
 
@@ -111,299 +209,174 @@ The accepted main-document body contains `8.1` through `8.6` and `9.1` onward,
 while accepted TOC evidence states `Chapter 8 Alternatives` and `Chapter 9
 Subsequent EIR Analysis and Findings`. It has no distinct Chapter 8 or Chapter 9
 body target. This is an upstream target-publication gap. Do not hide it by
-aliasing a whole-chapter citation to Section 8.1 or 9.1. Gate A must identify the
+aliasing a whole-chapter citation to Section 8.1 or 9.1. Task 06E must specify the
 smallest source-general way to represent a chapter start and extent from
 accepted structural evidence before implementation.
 
-## Goal
 
-1. Preserve the accepted Task 02, Task 03J, Task 04A, Task 04D, Task 05D, Task
-   05E, and Task 05F Gate 1 artifacts unchanged.
-2. Acquire and identify the Final EIR Appendix F1 only after a separate source
-   gate, recording that it is an edition substitute rather than the original
-   Draft EIR file.
-3. Produce a correct canonical and target stream for the replacement F1.
-4. Collapse or canonically designate repeated chapter-divider/opening-header
-   pairs through one source-general, fail-closed rule.
-5. Materialize exact figure targets from independently eligible canonical
-   figure-caption evidence without deriving targets or aliases from Task 05D
-   mention text.
-6. Materialize proper main-document Chapter 8 and Chapter 9 targets and exact
-   aliases from independently accepted structure and TOC evidence, without
-   deriving targets or titles from Task 05D mention text.
-7. Replay the minimum invalidated document, linking, publication, collection,
-   index, resolution, handoff, and usability descendants under fresh
-   identities.
-8. Give Task 05G one coherent replacement Task 04 handoff and usability
-   registry for a separate source-free replay of the accepted Task 05F rules.
+## Cleanup evidence and ownership
 
-## Inputs
+The read-only planning audit found these concrete candidates for 06A/06B:
 
-- immutable Task 02 source release and landing-page inventory;
-- accepted Task 03J conversion, producer, canonical, hierarchy, publication,
-  and collection records;
-- accepted Task 04A review and usability registry;
-- Task 04D's designated linked-document and collection handoff;
-- accepted Task 05D and Task 05E records;
-- Task 05F Gate 1 baseline and reviewed rule-qualification findings; and
-- the maintained source-acquisition, document-publication, collection, human-
-  review, and response-inventory implementations.
+- `content_parsing/conversion_identity.py` includes the whole source-acquisition
+  package and release-wide manifest; chunked planning inherits that identity.
+- Hierarchy, mapping, and linking bind dispatcher `cli.py`, while conversion
+  and routing/table inventories already exclude it.
+- Task 05 stages share a package-wide code digest, coupling extraction to later
+  reference/review edits; actual external alias-normalization dependencies need
+  explicit coverage as those inventories are narrowed.
+- Downstream document publication invokes fresh-source preflight, which hashes
+  the PDF; candidate validation can hash managed payloads twice; shared reviewed
+  navigation can be revalidated for every source.
+- `compatibility_v1_bundle.py` has no discovered runtime caller but remains in
+  historical identity inventories. Task 03G.2f execution is a retirement
+  candidate; Task03H generation still supports Task03J. Neither names nor lack
+  of a simple import alone establish deletion safety.
 
-The Final EIR F1 PDF is not an input until the source gate is explicitly
-authorized and its exact URL, expected response metadata, destination, and
-resource limits are frozen.
+These are code-backed findings, not measured runtime savings or a completed
+06A artifact audit. The architecture's conversion/producer separation, chunk
+receipts, exact resolver, completion-last publication, no-clobber behavior,
+sequential progress, and separate human review should remain.
 
-## Outputs
+## Shared artifact and verification contract
 
-- a compact source-substitution record connecting the advertised Draft F1, the
-  incorrect accepted source, and the Final EIR F1 substitute without claiming
-  byte or edition equivalence;
-- a fresh source and document lineage for replacement `deir_appendix_f1`;
-- a source-general duplicate chapter-heading policy with focused fixtures;
-- exact caption-backed figure targets and aliases derived from existing
-  canonical `deir_main` evidence;
-- proper Chapter 8 and Chapter 9 targets and aliases derived from accepted
-  main-document structural and TOC evidence;
-- fresh affected canonical, semantic, alias, link, publication, collection,
-  target-index, resolution, and handoff records;
-- exact before/after accounting for F1 and Appendix A targets and all collection
-  effects;
-- a targeted human review and replacement usability registry covering F1 and
-  Appendix A, with explicit correspondence for unaffected sources; and
-- a compact handoff authorizing Task 05G to replace Task 05F's current Task
-  04A/04D bindings and replay from the unchanged accepted Task 05D/05E records.
+06A freezes the exact new root-relative working namespace beneath
+`ER_COMMONS_DATA_ROOT`. Source, conversion, document, and collection owners keep
+using their existing artifact layouts and typed identities. A compact Task 06
+packet references them; it does not copy them into a second artifact system.
+Git holds contracts, small configs/schemas, fixtures, and compact outcomes only.
 
-Large artifacts remain beneath `ER_COMMONS_DATA_ROOT`. Git contains only the
-contract, small configuration, implementation, tests, and compact summaries.
+Use existing record/schema families where they fit. The minimum new information
+must be expressible as small versioned records with owning validators:
 
-## Fixed boundaries
+| Record responsibility | Required information |
+| --- | --- |
+| Input binding | Role, source, exact old identity, path, completion/inventory references, designation, verification mode |
+| Source substitution | Advertised Draft source, wrong accepted source, new Final source and edition, retrieval/qualification, routing correspondence, two revision warnings |
+| Cleanup inventory | Old path/symbol, responsibility, caller/identity evidence, rename/remove/retain decision, new interface, validation |
+| Stage reuse/correspondence | Old seal, new consumer/identity, unchanged or changed role, stable-key/ID mapping, evidence and compatibility method |
+| Structural/figure decisions | Independent source evidence, accepted rule or human disposition, target identity, hierarchy/extent or caption attachment, unresolved reason |
+| Review correspondence | Old decision and exact evidence, new evidence mapping, what the decision covered, reuse justification or required new review |
+| Replacement handoff | New collection and usability closure, exact retained 05D/05E/05F inputs, policy versions, complete changes/limitations, acceptance designation |
 
-- Never modify, overwrite, or relabel the accepted source release or Task
-  03J/04A/04D artifacts.
-- Do not present the Final EIR F1 as the original Draft EIR F1. Preserve its
-  landing page, Document Center ID, retrieval metadata, edition, and
-  substitution reason.
-- F1 links produced through the substitute default to `usable_with_warning`.
-  The two explicitly revised locations must additionally identify the relevant
-  response and state that the linked text is revised Final EIR content.
-- Absence of an explicit revision in the other 64 mentions is not proof of
-  Draft/Final textual identity.
-- Task 05D and Task 05E consume Final EIR Volume 4 and remain unchanged unless
-  source-free validation proves an identity dependency that this contract has
-  overlooked.
-- Do not rerun Task 03 extraction merely to publish figure targets already
-  supported by canonical figure, image, and caption records.
-- Resolve a figure only from its own attached body caption beginning with the
-  exact requested identifier, after deduplication by figure target ID. Do not
-  infer a target from nearby prose, a list of figures, or a Task 05D mention.
-- Keep structural figure resolution separate from visual-evidence and model-
-  support usability. Text-only benchmark support must exclude image-dependent
-  evidence unless an independently eligible textual source states that
-  evidence.
-- Appendix Q remains outside this task.
-- Do not introduce fuzzy or semantic reference matching.
-- Do not map a whole-chapter citation to its first numbered subsection merely
-  because that subsection is the closest existing navigation point.
-- Do not create a second extraction pipeline, resolver framework, review app,
-  or artifact system.
-- Do not run a standalone or repeated full-file hash over a large PDF. If the
-  maintained downloader can calculate a digest during the one authorized
-  acquisition stream without rereading the file, present that behavior at the
-  source gate and obtain approval before using it.
-- No gate authorizes cleanup, commit, push, Task 05G, or benchmark publication.
+Do not store response text or copied canonical payloads in these records. Follow
+existing ordering, JSON, atomic-write, and inventory conventions. Concrete
+field names and schema changes belong in 06A's spec and owning subtasks.
+
+Routine accepted-input checks validate compact seals, recorded identities,
+containment, expected sizes, membership, and file closure. They reuse recorded
+large-payload checksums. They do not prove fresh byte equality. Deep audits are
+explicit; new authoritative outputs are hashed during publication as practical.
+Necessary record reads for transformations/comparisons are allowed by the
+active source-free task, but are not a reason to hash an entire upstream tree.
+
+For review reuse, verify that the content, placement, context, and rule covered
+by the old decision still correspond. Reading selected records to establish
+semantic equivalence is allowed; matching only a source ID or file size is not.
+New IDs are expected in replacement namespaces and require explicit mapping.
+
+## Expected reuse and replay boundaries
+
+| Evidence | Task 06 treatment |
+| --- | --- |
+| Original Task 02 release and wrong F1 | Preserve as historical evidence; never relabel or reuse wrong F1 content as replacement |
+| Unaffected conversion/chunk/producer seals | Consume original accepted seals; no re-conversion just for names, code recipe, or collection membership |
+| Replacement F1 | New source and conversion in 06C; preserve that new conversion during later repair replay |
+| Appendix A | Reuse conversion/producer; rebuild from the structural owner selected in 06D |
+| Main document | Reuse conversion/producer; rebuild chapter/alias/link descendants required by 06E/06F |
+| Unaffected document-local content | Reuse through verified correspondence; namespace remapping may be necessary |
+| Collection/index/resolution | Rebuild every descendant affected by source/target membership changes, including links originating in otherwise unchanged documents |
+| Task 04 review | Reuse decisions only within demonstrated evidence correspondence; new/changed evidence receives review |
+| Task 05D/05E and partial 05F | Preserve unchanged; Task 05G owns new binding and reference replay |
+
+If a semantic policy changes a stage's outputs, those outputs must be rebuilt.
+The reuse boundary permits old upstream inputs; it does not label obsolete
+outputs as satisfying the new policy. If the minimum plan unexpectedly requires
+new conversion of an unchanged source, stop with the dependency evidence before
+incurring that cost.
+
+## Authorization and sequencing
+
+- Current authorization is to write detailed planning documents. No runtime
+  gate is considered passed by writing or reviewing a contract.
+- 06A is source-free evidence/planning work. 06B is source-free implementation
+  with two gates; authorization may cover both, with an evidence checkpoint
+  between them. Rename/delete permission is limited to its accepted code list.
+- 06C separates source-free qualification implementation, exact acquisition,
+  and resource-bounded conversion. Its source gate declares one streaming hash
+  and numeric limits before network access; model/source execution must be
+  explicitly authorized. Existing authorization should not be requested twice.
+- 06D–06F separate policy/specification, source-free implementation/fixtures,
+  and any bounded evidence qualification. They do not authorize production
+  corpus replay or PDF rendering by implication.
+- 06G requires an accepted final replay matrix, actual maintained commands,
+  resource ceilings, and an explicit affected-replay authorization.
+- 06H reuses existing renders first; any additional rendering is a bounded,
+  authorized source-access action. Machine validation, human dispositions,
+  terminal publication, and user acceptance remain distinguishable states.
+- No task implicitly authorizes artifact cleanup, commit, push, Task 05G/05H
+  execution, or benchmark publication. Approved code removal in 06B is distinct
+  from deleting external data, caches, models, or `.venv`.
 
 ## Research / learning checkpoint
 
-Before implementation:
+The [DVC run-cache documentation](https://doc.dvc.org/user-guide/pipelines/run-cache)
+provides a reference for dependency-scoped reuse; [W3C PROV-O](https://www.w3.org/TR/prov-o/)
+provides a vocabulary for derivation and revision; and
+[pytest monkeypatch](https://docs.pytest.org/en/stable/how-to/monkeypatch.html)
+provides the existing testing mechanism for prohibited-I/O sentinels. These
+support the current plain-file pipeline; no new infrastructure is selected.
 
-1. Trace the accepted Draft F1 acquisition from landing-page entry through the
-   source manifest and explain why label/URL checks passed despite the served
-   document identity mismatch.
-2. Inspect the maintained acquisition validator and propose the smallest
-   source-general semantic identity check based on advertised label, response
-   metadata, and extracted first-page/title evidence. Do not require a new
-   framework or LLM.
-3. Trace the two Appendix A duplicate pairs from producer blocks through
-   hierarchy, sections, aliases, and the Task 04D target index. Identify the
-   narrow owning stage and test several unaffected chapter-opening controls.
-4. Produce an identity-impact table naming which F1, Appendix A, other-document,
-   collection, review, and Task 05 records are reusable or invalidated.
-5. Explain in plain language why source replacement requires new F1 conversion
-   evidence, while the Appendix A repair should reuse sealed producer evidence
-   unless inspection proves otherwise.
-6. Trace figure records and attached captions through target construction and
-   the Task 04D handoff, confirming that the extension can reuse sealed
-   canonical evidence and identifying the smallest invalidated descendants.
-7. Trace Chapters 8 and 9 from accepted TOC entries through body subsection
-   boundaries and target publication. Propose a source-general chapter-target
-   rule, its provenance representation, and negative controls for missing,
-   conflicting, or noncontiguous chapter evidence.
+Each subtask preserves a short learning note explaining its chosen owner,
+evidence contract, and tradeoff. Research exact package behavior from maintained
+primary documentation before adding dependencies. Public tool/standards research
+is distinct from accessing Brisbane source documents behind the source gate.
 
-## Plan and authorization gates
+## Validation and review pass
 
-### Gate A: source-free recovery plan
+- Prove old conversion evidence survives the new interfaces before processing.
+- Test both relevant-change invalidation and unrelated-change non-invalidation.
+- Assert no PDF/model access or preserved-large-payload hashes in routine replay.
+- Require source-general positive and negative structural/figure controls.
+- Compare semantic content and full ID correspondence, not raw IDs alone.
+- Account for every added/removed/merged target and every changed link, including
+  unchanged-source links affected by new collection targets.
+- Preserve all 511 baseline mention outcomes as comparison evidence; do not claim
+  new Task 05F links before Task 05G executes its own contract.
+- Require restart/reuse, incomplete-state rejection, exact closure, and a human
+  code-quality review for changed implementation. Use `make fix`, `make check`,
+  and `git diff --check` at implementation gates; docs-only gates inspect the
+  diff and run `git diff --check`.
+- Review F1 identity/structure and referenced targets, Appendix A merged extents,
+  main Chapters 8/9 extents, all distinct eligible figure targets, and negative
+  controls. Reuse accepted review only within its demonstrated scope.
 
-1. Validate compact accepted pointers, completions, inventories, paths, sizes,
-   and identities without rehashing large payloads.
-2. Freeze the complete F1 impact population, the two Appendix A duplicate
-   pairs, all 79 Draft EIR figure mentions, and the 19 Chapter 8/9 mentions plus
-   their exact negative controls.
-3. Select the smallest source-identity validation, duplicate-target repair,
-   figure-target extension, and missing-chapter-target repair.
-4. Publish no artifacts. Present the exact acquisition, implementation, replay,
-   expected runtime/disk use, and review plan for user approval.
+## Umbrella acceptance criteria
 
-### Gate B: acquire and qualify replacement F1
+06A–06H are complete with their accepted outcomes. Maintained tools have clear
+owners and inputs; proven one-offs are removed; accepted conversion is reused
+where unchanged; and routine replay no longer depends on broad rehashing.
+F1 has a new explicit Final-edition lineage; repeated headings have correct
+logical ownership; missing chapters have evidence-backed targets; and figures
+have exact caption-backed aliases with independent usability status.
 
-After separate authorization only:
-
-1. Retrieve exactly Final EIR Document Center ID `2972` into a fresh no-clobber
-   source namespace.
-2. Record URL, access time, HTTP metadata, server filename, byte size, page
-   count, advertised label, detected title, and edition. Follow the approved
-   no-rehash policy.
-3. Verify that the document is the Transportation Impact Assessment and that
-   expected internal material such as the Existing Traffic Conditions Memo is
-   present before accepting it as the substitute.
-4. Stop on redirects to a different document, inconsistent title/metadata,
-   incomplete structure, resource overrun, or uncertain edition identity.
-
-### Gate C: implement source-general repairs
-
-After separate authorization only:
-
-1. Add the smallest acquisition identity check in the existing source-freezer
-   boundary.
-2. Repair repeated chapter-divider/opening-page headings in the owning existing
-   canonical or hierarchy component. Require adjacent-page, compatible-text,
-   shared-parent, and heading-role evidence; fail closed when evidence differs.
-3. Preserve both source blocks and provenance while exposing one logical target.
-4. Extend the existing target-index path to publish an eligible canonical
-   figure only when its own attached body caption begins with one exact figure
-   identifier. Deduplicate by target ID and fail closed on zero or multiple
-   targets.
-5. Extend the owning structural/target-publication path to expose a chapter
-   target only from accepted source structure. Require exact chapter identity,
-   coherent subsection boundaries, and independently accepted title evidence;
-   do not use response mention text or substitute the first subsection target.
-6. Add focused tests for the observed Chapter 06 and 08 shapes, nonadjacent
-   repeated headings, legitimate same-title sections, TOC rows, furniture, and
-   different-parent controls, plus captionless figures, unparsed captions,
-   duplicate identifiers, TOC/list-of-figures rows, the absent `Figure 4.8`,
-   Chapters 8 and 9, and missing/conflicting chapter-boundary controls.
-7. Run formatting, linting, strict typing, focused tests, and a human code-
-   quality review before any replay.
-
-### Gate D: fresh affected replay
-
-After separate authorization only:
-
-1. Allocate a fresh recovery namespace and identities.
-2. Run replacement F1 through the maintained document pipeline. Do not reuse
-   the incorrect F1 conversion or descendants.
-3. Reuse Appendix A's sealed conversion/producer evidence and rebuild from the
-   narrow invalidated stage unless Gate A proves a source/model rerun necessary.
-4. Reuse unaffected document evidence through explicit identity correspondence;
-   never copy records into a mismatched identity.
-5. Rebuild every collection-level descendant affected by changed F1 or Appendix
-   A targets, including target indexing, cross-document resolution, accounting,
-   and handoff assembly.
-6. Apply the accepted Task 04D linking policy through maintained interfaces.
-
-### Gate E: compare and review
-
-1. Prove that all undeclared sources and canonical content are unchanged.
-2. Account for every added, removed, merged, or redirected F1 and Appendix A
-   target and every changed document or collection link.
-3. Confirm one logical target for Chapters 06 and 08 and retain both physical
-   heading blocks as provenance.
-4. Confirm proper main-document Chapter 8 and Chapter 9 targets, exact aliases,
-   chapter extents, and provenance without redirecting either to Section 8.1 or
-   9.1.
-5. Review the replacement F1 title/structure, its Task 05F-referenced targets,
-   the two revised passages, the duplicate-heading repairs, neighboring pages,
-   all distinct caption-backed figure targets, and selected unaffected
-   controls. Record visual usability separately from exact target identity.
-6. Publish a fresh usability registry and handoff only after terminal human
-   dispositions. Rebind unaffected source dispositions through an explicit
-   checksummed correspondence record rather than repeating the full review.
-
-### Gate F: hand off to Task 05G
-
-1. Publish one compact accepted replacement handoff and usability registry.
-2. Name the exact Task 05F partial candidate and unchanged Task 05D/05E records
-   that Task 05G must consume.
-3. Record the expected accounting changes for all 66 F1 mentions, the two
-   revised-content warnings, Appendix A collisions, all 79 figure mentions, and
-   all 19 Chapter 8/9 mentions.
-4. Stop without replaying Task 05F or activating Task 05G automatically.
-
-## Validation
-
-- Exact no-clobber source and artifact containment.
-- Complete F1 source identity, edition, and substitution provenance.
-- No use of the incorrect 75-page F1 as a replacement source.
-- Source-general duplicate-heading tests and negative controls.
-- Exact figure-target construction tests and complete zero/one/many accounting.
-- Exact chapter-target construction tests and missing/conflicting-boundary
-  controls.
-- Exact changed/unchanged document and collection accounting.
-- Schema, identity, inventory, restart, receipt-reuse, and partial-state tests.
-- Targeted visual review for replacement F1 and repaired Appendix A headings.
-- Task 04D handoff and Task 04A-style usability validation.
-- Complete Task 05G handoff expectations over the same 511 in-scope mentions.
-- `make fix`, `make check`, and `git diff --check` before terminal publication.
-
-## Review pass
-
-- **Source claims:** Is the Final F1 always described as an edition substitute,
-  with the two known revisions clearly distinguished?
-- **Repair ownership:** Is duplicate suppression implemented where logical
-  targets are created rather than as a Task 05F exception?
-- **Replay scope:** Are only invalidated stages rebuilt, with explicit reuse of
-  sealed unaffected evidence?
-- **Precision:** Are more-specific chapter, figure, table, section, and page
-  references preserved rather than downgraded to document links?
-- **Chapter targets:** Do Chapter 8 and Chapter 9 have their own structural
-  targets and provenance rather than aliases to their first subsections?
-- **Maintainability:** Is the recovery understandable and debuggable without a
-  new framework or corpus-specific hardcoding?
-
-## Acceptance criteria
-
-- A fresh, correctly identified F1 substitute is accepted with explicit edition
-  provenance and no claim that it is the original Draft file.
-- Chapters 06 and 08 each expose one logical target while retaining both source
-  heading blocks as provenance.
-- The fresh collection and Task 04 handoff are internally coherent, complete,
-  deterministic, and validated.
-- F1 and Appendix A receive targeted human dispositions; unaffected Task 04A
-  dispositions are rebound through verified correspondence.
-- Task 05G can account for all 66 F1 references and the affected Appendix A
-  references without using fuzzy matching or the incorrect F1 source.
-- Task 05G can structurally resolve every uniquely supported exact figure
-  reference, retain `Figure 4.8` as absent unless new exact canonical evidence
-  exists, and exclude image-dependent evidence from text-only model support.
-- No accepted artifact is mutated and no large PDF is independently or
-  repeatedly rehashed.
+One validated replacement collection handoff and usability registry are accepted
+for Task 05G. It preserves the exact prior Task 05 inputs and supplies complete
+source/target/review correspondence, revised-content warnings, remaining risks,
+and a testable consumer binding contract. There is no promise that all 66 F1
+mentions resolve or that all 216 prior nonlinks disappear.
 
 ## Non-goals
 
-- Reconstructing an unavailable original Draft EIR F1 from the Final edition.
-- Proving that the 64 non-revision F1 passages are textually identical across
-  editions.
-- Rebuilding the unchanged Final EIR Volume 4 response inventory or relationship
-  graph without a demonstrated identity dependency.
-- Resolving missing page targets or non-Draft-EIR figure targets.
-- Broad heading deduplication without the required structural evidence.
-- Task 05G replay, Task 05H publication, case authoring, or benchmark release.
+Reconstructing unavailable original Draft F1 text; proving Draft/Final identity
+from silence; fuzzy/semantic matching; page-target repair; Appendix Q or other
+non-Draft figure expansion; broad parser/table/conversion algorithm rewrites;
+new workflow/cache/review frameworks; bulk historical artifact renaming or
+cleanup; Task 05G resolution, Task 05H inventory publication, and benchmark runs.
 
-## Questions before activation
+## Outcome
 
-1. Confirm whether a digest computed once during the authorized download stream
-   is acceptable, while standalone and repeated large-file hashing remain
-   prohibited. If not, Gate A must define a non-digest source identity compatible
-   with the maintained pipeline before acquisition.
-2. Confirm the default F1 policy: all substitute links are
-   `usable_with_warning`, with an additional revised-content annotation for
-   `SA-Caltrans-6` and `SA-Caltrans-9`.
+Detailed planning contracts have been authored for 06A–06H, with 06B combining
+reuse/identity and cleanup as two gates. No evidence qualification,
+implementation, source acquisition, conversion, replay, or review acceptance has
+been performed as part of writing this plan.

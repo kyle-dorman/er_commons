@@ -6,98 +6,42 @@ Start with `AGENTS.md`, then use this page to decide what to read.
 ## Current status
 
 Sprint 2 is active. Tasks 02 through 05F are complete and accepted; Task 05F
-closed with an explicit partial outcome. Provisional Task 06 is the next
-planning umbrella for upstream reference-source and target-index repair. Task
-03J remains the
-immutable extraction basis; Task 04A supplies the accepted usability registry;
-and Task 04D is the designated replacement for linking-dependent consumers.
-Task 04B is closed as a no-op and Task 04C remains superseded review evidence.
-The detailed identities, outcome evidence, and historical transitions belong in
-the completed task records.
+closed as a partial outcome with 295 links and 216 explicit nonlinks across
+511 mentions. Task 03J remains the immutable extraction basis, Task 04A supplies
+accepted usability decisions, and Task 04D is the designated linking-dependent
+handoff. Completed task records own exact identities and validation evidence.
 
 ## Next action
 
-Task 05 is an eight-part umbrella. Tasks 05A through 05F are accepted.
-Task 05D.1's R1 remediation, source-free R3 human-maintainability gate, and
-separately authorized post-R3 R2 exact `1-744` replay are complete. The fresh
-terminal candidate passed exact review-evidence reuse, receipt-only closure,
-no-input repeatability, maintained validators, and independent audits. Its
-explicit acceptance wrote only the adjacent pointer and left the candidate
-closure unchanged. Task 05E's source-free exact-baseline Gate 1 is complete and
-reproducible. Separately authorized bounded Gate 2 replays now apply only the
-reviewed identity, structural-text, ordinary-prose, terminal-period,
-typed-membership, General-Response edge, and U+0002 separator rules. The final
-two cases are explicit terminal unresolved outcomes, leaving no review cases.
-The first source-free terminal candidate was held after a deeper code-quality
-review found repairable implementation concerns. The resolver, composed-rule
-provenance, review-page behavior, and publication boundary were repaired; the
-fresh replay preserved the graph exactly. Formatting, linting, explicit
-complexity checks, strict typing, 21 focused tests, and all 1,377 repository
-tests pass. The repaired candidate is accepted through its compact adjacent
-pointer. Task 05F's current source-free qualified-rule candidate accounts for
-all 511 in-scope Draft EIR and Appendix Q mentions as 295 links and 216 explicit
-nonlinks. Its human code-quality gate passes after responsibility, diagnostics,
-and exact-reuse repairs. Qualification also found that accepted
-`deir_appendix_f1` is the wrong document and that Appendix A emits duplicate
-logical chapter targets. Task 06 preserves that recovery scope for a new
-planning chat; Task 05G will own replay and further exact-rule cycles afterward.
-Read these files in order:
+[Task 06](../tasks/sprint2/06_repair_reference_sources_and_target_index.md) now has
+eight detailed contracts covering upstream repairs and bounded pipeline cleanup.
+[Task 06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md) is the current
+planning entry; source-free qualification is the next execution step, not a
+completed result. Tasks 06B–06H remain provisional. No code changes, source
+acquisition, conversion, or replay are authorized merely by this plan.
 
-1. [Task 05 umbrella](../tasks/sprint2/05_build_curator_only_response_inventory.md)
-2. [Task 05C accepted outcome](../tasks/sprint2/05c_build_response_inventory_pilot.md)
-3. [Task 05D Gate 1 outcome](../tasks/sprint2/05d_build_complete_source_unit_inventory.md)
-4. [Task 05D.1 terminal candidate outcome](../tasks/sprint2/05d1_remediate_full_source_inventory_findings.md)
-5. [Task 05E accepted outcome](../tasks/sprint2/05e_build_response_relationship_graph.md)
-6. [Task 05F accepted partial outcome](../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
-7. [Task 06 provisional repair umbrella](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
-8. [Task 05G provisional replay loop](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md)
-9. [Task 05H provisional review and publication](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
-10. [Architecture contract](architecture.md) and [data/artifact contract](data_artifacts.md)
+Read in this order:
 
-Task 05A confirmed page-local PDFium extraction with independent Poppler and
-visual disagreement checks. It also found that Volume 4 contains General
-Responses 1-8; the advertised ninth topic is routed to Volume 5 and remains an
-explicit cross-volume exception. Task 05B encoded that evidence without
-reopening the PDF. Task 05C then processed only its 14 exact ranges, completed
-all required visual review, and proved deterministic range reuse. Task 05D.1
-implements the source-independent paired-marker and missing-heading policies.
-Its fresh activity processed and qualified all 744 authorized pages, accepted
-all 676 selected review renders, and published one `complete_with_warnings`
-candidate through source-free receipt reuse. The sole warning records the
-reviewed source-authored missing heading; no response was invented. The pre-R3
-candidate remains preserved as historical evidence. R3 passed with clearer
-workflow phases, canonical accounting/signature policy, restartable per-page
-qualification, better failure diagnostics, and expanded rejection tests. The
-post-R3 candidate then reproduced the same topology and review evidence under
-the new identity. Its compact adjacent acceptance pointer now makes that
-candidate the accepted Task 05D outcome. Task 05E Gate 1 produced 1,243 unique
-exact edges, individually closed all 759 intra-Volume mention outcomes, kept
-all 101 membership claims unresolved under byte-exact policy, identified two
-response cycles, and preserved the three direct-pair orphans. Its repeat run
-was identical and no PDF was accessed. The post-repair terminal gate wrapped
-the unchanged final review graph in a validated `complete_with_warnings`
-candidate
-`revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1`.
-Its adjacent acceptance pointer is
-`acceptancev1-4b8a13393c57660fdb0a6b303912150ca9d1380688a86a6728267a4c79aacac5`.
-The latest bounded replay additionally closes running headers, response-section
-labels, and ordinary alphabetic prose without edges; strips one terminal
-period; supports directional General-Response-to-General-Response edges; and
-combines case normalization with narrow U+0002 recovery. The Caltrans non-pair
-and missing-prefix `Response OSEC-21` typo are preserved without edges under
-reviewed terminal reasons. Parent/sub-answer and broader fuzzy rules remain
-unaccepted. Task 05F's maintained qualified rules resolve 295 references through
-bounded exact projections and preserve 216 explicit nonlinks. The unresolved
-population includes 79 figure mentions and 66 F1-routed mentions deferred to
-Task 06, plus collisions and fail-closed source or target absences. The 11
-comment-authored and 2 Appendix Q references retain their required terminal
-reasons. Task 05F is closed as partial. The provisional Task 06 umbrella
-preserves all accepted artifacts, considers Final EIR Appendix F1 only as an
-explicit edition-marked substitute, and owns upstream target repairs. Task 05G
-will replay the accepted 05F rules against its handoff and continue bounded
-exact-link qualification; Task 05H remains the final publication stage.
-The final inventory remains a separate curator-only artifact, not part of the
-model corpus.
+1. [Task 06 umbrella](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
+   for accepted directions, inputs, sequence, and shared boundaries.
+2. [Task 06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md), or the
+   active subtask designated by `docs/todo.md`, for the bounded contract.
+3. [Task 05F accepted partial outcome](../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
+   for exact upstream bindings and the failure census.
+4. [Architecture](architecture.md), [data/artifacts](data_artifacts.md), and the
+   specific predecessor outcomes named by that subtask.
+
+Task 06B combines safe sealed reuse and maintained-code cleanup in two gates.
+Later tasks qualify the selected Final F1 substitute, repair repeated and missing
+chapter targets, publish caption-backed figures, replay affected descendants,
+and reuse or renew human review. Preserving existing chunked conversion and
+accepted review is an explicit acceptance requirement.
+
+After the replacement handoff is accepted, [Task 05G](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md)
+owns consumer-binding updates and reference replay; [Task 05H](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
+owns final curator review and immutable response-inventory publication. The
+[Task 05 umbrella](../tasks/sprint2/05_build_curator_only_response_inventory.md)
+retains that separate curator-only inventory boundary.
 
 ## Document roles
 

@@ -137,11 +137,12 @@ datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/
    owning stage, and publish the sole immutable Task 05 release after re-review.
 
 [Task 05F](05f_resolve_official_draft_eir_references.md) is complete with an
-accepted partial outcome. The standalone provisional
+accepted partial outcome. The standalone eight-part
 [Task 06](06_repair_reference_sources_and_target_index.md) umbrella owns the
-upstream source and target-index repairs. Its accepted handoff is an explicit
-prerequisite for Task 05G despite the numbering; Task 05G owns replay rather
-than Task 06.
+upstream source/target repairs, bounded code-identity and maintained-interface
+cleanup, affected document/collection replay, and review reuse. Its accepted
+06H handoff is an explicit prerequisite for Task 05G despite the numbering.
+Task 05G owns response-reference replay; Task 06G owns upstream replay.
 
 Unexpected failures do not silently enlarge the active task. Preserve a compact
 stop record, define a bounded remediation task only when evidence requires it,

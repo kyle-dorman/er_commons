@@ -108,7 +108,7 @@ pipelines/brisbane_baylands/task_05_response_inventory/
     cache/                    # replaceable renders and materialized views
     <stage>/<revision-id>/    # named working revisions
   pilots/<pilotv1-id>/        # bounded qualification candidates
-  <inventoryv1-id>/           # sole accepted Task 05 release, created by 05G
+  <inventoryv1-id>/           # sole accepted Task 05 release, created by 05H
     records/
     inventory/
     review_views/
@@ -135,7 +135,7 @@ A deep byte audit is exceptional: use it only when a seal is missing, recorded
 metadata disagree, corruption is suspected, or an explicitly approved archival
 boundary requires it.
 
-The 05G completion record closes the exact upstream identities, accepted Task
+The 05H completion record closes the exact upstream identities, accepted Task
 05 stages, schema, configuration, implementation, authoritative managed files,
 counts, and final checksums. Hash newly authored authoritative records once at
 publication, preferably while writing large Task-05-owned files. Routine reuse
@@ -150,6 +150,20 @@ stable IDs rather than duplicate payloads. The Task 05 namespace is not part of
 the Task 03 model corpus and must not copy the raw PDF.
 
 ## Git policy
+
+### Planned Task 06 evidence
+
+[Task 06](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
+will freeze a new root-relative working namespace in 06A. It references old
+accepted source, chunk/conversion, producer, and review seals rather than moving
+or copying their payload trees. F1 receives a new explicit Final-edition source
+lineage. Unaffected documents retain original source-manifest bindings; fresh
+descendants and the replacement collection record their input correspondence.
+06B code cleanup does not authorize external artifact deletion or renaming.
+06H owns the replacement human-review acceptance; 05G then owns the separate
+response-reference replay. These are planned boundaries, not existing outputs.
+
+### Tracked and external files
 
 Track in Git:
 

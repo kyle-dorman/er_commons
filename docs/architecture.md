@@ -227,6 +227,27 @@ metadata; the preflight does not hash PDF or preserved document payloads.
 
 ## Configuration and paths
 
+### Planned Task 06 transition
+
+[Task 06](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
+adds a planned reuse/identity and maintained-interface cleanup before upstream
+repairs. It is not implemented yet. Task 06B must distinguish reading accepted
+old seals from checking a new execution recipe against the current checkout,
+narrow future code inventories, and make the entire downstream replay path
+source-free. The outer relink preparation described above is metadata-based;
+the planning audit found that deeper publication/preflight calls still hash
+PDFs and repeat candidate/review verification. Those paths are explicit 06B
+repair targets, not already satisfied performance guarantees.
+
+The new writer may consume original sealed manifests/conversion evidence and
+new F1 evidence through explicit correspondence. Task-specific maintained tools
+will be classified and renamed or retired through an audited map; historical
+artifact identities and accepted directories remain unchanged. Detailed future
+structure/alias contracts belong in 06D–06F, not in a claim that Task 04D's
+already accepted policy included those repairs.
+
+### Current configuration
+
 Portable source and workflow configurations stay in Git. The external data root
 is loaded only from the required, untracked `ER_COMMONS_DATA_ROOT` setting.
 Committed configurations use relative paths or paths rooted by that setting;

@@ -814,9 +814,14 @@ distinct decision or validation boundary.
    are revised from accepted preceding evidence. Task 05 uses replaceable working
    space for iteration and does not routinely copy or rehash sealed large inputs.
 7. **[Task 06](../../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
-   — Repair reference sources and the target index.** Design a bounded umbrella
-   for the F1 source substitution, duplicate or missing chapter targets, figure
-   targets, affected upstream replay, and a replacement handoff to Task 05G.
+   — Repair reference sources/targets and simplify reuse.** The eight-part
+   umbrella sequences 06A evidence/design; 06B sealed-reuse and code cleanup in
+   two gates; 06C Final F1 qualification/conversion; 06D duplicate chapters;
+   06E missing chapters with an evidence-backed fallback; 06F caption-backed
+   figures; 06G affected replay; and 06H review reuse and accepted handoff.
+   Preserve accepted chunked conversion before changing identities or task-era
+   executable names. Later subtasks remain provisional; planning does not
+   authorize processing. Task 05G owns the subsequent reference replay.
 8. **Task 07 — Pilot reference-case authoring.** Implement deterministic
    high-recall curator search, a two-hop traversal/index view over the accepted
    Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence
