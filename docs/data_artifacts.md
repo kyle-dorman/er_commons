@@ -154,14 +154,16 @@ the Task 03 model corpus and must not copy the raw PDF.
 ### Planned Task 06 evidence
 
 [Task 06](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
-will freeze a new root-relative working namespace in 06A. It references old
-accepted source, chunk/conversion, producer, and review seals rather than moving
+uses `pipelines/brisbane_baylands/task_06_recovery_v1/` for its compact recovery
+packet, frozen by 06A. It references old accepted source, chunk/conversion,
+producer, and review seals rather than moving
 or copying their payload trees. F1 receives a new explicit Final-edition source
 lineage. Unaffected documents retain original source-manifest bindings; fresh
 descendants and the replacement collection record their input correspondence.
 06B code cleanup does not authorize external artifact deletion or renaming.
 06H owns the replacement human-review acceptance; 05G then owns the separate
-response-reference replay. These are planned boundaries, not existing outputs.
+response-reference replay. 06A qualification records exist under `06a/`; later
+production boundaries remain planned, not executed.
 
 ### Tracked and external files
 

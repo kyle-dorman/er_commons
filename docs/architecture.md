@@ -230,8 +230,10 @@ metadata; the preflight does not hash PDF or preserved document payloads.
 ### Planned Task 06 transition
 
 [Task 06](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
-adds a planned reuse/identity and maintained-interface cleanup before upstream
-repairs. It is not implemented yet. Task 06B must distinguish reading accepted
+has a qualified [06A recovery plan](specs/task06_recovery_plan_v1.md) and
+[finite code inventory](specs/task06a_code_inventory.md) for reuse/identity and
+maintained-interface cleanup before upstream repairs. It is not implemented yet.
+Task 06B must distinguish reading accepted
 old seals from checking a new execution recipe against the current checkout,
 narrow future code inventories, and make the entire downstream replay path
 source-free. The outer relink preparation described above is metadata-based;

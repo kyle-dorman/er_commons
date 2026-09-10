@@ -168,7 +168,8 @@ Task 05 is an eight-part umbrella rather than one execution contract:
 8. Task 05H reviews corrections and publishes the sole immutable Task 05
    inventory release.
 
-Tasks 05A through 05F are complete. Task 06 is the next planning umbrella; its
+Tasks 05A through 05F and source-free Task 06A are complete. Task 06
+continues with 06B implementation awaiting authorization; its
 accepted handoff is required before Task 05G, and Task 05H follows Task 05G.
 Use replaceable working space and bounded pilots for iteration; do not seal
 every experiment. Routine Task 05
@@ -571,8 +572,9 @@ disposition. Task 04A is complete and freezes Task 03J with its separate human
 TOC and source-usability layer. Task 04B is closed as a no-op. Task 04C is
 superseded review evidence. Task 04D is complete; its validated replacement
 handoff is designated for linking-dependent consumers. Tasks 05A through 05F
-are complete, with Task 05F accepted as a partial outcome. Task 06 is the next
-planning umbrella; Task 05G replay and Task 05H publication follow it.
+are complete, with Task 05F accepted as a partial outcome. Task 06A qualification
+is complete; 06B is next and awaits implementation authorization. Task 05G replay
+and Task 05H publication follow the accepted Task 06 handoff.
 
 The task files preserve detailed outcomes, negative experiments, and identity
 history. The map below is retained as sprint scope and sequencing, not as a
@@ -820,7 +822,8 @@ distinct decision or validation boundary.
    06E missing chapters with an evidence-backed fallback; 06F caption-backed
    figures; 06G affected replay; and 06H review reuse and accepted handoff.
    Preserve accepted chunked conversion before changing identities or task-era
-   executable names. Later subtasks remain provisional; planning does not
+   executable names. 06A is complete; 06B awaits implementation authorization.
+   Later subtasks remain provisional; planning does not
    authorize processing. Task 05G owns the subsequent reference replay.
 8. **Task 07 — Pilot reference-case authoring.** Implement deterministic
    high-recall curator search, a two-hop traversal/index view over the accepted

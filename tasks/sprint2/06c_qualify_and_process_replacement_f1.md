@@ -58,7 +58,9 @@ Its 66 F1 mentions occur in 58 official-response units: 61 mentions in 56
 responses and 5 in 2 General Responses. Preserve the exact mention IDs and
 source-unit IDs from the Task 06A census; do not reconstruct them from counts.
 `Response SA-Caltrans-6` revises Table 6; `Response SA-Caltrans-9` revises the
-Muni section. The other 64 mentions establish no edition equivalence.
+Muni section. The 06A census records three F1 mention IDs across those two
+units; the two revision contexts are not a two-mention population. No general
+Draft/Final edition equivalence is established.
 
 ## Current implementation owners
 

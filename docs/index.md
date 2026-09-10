@@ -13,19 +13,20 @@ handoff. Completed task records own exact identities and validation evidence.
 
 ## Next action
 
-[Task 06](../tasks/sprint2/06_repair_reference_sources_and_target_index.md) now has
-eight detailed contracts covering upstream repairs and bounded pipeline cleanup.
-[Task 06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md) is the current
-planning entry; source-free qualification is the next execution step, not a
-completed result. Tasks 06B–06H remain provisional. No code changes, source
-acquisition, conversion, or replay are authorized merely by this plan.
+[Task 06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md) completed
+source-free qualification and its recovery/cleanup packet. The
+[Task 06 umbrella](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
+routes the remaining sequence. [Task 06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md)
+is next, with implementation inactive until authorized. Tasks 06C–06H remain
+provisional; no source acquisition, conversion, or replay is authorized.
 
 Read in this order:
 
 1. [Task 06 umbrella](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
    for accepted directions, inputs, sequence, and shared boundaries.
 2. [Task 06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md), or the
-   active subtask designated by `docs/todo.md`, for the bounded contract.
+   active subtask designated by `docs/todo.md`, for the bounded contract and
+   exact external packet locators.
 3. [Task 05F accepted partial outcome](../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
    for exact upstream bindings and the failure census.
 4. [Architecture](architecture.md), [data/artifacts](data_artifacts.md), and the

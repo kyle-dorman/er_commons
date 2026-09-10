@@ -1,9 +1,9 @@
 # Task 06A: Freeze the Recovery and Cleanup Plan
 
-Status: **current planning entry; not executed**. The task-plan authoring is
-authorized. Running this source-free evidence qualification is a subsequent
-bounded action; no implementation, PDF access, acquisition, or model execution
-is authorized by the existence of this contract.
+Status: **complete; source-free planning packet independently reviewed (2026-09-10)**.
+The user authorized 06A evidence qualification and planning outputs on 2026-09-10.
+No implementation, PDF access, acquisition, model execution, or 06B work is
+included in this authorization.
 
 ## Abstract
 
@@ -237,5 +237,160 @@ artifact cleanup, commit, push, and Task 05G execution.
 
 ## Outcome
 
-Pending execution. The planning packet and exact live artifact checks have not
-been produced by writing this contract.
+The source-free qualification produced exact accepted-input and 35-source
+bindings, a complete code migration inventory, repair populations and structural
+controls, review-correspondence candidates, and bounded downstream specifications.
+The packet preserves original conversion entities; new execution identities will
+reference them rather than reinterpret their old recipes through renamed code.
+No implementation or later execution gate ran.
+
+### Packet and interfaces
+
+The working namespace is root-relative:
+
+```text
+pipelines/brisbane_baylands/task_06_recovery_v1/06a/
+```
+
+The [recovery/reuse specification](../../docs/specs/task06_recovery_plan_v1.md)
+owns record fields, verification limits, resource ceilings, command boundaries,
+and remaining gate decisions. The [code inventory](../../docs/specs/task06a_code_inventory.md)
+owns all 29 tracked scripts and 61 task-named/support package files, exact
+rename/remove/retain destinations, operational symbols, caller evidence,
+dependency/invalidation rows and migration tests. These are 06B instructions,
+not completed refactors. Historical artifact names and recipes remain unchanged.
+
+| External packet file | Purpose |
+| --- | --- |
+| `accepted_input_bindings.json` | Recorded schemas, paths, digests, sizes, states, designations and observed verification limits |
+| `source_slots.json` | All 35 original source slots, 03J/04D accounting and document identities, producer/conversion correspondence |
+| `chunk_conversion_bindings.json` | Exact retained chunk plans, ordered range receipts and aggregate conversion correspondence |
+| `mention_populations.v1.json` | All 511 existing mention IDs/outcomes and overlapping repair/control memberships |
+| `f1_substitution_evidence.v1.json` | Wrong-source metadata, stored selected Final URL, 66 mentions and two revision contexts |
+| `appendix_a_topology.v1.json` | Paired headings, stable keys, parents/children, extents, aliases, TOC evidence and structural controls |
+| `main_chapter_evidence.v1.json` | Recovered heading candidates, TOC/child evidence, boundaries and fallback schema constraints |
+| `figure_evidence.v1.json` | Independently eligible figure/image/caption associations and comparison to mentions |
+| `review_correspondence_candidates.v1.json` | All 757 accepted TOC decisions with historical page/entity mapping, 35 usability scopes and conditional future reuse |
+| `repair_read_manifest.v1.json` | Bounded selected-record reads and explicit no-payload-hash accounting |
+
+`packet_inventory.json` closes 13 planning records totaling 7,283,202 bytes
+and pins both repository specifications. The inventory itself is 5,709 bytes,
+SHA-256 `83c314339a05a86abb433874b9d7ff82833696ff065451812be7b8937dfb34e7`.
+Only these newly authored outputs were hashed for publication. The inventory
+and independent reviews are not source acceptance, a replacement collection
+completion, or new human usability approval.
+
+### Findings and minimum replay
+
+The F1 census distinguishes two revision-context units from the three F1
+mention IDs they contain; no Draft/Final equivalence is inferred from either.
+The original 35-source, 48,341-page scope is preserved as the baseline. The
+accepted Task 05F population remains 295 links and 216 nonlinks across 511
+mentions. F1 has 66 wrong-source outcomes, figures 79 absent-target outcomes,
+and Chapters 8/9 have 19 outside-routed-source outcomes. Population membership
+is by mention ID; two Appendix A mentions additionally carry duplicate-heading
+context while retaining their existing more-specific-target nonlink outcome.
+Do not add overlapping control sets. Comment-authored,
+Appendix Q, ambiguous, and generic-source controls remain explicit.
+
+Chapter 8 and Chapter 9 have recoverable number/title blocks misclassified as
+`page_header` on physical pages 1855 and 2015. Their candidate extents are
+1855–2014 and 2015–2084, bounded by the next chapter start (Chapter 10 at 2085).
+These observations favor recovery from existing evidence before the fallback.
+06E must qualify the split number/title representation, roles and coherent
+children; no global promotion of page headers or new human decision is implied.
+The TOC-plus-children fallback remains available when recovery fails its controls.
+
+Appendix A's Chapter 06 and 08 pairs support a logical-chapter hypothesis, not
+an automatic text-similarity merge. 06D owns the retained representative heading,
+ordered child placement and destination interpretation; unresolved interpretation
+requires human review. Preserve both blocks and their original stable keys.
+The dividers have no section children, while the opening headings own six and
+four child sections. TOC evidence is asymmetric: Chapter 06 token `280` matches
+the opening page 312 footer; Chapter 08 token `447` differs from opening page
+480 footer `448`, and divider page 479 has no footer. Reviewed-navigation
+resolved destinations are null. 06D must resolve this evidence before choosing
+a representative destination; a text match cannot settle it.
+
+Independent caption qualification found 178 eligible exact body-caption figure
+associations among 274 main-document figure records. Comparison reproduces 34
+referenced targets supporting 78 of the 79 mentions, with no exact collision.
+`Figure 4.8` has no exact target and stays unresolved. Caption-based target
+publication does not establish text-only substantive evidence usability.
+
+For unchanged sources, preserve original manifests and conversion/producer seals.
+Mapping and hierarchy are sibling inputs: hierarchy changes do not themselves
+invalidate record mapping. 06D/06E rebuild the necessary derived heading,
+hierarchy/structure and downstream products; 06F extends target aliases from
+existing figure evidence. New F1 is separately qualified and converted in 06C,
+and that conversion is reused in 06G. Collection index/resolution must account
+for changed targets including incoming links from otherwise unchanged documents.
+05D/05E and accepted partial 05F remain untouched until 05G's separate replay.
+
+### Learning and review
+
+A recorded recipe explains how old evidence was produced; it is not a requirement
+that the old source-code path still exist today. Integrity checks establish the
+stated seal/metadata guarantees; compatibility establishes whether a new consumer
+can use that evidence. A source heading and a TOC-derived structural inference
+must remain distinguishable in provenance. The research checkpoint applied
+[DVC stage reuse](https://doc.dvc.org/user-guide/pipelines/run-cache) and
+[W3C provenance](https://www.w3.org/TR/prov-o/) to existing records without adding
+a workflow engine or RDF dependency.
+
+The independent code review checked inventory completeness, actual callers,
+old-reader/new-writer separation and scope. Integration corrected generic
+basename caller matches, preserved record mapping as a sibling of hierarchy,
+and identified the live relink flag `--link-spec` (the historical specification
+uses `--run-spec`). 06B must correct that command documentation during migration.
+
+### Verification and independent review result
+
+Qualified 1,207 unique binding records and 353 managed-inventory checks,
+including exact file closure for all 70 accepted 03J/04D document publications.
+All 35 pairs retain the same five prelink stage references. The packet binds
+20 chunked sources and 318 completed ranges with exact contiguous core coverage.
+Producer/conversion inventories were checked by named membership and size;
+no broader unmanaged-directory closure or fresh payload equality is claimed.
+
+The binding lane hashed 23,830,850 bytes including early stopped probes and
+canonical-JSON seal checks; its largest hashed file was 1,027,692 bytes, beneath
+the 1 MiB per-file and 32 MiB lane limits. Qualified binding reads total
+196,184,909 bytes plus recorded exploratory probes. The repair lane hashed zero
+bytes; its initial selected-file ledger is 88,977,234 bytes with supplemental
+reads separately listed. Exploratory passes repeated selected records, so the
+ledger is not presented as a precise task-wide I/O total. The largest selected
+repair file was 50,042,036 bytes, below the 512 MiB file read ceiling. Review
+passes read the new packet only, with zero upstream hashes.
+
+Oversized accepted source manifests, index completions and inventories retain
+recorded digests and are explicitly metadata-checked. A hierarchy inventory's
+native canonical-JSON seal is distinguished from a file-byte SHA-256; an early
+probe stopped on that interpretation mismatch and was corrected without editing
+accepted evidence. This qualification is not a deep byte audit.
+
+Three independent reviews passed: code/scope and packet correspondence,
+repair evidence/controls, and accepted bindings/chunk coverage. Their versioned
+records are `independent_code_and_scope_review.v1.json`,
+`independent_repair_review.v1.json`, and `independent_bindings_review.v1.json`.
+Review corrected two initially missed Appendix A mention contexts, added actual
+list-of-figures table controls, and separated null projected TOC destinations
+from observed printed tokens/footer evidence. No 06A blocker remains; structural
+interpretation and new-evidence correspondence belong to the named later gates.
+
+Docs were checked for local-link targets and whitespace with `git diff --check`.
+No implementation test suite was run for this documentation/evidence task.
+
+### Remaining decisions and readiness
+
+06B is the next bounded task, with Gate 1 proving sealed reuse/identity and Gate 2
+performing only the enumerated cleanup and integrated proof. It remains inactive
+until implementation is authorized. Both gates must pass before any F1 processing.
+The recovery specification assigns every remaining implementation/qualification
+choice to 06B–06H. Unknown delivered F1 bytes, pages and title are intentionally
+unknown; 06C has numeric planning ceilings and must freeze its acquisition spec
+before contacting the stored URL, then separately bound and authorize conversion.
+No settled source-choice decision needs reopening.
+
+No implementation code, source PDFs, renders, models, extraction/replay, large
+accepted-payload hashing, artifact deletion, commit or push was performed.

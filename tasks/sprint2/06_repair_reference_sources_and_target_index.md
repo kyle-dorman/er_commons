@@ -1,10 +1,9 @@
 # Task 06: Repair Reference Sources and Targets, and Simplify Reuse
 
-Status: **eight-part planning umbrella; detailed contracts written, execution
-not started**. Task 06A is the current planning entry. Tasks 06B–06H remain
-provisional and inactive until their prerequisites are accepted and their
-respective work is authorized. Writing this plan authorizes no implementation,
-source access, model execution, or production replay.
+Status: **06A source-free qualification complete; 06B next and inactive**.
+The [06A outcome](06a_freeze_recovery_and_cleanup_plan.md) binds the reviewed
+planning packet. Tasks 06B–06H require their respective implementation/execution
+authorization; no source access, model execution or production replay has run.
 
 ## Abstract
 
@@ -150,8 +149,9 @@ execution rather than choosing whichever ID is easier to load.
   comment-authored F1 mentions.
 - Two response passages explicitly revise F1: `Response SA-Caltrans-6` revises
   Table 6 and `Response SA-Caltrans-9` revises the San Francisco Municipal
-  Transit (Muni) section. The other 64 mentions do not explicitly establish
-  whether Draft and Final wording are identical.
+  Transit (Muni) section. The 06A census binds three F1 mention IDs across
+  those two response units. Neither those contexts nor the remaining mentions
+  establish general Draft/Final wording equivalence.
 
 Task 05F closed these 66 outcomes as
 `upstream_source_identity_repair_required`. No result from the accepted 75-page
@@ -297,8 +297,8 @@ incurring that cost.
 
 ## Authorization and sequencing
 
-- Current authorization is to write detailed planning documents. No runtime
-  gate is considered passed by writing or reviewing a contract.
+- The user authorized and 06A completed source-free qualification/planning.
+  No later runtime gate is passed by that qualification or by reviewing a contract.
 - 06A is source-free evidence/planning work. 06B is source-free implementation
   with two gates; authorization may cover both, with an evidence checkpoint
   between them. Rename/delete permission is limited to its accepted code list.

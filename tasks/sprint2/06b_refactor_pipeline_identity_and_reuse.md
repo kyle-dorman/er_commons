@@ -1,6 +1,6 @@
 # Task 06B: Refactor Pipeline Identity, Reuse, and Maintained Entry Points
 
-Status: **provisional and inactive until Task 06A is accepted and source-free
+Status: **ready from completed Task 06A; inactive until source-free
 implementation is authorized**. This is one task with two sequential gates,
 not two independently activated tasks.
 
@@ -30,6 +30,15 @@ task, but expensive processing cannot begin before both gates pass.
 6. Supply documented interfaces and tests that 06C–06H can use directly.
 
 ## Inputs
+
+06A qualification is complete. Start from its exact external packet and the
+[recovery/reuse specification](../../docs/specs/task06_recovery_plan_v1.md) plus
+[finite code inventory](../../docs/specs/task06a_code_inventory.md). The former
+freezes verification budgets, per-source manifests and resource boundaries; the
+latter freezes Gate 1 owner changes and Gate 2 migration scope. No 06B test or
+implementation gate was executed by 06A. Treat oversized 06A enumerations as
+metadata/read inputs through their compact packet inventory, not as permission
+to exceed the accepted-input hash ceiling.
 
 - [Task 06 umbrella](06_repair_reference_sources_and_target_index.md) and the
   accepted [06A packet](06a_freeze_recovery_and_cleanup_plan.md).

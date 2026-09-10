@@ -8,19 +8,22 @@ remains immutable extraction evidence, Task 04A owns accepted review, and Task
 04D remains the designated linking-dependent handoff until a replacement is
 accepted. Exact outcomes belong in the completed task records.
 
-## Current action: Task 06 planning and source-free qualification
+## Next action: Task 06B authorization
 
-The [Task 06 umbrella](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
-and eight detailed contracts are written. Current authorization covers planning
-documents only. [Task 06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md)
-is the current planning entry and next source-free execution task; its evidence
-qualification has not run. Later tasks remain provisional and must be revised
-from accepted preceding outcomes before execution.
+[Task 06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md) completed
+source-free evidence qualification and the reviewed planning packet. Its
+[recovery specification](specs/task06_recovery_plan_v1.md) and
+[code inventory](specs/task06a_code_inventory.md) define the bounded next work.
+[Task 06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md) is ready
+for source-free implementation authorization: Gate 1 proves reuse/identity;
+Gate 2 applies the finite cleanup and verifies the maintained interfaces.
+Neither gate has run. Later tasks remain provisional and must incorporate
+accepted preceding outcomes before execution.
 
 | Task | Planned work | Status |
 | --- | --- | --- |
-| [06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md) | Bind accepted evidence; freeze dependency, cleanup, repair, and review plan | Current planning entry; not executed |
-| [06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md) | Gate 1: sealed reuse and stage identities; Gate 2: rename/remove/retain cleanup and integrated proof | Provisional; inactive |
+| [06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md) | Bind accepted evidence; freeze dependency, cleanup, repair, and review plan | Complete; source-free packet reviewed |
+| [06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md) | Gate 1: sealed reuse and stage identities; Gate 2: rename/remove/retain cleanup and integrated proof | Ready for implementation authorization; inactive |
 | [06C](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md) | Qualify and process the selected Final F1 substitute | Provisional; source/conversion gates remain separate |
 | [06D](../tasks/sprint2/06d_repair_duplicate_chapter_targets.md) | Repair repeated chapter headings using topology and TOC evidence | Provisional; inactive |
 | [06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) | Recover missing chapters or use the TOC/children fallback | Provisional; inactive |
