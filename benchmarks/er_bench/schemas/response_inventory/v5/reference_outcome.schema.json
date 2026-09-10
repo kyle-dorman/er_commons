@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/response_inventory/v5/reference_outcome.schema.json",
+  "title": "ER Commons Task 05F exact reference outcome",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "outcome_id", "mention_id", "mention_span_id", "source_unit_id",
+    "source_kind", "raw_text_sha256", "reference_domain", "raw_target_label",
+    "qualifier", "projected_target", "canonical_target", "requested_target_type",
+    "routed_source_ids", "global_candidate_target_ids", "source_candidate_target_ids",
+    "compatible_target_ids", "outcome", "terminal_reason", "link_id",
+    "task04a_registry_entry_id", "task04a_usability", "visual_evidence_usability"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.task05f.reference_outcome.v1"},
+    "outcome_id": {"type": "string", "pattern": "^outcomev1-[0-9a-f]{64}$"},
+    "mention_id": {"$ref": "#/$defs/nonempty"}, "mention_span_id": {"$ref": "#/$defs/nonempty"},
+    "source_unit_id": {"$ref": "#/$defs/nonempty"},
+    "source_kind": {"enum": ["comment", "response", "general_response"]},
+    "raw_text_sha256": {"$ref": "#/$defs/sha256"},
+    "reference_domain": {"enum": ["draft_eir", "appendix_q"]},
+    "raw_target_label": {"$ref": "#/$defs/nonempty"},
+    "qualifier": {"type": ["string", "null"]}, "projected_target": {"type": ["string", "null"]},
+    "canonical_target": {"type": ["string", "null"]},
+    "requested_target_type": {"type": ["string", "null"], "enum": ["section", "table", "figure", "page", "document", null]},
+    "routed_source_ids": {"$ref": "#/$defs/string_array"},
+    "global_candidate_target_ids": {"$ref": "#/$defs/string_array"},
+    "source_candidate_target_ids": {"$ref": "#/$defs/string_array"},
+    "compatible_target_ids": {"$ref": "#/$defs/string_array"},
+    "outcome": {"enum": ["resolved", "terminal_nonlink"]},
+    "terminal_reason": {
+      "type": ["string", "null"],
+      "enum": [
+        "comment_authored_reference_no_official_response_link", "appendix_q_verification_required",
+        "unsupported_reference_form", "appendix_source_route_absent", "exact_target_absent",
+        "exact_figure_target_absent", "exact_alias_only_outside_routed_source", "target_type_incompatible",
+        "exact_target_collision", "more_specific_appendix_target_requires_resolution",
+        "upstream_source_identity_repair_required", null
+      ]
+    },
+    "link_id": {"type": ["string", "null"]},
+    "task04a_registry_entry_id": {"type": ["string", "null"]},
+    "task04a_usability": {"enum": ["usable", "usable_with_warning", "unusable", "not_applicable"]},
+    "visual_evidence_usability": {"enum": ["usable", "usable_with_warning", "unusable", "not_reviewed", "not_applicable"]}
+  },
+  "$defs": {
+    "nonempty": {"type": "string", "minLength": 1},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "string_array": {"type": "array", "items": {"$ref": "#/$defs/nonempty"}, "uniqueItems": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"outcome": {"const": "resolved"}}},
+      "then": {"properties": {"terminal_reason": {"const": null}, "link_id": {"type": "string", "minLength": 1}}, "required": ["link_id"]},
+      "else": {"properties": {"terminal_reason": {"type": "string"}, "link_id": {"const": null}}}
+    }
+  ]
+}

@@ -3,9 +3,9 @@
 ## Sprint status
 
 Sprint 2, Brisbane Draft-EIR defense vertical slice, is active. Tasks 02
-through 05E are complete and accepted.
+through 05F are complete and accepted; Task 05F closed with a partial outcome.
 
-## Current action: paused after accepted Task 05E
+## Current action: plan the Task 06 repair umbrella in a new chat
 
 [Task 04D](../tasks/sprint2/04d_relink_frozen_extraction.md) is complete. Its
 validated handoff is the designated replacement for linking-dependent
@@ -15,8 +15,8 @@ remains the accepted usability decision. [Task 04C](../tasks/sprint2/04c_materia
 is superseded evidence, and Task 04B is a no-op. Detailed outcomes, identities,
 and validation evidence are retained in those task records.
 
-[Task 05](../tasks/sprint2/05_build_curator_only_response_inventory.md) is a
-seven-part umbrella. [Task 05A](../tasks/sprint2/05a_qualify_and_profile_response_source.md)
+[Task 05](../tasks/sprint2/05_build_curator_only_response_inventory.md) is an
+eight-part umbrella. [Task 05A](../tasks/sprint2/05a_qualify_and_profile_response_source.md)
 has completed compact prerequisite binding and the separately authorized
 195-page source profile. PDFium was confirmed with independent Poppler and
 visual checks. Volume 4 contains General Responses 1-8; the advertised ninth is
@@ -110,26 +110,53 @@ and its adjacent acceptance pointer is
 The candidate and acceptance transitions are repeatable. Formatting, linting,
 explicit complexity linting, strict typing, 21 focused tests, all 1,377
 repository tests, and managed-file validation pass. No PDF was accessed.
-Further matching or schema changes, cleanup, commit, push, Task 05F, and later
-work remain unauthorized. Tasks 05F and 05G remain provisional and should be
-revised one at a time from accepted preceding outcomes.
+Task 05F's revised MVP contract, source-free Gate 1, bounded exact-rule
+qualification, and human code-quality gate are complete. The maintained
+partial candidate
+`rulesv1-9e67959aefc07f9ffd65605ad9d886a53022dcaccc5c9c8bed1494c41b4c0a83`
+accounts for all 511 in-scope mentions as 295 links and 216 terminal nonlinks.
+It preserves collisions and fail-closed source or target absences, all 11
+comment-authored references without links, and both Appendix Q references as a
+separate verification class. Formatting, linting, strict typing, explicit
+complexity checks, 47 focused tests, all 1,410 repository tests, deterministic
+candidate reuse, and semantic comparison with the pre-repair candidate pass.
+No PDF was accessed and no large upstream payload was hashed. The user accepted
+this as a partial MVP outcome and closed Task 05F on 2026-09-10 without
+publishing an immutable Task 05 inventory.
+
+Qualification established that accepted `deir_appendix_f1` is a 75-page
+Bayshore Mobility Study rather than the advertised Transportation Impact
+Assessment. Its 66 official-response mentions are quarantined pending upstream
+repair. Qualification also found missing main-document Chapter 8 and Chapter 9
+targets and duplicate logical chapter targets in Appendix A. The provisional
+[Task 06](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
+umbrella preserves the discovered repair scope and open questions. It is
+provisional and must be fully planned in a new chat before source access or
+implementation. After Task 06 returns an accepted replacement handoff,
+[Task 05G](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md)
+will replay the accepted Task 05 stages through 05F and own further bounded
+exact-linking cycles. [Task 05H](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
+then owns final review and immutable inventory publication.
 
 ## Later sequence
 
 After the extraction release is frozen, the remaining planned work is:
 
 1. [Task 05](../tasks/sprint2/05_build_curator_only_response_inventory.md): run
-   Tasks 05A through 05G to profile, specify, pilot, build, link, review, and
+   Tasks 05A through 05H to profile, specify, pilot, build, link, replay, review,
+   and
    freeze the separate Final EIR Volume 4 response inventory. Use replaceable
    working space before the one final immutable release, and do not routinely
    rehash or copy sealed large inputs.
-2. Task 06: pilot reference-case authoring and evidence review.
-3. Task 07: curate, cluster, split, and freeze benchmark cases.
-4. Task 08: build and freeze human evaluation.
-5. Task 09: build and freeze BM25 retrieval.
-6. Task 10: build and freeze target generation.
-7. Task 11: calibrate the automated judge.
-8. Task 12: run the locked test and close Sprint 2.
+2. Task 06: repair reference sources and the target index, then hand off to
+   Task 05G.
+3. Task 07: pilot reference-case authoring and evidence review.
+4. Task 08: curate, cluster, split, and freeze benchmark cases.
+5. Task 09: build and freeze human evaluation.
+6. Task 10: build and freeze BM25 retrieval.
+7. Task 11: build and freeze target generation.
+8. Task 12: calibrate the automated judge.
+9. Task 13: run the locked test and close Sprint 2.
 
 These tasks remain planned. Their detailed boundaries are in the [Sprint 2
 plan](sprints/sprint2_brisbane_draft_eir_defense.md); no later task is active.

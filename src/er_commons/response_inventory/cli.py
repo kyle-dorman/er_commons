@@ -188,7 +188,17 @@ def _build_inventory(
 ) -> int:
     """Dispatch one stage after validating its distinct review-decision shape."""
     spec, _digest = load_response_inventory_run_spec(arguments.run_spec.resolve())
-    if spec.task_stage == "05e":
+    if spec.task_stage == "05f":
+        if arguments.review_dispositions is not None:
+            parser.error("Task 05F does not accept --review-dispositions")
+        from er_commons.response_inventory.reference_baseline import (
+            build_qualified_reference_rules,
+        )
+
+        result = build_qualified_reference_rules(
+            arguments.run_spec.resolve(), repository_root, artifact_root
+        )
+    elif spec.task_stage == "05e":
         if arguments.review_dispositions is not None:
             parser.error("Task 05E does not accept --review-dispositions")
         if isinstance(spec, ResponseRelationshipReviewRunSpecV4):

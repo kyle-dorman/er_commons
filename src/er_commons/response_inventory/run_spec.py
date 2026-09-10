@@ -70,6 +70,9 @@ class RepositoryBinding(StrictModel):
         "response_record_schema",
         "producer_run_spec_code",
         "relationship_run_spec_schema",
+        "reference_outcome_schema",
+        "reference_run_spec_schema",
+        "task04d_collection_spec",
     ]
     authority: Literal["repository"]
     path: Path
@@ -307,6 +310,134 @@ class RelationshipReviewOutputPolicy(StrictModel):
         """Keep the amended review pass below the configured artifact root."""
         _require_contained_path(self.artifact_relative_root, "output")
         return self
+
+
+class AcceptedTask05E(StrictModel):
+    """Exact accepted 05E candidate consumed by Task 05F."""
+
+    candidate_root: Path
+    acceptance_path: Path
+    revision_id: Literal[
+        "revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1"
+    ]
+    acceptance_id: Literal[
+        "acceptancev1-4b8a13393c57660fdb0a6b303912150ca9d1380688a86a6728267a4c79aacac5"
+    ]
+    activity_id: Literal[
+        "activityv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1"
+    ]
+    completion_id: Literal[
+        "completionv1-867b3e6f9d9cc1e2666cb184523590c2fd02154347ea9787144e61bb43851555"
+    ]
+    inventory_id: Literal[
+        "fileinventoryv1-924533bd3c59160bd0853aa38dc095965b07b2d4bf2d78a5ad9431cd2836f667"
+    ]
+    semantic_digest: Literal["3a6f5b0f4f116b2800e0a8b02bb98fde9d37a48ccc0baff321fd484f2489e71b"]
+
+    @model_validator(mode="after")
+    def validate_paths(self) -> AcceptedTask05E:
+        """Keep the candidate portable and require its adjacent pointer."""
+        _require_contained_path(self.candidate_root, "05E candidate")
+        _require_contained_path(self.acceptance_path, "05E acceptance")
+        if self.acceptance_path != Path(f"{self.candidate_root.as_posix()}.acceptance.json"):
+            raise ValueError("05E acceptance path must be adjacent to its candidate")
+        if self.candidate_root.name != self.revision_id:
+            raise ValueError("05E candidate path differs from its accepted revision ID")
+        return self
+
+
+class Task04ReferenceBindings(StrictModel):
+    """Frozen Task 04A/04D paths and identities needed by exact resolution."""
+
+    task04a_gate_d_root: Path
+    task04a_review_id: Literal["reviewv1-task03j-final-c17"]
+    gate_d_completion_sha256: Literal[
+        "d480aa903d7ae65e7a4b1b6de93ad4cdebe6963e6fd724873ade548790712826"
+    ]
+    usability_registry_sha256: Literal[
+        "0453aaf13cb7762e7718ce869ee3f1521a67625224bd35c83b641cc5ae8d47e1"
+    ]
+    ambiguous_dispositions_sha256: Literal[
+        "9d3b8ac7c9fea34ecada607c99b96376d648c2ab419bfa381abbf30f4b2e3366"
+    ]
+    unresolved_risk_sha256: Literal[
+        "b6ac41902ffdfc6c93b13c0be93af5d071f3811334a27367fc2ccdacf2f7a5ca"
+    ]
+    task04d_handoff_root: Path
+    task04d_handoff_id: Literal[
+        "handoffv1-e54a72e4bb8f9ba34888c1fc1f51424c4cc52e5f24d6700b16b462e3a659b6d1"
+    ]
+    handoff_completion_sha256: Literal[
+        "387a07d62d96e4c5aba6f1f3d51f7f9026719b0d7de1b4eece06bed9fd78bc81"
+    ]
+    production_extraction_id: Literal[
+        "exv1-466e4e9aced080621fa81058acca95a4e37f1d9a63f2362a569bd9205830b5a3"
+    ]
+    scope_id: Literal["scopev1-044b983a5cbafe3852b2ce90ee82ccdd712fc76698ffcc455ad56caaab5b04da"]
+    target_index_root: Path
+    target_index_id: Literal[
+        "idxv1-31a3eacee1d03001d44f79d2fa15563cfd416b9a80c02e8d178d0843e4bb4a00"
+    ]
+    target_index_completion_sha256: Literal[
+        "a661cfefed67927b7536fe791eb6f6dcfe705dc044e4e4dc9867977790cdfa31"
+    ]
+    source_family_catalog_path: Path
+    source_family_catalog_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+    @model_validator(mode="after")
+    def validate_paths(self) -> Task04ReferenceBindings:
+        """Keep all artifact references relative and identity-named."""
+        for label, path in (
+            ("04A Gate D", self.task04a_gate_d_root),
+            ("04D handoff", self.task04d_handoff_root),
+            ("04D target index", self.target_index_root),
+            ("source-family catalog", self.source_family_catalog_path),
+        ):
+            _require_contained_path(path, label)
+        if self.task04a_gate_d_root.parent.name != self.task04a_review_id:
+            raise ValueError("04A Gate D path differs from the accepted review ID")
+        if self.task04d_handoff_root.name != self.task04d_handoff_id:
+            raise ValueError("04D handoff path differs from its ID")
+        if self.target_index_root.name != self.target_index_id:
+            raise ValueError("04D target-index path differs from its ID")
+        return self
+
+
+class ReferenceOutputPolicy(StrictModel):
+    """Nonterminal, activity-derived namespace for Task 05F qualified rules."""
+
+    artifact_relative_root: Path
+    candidate_namespace_template: Literal["working/05f/rulesv1-{activity_hash}"]
+    completion_written: Literal[False]
+    copy_source_payload: Literal[False]
+    copy_upstream_payloads: Literal[False]
+
+    @model_validator(mode="after")
+    def validate_path(self) -> ReferenceOutputPolicy:
+        """Keep qualified-rule output below the configured artifact root."""
+        _require_contained_path(self.artifact_relative_root, "output")
+        return self
+
+
+class ReferenceStopBehavior(StrictModel):
+    """Freeze the reviewed source-free exact resolution policy."""
+
+    on_input_binding_mismatch: Literal["stop"]
+    on_invalid_record_or_schema: Literal["stop"]
+    on_population_mismatch: Literal["stop"]
+    exact_first: Literal[True]
+    leading_identifier_fallback: Literal[True]
+    attached_title_fallback: Literal[True]
+    structured_appendix_designator_normalization: Literal[True]
+    unique_outer_appendix_document: Literal[True]
+    reject_more_specific_appendix_downgrade: Literal[True]
+    block_known_f1_source_identity_failure: Literal[True]
+    source_filter_before_cardinality: Literal[True]
+    deduplicate_target_ids_before_cardinality: Literal[True]
+    fuzzy_or_semantic_matching: Literal[False]
+    source_pdf_access: Literal[False]
+    hash_large_upstream_payloads: Literal[False]
+    allow_policy_repair_during_run: Literal[False]
 
 
 class RelationshipStopBehavior(StrictModel):
@@ -548,11 +679,43 @@ class ResponseRelationshipReviewRunSpecV4(StrictModel):
         return self
 
 
+class ResponseReferenceRunSpecV5(StrictModel):
+    """One source-free qualified exact-rule recipe for Task 05F."""
+
+    schema_version: Literal["er_commons.response_reference_run_spec.v5"]
+    task_stage: Literal["05f"]
+    scope_kind: Literal["qualified_exact_draft_eir_reference_rules"]
+    accepted_task05d: AcceptedTask05D
+    accepted_task05e: AcceptedTask05E
+    task04: Task04ReferenceBindings
+    repository_bindings: tuple[RepositoryBinding, ...]
+    producer_code_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    output_policy: ReferenceOutputPolicy
+    stop_behavior: ReferenceStopBehavior
+
+    @model_validator(mode="after")
+    def validate_qualified_rules(self) -> ResponseReferenceRunSpecV5:
+        """Require the exact small schemas, code, and collection spec."""
+        _require_exact_roles(
+            [item.role for item in self.repository_bindings],
+            {
+                "producer_run_spec_code",
+                "reference_outcome_schema",
+                "response_record_schema",
+                "reference_run_spec_schema",
+                "task04d_collection_spec",
+            },
+            "repository binding",
+        )
+        return self
+
+
 AnyResponseInventoryRunSpec = (
     ResponseInventoryRunSpec
     | ResponseInventoryRunSpecV2
     | ResponseRelationshipRunSpecV3
     | ResponseRelationshipReviewRunSpecV4
+    | ResponseReferenceRunSpecV5
 )
 
 
@@ -563,7 +726,9 @@ def load_response_inventory_run_spec(path: Path) -> tuple[AnyResponseInventoryRu
     if not isinstance(payload, dict):
         raise ValueError("response inventory run spec must be a JSON object")
     spec: AnyResponseInventoryRunSpec
-    if payload.get("schema_version") == "er_commons.response_relationship_run_spec.v4":
+    if payload.get("schema_version") == "er_commons.response_reference_run_spec.v5":
+        spec = ResponseReferenceRunSpecV5.model_validate_json(raw)
+    elif payload.get("schema_version") == "er_commons.response_relationship_run_spec.v4":
         spec = ResponseRelationshipReviewRunSpecV4.model_validate_json(raw)
     elif payload.get("schema_version") == "er_commons.response_relationship_run_spec.v3":
         spec = ResponseRelationshipRunSpecV3.model_validate_json(raw)
@@ -604,6 +769,7 @@ __all__ = [
     "ResponseInventoryRunSpecV2",
     "ResponseRelationshipRunSpecV3",
     "ResponseRelationshipReviewRunSpecV4",
+    "ResponseReferenceRunSpecV5",
     "load_response_inventory_run_spec",
     "verify_repository_bindings",
 ]

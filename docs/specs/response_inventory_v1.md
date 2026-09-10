@@ -326,4 +326,4 @@ commenter ontology, fuzzy or embedding links, confidence calibration, graph
 storage, full PROV graphs, OCR/model records, arbitrary geometry polygons,
 word-token identities, a rule language, bi-temporal history, permissions,
 content-addressed storage, stored reverse edges, joined-text views, HTML/UI
-schemas, or Task 07 outcome, eligibility, and clustering fields.
+schemas, or Task 08 outcome, eligibility, and clustering fields.

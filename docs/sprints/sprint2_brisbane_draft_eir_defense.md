@@ -149,7 +149,7 @@ inventory in this sprint. Model assistance for inventory work is out of scope
 for now; it may be evaluated later against the completed human-reviewed
 inventory as a QA reference.
 
-Task 05 is a seven-part umbrella rather than one execution contract:
+Task 05 is an eight-part umbrella rather than one execution contract:
 
 1. Task 05A qualifies sealed inputs and profiles bounded representative source
    structures.
@@ -161,21 +161,24 @@ Task 05 is a seven-part umbrella rather than one execution contract:
    graph relationships.
 5. Task 05E resolves the intra-Volume response graph and materializes linked
    review views without judging substantive adequacy.
-6. Task 05F resolves official Draft EIR references through Task 04D and applies
-   Task 04A usability as a separate cross-system link layer.
-7. Task 05G reviews corrections and publishes the sole immutable Task 05
+6. Task 05F establishes and accepts a partial exact-link layer over official
+   Draft EIR references through Task 04D with separate Task 04A usability.
+7. Task 05G replays that layer after Task 06 repairs and iteratively qualifies
+   further exact linking rules.
+8. Task 05H reviews corrections and publishes the sole immutable Task 05
    inventory release.
 
-Only Task 05A may activate first. Tasks 05B through 05G remain provisional and
-must be revised from accepted preceding outcomes. Use replaceable working space
-and bounded pilots for iteration; do not seal every experiment. Routine Task 05
+Tasks 05A through 05F are complete. Task 06 is the next planning umbrella; its
+accepted handoff is required before Task 05G, and Task 05H follows Task 05G.
+Use replaceable working space and bounded pilots for iteration; do not seal
+every experiment. Routine Task 05
 validation pins the Task 02 source checksum and Task 03J/04A/04D identities
 through compact completion metadata without rehashing or copying their large
 payloads. Hash newly authored authoritative Task 05 records once at final
 publication, preferably while writing them, and reserve a full byte audit for a
 specific integrity concern or separately approved archival boundary.
 
-### Task 07 eligibility, clustering, and split boundary
+### Task 08 eligibility, clustering, and split boundary
 
 Human reviewers alone determine candidate eligibility. Deterministic checks
 may flag language, source references, or missing links for reviewer attention,
@@ -236,12 +239,12 @@ Keep the project's graph roles distinct:
 - Task 05 owns the curator-only comment, individual-response, and
   general-response relationship graph plus links from official response
   references to Task 03 targets.
-- Task 06 owns only a curator-search traversal/index view over the accepted
+- Task 07 owns only a curator-search traversal/index view over the accepted
   Task 03 graph.
-- Task 07 owns the case-clustering graph.
+- Task 08 owns the case-clustering graph.
 
 Draft EIR section adjacency, a shared Task 03 target, or traversal proximity
-must never become an automatic Task 07 clustering edge.
+must never become an automatic Task 08 clustering edge.
 
 Before freezing the split, validate duplicate and near-duplicate candidate
 generation against a small deterministic fixture containing representative
@@ -272,9 +275,9 @@ changes as new named runs rather than replacing the primary result.
 
 ### Model-assisted reference-case authoring
 
-For the bounded Task 06 pilot, the curator may select a small, varied set of
+For the bounded Task 07 pilot, the curator may select a small, varied set of
 plausibly eligible Task 05 cases for exploratory authoring. This pilot inclusion
-is not formal eligibility, acceptance, or a substitute for Task 07's complete
+is not formal eligibility, acceptance, or a substitute for Task 08's complete
 two-pass review. For each selected pilot case, a curation model may use the
 original comment, resolved individual and general responses, and candidate
 Draft EIR evidence to propose three distinct artifacts in order:
@@ -368,7 +371,7 @@ reproduce the same IDs; a
 changed converter or configuration creates a new corpus version and new
 low-level anchors. Pin reviewed evidence and benchmark cases to the exact
 accepted Task 03 extraction identity, accepted review-registry version,
-Task 05 inventory version, and Task 07 case/split versions. Human-readable
+Task 05 inventory version, and Task 08 case/split versions. Human-readable
 document and section slugs may remain recognizable across versions, but they
 do not replace content and configuration checksums.
 
@@ -518,7 +521,7 @@ expansion is out of scope for the initial pilot and may be tested later only if
 the recorded evidence shows inadequate recall.
 
 Materialize a deterministic traversal/index view over the accepted Task 03
-cross-reference records; Task 06 does not re-extract or re-resolve references.
+cross-reference records; Task 07 does not re-extract or re-resolve references.
 Use Task 05 official-response references as curator-only seeds and traverse
 only resolved edges whose targets remain usable under Task 04A. Unresolved
 mentions remain lexical-search or manual-review signals, not graph edges.
@@ -567,9 +570,9 @@ Task 03I are complete as the first-pass review and its bounded extraction
 disposition. Task 04A is complete and freezes Task 03J with its separate human
 TOC and source-usability layer. Task 04B is closed as a no-op. Task 04C is
 superseded review evidence. Task 04D is complete; its validated replacement
-handoff is designated for linking-dependent consumers. Task 05 is now a planned
-seven-part umbrella. Task 05A is next and not activated; Tasks 05B through 05G
-remain provisional.
+handoff is designated for linking-dependent consumers. Tasks 05A through 05F
+are complete, with Task 05F accepted as a partial outcome. Task 06 is the next
+planning umbrella; Task 05G replay and Task 05H publication follow it.
 
 The task files preserve detailed outcomes, negative experiments, and identity
 history. The map below is retained as sprint scope and sequencing, not as a
@@ -800,21 +803,27 @@ distinct decision or validation boundary.
    - [Task 05E](../../tasks/sprint2/05e_build_response_relationship_graph.md)
      resolves the intra-Volume comment and response graph and linked views;
    - [Task 05F](../../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
-     resolves official Draft EIR references through Task 04D subject to Task
-     04A usability; and
-   - [Task 05G](../../tasks/sprint2/05g_review_and_freeze_response_inventory.md)
+     establishes the accepted partial official-reference link layer;
+   - [Task 05G](../../tasks/sprint2/05g_replay_and_extend_official_reference_links.md)
+     replays through Task 05F after Task 06 and iterates on further exact
+     linking rules; and
+   - [Task 05H](../../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
      applies curator QA and publishes the sole immutable Task 05 release.
 
    Only Task 05A may activate first. The later contracts remain provisional and
    are revised from accepted preceding evidence. Task 05 uses replaceable working
    space for iteration and does not routinely copy or rehash sealed large inputs.
-7. **Task 06 — Pilot reference-case authoring.** Implement deterministic
+7. **[Task 06](../../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
+   — Repair reference sources and the target index.** Design a bounded umbrella
+   for the F1 source substitution, duplicate or missing chapter targets, figure
+   targets, affected upstream replay, and a replacement handoff to Task 05G.
+8. **Task 07 — Pilot reference-case authoring.** Implement deterministic
    high-recall curator search, a two-hop traversal/index view over the accepted
    Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence
    registry, and Label Studio review on a small varied pilot. Official-response
    references are curator-only seeds; accepted evidence requires exact
    canonical block or table anchors.
-8. **Task 07 — Curate, cluster, split, and freeze the benchmark.** Identify at
+9. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Identify at
    least 35 plausible cases, finish two-pass single-curator review, accept at
    least 25 cases, and materialize the deterministic 10-development/15-test
    split. Build cluster edges only from commenter membership, Task 05
@@ -823,28 +832,28 @@ distinct decision or validation boundary.
    and shared Task 03 targets are warnings, never automatic edges. Preserve
    decisions, validate duplicate candidates, and publish the cross-split
    leakage audit.
-9. **Task 08 — Build and freeze human evaluation.** Implement the staged,
+10. **Task 09 — Build and freeze human evaluation.** Implement the staged,
    blinded evidence-support, responsiveness, and reference-coverage forms and
    anchored `0`/`1`/`2` rubric. Pin exports and forms to the accepted Task 03
-   extraction, accepted review registry, and Task 07 case/split versions; link
+   extraction, accepted review registry, and Task 08 case/split versions; link
    requested render cache separately.
-10. **Task 09 — Build and freeze BM25 retrieval.** Build units from accepted
+11. **Task 10 — Build and freeze BM25 retrieval.** Build units from accepted
    hierarchy and accepted-review-registry body content and tables. Analyze leaf-section
    lengths, choose whole sections or a documented contiguous fallback that
    never spans excluded content, run the lexical preprocessing pilot, freeze
    the index, and report development-only evidence-coverage curves. Do not
    graph-expand benchmark retrieval unless a later explicit decision adds that
    condition.
-11. **Task 10 — Build and freeze target generation.** Pin the full extraction,
+12. **Task 11 — Build and freeze target generation.** Pin the full extraction,
    usability, case, split, index, prompt, model, and schema identity chain.
    Implement the zero-shot Qwen3 4B prompt, abstention and citation validation,
    deterministic source-label rendering, output-length pilot, and development
    stability check without exposing curator-only or QA metadata.
-12. **Task 11 — Calibrate the automated judge.** Pin and verify the same
+13. **Task 12 — Calibrate the automated judge.** Pin and verify the same
     identity chain. Run the three staged Gemma 3 12B judge calls against locked
     human development scores without raw Final EIR response text, then freeze
     the judge or retain it as diagnostic-only under the accepted gate.
-13. **Task 12 — Run the locked test and close Sprint 2.** Verify the complete
+14. **Task 13 — Run the locked test and close Sprint 2.** Verify the complete
     identity chain before execution. Run the primary baseline first, then the
     pre-registered `A` and `A+B` oracle diagnostics; human-review every test
     prediction, preserve automated scores separately, analyze errors by stage,

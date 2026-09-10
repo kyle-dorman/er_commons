@@ -13,6 +13,7 @@ from pydantic import ValidationError
 from er_commons.response_inventory.run_spec import (
     ResponseInventoryRunSpec,
     ResponseInventoryRunSpecV2,
+    ResponseReferenceRunSpecV5,
     ResponseRelationshipReviewRunSpecV4,
     ResponseRelationshipRunSpecV3,
     load_response_inventory_run_spec,
@@ -37,6 +38,10 @@ RELATIONSHIP_REVIEW_CONFIG_PATH = (
 RELATIONSHIP_REVIEW_SCHEMA_PATH = (
     REPO_ROOT
     / "benchmarks/er_bench/schemas/response_inventory/v4/relationship_run_spec.schema.json"
+)
+REFERENCE_CONFIG_PATH = REPO_ROOT / "configs/brisbane_baylands_2025_feir_task05f_exact_v5.json"
+REFERENCE_SCHEMA_PATH = (
+    REPO_ROOT / "benchmarks/er_bench/schemas/response_inventory/v5/reference_run_spec.schema.json"
 )
 EXPECTED_RANGES = (
     (1, 5),
@@ -70,6 +75,10 @@ def _relationship_config_payload() -> dict[str, object]:
 
 def _relationship_review_config_payload() -> dict[str, object]:
     return cast(dict[str, object], json.loads(RELATIONSHIP_REVIEW_CONFIG_PATH.read_text()))
+
+
+def _reference_config_payload() -> dict[str, object]:
+    return cast(dict[str, object], json.loads(REFERENCE_CONFIG_PATH.read_text()))
 
 
 def test_checked_in_pilot_config_is_schema_valid_and_exact() -> None:
@@ -298,3 +307,42 @@ def test_relationship_review_config_rejects_unreviewed_policy_expansion() -> Non
     aliases["O-OSEC-106"] = "M-OSEC-107"
     with pytest.raises(ValidationError, match="M-OSEC-106"):
         ResponseRelationshipReviewRunSpecV4.model_validate(payload)
+
+
+def test_checked_in_reference_config_is_schema_valid_and_qualified_exact() -> None:
+    payload = _reference_config_payload()
+    schema = json.loads(REFERENCE_SCHEMA_PATH.read_text())
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema).validate(payload)
+
+    spec, digest = load_response_inventory_run_spec(REFERENCE_CONFIG_PATH)
+    assert isinstance(spec, ResponseReferenceRunSpecV5)
+    assert len(digest) == 64
+    assert spec.task_stage == "05f"
+    assert spec.stop_behavior.exact_first is True
+    assert spec.stop_behavior.leading_identifier_fallback is True
+    assert spec.stop_behavior.attached_title_fallback is True
+    assert spec.stop_behavior.structured_appendix_designator_normalization is True
+    assert spec.stop_behavior.unique_outer_appendix_document is True
+    assert spec.stop_behavior.reject_more_specific_appendix_downgrade is True
+    assert spec.stop_behavior.block_known_f1_source_identity_failure is True
+    assert spec.stop_behavior.source_filter_before_cardinality is True
+    assert spec.stop_behavior.hash_large_upstream_payloads is False
+    assert spec.stop_behavior.fuzzy_or_semantic_matching is False
+    assert spec.output_policy.completion_written is False
+
+
+def test_reference_config_rejects_large_hashing_and_pointer_substitution() -> None:
+    payload = _reference_config_payload()
+    stop = payload["stop_behavior"]
+    assert isinstance(stop, dict)
+    stop["hash_large_upstream_payloads"] = True
+    with pytest.raises(ValidationError, match="Input should be False"):
+        ResponseReferenceRunSpecV5.model_validate(payload)
+
+    payload = _reference_config_payload()
+    accepted = payload["accepted_task05e"]
+    assert isinstance(accepted, dict)
+    accepted["acceptance_path"] = "working/not-adjacent.acceptance.json"
+    with pytest.raises(ValidationError, match="must be adjacent"):
+        ResponseReferenceRunSpecV5.model_validate(payload)

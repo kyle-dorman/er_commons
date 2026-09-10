@@ -5,8 +5,10 @@ Start with `AGENTS.md`, then use this page to decide what to read.
 
 ## Current status
 
-Sprint 2 is active. Tasks 02 through 05E are complete and accepted. Task 03J
-remains the
+Sprint 2 is active. Tasks 02 through 05F are complete and accepted; Task 05F
+closed with an explicit partial outcome. Provisional Task 06 is the next
+planning umbrella for upstream reference-source and target-index repair. Task
+03J remains the
 immutable extraction basis; Task 04A supplies the accepted usability registry;
 and Task 04D is the designated replacement for linking-dependent consumers.
 Task 04B is closed as a no-op and Task 04C remains superseded review evidence.
@@ -15,7 +17,7 @@ the completed task records.
 
 ## Next action
 
-Task 05 is a seven-part planned umbrella. Tasks 05A through 05D are accepted.
+Task 05 is an eight-part umbrella. Tasks 05A through 05F are accepted.
 Task 05D.1's R1 remediation, source-free R3 human-maintainability gate, and
 separately authorized post-R3 R2 exact `1-744` replay are complete. The fresh
 terminal candidate passed exact review-evidence reuse, receipt-only closure,
@@ -32,15 +34,25 @@ provenance, review-page behavior, and publication boundary were repaired; the
 fresh replay preserved the graph exactly. Formatting, linting, explicit
 complexity checks, strict typing, 21 focused tests, and all 1,377 repository
 tests pass. The repaired candidate is accepted through its compact adjacent
-pointer. Work is paused; Task 05F remains inactive pending a separately reviewed
-contract and user direction. Read these files in order:
+pointer. Task 05F's current source-free qualified-rule candidate accounts for
+all 511 in-scope Draft EIR and Appendix Q mentions as 295 links and 216 explicit
+nonlinks. Its human code-quality gate passes after responsibility, diagnostics,
+and exact-reuse repairs. Qualification also found that accepted
+`deir_appendix_f1` is the wrong document and that Appendix A emits duplicate
+logical chapter targets. Task 06 preserves that recovery scope for a new
+planning chat; Task 05G will own replay and further exact-rule cycles afterward.
+Read these files in order:
 
 1. [Task 05 umbrella](../tasks/sprint2/05_build_curator_only_response_inventory.md)
 2. [Task 05C accepted outcome](../tasks/sprint2/05c_build_response_inventory_pilot.md)
 3. [Task 05D Gate 1 outcome](../tasks/sprint2/05d_build_complete_source_unit_inventory.md)
 4. [Task 05D.1 terminal candidate outcome](../tasks/sprint2/05d1_remediate_full_source_inventory_findings.md)
-5. [Task 05E revised provisional contract](../tasks/sprint2/05e_build_response_relationship_graph.md)
-6. [Architecture contract](architecture.md) and [data/artifact contract](data_artifacts.md)
+5. [Task 05E accepted outcome](../tasks/sprint2/05e_build_response_relationship_graph.md)
+6. [Task 05F accepted partial outcome](../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
+7. [Task 06 provisional repair umbrella](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
+8. [Task 05G provisional replay loop](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md)
+9. [Task 05H provisional review and publication](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
+10. [Architecture contract](architecture.md) and [data/artifact contract](data_artifacts.md)
 
 Task 05A confirmed page-local PDFium extraction with independent Poppler and
 visual disagreement checks. It also found that Volume 4 contains General
@@ -74,8 +86,16 @@ period; supports directional General-Response-to-General-Response edges; and
 combines case normalization with narrow U+0002 recovery. The Caltrans non-pair
 and missing-prefix `Response OSEC-21` typo are preserved without edges under
 reviewed terminal reasons. Parent/sub-answer and broader fuzzy rules remain
-unaccepted. Tasks 05F and 05G must continue in sequence from accepted
-preceding outcomes.
+unaccepted. Task 05F's maintained qualified rules resolve 295 references through
+bounded exact projections and preserve 216 explicit nonlinks. The unresolved
+population includes 79 figure mentions and 66 F1-routed mentions deferred to
+Task 06, plus collisions and fail-closed source or target absences. The 11
+comment-authored and 2 Appendix Q references retain their required terminal
+reasons. Task 05F is closed as partial. The provisional Task 06 umbrella
+preserves all accepted artifacts, considers Final EIR Appendix F1 only as an
+explicit edition-marked substitute, and owns upstream target repairs. Task 05G
+will replay the accepted 05F rules against its handoff and continue bounded
+exact-link qualification; Task 05H remains the final publication stage.
 The final inventory remains a separate curator-only artifact, not part of the
 model corpus.
 

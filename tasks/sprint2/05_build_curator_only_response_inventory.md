@@ -1,6 +1,6 @@
 # Task 05: Build the Curator-Only Response Inventory
 
-Status: **planned umbrella; decomposed into provisional Tasks 05A through 05G;
+Status: **planned umbrella; decomposed into Tasks 05A through 05H;
 not activated**.
 
 ## Abstract
@@ -18,7 +18,7 @@ resolution, human QA, and publication from accumulating inside one task.
 
 ## Goal
 
-Produce one curator-only inventory that later Task 06 and Task 07 work can pin,
+Produce one curator-only inventory that later Task 07 and Task 08 work can pin,
 while keeping every semantic transition independently reviewable:
 
 ```text
@@ -45,7 +45,7 @@ frozen source
 - Inventory construction is deterministic. No LLM creates, segments, links,
   triages, or repairs source units.
 - Task 05 human review decides transcription, segmentation, anchor, and link
-  correctness. Task 07 owns response-outcome judgment, two-pass eligibility,
+  correctness. Task 08 owns response-outcome judgment, two-pass eligibility,
   substantive-link classification for clustering, and benchmark acceptance.
 - A linked response remains a separately identified source unit. Derived review
   views never flatten away its ID, anchor, or relationship provenance.
@@ -129,9 +129,19 @@ datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/
    comment and response relationships and publish graph diagnostics and views.
 6. [Task 05F](05f_resolve_official_draft_eir_references.md): resolve official
    Draft EIR references against Task 04D and annotate Task 04A usability.
-7. [Task 05G](05g_review_and_freeze_response_inventory.md): conduct curator QA,
+7. [Task 05G](05g_replay_and_extend_official_reference_links.md): after Task 06,
+   replay through the accepted partial 05F link layer and iteratively qualify
+   additional exact rules with complete accounting.
+8. [Task 05H](05h_review_and_freeze_response_inventory.md): conduct curator QA,
    record sparse dispositions, route output-affecting corrections back to their
    owning stage, and publish the sole immutable Task 05 release after re-review.
+
+[Task 05F](05f_resolve_official_draft_eir_references.md) is complete with an
+accepted partial outcome. The standalone provisional
+[Task 06](06_repair_reference_sources_and_target_index.md) umbrella owns the
+upstream source and target-index repairs. Its accepted handoff is an explicit
+prerequisite for Task 05G despite the numbering; Task 05G owns replay rather
+than Task 06.
 
 Unexpected failures do not silently enlarge the active task. Preserve a compact
 stop record, define a bounded remediation task only when evidence requires it,
@@ -156,7 +166,8 @@ and `diagnostics/`. At minimum it preserves:
 
 ## Umbrella acceptance criteria
 
-- Tasks 05A through 05G close in order, with only one active at a time.
+- Tasks 05A through 05F close first; Task 06 then supplies repaired inputs for
+  iterative Task 05G replay, followed by Task 05H publication.
 - Each task owns one semantic transition and revises its successor from observed
   evidence.
 - The final inventory accounts for every identifiable source unit or diagnostic
@@ -174,7 +185,7 @@ and `diagnostics/`. At minimum it preserves:
 - Adding Volume 4 or Appendix Q to the model corpus.
 - Extracting Appendix Q as part of Task 05.
 - Response-outcome classification, eligibility screening, clustering, or split
-  selection; Task 07 owns those decisions.
+  selection; Task 08 owns those decisions.
 - Benchmark retrieval, reference-defense authoring, target generation, judging,
   or evaluation.
 - A workflow framework, permissions system, content-addressed artifact store, or

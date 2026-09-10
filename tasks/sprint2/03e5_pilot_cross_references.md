@@ -142,8 +142,8 @@ The outcome must explain:
   exist until Task 03F completes per-document semantic stage one and seals a
   corpus target index.
 - **The canonical source graph differs from later graphs.** Task 05 owns
-  comment/response relationships, Task 06 owns a curator traversal view, and
-  Task 07 owns reviewed case-clustering edges.
+  comment/response relationships, Task 07 owns a curator traversal view, and
+  Task 08 owns reviewed case-clustering edges.
 
 ## Bounded first action and approval stops
 
@@ -324,7 +324,7 @@ git diff --check
   records and are not promised to Task 03F as resolvable work.
 - The canonical cross-reference output is sufficient to build a sealed corpus
   second pass without mutating completed per-document stage-one artifacts.
-- Task 06 can later consume canonical edges without owning extraction or
+- Task 07 can later consume canonical edges without owning extraction or
   resolution semantics.
 - The implementation is human-owned: each stage responsibility is locatable,
   owner-level tests avoid private-sequence coupling, and the public workflow is

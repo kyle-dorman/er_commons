@@ -96,7 +96,7 @@ The contract must encode the Task 05A findings rather than rediscover them:
   correction be represented without a catch-all mutable row?
 - **Provenance and identity:** Does each derived record point to exact source and
   activity evidence without hashing whole upstream payloads into new IDs?
-- **Downstream use:** Can Tasks 05C-05G, Task 06, and Task 07 consume only the
+- **Downstream use:** Can Tasks 05C-05H and Tasks 06-08 consume only the
   fields they own without copying text or inventing policy?
 - **Maintainability:** Are schemas, validators, identity preimages, and recovery
   behavior understandable without reconstructing the planning conversation?

@@ -1,12 +1,12 @@
-# Task 05G: Review and Freeze the Response Inventory
+# Task 05H: Review and Freeze the Response Inventory
 
-Status: **provisional; inactive until Task 05F is accepted**.
+Status: **provisional; inactive until Task 05G is accepted**.
 
 ## Abstract
 
 Review the complete Task 05 source units, graphs, diagnostics, anchors, and
 derived views; apply corrections through versioned decisions; and publish the
-single inventory identity designated for Task 06 and Task 07.
+single inventory identity designated for Task 07 and Task 08.
 
 ## Goal
 
@@ -18,7 +18,8 @@ screening distinct.
 
 - Accepted Task 05D source-unit candidate.
 - Accepted Task 05E intra-Volume graph and review views.
-- Accepted Task 05F official Draft EIR link layer and usability annotations.
+- Accepted Task 05G replayed official Draft EIR link layer and usability
+  annotations.
 - Accepted Task 05B completion and correction contracts.
 
 ## Outputs
@@ -30,7 +31,7 @@ screening distinct.
 - final `inventory/`, `diagnostics/`, and `records/` package plus compact
   `review_views/` indexes and rendering recipes; materialized joined views remain
   regenerable working cache;
-- Task 06/07 handoff naming exact upstream identities and known limitations;
+- Task 07/08 handoff naming exact upstream identities and known limitations;
 - final managed-file inventory, publication-time output digests, and compact
   completion record; and
 - working/pilot retention recommendation for separate user approval.
@@ -43,13 +44,13 @@ while working space remains available for iteration.
 
 ## Plan
 
-Revise this contract from Task 05F, then use four explicit gates:
+Revise this contract from Task 05G, then use four explicit gates:
 
 1. Freeze the review population and correction semantics.
 2. Record findings and sparse non-source-changing dispositions.
 3. If a finding changes transcription, segmentation, stable IDs, or resolution
    behavior, stop and route it to the owning stage or a narrow remediation task;
-   create new working revisions and replay/revalidate Tasks 05D-05F as required.
+   create new working revisions and return to Task 05G as required.
 4. Publish only after the exact corrected inputs pass re-review and the operator
    workflow passes an independent maintainability review.
 
@@ -89,7 +90,7 @@ second full corrected candidate when a sparse overlay is sufficient.
 - Every identifiable unit, relationship mention, and official reference has a
   record or reviewed diagnostic.
 - The final inventory is immutable, compactly sealed, independently validatable,
-  and designated for Task 06/07.
+  and designated for Task 07/08.
 - Working data, pilots, and superseded candidates are not represented as accepted
   inventory; any material cleanup remains separately authorized.
 - No response outcome, eligibility, or cluster decision is smuggled into Task 05.
