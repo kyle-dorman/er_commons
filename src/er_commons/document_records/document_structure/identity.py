@@ -104,6 +104,29 @@ def build_document_structure_identity(
             "runtime_dependencies": runtime_dependency_versions(),
         },
     }
+    if config.schema_version == "2.0.0":
+        assert config.repeated_heading_policy_relative_path is not None
+        assert config.repeated_heading_decision_schema_relative_path is not None
+        assert inputs.repeated_heading_decisions_ref is not None
+        assert inputs.repeated_heading_completion_ref is not None
+        assert inputs.repeated_heading_inventory_ref is not None
+        assert inputs.repeated_heading_qualification_ref is not None
+        identity["semantic_contract"]["repeated_heading_repair"] = {
+            "policy": {
+                "path": config.repeated_heading_policy_relative_path.as_posix(),
+                "sha256": sha256_file(project_root / config.repeated_heading_policy_relative_path),
+            },
+            "decision_schema": {
+                "path": config.repeated_heading_decision_schema_relative_path.as_posix(),
+                "sha256": sha256_file(
+                    project_root / config.repeated_heading_decision_schema_relative_path
+                ),
+            },
+            "decisions": inputs.repeated_heading_decisions_ref.as_dict(),
+            "qualification": inputs.repeated_heading_qualification_ref.as_dict(),
+            "inventory": inputs.repeated_heading_inventory_ref.as_dict(),
+            "completion": inputs.repeated_heading_completion_ref.as_dict(),
+        }
     digest = extraction_identity_sha256(identity)
     identity["extraction_id"] = f"exv1-{digest}"
     identity["identity_sha256"] = digest

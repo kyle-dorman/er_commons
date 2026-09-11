@@ -253,6 +253,27 @@ The retired pilot island has no maintained callers. Historical recipes and schem
 literals remain unchanged. Later structural, F1 and review-policy work remains with
 06C–06H.
 
+### Repeated chapter-heading projection
+
+Task 06D places repeated divider/opening repair after accepted hierarchy
+projection and before alias grouping. `repeated_heading_policy` owns typed
+classification, `repeated_heading_projection` owns topology reconstruction and
+accounting, and `repeated_headings` is a small public facade. The classifier requires
+exact chapter/title agreement, adjacent same-level sibling topology,
+nonoverlapping ownership/extents whose union ends before a frozen compatible
+following chapter boundary, and accepted TOC correspondence. Ambiguous groups
+remain unprojected. Canonical-v1 bypasses and does not import this v2-only
+repair path.
+
+For an eligible pair, the divider section becomes the logical chapter anchor;
+both physical heading blocks and all content remain in source order, while the
+opening section's children and direct records move to the anchor. Alias
+construction redirects both heading spellings and exact TOC aliases to that
+single target. A fresh candidate identity binds the policy, decision schema,
+closed qualification packet, and owned code. Task 06G materializes the output
+and writes adjacent many-to-one target correspondence; resolvers and collection
+indexing consume the aliases and never rediscover duplicates.
+
 ### Qualified source acquisition
 
 `source_release` owns the [Task 06C qualification boundary](specs/task06c_source_qualification_v1.md).

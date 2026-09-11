@@ -41,7 +41,7 @@ class DocumentStructureSource(StrictConfigModel):
 class DocumentStructureConfig(StrictConfigModel):
     """Content-bound paths and identities for the Appendix P semantic join."""
 
-    schema_version: Literal["1.0.0"]
+    schema_version: Literal["1.0.0", "2.0.0"]
     semantic_policy_version: str = Field(min_length=1)
     candidate_version_name: str = Field(min_length=1)
     candidate_scope: Literal["document_scoped_non_release"]
@@ -64,6 +64,9 @@ class DocumentStructureConfig(StrictConfigModel):
     producer_comparison_relative_path: Path | None = None
     semantic_spec_relative_path: Path
     semantic_schema_relative_path: Path
+    repeated_heading_policy_relative_path: Path | None = None
+    repeated_heading_qualification_relative_root: Path | None = None
+    repeated_heading_decision_schema_relative_path: Path | None = None
     artifact_relative_root: Path
     expectations: DocumentStructureExpectations | None = None
 
@@ -84,6 +87,9 @@ class DocumentStructureConfig(StrictConfigModel):
                 self.producer_comparison_relative_path,
                 self.semantic_spec_relative_path,
                 self.semantic_schema_relative_path,
+                self.repeated_heading_policy_relative_path,
+                self.repeated_heading_qualification_relative_root,
+                self.repeated_heading_decision_schema_relative_path,
                 self.artifact_relative_root,
             )
             if path is not None
@@ -106,6 +112,15 @@ class DocumentStructureConfig(StrictConfigModel):
             and self.bounded_acceptance_relative_path.parent.name != self.hierarchy_candidate_id
         ):
             raise ValueError("bounded acceptance root must match the hierarchy candidate ID")
+        repeated_paths = (
+            self.repeated_heading_policy_relative_path,
+            self.repeated_heading_qualification_relative_root,
+            self.repeated_heading_decision_schema_relative_path,
+        )
+        if self.schema_version == "2.0.0" and any(path is None for path in repeated_paths):
+            raise ValueError("semantic config v2 requires repeated-heading policy inputs")
+        if self.schema_version == "1.0.0" and any(path is not None for path in repeated_paths):
+            raise ValueError("semantic config v1 cannot carry repeated-heading policy inputs")
         return self
 
 

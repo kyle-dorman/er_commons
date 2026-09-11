@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -71,8 +73,22 @@ def test_checked_in_config_is_strict_and_freezes_production_inputs() -> None:
     with pytest.raises(ValidationError, match="hierarchy candidate root"):
         DocumentStructureConfig.model_validate(mismatched)
 
+    v2 = {
+        **CONFIG_VALUE,
+        "schema_version": "2.0.0",
+        "repeated_heading_policy_relative_path": "docs/specs/repeated_heading_repair_v1.md",
+        "repeated_heading_qualification_relative_root": "pipelines/recovery/06d/qualification",
+        "repeated_heading_decision_schema_relative_path": (
+            "benchmarks/er_bench/schemas/task06_recovery/v1/repeated_heading_decision.schema.json"
+        ),
+    }
+    assert DocumentStructureConfig.model_validate(v2).schema_version == "2.0.0"
+    del v2["repeated_heading_qualification_relative_root"]
+    with pytest.raises(ValidationError, match="requires repeated-heading policy inputs"):
+        DocumentStructureConfig.model_validate(v2)
 
-def test_document_structure_code_inventory_is_owner_specific() -> None:
+
+def test_document_structure_code_inventory_is_owner_specific(tmp_path: Path) -> None:
     relative = {path.relative_to(ROOT).as_posix() for path in owned_code_paths(ROOT, CONFIG_PATH)}
 
     assert "src/er_commons/document_parsing/content_parsing/references.py" in relative
@@ -82,10 +98,39 @@ def test_document_structure_code_inventory_is_owner_specific() -> None:
     assert "src/er_commons/document_records/record_mapping/provenance.py" in relative
     assert "src/er_commons/document_records/record_mapping/table_projection.py" in relative
     assert "src/er_commons/document_records/record_mapping/table_artifacts.py" in relative
+    assert "src/er_commons/document_records/document_structure/repeated_headings.py" not in relative
     assert "src/er_commons/document_parsing/content_parsing/application.py" not in relative
     assert "src/er_commons/document_records/record_mapping/context.py" not in relative
     assert "src/er_commons/cli.py" not in relative
     assert "uv.lock" not in relative
+
+    v2_path = tmp_path / "semantic-v2.json"
+    v2_value = json.loads(CONFIG_PATH.read_text())
+    v2_value["schema_version"] = "2.0.0"
+    v2_path.write_text(json.dumps(v2_value))
+    v2_relative = {
+        path.relative_to(ROOT).as_posix()
+        for path in owned_code_paths(ROOT, v2_path)
+        if path.is_relative_to(ROOT)
+    }
+    assert "src/er_commons/document_records/document_structure/repeated_headings.py" in v2_relative
+    assert (
+        "src/er_commons/document_records/document_structure/repeated_heading_projection.py"
+        in v2_relative
+    )
+
+
+def test_v1_shared_runtime_imports_do_not_execute_repeated_heading_modules() -> None:
+    script = """
+import sys
+import er_commons.document_records.document_structure.construction
+import er_commons.document_records.document_structure.inputs
+assert not any(
+    name.rsplit('.', 1)[-1].startswith('repeated_heading')
+    for name in sys.modules
+), sorted(name for name in sys.modules if 'repeated_heading' in name)
+"""
+    subprocess.run([sys.executable, "-c", script], check=True)
 
 
 def test_input_loader_verifies_all_upstream_seals(
@@ -233,3 +278,76 @@ def test_identity_binds_every_normative_input(tmp_path: Path) -> None:
         "owned_code_bundle_sha256",
         "runtime_dependencies",
     }
+
+
+def test_v2_identity_binds_repeated_heading_policy_schema_and_decisions(tmp_path: Path) -> None:
+    project_root = tmp_path
+    config_value = {
+        **CONFIG_VALUE,
+        "schema_version": "2.0.0",
+        "repeated_heading_policy_relative_path": "docs/specs/repeated_heading_repair_v1.md",
+        "repeated_heading_qualification_relative_root": "pipelines/recovery/06d/qualification",
+        "repeated_heading_decision_schema_relative_path": (
+            "benchmarks/er_bench/schemas/task06_recovery/v1/repeated_heading_decision.schema.json"
+        ),
+    }
+    config = DocumentStructureConfig.model_validate(config_value)
+    config_copy = project_root / "config.json"
+    config_copy.write_text(json.dumps(config_value))
+    paths = (
+        project_root / config.semantic_spec_relative_path,
+        project_root / config.semantic_schema_relative_path,
+        project_root / config.repeated_heading_policy_relative_path,  # type: ignore[arg-type]
+        project_root / config.repeated_heading_decision_schema_relative_path,  # type: ignore[arg-type]
+        project_root / "src/owned.py",
+    )
+    for path in paths:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(path.as_posix())
+    producer_manifest_sha = "3" * 64
+    inputs = DocumentStructureInputs(
+        baseline_candidate_root=tmp_path / "baseline",
+        baseline_completion={"candidate_id": BASELINE_CANDIDATE_ID},
+        baseline_completion_ref=ArtifactReference("baseline/completion.json", "4" * 64),
+        baseline_inventory_ref=ArtifactReference("baseline/inventory.json", "5" * 64),
+        baseline_producer=VerifiedProducer(
+            BASELINE_PRODUCER_RUN_ID,
+            CompletionRecord.model_validate(
+                _completion(BASELINE_PRODUCER_RUN_ID, producer_manifest_sha)
+            ),
+            ArtifactReference("baseline-producer/completion.json", "6" * 64),
+            ArtifactReference("baseline-producer/inventory.json", "7" * 64),
+        ),
+        hierarchy_producer=VerifiedProducer(
+            HIERARCHY_PRODUCER_RUN_ID,
+            CompletionRecord.model_validate(
+                _completion(HIERARCHY_PRODUCER_RUN_ID, producer_manifest_sha)
+            ),
+            ArtifactReference("hierarchy-producer/completion.json", "8" * 64),
+            ArtifactReference("hierarchy-producer/inventory.json", "9" * 64),
+        ),
+        hierarchy_candidate_root=tmp_path / "hierarchy",
+        hierarchy_completion_ref=ArtifactReference("hierarchy/completion.json", "a" * 64),
+        hierarchy_inventory_ref=ArtifactReference("hierarchy/inventory.json", "b" * 64),
+        bounded_acceptance_ref=ArtifactReference("acceptance.json", "c" * 64),
+        producer_comparison_ref=ArtifactReference("comparison.json", "d" * 64),
+        control_provenance={
+            "semantic_file_set_sha256": "e" * 64,
+            "aggregate_semantic_sha256": "f" * 64,
+        },
+        source_manifest_ref=ArtifactReference("source_manifest.json", producer_manifest_sha),
+        repeated_heading_decisions_ref=ArtifactReference("06d/decisions.jsonl", "1" * 64),
+        repeated_heading_completion_ref=ArtifactReference("06d/completion.json", "2" * 64),
+        repeated_heading_inventory_ref=ArtifactReference("06d/inventory.json", "3" * 64),
+        repeated_heading_qualification_ref=ArtifactReference("06d/qualification.json", "4" * 64),
+    )
+    identity = build_document_structure_identity(
+        project_root=project_root,
+        config_path=config_copy,
+        config=config,
+        inputs=inputs,
+        owned_paths=(paths[-1],),
+    )
+    repeated = identity["semantic_contract"]["repeated_heading_repair"]
+    assert repeated["decisions"]["sha256"] == "1" * 64
+    assert repeated["policy"]["path"] == "docs/specs/repeated_heading_repair_v1.md"

@@ -13,13 +13,13 @@ handoff. Completed task records own exact identities and validation evidence.
 
 ## Next action
 
-[Task 06C](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md) is
-complete. The selected 756-page Final F1 is qualified through a retained source
-receipt with the approved thumbnail/title disposition and body-backed memo
-evidence. Its fresh conversion and producer stages are sealed for reuse, and
-Gate 4 has verified the compact handoff without rereading the PDF. The original
-failed acquisition and first failed conversion attempt remain preserved. Tasks
-06D–06H remain inactive.
+[Task 06D](../tasks/sprint2/06d_repair_duplicate_chapter_targets.md) is complete
+and accepted. Its source-general repeated-heading repair and v6 qualification
+packet are approved for later policy work and Task 06G. Task 06E is next in the
+planned sequence but remains inactive pending its own execution authorization;
+production replay remains separately gated to Task 06G. Task 06C's selected
+756-page Final F1 conversion and producer handoff remains sealed for that replay;
+its failed acquisition and first failed conversion attempt remain preserved.
 
 The [maintained command map](pipeline_commands.md) and
 [executed owner map](specs/task06b_gate2_executed_inventory.md) route current

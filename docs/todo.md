@@ -8,16 +8,15 @@ remains immutable extraction evidence, Task 04A owns accepted review, and Task
 04D remains the designated linking-dependent handoff until a replacement is
 accepted. Exact outcomes belong in the completed task records.
 
-## Next action: select the next Task 06 repair-policy gate
+## Next action: authorize Task 06E
 
-[Task 06C](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md) Gates 1–4
-are complete. The approved thumbnail/title disposition and targeted memo check
-qualified the retained 756-page Final F1; its fresh source receipt preserves the
-original bytes and failed acquisition. Gate 3 sealed the replacement conversion
-and producer evidence, and Gate 4 independently verified the compact reuse
-handoff. The task outcome owns exact paths, IDs, resource accounting, retained
-warnings, and the Task 06G resume boundary. Tasks 06D–06H remain inactive;
-select and authorize their next bounded policy task separately.
+[Task 06D](../tasks/sprint2/06d_repair_duplicate_chapter_targets.md) is complete
+and accepted after Astra's v6 re-review. Chapters 06 and 08 qualify under one
+topology-and-TOC rule with no source/page exceptions or pending human
+interpretations. [Task 06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md)
+is next in the planned sequence but remains inactive until explicitly
+authorized. Do not replay production artifacts; Task 06G owns that separate
+gate.
 
 Task 06B is complete. Its [maintained interfaces](pipeline_commands.md) and
 [executed inventory](specs/task06b_gate2_executed_inventory.md) preserve historical
@@ -29,8 +28,8 @@ conversion reuse. Later tasks remain inactive.
 | [06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md) | Bind accepted evidence; freeze dependency, cleanup, repair, and review plan | Complete; source-free packet reviewed |
 | [06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md) | Gate 1: sealed reuse and stage identities; Gate 2: rename/remove/retain cleanup and integrated proof | Complete; both gates reviewed |
 | [06C](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md) | Qualify and process the selected Final F1 substitute | Complete; reusable conversion/producer handoff sealed |
-| [06D](../tasks/sprint2/06d_repair_duplicate_chapter_targets.md) | Repair repeated chapter headings using topology and TOC evidence | Provisional; inactive |
-| [06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) | Recover missing chapters or use the TOC/children fallback | Provisional; inactive |
+| [06D](../tasks/sprint2/06d_repair_duplicate_chapter_targets.md) | Repair repeated chapter headings using topology and TOC evidence | Complete and accepted |
+| [06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) | Recover missing chapters or use the TOC/children fallback | Next; inactive pending authorization |
 | [06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) | Publish independent exact figure-caption targets | Provisional; inactive |
 | [06G](../tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md) | Replay only affected descendants and compare complete correspondence | Provisional; inactive |
 | [06H](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md) | Reuse accepted review, review changed evidence, and accept replacement handoff | Provisional; inactive |

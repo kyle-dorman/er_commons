@@ -5,7 +5,9 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 
 from er_commons.artifact_io import assert_contained, sha256_file
 from er_commons.document_parsing.content_parsing.evidence import verify_completed_run
@@ -21,6 +23,11 @@ from er_commons.hierarchy_inference.candidate_verification import (
 )
 
 JsonObject = dict[str, Any]
+
+if TYPE_CHECKING:
+    from er_commons.document_records.document_structure.repeated_headings import (
+        RepeatedHeadingDecision,
+    )
 
 
 @dataclass(frozen=True)
@@ -62,6 +69,11 @@ class DocumentStructureInputs:
     producer_comparison_ref: ArtifactReference | None
     control_provenance: JsonObject
     source_manifest_ref: ArtifactReference
+    repeated_heading_decisions_ref: ArtifactReference | None = None
+    repeated_heading_completion_ref: ArtifactReference | None = None
+    repeated_heading_inventory_ref: ArtifactReference | None = None
+    repeated_heading_qualification_ref: ArtifactReference | None = None
+    repeated_heading_decisions: tuple[RepeatedHeadingDecision, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -373,6 +385,11 @@ def load_document_structure_inputs(
     _verify_producer_pair(config, baseline_producer, hierarchy_producer)
     source_manifest_ref = _verify_source_manifest(data_root, config, baseline_producer)
     hierarchy = _verify_hierarchy_evidence(data_root, project_root, config)
+    repeated_refs, repeated_decisions = _load_repeated_heading_decisions(
+        data_root=data_root,
+        project_root=project_root,
+        config=config,
+    )
     return DocumentStructureInputs(
         baseline_candidate_root=baseline.root,
         baseline_completion=baseline.completion,
@@ -387,4 +404,295 @@ def load_document_structure_inputs(
         producer_comparison_ref=hierarchy.comparison_ref,
         control_provenance=hierarchy.control,
         source_manifest_ref=source_manifest_ref,
+        repeated_heading_decisions_ref=repeated_refs.get("decisions"),
+        repeated_heading_completion_ref=repeated_refs.get("completion"),
+        repeated_heading_inventory_ref=repeated_refs.get("inventory"),
+        repeated_heading_qualification_ref=repeated_refs.get("qualification"),
+        repeated_heading_decisions=repeated_decisions,
     )
+
+
+def _load_repeated_heading_decisions(
+    *,
+    data_root: Path,
+    project_root: Path,
+    config: DocumentStructureConfig,
+) -> tuple[dict[str, ArtifactReference], tuple[RepeatedHeadingDecision, ...]]:
+    """Validate and load the small v2 decision stream without touching source payloads."""
+    if config.schema_version == "1.0.0":
+        return {}, ()
+    assert config.repeated_heading_qualification_relative_root is not None
+    assert config.repeated_heading_policy_relative_path is not None
+    assert config.repeated_heading_decision_schema_relative_path is not None
+    root = assert_contained(
+        data_root, config.repeated_heading_qualification_relative_root.as_posix()
+    )
+    paths = {
+        "completion": root / "completion.json",
+        "inventory": root / "inventory.json",
+        "qualification": root / "qualification.json",
+        "decisions": root / "eligible_decisions.jsonl",
+    }
+    _verify_repeated_heading_file_closure(root)
+    completion = _load_json_object(paths["completion"])
+    inventory = _load_json_object(paths["inventory"])
+    qualification = _load_json_object(paths["qualification"])
+    _verify_repeated_heading_packet(root, paths, completion, inventory, qualification)
+    schema = _verify_repeated_heading_contract_refs(
+        project_root, config, paths["qualification"], qualification
+    )
+    records = _read_repeated_heading_records(paths["decisions"], schema)
+    all_records = _read_repeated_heading_records(root / "all_decisions.jsonl", schema)
+    decisions = _verify_repeated_heading_records(
+        paths["decisions"], records, all_records, completion, qualification
+    )
+    return (
+        {role: _data_ref(data_root, path) for role, path in paths.items()},
+        decisions,
+    )
+
+
+def _verify_repeated_heading_file_closure(root: Path) -> None:
+    """Reject missing, additional, or nested qualification artifacts."""
+    expected_files = {
+        "all_decisions.jsonl",
+        "eligible_decisions.jsonl",
+        "qualification.json",
+        "inventory.json",
+        "completion.json",
+    }
+    observed_files = {item.name for item in root.iterdir()}
+    if observed_files != expected_files:
+        raise DocumentStructureInvariantError(
+            stage="input verification",
+            invariant="repeated-heading qualification has exact file closure",
+            expected=sorted(expected_files),
+            observed=sorted(observed_files),
+            subject=root.as_posix(),
+        )
+
+
+def _verify_repeated_heading_packet(
+    root: Path,
+    paths: dict[str, Path],
+    completion: JsonObject,
+    inventory: JsonObject,
+    qualification: JsonObject,
+) -> None:
+    """Verify terminal status and the inventory's exact managed-file closure."""
+    _require_input_value(
+        invariant="repeated-heading qualification is terminal without pending review",
+        expected="complete",
+        observed=completion.get("status"),
+        subject=paths["completion"].as_posix(),
+    )
+    _require_input_value(
+        invariant="repeated-heading qualification summary is complete",
+        expected="complete",
+        observed=qualification.get("status"),
+        subject=paths["qualification"].as_posix(),
+    )
+    _require_input_value(
+        invariant="repeated-heading completion seals its inventory",
+        expected=sha256_file(paths["inventory"]),
+        observed=completion.get("inventory_sha256"),
+        subject=paths["completion"].as_posix(),
+    )
+    _require_input_value(
+        invariant="repeated-heading completion declares exact managed file count",
+        expected=3,
+        observed=completion.get("managed_file_count"),
+        subject=paths["completion"].as_posix(),
+    )
+    files = inventory.get("files")
+    if not isinstance(files, list) or not all(isinstance(item, dict) for item in files):
+        raise DocumentStructureInvariantError(
+            stage="input verification",
+            invariant="repeated-heading inventory has file records",
+            expected="list of objects",
+            observed=files,
+            subject=paths["inventory"].as_posix(),
+        )
+    managed = {item.get("path"): item for item in files}
+    expected_managed = {"all_decisions.jsonl", "eligible_decisions.jsonl", "qualification.json"}
+    if set(managed) != expected_managed or len(managed) != len(files):
+        raise DocumentStructureInvariantError(
+            stage="input verification",
+            invariant="repeated-heading inventory membership is exact and unique",
+            expected=sorted(expected_managed),
+            observed=sorted(str(item) for item in managed),
+            subject=paths["inventory"].as_posix(),
+        )
+    for relative, item in managed.items():
+        managed_path = root / relative
+        _require_input_value(
+            invariant=f"repeated-heading managed size matches for {relative}",
+            expected=item.get("byte_size"),
+            observed=managed_path.stat().st_size,
+            subject=managed_path.as_posix(),
+        )
+        _require_input_value(
+            invariant=f"repeated-heading managed digest matches for {relative}",
+            expected=item.get("sha256"),
+            observed=sha256_file(managed_path),
+            subject=managed_path.as_posix(),
+        )
+    _require_input_value(
+        invariant="repeated-heading inventory total byte count is exact",
+        expected=sum((root / relative).stat().st_size for relative in expected_managed),
+        observed=inventory.get("total_bytes"),
+        subject=paths["inventory"].as_posix(),
+    )
+
+
+def _verify_repeated_heading_contract_refs(
+    project_root: Path,
+    config: DocumentStructureConfig,
+    qualification_path: Path,
+    qualification: JsonObject,
+) -> JsonObject:
+    """Verify the packet's checked-in policy and schema bindings."""
+    assert config.repeated_heading_decision_schema_relative_path is not None
+    assert config.repeated_heading_policy_relative_path is not None
+    schema_path = assert_contained(
+        project_root, config.repeated_heading_decision_schema_relative_path.as_posix()
+    )
+    schema = _load_json_object(schema_path)
+    policy_path = assert_contained(
+        project_root,
+        config.repeated_heading_policy_relative_path.as_posix(),
+    )
+    _require_input_value(
+        invariant="repeated-heading qualification binds the current policy",
+        expected=sha256_file(policy_path),
+        observed=(qualification.get("policy_ref") or {}).get("sha256"),
+        subject=qualification_path.as_posix(),
+    )
+    _require_input_value(
+        invariant="repeated-heading qualification names the configured policy path",
+        expected=config.repeated_heading_policy_relative_path.as_posix(),
+        observed=(qualification.get("policy_ref") or {}).get("path"),
+        subject=qualification_path.as_posix(),
+    )
+    _require_input_value(
+        invariant="repeated-heading qualification binds the current schema",
+        expected=sha256_file(schema_path),
+        observed=(qualification.get("decision_schema_ref") or {}).get("sha256"),
+        subject=qualification_path.as_posix(),
+    )
+    _require_input_value(
+        invariant="repeated-heading qualification names the configured schema path",
+        expected=config.repeated_heading_decision_schema_relative_path.as_posix(),
+        observed=(qualification.get("decision_schema_ref") or {}).get("path"),
+        subject=qualification_path.as_posix(),
+    )
+    return schema
+
+
+def _read_repeated_heading_records(path: Path, schema: JsonObject) -> list[JsonObject]:
+    """Parse and schema-validate the eligible JSONL stream."""
+    validator = Draft202012Validator(schema)
+    records: list[JsonObject] = []
+    for line_number, raw in enumerate(path.read_text().splitlines(), start=1):
+        if not raw.strip():
+            continue
+        try:
+            record = json.loads(raw)
+        except json.JSONDecodeError as error:
+            raise DocumentStructureInvariantError(
+                stage="input verification",
+                invariant="repeated-heading decision line contains valid JSON",
+                expected="valid JSON object",
+                observed=f"{error.msg} at line {line_number}",
+                subject=path.as_posix(),
+            ) from error
+        if not isinstance(record, dict):
+            raise DocumentStructureInvariantError(
+                stage="input verification",
+                invariant="repeated-heading decision line is an object",
+                expected="object",
+                observed=type(record).__name__,
+                subject=f"{path.as_posix()}:{line_number}",
+            )
+        errors = sorted(validator.iter_errors(record), key=lambda item: list(item.path))
+        if errors:
+            raise DocumentStructureInvariantError(
+                stage="input verification",
+                invariant="repeated-heading decision matches its schema",
+                expected="valid decision record",
+                observed=errors[0].message,
+                subject=f"{path.as_posix()}:{line_number}",
+            )
+        records.append(record)
+    return records
+
+
+def _verify_repeated_heading_records(
+    path: Path,
+    records: list[JsonObject],
+    all_records: list[JsonObject],
+    completion: JsonObject,
+    qualification: JsonObject,
+) -> tuple[RepeatedHeadingDecision, ...]:
+    """Verify counts, source bindings, ordering, and projection eligibility."""
+    from er_commons.document_records.document_structure.repeated_headings import (
+        RepeatedHeadingDecision,
+    )
+
+    _require_input_value(
+        invariant="repeated-heading eligible count matches completion",
+        expected=completion.get("eligible_decision_count"),
+        observed=len(records),
+        subject=path.as_posix(),
+    )
+    qualification_counts = qualification.get("counts")
+    observed_counts = {
+        status: sum(record["status"] == status for record in all_records)
+        for status in ("eligible", "rejected", "review_required")
+    }
+    _require_input_value(
+        invariant="repeated-heading all-decision counts match qualification",
+        expected=qualification_counts,
+        observed=observed_counts,
+        subject=path.as_posix(),
+    )
+    _require_input_value(
+        invariant="repeated-heading qualification has no pending human review",
+        expected=0,
+        observed=observed_counts["review_required"],
+        subject=path.as_posix(),
+    )
+    eligible_records = [record for record in all_records if record["status"] == "eligible"]
+    _require_input_value(
+        invariant="repeated-heading eligible stream is exact subset of all decisions",
+        expected=eligible_records,
+        observed=records,
+        subject=path.as_posix(),
+    )
+    expected_source_ref = qualification.get("source_ref")
+    for line_number, record in enumerate(records, start=1):
+        _require_input_value(
+            invariant="repeated-heading decision binds qualification source evidence",
+            expected=expected_source_ref,
+            observed=record.get("source_ref"),
+            subject=f"{path.as_posix()}:{line_number}",
+        )
+    stable_groups = [tuple(record["heading_stable_keys"]) for record in records]
+    if len(set(stable_groups)) != len(stable_groups) or stable_groups != sorted(stable_groups):
+        raise DocumentStructureInvariantError(
+            stage="input verification",
+            invariant="repeated-heading decisions are unique and canonically ordered",
+            expected="unique groups in ascending stable-key order",
+            observed=stable_groups,
+            subject=path.as_posix(),
+        )
+    decisions = tuple(RepeatedHeadingDecision.from_record(record) for record in records)
+    if not decisions or any(item.status != "eligible" for item in decisions):
+        raise DocumentStructureInvariantError(
+            stage="input verification",
+            invariant="production repeated-heading inputs are nonempty eligible decisions",
+            expected="one or more eligible records",
+            observed=[item.status for item in decisions],
+            subject=path.as_posix(),
+        )
+    return decisions

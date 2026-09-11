@@ -110,6 +110,8 @@ def load_construction_inputs(
         expectations=(
             config.expectations if config.control_profile == "task03e2d_bounded" else None
         ),
+        repeated_heading_repair_enabled=config.schema_version == "2.0.0",
+        repeated_heading_decisions=context.inputs.repeated_heading_decisions,
     )
 
 

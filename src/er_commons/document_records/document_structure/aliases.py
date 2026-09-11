@@ -85,6 +85,7 @@ def build_appendix_p_alias_seeds(
     page_labels: list[JsonObject],
     hierarchy_root: Path,
     baseline_root: Path,
+    heading_target_redirects: dict[str, str] | None = None,
 ) -> list[AliasSeed]:
     """Derive Appendix P target aliases from canonical and accepted evidence."""
     blocks_by_key = {
@@ -128,18 +129,37 @@ def build_appendix_p_alias_seeds(
                 evidence_ref=decisions_ref,
             )
         )
+    for key, target_id in sorted((heading_target_redirects or {}).items()):
+        if key not in blocks_by_key:
+            raise StructureContractError("repeated heading alias lacks its preserved block")
+        target = next((section for section in sections if section["id"] == target_id), None)
+        if target is None:
+            raise StructureContractError("repeated heading alias names an unknown logical section")
+        block = blocks_by_key[key]
+        text = block["canonical_text"]
+        seeds.append(
+            AliasSeed.canonical_target(
+                alias_kind="appendix" if text.casefold().startswith("appendix ") else "section",
+                raw_value=text,
+                target_id=target_id,
+                target_type="section",
+                target_order=blocks_by_key[target["source_stable_item_key"]]["sequence"],
+                evidence_kind="heading_text",
+                evidence_ref=decisions_ref,
+            )
+        )
     reconciliation_by_id = {item["toc_entry_id"]: item for item in evidence.toc_reconciliations}
+    sections_by_id = {item["id"]: item for item in sections}
     for toc in evidence.visible_toc_entries:
         reconciliation = reconciliation_by_id[toc["toc_entry_id"]]
         if reconciliation["state"] != "exact":
             continue
         target_key = reconciliation["target_key"]
-        if (
-            not isinstance(target_key, str)
-            or target_key not in features_by_key
-            or target_key not in sections_by_key
-            or target_key not in blocks_by_key
-        ):
+        redirected_target_id = (heading_target_redirects or {}).get(target_key, "")
+        target_section = sections_by_key.get(target_key) or sections_by_id.get(redirected_target_id)
+        if not isinstance(target_key, str) or target_key not in features_by_key:
+            raise StructureContractError("exact TOC alias target is absent from semantic content")
+        if target_section is None or target_key not in blocks_by_key:
             raise StructureContractError("exact TOC alias target is absent from semantic content")
         raw_value = features_by_key[target_key]["text"]
         seeds.append(
@@ -148,8 +168,8 @@ def build_appendix_p_alias_seeds(
                     "appendix" if raw_value.casefold().startswith("appendix ") else "section"
                 ),
                 raw_value=toc["title_with_marker_normalized"],
-                target_id=sections_by_key[target_key]["id"],
-                target_order=blocks_by_key[target_key]["sequence"],
+                target_id=target_section["id"],
+                target_order=blocks_by_key[target_section["source_stable_item_key"]]["sequence"],
                 toc_reconciliation_ref=toc_ref,
             )
         )

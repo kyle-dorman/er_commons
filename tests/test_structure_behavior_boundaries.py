@@ -25,6 +25,10 @@ CONFIG = ROOT / "configs/brisbane_baylands_2025_deir_task03e4_semantic_v1.json"
         ("src/er_commons/response_inventory/review_tool.py", False),
         ("src/er_commons/document_records/document_structure/new_unused_module.py", False),
         ("src/er_commons/document_records/document_structure/normalization.py", True),
+        (
+            "src/er_commons/document_records/document_structure/repeated_heading_projection.py",
+            False,
+        ),
         ("src/er_commons/document_records/record_mapping/table_text_ownership.py", True),
         ("src/er_commons/hierarchy_inference/candidate_verification.py", True),
         ("src/er_commons/artifact_io.py", True),

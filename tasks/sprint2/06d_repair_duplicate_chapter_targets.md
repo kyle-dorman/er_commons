@@ -1,7 +1,7 @@
 # Task 06D: Repair Duplicate Chapter Targets
 
-Status: **provisional and inactive; revise from accepted Task 06A/06B evidence
-and obtain implementation authorization before execution**.
+Status: **complete and accepted after Astra's v6 re-review. Task 06E and
+production replay remain separately gated**.
 
 ## Abstract
 
@@ -223,8 +223,74 @@ cleanup, commit, push, Task 05G execution, and final inventory publication.
 
 ## Outcome
 
-Pending. Record implemented owner/policy, fixture and review results, unresolved
-cases, exact invalidation boundary, and the inputs delivered to Task 06G/06H.
+Task 06D implemented the source-general rule in the maintained semantic
+projection boundary. `repeated_heading_policy.py` owns typed classification;
+`repeated_heading_projection.py` owns frozen-evidence validation, projection,
+idempotence, alias redirection, and many-to-one target correspondence; and
+`repeated_headings.py` is the public facade. `repeated_heading_qualification.py`
+publishes a deterministic,
+schema-validated, no-clobber, completion-last packet. The document-structure v2
+input and identity path verifies and binds the policy, schema, qualification,
+inventory, completion, and eligible decision stream before construction.
+
+The accepted 06A topology establishes two eligible groups and no
+review-required group:
+
+- Chapter 06: retain the p311 divider as logical anchor, preserve the p312
+  opening heading and six child sections, and carry the full p311–449 extent.
+- Chapter 08: retain the p479 divider as logical anchor, preserve the p480
+  opening heading and four child sections, and carry the full p479–491 extent.
+
+Both outcomes follow the same exact rule. The Chapter 08 token `447` remains an
+unresolved physical TOC destination and selects neither heading; this does not
+make the logical topology ambiguous. The two negative-control pairs are
+explicitly rejected. The current fresh compact packet is
+`pipelines/brisbane_baylands/task_06_recovery_v1/06d/qualification_v6/` under
+the external root. The earlier `qualification_v1/` through `qualification_v5/`
+attempts are preserved and superseded after review tightened sibling
+adjacency, frozen-input validation, evidence locators, packet closure, boundary
+drift checks, required extent evidence, all-decision accounting, and
+canonical-v2 support compatibility. The v6 correction additionally requires
+the complete descendant extent to end strictly before the next boundary,
+freezes that boundary's stable key and raw text, fully validates an already
+projected pair before accepting idempotent reapplication, isolates v1 from v2
+repair execution, and preserves duplicate raw spellings in rejected controls.
+
+Synthetic coverage exercises the observed shapes, content under both halves,
+namespace-changing correspondence, exact TOC redirection, destination variants,
+same-title and nonadjacent controls, changed topology/text, missing child
+references, boundary-crossing extents, post-projection evidence drift, duplicate
+raw spellings, v1 import isolation, overlap, cardinality, idempotence,
+no-clobber publication, schema
+validation, and consumer verification of packet seals. Independent reviews
+identified no structural ambiguity. Astra's four material findings were
+addressed in the implementation and tests. Qualification v6 binds policy
+SHA-256 `49e6fa1baf4f04e227a9099720a52f95d16ea355e2f59a8e3b78104c7ace9f8f`,
+decision-schema SHA-256
+`7ff78138e6b79d5a60d7be112936f45b6ce6ba0ac736bb19b90164c4f4cb435f`,
+and inventory SHA-256
+`7ed69976d2c2c5a56f7d8e1481a6b8803531595e5329059421b018fd8752f2cc`.
+The actual consumer accepted schema, closure, seals, counts, zero pending review,
+the exact eligible subset, frozen boundary evidence, and strict extent
+termination. Final validation passed `make fix`, `make check` (Ruff
+format/check, mypy over 476 source files, and 1,692 pytest cases), and
+`git diff --check`.
+
+The earliest invalidated product is Appendix A semantic sections/membership and
+aliases. Conversion, producers, accepted hierarchy evidence, content/geometry,
+printed-page labels with unchanged inputs, and unrelated documents remain
+reusable under 06B's boundaries. Task 06G must create a fresh policy-bound
+candidate, then seal the build's compact repeated-heading correspondence beside
+the 06G recovery handoff without changing canonical-v2's four support roles. It
+then replays affected links, publication, collection target indexing/resolution,
+and handoff. Task 06H must inspect both physical headings, all transferred children,
+complete extents, both alias spellings, TOC evidence, and old-to-new target
+correspondence. Astra accepted the corrected v6 implementation and packet with
+no material blockers. The policy specification retains its publication-time
+"acceptance pending" wording because v6 seals those exact bytes; this outcome
+and the current routing docs are the authoritative acceptance record. No
+production replay, PDF/render/model work, commit, push, or Task 06E work
+occurred.
 
 ## Task 06B interface handoff
 

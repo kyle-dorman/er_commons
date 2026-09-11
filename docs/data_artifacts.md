@@ -172,8 +172,16 @@ Gate 2 retained a complete but structurally unqualified F1 download in the fresh
 The subsequently approved retained-source qualification is separately sealed
 under `06c/gate2_local_qualification_v1/` and references those bytes with explicit
 thumbnail/title exceptions. It does not rewrite the failed attempt. Task 06C
-owns exact evidence and receipt bindings. Conversion and later production
-boundaries remain unexecuted.
+owns exact evidence and receipt bindings. Its fresh conversion and producer
+stages are sealed; later document/collection production replay remains
+unexecuted.
+
+Task 06D's current compact source-free classification lives under
+`06d/qualification_v6/`. Its completion-last inventory covers only decision and
+summary records, binds the checked-in policy/schema, and references selected 06A
+records without hashing preserved document payloads. The earlier
+`06d/qualification_v1/` through `qualification_v5/` working packets are
+preserved as superseded evidence and must not be consumed by Task 06G.
 
 ### Tracked and external files
 

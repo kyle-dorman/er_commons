@@ -1,11 +1,11 @@
 # Task 06: Repair Reference Sources and Targets, and Simplify Reuse
 
-Status: **06A, 06B and 06C are complete. The selected Final F1 is qualified
-with the approved bounded exceptions and verified internal memo; its reusable
-conversion and producer handoff is sealed.**
+Status: **06A through 06D are complete and accepted. Task 06E is next but
+remains inactive pending separate authorization; production replay remains
+gated to Task 06G.**
 The [06C outcome](06c_qualify_and_process_replacement_f1.md) owns the fresh
-retained-source receipt and sealed reusable-stage handoff. Tasks 06D–06H remain
-inactive.
+retained-source receipt and sealed reusable-stage handoff. Keep 06E–06H
+inactive; Task 06G has not replayed production artifacts.
 
 ## Abstract
 
@@ -389,6 +389,8 @@ been performed as part of writing this plan.
 [Task 06B](06b_refactor_pipeline_identity_and_reuse.md) completed both gates on
 2026-09-10: source-free identity/reuse implementation, finite maintained-code
 migration, compact accepted-seal qualification, synthetic integration and
-independent review. Its outcome owns exact evidence, limits and maintained owner
-map. Task 06C is ready for contract revalidation; 06C–06H execution remains behind
-their separate source, conversion, replay and review gates.
+independent review. Task 06C subsequently completed all four gates. Task 06D
+now supplies an accepted, tested source-general semantic-projection rule and
+compact source-free qualification. Task 06E is next but remains inactive until
+separately authorized. Production replay and terminal review remain owned by
+06G and 06H.

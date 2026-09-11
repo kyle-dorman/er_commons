@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any, Protocol
 
 from er_commons.document_records.document_structure.aliases import (
     build_appendix_p_alias_seeds,
@@ -34,6 +34,37 @@ from er_commons.document_records.document_structure.sections import build_docume
 
 JsonObject = dict[str, Any]
 
+if TYPE_CHECKING:
+    from er_commons.document_records.document_structure.repeated_headings import (
+        RepeatedHeadingDecision,
+    )
+
+
+class _SemanticProjection(Protocol):
+    """Structural result shared by the unchanged v1 and repaired v2 paths."""
+
+    @property
+    def sections(self) -> list[JsonObject]: ...
+
+    @property
+    def content(self) -> list[JsonObject]: ...
+
+    @property
+    def section_target_redirects(self) -> dict[str, str]: ...
+
+    @property
+    def heading_target_redirects(self) -> dict[str, str]: ...
+
+
+@dataclass(frozen=True)
+class _UnchangedProjection:
+    """Dependency-free projection result for canonical-v1 construction."""
+
+    sections: list[JsonObject]
+    content: list[JsonObject]
+    section_target_redirects: dict[str, str]
+    heading_target_redirects: dict[str, str]
+
 
 @dataclass(frozen=True)
 class DocumentStructureConstructionInputs:
@@ -52,6 +83,8 @@ class DocumentStructureConstructionInputs:
     source_id: str
     page_count: int
     expectations: DocumentStructureExpectations | None
+    repeated_heading_repair_enabled: bool = False
+    repeated_heading_decisions: tuple[RepeatedHeadingDecision, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -63,6 +96,7 @@ class DocumentStructureBuild:
     target_aliases: list[JsonObject]
     bridge_entries: list[JsonObject]
     bridge_evidence: dict[str, BridgeSourceEvidence]
+    repeated_heading_correspondence: list[JsonObject]
     observed_expectations: DocumentStructureExpectations
 
 
@@ -85,7 +119,7 @@ def build_document_structure_records(
         collections["blocks"], evidence.baseline_key_by_pointer
     )
     ordered_content_with_transient_fields = prepare_semantic_content_in_place(collections)
-    sections, placed_content = _place_semantic_content(
+    sections, placed_content, repeated_projection = _place_semantic_content(
         ordered_content=ordered_content_with_transient_fields,
         document_id=collections["documents"][0]["id"],
         evidence=evidence,
@@ -118,6 +152,7 @@ def build_document_structure_records(
             page_labels=page_labels,
             hierarchy_root=inputs.hierarchy_candidate_root,
             baseline_root=inputs.baseline_candidate_root,
+            heading_target_redirects=repeated_projection.heading_target_redirects,
         ),
         extraction_id=inputs.candidate_id,
         document_id=collections["documents"][0]["id"],
@@ -128,7 +163,7 @@ def build_document_structure_records(
         section_count=len(sections),
         bridge_entry_count=bridge.coverage.entry_count,
         canonical_block_count=bridge.coverage.canonical_block_count,
-        heading_count=sum(item.get("corrected_role") == "heading" for item in evidence.decisions),
+        heading_count=sum(item["section_kind"] == "semantic" for item in sections),
         direct_membership_count=len(evidence.hierarchy["direct_membership"]),
         mapped_block_count=sum(
             item.get("semantic_placement") == "direct_body" for item in collections["blocks"]
@@ -142,6 +177,9 @@ def build_document_structure_records(
         target_aliases=aliases,
         bridge_entries=bridge.entries,
         bridge_evidence=bridge.evidence,
+        repeated_heading_correspondence=_repeated_heading_correspondence(
+            inputs, repeated_projection
+        ),
         observed_expectations=observed,
     )
 
@@ -152,7 +190,7 @@ def _place_semantic_content(
     document_id: str,
     evidence: ProducerEvidence,
     inputs: DocumentStructureConstructionInputs,
-) -> tuple[list[JsonObject], list[JsonObject]]:
+) -> tuple[list[JsonObject], list[JsonObject], _SemanticProjection]:
     """Project accepted hierarchy roles onto the remapped mixed-content stream."""
     replacement_keys = set(
         replacement_dispositions(
@@ -162,7 +200,7 @@ def _place_semantic_content(
             relevant_keys=hierarchy_relevant_keys(evidence.hierarchy, []),
         )
     )
-    return build_document_sections(
+    sections, content = build_document_sections(
         ordered_content,
         document_id=document_id,
         extraction_id=inputs.candidate_id,
@@ -175,3 +213,35 @@ def _place_semantic_content(
         ),
         replacement_keys=replacement_keys,
     )
+    if not inputs.repeated_heading_repair_enabled:
+        if inputs.repeated_heading_decisions:
+            raise ValueError("canonical-v1 construction cannot apply repeated-heading decisions")
+        projection: _SemanticProjection = _UnchangedProjection(sections, content, {}, {})
+    else:
+        from er_commons.document_records.document_structure.repeated_headings import (
+            project_repeated_heading_decisions,
+        )
+
+        projection = project_repeated_heading_decisions(
+            sections,
+            content,
+            inputs.repeated_heading_decisions,
+        )
+    return projection.sections, projection.content, projection
+
+
+def _repeated_heading_correspondence(
+    inputs: DocumentStructureConstructionInputs,
+    projection: _SemanticProjection,
+) -> list[JsonObject]:
+    """Build v2-only correspondence without importing repair code on v1."""
+    if not inputs.repeated_heading_repair_enabled:
+        return []
+    from er_commons.document_records.document_structure.repeated_headings import (
+        build_repeated_heading_correspondence,
+    )
+
+    return [
+        build_repeated_heading_correspondence(decision, projection)  # type: ignore[arg-type]
+        for decision in inputs.repeated_heading_decisions
+    ]

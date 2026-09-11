@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task06_recovery/v1/repeated_heading_decision.schema.json",
+  "title": "ER Commons Task 06D repeated heading decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "rule_version",
+    "decision_kind",
+    "status",
+    "reason_codes",
+    "chapter_marker",
+    "chapter_title",
+    "heading_section_ids",
+    "heading_stable_keys",
+    "heading_block_ids",
+    "heading_raw_texts",
+    "heading_physical_pages",
+    "parent_ref",
+    "semantic_level",
+    "ordered_child_refs",
+    "source_page_extents",
+    "anchor_heading_key",
+    "absorbed_heading_key",
+    "toc_evidence_ids",
+    "destination_physical_pages",
+    "unresolved_toc_tokens",
+    "extent_start_page",
+    "following_boundary_section_id",
+    "following_boundary_stable_key",
+    "following_boundary_raw_text",
+    "following_boundary_page",
+    "extent_basis",
+    "inference_method",
+    "source_ref",
+    "new_target_ref",
+    "human_decision_ref"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.recovery.chapter_decision.v1"},
+    "rule_version": {"const": "repeated_chapter_divider_opening_v1"},
+    "decision_kind": {"const": "repeated_chapter_heading"},
+    "status": {"enum": ["eligible", "rejected", "review_required"]},
+    "reason_codes": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "chapter_marker": {"type": ["string", "null"], "pattern": "^[0-9]{1,2}$"},
+    "chapter_title": {"type": ["string", "null"], "minLength": 1},
+    "heading_section_ids": {"$ref": "#/$defs/string_array"},
+    "heading_stable_keys": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+      "uniqueItems": true
+    },
+    "heading_block_ids": {"$ref": "#/$defs/string_array"},
+    "heading_raw_texts": {"$ref": "#/$defs/string_array_allow_duplicates"},
+    "heading_physical_pages": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 1}
+    },
+    "parent_ref": {"type": ["string", "null"]},
+    "semantic_level": {"type": ["integer", "null"], "minimum": 1},
+    "ordered_child_refs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/string_array_allow_empty"}
+    },
+    "source_page_extents": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"type": "null"},
+          {
+            "type": "array",
+            "prefixItems": [
+              {"type": "integer", "minimum": 1},
+              {"type": "integer", "minimum": 1}
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          }
+        ]
+      }
+    },
+    "anchor_heading_key": {"$ref": "#/$defs/nullable_key"},
+    "absorbed_heading_key": {"$ref": "#/$defs/nullable_key"},
+    "toc_evidence_ids": {"$ref": "#/$defs/string_array_allow_empty"},
+    "destination_physical_pages": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 1},
+      "uniqueItems": true
+    },
+    "unresolved_toc_tokens": {"$ref": "#/$defs/string_array_allow_empty"},
+    "extent_start_page": {"type": ["integer", "null"], "minimum": 1},
+    "following_boundary_section_id": {"type": ["string", "null"]},
+    "following_boundary_stable_key": {"$ref": "#/$defs/nullable_key"},
+    "following_boundary_raw_text": {"type": ["string", "null"], "minLength": 1},
+    "following_boundary_page": {"type": ["integer", "null"], "minimum": 1},
+    "extent_basis": {"const": "anchor_through_before_following_same_level_sibling"},
+    "inference_method": {"const": "accepted_topology_and_toc_correspondence"},
+    "source_ref": {"$ref": "#/$defs/reference"},
+    "new_target_ref": {
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/reference"}]
+    },
+    "human_decision_ref": {
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/reference"}]
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "eligible"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "chapter_marker": {"type": "string", "pattern": "^[0-9]{1,2}$"},
+          "chapter_title": {"type": "string", "minLength": 1},
+          "heading_section_ids": {"minItems": 2, "maxItems": 2},
+          "heading_stable_keys": {"minItems": 2, "maxItems": 2},
+          "heading_block_ids": {"minItems": 2, "maxItems": 2},
+          "heading_raw_texts": {"minItems": 2, "maxItems": 2},
+          "heading_physical_pages": {"minItems": 2, "maxItems": 2},
+          "ordered_child_refs": {"minItems": 2, "maxItems": 2},
+          "source_page_extents": {
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {"$ref": "#/$defs/page_extent"}
+          },
+          "parent_ref": {"type": "string", "minLength": 1},
+          "semantic_level": {"type": "integer", "minimum": 1},
+          "anchor_heading_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "absorbed_heading_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "extent_start_page": {"type": "integer", "minimum": 1},
+          "following_boundary_section_id": {"type": "string", "minLength": 1},
+          "following_boundary_stable_key": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "following_boundary_raw_text": {"type": "string", "minLength": 1},
+          "following_boundary_page": {"type": "integer", "minimum": 1},
+          "new_target_ref": {"$ref": "#/$defs/reference"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "string_array_allow_empty": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "string_array_allow_duplicates": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1
+    },
+    "nullable_key": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "page_extent": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "integer", "minimum": 1},
+        {"type": "integer", "minimum": 1}
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "reference": {
+      "type": "object",
+      "required": ["authority", "relative_path", "identity", "verification_mode"],
+      "properties": {
+        "authority": {"type": "string", "minLength": 1},
+        "relative_path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+        },
+        "identity": {"type": "string", "minLength": 1},
+        "verification_mode": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  }
+}

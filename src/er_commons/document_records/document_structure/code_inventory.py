@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from importlib.metadata import version
 from pathlib import Path
 
@@ -98,6 +99,24 @@ def owned_code_paths(project_root: Path, config_path: Path) -> tuple[Path, ...]:
             ).resolve(),
         }
     )
+    config_value = json.loads(config_path.read_bytes())
+    if config_value.get("schema_version") == "2.0.0":
+        paths.update(
+            {
+                (package / "repeated_headings.py").resolve(),
+                (package / "repeated_heading_policy.py").resolve(),
+                (package / "repeated_heading_projection.py").resolve(),
+                (package / "repeated_heading_qualification.py").resolve(),
+                (project_root / "docs/specs/repeated_heading_repair_v1.md").resolve(),
+                (
+                    project_root
+                    / (
+                        "benchmarks/er_bench/schemas/task06_recovery/v1/"
+                        "repeated_heading_decision.schema.json"
+                    )
+                ).resolve(),
+            }
+        )
     return tuple(sorted(paths))
 
 
