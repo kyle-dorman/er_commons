@@ -1,5 +1,11 @@
 """Candidate-neutral policy constants used by the semantic contract."""
 
+from pathlib import Path
+
+MISSING_CHAPTER_CORRESPONDENCE_SCHEMA_RELATIVE_PATH = Path(
+    "benchmarks/er_bench/schemas/task06_recovery/v1/missing_chapter_correspondence.schema.json"
+)
+
 SEMANTIC_COUNT_FIELDS = frozenset(
     {
         "features",

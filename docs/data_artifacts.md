@@ -158,7 +158,13 @@ uses `pipelines/brisbane_baylands/task_06_recovery_v1/` for its compact recovery
 packet, frozen by 06A. It references old accepted source, chunk/conversion,
 producer, and review seals rather than moving
 or copying their payload trees. F1 receives a new explicit Final-edition source
-lineage. Unaffected documents retain original source-manifest bindings; fresh
+lineage. Task 06E publishes only five-file source-free qualification packets.
+The functionally accepted v12 baseline remains immutable under
+`06e/qualification_v12/`; the contract-equivalent maintainability candidate is
+under `06e/qualification_v13/`, with v1–v11 preserved as superseded attempts.
+Source PDFs, accepted candidates, and producer
+payloads remain referenced in place and were not rehashed or copied. Unaffected
+documents retain original source-manifest bindings; fresh
 descendants and the replacement collection record their input correspondence.
 06B code cleanup does not authorize external artifact deletion or renaming.
 06H owns the replacement human-review acceptance; 05G then owns the separate

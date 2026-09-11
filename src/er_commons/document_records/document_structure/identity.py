@@ -11,6 +11,9 @@ from er_commons.document_records.document_structure.code_inventory import (
     runtime_dependency_versions,
 )
 from er_commons.document_records.document_structure.config import DocumentStructureConfig
+from er_commons.document_records.document_structure.constants import (
+    MISSING_CHAPTER_CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
+)
 from er_commons.document_records.document_structure.inputs import DocumentStructureInputs
 from er_commons.document_records.record_mapping.candidate_identity import owned_code_digest
 from er_commons.document_records.record_mapping.identity import extraction_identity_sha256
@@ -104,7 +107,7 @@ def build_document_structure_identity(
             "runtime_dependencies": runtime_dependency_versions(),
         },
     }
-    if config.schema_version == "2.0.0":
+    if config.repeated_heading_qualification_relative_root is not None:
         assert config.repeated_heading_policy_relative_path is not None
         assert config.repeated_heading_decision_schema_relative_path is not None
         assert inputs.repeated_heading_decisions_ref is not None
@@ -126,6 +129,42 @@ def build_document_structure_identity(
             "qualification": inputs.repeated_heading_qualification_ref.as_dict(),
             "inventory": inputs.repeated_heading_inventory_ref.as_dict(),
             "completion": inputs.repeated_heading_completion_ref.as_dict(),
+        }
+    elif config.schema_version == "3.0.0":
+        identity["semantic_contract"]["repeated_heading_repair"] = {
+            "status": "not_applicable_for_configured_source",
+            "source_id": config.source.source_id,
+            "eligible_decision_count": 0,
+            "capability_version": "repeated_chapter_divider_opening_v1",
+        }
+    if config.schema_version == "3.0.0":
+        assert config.missing_chapter_policy_relative_path is not None
+        assert config.missing_chapter_decision_schema_relative_path is not None
+        assert inputs.missing_chapter_decisions_ref is not None
+        assert inputs.missing_chapter_completion_ref is not None
+        assert inputs.missing_chapter_inventory_ref is not None
+        assert inputs.missing_chapter_qualification_ref is not None
+        identity["semantic_contract"]["missing_chapter_repair"] = {
+            "policy": {
+                "path": config.missing_chapter_policy_relative_path.as_posix(),
+                "sha256": sha256_file(project_root / config.missing_chapter_policy_relative_path),
+            },
+            "decision_schema": {
+                "path": config.missing_chapter_decision_schema_relative_path.as_posix(),
+                "sha256": sha256_file(
+                    project_root / config.missing_chapter_decision_schema_relative_path
+                ),
+            },
+            "correspondence_schema": {
+                "path": MISSING_CHAPTER_CORRESPONDENCE_SCHEMA_RELATIVE_PATH.as_posix(),
+                "sha256": sha256_file(
+                    project_root / MISSING_CHAPTER_CORRESPONDENCE_SCHEMA_RELATIVE_PATH
+                ),
+            },
+            "decisions": inputs.missing_chapter_decisions_ref.as_dict(),
+            "qualification": inputs.missing_chapter_qualification_ref.as_dict(),
+            "inventory": inputs.missing_chapter_inventory_ref.as_dict(),
+            "completion": inputs.missing_chapter_completion_ref.as_dict(),
         }
     digest = extraction_identity_sha256(identity)
     identity["extraction_id"] = f"exv1-{digest}"

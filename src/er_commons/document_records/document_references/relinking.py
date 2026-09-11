@@ -64,6 +64,9 @@ from er_commons.document_records.document_references.types import (
     TargetIndexEntry,
     UnresolvedReason,
 )
+from er_commons.document_records.document_structure.section_starts import (
+    logical_section_start_id,
+)
 from er_commons.source_family_catalog import SourceFamilyCatalog
 
 _SUPPORT_PATHS = {
@@ -592,10 +595,10 @@ def _with_target_pages(
                 continue
             target_pages[remapper.record_id(str(row["id"]))] = remapper.record_id(page_id)
     for row in upstream["canonical/sections.jsonl"]:
-        heading_id = row.get("heading_block_id")
-        if isinstance(heading_id, str) and heading_id in block_pages:
+        anchor_id = logical_section_start_id(row)
+        if isinstance(anchor_id, str) and anchor_id in block_pages:
             target_pages[remapper.record_id(str(row["id"]))] = remapper.record_id(
-                block_pages[heading_id]
+                block_pages[anchor_id]
             )
     entries = tuple(
         TargetIndexEntry(

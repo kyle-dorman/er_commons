@@ -25,6 +25,7 @@ from er_commons.document_records.document_structure.inputs import (
     ArtifactReference,
     DocumentStructureInputs,
     VerifiedProducer,
+    _verify_qualification_file_closure,
     load_document_structure_inputs,
 )
 
@@ -58,6 +59,14 @@ def _completion(run_id: str, source_manifest_sha256: str) -> dict[str, Any]:
     }
 
 
+def test_missing_chapter_input_diagnostics_name_the_06e_stage(tmp_path: Path) -> None:
+    """Shared packet checks report the repair stage selected by their caller."""
+    with pytest.raises(Exception) as error:
+        _verify_qualification_file_closure(tmp_path, repair_label="missing-chapter")
+    assert "missing-chapter qualification" in str(error.value)
+    assert "repeated-heading" not in str(error.value)
+
+
 def test_checked_in_config_is_strict_and_freezes_production_inputs() -> None:
     config, digest = load_document_structure_config(CONFIG_PATH)
     assert config.baseline_candidate_id == BASELINE_CANDIDATE_ID
@@ -83,9 +92,40 @@ def test_checked_in_config_is_strict_and_freezes_production_inputs() -> None:
         ),
     }
     assert DocumentStructureConfig.model_validate(v2).schema_version == "2.0.0"
+    v2_with_06e = {
+        **v2,
+        "missing_chapter_policy_relative_path": "docs/specs/missing_chapter_repair_v1.md",
+        "missing_chapter_qualification_relative_root": "pipelines/recovery/06e",
+        "missing_chapter_decision_schema_relative_path": (
+            "benchmarks/er_bench/schemas/task06_recovery/v1/missing_chapter_decision.schema.json"
+        ),
+    }
+    with pytest.raises(ValidationError, match="v1/v2 cannot carry missing-chapter"):
+        DocumentStructureConfig.model_validate(v2_with_06e)
     del v2["repeated_heading_qualification_relative_root"]
     with pytest.raises(ValidationError, match="requires repeated-heading policy inputs"):
         DocumentStructureConfig.model_validate(v2)
+
+    v3 = {
+        **{**v2, "repeated_heading_qualification_relative_root": "pipelines/recovery/06d"},
+        "schema_version": "3.0.0",
+        "semantic_schema_relative_path": (
+            "benchmarks/er_bench/schemas/canonical_extraction/v3/semantic_structure.schema.json"
+        ),
+        "missing_chapter_policy_relative_path": "docs/specs/missing_chapter_repair_v1.md",
+        "missing_chapter_qualification_relative_root": "pipelines/recovery/06e",
+        "missing_chapter_decision_schema_relative_path": (
+            "benchmarks/er_bench/schemas/task06_recovery/v1/missing_chapter_decision.schema.json"
+        ),
+    }
+    assert DocumentStructureConfig.model_validate(v3).schema_version == "3.0.0"
+    source_local_v3 = {
+        key: value for key, value in v3.items() if not key.startswith("repeated_heading_")
+    }
+    assert DocumentStructureConfig.model_validate(source_local_v3).schema_version == "3.0.0"
+    del v3["missing_chapter_policy_relative_path"]
+    with pytest.raises(ValidationError, match="v3 requires missing-chapter policy inputs"):
+        DocumentStructureConfig.model_validate(v3)
 
 
 def test_document_structure_code_inventory_is_owner_specific(tmp_path: Path) -> None:
@@ -118,17 +158,21 @@ def test_document_structure_code_inventory_is_owner_specific(tmp_path: Path) -> 
         "src/er_commons/document_records/document_structure/repeated_heading_projection.py"
         in v2_relative
     )
+    assert not any(
+        path.rsplit("/", maxsplit=1)[-1].startswith("missing_chapter") for path in v2_relative
+    )
 
 
-def test_v1_shared_runtime_imports_do_not_execute_repeated_heading_modules() -> None:
+def test_v1_shared_runtime_imports_do_not_execute_versioned_repair_modules() -> None:
     script = """
 import sys
 import er_commons.document_records.document_structure.construction
 import er_commons.document_records.document_structure.inputs
-assert not any(
-    name.rsplit('.', 1)[-1].startswith('repeated_heading')
-    for name in sys.modules
-), sorted(name for name in sys.modules if 'repeated_heading' in name)
+loaded_repairs = sorted(
+    name for name in sys.modules
+    if name.rsplit('.', 1)[-1].startswith(('repeated_heading', 'missing_chapter'))
+)
+assert not loaded_repairs, loaded_repairs
 """
     subprocess.run([sys.executable, "-c", script], check=True)
 
@@ -351,3 +395,31 @@ def test_v2_identity_binds_repeated_heading_policy_schema_and_decisions(tmp_path
     repeated = identity["semantic_contract"]["repeated_heading_repair"]
     assert repeated["decisions"]["sha256"] == "1" * 64
     assert repeated["policy"]["path"] == "docs/specs/repeated_heading_repair_v1.md"
+
+
+def test_task06_main_v3_config_is_source_local_and_binds_missing_chapters() -> None:
+    """The parallel main config activates 06E without importing Appendix-A 06D rows."""
+    config, _ = load_document_structure_config(
+        ROOT / "configs/task06/v1/deir_main/document_structure.json"
+    )
+    assert config.schema_version == "3.0.0"
+    assert config.source.source_id == "deir_main"
+    assert config.repeated_heading_qualification_relative_root is None
+    assert config.missing_chapter_qualification_relative_root == Path(
+        "pipelines/brisbane_baylands/task_06_recovery_v1/06e/qualification_v13"
+    )
+    assert config.semantic_schema_relative_path == Path(
+        "benchmarks/er_bench/schemas/canonical_extraction/v3/semantic_structure.schema.json"
+    )
+    owned = {
+        path.relative_to(ROOT).as_posix()
+        for path in owned_code_paths(
+            ROOT, ROOT / "configs/task06/v1/deir_main/document_structure.json"
+        )
+    }
+    assert (
+        "benchmarks/er_bench/schemas/task06_recovery/v1/missing_chapter_correspondence.schema.json"
+    ) in owned
+    assert (
+        "src/er_commons/document_records/document_structure/missing_chapter_correspondence.py"
+    ) in owned

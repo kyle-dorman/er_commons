@@ -110,8 +110,15 @@ def load_construction_inputs(
         expectations=(
             config.expectations if config.control_profile == "task03e2d_bounded" else None
         ),
-        repeated_heading_repair_enabled=config.schema_version == "2.0.0",
+        repeated_heading_repair_enabled=bool(context.inputs.repeated_heading_decisions),
         repeated_heading_decisions=context.inputs.repeated_heading_decisions,
+        missing_chapter_repair_enabled=config.schema_version == "3.0.0",
+        missing_chapter_decisions=context.inputs.missing_chapter_decisions,
+        missing_chapter_decisions_ref=(
+            context.inputs.missing_chapter_decisions_ref.as_dict()
+            if context.inputs.missing_chapter_decisions_ref is not None
+            else None
+        ),
     )
 
 

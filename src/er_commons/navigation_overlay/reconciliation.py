@@ -24,6 +24,9 @@ from er_commons.artifact_io import (
     read_json_object,
     sha256_file,
 )
+from er_commons.document_records.document_structure.section_starts import (
+    logical_section_start_id,
+)
 from er_commons.navigation_overlay.toc_text import PARSER_VERSION, project_toc_text
 
 from .input_specs import ReconciliationBindings
@@ -623,9 +626,9 @@ def _load_document_index(root: Path) -> _DocumentIndex:
                 )
     for entity_id, entity in entities.items():
         if "/section/" in entity_id:
-            heading = entity.get("heading_block_id")
+            anchor = logical_section_start_id(entity)
             entity_pages[entity_id] = (
-                entity_pages.get(str(heading), ()) if isinstance(heading, str) else ()
+                entity_pages.get(str(anchor), ()) if isinstance(anchor, str) else ()
             )
 
     target_index: dict[tuple[str, str], list[JsonObject]] = defaultdict(list)

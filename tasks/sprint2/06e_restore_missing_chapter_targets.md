@@ -1,7 +1,8 @@
 # Task 06E: Restore Missing Chapter Targets
 
-Status: **provisional and inactive; refine from accepted Task 06A/06B/06D
-outcomes and obtain implementation authorization before execution**.
+Status: **complete and accepted; Astra accepted the v12 functional
+implementation and the contract-preserving v13 maintainability cleanup passed
+independent equivalence review**.
 
 ## Abstract
 
@@ -238,8 +239,97 @@ source acquisition, cleanup, commit, push, Task 05G, or benchmark publication.
 
 ## Outcome
 
-Pending. Record chosen representation, evidence decisions, checks, unresolved
-cases, and exact replay/review inputs delivered to Task 06G/06H.
+Implementation and compact qualification are complete and accepted. Astra
+accepted the v12 functional implementation; independent review confirmed the
+behavior-preserving v13 maintainability cleanup has byte-identical decisions.
+The source-general `missing_whole_chapter_v1`
+policy uses observed retained heading components when they pass exact
+same-source, start, adjacency, role, and TOC-title checks. Its closed fallback
+creates a headingless `derived_chapter` only from an accepted title, exact body
+start/destination, frozen child topology, and explicit following or document-end
+boundary. Canonical semantic schema/config version 3 is parallel to v1/v2,
+retains the 06D repeated-heading capability, and adds the 06E projection. The
+parallel `configs/task06/v1/deir_main/document_structure.json` binds the v13
+packet and records 06D as source-local/not applicable rather than importing
+Appendix-A decisions into `deir_main`.
+
+For `deir_main`, both observed candidates qualify without a content-choice
+checkpoint: Chapter 8 is `CHAPTER 8` + `ALTERNATIVES`, pages 1855–2014, and
+Chapter 9 is `CHAPTER 9` + `SUBSEQUENT EIR ANALYSIS AND FINDINGS`, pages
+2015–2084 before the Chapter 10 boundary. The packet contains two eligible,
+zero rejected, and zero review-required records at
+`pipelines/brisbane_baylands/task_06_recovery_v1/06e/qualification_v13/` under
+the external root. The Astra-accepted v12 packet remains immutable as the
+functional baseline; the preserved v1–v11 attempts were superseded as policy
+wording and closed decision provenance were tightened to include verified
+child topology, source-order boundaries, and explicit source-role and
+reclassification-authority facts. The v13 inventory digest is
+`80d695f53dd08d12381a7c15b3e6f7e798e33648dab39a00ca048b6e15f6ef2b`;
+its completion digest is
+`1522d2796c3bd917b8b6544e3c5ee68d760e2b08063fc2a70af193e48ac5d497`.
+The frozen policy, decision-schema, semantic-v3-schema, and closed
+correspondence-schema digests are
+`bffa5a81d8b7d4e58fdef4fa67a0dcb8deb845fc9a45a0154da693c02e20cc71`,
+`d5a2b8324b347813b7c60bf86036420e1a61a640c1cedcb223ed0efc71b92b61`,
+`8f0a996f84a007074d5da41bc5fe4c07b18d38011276bfe5173f8a689ec4ec48`,
+and `71bc7d297475c07c5cdeb33d5826f9bfed241ece1f9308f494824379c75d72e9`.
+Fragmented TOC destination tokens remain documented in upstream 06A evidence,
+but are not a v13 qualification limitation because the selected recovered-heading
+path does not use them. If observed recovery later fails, fallback still requires
+an early bounded human decision before 06G.
+
+Construction creates distinct whole-chapter IDs, preserves every source block,
+uses `heading_owner` plus `heading_component`, reparents only the frozen child
+run, publishes full-title and bare-chapter aliases with decision provenance,
+and emits addition correspondence as a fifth v3-only sealed support artifact;
+the four canonical-v2 support roles remain unchanged. Section validation, alias validation,
+document-link target pages, navigation reconciliation, and TOC review display
+use the logical chapter start independently of a later recovered heading and
+distinguish recovered from derived titles. Collection indexing remains
+shape-agnostic. Production replay, source/model/PDF work, 06F, and terminal
+replacement review were not executed.
+
+The Astra remediation additionally resolves accepted parent IDs through exact
+source/local identity or the retained 06D correspondence, freezes unnumbered
+enclosing topology and every child's parsed chapter marker, validates terminal
+boundaries against retained source content, and permits only decision-named
+heading-component layer changes. It rejects unrelated intervening sections,
+7.x children under Chapter 8, orphan heading components, subsection chapter
+aliases, and semantically inconsistent correspondence reuse. Composite review
+labels now say `recovered title`; `derived title` is reserved for fallback.
+The v13 candidate retains the v12 correction that carries the true 06D
+source-section correspondence through
+construction, validates every member of ambiguous chapter-alias collisions,
+qualifies document-end evidence against its closed sentinel before projection,
+and freezes the accepted heading facts that prove each permitted enclosing
+ancestor is not a numbered structural section.
+It also freezes exact non-owning mixed-order chapter scope. The logical Chapter
+8 scope now starts at its first selected child anchor `blk017273`, before the
+later recovered heading blocks, records 17 enclosure-owned direct blocks
+including `blk017276`–`blk017280`, and ends
+at the first Chapter 9 body anchor `blk018692` while retaining the later
+`CHAPTER 9` boundary heading. Chapter 9 likewise starts at its first selected
+child anchor `blk018692`, before recovered heading block `blk030330`, and
+records 19 direct blocks including `blk018700`–`blk018702` and
+`blk018715`–`blk018718` before the Chapter 10 heading. These records retain
+their canonical owners; only the frozen numbered children are reparented.
+Nullable-key and multi-page nontext records are supported through record-ID,
+global-order, complete page-membership, and ownership evidence. The v13
+qualification digest is
+`ecbd34ddf03620c56f64f8f96e02034392f9e76261b862d69334b4c5837a024a`;
+both decision streams have digest
+`7deccdb1014590669049865cc9d9f8bd16eb80a068fa13302828d54efac980f1`.
+
+The maintainability cleanup names global mixed-content index versus family
+record-sequence ordering explicitly, centralizes logical section-start
+selection for structural and linking consumers, makes projection and
+correspondence failures evidence-addressable, and removes misleading unused
+fixture defaults without changing published record or schema shapes. Its fresh
+v13 decision streams are byte-identical to v12. Focused validation passes 47
+tests across the 06E matrix, canonical structure/input identity, publication,
+and old-version regression. The final repository check covers navigation and
+1,726 tests plus formatting, lint, and mypy. Independent equivalence review
+found no material findings.
 
 ## Task 06B interface handoff
 
@@ -250,5 +340,5 @@ Use explicit current requests with original per-source accepted manifests and
 seals; historical recipe validation does not reopen removed implementation paths.
 Document/collection v3 supports declared replacement membership. Compact checks
 must retain the shared verification budget and must not claim new payload-byte
-equality. This handoff updates interfaces only; the task's provisional policy and
-separate source, conversion, replay or review authorization boundaries still apply.
+equality. These remain inherited reuse constraints; Task 06G production replay
+and Task 06H replacement review are separately gated.

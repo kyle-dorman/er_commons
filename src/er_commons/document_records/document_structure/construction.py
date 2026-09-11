@@ -35,6 +35,10 @@ from er_commons.document_records.document_structure.sections import build_docume
 JsonObject = dict[str, Any]
 
 if TYPE_CHECKING:
+    from er_commons.document_records.document_structure.missing_chapters import (
+        MissingChapterDecision,
+        MissingChapterProjection,
+    )
     from er_commons.document_records.document_structure.repeated_headings import (
         RepeatedHeadingDecision,
     )
@@ -55,6 +59,9 @@ class _SemanticProjection(Protocol):
     @property
     def heading_target_redirects(self) -> dict[str, str]: ...
 
+    @property
+    def source_section_target_correspondence(self) -> dict[str, str]: ...
+
 
 @dataclass(frozen=True)
 class _UnchangedProjection:
@@ -64,6 +71,15 @@ class _UnchangedProjection:
     content: list[JsonObject]
     section_target_redirects: dict[str, str]
     heading_target_redirects: dict[str, str]
+    source_section_target_correspondence: dict[str, str]
+
+
+@dataclass(frozen=True)
+class _SemanticPlacement:
+    """Final semantic records plus the optional concrete 06E projection result."""
+
+    final_projection: _SemanticProjection
+    missing_chapter_projection: MissingChapterProjection | None
 
 
 @dataclass(frozen=True)
@@ -85,6 +101,9 @@ class DocumentStructureConstructionInputs:
     expectations: DocumentStructureExpectations | None
     repeated_heading_repair_enabled: bool = False
     repeated_heading_decisions: tuple[RepeatedHeadingDecision, ...] = ()
+    missing_chapter_repair_enabled: bool = False
+    missing_chapter_decisions: tuple[MissingChapterDecision, ...] = ()
+    missing_chapter_decisions_ref: JsonObject | None = None
 
 
 @dataclass(frozen=True)
@@ -97,6 +116,7 @@ class DocumentStructureBuild:
     bridge_entries: list[JsonObject]
     bridge_evidence: dict[str, BridgeSourceEvidence]
     repeated_heading_correspondence: list[JsonObject]
+    missing_chapter_correspondence: list[JsonObject]
     observed_expectations: DocumentStructureExpectations
 
 
@@ -119,13 +139,15 @@ def build_document_structure_records(
         collections["blocks"], evidence.baseline_key_by_pointer
     )
     ordered_content_with_transient_fields = prepare_semantic_content_in_place(collections)
-    sections, placed_content, repeated_projection = _place_semantic_content(
+    semantic_placement = _place_semantic_content(
         ordered_content=ordered_content_with_transient_fields,
         document_id=collections["documents"][0]["id"],
         evidence=evidence,
         inputs=inputs,
     )
-    restore_placed_content_families_in_place(collections, placed_content)
+    final_projection = semantic_placement.final_projection
+    sections = final_projection.sections
+    restore_placed_content_families_in_place(collections, final_projection.content)
     bridge = build_bridge_construction(
         evidence=evidence,
         baseline_producer_root=inputs.baseline_producer_root,
@@ -144,16 +166,28 @@ def build_document_structure_records(
     )
     for page, observation in zip(collections["pages"], page_labels, strict=True):
         page["printed_page_label"] = observation["resolved_label"]
+    alias_seeds = build_appendix_p_alias_seeds(
+        collections=collections,
+        sections=sections,
+        evidence=evidence,
+        page_labels=page_labels,
+        hierarchy_root=inputs.hierarchy_candidate_root,
+        baseline_root=inputs.baseline_candidate_root,
+        heading_target_redirects=final_projection.heading_target_redirects,
+    )
+    if inputs.missing_chapter_repair_enabled:
+        from er_commons.document_records.document_structure.missing_chapters import (
+            build_missing_chapter_alias_seeds,
+        )
+
+        missing_projection = semantic_placement.missing_chapter_projection
+        if missing_projection is None:
+            raise ValueError("missing-chapter repair lacks its concrete projection result")
+        alias_seeds.extend(
+            build_missing_chapter_alias_seeds(inputs.missing_chapter_decisions, missing_projection)
+        )
     aliases = build_target_aliases(
-        build_appendix_p_alias_seeds(
-            collections=collections,
-            sections=sections,
-            evidence=evidence,
-            page_labels=page_labels,
-            hierarchy_root=inputs.hierarchy_candidate_root,
-            baseline_root=inputs.baseline_candidate_root,
-            heading_target_redirects=repeated_projection.heading_target_redirects,
-        ),
+        alias_seeds,
         extraction_id=inputs.candidate_id,
         document_id=collections["documents"][0]["id"],
         source_id=inputs.source_id,
@@ -163,7 +197,7 @@ def build_document_structure_records(
         section_count=len(sections),
         bridge_entry_count=bridge.coverage.entry_count,
         canonical_block_count=bridge.coverage.canonical_block_count,
-        heading_count=sum(item["section_kind"] == "semantic" for item in sections),
+        heading_count=sum(not item["section_kind"].startswith("synthetic_") for item in sections),
         direct_membership_count=len(evidence.hierarchy["direct_membership"]),
         mapped_block_count=sum(
             item.get("semantic_placement") == "direct_body" for item in collections["blocks"]
@@ -177,8 +211,9 @@ def build_document_structure_records(
         target_aliases=aliases,
         bridge_entries=bridge.entries,
         bridge_evidence=bridge.evidence,
-        repeated_heading_correspondence=_repeated_heading_correspondence(
-            inputs, repeated_projection
+        repeated_heading_correspondence=_repeated_heading_correspondence(inputs, final_projection),
+        missing_chapter_correspondence=_missing_chapter_correspondence(
+            inputs, semantic_placement.missing_chapter_projection
         ),
         observed_expectations=observed,
     )
@@ -190,7 +225,7 @@ def _place_semantic_content(
     document_id: str,
     evidence: ProducerEvidence,
     inputs: DocumentStructureConstructionInputs,
-) -> tuple[list[JsonObject], list[JsonObject], _SemanticProjection]:
+) -> _SemanticPlacement:
     """Project accepted hierarchy roles onto the remapped mixed-content stream."""
     replacement_keys = set(
         replacement_dispositions(
@@ -216,18 +251,43 @@ def _place_semantic_content(
     if not inputs.repeated_heading_repair_enabled:
         if inputs.repeated_heading_decisions:
             raise ValueError("canonical-v1 construction cannot apply repeated-heading decisions")
-        projection: _SemanticProjection = _UnchangedProjection(sections, content, {}, {})
+        repaired_projection: _SemanticProjection = _UnchangedProjection(
+            sections, content, {}, {}, {}
+        )
     else:
         from er_commons.document_records.document_structure.repeated_headings import (
             project_repeated_heading_decisions,
         )
 
-        projection = project_repeated_heading_decisions(
+        repaired_projection = project_repeated_heading_decisions(
             sections,
             content,
             inputs.repeated_heading_decisions,
         )
-    return projection.sections, projection.content, projection
+    missing_projection: MissingChapterProjection | None = None
+    if inputs.missing_chapter_repair_enabled:
+        from er_commons.document_records.document_structure.missing_chapters import (
+            project_missing_chapter_decisions,
+        )
+
+        missing_projection = project_missing_chapter_decisions(
+            repaired_projection.sections,
+            repaired_projection.content,
+            inputs.missing_chapter_decisions,
+            section_target_redirects=repaired_projection.section_target_redirects,
+            heading_target_redirects=repaired_projection.heading_target_redirects,
+            source_section_target_correspondence=(
+                repaired_projection.source_section_target_correspondence
+            ),
+            decisions_ref=inputs.missing_chapter_decisions_ref,
+            page_count=inputs.page_count,
+        )
+    elif inputs.missing_chapter_decisions:
+        raise ValueError("pre-v3 construction cannot apply missing-chapter decisions")
+    return _SemanticPlacement(
+        final_projection=missing_projection or repaired_projection,
+        missing_chapter_projection=missing_projection,
+    )
 
 
 def _repeated_heading_correspondence(
@@ -242,6 +302,25 @@ def _repeated_heading_correspondence(
     )
 
     return [
-        build_repeated_heading_correspondence(decision, projection)  # type: ignore[arg-type]
+        build_repeated_heading_correspondence(decision, projection)
         for decision in inputs.repeated_heading_decisions
+    ]
+
+
+def _missing_chapter_correspondence(
+    inputs: DocumentStructureConstructionInputs,
+    projection: MissingChapterProjection | None,
+) -> list[JsonObject]:
+    """Build v3-only correspondence without importing repair code on v1/v2."""
+    if not inputs.missing_chapter_repair_enabled:
+        return []
+    if projection is None:
+        raise ValueError("missing-chapter repair lacks its concrete projection result")
+    from er_commons.document_records.document_structure.missing_chapters import (
+        build_missing_chapter_correspondence,
+    )
+
+    return [
+        build_missing_chapter_correspondence(decision, projection)
+        for decision in inputs.missing_chapter_decisions
     ]

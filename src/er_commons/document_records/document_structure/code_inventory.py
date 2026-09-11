@@ -41,6 +41,7 @@ def owned_code_paths(project_root: Path, config_path: Path) -> tuple[Path, ...]:
         "replacement_evidence.py",
         "runtime.py",
         "sealing.py",
+        "section_starts.py",
         "sections.py",
         "support.py",
         "validation.py",
@@ -100,7 +101,7 @@ def owned_code_paths(project_root: Path, config_path: Path) -> tuple[Path, ...]:
         }
     )
     config_value = json.loads(config_path.read_bytes())
-    if config_value.get("schema_version") == "2.0.0":
+    if config_value.get("schema_version") in {"2.0.0", "3.0.0"}:
         paths.update(
             {
                 (package / "repeated_headings.py").resolve(),
@@ -114,6 +115,32 @@ def owned_code_paths(project_root: Path, config_path: Path) -> tuple[Path, ...]:
                         "benchmarks/er_bench/schemas/task06_recovery/v1/"
                         "repeated_heading_decision.schema.json"
                     )
+                ).resolve(),
+            }
+        )
+    if config_value.get("schema_version") == "3.0.0":
+        paths.update(
+            {
+                (package / "missing_chapters.py").resolve(),
+                (package / "missing_chapter_policy.py").resolve(),
+                (package / "missing_chapter_projection.py").resolve(),
+                (package / "missing_chapter_qualification.py").resolve(),
+                (package / "missing_chapter_correspondence.py").resolve(),
+                (project_root / "docs/specs/missing_chapter_repair_v1.md").resolve(),
+                (
+                    project_root
+                    / "benchmarks/er_bench/schemas/task06_recovery/v1"
+                    / "missing_chapter_decision.schema.json"
+                ).resolve(),
+                (
+                    project_root
+                    / "benchmarks/er_bench/schemas/task06_recovery/v1"
+                    / "missing_chapter_correspondence.schema.json"
+                ).resolve(),
+                (
+                    project_root
+                    / "benchmarks/er_bench/schemas/canonical_extraction/v3"
+                    / "semantic_structure.schema.json"
                 ).resolve(),
             }
         )

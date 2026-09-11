@@ -1,10 +1,11 @@
 # Task 06: Repair Reference Sources and Targets, and Simplify Reuse
 
-Status: **06A through 06D are complete and accepted. Task 06E is next but
-remains inactive pending separate authorization; production replay remains
-gated to Task 06G.**
+Status: **06A through 06E are complete and accepted. Astra accepted Task 06E's
+v12 functional implementation, and its contract-preserving v13 maintainability
+cleanup passed independent equivalence review. Production replay remains gated
+to Task 06G.**
 The [06C outcome](06c_qualify_and_process_replacement_f1.md) owns the fresh
-retained-source receipt and sealed reusable-stage handoff. Keep 06E–06H
+retained-source receipt and sealed reusable-stage handoff. Keep 06F–06H
 inactive; Task 06G has not replayed production artifacts.
 
 ## Abstract
@@ -391,6 +392,9 @@ been performed as part of writing this plan.
 migration, compact accepted-seal qualification, synthetic integration and
 independent review. Task 06C subsequently completed all four gates. Task 06D
 now supplies an accepted, tested source-general semantic-projection rule and
-compact source-free qualification. Task 06E is next but remains inactive until
-separately authorized. Production replay and terminal review remain owned by
-06G and 06H.
+compact source-free qualification. Task 06E now supplies the parallel semantic
+v3 missing-chapter policy and a compact two-eligible, zero-review-required
+qualification packet. Astra accepted the v12 functional implementation; the
+v13 maintainability-only cleanup passed independent equivalence review with
+byte-identical decisions.
+Production replay and terminal review remain owned by 06G and 06H.

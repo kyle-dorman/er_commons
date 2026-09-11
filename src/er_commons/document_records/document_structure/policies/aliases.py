@@ -9,6 +9,9 @@ from er_commons.document_records.document_structure.bundle import (
 from er_commons.document_records.document_structure.constants import ALIAS_TARGET_TYPES
 from er_commons.document_records.document_structure.errors import StructureContractError
 from er_commons.document_records.document_structure.normalization import normalize_alias
+from er_commons.document_records.document_structure.section_starts import (
+    logical_section_start_id,
+)
 
 TARGET_TYPE_BY_ALIAS_KIND = {
     "document": "document",
@@ -87,9 +90,10 @@ def _target_document_order(view: DocumentStructureBundleView, target: JsonObject
         return -1 if observation is None else int(observation["physical_page_number"])
     if target_type == "section":
         section = view.sections_by_id.get(target_id)
-        if section is None or section["heading_block_id"] is None:
+        if section is None:
             return -1
-        return view.global_order_by_id.get(section["heading_block_id"], -1)
+        anchor_id = logical_section_start_id(section)
+        return view.global_order_by_id.get(anchor_id, -1) if isinstance(anchor_id, str) else -1
     return view.global_order_by_id.get(target_id, -1)
 
 
@@ -140,6 +144,8 @@ def _validate_alias_targets(view: DocumentStructureBundleView, alias: JsonObject
             )
         if target["evidence_kind"] == "visible_toc_reconciliation":
             _validate_toc_target(view, alias, target)
+        if target["evidence_kind"] == "chapter_decision":
+            _validate_chapter_decision_target(view, alias, target)
         if target["target_type"] == "page" and not _has_printed_page_provenance(target):
             raise StructureContractError(
                 f"printed-page alias has invalid provenance: {alias['id']}"
@@ -153,6 +159,30 @@ def _validate_alias_targets(view: DocumentStructureBundleView, alias: JsonObject
             raise StructureContractError(f"TOC rows cannot be alias targets: {target['target_id']}")
 
 
+def _validate_chapter_decision_target(
+    view: DocumentStructureBundleView, alias: JsonObject, target: JsonObject
+) -> None:
+    """Bind chapter aliases to the projected whole-chapter identity and decision."""
+    section = view.sections_by_id.get(target["target_id"])
+    if (
+        section is None
+        or section.get("section_kind") not in {"composite_semantic", "derived_chapter"}
+        or target.get("evidence_ref") != section.get("evidence_ref")
+        or target.get("toc_reconciliation_ref") is not None
+    ):
+        raise StructureContractError(
+            f"chapter-decision alias does not target its projected chapter: {alias['id']}"
+        )
+    permitted = {
+        normalize_alias(str(section["structural_title"])),
+        normalize_alias(f"Chapter {section['chapter_marker']}"),
+    }
+    if alias["normalized_alias"] not in permitted:
+        raise StructureContractError(
+            f"chapter-decision alias differs from chapter marker or title: {alias['id']}"
+        )
+
+
 def _validate_toc_target(
     view: DocumentStructureBundleView,
     alias: JsonObject,
@@ -162,7 +192,7 @@ def _validate_toc_target(
     section = view.sections_by_id.get(target["target_id"])
     is_reconciled_body_section = (
         section is not None
-        and section["section_kind"] == "semantic"
+        and section["section_kind"] in {"semantic", "composite_semantic", "derived_chapter"}
         and section["content_layer"] == "body"
         and target["toc_reconciliation_ref"] is not None
     )

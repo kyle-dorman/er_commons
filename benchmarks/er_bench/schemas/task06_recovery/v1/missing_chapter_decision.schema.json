@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task06_recovery/v1/missing_chapter_decision.schema.json",
+  "title": "ER Commons Task 06E missing chapter decision",
+  "type": "object",
+  "required": [
+    "schema_version", "rule_version", "decision_kind", "status", "reason_codes",
+    "source_id", "chapter_marker", "chapter_title", "representation",
+    "heading_stable_keys", "heading_block_ids", "heading_raw_texts",
+    "heading_physical_pages", "heading_components", "toc_evidence_ids", "destination_physical_pages",
+    "ordered_child_refs", "child_topology", "enclosing_section_refs", "enclosing_topology", "direct_content_topology", "parent_ref", "semantic_level", "start_record_ref", "start_content_order",
+    "extent_start_page", "extent_end_page", "following_boundary_ref",
+    "following_boundary_stable_key", "following_boundary_raw_text",
+    "following_boundary_page", "following_boundary_content_order", "following_boundary_kind", "following_scope_start_ref", "following_scope_start_stable_key", "following_scope_start_content_order", "extent_basis", "inference_method", "source_ref",
+    "new_target_ref", "human_decision_ref"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.recovery.missing_chapter_decision.v1"},
+    "rule_version": {"const": "missing_whole_chapter_v1"},
+    "decision_kind": {"const": "missing_whole_chapter"},
+    "status": {"enum": ["eligible", "already_present", "rejected", "review_required"]},
+    "reason_codes": {"$ref": "#/$defs/nonempty_strings"},
+    "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "chapter_marker": {"type": ["string", "null"], "pattern": "^[0-9]{1,2}$"},
+    "chapter_title": {"type": ["string", "null"], "minLength": 1},
+    "representation": {"enum": ["recovered_composite", "toc_children_fallback", null]},
+    "heading_stable_keys": {"$ref": "#/$defs/keys"},
+    "heading_block_ids": {"$ref": "#/$defs/strings"},
+    "heading_raw_texts": {"$ref": "#/$defs/strings_with_duplicates"},
+    "heading_physical_pages": {"type": "array", "items": {"type": "integer", "minimum": 1}},
+    "heading_components": {"type": "array", "items": {"$ref": "#/$defs/heading_component"}},
+    "toc_evidence_ids": {"$ref": "#/$defs/strings"},
+    "destination_physical_pages": {"type": "array", "items": {"type": "integer", "minimum": 1}, "uniqueItems": true},
+    "ordered_child_refs": {"$ref": "#/$defs/strings"},
+    "child_topology": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/child_topology"}
+    },
+    "enclosing_section_refs": {"$ref": "#/$defs/strings"},
+    "enclosing_topology": {"type": "array", "items": {"$ref": "#/$defs/enclosing_topology"}},
+    "direct_content_topology": {"type": "array", "items": {"$ref": "#/$defs/direct_content_topology"}},
+    "parent_ref": {"type": ["string", "null"]},
+    "semantic_level": {"type": ["integer", "null"], "minimum": 1, "maximum": 6},
+    "start_record_ref": {"type": ["string", "null"]},
+    "start_content_order": {"type": ["integer", "null"], "minimum": 0},
+    "extent_start_page": {"type": ["integer", "null"], "minimum": 1},
+    "extent_end_page": {"type": ["integer", "null"], "minimum": 1},
+    "following_boundary_ref": {"type": ["string", "null"]},
+    "following_boundary_stable_key": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "following_boundary_raw_text": {"type": ["string", "null"], "minLength": 1},
+    "following_boundary_page": {"type": ["integer", "null"], "minimum": 1},
+    "following_boundary_content_order": {"type": ["integer", "null"], "minimum": 0},
+    "following_boundary_kind": {"enum": ["following_heading", "document_end", null]},
+    "following_scope_start_ref": {"type": ["string", "null"]},
+    "following_scope_start_stable_key": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "following_scope_start_content_order": {"type": ["integer", "null"], "minimum": 0},
+    "extent_basis": {"enum": ["start_through_before_following_boundary", "start_through_document_end"]},
+    "inference_method": {"enum": ["accepted_composite_heading_recovery", "accepted_toc_children_derivation", null]},
+    "source_ref": {"$ref": "#/$defs/reference"},
+    "new_target_ref": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/reference"}]},
+    "human_decision_ref": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/reference"}]}
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "eligible"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "chapter_marker": {"type": "string", "pattern": "^[0-9]{1,2}$"},
+          "chapter_title": {"type": "string", "minLength": 1},
+          "representation": {"enum": ["recovered_composite", "toc_children_fallback"]},
+          "toc_evidence_ids": {"minItems": 1},
+          "ordered_child_refs": {"minItems": 1},
+          "child_topology": {"minItems": 1},
+          "parent_ref": {"type": "string", "minLength": 1},
+          "semantic_level": {"type": "integer", "minimum": 1, "maximum": 6},
+          "start_record_ref": {"type": "string", "minLength": 1},
+          "start_content_order": {"type": "integer", "minimum": 0},
+          "extent_start_page": {"type": "integer", "minimum": 1},
+          "extent_end_page": {"type": "integer", "minimum": 1},
+          "following_boundary_ref": {"type": "string", "minLength": 1},
+          "following_boundary_stable_key": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+          "following_boundary_raw_text": {"type": "string", "minLength": 1},
+          "following_boundary_page": {"type": "integer", "minimum": 1},
+          "following_boundary_content_order": {"type": "integer", "minimum": 0},
+          "following_boundary_kind": {"enum": ["following_heading", "document_end"]},
+          "inference_method": {"enum": ["accepted_composite_heading_recovery", "accepted_toc_children_derivation"]},
+          "new_target_ref": {"$ref": "#/$defs/reference"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"representation": {"const": "recovered_composite"}}, "required": ["representation"]},
+      "then": {"properties": {"heading_stable_keys": {"minItems": 1}, "heading_block_ids": {"minItems": 1}, "heading_raw_texts": {"minItems": 1}, "heading_physical_pages": {"minItems": 1}, "heading_components": {"minItems": 1}}}
+    },
+    {
+      "if": {"properties": {"representation": {"const": "toc_children_fallback"}}, "required": ["representation"]},
+      "then": {"properties": {"heading_stable_keys": {"maxItems": 0}, "heading_block_ids": {"maxItems": 0}, "heading_raw_texts": {"maxItems": 0}, "heading_physical_pages": {"maxItems": 0}, "heading_components": {"maxItems": 0}, "destination_physical_pages": {"minItems": 1, "maxItems": 1}}}
+    },
+    {
+      "if": {"properties": {"following_boundary_kind": {"const": "document_end"}}, "required": ["following_boundary_kind"]},
+      "then": {"properties": {"following_boundary_stable_key": {"type": "null"}, "following_boundary_raw_text": {"const": "document end"}, "following_scope_start_ref": {"type": "null"}, "following_scope_start_stable_key": {"type": "null"}, "following_scope_start_content_order": {"type": "null"}, "extent_basis": {"const": "start_through_document_end"}}}
+    },
+    {
+      "if": {"properties": {"following_boundary_kind": {"const": "following_heading"}}, "required": ["following_boundary_kind"]},
+      "then": {"properties": {"following_boundary_stable_key": {"$ref": "#/$defs/stable_item_key"}, "extent_basis": {"const": "start_through_before_following_boundary"}}}
+    }
+  ],
+  "$defs": {
+    "stable_item_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "strings": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "strings_with_duplicates": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "nonempty_strings": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "keys": {"type": "array", "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "uniqueItems": true},
+    "reference": {
+      "type": "object",
+      "required": ["authority", "relative_path", "identity", "verification_mode"],
+      "properties": {
+        "authority": {"type": "string", "minLength": 1},
+        "relative_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "identity": {"type": "string", "minLength": 1},
+        "verification_mode": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "child_topology": {
+      "type": "object",
+      "required": ["section_ref", "source_id", "content_order", "parent_ref", "semantic_level", "extent_start_page", "extent_end_page", "heading_raw_text"],
+      "properties": {
+        "section_ref": {"type": "string", "minLength": 1},
+        "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+        "content_order": {"type": "integer", "minimum": 0},
+        "parent_ref": {"type": "string", "minLength": 1},
+        "semantic_level": {"type": "integer", "minimum": 1, "maximum": 6},
+        "extent_start_page": {"type": "integer", "minimum": 1},
+        "extent_end_page": {"type": "integer", "minimum": 1},
+        "heading_raw_text": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "enclosing_topology": {
+      "type": "object",
+      "required": ["section_ref", "source_id", "stable_item_key", "heading_block_ref", "heading_raw_text", "content_order", "parent_ref", "semantic_level"],
+      "properties": {
+        "section_ref": {"type": "string", "minLength": 1},
+        "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+        "stable_item_key": {"$ref": "#/$defs/stable_item_key"},
+        "heading_block_ref": {"type": "string", "minLength": 1},
+        "heading_raw_text": {"type": "string", "minLength": 1},
+        "content_order": {"type": "integer", "minimum": 0},
+        "parent_ref": {"type": "string", "minLength": 1},
+        "semantic_level": {"type": "integer", "minimum": 1, "maximum": 6}
+      },
+      "additionalProperties": false
+    },
+    "direct_content_topology": {
+      "type": "object",
+      "required": ["record_id", "stable_item_key", "record_type", "source_id", "content_order", "physical_pages", "original_owner_ref"],
+      "properties": {
+        "record_id": {"type": "string", "minLength": 1},
+        "stable_item_key": {"anyOf": [{"$ref": "#/$defs/stable_item_key"}, {"type": "null"}]},
+        "record_type": {"enum": ["block", "table", "figure"]},
+        "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+        "content_order": {"type": "integer", "minimum": 0},
+        "physical_pages": {"type": "array", "items": {"type": "integer", "minimum": 1}, "minItems": 1, "uniqueItems": true},
+        "original_owner_ref": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "heading_component": {
+      "type": "object",
+      "required": ["block_id", "stable_item_key", "raw_text", "physical_page", "sequence", "block_type", "content_layer", "is_toc_row", "source_id", "corrected_role", "reclassification_authorized", "reclassification_authority"],
+      "properties": {
+        "block_id": {"type": "string", "minLength": 1},
+        "stable_item_key": {"$ref": "#/$defs/stable_item_key"},
+        "raw_text": {"type": "string", "minLength": 1},
+        "physical_page": {"type": "integer", "minimum": 1},
+        "sequence": {"type": "integer", "minimum": 0},
+        "block_type": {"type": "string", "minLength": 1},
+        "content_layer": {"enum": ["body", "furniture"]},
+        "is_toc_row": {"type": "boolean"},
+        "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+        "corrected_role": {"enum": ["heading", "heading_component"]},
+        "reclassification_authorized": {"type": "boolean"},
+        "reclassification_authority": {"enum": ["missing_whole_chapter_v1_observed_heading_reclassification", null]}
+      },
+      "additionalProperties": false
+    }
+  }
+}

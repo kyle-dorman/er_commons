@@ -13,11 +13,12 @@ handoff. Completed task records own exact identities and validation evidence.
 
 ## Next action
 
-[Task 06D](../tasks/sprint2/06d_repair_duplicate_chapter_targets.md) is complete
-and accepted. Its source-general repeated-heading repair and v6 qualification
-packet are approved for later policy work and Task 06G. Task 06E is next in the
-planned sequence but remains inactive pending its own execution authorization;
-production replay remains separately gated to Task 06G. Task 06C's selected
+[Task 06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) is complete
+and accepted. Astra accepted the v12 functional implementation, and the
+contract-preserving v13 maintainability cleanup passed independent equivalence
+review with byte-identical decisions. Task 06F is the next provisional subtask;
+this update does not activate or execute it. Production replay remains separately
+gated to Task 06G. Task 06C's selected
 756-page Final F1 conversion and producer handoff remains sealed for that replay;
 its failed acquisition and first failed conversion attempt remain preserved.
 
@@ -29,9 +30,8 @@ Read in this order:
 
 1. [Task 06 umbrella](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
    for accepted directions, inputs, sequence, and shared boundaries.
-2. [Task 06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md), or the
-   active subtask designated by `docs/todo.md`, for the bounded contract and
-   exact external packet locators.
+2. [Task 06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) for the
+   accepted chapter-repair outcome and exact external packet locators.
 3. [Task 05F accepted partial outcome](../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
    for exact upstream bindings and the failure census.
 4. [Architecture](architecture.md), [data/artifacts](data_artifacts.md), and the

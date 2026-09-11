@@ -19,6 +19,9 @@ from er_commons.document_records.document_references.exact_resolution import (
 from er_commons.document_records.document_references.linking_policy import (
     DocumentLinkingPolicy,
 )
+from er_commons.document_records.document_structure.section_starts import (
+    logical_section_start_id,
+)
 from er_commons.navigation_overlay.link_resolution import resolve_toc_heading
 
 JsonObject = dict[str, Any]
@@ -89,14 +92,14 @@ def load_linking_document_index(document_root: Path) -> LinkingDocumentIndex:
     for entity_id, entity in entities.items():
         if entity_kinds[entity_id] != "section":
             continue
-        heading_id = entity.get("heading_block_id")
-        if heading_id is not None and not isinstance(heading_id, str):
+        anchor_id = logical_section_start_id(entity)
+        if anchor_id is not None and not isinstance(anchor_id, str):
             raise ValueError(
-                f"canonical section {entity_id!r} has a non-string heading_block_id: "
+                f"canonical section {entity_id!r} has a non-string structural anchor: "
                 f"{required['sections']}"
             )
         entity_pages[entity_id] = (
-            entity_pages.get(heading_id, ()) if isinstance(heading_id, str) else ()
+            entity_pages.get(anchor_id, ()) if isinstance(anchor_id, str) else ()
         )
 
     exact_aliases: list[ExactAliasEvidence] = []

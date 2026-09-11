@@ -41,15 +41,6 @@ from er_commons.human_review_support.extraction_review.toc_raw_scan import (
     load_raw_document_indexes as _load_raw_document_indexes,
 )
 
-NAVIGATION_HEADING_RE = re.compile(
-    r"\b(contents|table of contents|document index|list of tables|list of figures|index)\b",
-    re.IGNORECASE,
-)
-DOT_LEADER_RE = re.compile(
-    r"(?:^|\s)(?:\d+(?:\.\d+)*|[ivxlcdm]+)[.)]?\s+\S.{2,}(?:\.{2,}|…+|\s{2,})\s*\d{1,4}\s*$",
-    re.IGNORECASE,
-)
-PAGE_LABEL_RE = re.compile(r"\b(?:page\s*)?\d{1,4}\b", re.IGNORECASE)
 NAVIGATION_TERMS = (
     "contents",
     "table of contents",
@@ -57,6 +48,12 @@ NAVIGATION_TERMS = (
     "list of tables",
     "list of figures",
 )
+NAVIGATION_HEADING_RE = re.compile(rf"\b({'|'.join(NAVIGATION_TERMS)}|index)\b", re.IGNORECASE)
+DOT_LEADER_RE = re.compile(
+    r"(?:^|\s)(?:\d+(?:\.\d+)*|[ivxlcdm]+)[.)]?\s+\S.{2,}(?:\.{2,}|…+|\s{2,})\s*\d{1,4}\s*$",
+    re.IGNORECASE,
+)
+PAGE_LABEL_RE = re.compile(r"\b(?:page\s*)?\d{1,4}\b", re.IGNORECASE)
 
 
 @dataclass
@@ -85,6 +82,7 @@ class _Section:
     parent_id: str | None
     heading_block_id: str | None
     section_kind: str | None
+    structural_title: str | None
 
 
 @dataclass(frozen=True)
@@ -209,6 +207,7 @@ def _load_sections(path: Path) -> dict[str, _Section]:
             str(parent) if parent is not None else None,
             str(heading) if heading is not None else None,
             str(row["section_kind"]) if row.get("section_kind") is not None else None,
+            str(row["structural_title"]) if row.get("structural_title") is not None else None,
         )
     return sections
 
@@ -456,6 +455,11 @@ def _section_headings(
             break
         if section.section_kind:
             values.append(section.section_kind)
+        if section.structural_title:
+            label = ("derived title", "recovered title")[
+                section.section_kind == "composite_semantic"
+            ]
+            values.append(f"{label}: {section.structural_title}")
         if section.heading_block_id and section.heading_block_id in block_texts:
             values.append(block_texts[section.heading_block_id])
         current = section.parent_id

@@ -28,6 +28,7 @@ def compare_baseline_collections(
     baseline_candidate_id: str,
     new_candidate_id: str,
     allowed_fields: dict[str, frozenset[str]] | None = None,
+    authorized_heading_component_keys: frozenset[str] = frozenset(),
 ) -> JsonObject:
     """Report undeclared record differences after ID and schema normalization."""
     allowed_fields = DEFAULT_ALLOWED_FIELDS if allowed_fields is None else allowed_fields
@@ -50,8 +51,28 @@ def compare_baseline_collections(
             continue
         ignored = allowed_fields.get(family, frozenset())
         for index, (old, new) in enumerate(zip(old_records, new_records, strict=True)):
-            old_value = _normalize(old, baseline_candidate_id, ignored)
-            new_value = _normalize(new, new_candidate_id, ignored)
+            record_ignored = ignored
+            if (
+                family == "blocks"
+                and old.get("stable_item_key") in authorized_heading_component_keys
+                and old.get("content_layer") != new.get("content_layer")
+            ):
+                if not (
+                    old.get("content_layer") == "furniture"
+                    and new.get("content_layer") == "body"
+                    and new.get("semantic_placement") in {"heading_owner", "heading_component"}
+                ):
+                    differences.append(
+                        {
+                            "family": family,
+                            "index": index,
+                            "reason": "unauthorized_heading_reclassification",
+                        }
+                    )
+                    continue
+                record_ignored = ignored | {"content_layer"}
+            old_value = _normalize(old, baseline_candidate_id, record_ignored)
+            new_value = _normalize(new, new_candidate_id, record_ignored)
             if old_value != new_value:
                 differences.append({"family": family, "index": index, "reason": "record_value"})
     return {

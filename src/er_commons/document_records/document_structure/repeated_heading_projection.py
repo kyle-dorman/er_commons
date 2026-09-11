@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import copy
 from dataclasses import dataclass, replace
-from typing import Any
+from typing import Any, Protocol
 
 from er_commons.document_records.document_structure.aliases import AliasSeed
 from er_commons.document_records.document_structure.errors import StructureContractError
@@ -29,9 +29,22 @@ class RepeatedHeadingProjection:
     source_section_target_correspondence: dict[str, str]
 
 
+class RepeatedHeadingProjectionView(Protocol):
+    """Structural fields needed to seal 06D correspondence after later projections."""
+
+    @property
+    def sections(self) -> list[JsonObject]: ...
+
+    @property
+    def content(self) -> list[JsonObject]: ...
+
+    @property
+    def source_section_target_correspondence(self) -> dict[str, str]: ...
+
+
 def build_repeated_heading_correspondence(
     decision: RepeatedHeadingDecision,
-    projection: RepeatedHeadingProjection,
+    projection: RepeatedHeadingProjectionView,
 ) -> JsonObject:
     """Describe many-to-one targets and exact retained-block/content conservation."""
     if decision.status != "eligible" or len(decision.heading_section_ids) != 2:

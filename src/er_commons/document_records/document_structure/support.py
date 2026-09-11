@@ -25,6 +25,7 @@ SUPPORT_PATHS = {
     "baseline_preservation": "support/baseline_preservation.json",
     "bounded_control_verification": "support/bounded_control_verification.json",
 }
+MISSING_CHAPTER_CORRESPONDENCE_PATH = "support/missing_chapter_correspondence.json"
 
 
 @dataclass(frozen=True)
@@ -79,11 +80,18 @@ def build_candidate_support(
 ) -> CandidateSupport:
     """Build preservation, bridge, correspondence, and control evidence."""
     baseline = load_baseline_candidate(baseline_root)
+    blocks_by_id = {item["id"]: item for item in build.collections["blocks"]}
+    authorized_heading_component_keys = frozenset(
+        str(blocks_by_id[block_id]["stable_item_key"])
+        for record in build.missing_chapter_correspondence
+        for block_id in record["retained_heading_block_ids"]
+    )
     preservation = compare_baseline_collections(
         baseline.collections,
         build.collections,
         baseline_candidate_id=baseline_candidate_id,
         new_candidate_id=candidate_id,
+        authorized_heading_component_keys=authorized_heading_component_keys,
     )
     if preservation["undeclared_difference_count"]:
         raise DocumentStructureInvariantError(
@@ -127,21 +135,28 @@ def build_candidate_support(
 
 
 def _compact_content(build: DocumentStructureBuild) -> list[JsonObject]:
+    page_numbers_by_id: dict[str, list[int]] = {}
+    if build.missing_chapter_correspondence:
+        for page in build.collections["pages"]:
+            for record_id in page["ordered_content_ids"]:
+                page_numbers_by_id.setdefault(record_id, []).append(page["physical_page_number"])
     records: list[JsonObject] = []
     for record_type, family in (("block", "blocks"), ("table", "tables"), ("figure", "figures")):
         for record in build.collections[family]:
-            records.append(
-                {
-                    "id": record["id"],
-                    "record_type": record_type,
-                    "content_layer": record["content_layer"],
-                    "section_id": record["section_id"],
-                    "sequence": record["sequence"],
-                    "semantic_placement": record["semantic_placement"],
-                    "is_toc_row": record["is_toc_row"],
-                    "stable_item_key": record["stable_item_key"],
-                }
-            )
+            compact = {
+                "id": record["id"],
+                "record_type": record_type,
+                "content_layer": record["content_layer"],
+                "section_id": record["section_id"],
+                "sequence": record["sequence"],
+                "semantic_placement": record["semantic_placement"],
+                "is_toc_row": record["is_toc_row"],
+                "stable_item_key": record["stable_item_key"],
+            }
+            if build.missing_chapter_correspondence:
+                compact["physical_page_numbers"] = page_numbers_by_id.get(record["id"], [])
+                compact["canonical_text"] = record.get("canonical_text")
+            records.append(compact)
     order = {
         record_id: index
         for index, record_id in enumerate(

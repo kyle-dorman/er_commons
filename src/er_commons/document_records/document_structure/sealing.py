@@ -12,11 +12,15 @@ from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 from er_commons.document_records.document_structure import validate_document_structure_contract
 from er_commons.document_records.document_structure.baseline import BASELINE_COLLECTION_PATHS
 from er_commons.document_records.document_structure.config import DocumentStructureExpectations
+from er_commons.document_records.document_structure.constants import (
+    MISSING_CHAPTER_CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
+)
 from er_commons.document_records.document_structure.construction import DocumentStructureBuild
 from er_commons.document_records.document_structure.errors import (
     DocumentStructureInvariantError,
 )
 from er_commons.document_records.document_structure.support import (
+    MISSING_CHAPTER_CORRESPONDENCE_PATH,
     SUPPORT_PATHS,
     CandidateSupport,
     document_structure_validation_bundle,
@@ -78,7 +82,7 @@ def validate_serialize_and_seal(
     _validate_semantic_contract(build, support, inputs)
     write_json(root / "records" / "extraction_identity.json", inputs.identity)
     record_files = _write_record_families(root, build)
-    support_files = _write_support_files(root, support)
+    support_files = _write_support_files(root, support, build)
     manifest = _manifest(
         build=build,
         identity=inputs.identity,
@@ -102,7 +106,11 @@ def validate_serialize_and_seal(
     write_json(
         root / "records" / "completion_record.json",
         {
-            "schema_version": "er_commons.canonical_extraction_completion.v2",
+            "schema_version": (
+                "er_commons.canonical_extraction_completion.v3"
+                if build.missing_chapter_correspondence
+                else "er_commons.canonical_extraction_completion.v2"
+            ),
             "extraction_id": inputs.identity["extraction_id"],
             "status": "complete_with_warnings" if inputs.inherited_warnings else "complete",
             "source_semantic_disposition": inputs.source_semantic_disposition,
@@ -135,6 +143,27 @@ def _validate_semantic_contract(
     schema = json.loads(inputs.semantic_schema_path.read_bytes())
     Draft202012Validator(schema).validate(bundle)
     validate_document_structure_contract(bundle, bridge_evidence=build.bridge_evidence)
+    if getattr(build, "missing_chapter_correspondence", None):
+        from er_commons.document_records.document_structure.missing_chapter_correspondence import (
+            validate_missing_chapter_correspondence,
+        )
+
+        validate_missing_chapter_correspondence(
+            _missing_chapter_correspondence_payload(build),
+            schema_path=(inputs.project_root / MISSING_CHAPTER_CORRESPONDENCE_SCHEMA_RELATIVE_PATH),
+            sections=build.collections["sections"],
+            content=[
+                item
+                for family in ("blocks", "tables", "figures")
+                for item in build.collections[family]
+            ],
+            content_record_count=sum(
+                len(build.collections[family]) for family in ("blocks", "tables", "figures")
+            ),
+            expected_decision_ref=inputs.identity["semantic_contract"]["missing_chapter_repair"][
+                "decisions"
+            ],
+        )
     _require_count(
         "page-label outcomes",
         inputs.control["physical_page_count"],
@@ -181,7 +210,9 @@ def _records_for_family(build: DocumentStructureBuild, family: str) -> list[Json
     return build.collections[family]
 
 
-def _write_support_files(root: Path, support: CandidateSupport) -> list[JsonObject]:
+def _write_support_files(
+    root: Path, support: CandidateSupport, build: DocumentStructureBuild
+) -> list[JsonObject]:
     files = []
     for role, relative_path in SUPPORT_PATHS.items():
         write_json(root / relative_path, support.payloads[role])
@@ -193,7 +224,26 @@ def _write_support_files(root: Path, support: CandidateSupport) -> list[JsonObje
                 "schema_version": "2.0.0",
             }
         )
+    if build.missing_chapter_correspondence:
+        payload = _missing_chapter_correspondence_payload(build)
+        write_json(root / MISSING_CHAPTER_CORRESPONDENCE_PATH, payload)
+        files.append(
+            {
+                "role": "missing_chapter_correspondence",
+                "path": MISSING_CHAPTER_CORRESPONDENCE_PATH,
+                "sha256": sha256_file(root / MISSING_CHAPTER_CORRESPONDENCE_PATH),
+                "schema_version": "1.0.0",
+            }
+        )
     return files
+
+
+def _missing_chapter_correspondence_payload(build: DocumentStructureBuild) -> JsonObject:
+    """Wrap correspondence records in their versioned support contract."""
+    return {
+        "schema_version": "er_commons.recovery.missing_chapter_correspondence.v1",
+        "records": build.missing_chapter_correspondence,
+    }
 
 
 def _manifest(
@@ -208,7 +258,11 @@ def _manifest(
 ) -> JsonObject:
     baseline_manifest = json.loads((baseline_root / "records" / "manifest.json").read_bytes())
     return {
-        "schema_version": "er_commons.canonical_extraction_manifest.v2",
+        "schema_version": (
+            "er_commons.canonical_extraction_manifest.v3"
+            if build.missing_chapter_correspondence
+            else "er_commons.canonical_extraction_manifest.v2"
+        ),
         "extraction_id": identity["extraction_id"],
         "identity_sha256": identity["identity_sha256"],
         "source_semantic_disposition": source_semantic_disposition,
@@ -234,7 +288,11 @@ def _summary(
     source_semantic_disposition: str,
 ) -> JsonObject:
     return {
-        "schema_version": "er_commons.semantic_materialization_summary.v2",
+        "schema_version": (
+            "er_commons.semantic_materialization_summary.v3"
+            if build.missing_chapter_correspondence
+            else "er_commons.semantic_materialization_summary.v2"
+        ),
         "candidate_id": identity["extraction_id"],
         "release_candidate": False,
         "counts": {
@@ -243,6 +301,7 @@ def _summary(
             "target_aliases": len(build.target_aliases),
             "clean_table_cells": sum(len(item["cells"]) for item in build.collections["tables"]),
             "bridge_entries": len(build.bridge_entries),
+            "missing_chapter_correspondence": len(build.missing_chapter_correspondence),
         },
         "source_semantic_disposition": source_semantic_disposition,
         "undeclared_difference_count": 0,

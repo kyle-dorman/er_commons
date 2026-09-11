@@ -12,6 +12,9 @@ from er_commons.document_records.document_structure.parser_evidence import (
     ProducerEvidence,
     artifact_reference,
 )
+from er_commons.document_records.document_structure.section_starts import (
+    logical_section_start_id,
+)
 
 JsonObject = dict[str, Any]
 
@@ -96,7 +99,7 @@ def build_appendix_p_alias_seeds(
     sections_by_key = {
         item["source_stable_item_key"]: item
         for item in sections
-        if item["section_kind"] == "semantic"
+        if item["section_kind"] in {"semantic", "composite_semantic"}
     }
     features_by_key = {item["stable_item_key"]: item for item in evidence.item_features}
     decisions_ref = artifact_reference(hierarchy_root, "artifacts/decisions.jsonl")
@@ -143,7 +146,7 @@ def build_appendix_p_alias_seeds(
                 raw_value=text,
                 target_id=target_id,
                 target_type="section",
-                target_order=blocks_by_key[target["source_stable_item_key"]]["sequence"],
+                target_order=_section_target_order(target, blocks_by_key),
                 evidence_kind="heading_text",
                 evidence_ref=decisions_ref,
             )
@@ -169,7 +172,7 @@ def build_appendix_p_alias_seeds(
                 ),
                 raw_value=toc["title_with_marker_normalized"],
                 target_id=target_section["id"],
-                target_order=blocks_by_key[target_section["source_stable_item_key"]]["sequence"],
+                target_order=_section_target_order(target_section, blocks_by_key),
                 toc_reconciliation_ref=toc_ref,
             )
         )
@@ -187,6 +190,18 @@ def build_appendix_p_alias_seeds(
                 )
             )
     return prefer_reconciled_toc_evidence(seeds)
+
+
+def _section_target_order(section: JsonObject, blocks_by_key: dict[str, JsonObject]) -> int:
+    """Order heading-backed and derived sections from their structural anchor."""
+    start_id = logical_section_start_id(section)
+    for block in blocks_by_key.values():
+        if block.get("id") == start_id:
+            return int(block["sequence"])
+    stable_key = section.get("source_stable_item_key")
+    if isinstance(stable_key, str) and stable_key in blocks_by_key:
+        return int(blocks_by_key[stable_key]["sequence"])
+    raise StructureContractError("section alias lacks a structural start anchor")
 
 
 def prefer_reconciled_toc_evidence(seeds: list[AliasSeed]) -> list[AliasSeed]:
