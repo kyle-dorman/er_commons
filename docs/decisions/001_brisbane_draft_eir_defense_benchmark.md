@@ -10,7 +10,8 @@ Status: accepted 2026-07-10.
 Draft EIR + public comment -> concise defense with Draft-EIR citations
 ```
 
-The original 2025 Draft EIR is the only model-facing corpus. The May 2026 Final
+The original 2025 Draft EIR is the model-facing corpus, subject to the bounded
+Task 06 F1 substitution below. The May 2026 Final
 EIR Volume 4 response-to-comments material is used only by curators to discover
 and verify no-change defense cases. It is unavailable to the retriever, target
 model, and automated judge. The final revised Draft EIR volumes and Volume 5
@@ -23,6 +24,19 @@ evidence are excluded. A general-response referral is not itself an exclusion:
 the curator resolves and reviews the linked general response with the
 individual response, then accepts the case only when every material claim in
 the combined defense is supported by the original Draft EIR corpus.
+
+Task 06 selects Final EIR Appendix F1 (Document Center 2972) to replace the
+incorrect bytes delivered for Draft Appendix F1 (Document Center 553). This is
+an F1-only source-processing and downstream-routing exception. Keep its
+`final_eir` edition, separate physical identity, qualification receipt and
+substitution provenance; never relabel it original Draft text or infer general
+Draft/Final equivalence. Qualification and conversion have separate execution
+gates. Source substitution does not itself accept any benchmark case or broaden
+eligibility to other Final documents. The known Table 6 revision in Response
+SA-Caltrans-6 and Muni-section revision in Response SA-Caltrans-9 remain explicit
+case-level evidence constraints. [Task 06C](../../tasks/sprint2/06c_qualify_and_process_replacement_f1.md)
+owns the qualified source contract; 06H accepts the replacement handoff and 05G
+propagates the consumer binding.
 
 The initial reproducible pipeline is Docling extraction, BM25 retrieval, and a
 fixed local Qwen3 4B target model. A local GPT-OSS 20B curation model proposes

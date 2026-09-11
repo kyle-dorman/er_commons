@@ -161,3 +161,71 @@ def test_orchestration_functions_remain_human_sized(filename: str, limit: int) -
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             length = (node.end_lineno or node.lineno) - node.lineno + 1
             assert length <= limit, f"split {filename}:{node.name} ({length} lines)"
+
+
+@pytest.mark.parametrize("corruption", ["seal", "checksum", "pages", "missing", "duplicate"])
+def test_explicit_manifest_rejects_invalid_source_before_pdf_access(
+    tmp_path: Path, corruption: str
+) -> None:
+    """Explicit routing fails closed on seals and source identity disagreements."""
+    from document_publication_test_support import _workspace
+
+    from er_commons.artifact_io import sha256_file
+    from er_commons.document_parsing.table_reconstruction.models import TableExtractionConfig
+    from er_commons.document_parsing.table_reconstruction.pipeline import _explicit_source
+
+    root, _ = _workspace(tmp_path)
+    manifest_path = root / "release/records/source_manifest.json"
+    manifest = json.loads(manifest_path.read_text())
+    config = _config(manifest["sources"][0]["sha256"])
+    config.update(
+        source_id="alpha",
+        expected_pdf_page_count=2,
+        source_manifest_relative_path="release/records/source_manifest.json",
+    )
+    if corruption == "checksum":
+        config["expected_source_sha256"] = "f" * 64
+    elif corruption == "pages":
+        config["expected_pdf_page_count"] = 3
+    elif corruption == "missing":
+        config["source_id"] = "absent"
+    else:
+        manifest["sources"].append(manifest["sources"][0])
+        write_json_atomic(manifest_path, manifest)
+        if corruption == "duplicate":
+            seal_path = manifest_path.parent / "completion_record.json"
+            seal = json.loads(seal_path.read_text())
+            seal["manifest"].update(
+                byte_size=manifest_path.stat().st_size, sha256=sha256_file(manifest_path)
+            )
+            write_json_atomic(seal_path, seal)
+    with pytest.raises(ValueError):
+        _explicit_source(root, TableExtractionConfig.model_validate(config))
+
+
+@pytest.mark.parametrize("path", ["/outside/manifest.json", "../manifest.json"])
+def test_explicit_manifest_path_must_stay_under_data_root(path: str) -> None:
+    """The optional routing field cannot bypass root containment."""
+    from er_commons.document_parsing.table_reconstruction.models import TableExtractionConfig
+
+    with pytest.raises(ValueError, match="source manifest must be relative"):
+        TableExtractionConfig.model_validate(
+            {**_config("a" * 64), "source_manifest_relative_path": path}
+        )
+
+
+@pytest.mark.parametrize(
+    "module",
+    [
+        "er_commons.document_parsing.content_parsing.config",
+        "er_commons.document_parsing.table_reconstruction.pipeline",
+    ],
+)
+def test_table_and_producer_imports_are_order_independent(module: str) -> None:
+    """A cold process must load the real producer entry path without a cycle."""
+    import subprocess
+    import sys
+
+    subprocess.run(
+        [sys.executable, "-c", f"import {module}"], check=True, capture_output=True, text=True
+    )

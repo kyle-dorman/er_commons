@@ -19,8 +19,9 @@ before the project expands into broader data or workflow products.
   comment -> concise defense with Draft-EIR citations.
 - Sprint 2 is the current single-project vertical slice. The complete original
   Brisbane Baylands Draft EIR main report and official appendices are the
-  model-facing evidence universe; Final EIR responses are curator-only
-  candidate provenance. See `benchmarks/er_bench/sprint1.md` and Decision 001.
+  model-facing evidence universe, with the selected Final EIR Appendix F1
+  substitution exception recorded in Decision 001. Final EIR responses remain
+  curator-only candidate provenance. See `benchmarks/er_bench/sprint1.md` and Decision 001.
 - Source reuse/redistribution is intentionally unassessed for the local learning
   pilot. Do not publish or bulk-redistribute the source or derived corpus until
   a later decision records the applicable terms.

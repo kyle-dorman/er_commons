@@ -9,6 +9,8 @@ applicable authorization; their presence here is not production authorization.
 
 | Operation | Interface and required selection | Owner / contract |
 | --- | --- | --- |
+| Qualify a selected source | `er-commons sources validate-qualification-spec`, `sources acquire-qualified`, `sources reuse-qualified`, each with `--spec PATH` | [Task 06C qualification contract](specs/task06c_source_qualification_v1.md); validation/reuse are source-free, acquisition requires separate authorization and never starts conversion |
+| Supervise a background command | `python -m er_commons.document_publication.background_execution --help` | Explicit command/attempt/output paths and finite limits; use within tmux for persistent execution; [06C preparation](specs/task06c_gate3_preparation.md) |
 | Propose or check current configs | `generate_document_configs.py --generation-spec PATH [--check]` | `document_publication/config_generation`; [request schema](../benchmarks/er_bench/schemas/document_config_generation/v1/request.schema.json) |
 | Qualify selected run inputs | `prepare_document_inputs.py --document-spec PATH --collection-spec PATH --output-root PATH` | `document_publication/input_preparation.py`; compact bounded manifest/recipe checks |
 | Execute declared documents | `run_document_collection.py --document-spec PATH --source-id ID --progress-root PATH` (repeat IDs, or select `--all-sources`) | `document_publication/collection_runner.py`; serial, spec-bound progress; actual execution may open sources |

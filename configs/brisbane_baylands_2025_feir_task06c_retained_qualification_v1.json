@@ -1,0 +1,71 @@
+{
+  "schema_version": "retained_qualification_policy_v1",
+  "source_sha256": "e13c5b53f0f4da6a91f52ac784acce06619eeffd3fe053542d7ce1593b957e5e",
+  "page_count": 756,
+  "exceptions": [
+    {
+      "object_id": 12168,
+      "generation": 0,
+      "physical_page": 28,
+      "reference_path": "/Thumb/ColorSpace/3"
+    },
+    {
+      "object_id": 12649,
+      "generation": 0,
+      "physical_page": 28,
+      "reference_path": "/Thumb"
+    }
+  ],
+  "diagnostic_refs": [
+    "pipelines/brisbane_baylands/task_06_recovery_v1/06c/gate2_structural_diagnosis_v2/diagnosis.json#sha256=218df4f5cfaaba3ebedea4c1ef6cf2e840cce7a62f25c1e46e0321f6a7af88ad",
+    "pipelines/brisbane_baylands/task_06_recovery_v1/06c/gate2_qualification_followup_v1/targeted_evidence.json#sha256=038803fdb5198ee8477e4ef637ff431c762fdb0d7e071c0f4af51acefb8011ff",
+    "pipelines/brisbane_baylands/task_06_recovery_v1/06c/gate2_qualification_followup_v1/render_review.json#sha256=85bb90c45d592a9d084a085f61eb872f050af16e5a73e634824f2038e7ef6a20",
+    "pipelines/brisbane_baylands/task_06_recovery_v1/06c/gate2_attempt_v1/execution.json#sha256=bd4d87ba9a0411182f86062d2410d4769b9ddfdbfb5b2605dce18c3adfd4bc65",
+    "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_feir_f1_qualified_v1/failure.json#sha256=9bd38ad81a7d86f92190a83047d15e37bdfecbb07d94fd0b2ec8e1f803ea1ae1"
+  ],
+  "cover_page": 3,
+  "cover_title": "APPENDIX F.1 TRANSPORTATION IMPACT ASSESSMENT [REVISED]",
+  "project_phrase": "City of Brisbane",
+  "edition_phrase": "Final EIR",
+  "corroboration_page": 5,
+  "corroboration_title": "Brisbane Baylands Transportation Impact Assessment Final",
+  "memo_phrase": "Appendix A: Existing Traffic Conditions Memo",
+  "memo_heading_page": 136,
+  "memo_body_page": 137,
+  "memo_body_phrases": [
+    "MEMORANDUM",
+    "Subject: Baylands Specific Plan: Existing Traffic Conditions"
+  ],
+  "allowed_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    39,
+    40,
+    41,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139
+  ]
+}

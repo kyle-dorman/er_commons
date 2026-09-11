@@ -115,6 +115,7 @@ class TableExtractionConfig(BaseModel):
     pipeline_id: str
     source_release_version: str
     source_id: str
+    source_manifest_relative_path: Path | None = None
     expected_source_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     expected_pdf_page_count: int = Field(gt=0)
     physical_pdf_pages: list[int]
@@ -148,6 +149,11 @@ class TableExtractionConfig(BaseModel):
             raise ValueError("physical pages must be sorted")
         if len(set(self.physical_pdf_pages)) != len(self.physical_pdf_pages):
             raise ValueError("physical pages must be unique")
+        if self.source_manifest_relative_path is not None and (
+            self.source_manifest_relative_path.is_absolute()
+            or ".." in self.source_manifest_relative_path.parts
+        ):
+            raise ValueError("source manifest must be relative to ER_COMMONS_DATA_ROOT")
         if self.artifact_relative_root.is_absolute():
             raise ValueError("artifact root must be relative to ER_COMMONS_DATA_ROOT")
         if self.validation_scope != "routed_pages" and self.routed_pages:

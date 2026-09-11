@@ -14,7 +14,8 @@ from er_commons.document_parsing.content_parsing.sources import (
 )
 from er_commons.document_publication.config import DocumentRunSpec
 from er_commons.document_publication.records import SourceIdentity
-from er_commons.source_release.models import SourceManifest, SourceRole
+from er_commons.source_release.models import SourceManifest
+from er_commons.source_release.retained_processing import validate_processing_source
 
 
 def resolve_manifest_source(
@@ -26,14 +27,13 @@ def resolve_manifest_source(
     if len(matches) != 1:
         raise ValueError(f"sealed manifest must contain exactly one source: {source_id}")
     record = matches[0]
-    if record.source_role != SourceRole.MODEL_CORPUS:
-        raise ValueError(f"source is not model_corpus: {source_id}")
+    retained = validate_processing_source(data_root, manifest, record)
     source_path = assert_contained(data_root, record.local_path)
     if not source_path.is_file():
         raise FileNotFoundError(source_path)
     if source_path.stat().st_size != record.byte_size:
         raise ValueError(f"source byte size changed: {source_id}")
-    if sha256_file(source_path) != record.sha256:
+    if not retained and sha256_file(source_path) != record.sha256:
         raise ValueError(f"source checksum changed: {source_id}")
     return SourceIdentity(
         source_id=source_id,
@@ -58,8 +58,7 @@ def resolve_manifest_source_metadata(
     if len(matches) != 1:
         raise ValueError(f"sealed manifest must contain exactly one source: {source_id}")
     record = matches[0]
-    if record.source_role != SourceRole.MODEL_CORPUS:
-        raise ValueError(f"source is not model_corpus: {source_id}")
+    validate_processing_source(data_root, manifest, record)
     budget.check_metadata(
         data_root / record.local_path,
         root=data_root,

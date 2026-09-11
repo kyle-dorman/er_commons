@@ -1,0 +1,66 @@
+{
+  "schema_version": "er_commons.qualified_acquisition_spec.v1",
+  "source_url": "https://www.brisbaneca.gov/DocumentCenter/View/2972/Appendix-F1---Transportation-Impact-Assessment-PDF",
+  "destination": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_feir_f1_qualified_v1",
+  "policy": {
+    "schema_version": "source_qualification_policy_v1",
+    "advertised_label": "Appendix F1 - Transportation Impact Assessment (PDF)",
+    "accepted_titles": [
+      "Transportation Impact Assessment",
+      "Appendix F1 - Transportation Impact Assessment"
+    ],
+    "required_internal_phrases": [
+      "Existing Traffic Conditions Memo"
+    ],
+    "required_project_phrases": [
+      "Brisbane Baylands"
+    ],
+    "edition": "final_eir",
+    "edition_phrases": [
+      "Final EIR"
+    ],
+    "expected_document_center_id": 2972,
+    "allowed_hosts": [
+      "www.brisbaneca.gov"
+    ],
+    "max_pages": 20,
+    "title_max_page": 3
+  },
+  "limits": {
+    "connect_timeout_seconds": 15,
+    "read_timeout_seconds": 60,
+    "total_timeout_seconds": 900,
+    "qualification_timeout_seconds": 300,
+    "max_bytes": 535822336,
+    "minimum_free_bytes": 68719476736,
+    "max_temporary_plus_final_bytes": 536870912,
+    "memory_bytes": 2147483648,
+    "max_redirects": 3,
+    "max_pdf_pages": 5000,
+    "retries": 0,
+    "threads": 1
+  },
+  "provenance": {
+    "schema_version": "er_commons.recovery.source_substitution.v1",
+    "logical_source_id": "deir_appendix_f1",
+    "physical_source_id": "feir_appendix_f1",
+    "edition": "final_eir",
+    "scope_exception": "f1_only",
+    "edition_equivalence": "not_established",
+    "original_release_ref": {
+      "relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+      "sha256": "fede3e4af815378b77a7f7f54c863ef095328da789859d4f4b25a524f3408f38"
+    },
+    "wrong_source_sha256": "dd51b7e5f0d511abc34617c10afde270e27d5dfe5df7ae9b7048cc206528ac78",
+    "census_ref": {
+      "relative_path": "pipelines/brisbane_baylands/task_06_recovery_v1/06a/f1_substitution_evidence.v1.json",
+      "sha256": "38e44259c3aec3fd5867fdd1eb601139bfa74591ecef9a5111b2c78d4c01052c"
+    },
+    "revision_context_unit_ids": [
+      "unitv1-1e79142bf469b6088f841e051ab9994140342fd80048925c1b0bf9a6c8d83380",
+      "unitv1-d9083d932344bd002a2cdeb4114a81a1bebb50e40305fd93b28ad578fca1d3c7"
+    ],
+    "substitution_reason": "The accepted Draft F1 URL delivered the wrong Bayshore Mobility Study; the user selected Final F1 as the bounded replacement.",
+    "processing_contract": "qualified_substitute_separate_conversion_gate"
+  }
+}

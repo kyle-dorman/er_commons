@@ -253,6 +253,44 @@ The retired pilot island has no maintained callers. Historical recipes and schem
 literals remain unchanged. Later structural, F1 and review-policy work remains with
 06C–06H.
 
+### Qualified source acquisition
+
+`source_release` owns the [Task 06C qualification boundary](specs/task06c_source_qualification_v1.md).
+A strict portable request binds the selected URL, semantic policy, finite limits
+and explicit substitute provenance. The separate acquisition path supervises
+streaming and bounded existing pypdf extraction; it seals observed evidence only
+after qualification. Compact reuse checks the owned implementation/tool/request
+bindings and exact receipt membership without opening the source PDF. Historical
+source-release writers and accepted per-source manifests remain unchanged.
+
+The selected Final F1 is a distinct physical source for the logical Draft F1
+slot, with explicit Final edition and the bounded exception in Decision 001.
+Its qualification receipt is not a legacy source manifest or a conversion
+completion. A separately authorized conversion gate must prepare the measured
+manifest/processing adapter and model bindings before executing maintained stages.
+The 06B stage and range readers continue to own downstream reuse.
+
+The separately reviewed retained-source boundary uses `local_qualification.py`
+to assess exact exception and semantic evidence without opening PDFs. A fresh
+`er_commons.recovery.retained_source_completion.v1` receipt seals a
+`qualified_with_reviewed_exceptions` record referencing the unchanged source.
+Its original failed acquisition is retained. A consumer must explicitly support
+this schema, policy/implementation provenance and exception limitations; it is
+not interchangeable with the strict acquisition receipt.
+`source_release/retained_processing.py` validates that pinned receipt, evaluator
+implementation and unchanged source metadata to publish a reference-only
+processing manifest. Its `qualified_substitute` role requires exact F1 provenance
+and remains distinct from `model_corpus`. Both maintained source resolvers
+validate the exception before allowing processing without a new source hash.
+The clean-table request also carries the explicit producer manifest path; it
+verifies the same sealed source and qualified metadata. Historical requests
+without that field retain their original release-path resolution.
+
+`document_publication/background_execution.py` supervises one explicit offline
+command with persistent external logs and sampled process-tree, wall-time,
+output and swap ceilings. It preserves failed attempts, handles descendants
+across process sessions, and does not schedule automatic assistant follow-ups.
+
 ### Current configuration
 
 Portable source and workflow configurations stay in Git. The external data root

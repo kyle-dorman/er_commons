@@ -15,6 +15,7 @@ class SourceRole(StrEnum):
     """Mechanically isolated roles in the Brisbane source release."""
 
     MODEL_CORPUS = "model_corpus"
+    QUALIFIED_SUBSTITUTE = "qualified_substitute"
     CURATOR_ONLY_RESPONSE_SOURCE = "curator_only_response_source"
     CURATOR_QA_ORIGINAL_SUBMISSION = "curator_qa_original_submission"
     RECOVERY_QA_DUPLICATE = "recovery_qa_duplicate"

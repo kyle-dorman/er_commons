@@ -1,9 +1,11 @@
 # Task 06: Repair Reference Sources and Targets, and Simplify Reuse
 
-Status: **06A source-free qualification complete; 06B next and inactive**.
-The [06A outcome](06a_freeze_recovery_and_cleanup_plan.md) binds the reviewed
-planning packet. Tasks 06B–06H require their respective implementation/execution
-authorization; no source access, model execution or production replay has run.
+Status: **06A, 06B and 06C are complete. The selected Final F1 is qualified
+with the approved bounded exceptions and verified internal memo; its reusable
+conversion and producer handoff is sealed.**
+The [06C outcome](06c_qualify_and_process_replacement_f1.md) owns the fresh
+retained-source receipt and sealed reusable-stage handoff. Tasks 06D–06H remain
+inactive.
 
 ## Abstract
 

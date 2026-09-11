@@ -13,13 +13,17 @@ handoff. Completed task records own exact identities and validation evidence.
 
 ## Next action
 
-[Task 06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md) is complete:
-both gates passed synthetic integration, compact accepted-seal qualification,
-and independent review. Revalidate the provisional [Task 06C contract](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md)
-against that outcome before its separately authorized source/conversion work.
+[Task 06C](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md) is
+complete. The selected 756-page Final F1 is qualified through a retained source
+receipt with the approved thumbnail/title disposition and body-backed memo
+evidence. Its fresh conversion and producer stages are sealed for reuse, and
+Gate 4 has verified the compact handoff without rereading the PDF. The original
+failed acquisition and first failed conversion attempt remain preserved. Tasks
+06D–06H remain inactive.
+
 The [maintained command map](pipeline_commands.md) and
-[executed owner map](specs/task06b_gate2_executed_inventory.md) route current interfaces.
-Tasks 06C–06H have not executed.
+[executed owner map](specs/task06b_gate2_executed_inventory.md) route current
+interfaces and preserve the completed 06B reuse boundary.
 
 Read in this order:
 

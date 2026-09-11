@@ -8,24 +8,27 @@ remains immutable extraction evidence, Task 04A owns accepted review, and Task
 04D remains the designated linking-dependent handoff until a replacement is
 accepted. Exact outcomes belong in the completed task records.
 
-## Next action: revalidate Task 06C
+## Next action: select the next Task 06 repair-policy gate
 
-[Task 06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md) is complete
-and independently reviewed. Both gates preserve historical identities, original
-per-source manifests and replacement membership. Post-migration qualification
-reused 35 conversion/producer pairs, 318 completed ranges and 70 publications.
-Final validation passed 1,541 tests. The task outcome owns exact evidence and limits.
+[Task 06C](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md) Gates 1–4
+are complete. The approved thumbnail/title disposition and targeted memo check
+qualified the retained 756-page Final F1; its fresh source receipt preserves the
+original bytes and failed acquisition. Gate 3 sealed the replacement conversion
+and producer evidence, and Gate 4 independently verified the compact reuse
+handoff. The task outcome owns exact paths, IDs, resource accounting, retained
+warnings, and the Task 06G resume boundary. Tasks 06D–06H remain inactive;
+select and authorize their next bounded policy task separately.
 
-Use the [maintained interfaces](pipeline_commands.md) and
-[executed inventory](specs/task06b_gate2_executed_inventory.md) to revalidate the
-provisional Task 06C contract. F1 acquisition/qualification and conversion remain
-separately authorized gates. No later task has executed.
+Task 06B is complete. Its [maintained interfaces](pipeline_commands.md) and
+[executed inventory](specs/task06b_gate2_executed_inventory.md) preserve historical
+identities, original per-source manifests, replacement membership and chunked
+conversion reuse. Later tasks remain inactive.
 
 | Task | Planned work | Status |
 | --- | --- | --- |
 | [06A](../tasks/sprint2/06a_freeze_recovery_and_cleanup_plan.md) | Bind accepted evidence; freeze dependency, cleanup, repair, and review plan | Complete; source-free packet reviewed |
 | [06B](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md) | Gate 1: sealed reuse and stage identities; Gate 2: rename/remove/retain cleanup and integrated proof | Complete; both gates reviewed |
-| [06C](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md) | Qualify and process the selected Final F1 substitute | Provisional; source/conversion gates remain separate |
+| [06C](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md) | Qualify and process the selected Final F1 substitute | Complete; reusable conversion/producer handoff sealed |
 | [06D](../tasks/sprint2/06d_repair_duplicate_chapter_targets.md) | Repair repeated chapter headings using topology and TOC evidence | Provisional; inactive |
 | [06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) | Recover missing chapters or use the TOC/children fallback | Provisional; inactive |
 | [06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) | Publish independent exact figure-caption targets | Provisional; inactive |

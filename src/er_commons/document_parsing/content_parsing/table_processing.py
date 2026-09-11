@@ -362,6 +362,7 @@ def run_complete_table_stage(
     request = build_table_request(
         pipeline_id=config.pipeline_id,
         source_release_version=config.source_release_version,
+        source_manifest_relative_path=config.source_manifest_relative_path,
         source=TableSource.from_complete_source(source),
         routes=positive,
         artifact_relative_root=(

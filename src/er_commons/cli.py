@@ -108,6 +108,37 @@ def verify_sources(
     typer.echo(f"pages={manifest.aggregates['page_count']}")
 
 
+@sources_app.command("validate-qualification-spec")
+def validate_qualification_spec(
+    spec: Annotated[Path, typer.Option(exists=True, dir_okay=False)],
+) -> None:
+    """Check a qualification request without contacting or opening any source."""
+    from er_commons.source_release.qualification_request import load_qualification_request
+
+    request = load_qualification_request(spec)
+    typer.echo(f"qualification_spec=valid destination={request.destination}")
+
+
+@sources_app.command("acquire-qualified")
+def acquire_qualified(
+    spec: Annotated[Path, typer.Option(exists=True, dir_okay=False)],
+) -> None:
+    """Execute separately authorized acquisition; never start conversion."""
+    from er_commons.source_release.qualification_commands import acquire_from_spec
+
+    acquire_from_spec(load_settings().data_root, spec)
+
+
+@sources_app.command("reuse-qualified")
+def reuse_qualified(
+    spec: Annotated[Path, typer.Option(exists=True, dir_okay=False)],
+) -> None:
+    """Verify a completed qualification receipt without source access."""
+    from er_commons.source_release.qualification_commands import reuse_from_spec
+
+    reuse_from_spec(load_settings().data_root, spec)
+
+
 @collections_app.command("validate-contract")
 def validate_collection_contract(
     schema: Annotated[

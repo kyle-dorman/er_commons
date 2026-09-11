@@ -11,7 +11,8 @@ from pydantic import BaseModel
 from er_commons.artifact_io import assert_contained, sha256_file
 from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_parsing.content_parsing.config import CompleteSource
-from er_commons.source_release.models import SourceManifest, SourceRole
+from er_commons.source_release.models import SourceManifest
+from er_commons.source_release.retained_processing import validate_processing_source
 
 
 class SealedReleaseSelection(Protocol):
@@ -137,8 +138,7 @@ def resolve_complete_source(
             f"sealed manifest must contain exactly one source record: {selected.source_id}"
         )
     record = matches[0]
-    if record.source_role != SourceRole.MODEL_CORPUS:
-        raise ValueError(f"source is not model_corpus: {selected.source_id}")
+    retained = validate_processing_source(data_root, manifest, record)
     expected = (
         (record.sha256, selected.expected_sha256, "checksum"),
         (record.byte_size, selected.expected_byte_size, "byte size"),
@@ -153,7 +153,7 @@ def resolve_complete_source(
         raise FileNotFoundError(source_path)
     if source_path.stat().st_size != selected.expected_byte_size:
         raise ValueError(f"source byte size changed: {selected.source_id}")
-    if sha256_file(source_path) != selected.expected_sha256:
+    if not retained and sha256_file(source_path) != selected.expected_sha256:
         raise ValueError(f"source bytes changed: {selected.source_id}")
     return CompleteResolvedSource(
         source_id=selected.source_id,

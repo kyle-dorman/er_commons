@@ -165,8 +165,15 @@ descendants and the replacement collection record their input correspondence.
 response-reference replay. 06A qualification records exist under `06a/`. Source-free 06B Gate 1 and post-migration Gate 2
 qualification records under `06b/` bind accepted conversions, ranges, producers
 and document seals with explicit hash/read observations. They are compatibility
-evidence, not new production artifacts or fresh payload-byte equality. Later
-production boundaries remain unexecuted.
+evidence, not new production artifacts or fresh payload-byte equality. Task 06C
+Gate 2 retained a complete but structurally unqualified F1 download in the fresh
+`brisbane_baylands_2025_feir_f1_qualified_v1` raw-source namespace. Its
+`source.part` and `failure.json` remain the immutable failed-attempt evidence.
+The subsequently approved retained-source qualification is separately sealed
+under `06c/gate2_local_qualification_v1/` and references those bytes with explicit
+thumbnail/title exceptions. It does not rewrite the failed attempt. Task 06C
+owns exact evidence and receipt bindings. Conversion and later production
+boundaries remain unexecuted.
 
 ### Tracked and external files
 

@@ -32,7 +32,7 @@ from typing import Any
 
 import pypdfium2 as pdfium  # type: ignore[import-untyped]
 
-from er_commons.artifact_io import sha256_file, write_json_atomic
+from er_commons.artifact_io import assert_contained, sha256_file, write_json_atomic
 from er_commons.document_parsing.table_reconstruction.boundaries import (
     PageExtractionRequest,
     PageExtractionResult,
@@ -48,6 +48,7 @@ from er_commons.document_parsing.table_reconstruction.models import (
     load_config,
 )
 from er_commons.document_parsing.table_reconstruction.page import extract_page
+from er_commons.source_release.retained_processing import validate_processing_source
 
 LOGGER = logging.getLogger(__name__)
 CONTINUATION_STATUSES = (
@@ -105,6 +106,39 @@ def source_path_from_manifest(
     if source is None:
         raise ValueError(f"source not found in sealed manifest: {source_id}")
     return (data_root / source["local_path"]).resolve(), manifest_path
+
+
+@dataclass(frozen=True)
+class _ManifestSelection:
+    """Bind an explicit table source to the existing sealed-release reader."""
+
+    source_release_version: str
+    source_manifest_path: Path
+
+
+def _explicit_source(data_root: Path, config: TableExtractionConfig) -> tuple[Path, Path, bool]:
+    """Verify the selected seal and qualified metadata without hashing its PDF."""
+    # Table models are imported while producer config initializes.
+    from er_commons.document_parsing.content_parsing.sources import load_sealed_manifest
+
+    assert config.source_manifest_relative_path is not None
+    selection = _ManifestSelection(
+        config.source_release_version, config.source_manifest_relative_path
+    )
+    manifest = load_sealed_manifest(data_root, selection)
+    matches = [record for record in manifest.sources if record.source_id == config.source_id]
+    if len(matches) != 1:
+        raise ValueError("sealed manifest must contain exactly one matching table source")
+    record = matches[0]
+    if record.sha256 != config.expected_source_sha256:
+        raise ValueError("sealed source checksum differs from table request")
+    if record.pdf_page_count != config.expected_pdf_page_count:
+        raise ValueError("sealed source page count differs from table request")
+    retained = validate_processing_source(data_root, manifest, record)
+    path = assert_contained(data_root, record.local_path)
+    if not path.is_file() or path.stat().st_size != record.byte_size:
+        raise ValueError("sealed source byte size changed")
+    return path, assert_contained(data_root, selection.source_manifest_path.as_posix()), retained
 
 
 def installed_table_environment() -> dict[str, Any]:
@@ -265,7 +299,7 @@ def prepare_table_run(
     services: TablePipelineServices,
     project_root: Path,
 ) -> PreparedTableRun:
-    """Validate configuration, environment, source bytes, and page count."""
+    """Validate configuration and source evidence before preparing table extraction."""
     started = services.monotonic()
     config, config_sha256 = load_config(config_path)
     table_environment = services.table_environment()
@@ -282,13 +316,18 @@ def prepare_table_run(
         raise ValueError("existing run uses a different configuration")
     if not configuration_output.exists():
         configuration_output.write_bytes(config_path.read_bytes())
-    source_path, source_manifest_path = services.resolve_source(
-        data_root, config.source_release_version, config.source_id
-    )
-    if sha256_file(source_path) != config.expected_source_sha256:
-        raise ValueError("sealed source checksum changed")
-    if services.pdf_page_count(source_path) != config.expected_pdf_page_count:
-        raise ValueError("sealed source page count changed")
+    if config.source_manifest_relative_path is None:
+        source_path, source_manifest_path = services.resolve_source(
+            data_root, config.source_release_version, config.source_id
+        )
+        retained = False
+    else:
+        source_path, source_manifest_path, retained = _explicit_source(data_root, config)
+    if not retained:
+        if sha256_file(source_path) != config.expected_source_sha256:
+            raise ValueError("sealed source checksum changed")
+        if services.pdf_page_count(source_path) != config.expected_pdf_page_count:
+            raise ValueError("sealed source page count changed")
     fallback = (
         VerifiedTableFormerFallback(data_root=data_root, policy=config.learned_fallback)
         if config.learned_fallback.enabled

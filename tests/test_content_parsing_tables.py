@@ -115,3 +115,60 @@ def test_table_corruption_reports_the_failed_named_invariant(
         validate_table_artifacts(root, [1, 2])
 
     assert captured.value.invariant == expected_invariant
+
+
+def test_complete_table_stage_passes_explicit_source_manifest(tmp_path: Path) -> None:
+    """The production seam carries a non-default source location into its request."""
+    from types import SimpleNamespace
+
+    from test_document_parsing_application import _route_record
+    from test_table_reconstruction_orchestration import _config
+
+    from er_commons.document_parsing.content_parsing.sources import CompleteResolvedSource
+    from er_commons.document_parsing.content_parsing.table_processing import (
+        run_complete_table_stage,
+    )
+    from er_commons.document_parsing.table_reconstruction.models import TableExtractionConfig
+
+    base = TableExtractionConfig.model_validate(_config("a" * 64))
+    manifest_relative = Path("replacement/source/records/source_manifest.json")
+    config = SimpleNamespace(
+        pipeline_id="producer",
+        source_release_version="release",
+        source_manifest_relative_path=manifest_relative,
+        artifact_relative_root=Path("runs"),
+        table_detection=base.detection,
+        table_cleanup=base.cleanup,
+        learned_table_fallback=base.learned_fallback,
+    )
+    source = CompleteResolvedSource(
+        source_id="document",
+        source_path=tmp_path / "source.part",
+        source_sha256="a" * 64,
+        source_byte_size=10,
+        source_page_count=2,
+        warnings=[],
+    )
+    routes = [
+        _route_record().model_copy(update={"physical_pdf_page": page, "route": "full_page_numeric"})
+        for page in (1, 2)
+    ]
+
+    def runner(data_root: Path, request_path: Path, table_root: Path) -> Path:
+        request = TableExtractionConfig.model_validate_json(request_path.read_bytes())
+        assert request.source_manifest_relative_path == manifest_relative
+        assert request.expected_source_sha256 == source.source_sha256
+        assert request.expected_pdf_page_count == 2
+        assert _valid_table_root(tmp_path / "staging") == table_root
+        return table_root / "manifest.json"
+
+    result = run_complete_table_stage(
+        data_root=tmp_path,
+        staging_root=tmp_path / "staging",
+        config=config,
+        source=source,
+        routes=routes,
+        table_runner=runner,
+        producer_run_id="producer-id",
+    )
+    assert result.routed_pages == [1, 2]
