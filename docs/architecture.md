@@ -189,6 +189,20 @@ generation. Its only alias extension is the accepted R6/R6a body-derived table
 caption evidence; source navigation text and mentions may query but never
 generate aliases.
 
+Task 06F adds the maintained FC1 figure-alias owner at
+`document_records.document_references.figure_aliases`. It enumerates canonical
+figures and derives marker-only aliases exclusively from each figure's own exact
+canonical image/caption attachments under the
+[`figure_caption_alias_v1`](specs/figure_caption_alias_v1.md) policy. The
+document-linking v2 policy and narrow v2 alias/support schemas add FC1 without
+changing conversion, producer, canonical figure/image/caption, or structural
+record ownership. Relinking remains the integration owner, and collection
+target indexing remains a shape-agnostic consumer of the sealed alias stream.
+Structural figure identity and Task 06H text-only usability are separate
+statuses. Astra and the user accepted remediation attempt v10 for MVP
+correctness and human maintainability; production replay remains owned by Task
+06G.
+
 The exact local target-resolution engine is shared beneath both callers and is
 owned by `document_records.document_references`. It owns exact typed alias
 matching, target-ID deduplication, optional destination-page intersection,

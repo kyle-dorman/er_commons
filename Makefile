@@ -144,7 +144,7 @@ lint-fix:
 	uv run ruff check --fix .
 
 type:
-	uv run mypy src
+	uv run mypy src scripts/qualify_figure_caption_aliases.py
 
 test: check-env
 	uv run pytest

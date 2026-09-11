@@ -21,11 +21,12 @@ class TargetIndex:
     aliases: tuple[JsonObject, ...]
     entries: tuple[TargetIndexEntry, ...]
     upstream_alias_count: int
+    derived_figure_alias_count: int = 0
 
     @property
     def derived_table_alias_count(self) -> int:
         """Count aliases added from verified same-page table labels."""
-        return len(self.aliases) - self.upstream_alias_count
+        return len(self.aliases) - self.upstream_alias_count - self.derived_figure_alias_count
 
     def matching(self, lookup_key: str, target_type: str) -> list[TargetIndexEntry]:
         """Return entries matching one authorized key and target type."""
@@ -41,7 +42,7 @@ class TargetIndex:
             "schema_version": "er_commons.cross_reference_target_index.v3",
             "upstream_alias_count": self.upstream_alias_count,
             "derived_table_alias_count": self.derived_table_alias_count,
-            "derived_figure_alias_count": 0,
+            "derived_figure_alias_count": self.derived_figure_alias_count,
             "entries": [entry.as_json() for entry in self.entries],
         }
 

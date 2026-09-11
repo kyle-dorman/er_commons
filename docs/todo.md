@@ -8,14 +8,13 @@ remains immutable extraction evidence, Task 04A owns accepted review, and Task
 04D remains the designated linking-dependent handoff until a replacement is
 accepted. Exact outcomes belong in the completed task records.
 
-## Next action: review and authorize Task 06F
+## Next action: review and authorize Task 06G
 
-[Task 06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) is complete
-and accepted. Astra accepted its v12 functional implementation; the
-contract-preserving v13 maintainability cleanup subsequently passed independent
-equivalence review with byte-identical decision streams. Task 06F remains
-provisional and inactive until separately authorized. Do not replay production
-artifacts; Task 06G owns that separate gate.
+[Task 06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) is
+complete and accepted. Astra and the user accepted remediation attempt v10 for
+MVP correctness and human maintainability. Do not replay production artifacts;
+Task 06G remains provisional and inactive until separately reviewed and
+authorized.
 
 Task 06B is complete. Its [maintained interfaces](pipeline_commands.md) and
 [executed inventory](specs/task06b_gate2_executed_inventory.md) preserve historical
@@ -29,7 +28,7 @@ conversion reuse. Later tasks remain inactive.
 | [06C](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md) | Qualify and process the selected Final F1 substitute | Complete; reusable conversion/producer handoff sealed |
 | [06D](../tasks/sprint2/06d_repair_duplicate_chapter_targets.md) | Repair repeated chapter headings using topology and TOC evidence | Complete and accepted |
 | [06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) | Recover missing chapters or use the TOC/children fallback | Complete and accepted; v13 maintainability cleanup equivalence-reviewed |
-| [06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) | Publish independent exact figure-caption targets | Provisional; inactive |
+| [06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) | Publish independent exact figure-caption targets | Complete and accepted; v10 correctness and maintainability review passed |
 | [06G](../tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md) | Replay only affected descendants and compare complete correspondence | Provisional; inactive |
 | [06H](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md) | Reuse accepted review, review changed evidence, and accept replacement handoff | Provisional; inactive |
 

@@ -13,14 +13,13 @@ handoff. Completed task records own exact identities and validation evidence.
 
 ## Next action
 
-[Task 06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) is complete
-and accepted. Astra accepted the v12 functional implementation, and the
-contract-preserving v13 maintainability cleanup passed independent equivalence
-review with byte-identical decisions. Task 06F is the next provisional subtask;
-this update does not activate or execute it. Production replay remains separately
-gated to Task 06G. Task 06C's selected
-756-page Final F1 conversion and producer handoff remains sealed for that replay;
-its failed acquisition and first failed conversion attempt remain preserved.
+[Task 06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) is
+complete and accepted. Astra and the user accepted remediation attempt v10 for
+MVP correctness and human maintainability. Production replay remains separately
+gated to provisional, inactive Task 06G; this acceptance does not activate it.
+Task 06C's selected 756-page Final F1 conversion and producer handoff remains
+sealed for that replay; its failed acquisition and first failed conversion
+attempt remain preserved.
 
 The [maintained command map](pipeline_commands.md) and
 [executed owner map](specs/task06b_gate2_executed_inventory.md) route current
@@ -30,8 +29,9 @@ Read in this order:
 
 1. [Task 06 umbrella](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
    for accepted directions, inputs, sequence, and shared boundaries.
-2. [Task 06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) for the
-   accepted chapter-repair outcome and exact external packet locators.
+2. [Task 06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) for
+   the accepted implementation, qualification evidence, and resolved remediation
+   record.
 3. [Task 05F accepted partial outcome](../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
    for exact upstream bindings and the failure census.
 4. [Architecture](architecture.md), [data/artifacts](data_artifacts.md), and the

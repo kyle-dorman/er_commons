@@ -1,0 +1,284 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/document_linking/v2/support.schema.json",
+  "title": "Document link support record v2",
+  "oneOf": [
+    {"$ref": "#/$defs/targetIndex"},
+    {"$ref": "#/$defs/accounting"},
+    {"$ref": "#/$defs/preservation"},
+    {"$ref": "#/$defs/figureQualification"}
+  ],
+  "$defs": {
+    "count": {"type": "integer", "minimum": 0},
+    "countMap": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/count"}
+    },
+    "indexEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lookup_key",
+        "target_type",
+        "alias_origin",
+        "alias_record_id",
+        "target_record_id",
+        "upstream_alias_record_id",
+        "upstream_target_record_id",
+        "evidence_kind",
+        "evidence_source_record_id",
+        "evidence_page_id"
+      ],
+      "properties": {
+        "lookup_key": {"type": "string"},
+        "target_type": {"type": "string"},
+        "alias_origin": {"type": "string"},
+        "alias_record_id": {"type": "string"},
+        "target_record_id": {"type": "string"},
+        "upstream_alias_record_id": {"type": ["string", "null"]},
+        "upstream_target_record_id": {"type": "string"},
+        "evidence_kind": {"type": "string"},
+        "evidence_source_record_id": {"type": ["string", "null"]},
+        "evidence_page_id": {"type": ["string", "null"]}
+      }
+    },
+    "targetIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "upstream_alias_count",
+        "derived_table_alias_count",
+        "derived_figure_alias_count",
+        "alias_origin_counts",
+        "entries"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.cross_reference_target_index.v4"},
+        "upstream_alias_count": {"$ref": "#/$defs/count"},
+        "derived_table_alias_count": {"$ref": "#/$defs/count"},
+        "derived_figure_alias_count": {"$ref": "#/$defs/count"},
+        "alias_origin_counts": {"$ref": "#/$defs/countMap"},
+        "entries": {"type": "array", "items": {"$ref": "#/$defs/indexEntry"}}
+      }
+    },
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "target_alias_count",
+        "ordinary_reference_count",
+        "navigation_entry_count",
+        "navigation_claim_count",
+        "navigation_decision_count",
+        "navigation_link_count",
+        "navigation_outcome_counts"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_link_accounting.v1"},
+        "target_alias_count": {"$ref": "#/$defs/count"},
+        "ordinary_reference_count": {"$ref": "#/$defs/count"},
+        "navigation_entry_count": {"$ref": "#/$defs/count"},
+        "navigation_claim_count": {"$ref": "#/$defs/count"},
+        "navigation_decision_count": {"$ref": "#/$defs/count"},
+        "navigation_link_count": {"$ref": "#/$defs/count"},
+        "navigation_outcome_counts": {"$ref": "#/$defs/countMap"}
+      }
+    },
+    "preservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "upstream_alias_count",
+        "replayed_v3_table_alias_count",
+        "derived_alias_count",
+        "derived_figure_alias_count",
+        "alias_origin_counts",
+        "allowed_derived_alias_rule_ids",
+        "undeclared_difference_count",
+        "status"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_link_preservation.v2"},
+        "upstream_alias_count": {"$ref": "#/$defs/count"},
+        "replayed_v3_table_alias_count": {"$ref": "#/$defs/count"},
+        "derived_alias_count": {"$ref": "#/$defs/count"},
+        "derived_figure_alias_count": {"$ref": "#/$defs/count"},
+        "alias_origin_counts": {"$ref": "#/$defs/countMap"},
+        "allowed_derived_alias_rule_ids": {
+          "type": "array",
+          "prefixItems": [{"const": "R6"}, {"const": "FC1"}],
+          "items": false
+        },
+        "undeclared_difference_count": {"const": 0},
+        "status": {"const": "passed"}
+      }
+    },
+    "figureDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "figure_id",
+        "upstream_figure_id",
+        "eligibility",
+        "reason",
+        "caption_block_ids",
+        "image_ids",
+        "repeated_caption_reference_count",
+        "repeated_image_reference_count",
+        "structural_target_status",
+        "text_only_evidence_status"
+      ],
+      "properties": {
+        "figure_id": {"type": "string", "minLength": 1},
+        "upstream_figure_id": {"type": "string", "minLength": 1},
+        "eligibility": {"enum": ["eligible", "rejected", "review_required"]},
+        "reason": {
+          "enum": [
+            "eligible_attached_body_caption",
+            "wrong_figure_record_family",
+            "figure_document_identity_mismatch",
+            "figure_extraction_identity_mismatch",
+            "figure_not_body",
+            "figure_toc_or_unclassified",
+            "figure_semantic_placement_unqualified",
+            "missing_caption",
+            "multiple_captions",
+            "missing_image",
+            "multiple_images",
+            "caption_attachment_wrong_record_family",
+            "image_attachment_wrong_record_family",
+            "caption_attached_to_multiple_figures",
+            "image_attached_to_multiple_figures",
+            "dangling_caption_attachment",
+            "dangling_image_attachment",
+            "attachment_extraction_identity_mismatch",
+            "cross_document_attachment",
+            "cross_section_attachment",
+            "attached_block_not_caption",
+            "caption_not_body",
+            "caption_toc_or_unclassified",
+            "attachment_page_cardinality_unqualified",
+            "attachment_page_mismatch",
+            "dangling_page_attachment",
+            "page_record_namespace_mismatch",
+            "cross_document_page_attachment",
+            "page_extraction_identity_mismatch",
+            "figure_marker_not_leading",
+            "leading_figure_marker_absent_or_invalid"
+          ]
+        },
+        "caption_block_ids": {"type": "array", "items": {"type": "string"}},
+        "image_ids": {"type": "array", "items": {"type": "string"}},
+        "repeated_caption_reference_count": {"$ref": "#/$defs/count"},
+        "repeated_image_reference_count": {"$ref": "#/$defs/count"},
+        "structural_target_status": {"enum": ["eligible", "rejected", "review_required"]},
+        "text_only_evidence_status": {"const": "not_evaluated_pending_task06h"},
+        "page_id": {"type": "string", "minLength": 1},
+        "physical_page_number": {"type": "integer", "minimum": 1},
+        "raw_marker": {"type": "string", "minLength": 1},
+        "normalized_alias": {"type": "string", "minLength": 1},
+        "caption_text": {"type": "string"},
+        "classification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "figure_content_layer",
+            "figure_is_toc_row",
+            "figure_semantic_placement",
+            "caption_block_type",
+            "caption_content_layer",
+            "caption_is_toc_row",
+            "same_section"
+          ],
+          "properties": {
+            "figure_content_layer": {"const": "body"},
+            "figure_is_toc_row": {"const": false},
+            "figure_semantic_placement": {"const": "inherited_nontext"},
+            "caption_block_type": {"const": "caption"},
+            "caption_content_layer": {"const": "body"},
+            "caption_is_toc_row": {"const": false},
+            "same_section": {"const": true}
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"eligibility": {"const": "eligible"}}},
+          "then": {
+            "required": [
+              "page_id",
+              "physical_page_number",
+              "raw_marker",
+              "normalized_alias",
+              "caption_text",
+              "classification"
+            ],
+            "properties": {
+              "reason": {"const": "eligible_attached_body_caption"},
+              "structural_target_status": {"const": "eligible"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"eligibility": {"const": "rejected"}}},
+          "then": {"properties": {"structural_target_status": {"const": "rejected"}}}
+        },
+        {
+          "if": {"properties": {"eligibility": {"const": "review_required"}}},
+          "then": {
+            "properties": {"structural_target_status": {"const": "review_required"}}
+          }
+        }
+      ]
+    },
+    "figureQualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "policy_id",
+        "source_id",
+        "candidate_figure_count",
+        "eligible_figure_count",
+        "rejected_figure_count",
+        "review_required_figure_count",
+        "alias_count",
+        "target_edge_count",
+        "zero_target_figure_count",
+        "one_target_alias_count",
+        "multiple_target_alias_count",
+        "unique_alias_count",
+        "ambiguous_alias_count",
+        "collision_group_count",
+        "rejection_reason_counts",
+        "structural_target_status",
+        "text_only_evidence_status",
+        "decisions"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.figure_caption_alias_qualification.v1"},
+        "policy_id": {"const": "figure_caption_alias_v1"},
+        "source_id": {"type": "string", "minLength": 1},
+        "candidate_figure_count": {"$ref": "#/$defs/count"},
+        "eligible_figure_count": {"$ref": "#/$defs/count"},
+        "rejected_figure_count": {"$ref": "#/$defs/count"},
+        "review_required_figure_count": {"$ref": "#/$defs/count"},
+        "alias_count": {"$ref": "#/$defs/count"},
+        "target_edge_count": {"$ref": "#/$defs/count"},
+        "zero_target_figure_count": {"$ref": "#/$defs/count"},
+        "one_target_alias_count": {"$ref": "#/$defs/count"},
+        "multiple_target_alias_count": {"$ref": "#/$defs/count"},
+        "unique_alias_count": {"$ref": "#/$defs/count"},
+        "ambiguous_alias_count": {"$ref": "#/$defs/count"},
+        "collision_group_count": {"$ref": "#/$defs/count"},
+        "rejection_reason_counts": {"$ref": "#/$defs/countMap"},
+        "structural_target_status": {"const": "evaluated"},
+        "text_only_evidence_status": {"const": "not_evaluated_pending_task06h"},
+        "decisions": {"type": "array", "items": {"$ref": "#/$defs/figureDecision"}}
+      }
+    }
+  }
+}

@@ -189,6 +189,12 @@ records without hashing preserved document payloads. The earlier
 `06d/qualification_v1/` through `qualification_v5/` working packets are
 preserved as superseded evidence and must not be consumed by Task 06G.
 
+Task 06F's accepted compact source-free figure qualification lives under
+`06f/qualification_v10/`. It binds the accepted canonical record seals and the
+figure-caption policy, schemas, and owned code without opening or hashing PDF or
+image payloads. Attempts `qualification_v1/` through `qualification_v9/` remain
+preserved as superseded no-clobber evidence and must not be consumed by Task 06G.
+
 ### Tracked and external files
 
 Track in Git:

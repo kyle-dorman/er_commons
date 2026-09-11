@@ -42,6 +42,7 @@ class DocumentLinkingPolicy:
     policy_name: str
     machine_reference: CallerProfile
     effective_navigation: CallerProfile
+    figure_caption_aliases_enabled: bool
 
     def profile(self, caller: LinkCaller) -> CallerProfile:
         """Return the exact profile for a known caller without implicit defaults."""
@@ -100,6 +101,9 @@ def load_document_linking_policy(policy_path: Path, *, schema_path: Path) -> Doc
             table_fallback_rules=_TABLE_FALLBACKS,
             allow_goal_prefix=True,
         ),
+        figure_caption_aliases_enabled=(
+            policy["schema_version"] == "er_commons.document_linking_policy.v2"
+        ),
     )
 
 
@@ -126,6 +130,17 @@ def _validate_executable_policy(policy: dict[str, Any]) -> None:
     table_transforms = tuple(rule.value for rule in _TABLE_FALLBACKS)
     if tuple(policy["table_caption_fallback_rule"]["transforms"]) != table_transforms:
         raise LinkingPolicyError("table fallback transforms do not match executable R6a rules")
+    if policy["schema_version"] == "er_commons.document_linking_policy.v2":
+        expected = {
+            "rule_id": "FC1",
+            "policy_id": "figure_caption_alias_v1",
+            "alias_form": "exact_leading_marker",
+            "required_caption_delimiter": "colon",
+            "attachment_cardinality": "one_distinct_caption_one_distinct_image",
+            "text_only_evidence_status": "not_evaluated_pending_task06h",
+        }
+        if policy.get("figure_alias_rule") != expected:
+            raise LinkingPolicyError("figure alias rule does not match executable FC1 policy")
 
 
 __all__ = [

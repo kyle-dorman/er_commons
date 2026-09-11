@@ -21,6 +21,7 @@ from er_commons.document_records.document_references.relink_publication import (
     RelinkIdentityInputs,
     build_relink_identity,
     publish_relink_candidate,
+    validate_relink_build_products,
     verify_relink_candidate,
 )
 from er_commons.document_records.document_references.relinking import (
@@ -48,7 +49,6 @@ def test_navigation_inputs_remap_only_embedded_source_namespace() -> None:
             },
         )
     )
-
     remapped = navigation.remap_namespace(prior, current)
 
     assert remapped.entries[0]["navigation_entry_id"] == "stable-navigation-id"
@@ -73,7 +73,6 @@ def test_builder_preserves_records_adds_only_r6_and_uses_shared_resolution(
             },
         )
     )
-
     build = DocumentRelinkBuilder(
         source=source,
         upstream_candidate_id=UPSTREAM,
@@ -104,6 +103,147 @@ def test_builder_preserves_records_adds_only_r6_and_uses_shared_resolution(
             build.products.target_aliases[0]["id"],
         )
     )
+
+
+@pytest.mark.parametrize(
+    ("existing_target", "expected_edges", "expected_multiple", "expected_resolution"),
+    [
+        ("same", 1, 0, "resolved"),
+        ("different", 2, 1, "ambiguous"),
+    ],
+)
+def test_v2_fc1_accounts_only_its_keys_and_preserves_existing_collisions(
+    tmp_path: Path,
+    existing_target: str,
+    expected_edges: int,
+    expected_multiple: int,
+    expected_resolution: str,
+) -> None:
+    identity = build_relink_identity(_identity_inputs())
+    candidate = str(identity["extraction_id"])
+    source = _source(tmp_path)
+    document = f"{UPSTREAM}/document/report_alpha"
+    page = f"{UPSTREAM}/page/report_alpha/p000001"
+    section = f"{UPSTREAM}/section/report_alpha/sec000001"
+    caption_id = f"{UPSTREAM}/block/report_alpha/blk000004"
+    mention_id = f"{UPSTREAM}/block/report_alpha/blk000005"
+    figure_id = f"{UPSTREAM}/figure/report_alpha/fig000001"
+    image_id = f"{UPSTREAM}/image/report_alpha/img000001"
+    source.record_files["canonical/blocks.jsonl"].extend(
+        [
+            _block(
+                caption_id,
+                document,
+                page,
+                section,
+                4,
+                "Figure 4.8-5: Habitat",
+                "caption",
+                [10, 30, 90, 40],
+            ),
+            _block(
+                mention_id,
+                document,
+                page,
+                section,
+                5,
+                "See Figure 4.8-5.",
+                "paragraph",
+                [10, 20, 90, 25],
+            ),
+        ]
+    )
+    source.record_files["canonical/figures.jsonl"] = [
+        {
+            "id": figure_id,
+            "extraction_id": UPSTREAM,
+            "document_id": document,
+            "section_id": section,
+            "sequence": 1,
+            "content_layer": "body",
+            "is_toc_row": False,
+            "semantic_placement": "inherited_nontext",
+            "caption_block_ids": [caption_id],
+            "image_ids": [image_id],
+            "regions": [{"page_id": page, "bbox": [10, 1, 90, 15]}],
+        }
+    ]
+    source.record_files["canonical/images.jsonl"] = [
+        {
+            "id": image_id,
+            "extraction_id": UPSTREAM,
+            "document_id": document,
+            "sequence": 1,
+            "regions": [{"page_id": page, "bbox": [10, 1, 90, 15]}],
+        }
+    ]
+    source.record_files["canonical/target_aliases.jsonl"].extend(
+        [
+            {
+                "id": f"{UPSTREAM}/target-alias/report_alpha/alias000002",
+                "document_id": document,
+                "sequence": 2,
+                "alias_kind": "figure",
+                "raw_values": ["Figure 4.8-5"],
+                "normalized_alias": "figure 4.8-5",
+                "normalization_policy": "nfc_nbsp_ascii_whitespace_casefold_v1",
+                "resolution_status": "unique",
+                "targets": [
+                    {
+                        "target_id": (
+                            figure_id
+                            if existing_target == "same"
+                            else f"{UPSTREAM}/figure/report_alpha/fig999999"
+                        ),
+                        "target_type": "figure",
+                    }
+                ],
+            },
+            {
+                "id": f"{UPSTREAM}/target-alias/report_alpha/alias000003",
+                "document_id": document,
+                "sequence": 3,
+                "alias_kind": "figure",
+                "raw_values": ["Figure 99-9"],
+                "normalized_alias": "figure 99-9",
+                "normalization_policy": "nfc_nbsp_ascii_whitespace_casefold_v1",
+                "resolution_status": "unique",
+                "targets": [
+                    {
+                        "target_id": f"{UPSTREAM}/figure/report_alpha/fig999998",
+                        "target_type": "figure",
+                    }
+                ],
+            },
+        ]
+    )
+
+    build = DocumentRelinkBuilder(
+        source=source,
+        upstream_candidate_id=UPSTREAM,
+        candidate_id=candidate,
+        source_id="report_alpha",
+        mention_policy=default_mention_policy(),
+        linking_policy=_linking_policy_v2(),
+        source_family_catalog=_catalog(),
+        source_family_catalog_sha256="8" * 64,
+    ).build()
+
+    figure_aliases = [row for row in build.products.target_aliases if row["alias_kind"] == "figure"]
+    assert len(figure_aliases) == 3  # two preserved aliases plus FC1 provenance
+    figure_reference = next(
+        row for row in build.products.ordinary_references if row["mention_class"] == "figure"
+    )
+    assert figure_reference["resolution_status"] == expected_resolution
+    assert len(figure_reference["candidates"]) == expected_edges
+    assert build.support["target_index"]["schema_version"].endswith(".v4")
+    assert build.support["preservation"]["allowed_derived_alias_rule_ids"] == ["R6", "FC1"]
+    assert build.support["figure_qualification"]["eligible_figure_count"] == 1
+    assert build.support["figure_qualification"]["target_edge_count"] == expected_edges
+    assert build.support["figure_qualification"]["multiple_target_alias_count"] == (
+        expected_multiple
+    )
+    validate_relink_build_products(build, schema_paths=_schema_paths_v2())
 
 
 def test_navigation_r1_uses_structural_marker_only_with_destination_evidence(
@@ -672,11 +812,27 @@ def _schema_paths() -> dict[str, Path]:
     }
 
 
+def _schema_paths_v2() -> dict[str, Path]:
+    paths = _schema_paths()
+    v2 = ROOT / "benchmarks/er_bench/schemas/document_linking/v2"
+    paths.update({role: v2 / f"{role}.schema.json" for role in ("alias", "support")})
+    return paths
+
+
 def _linking_policy() -> DocumentLinkingPolicy:
     return load_document_linking_policy(
         ROOT / "configs/linking_policies/document_linking_v1.json",
         schema_path=(
             ROOT / "benchmarks/er_bench/schemas/document_linking/v1/linking_policy.schema.json"
+        ),
+    )
+
+
+def _linking_policy_v2() -> DocumentLinkingPolicy:
+    return load_document_linking_policy(
+        ROOT / "configs/linking_policies/document_linking_v2.json",
+        schema_path=(
+            ROOT / "benchmarks/er_bench/schemas/document_linking/v2/linking_policy.schema.json"
         ),
     )
 
@@ -719,6 +875,7 @@ def _source(tmp_path: Path) -> CandidateSource:
         "canonical/pages.jsonl": [
             {
                 "id": page,
+                "extraction_id": UPSTREAM,
                 "document_id": document,
                 "sequence": 1,
                 "physical_page_number": 1,
@@ -759,6 +916,7 @@ def _source(tmp_path: Path) -> CandidateSource:
             }
         ],
         "canonical/figures.jsonl": [],
+        "canonical/images.jsonl": [],
         "canonical/target_aliases.jsonl": [
             {
                 "id": f"{UPSTREAM}/target-alias/report_alpha/alias000001",
@@ -800,6 +958,7 @@ def _block(
 ) -> dict[str, object]:
     return {
         "id": record_id,
+        "extraction_id": UPSTREAM,
         "document_id": document_id,
         "sequence": sequence,
         "canonical_text": text,

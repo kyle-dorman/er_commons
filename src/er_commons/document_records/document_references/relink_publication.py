@@ -39,6 +39,9 @@ from er_commons.document_records.document_references.construction import (
     TARGET_ALIAS_PATH,
     CandidateSource,
 )
+from er_commons.document_records.document_references.figure_aliases import (
+    validate_caption_figure_alias_evidence,
+)
 from er_commons.document_records.document_references.indexing import NamespaceRemapper
 from er_commons.document_records.document_references.linking_core import LinkedSourceProducts
 from er_commons.document_records.document_references.linking_policy import (
@@ -85,6 +88,7 @@ _SUPPORT_PATHS = {
     "target_index": "support/document_link_target_index.json",
     "accounting": "support/document_link_accounting.json",
     "preservation": "support/document_link_preservation.json",
+    "figure_qualification": "support/figure_caption_alias_qualification.json",
 }
 _OUTPUT_SCHEMA_ROLE_SET = frozenset(OUTPUT_SCHEMA_ROLES)
 _OUTPUT_ROW_PATHS = {
@@ -799,6 +803,7 @@ def verify_relink_candidate(
         raise ValueError("relink candidate contains a managed symlink")
     _validate_published_outputs(root, schema_paths, budget=budget)
     if expected_build is not None:
+        _validate_fc1_build_semantics(expected_build)
         _verify_expected_linking_outputs(root, expected_build, budget=budget)
     return completion_path
 
@@ -832,6 +837,8 @@ def _write_candidate(
         )
     support_files, inherited_files = _copy_preserved_support(source, root, budget)
     for role, path in _SUPPORT_PATHS.items():
+        if role not in build.support:
+            continue
         write_json(root / path, build.support[role])
         support_files.append(
             {
@@ -969,6 +976,19 @@ def _validate_relink_build_products(
             _validate_schema_value(validators[role], row, f"{role}[{index}]")
     for role, payload in sorted(build.support.items()):
         _validate_schema_value(validators["support"], payload, f"support.{role}")
+    _validate_fc1_build_semantics(build)
+
+
+def _validate_fc1_build_semantics(build: RelinkBuild) -> None:
+    """Reconstruct FC1 provenance and accounting for publication and reuse."""
+    context = build.figure_validation_inputs
+    if context is not None:
+        validate_caption_figure_alias_evidence(
+            aliases=list(build.products.target_aliases),
+            entries=list(build.support["target_index"]["entries"]),
+            qualification=build.support["figure_qualification"],
+            inputs=context,
+        )
 
 
 def _validate_published_outputs(
@@ -1015,7 +1035,16 @@ def _validate_published_outputs(
     if any(manifest.get(name) != count for name, count in expected.items()):
         raise ValueError("relink manifest output counts differ")
     for role, relative in _SUPPORT_PATHS.items():
+        if not (root / relative).is_file():
+            continue
         _validate_schema_value(validators["support"], read(root / relative), f"support.{role}")
+    target_index = read(root / _SUPPORT_PATHS["target_index"])
+    figure_support = root / _SUPPORT_PATHS["figure_qualification"]
+    if (
+        target_index.get("schema_version") == "er_commons.cross_reference_target_index.v4"
+        and not figure_support.is_file()
+    ):
+        raise ValueError("v4 target index lacks figure qualification support")
 
 
 def _verify_expected_linking_outputs(
@@ -1035,6 +1064,8 @@ def _verify_expected_linking_outputs(
         if tuple(read_jsonl(root / relative)) != expected_rows[role]:
             raise ValueError(f"existing relink {role} rows differ from requested build")
     for role, relative in _SUPPORT_PATHS.items():
+        if role not in build.support:
+            continue
         if read(root / relative) != build.support[role]:
             raise ValueError(f"existing relink support differs from requested build: {role}")
     summary_path = root / "records/canonicalization_summary.json"
@@ -1167,6 +1198,7 @@ def _owned_code_bundle_sha256(budget: VerificationBudget | None = None) -> str:
         "detection",
         "errors",
         "exact_resolution",
+        "figure_aliases",
         "indexing",
         "linking_core",
         "linking_policy",

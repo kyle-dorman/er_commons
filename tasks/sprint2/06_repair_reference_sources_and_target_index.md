@@ -1,11 +1,10 @@
 # Task 06: Repair Reference Sources and Targets, and Simplify Reuse
 
-Status: **06A through 06E are complete and accepted. Astra accepted Task 06E's
-v12 functional implementation, and its contract-preserving v13 maintainability
-cleanup passed independent equivalence review. Production replay remains gated
-to Task 06G.**
+Status: **06A through 06F are complete and accepted. Astra and the user accepted
+Task 06F remediation attempt v10 for MVP correctness and human maintainability.
+Production replay remains gated to Task 06G.**
 The [06C outcome](06c_qualify_and_process_replacement_f1.md) owns the fresh
-retained-source receipt and sealed reusable-stage handoff. Keep 06F–06H
+retained-source receipt and sealed reusable-stage handoff. Keep 06G–06H
 inactive; Task 06G has not replayed production artifacts.
 
 ## Abstract
@@ -396,5 +395,7 @@ compact source-free qualification. Task 06E now supplies the parallel semantic
 v3 missing-chapter policy and a compact two-eligible, zero-review-required
 qualification packet. Astra accepted the v12 functional implementation; the
 v13 maintainability-only cleanup passed independent equivalence review with
-byte-identical decisions.
-Production replay and terminal review remain owned by 06G and 06H.
+byte-identical decisions. Task 06F supplies an accepted source-general
+caption-backed figure-alias policy and compact 274-figure qualification after
+remediating all six code-quality findings from Astra's v7 review. Production
+replay and terminal review remain owned by 06G and 06H.

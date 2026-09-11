@@ -26,6 +26,12 @@ from er_commons.document_records.document_references.exact_resolution import (
     ExactResolutionDecision,
     ExactResolutionOutcome,
 )
+from er_commons.document_records.document_references.figure_aliases import (
+    FigureAliasValidationInputs,
+    build_caption_figure_aliases,
+    validate_caption_figure_alias_evidence,
+    with_effective_figure_accounting,
+)
 from er_commons.document_records.document_references.indexing import (
     NamespaceRemapper,
     TargetIndex,
@@ -164,6 +170,7 @@ class RelinkBuild:
     preserved_record_files: Mapping[str, tuple[JsonObject, ...]]
     products: LinkedSourceProducts
     support: Mapping[str, JsonObject]
+    figure_validation_inputs: FigureAliasValidationInputs | None = None
 
 
 class DocumentRelinkBuilder:
@@ -195,9 +202,17 @@ class DocumentRelinkBuilder:
 
     def build(self) -> RelinkBuild:
         """Build deterministic records without writing an artifact."""
-        index, replayed_v3_table_alias_count = self._target_index()
+        figure_inputs = self._figure_validation_inputs()
+        index, replayed_v3_table_alias_count, figure_qualification = self._target_index(
+            figure_inputs
+        )
         preserved = self._preserved_records()
         index_payload = index.support_payload()
+        if figure_qualification is not None:
+            index_payload["schema_version"] = "er_commons.cross_reference_target_index.v4"
+            index_payload["alias_origin_counts"] = dict(
+                sorted(Counter(str(alias["alias_origin"]) for alias in index.aliases).items())
+            )
         ordinary = self._ordinary_references(
             index, serialized_json_sha256(index_payload), preserved
         )
@@ -211,24 +226,53 @@ class DocumentRelinkBuilder:
             navigation_links=nav_links,
             support_records=(),
         )
+        preservation: JsonObject = {
+            "schema_version": "er_commons.document_link_preservation.v1",
+            "upstream_alias_count": index.upstream_alias_count,
+            "replayed_v3_table_alias_count": replayed_v3_table_alias_count,
+            "derived_alias_count": (
+                len(index.aliases) - index.upstream_alias_count - replayed_v3_table_alias_count
+            ),
+            "allowed_derived_alias_rule_ids": ["R6"],
+            "undeclared_difference_count": 0,
+            "status": "passed",
+        }
         support = {
             "target_index": index_payload,
             "accounting": _accounting(products),
-            "preservation": {
-                "schema_version": "er_commons.document_link_preservation.v1",
-                "upstream_alias_count": index.upstream_alias_count,
-                "replayed_v3_table_alias_count": replayed_v3_table_alias_count,
-                "derived_alias_count": (
-                    len(index.aliases) - index.upstream_alias_count - replayed_v3_table_alias_count
-                ),
-                "allowed_derived_alias_rule_ids": ["R6"],
-                "undeclared_difference_count": 0,
-                "status": "passed",
-            },
+            "preservation": preservation,
         }
-        return RelinkBuild(preserved, products, support)
+        if figure_qualification is not None:
+            preservation.update(
+                {
+                    "schema_version": "er_commons.document_link_preservation.v2",
+                    "derived_figure_alias_count": index.derived_figure_alias_count,
+                    "alias_origin_counts": index_payload["alias_origin_counts"],
+                    "allowed_derived_alias_rule_ids": ["R6", "FC1"],
+                }
+            )
+            support["figure_qualification"] = figure_qualification
+        return RelinkBuild(preserved, products, support, figure_inputs)
 
-    def _target_index(self) -> tuple[TargetIndex, int]:
+    def _figure_validation_inputs(self) -> FigureAliasValidationInputs | None:
+        """Assemble the canonical FC1 inputs once for build and later validation."""
+        if not self._linking_policy.figure_caption_aliases_enabled:
+            return None
+        upstream = self._source.record_files
+        return FigureAliasValidationInputs(
+            upstream_candidate_id=self._upstream_id,
+            candidate_id=self._candidate_id,
+            source_id=self._source_id,
+            source_document_id=f"{self._upstream_id}/document/{self._source_id}",
+            upstream_figures=tuple(upstream.get("canonical/figures.jsonl", [])),
+            upstream_images=tuple(upstream.get("canonical/images.jsonl", [])),
+            upstream_blocks=tuple(upstream["canonical/blocks.jsonl"]),
+            upstream_pages=tuple(upstream["canonical/pages.jsonl"]),
+        )
+
+    def _target_index(
+        self, figure_inputs: FigureAliasValidationInputs | None
+    ) -> tuple[TargetIndex, int, JsonObject | None]:
         upstream = self._source.record_files
         base = TargetIndexBuilder(self._remapper, self._source_id).build(
             upstream_aliases=upstream[TARGET_ALIAS_PATH],
@@ -242,6 +286,14 @@ class DocumentRelinkBuilder:
             upstream_blocks=upstream["canonical/blocks.jsonl"],
             upstream_tables=upstream["canonical/tables.jsonl"],
             first_sequence=len(base.aliases) + 1,
+        )
+        figures = (
+            build_caption_figure_aliases(
+                inputs=figure_inputs,
+                first_sequence=len(base.aliases) + len(derived) + 1,
+            )
+            if figure_inputs is not None
+            else None
         )
         entries = list(base.entries)
         for alias in derived:
@@ -261,8 +313,14 @@ class DocumentRelinkBuilder:
                         evidence_page_id=str(target["evidence_page_id"]),
                     )
                 )
+        if figures is not None:
+            entries.extend(figures.entries)
         indexed = TargetIndex(
-            aliases=(*base.aliases, *(item.record for item in derived)),
+            aliases=(
+                *base.aliases,
+                *(item.record for item in derived),
+                *(figures.aliases if figures is not None else ()),
+            ),
             entries=tuple(
                 sorted(
                     entries,
@@ -270,10 +328,28 @@ class DocumentRelinkBuilder:
                 )
             ),
             upstream_alias_count=base.upstream_alias_count,
+            derived_figure_alias_count=len(figures.aliases) if figures is not None else 0,
         )
+        figure_qualification = None
+        if figures is not None:
+            all_entry_rows = [entry.as_json() for entry in indexed.entries]
+            fc1_entry_rows = [entry.as_json() for entry in figures.entries]
+            figure_qualification = with_effective_figure_accounting(
+                figures.qualification,
+                entries=all_entry_rows,
+                fc1_entries=fc1_entry_rows,
+            )
+            assert figure_inputs is not None
+            validate_caption_figure_alias_evidence(
+                aliases=list(indexed.aliases),
+                entries=all_entry_rows,
+                qualification=figure_qualification,
+                inputs=figure_inputs,
+            )
         return (
             _with_target_pages(indexed, self._source.record_files, self._remapper),
             base.derived_table_alias_count,
+            figure_qualification,
         )
 
     def _preserved_records(self) -> dict[str, tuple[JsonObject, ...]]:
@@ -504,7 +580,7 @@ class _SharedMentionResolver:
     def resolve(
         self, mention: DetectedMention, *, source_text: str, source_page_id: str
     ) -> Resolution:
-        if mention.kind is MentionKind.FIGURE:
+        if mention.kind is MentionKind.FIGURE and not self.policy.figure_caption_aliases_enabled:
             return Resolution((), UnresolvedReason.TARGET_TYPE_UNAVAILABLE)
         if mention.kind is MentionKind.TABLE and is_qualified_external_table_reference(
             source_text[mention.span.end :]
@@ -615,7 +691,12 @@ def _with_target_pages(
         )
         for row in index.entries
     )
-    return TargetIndex(index.aliases, entries, index.upstream_alias_count)
+    return TargetIndex(
+        index.aliases,
+        entries,
+        index.upstream_alias_count,
+        index.derived_figure_alias_count,
+    )
 
 
 def _section_ancestors(section_id: str, sections: Mapping[str, JsonObject]) -> frozenset[str]:

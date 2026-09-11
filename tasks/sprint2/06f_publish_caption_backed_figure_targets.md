@@ -1,7 +1,8 @@
 # Task 06F: Publish Caption-Backed Figure Targets
 
-Status: **provisional and inactive; refine from accepted Task 06A/06B and
-preceding repair outcomes before authorizing implementation**.
+Status: **complete and accepted. Astra and the user accepted remediation attempt
+v10 for MVP correctness and human maintainability. Task 06G production replay
+remains inactive.**
 
 ## Abstract
 
@@ -48,13 +49,15 @@ these checks against the 06G replacement rather than treating counts as truth
 independent of input identity. These are query regression checks, not the input
 population for alias generation.
 
-## Current ownership to inspect
+## Maintained ownership
 
 - `src/er_commons/document_records/document_references/relinking.py:_target_index`
   extends preserved aliases with independently derived table aliases.
 - `document_references/table_aliases.py:build_r6_table_aliases` demonstrates
   integration of derived aliases, evidence, target IDs, and deterministic order.
-- `document_references/indexing.py` currently reports zero derived figure aliases.
+- `document_references/figure_aliases.py` owns FC1 eligibility, provenance,
+  accounting, and semantic validation; `indexing.py` reports derived figure
+  aliases separately from table aliases.
 - `document_references/relinking.py:_with_target_pages` already recognizes
   canonical figure records when attaching target page evidence.
 - `document_structure/aliases.py:build_target_aliases` supports figure target
@@ -94,9 +97,17 @@ Review the existing R6 table extension for reuse of publication mechanics, not
 for reuse of its spatial guessing rule. Figures already have explicit canonical
 caption attachments, and those attachments must be the authority here.
 
-## Plan / spec requirement
+## Frozen plan and specification
 
-Freeze these decisions before code changes:
+The versioned
+[`figure_caption_alias_v1`](../../docs/specs/figure_caption_alias_v1.md) policy
+freezes the decisions below. The accepted evidence supports the exact
+one-distinct-image/one-distinct-caption shape and colon-delimited leading marker,
+so no early human-decision checkpoint is required for this attempt. Any evidence
+outside that boundary remains rejected or review-required rather than broadening
+the rule during qualification.
+
+Implementation must preserve these decisions:
 
 1. Enumerate canonical record fields used to join figure, image, and attached
    caption records; validate every reference within the bound document.
@@ -227,8 +238,161 @@ push, Task 05G execution, or benchmark publication.
 
 ## Outcome
 
-Pending. Record policy and owner, coverage and collision counts, validations,
-review findings, and exact inputs delivered to Task 06G/06H.
+Implementation and bounded source-free qualification are complete and accepted
+in remediation attempt v10. Astra reviewed functional correctness, provenance,
+contract closure, maintainability, and MVP fitness rather than speculative
+cybersecurity hardening. The user accepted that review. Task 06G remains
+inactive.
+
+### Policy and implementation
+
+The source-general `figure_caption_alias_v1` policy is frozen in
+[`docs/specs/figure_caption_alias_v1.md`](../../docs/specs/figure_caption_alias_v1.md).
+It requires one distinct attached image, one distinct attached body caption,
+same-document/section/single-page joins, explicit body/non-TOC classification,
+and a complete colon-delimited leading `Figure <identifier>` marker. It publishes
+only the exact normalized marker alias. Full identifiers such as `4.8-5` and
+`4.8-8` remain complete and never yield `4.8`.
+
+The pure builder and maintained relinking integration live in
+`document_references/figure_aliases.py`, `indexing.py`, `relinking.py`,
+`relink_publication.py`, and `linking_policy.py`. The parallel document-linking
+v2 alias, support, and policy schemas plus `document_linking_v2.json` express FC1
+figure provenance and accounting. Accepted document-linking v1 schema and policy
+bytes remain unchanged. Existing aliases retain their meaning and ordering;
+exact resolution unions existing figure evidence only for FC1-produced marker
+keys, deduplicates by target ID, and preserves different-target collisions rather
+than selecting a preferred target. Exact candidate/source/document namespace
+binding and the shared semantic FC1 validator now close every published
+figure/image/caption/page provenance edge against the canonical streams.
+
+Changed tracked or newly authored files for this attempt are:
+
+- `src/er_commons/document_records/document_references/{figure_aliases,indexing,linking_policy,relink_publication,relinking}.py`;
+- `benchmarks/er_bench/schemas/document_linking/v2/{alias,support,linking_policy}.schema.json` and `configs/linking_policies/document_linking_v2.json`;
+- `scripts/qualify_figure_caption_aliases.py`;
+- `Makefile` and `docs/pipeline_commands.md` for the maintained type gate and
+  complete operator entry point;
+- `tests/test_figure_caption_aliases.py` and `tests/test_document_relinking_stage.py`;
+- `docs/specs/figure_caption_alias_v1.md`, `docs/architecture.md`, this task
+  record, and the current routing pages.
+
+### Qualification evidence and accounting
+
+The fresh packet is:
+
+```text
+pipelines/brisbane_baylands/task_06_recovery_v1/06f/qualification_v10/
+```
+
+under `ER_COMMONS_DATA_ROOT`. Its qualification ID is
+`figqualv1-4c8002030423eaf6714ca5fb98ee3926d6cfda030d4cae3cfc367f0959ad8b14`.
+The inventory SHA-256 is
+`589264619acde4b595c8e0cb6cf51d69fad16da059cc57eb5331ccbb3db5e767`,
+the completion-file SHA-256 is
+`f6420863cc1e62de6cc82867f01af0d22d9086504b52cd4c3ab7f390dcdd50b6`,
+and the qualification-file SHA-256 is
+`1b2eaa6f6f594fbdb743b9d91fcc7a3379b782992683539634885a5d1c29f667`.
+Attempts v1 through v9 remain preserved as superseded no-clobber evidence. V10
+is the accepted attempt for the current code identity. V8 was superseded
+after the final bounded managed-file diagnostic improvement changed the owned
+qualification-script digest. V9 was superseded when the FC1 builder and validator
+were tightened to accept and pass the same input-bundle object rather than
+unpacking it into parallel keyword lists. Neither attempt was overwritten.
+
+The v10 packet accounts for every one of 274 canonical figures: 178 are eligible
+and 96 are rejected. Rejections comprise 62 `missing_caption` outcomes and 34
+`leading_figure_marker_absent_or_invalid` outcomes. It publishes 178 unique
+marker aliases and 178 target edges, all with one target after target-ID
+deduplication. There are zero review-required decisions, ambiguous aliases,
+multiple-target aliases, or collision groups. These counts come from the bound
+canonical records, not Task 05 mentions; figures absent from the mention
+population remain eligible when their own attachment evidence passes.
+
+Every eligible target retains upstream/local figure identity, image and caption
+IDs, page and physical-page provenance, attachment/reference counts, section and
+classification evidence, and exact marker. Structural eligibility remains
+separate from `text_only_evidence_status: not_evaluated_pending_task06h`; no
+caption or image is claimed to supply substantive text-only evidence.
+
+### Validation, invariants, and next review
+
+The prior v7 validation passed 1,781 tests but its mypy result covered only the
+483 files under `src/`; Astra correctly identified the qualification script as
+outside that gate and found its return annotation error. Remediation adds the
+script to the maintained type target, which now covers 484 files. Focused tests
+cover exact marker parsing, suffix and punctuation controls,
+missing/dangling/cross-document
+attachments, cardinality, body versus TOC/furniture classification, repeated
+evidence, existing aliases, collisions, deterministic order, exact
+source/document namespace binding, FC1-only union accounting,
+semantic provenance reconstruction, complete current-identity recomputation,
+FC1-only packet membership, packet omission/duplication/tamper rejection,
+no-clobber publication, schema closure, and prohibited I/O.
+
+For attempt v10, `make fix` passed with 674 files unchanged. `make check` passed
+formatting, lint, mypy over all 484 maintained source/script files, and all 1,781
+tests. The focused Task 06F suite passed 71 tests. Fresh packet publication and
+the documented `--reuse-existing` invocation both passed and emitted their
+resolved paths. `git diff --check` passed. Mention independence is an input-
+boundary property established by the builder API and code inspection: no mention
+stream is accepted or read by the FC1 builder.
+
+The attempt preserves accepted conversion, producer, canonical
+figure/image/caption/page, section-correspondence, Task 06B identity/reuse, and
+document-linking v1 evidence unchanged. It did not open a PDF, render or inspect
+an image, load a model, rerun extraction, hash preserved PDF/image payloads, or
+execute production document, collection, or reference replay. Task 06G remains
+inactive, and Task 06H still owns visual/text-only usability review.
+
+### Resolved Astra remediation
+
+The user classified Astra's six v7 code-quality findings as blocking. Attempt v10
+implements all six without broadening the FC1 policy or changing its accounting:
+
+1. bounded semantic diagnostics now report the first record identity and field
+   path with expected/observed values; packet closure reports bounded sorted
+   missing and extra paths;
+2. the qualification script's return annotation is corrected and the maintained
+   `make type` gate checks both `src` and the script;
+3. `with_effective_figure_accounting` is the single pure owner for existing-plus-
+   FC1 collision accounting in standalone and relinking validation;
+4. relinking constructs one `FigureAliasValidationInputs` object and passes that
+   same object through the FC1 builder, immediate validator, retained
+   `RelinkBuild`, and publication validator;
+5. the ordering test no longer claims mention-independence from an unused value,
+   and every semantic/packet mutation requires its intended exception type and
+   mutation-specific diagnostic; and
+6. every CLI selector has actionable help, the command logs published/reused plus
+   the resolved path, and `docs/pipeline_commands.md` owns complete fresh and reuse
+   invocations with input-selection guidance.
+
+The design remains proportionate for the MVP. FC1 verifies exact section equality
+while relying on the accepted upstream semantic structure for section membership.
+Astra and the user accepted attempt v10; Task 06G remains inactive. An
+independent read-only maintainability review found no remaining actionable
+finding: it verified each of the six remediations, preserved policy scope, focused
+and full validation, and the continued Task 06G stop. This was an MVP correctness
+and maintainability review, not a cybersecurity audit. A follow-up v10 delta
+review also verified literal same-object flow from relinking assembly through the
+builder, immediate validator, retained build, and publication validator, with no
+material or nonmaterial finding.
+
+### Acceptance
+
+On 2026-09-11, Astra and the user accepted Task 06F remediation attempt v10 for
+MVP correctness and human maintainability against `b9349e5`. Astra independently
+confirmed closure of all six blocking findings, the recorded identity and three
+packet digests, semantic reconstruction and verified reuse, 1,781 passing tests,
+the 484-file maintained mypy gate, the focused 71-test result, and unchanged
+document-linking v1 policy/schema files. Astra also compared v7 with v10 and
+found aliases, target-index entries, and qualification records identical after
+mapping the qualification-ID namespace, directly confirming that remediation
+preserved the qualified result.
+
+One nonblocking coverage opportunity remains: a future focused test may lock
+down diagnostic truncation and record-identification formatting. Direct review
+and an exercised long-value case passed, so this does not reopen Task 06F.
 
 ## Task 06B interface handoff
 
@@ -239,5 +403,6 @@ Use explicit current requests with original per-source accepted manifests and
 seals; historical recipe validation does not reopen removed implementation paths.
 Document/collection v3 supports declared replacement membership. Compact checks
 must retain the shared verification budget and must not claim new payload-byte
-equality. This handoff updates interfaces only; the task's provisional policy and
-separate source, conversion, replay or review authorization boundaries still apply.
+equality. This inherited handoff updates interfaces only. Task 06F's accepted
+policy does not authorize the separate source, conversion, Task 06G replay, or
+Task 06H review gates.
