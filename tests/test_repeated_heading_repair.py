@@ -23,6 +23,9 @@ from er_commons.document_records.document_structure.inputs import (
     _verify_repeated_heading_records,
 )
 from er_commons.document_records.document_structure.parser_evidence import ProducerEvidence
+from er_commons.document_records.document_structure.repeated_heading_projection import (
+    _heading_topologies_from_records,
+)
 from er_commons.document_records.document_structure.repeated_heading_qualification import (
     publish_repeated_heading_qualification,
 )
@@ -44,6 +47,12 @@ SCHEMA = json.loads(
         "repeated_heading_decision.schema.json"
     ).read_text()
 )
+SCHEMA_V2 = json.loads(
+    (
+        ROOT / "benchmarks/er_bench/schemas/task06_recovery/v1/"
+        "repeated_heading_decision_v2.schema.json"
+    ).read_text()
+)
 
 
 def _heading(
@@ -61,7 +70,10 @@ def _heading(
     role: str = "heading",
     toc: bool = False,
     sibling_index: int | None = None,
+    content_order: int | None = None,
+    content_order_extent: tuple[int, int] | None = None,
 ) -> HeadingTopology:
+    resolved_content_order = sequence if content_order is None else content_order
     return HeadingTopology(
         section_id=f"section-{suffix}",
         heading_block_id=f"block-{suffix}",
@@ -78,6 +90,10 @@ def _heading(
         direct_content_ids=direct,
         child_section_ids=children,
         descendant_page_extent=extent or (page, page),
+        heading_content_order=resolved_content_order,
+        descendant_content_order_extent=(
+            content_order_extent or (resolved_content_order, resolved_content_order)
+        ),
     )
 
 
@@ -94,7 +110,7 @@ def _observed_group(chapter: str) -> tuple[HeadingTopology, HeadingTopology, Hea
                 extent=(312, 449),
                 sibling_index=1,
             ),
-            _heading("3", "07 | INFRASTRUCTURE", 452, 663, sibling_index=2),
+            _heading("3", "07 INFRASTRUCTURE", 451, 662, sibling_index=2),
         )
     return (
         _heading("4", "08 PUBLIC FACILITIES FINANCING", 479, 748, sibling_index=0),
@@ -107,7 +123,7 @@ def _observed_group(chapter: str) -> tuple[HeadingTopology, HeadingTopology, Hea
             extent=(480, 491),
             sibling_index=1,
         ),
-        _heading("6", "09 | IMPLEMENTATION", 492, 784, sibling_index=2),
+        _heading("6", "09 IMPLEMENTATION", 491, 783, sibling_index=2),
     )
 
 
@@ -147,7 +163,7 @@ def test_complete_descendant_extent_must_end_before_following_boundary(
         following_sibling=following,
     )
     assert decision.status == "review_required"
-    assert "descendant_extent_reaches_following_boundary" in decision.reason_codes
+    assert "descendant_extent_crosses_following_boundary_page" in decision.reason_codes
 
 
 def test_destinations_to_either_or_both_retained_pages_do_not_choose_the_anchor() -> None:
@@ -208,11 +224,64 @@ def test_decision_record_schema_preserves_unresolved_toc_and_pending_target() ->
             "identity": f"logical-chapter-{divider.stable_item_key}",
             "verification_mode": "pending_06g_materialization",
         },
+        human_decision_ref={
+            "authority": "user_decision",
+            "relative_path": "tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md",
+            "identity": "user-selected-earlier-boundary-2026-09-12",
+            "verification_mode": "recorded_conversation_decision",
+        },
     )
-    Draft202012Validator.check_schema(SCHEMA)
-    Draft202012Validator(SCHEMA).validate(record)
+    Draft202012Validator.check_schema(SCHEMA_V2)
+    Draft202012Validator(SCHEMA_V2).validate(record)
     assert record["unresolved_toc_tokens"] == ["447"]
-    assert record["human_decision_ref"] is None
+    assert record["human_decision_ref"]["identity"] == ("user-selected-earlier-boundary-2026-09-12")
+
+
+def test_v2_same_page_boundary_requires_strict_record_order() -> None:
+    divider, opening, following = _observed_group("08")
+    toc = (TocHeadingEvidence(("toc-08",), opening.raw_text),)
+    accepted = classify_repeated_heading_group(
+        (divider, opening), toc_evidence=toc, following_sibling=following
+    )
+    collision = classify_repeated_heading_group(
+        (
+            divider,
+            replace(
+                opening,
+                descendant_content_order_extent=(
+                    opening.heading_content_order or 0,
+                    following.heading_content_order or 0,
+                ),
+            ),
+        ),
+        toc_evidence=toc,
+        following_sibling=following,
+    )
+    crossing = classify_repeated_heading_group(
+        (divider, replace(opening, descendant_page_extent=(480, 492))),
+        toc_evidence=toc,
+        following_sibling=following,
+    )
+    assert accepted.status == "eligible"
+    assert accepted.source_page_extents[-1] == (480, 491)
+    assert accepted.following_boundary_page == 491
+    assert collision.status == "review_required"
+    assert "descendant_content_reaches_following_boundary" in collision.reason_codes
+    assert crossing.status == "review_required"
+    assert "descendant_extent_crosses_following_boundary_page" in crossing.reason_codes
+
+
+def test_v2_terminal_nonnumeric_boundary_is_eligible() -> None:
+    divider = _heading("7", "09 IMPLEMENTATION", 491, 783, sibling_index=0)
+    opening = _heading("8", "09 | IMPLEMENTATION", 492, 784, sibling_index=1)
+    boundary = _heading("9", "APPENDICES", 501, 798, sibling_index=2)
+    decision = classify_repeated_heading_group(
+        (divider, opening),
+        toc_evidence=(TocHeadingEvidence(("toc-09",), opening.raw_text),),
+        following_sibling=boundary,
+    )
+    assert decision.status == "eligible"
+    assert decision.following_boundary_raw_text == "APPENDICES"
 
 
 @pytest.mark.parametrize(
@@ -275,7 +344,7 @@ def test_rejected_identical_raw_spellings_remain_schema_valid() -> None:
     assert decision.status == "rejected"
     assert decision.reason_codes == ("not_divider_then_opening_typography",)
     assert record["heading_raw_texts"] == ["06 CIRCULATION", "06 CIRCULATION"]
-    Draft202012Validator(SCHEMA).validate(record)
+    Draft202012Validator(SCHEMA_V2).validate(record)
 
 
 def test_ambiguous_cardinality_overlap_destination_and_boundary_require_review() -> None:
@@ -368,12 +437,74 @@ def _content(
     }
 
 
+def test_v2_four_disjoint_pairs_project_once_and_idempotently() -> None:
+    headings = (
+        ("1", "06 CIRCULATION", 311),
+        ("2", "06 | CIRCULATION", 312),
+        ("3", "07 INFRASTRUCTURE", 451),
+        ("4", "07 | INFRASTRUCTURE", 452),
+        ("5", "08 PUBLIC FACILITIES FINANCING", 479),
+        ("6", "08 | PUBLIC FACILITIES FINANCING", 480),
+        ("7", "09 IMPLEMENTATION", 491),
+        ("8", "09 | IMPLEMENTATION", 492),
+        ("9", "APPENDICES", 501),
+    )
+    sections = [_section("root", None, None, None, None, 1)]
+    content = []
+    for sequence, (suffix, text, page) in enumerate(headings, start=1):
+        section_id = f"section-{suffix}"
+        block_id = f"block-{suffix}"
+        sections.append(
+            _section(section_id, suffix * 64, block_id, "root", 3, sequence + 1, (block_id,))
+        )
+        content.append(
+            _content(
+                block_id,
+                suffix * 64,
+                section_id,
+                sequence,
+                "heading_owner",
+                text=text,
+                page=page,
+            )
+        )
+    topology = _heading_topologies_from_records(sections, content)
+    decisions = tuple(
+        classify_repeated_heading_group(
+            (topology[index], topology[index + 1]),
+            toc_evidence=(TocHeadingEvidence((f"toc-{index}",), topology[index + 1].raw_text),),
+            following_sibling=topology[index + 2],
+        )
+        for index in (0, 2, 4, 6)
+    )
+    assert [item.status for item in decisions] == ["eligible"] * 4
+    once = project_repeated_heading_decisions(sections, content, decisions)
+    twice = project_repeated_heading_decisions(once.sections, once.content, decisions)
+    assert [item["id"] for item in once.content] == [item["id"] for item in content]
+    assert len(once.sections) == len(sections) - 4
+    assert twice.sections == once.sections
+    assert twice.content == once.content
+    tampered = replace(decisions[2], following_boundary_content_order=999)
+    with pytest.raises(StructureContractError, match="following boundary changed"):
+        project_repeated_heading_decisions(sections, content, (*decisions[:2], tampered))
+
+
 def _eligible_decision() -> RepeatedHeadingDecision:
-    divider, opening, following = _observed_group("06")
-    return classify_repeated_heading_group(
+    divider, opening, _ = _observed_group("06")
+    following = _heading("3", "07 | INFRASTRUCTURE", 452, 663, sibling_index=2)
+    decision = classify_repeated_heading_group(
         (divider, opening),
         toc_evidence=(TocHeadingEvidence(("toc",), opening.raw_text),),
         following_sibling=following,
+    )
+    return replace(
+        decision,
+        heading_content_orders=(),
+        source_content_order_extents=(),
+        following_boundary_content_order=None,
+        schema_version="er_commons.recovery.chapter_decision.v1",
+        rule_version="repeated_chapter_divider_opening_v1",
+        extent_basis="anchor_through_before_following_same_level_sibling",
     )
 
 
@@ -925,6 +1056,15 @@ def test_qualification_is_completion_last_closed_and_no_clobber(tmp_path: Path) 
         (divider_08, replace(opening_08, raw_text=divider_08.raw_text)),
         toc_evidence=(TocHeadingEvidence(("toc-08",), opening_08.raw_text),),
         following_sibling=following_09,
+    )
+    rejected = replace(
+        rejected,
+        heading_content_orders=(),
+        source_content_order_extents=(),
+        following_boundary_content_order=None,
+        schema_version="er_commons.recovery.chapter_decision.v1",
+        rule_version="repeated_chapter_divider_opening_v1",
+        extent_basis="anchor_through_before_following_same_level_sibling",
     )
     output = tmp_path / "qualification-v1"
     source_ref = {

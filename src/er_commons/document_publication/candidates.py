@@ -3,27 +3,29 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Literal
+from typing import Literal
 
 from er_commons.artifact_io import write_json_atomic
 from er_commons.document_publication.attempts import record_attempt
+from er_commons.document_publication.candidate_construction import (
+    CandidateIdentity as CandidateIdentity,
+)
+from er_commons.document_publication.candidate_construction import (
+    build_candidate_identity as build_candidate_identity,
+)
 from er_commons.document_publication.candidate_identity_validation import (
     verify_identity_and_upstreams,
 )
 from er_commons.document_publication.downstream_replay_validation import (
     verify_downstream_replay,
 )
-from er_commons.document_publication.identity import build_candidate_id, canonical_digest
 from er_commons.document_publication.lifecycle import Disposition
 from er_commons.document_publication.preflight import DocumentRun
 from er_commons.document_publication.records import (
-    ArtifactRef,
     AttemptRecord,
     DocumentCompletion,
     DocumentIdentityRecord,
-    PipelineResult,
     SourceIdentity,
     StateEvent,
 )
@@ -33,82 +35,10 @@ from er_commons.document_publication.retained_evidence import (
     read_state_events,
     require_retained_evidence,
 )
-from er_commons.document_publication.storage import content_digest, verify_candidate
+from er_commons.document_publication.storage import verify_candidate
 
 LOGGER = logging.getLogger(__name__)
-SuccessDisposition = Literal["complete", "complete_with_warnings"]
-
-
-@dataclass(frozen=True)
-class CandidateIdentity:
-    """Typed in-memory projection of the persisted candidate identity record."""
-
-    candidate_id: str
-    content_digest: str
-    control_digest: str
-    terminal_state: SuccessDisposition
-    hierarchy_disposition: dict[str, object]
-    stage_completions: dict[str, dict[str, object]]
-
-    def as_record(self, run: DocumentRun) -> DocumentIdentityRecord:
-        """Return the exact v1 identity record written into a candidate."""
-        return DocumentIdentityRecord(
-            schema_version="er_commons.document_candidate_identity.v2",
-            production_extraction_id=run.spec.production_extraction_id,
-            candidate_id=self.candidate_id,
-            source=run.source,
-            content_digest=self.content_digest,
-            control_digest=self.control_digest,
-            hierarchy_disposition=self.hierarchy_disposition,
-            run_spec_sha256=run.spec_sha256,
-            stage_completions={
-                role: ArtifactRef.model_validate(reference)
-                for role, reference in self.stage_completions.items()
-            },
-            terminal_state=self.terminal_state,
-        )
-
-
-def build_candidate_identity(
-    run: DocumentRun,
-    *,
-    content_root: Path,
-    result: PipelineResult,
-    recorded_content_inventory: dict[str, Any] | None = None,
-) -> CandidateIdentity:
-    """Derive the document ID from content and all publication controls."""
-    terminal_state: SuccessDisposition = "complete_with_warnings" if result.warnings else "complete"
-    stage_completions = {
-        role: reference.model_dump(mode="json")
-        for role, reference in result.stage_completions.items()
-    }
-    control_digest = canonical_digest(
-        {
-            "hierarchy_disposition": run.hierarchy_disposition,
-            "run_spec_sha256": run.spec_sha256,
-            "stage_completions": stage_completions,
-            "terminal_state": terminal_state,
-        }
-    )
-    digest = (
-        canonical_digest(recorded_content_inventory)
-        if recorded_content_inventory is not None
-        else content_digest(content_root)
-    )
-    candidate_id = build_candidate_id(
-        production_extraction_id=run.spec.production_extraction_id,
-        source_id=run.source.source_id,
-        content_digest=digest,
-        control_digest=control_digest,
-    )
-    return CandidateIdentity(
-        candidate_id=candidate_id,
-        content_digest=digest,
-        control_digest=control_digest,
-        terminal_state=terminal_state,
-        hierarchy_disposition=run.hierarchy_disposition,
-        stage_completions=stage_completions,
-    )
+CandidateEvidenceKind = Literal["document_attempt", "downstream_replay"]
 
 
 def write_candidate_identity(
@@ -122,8 +52,12 @@ def write_candidate_identity(
     )
 
 
-def find_reusable_candidate(run: DocumentRun) -> Path | None:
-    """Return the sole checksum-valid candidate matching this run contract."""
+def find_reusable_candidate(
+    run: DocumentRun,
+    *,
+    evidence_kind: CandidateEvidenceKind | None = None,
+) -> Path | None:
+    """Return the sole valid candidate matching the run and required evidence kind."""
     if not run.final_parent.is_dir():
         return None
     matches: list[Path] = []
@@ -141,8 +75,13 @@ def find_reusable_candidate(run: DocumentRun) -> Path | None:
         verify_candidate(root, root.name, recorded_source)
         if not _matches_run(identity, run):
             continue
+        is_downstream_replay = (root / "records" / "downstream_replay.json").is_file()
+        if evidence_kind is not None and is_downstream_replay != (
+            evidence_kind == "downstream_replay"
+        ):
+            continue
         verify_identity_and_upstreams(root, identity=identity, data_root=run.data_root)
-        if (root / "records" / "downstream_replay.json").is_file():
+        if is_downstream_replay:
             verify_downstream_replay(root, data_root=run.data_root)
         else:
             reconcile_published_attempt(root, identity)

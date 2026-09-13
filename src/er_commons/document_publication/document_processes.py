@@ -28,6 +28,7 @@ def run_document_processes(
     source_id: str,
     configs: ProcessConfigs | None = None,
     diagnostics_root: Path | None = None,
+    run_spec_path: Path | None = None,
 ) -> PipelineResult:
     """Run document transformations and return one verified worker handoff."""
     disposition = run_spec.hierarchy_disposition(source_id)
@@ -38,6 +39,20 @@ def run_document_processes(
         run_spec=run_spec,
         source_id=source_id,
     )
+    selection = run_spec.process_selection(source_id)
+    reused = {
+        role: reference.resolve(
+            repository_root=project_root,
+            artifact_root=data_root,
+            role=f"reused_{role}_completion",
+            source_id=source_id,
+        )
+        for role, reference in (
+            selection.reused_completions.selected()
+            if selection.reused_completions is not None
+            else {}
+        ).items()
+    }
     sequence = DocumentProcessSequence(
         data_root=data_root,
         project_root=project_root,
@@ -45,6 +60,14 @@ def run_document_processes(
         configs=active_configs,
         diagnostics_root=diagnostics_root,
         fresh=run_spec.lineage_mode(source_id) == "fresh_build",
+        resume_stage=selection.resume_stage,
+        reused_completions=reused,
+        run_spec_path=run_spec_path,
+        task06g_v4=(
+            run_spec.schema_version.endswith(".v4")
+            and run_spec_path is not None
+            and run_spec_path.name == "task06g_document_v1.json"
+        ),
     ).run()
     completions = sequence.completions
     active_configs = sequence.configs
@@ -72,6 +95,7 @@ def run_document_processes(
         },
         stage_timings=sequence.timings,
         resource_enforcement="validated_before_document_processes",
+        resolved_process_config_refs=sequence.resolved_process_config_refs,
     )
 
 

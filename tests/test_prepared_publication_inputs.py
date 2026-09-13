@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from document_publication_test_support import _workspace
@@ -11,9 +12,36 @@ from test_task06b_publication_reuse import _current_recipe
 
 from er_commons.artifact_io import sha256_file, write_json_atomic
 from er_commons.artifact_verification import VerificationBudget
+from er_commons.document_publication import preflight
 from er_commons.document_publication.accepted_inputs import prepare_publication_inputs
 from er_commons.document_publication.identity import canonical_digest
 from er_commons.document_publication.preflight import prepare_accepted_document_run
+
+
+def test_document_v4_routes_through_source_free_prepared_inputs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The current writer never falls back to legacy PDF-verifying run preparation."""
+    spec = SimpleNamespace(schema_version="er_commons.document_run_spec.v4")
+    expected = object()
+    monkeypatch.setattr(preflight, "load_document_run_spec", lambda _path: (spec, "digest"))
+    monkeypatch.setattr(
+        preflight, "prepare_accepted_document_run", lambda *args, **kwargs: expected
+    )
+    monkeypatch.setattr(
+        preflight,
+        "_verify_production_contract",
+        lambda *args, **kwargs: pytest.fail("legacy production verification was called"),
+    )
+    monkeypatch.setattr(
+        preflight,
+        "resolve_manifest_source",
+        lambda *args, **kwargs: pytest.fail("legacy PDF source resolution was called"),
+    )
+
+    observed = preflight.prepare_document_run(tmp_path, tmp_path / "run.json", "example")
+
+    assert observed is expected
 
 
 def _prepared_workspace(tmp_path: Path):

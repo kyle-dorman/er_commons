@@ -12,7 +12,6 @@ from er_commons.collection_processing.document_evidence import (
 from er_commons.collection_processing.domain import CollectionHooks
 from er_commons.collection_processing.pipeline import CollectionPipeline
 from er_commons.collection_processing.preflight import prepare_collection_run
-from er_commons.document_publication.outcomes import observe_document_outcome
 
 
 def assemble_collection_handoff(
@@ -20,7 +19,7 @@ def assemble_collection_handoff(
     run_spec_path: Path,
     *,
     document_runner: DocumentRunner | None = None,
-    outcome_observer: OutcomeObserver = observe_document_outcome,
+    outcome_observer: OutcomeObserver | None = None,
     hooks: CollectionHooks | None = None,
 ) -> Path:
     """Verify configuration, collect terminal evidence, and publish the join."""

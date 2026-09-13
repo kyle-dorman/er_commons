@@ -29,6 +29,8 @@ BridgeEvidence = Mapping[str, BridgeSourceEvidence]
 def validate_cross_producer_bridge(
     view: DocumentStructureBundleView,
     evidence_by_key: BridgeEvidence,
+    *,
+    authorized_unbridged_keys: frozenset[str] = frozenset(),
 ) -> None:
     """Require each bridge row to reproduce verified producer evidence exactly."""
     _validate_unique_stable_keys(view.bridge_entries)
@@ -42,7 +44,7 @@ def validate_cross_producer_bridge(
         else:
             _validate_permitted_unmapped_entry(entry)
     _validate_unique_mapped_targets(mapped_targets)
-    _validate_retained_content_coverage(view)
+    _validate_retained_content_coverage(view, authorized_unbridged_keys)
 
 
 def _validate_unique_stable_keys(entries: list[JsonObject]) -> None:
@@ -129,7 +131,9 @@ def _validate_unique_mapped_targets(mapped_targets: list[str]) -> None:
         raise StructureContractError("bridge canonical targets collide")
 
 
-def _validate_retained_content_coverage(view: DocumentStructureBundleView) -> None:
+def _validate_retained_content_coverage(
+    view: DocumentStructureBundleView, authorized_unbridged_keys: frozenset[str]
+) -> None:
     """Require bridge rows for every retained, non-TOC hierarchy item."""
     required_keys = {
         item["stable_item_key"]
@@ -138,13 +142,33 @@ def _validate_retained_content_coverage(view: DocumentStructureBundleView) -> No
     }
     entry_by_key = {entry["stable_item_key"]: entry for entry in view.bridge_entries}
     bridged_keys = set(entry_by_key)
-    missing_keys = sorted(required_keys - bridged_keys)
+    unbridged = {
+        item["stable_item_key"]: item
+        for item in view.content
+        if item.get("stable_item_key") in authorized_unbridged_keys
+    }
+    if set(unbridged) != set(authorized_unbridged_keys):
+        raise StructureContractError("authorized unbridged heading component is absent")
+    for stable_key, item in unbridged.items():
+        if (
+            stable_key in bridged_keys
+            or item.get("record_type") != "block"
+            or item.get("content_layer") != "body"
+            or item.get("semantic_placement") not in {"heading_owner", "heading_component"}
+            or item.get("is_toc_row") is not False
+        ):
+            raise StructureContractError(
+                f"authorized unbridged heading component has invalid state: {stable_key}"
+            )
+    missing_keys = sorted(required_keys - bridged_keys - authorized_unbridged_keys)
     if missing_keys:
         raise StructureContractError(
             f"bridge does not cover retained hierarchy keys: {missing_keys}"
         )
     wrongly_unmapped = sorted(
-        stable_key for stable_key in required_keys if entry_by_key[stable_key]["status"] != "mapped"
+        stable_key
+        for stable_key in required_keys - authorized_unbridged_keys
+        if entry_by_key[stable_key]["status"] != "mapped"
     )
     if wrongly_unmapped:
         raise StructureContractError(
@@ -153,7 +177,7 @@ def _validate_retained_content_coverage(view: DocumentStructureBundleView) -> No
 
     for item in view.content:
         stable_key = item["stable_item_key"]
-        if stable_key is None or item["is_toc_row"]:
+        if stable_key is None or item["is_toc_row"] or stable_key in authorized_unbridged_keys:
             continue
         if entry_by_key[stable_key]["canonical_record_ids"] != [item["id"]]:
             raise StructureContractError(

@@ -5,6 +5,9 @@ from pathlib import Path
 MISSING_CHAPTER_CORRESPONDENCE_SCHEMA_RELATIVE_PATH = Path(
     "benchmarks/er_bench/schemas/task06_recovery/v1/missing_chapter_correspondence.schema.json"
 )
+REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH = Path(
+    "benchmarks/er_bench/schemas/task06_recovery/v1/repeated_heading_correspondence.schema.json"
+)
 
 SEMANTIC_COUNT_FIELDS = frozenset(
     {

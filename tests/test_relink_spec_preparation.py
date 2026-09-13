@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -11,8 +12,35 @@ from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_records.document_references.preparation_spec import RelinkPreparationSpec
 from er_commons.document_records.document_references.spec_preparation import (
     _document_spec,
+    _external_reference,
     _production_identity,
 )
+
+
+def test_oversized_frozen_artifact_reference_uses_metadata_without_rehash(tmp_path: Path) -> None:
+    """Large accepted metadata keeps its frozen digest without a compact-input rehash."""
+    data_root = tmp_path / "data"
+    path = data_root / "scope" / "contract_bundle.json"
+    path.parent.mkdir(parents=True)
+    path.write_text('{"scope_id":"accepted"}\n')
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    budget = VerificationBudget(hash_file_limit=1)
+
+    result = _external_reference(
+        {
+            "authority": "artifact_root",
+            "path": path.relative_to(data_root).as_posix(),
+            "sha256": digest,
+            "byte_size": path.stat().st_size,
+        },
+        repo_root=tmp_path,
+        data_root=data_root,
+        budget=budget,
+    )
+
+    assert result["sha256"] == digest
+    assert budget.hashed_bytes == 0
+    assert all(item["verification_mode"] != "bytes_verified" for item in budget.observations)
 
 
 def _spec(tmp_path: Path) -> RelinkPreparationSpec:

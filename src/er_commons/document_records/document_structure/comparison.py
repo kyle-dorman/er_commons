@@ -54,7 +54,10 @@ def compare_baseline_collections(
             record_ignored = ignored
             if (
                 family == "blocks"
-                and old.get("stable_item_key") in authorized_heading_component_keys
+                and (
+                    old.get("stable_item_key") in authorized_heading_component_keys
+                    or new.get("stable_item_key") in authorized_heading_component_keys
+                )
                 and old.get("content_layer") != new.get("content_layer")
             ):
                 if not (
@@ -74,7 +77,19 @@ def compare_baseline_collections(
             old_value = _normalize(old, baseline_candidate_id, record_ignored)
             new_value = _normalize(new, new_candidate_id, record_ignored)
             if old_value != new_value:
-                differences.append({"family": family, "index": index, "reason": "record_value"})
+                changed_fields = sorted(
+                    key
+                    for key in set(old_value) | set(new_value)
+                    if old_value.get(key) != new_value.get(key)
+                )
+                differences.append(
+                    {
+                        "family": family,
+                        "index": index,
+                        "reason": "record_value",
+                        "changed_fields": changed_fields,
+                    }
+                )
     return {
         "baseline_candidate_id": baseline_candidate_id,
         "new_candidate_id": new_candidate_id,

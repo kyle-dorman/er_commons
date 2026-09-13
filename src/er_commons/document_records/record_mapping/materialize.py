@@ -134,6 +134,7 @@ def _owned_paths(config_path: Path, mapping_policy_path: Path) -> tuple[Path, ..
         / "references.py",
         PROJECT_ROOT / "src" / "er_commons" / "document_parsing" / "content_parsing" / "sources.py",
         PROJECT_ROOT / "src" / "er_commons" / "source_release" / "models.py",
+        PROJECT_ROOT / "src" / "er_commons" / "source_release" / "retained_processing.py",
     )
     return tuple(sorted((*(module_root / name for name in module_names), *shared_dependencies))) + (
         SCHEMA_PATH,

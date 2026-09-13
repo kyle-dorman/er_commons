@@ -5,13 +5,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
+from er_commons.collection_processing.authority_refs import CollectionArtifactResolver
 from er_commons.collection_processing.contract import (
     JsonObject,
     build_record_target_index_id,
-    canonical_sha256,
 )
 from er_commons.collection_processing.document_targets import build_document_targets
 from er_commons.collection_processing.domain import PublishedStage, StageBuild, StageName
+from er_commons.collection_processing.index_identity import build_index_preimage
 from er_commons.collection_processing.storage import (
     bytes_ref,
     inventory_ref,
@@ -34,6 +35,9 @@ class RecordTargetIndexInputs:
     evidence: tuple[DocumentTerminalEvidence, ...]
     ordering_policy_version: str
     target_policy_sha256: str
+    collection_production_id: str | None = None
+    imported_selection_sha256: str | None = None
+    artifact_resolver: CollectionArtifactResolver | None = None
 
 
 class RecordTargetIndexBuilder:
@@ -47,14 +51,16 @@ class RecordTargetIndexBuilder:
         unavailable = [
             self._unavailable(item) for item in inputs.evidence if item.candidate_id is None
         ]
-        entries = self._entries(inputs.evidence, inputs.extraction_root)
-        document_targets = build_document_targets(inputs.evidence, inputs.extraction_root)
+        entries = self._entries(inputs.evidence, inputs.extraction_root, inputs.artifact_resolver)
+        document_targets = build_document_targets(
+            inputs.evidence, inputs.extraction_root, inputs.artifact_resolver
+        )
         semantic_payloads = {
             "unavailable_sources.jsonl": jsonl_bytes(unavailable),
             "target_index.jsonl": jsonl_bytes(entries),
             "document_targets.jsonl": jsonl_bytes(document_targets),
         }
-        preimage = self._identity_preimage(
+        preimage = build_index_preimage(
             inputs,
             eligible,
             semantic_payloads,
@@ -72,7 +78,11 @@ class RecordTargetIndexBuilder:
         }
         completion: JsonObject = {
             "record_type": "record_target_index_completion",
-            "schema_version": "er_commons.record_target_index_completion.v2",
+            "schema_version": (
+                "er_commons.record_target_index_completion.v3"
+                if inputs.collection_production_id is not None
+                else "er_commons.record_target_index_completion.v2"
+            ),
             "index_id": index_id,
             "identity_preimage": preimage,
             "identity_preimage_ref": refs["records/identity_preimage.json"],
@@ -91,34 +101,6 @@ class RecordTargetIndexBuilder:
             "status": "complete",
         }
         return StageBuild(StageName.TARGET_INDEX, index_id, payloads, completion)
-
-    @staticmethod
-    def _identity_preimage(
-        inputs: RecordTargetIndexInputs,
-        eligible: list[JsonObject],
-        payloads: dict[str, bytes],
-        entry_count: int,
-        document_target_count: int,
-    ) -> JsonObject:
-        return {
-            "schema_version": "er_commons.record_target_index_identity.v2",
-            "production_extraction_id": inputs.production_extraction_id,
-            "scope_id": inputs.scope_id,
-            "accounting_sha256": inputs.accounting_stage.completion_ref["sha256"],
-            "eligible_candidates_sha256": canonical_sha256(eligible),
-            "unavailable_sources_sha256": bytes_ref(
-                "unused", payloads["unavailable_sources.jsonl"]
-            )["sha256"],
-            "entries_sha256": bytes_ref("unused", payloads["target_index.jsonl"])["sha256"],
-            "entry_count": entry_count,
-            "document_targets_sha256": bytes_ref("unused", payloads["document_targets.jsonl"])[
-                "sha256"
-            ],
-            "document_target_count": document_target_count,
-            "ordering_policy_version": inputs.ordering_policy_version,
-            "target_policy_sha256": inputs.target_policy_sha256,
-            "managed_inventory_sha256": inventory_ref("unused", payloads)["sha256"],
-        }
 
     @staticmethod
     def _eligible(item: DocumentTerminalEvidence) -> JsonObject:
@@ -157,14 +139,16 @@ class RecordTargetIndexBuilder:
         self,
         evidence: tuple[DocumentTerminalEvidence, ...],
         extraction_root: Path,
+        resolver: CollectionArtifactResolver | None = None,
     ) -> list[JsonObject]:
         entries: list[JsonObject] = []
         seen: set[tuple[str, str]] = set()
         for item in evidence:
             if item.candidate_id is None or item.target_aliases_ref is None:
                 continue
-            target_ids = self._target_ids(item, extraction_root)
-            for alias in read_jsonl(self._absolute(item.target_aliases_ref, extraction_root)):
+            target_ids = self._target_ids(item, extraction_root, resolver)
+            aliases = self._read_jsonl(item.target_aliases_ref, extraction_root, resolver)
+            for alias in aliases:
                 for target in alias.get("targets", []):
                     pair = (alias["id"], target["target_id"])
                     if pair in seen:
@@ -175,11 +159,16 @@ class RecordTargetIndexBuilder:
                     entries.append(self._entry(alias, target, item))
         return sorted(entries, key=self._order_key)
 
-    def _target_ids(self, item: DocumentTerminalEvidence, root: Path) -> set[str]:
+    def _target_ids(
+        self,
+        item: DocumentTerminalEvidence,
+        root: Path,
+        resolver: CollectionArtifactResolver | None = None,
+    ) -> set[str]:
         return {
             record["id"]
             for reference in item.target_records_refs
-            for record in read_jsonl(self._absolute(reference, root))
+            for record in self._read_jsonl(reference, root, resolver)
             if isinstance(record.get("id"), str)
         }
 
@@ -210,3 +199,14 @@ class RecordTargetIndexBuilder:
         if not path.is_relative_to(extraction_root.resolve()):
             raise ValueError("artifact reference escapes extraction root")
         return path
+
+    @classmethod
+    def _read_jsonl(
+        cls,
+        reference: JsonObject,
+        extraction_root: Path,
+        resolver: CollectionArtifactResolver | None,
+    ) -> list[JsonObject]:
+        if resolver is not None and "authority" in reference:
+            return resolver.read_jsonl(reference, expected_authority="document_input_root")
+        return read_jsonl(cls._absolute(reference, extraction_root))

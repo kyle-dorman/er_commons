@@ -24,6 +24,8 @@ from er_commons.document_records.document_structure.config import DocumentStruct
 from er_commons.document_records.record_mapping.config import RecordMappingConfig
 from er_commons.hierarchy_inference.config import HierarchyInferenceConfig
 from er_commons.source_family_catalog import SourceFamilyCatalog
+from er_commons.source_release.models import SourceRole
+from er_commons.source_release.retained_processing import validate_processing_source
 
 from .process_templates import generate_process_configs
 from .production_identity import production_identity
@@ -102,10 +104,19 @@ def _source_records(
         matches = [
             record
             for record in manifests[key].sources
-            if record.source_id == binding.source_id and record.source_role == "model_corpus"
+            if record.source_id == binding.source_id
+            and (
+                record.source_role == SourceRole.MODEL_CORPUS
+                or (
+                    binding.logical_source_id == "deir_appendix_f1"
+                    and binding.substitution_relative_path is not None
+                    and record.source_role == SourceRole.QUALIFIED_SUBSTITUTE
+                )
+            )
         ]
         if len(matches) != 1 or matches[0].sha256 != binding.expected_sha256:
             raise ValueError(f"generation source binding differs: {binding.source_id}")
+        validate_processing_source(spec.data_root, manifests[key], matches[0])
         completion = budget.read_json(
             spec.data_root / binding.source_manifest_path.parent / "completion_record.json",
             root=spec.data_root,

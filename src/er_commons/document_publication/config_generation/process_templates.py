@@ -223,7 +223,7 @@ def _document_structure_config(
             "bounded_acceptance_relative_path": None,
             "bounded_acceptance_policy_relative_path": None,
             "producer_comparison_relative_path": None,
-            "artifact_relative_root": (spec.run_root / "document_records").as_posix(),
+            "artifact_relative_root": (spec.run_root / "document_structure").as_posix(),
         }
     )
     value.pop("expectations", None)
@@ -246,7 +246,7 @@ def _reference_config(
             "upstream_inventory_sha256": ZERO_SHA256,
             "source_id": source_id,
             "candidate_version_name": f"{source_id}_{spec.name_prefix}_cross_references_v3",
-            "artifact_relative_root": (spec.run_root / "document_records").as_posix(),
+            "artifact_relative_root": (spec.run_root / "document_structure").as_posix(),
             "source_manifest_relative_path": binding.source_manifest_path.as_posix(),
             "source_manifest_sha256": manifest_sha256,
             "source_family_catalog_relative_path": spec.catalog_data_relative_path.as_posix(),

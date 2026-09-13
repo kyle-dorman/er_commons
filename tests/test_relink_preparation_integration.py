@@ -25,7 +25,10 @@ from er_commons.document_records.document_references.relinking_config import (
 from er_commons.document_records.document_references.reviewed_navigation import (
     materialize_reviewed_navigation,
 )
-from er_commons.document_records.document_references.spec_preparation import prepare_specs
+from er_commons.document_records.document_references.spec_preparation import (
+    build_specs,
+    prepare_specs,
+)
 
 
 def test_complete_v3_preparation_reloads_and_retries_without_payload_access(tmp_path, monkeypatch):
@@ -139,6 +142,9 @@ def test_complete_v3_preparation_reloads_and_retries_without_payload_access(tmp_
 
     monkeypatch.setattr(artifact_verification, "sha256_file", guarded_hash)
     budget = VerificationBudget()
+    proposed = build_specs(spec, budget=budget)
+    assert len(proposed) == 4
+    assert not any(path.exists() for path in proposed)
     prepare_specs(spec, budget=budget)
     outputs = [
         tmp_path / getattr(spec, field)
@@ -158,6 +164,7 @@ def test_complete_v3_preparation_reloads_and_retries_without_payload_access(tmp_
     assert parsed_collection.source_membership[0].logical_source_id == "deir_appendix_f1"
     assert parsed_link.selected_source_ids == ("alpha",)
     assert parsed_link.documents[0].source_document.candidate_id == completion.parents[1].name
+
     prepare_specs(spec)
     assert all(path.read_bytes() == value for path, value in original.items())
     outputs[1].write_text("corrupted future contract")

@@ -19,6 +19,46 @@ from er_commons.document_records.document_structure.missing_chapters import (
 JsonObject = dict[str, Any]
 
 
+def verify_compact_qualification_packet(root: Path, *, expected_completion_sha256: str) -> None:
+    """Verify completion-last inventory closure before consuming a qualification packet."""
+    completion_path = root / "completion.json"
+    inventory_path = root / "inventory.json"
+    _verify_file(completion_path, expected_completion_sha256)
+    completion = _read_json(completion_path)
+    if completion.get("status") != "complete":
+        raise ValueError(f"qualification packet is not complete: {root}")
+    inventory_sha256 = completion.get("inventory_sha256")
+    if not isinstance(inventory_sha256, str):
+        raise ValueError(f"qualification completion lacks inventory seal: {root}")
+    _verify_file(inventory_path, inventory_sha256)
+    inventory = _read_json(inventory_path)
+    files = inventory.get("files")
+    if not isinstance(files, list):
+        raise ValueError(f"qualification inventory lacks files: {root}")
+    if completion.get("managed_file_count") != len(files):
+        raise ValueError(f"qualification managed-file count differs: {root}")
+    listed_paths: set[str] = set()
+    for item in files:
+        if not isinstance(item, dict):
+            raise ValueError(f"qualification inventory entry differs: {root}")
+        relative = Path(str(item.get("path")))
+        relative_key = relative.as_posix()
+        if relative.is_absolute() or ".." in relative.parts or relative_key in listed_paths:
+            raise ValueError(f"qualification inventory path differs: {relative}")
+        listed_paths.add(relative_key)
+        path = root / relative
+        _verify_file(path, str(item.get("sha256")))
+        if path.stat().st_size != item.get("byte_size"):
+            raise ValueError(f"qualification inventory size differs: {path}")
+    observed_paths = {
+        path.relative_to(root).as_posix()
+        for path in root.rglob("*")
+        if path.is_file() and path.name not in {"completion.json", "inventory.json"}
+    }
+    if observed_paths != listed_paths:
+        raise ValueError(f"qualification managed-file closure differs: {root}")
+
+
 def publish_missing_chapter_qualification(
     output_root: Path,
     *,
@@ -28,6 +68,7 @@ def publish_missing_chapter_qualification(
     schema_ref: JsonObject,
     decision_schema: JsonObject,
     limitations: tuple[str, ...] = (),
+    amendment_ref: JsonObject | None = None,
 ) -> Path:
     """Publish one fresh source-free five-file packet without clobbering evidence."""
     if output_root.exists():
@@ -55,29 +96,29 @@ def publish_missing_chapter_qualification(
         )
         _write_jsonl(staging / "all_decisions.jsonl", records)
         _write_jsonl(staging / "eligible_decisions.jsonl", eligible)
-        _write_json(
-            staging / "qualification.json",
-            {
-                "schema_version": "er_commons.recovery.missing_chapter_qualification.v1",
-                "status": status,
-                "source_ref": source_ref,
-                "policy_ref": policy_ref,
-                "decision_schema_ref": schema_ref,
-                "counts": {
-                    name: sum(item.status == name for item in ordered)
-                    for name in (
-                        "eligible",
-                        "already_present",
-                        "rejected",
-                        "review_required",
-                    )
-                },
-                "limitations": list(limitations),
-                "production_replay_status": "not_executed_task06g_owned",
-                "task06e_acceptance_status": "pending_separate_astra_review",
-                "terminal_replacement_review_status": "pending_task06h",
+        qualification = {
+            "schema_version": "er_commons.recovery.missing_chapter_qualification.v1",
+            "status": status,
+            "source_ref": source_ref,
+            "policy_ref": policy_ref,
+            "decision_schema_ref": schema_ref,
+            "counts": {
+                name: sum(item.status == name for item in ordered)
+                for name in (
+                    "eligible",
+                    "already_present",
+                    "rejected",
+                    "review_required",
+                )
             },
-        )
+            "limitations": list(limitations),
+            "production_replay_status": "not_executed_task06g_owned",
+            "task06e_acceptance_status": "pending_separate_astra_review",
+            "terminal_replacement_review_status": "pending_task06h",
+        }
+        if amendment_ref is not None:
+            qualification["amendment_ref"] = amendment_ref
+        _write_json(staging / "qualification.json", qualification)
         managed = ["all_decisions.jsonl", "eligible_decisions.jsonl", "qualification.json"]
         files = [_file_entry(staging / relative, relative) for relative in managed]
         _write_json(
@@ -141,6 +182,18 @@ def _write_jsonl(path: Path, values: list[JsonObject]) -> None:
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _read_json(path: Path) -> JsonObject:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"expected JSON object: {path}")
+    return value
+
+
+def _verify_file(path: Path, expected_sha256: str) -> None:
+    if not path.is_file() or _sha256(path) != expected_sha256:
+        raise ValueError(f"checksum mismatch: {path}")
 
 
 def _file_entry(path: Path, relative: str) -> JsonObject:

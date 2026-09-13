@@ -8,7 +8,8 @@ from pathlib import Path
 from typing import Any, cast
 
 from er_commons.artifact_io import (
-    artifact_inventory,
+    ArtifactReference,
+    file_reference,
     sha256_file,
     write_json_atomic,
     write_json_atomic_streaming,
@@ -239,7 +240,20 @@ def verify_inventory_for_reuse(
     """Verify closure and small files while trusting sealed digests for large payloads."""
     verify_inventory_metadata(root, inventory)
     for relative, byte_size, expected_sha256 in _validated_inventory_records(inventory):
-        if byte_size > checksum_limit_bytes:
+        if byte_size > checksum_limit_bytes or relative.suffix.lower() in {
+            ".pdf",
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".tif",
+            ".tiff",
+            ".webp",
+            ".pt",
+            ".pth",
+            ".bin",
+            ".safetensors",
+            ".onnx",
+        }:
             continue
         _require(
             "inventory_file_checksum",
@@ -319,16 +333,43 @@ def verify_completed_run(root: Path, producer_run_id: str) -> Path:
     return completion_path
 
 
-def write_inventory(root: Path) -> Path:
-    """Write the non-self-referential completed-run artifact inventory."""
+def write_inventory(
+    root: Path, *, inherited_files: dict[Path, tuple[Path, int, str]] | None = None
+) -> Path:
+    """Seal new bytes once; inherit sealed digests only for unchanged hard links."""
     path = root / "records" / "artifact_inventory.json"
-    payload = artifact_inventory(
-        root,
-        excluded={
-            "records/artifact_inventory.json",
-            "records/completion_record.json",
-        },
-    )
+    excluded = {
+        "records/artifact_inventory.json",
+        "records/completion_record.json",
+    }
+    inherited = inherited_files or {}
+    files: list[ArtifactReference] = []
+    seen: set[Path] = set()
+    for item in sorted(root.rglob("*")):
+        if not item.is_file() or item.relative_to(root).as_posix() in excluded:
+            continue
+        if item in inherited:
+            source, size, digest = inherited[item]
+            if (
+                item.is_symlink()
+                or source.is_symlink()
+                or not item.samefile(source)
+                or (item.stat().st_size != size)
+            ):
+                raise ValueError(f"inherited artifact is not its sealed hard link: {item}")
+            files.append(
+                {"path": item.relative_to(root).as_posix(), "byte_size": size, "sha256": digest}
+            )
+            seen.add(item)
+        else:
+            files.append(file_reference(item, root=root))
+    if seen != set(inherited):
+        raise ValueError("inherited artifact inventory has missing or out-of-root files")
+    payload = {
+        "file_count": len(files),
+        "byte_count": sum(row["byte_size"] for row in files),
+        "files": files,
+    }
     write_json_atomic(path, payload)
     return path
 

@@ -92,6 +92,54 @@ scope, replace a numbered task, or record a completed experiment.
   ([paper](https://arxiv.org/pdf/2412.18424)) and BRIDGE's grounding,
   evidence-coverage, and comparison-error framing
   ([paper](https://arxiv.org/pdf/2603.07931)) provide useful starting points.
+- **General-response claim decomposition and question attribution** — primary
+  tag: [Task 07](sprints/sprint2_brisbane_draft_eir_defense.md#model-assisted-reference-case-authoring);
+  case-level applicability review: [Task 08](sprints/sprint2_brisbane_draft_eir_defense.md#task-08-eligibility-clustering-and-split-boundary);
+  downstream target-generation coordination: [Task 11](sprints/sprint2_brisbane_draft_eir_defense.md#execution-sequence).
+  Consider a future derived stage that takes a human-authored general response,
+  extracts source-faithful asserted claims, and maps each claim to the specific
+  question or subquestion it answers. This is being considered because one
+  general response may be incorporated into several comment-response cases, but
+  not every sentence or claim in that response necessarily applies to every
+  question. A trustworthy per-question answer should therefore be a materialized
+  view of linked claims, not a fresh answer generated from the entire general
+  response.
+
+  Candidate tools and design references:
+
+  - [Claimify](https://www.microsoft.com/en-us/research/blog/claimify-extracting-high-quality-claims-from-language-model-outputs/)
+    for selection, disambiguation, and atomic decomposition; useful for turning
+    human prose into self-contained claims while refusing unresolved ambiguity.
+  - [VeriFact](https://github.com/launchnlp/VeriFact) for dependent-claim
+    detection, self-contained rewriting, and missing temporal or contingency
+    relationships; useful for preserving conditions and qualifiers that a simple
+    fact list could lose.
+  - [OpenFactCheck](https://github.com/mbzuai-nlp/openfactcheck/) for the
+    replaceable claim-processor, retriever, and verifier boundaries; useful as a
+    scaffold if a reusable implementation proves necessary, but not as the
+    owner of the project's response/question schema.
+  - [MiniCheck](https://github.com/Liyan06/MiniCheck) for an optional local
+    claim-versus-document support checker after extraction and routing; it is a
+    checker, not the claim extractor or question-attribution layer.
+  - [RAGChecker](https://github.com/amazon-science/RAGChecker), especially its
+    [paper](https://arxiv.org/pdf/2408.08067), and
+    [Q-CARE](https://github.com/DISL-Lab/Q-CaRE-COLM-26) for claim-level
+    completeness/recall, precision, faithfulness, context utilization, and
+    coverage metrics; use their ideas only after the response-to-question
+    mapping is explicit.
+  - [VeriTrail](https://www.microsoft.com/en-us/research/publication/veritrail-closed-domain-hallucination-detection-with-traceability/)
+    as a provenance design reference for tracing a per-question claim through
+    intermediate response transformations and locating where unsupported content
+    was introduced.
+
+  The likely project-owned contract is a `response_claim_map` containing the
+  original response span, asserted claim, attribution, modality, conditions,
+  question links, and later evidence links. Use `asserted_claims`, not `facts`,
+  until an independent evidence check assigns `supported`, `contradicted`,
+  `insufficient_evidence`, or `ambiguous`. Preserve unassigned claims and
+  explicitly mark questions as fully addressed, partially addressed, or not
+  addressed. Keep this as a future Task 07/08/11 design input; it must not add
+  model assistance to the deterministic Task 05 inventory.
 - For Tasks 06 and 08, review Surge AI's [GDP.pdf paper](https://arxiv.org/abs/2607.11192),
   [dataset card](https://huggingface.co/datasets/surgeai/GDP.pdf), and
   [evaluation harness](https://github.com/surge-ai/gdp-pdf) as design references

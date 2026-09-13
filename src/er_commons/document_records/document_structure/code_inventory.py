@@ -108,12 +108,27 @@ def owned_code_paths(project_root: Path, config_path: Path) -> tuple[Path, ...]:
                 (package / "repeated_heading_policy.py").resolve(),
                 (package / "repeated_heading_projection.py").resolve(),
                 (package / "repeated_heading_qualification.py").resolve(),
-                (project_root / "docs/specs/repeated_heading_repair_v1.md").resolve(),
+                (package / "repeated_heading_correspondence.py").resolve(),
+                (
+                    project_root
+                    / config_value.get(
+                        "repeated_heading_policy_relative_path",
+                        "docs/specs/repeated_heading_repair_v1.md",
+                    )
+                ).resolve(),
+                (
+                    project_root
+                    / config_value.get(
+                        "repeated_heading_decision_schema_relative_path",
+                        "benchmarks/er_bench/schemas/task06_recovery/v1/"
+                        "repeated_heading_decision.schema.json",
+                    )
+                ).resolve(),
                 (
                     project_root
                     / (
                         "benchmarks/er_bench/schemas/task06_recovery/v1/"
-                        "repeated_heading_decision.schema.json"
+                        "repeated_heading_correspondence.schema.json"
                     )
                 ).resolve(),
             }

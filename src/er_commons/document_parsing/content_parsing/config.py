@@ -81,6 +81,8 @@ class ContentParsingConfig(BaseModel):
     table_detection: DetectionConfig
     table_cleanup: CleanupConfig
     learned_table_fallback: LearnedFallbackConfig = Field(default_factory=LearnedFallbackConfig)
+    accepted_conversion_relative_root: Path | None = None
+    accepted_conversion_id: str | None = Field(default=None, pattern=r"^dconv1-[0-9a-f]{64}$")
 
     @property
     def source_manifest_path(self) -> Path:
@@ -97,6 +99,13 @@ class ContentParsingConfig(BaseModel):
         ):
             if path.is_absolute() or ".." in path.parts:
                 raise ValueError("producer paths must be contained relative paths")
+        accepted_root = self.accepted_conversion_relative_root
+        if (accepted_root is None) != (self.accepted_conversion_id is None):
+            raise ValueError("accepted conversion root and ID must be selected together")
+        if accepted_root is not None and (
+            accepted_root.is_absolute() or ".." in accepted_root.parts
+        ):
+            raise ValueError("accepted conversion root must be a contained relative path")
         hierarchy_enabled = self.heading_hierarchy_options is not None
         hierarchy_policy = self.producer_policy_version.startswith("task03e-v1")
         hierarchy_identity = "heading_hierarchy" in self.configuration_id

@@ -16,6 +16,7 @@ from er_commons.document_parsing.content_parsing.records import (
     PageRouteRecord,
     ProducerSummary,
 )
+from er_commons.document_records.record_mapping import candidate_identity as identity_module
 from er_commons.document_records.record_mapping.config import (
     RecordMappingConfig,
     load_record_mapping_config,
@@ -257,6 +258,130 @@ def test_checked_config_freezes_the_approved_non_release_scope() -> None:
     assert len(digest) == 64
     assert config.candidate_scope == "document_scoped_non_release"
     assert config.acceptance_profile == "generic_complete_document"
+
+
+def test_selected_source_accepts_only_verified_qualified_substitute(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config, _ = load_record_mapping_config(CONFIG_PATH)
+    selected = config.ordered_materialization_scope[0]
+    source = SourceRecord.model_construct(
+        source_id=selected.source_id,
+        source_role=SourceRole.QUALIFIED_SUBSTITUTE,
+        sha256=selected.source_sha256,
+        pdf_page_count=selected.pdf_page_count,
+    )
+    manifest = SourceManifest.model_construct(
+        source_release_version=config.source_release_version,
+        sources=[source],
+    )
+    verified: list[tuple[Path, SourceManifest, SourceRecord]] = []
+    monkeypatch.setattr(
+        input_module,
+        "validate_processing_source",
+        lambda root, sealed, record: verified.append((root, sealed, record)) or True,
+    )
+
+    assert input_module._verify_selected_source(tmp_path, config, manifest) == source
+    assert verified == [(tmp_path, manifest, source)]
+
+
+def test_selected_source_propagates_qualified_substitute_verification_failure(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config, _ = load_record_mapping_config(CONFIG_PATH)
+    selected = config.ordered_materialization_scope[0]
+    source = SourceRecord.model_construct(
+        source_id=selected.source_id,
+        source_role=SourceRole.QUALIFIED_SUBSTITUTE,
+        sha256=selected.source_sha256,
+        pdf_page_count=selected.pdf_page_count,
+    )
+    manifest = SourceManifest.model_construct(
+        source_release_version=config.source_release_version,
+        sources=[source],
+    )
+
+    def reject(*_args: object) -> bool:
+        raise ValueError("qualified processing evidence changed")
+
+    monkeypatch.setattr(input_module, "validate_processing_source", reject)
+    with pytest.raises(ValueError, match="qualified processing evidence changed"):
+        input_module._verify_selected_source(tmp_path, config, manifest)
+
+
+def test_selected_source_rejects_unqualified_non_corpus_role(tmp_path: Path) -> None:
+    config, _ = load_record_mapping_config(CONFIG_PATH)
+    selected = config.ordered_materialization_scope[0]
+    source = SourceRecord.model_construct(
+        source_id=selected.source_id,
+        source_role=SourceRole.CURATOR_ONLY_RESPONSE_SOURCE,
+        sha256=selected.source_sha256,
+        pdf_page_count=selected.pdf_page_count,
+    )
+    manifest = SourceManifest.model_construct(
+        source_release_version=config.source_release_version,
+        sources=[source],
+    )
+
+    with pytest.raises(ValueError, match="not model_corpus or a qualified substitute"):
+        input_module._verify_selected_source(tmp_path, config, manifest)
+
+
+@pytest.mark.parametrize(
+    ("role", "expected_source_ids"),
+    [
+        (SourceRole.MODEL_CORPUS, ["selected", "other"]),
+        (SourceRole.QUALIFIED_SUBSTITUTE, ["selected"]),
+    ],
+)
+def test_source_release_identity_keeps_selected_qualified_member(
+    role: SourceRole,
+    expected_source_ids: list[str],
+) -> None:
+    selected = SourceRecord.model_construct(
+        source_id="selected",
+        source_role=role,
+        sha256="1" * 64,
+        pdf_page_count=756,
+    )
+    other = SourceRecord.model_construct(
+        source_id="other",
+        source_role=SourceRole.MODEL_CORPUS,
+        sha256="2" * 64,
+        pdf_page_count=2,
+    )
+    config = type(
+        "Config",
+        (),
+        {
+            "source_release_version": "fixture-release",
+            "source_manifest_relative_path": Path("records/source_manifest.json"),
+        },
+    )()
+    inputs = type(
+        "Inputs",
+        (),
+        {
+            "selected_source": selected,
+            "sealed_manifest": SourceManifest.model_construct(sources=[selected, other]),
+            "producer_completion_record": type(
+                "Completion", (), {"source_manifest_sha256": "3" * 64}
+            )(),
+        },
+    )()
+    producer = {
+        "sealed_release": {
+            "completion_record_path": "records/completion_record.json",
+            "completion_record_sha256": "4" * 64,
+        }
+    }
+
+    identity = identity_module._source_release_identity(config, inputs, producer)  # type: ignore[arg-type]
+
+    assert [row["source_id"] for row in identity["ordered_model_corpus"]] == (expected_source_ids)
 
 
 def test_jsonl_loaders_report_artifact_and_line_context(tmp_path: Path) -> None:

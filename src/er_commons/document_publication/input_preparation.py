@@ -8,10 +8,12 @@ from typing import Any, cast
 
 from er_commons.artifact_io import assert_contained, write_json_atomic
 from er_commons.artifact_verification import VerificationBudget
+from er_commons.authority_reference import authority_root_for_path
 from er_commons.collection_processing.config import CollectionRunSpec
 from er_commons.collection_processing.preflight import prepare_collection_run
 from er_commons.document_publication.accepted_inputs import (
     PreparedPublicationInputs,
+    _production_identity_path,
     capture_verified_stamps,
     prepare_publication_inputs,
 )
@@ -19,6 +21,7 @@ from er_commons.document_publication.fresh_preflight import validate_fresh_build
 from er_commons.document_publication.process_inputs import (
     ProcessConfigs,
     verify_process_resource_contract,
+    verify_reused_completion_inputs,
 )
 from er_commons.source_family_catalog import SourceFamilyCatalog
 
@@ -51,23 +54,28 @@ def prepare_document_inputs(request: InputPreparationRequest) -> Path:
     expected_root = root / prepared.spec.artifact_relative_root.parent
     if output != expected_root.resolve():
         raise ValueError("preparation output root differs from document namespace")
+    collection_authority = _authority_root(
+        request.collection_spec, repository_root=request.repository_root, data_root=root
+    )
     collection = CollectionRunSpec.model_validate(
         budget.read_json(
             request.collection_spec,
-            root=request.repository_root,
+            root=collection_authority,
             role="config",
             source_id="preparation",
         )
     )
     collection_digest = budget.hash_file(
         request.collection_spec,
-        root=request.repository_root,
+        root=collection_authority,
         role="config",
         source_id="preparation",
     )
-    if (
-        request.collection_spec.parent / collection.document_run_spec
-    ).resolve() != request.document_spec.resolve():
+    document_run_spec = collection.document_run_spec
+    if document_run_spec is None:
+        raise ValueError("document input preparation requires a document run specification")
+    selected_document_spec = (request.collection_spec.parent / document_run_spec).resolve()
+    if selected_document_spec != request.document_spec.resolve():
         raise ValueError("collection selects another document specification")
     if list(collection.source_ids) != list(prepared.sources):
         raise ValueError("document and collection source scopes differ")
@@ -97,6 +105,15 @@ def prepare_document_inputs(request: InputPreparationRequest) -> Path:
     return report_path
 
 
+def _authority_root(path: Path, *, repository_root: Path, data_root: Path) -> Path:
+    """Select one of the two declared spec authorities without external discovery."""
+    resolved = path.resolve()
+    for root in (data_root.resolve(), repository_root.resolve()):
+        if resolved.is_relative_to(root):
+            return root
+    raise ValueError(f"run specification is outside repository and artifact roots: {path}")
+
+
 def _validate_process_configs(
     prepared: PreparedPublicationInputs, run_root: Path, budget: VerificationBudget
 ) -> list[dict[str, Any]]:
@@ -104,6 +121,7 @@ def _validate_process_configs(
     refs: list[dict[str, Any]] = []
     seen: set[Path] = set()
     for selection in prepared.spec.document_processes:
+        verify_reused_completion_inputs(prepared, selection.source_id, budget)
         paths = {
             role: assert_contained(prepared.repository_root, path.as_posix())
             for role, path in selection.configs.model_dump().items()
@@ -121,14 +139,20 @@ def _validate_process_configs(
             _require_source_config(value, selection.source_id, source_digest, role)
             assert isinstance(value, dict)
             parsed_values[role] = value
+        fresh_build = selection.lineage_mode == "fresh_build"
         validate_fresh_build_templates(
             configs=configs,
             source_id=selection.source_id,
             disposition=prepared.spec.hierarchy_disposition(selection.source_id),
             data_root=prepared.data_root,
-            declared_artifact_root=run_root,
+            declared_artifact_root=run_root if fresh_build else None,
             recorded_manifest_digest=_manifest_digest(prepared, selection.source_id, budget),
             parsed_values=parsed_values,
+            reused_roles=(
+                set(selection.reused_completions.selected())
+                if fresh_build and selection.reused_completions is not None
+                else None
+            ),
         )
         verify_process_resource_contract(configs, prepared.spec, parsed_values=parsed_values)
         refs.extend(
@@ -192,9 +216,20 @@ def _catalog_input(
     prepared: PreparedPublicationInputs, relative: Path, budget: VerificationBudget
 ) -> tuple[Path, bytes]:
     """Locate the declared catalog among already-verified recipe artifacts."""
+    identity_path = _production_identity_path(
+        prepared.spec,
+        repository_root=prepared.repository_root,
+        data_root=prepared.data_root,
+        budget=budget,
+    )
+    identity_root = authority_root_for_path(
+        identity_path,
+        repository_root=prepared.repository_root,
+        artifact_root=prepared.data_root,
+    )
     identity = budget.read_json(
-        prepared.repository_root / prepared.spec.production_identity_relative_path,
-        root=prepared.repository_root,
+        identity_path,
+        root=identity_root,
         role="identity_preimage",
         source_id="preparation",
     )
@@ -258,12 +293,7 @@ def _readiness(
         "schema_version": "er_commons.task03h_preparation_readiness.v1",
         "status": "ready_for_user_authorized_clean_run",
         "production_extraction_id": prepared.spec.production_extraction_id,
-        "production_identity_sha256": budget.hash_file(
-            prepared.repository_root / prepared.spec.production_identity_relative_path,
-            root=prepared.repository_root,
-            role="identity_preimage",
-            source_id="preparation",
-        ),
+        "production_identity_sha256": _production_identity_digest(prepared, budget),
         "document_run_spec_sha256": prepared.spec_sha256,
         "collection_run_spec_sha256": collection_digest,
         "source_scope": {
@@ -292,3 +322,19 @@ def _readiness(
         "producer_identity_derivation_run": False,
         "execution_boundary": "source/model execution not run",
     }
+
+
+def _production_identity_digest(
+    prepared: PreparedPublicationInputs, budget: VerificationBudget
+) -> str:
+    """Hash a production identity beneath its declared repository or artifact authority."""
+    path = _production_identity_path(
+        prepared.spec,
+        repository_root=prepared.repository_root,
+        data_root=prepared.data_root,
+        budget=budget,
+    )
+    root = authority_root_for_path(
+        path, repository_root=prepared.repository_root, artifact_root=prepared.data_root
+    )
+    return budget.hash_file(path, root=root, role="identity_preimage", source_id="preparation")

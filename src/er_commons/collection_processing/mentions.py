@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
+from er_commons.collection_processing.authority_refs import CollectionArtifactResolver
 from er_commons.collection_processing.contract import JsonObject, canonical_sha256
 from er_commons.collection_processing.storage import read_jsonl
 from er_commons.document_publication.published_document import DocumentTerminalEvidence
@@ -48,10 +49,12 @@ class MentionManifestBuilder:
         extraction_root: Path,
         catalog: SourceFamilyCatalog,
         catalog_sha256: str,
+        artifact_resolver: CollectionArtifactResolver | None = None,
     ) -> None:
         self._extraction_root = extraction_root
         self._catalog = catalog
         self._catalog_sha256 = catalog_sha256
+        self._artifact_resolver = artifact_resolver
 
     def build(self, evidence: tuple[DocumentTerminalEvidence, ...]) -> MentionManifest:
         """Cover every successful candidate, including zero-mention candidates."""
@@ -73,10 +76,16 @@ class MentionManifestBuilder:
             or item.candidate_id is None
         ):
             raise ValueError("successful evidence lacks mention inputs")
-        path = self._extraction_root / str(item.cross_references_ref["path"])
+        records = (
+            self._artifact_resolver.read_jsonl(
+                item.cross_references_ref, expected_authority="document_input_root"
+            )
+            if self._artifact_resolver is not None and "authority" in item.cross_references_ref
+            else read_jsonl(self._extraction_root / str(item.cross_references_ref["path"]))
+        )
         eligible = [
             self._eligible_record(row, source_id=str(item.source["source_id"]))
-            for row in read_jsonl(path)
+            for row in records
             if row.get("resolution_status") == "unresolved"
             and row.get("unresolved_reason") == "deferred_cross_document"
         ]

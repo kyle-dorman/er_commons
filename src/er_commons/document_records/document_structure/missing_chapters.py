@@ -13,6 +13,7 @@ from er_commons.document_records.document_structure.missing_chapter_projection i
     MissingChapterProjection,
     build_missing_chapter_alias_seeds,
     build_missing_chapter_correspondence,
+    prefer_missing_chapter_alias_evidence,
     project_missing_chapter_decisions,
 )
 
@@ -27,5 +28,6 @@ __all__ = [
     "MissingChapterProjection",
     "build_missing_chapter_alias_seeds",
     "build_missing_chapter_correspondence",
+    "prefer_missing_chapter_alias_evidence",
     "project_missing_chapter_decisions",
 ]

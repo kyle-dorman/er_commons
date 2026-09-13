@@ -292,6 +292,70 @@ def test_strict_quality_gate_records_observed_sections_without_reviewed_count(
     )
 
 
+def test_recovered_component_keeps_existing_bridge_out_of_exception_set(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Only promoted recovered components lacking producer evidence bypass bridge coverage."""
+    schema_path = tmp_path / "schema.json"
+    write_json(schema_path, {})
+    stable_key = "c" * 64
+    block_id = CANDIDATE_ID + "/block/deir_main/blk000001"
+    observed: list[frozenset[str]] = []
+    monkeypatch.setattr(
+        sealing,
+        "Draft202012Validator",
+        lambda _schema: SimpleNamespace(validate=lambda _bundle: None),
+    )
+    monkeypatch.setattr(sealing, "document_structure_validation_bundle", lambda **_kwargs: {})
+    monkeypatch.setattr(
+        sealing,
+        "validate_document_structure_contract",
+        lambda _bundle, **kwargs: observed.append(kwargs["authorized_unbridged_keys"]),
+    )
+    from er_commons.document_records.document_structure import missing_chapter_correspondence
+
+    monkeypatch.setattr(
+        missing_chapter_correspondence,
+        "validate_missing_chapter_correspondence",
+        lambda *_args, **_kwargs: None,
+    )
+    build = SimpleNamespace(
+        collections={
+            "pages": [],
+            "sections": [],
+            "blocks": [{"id": block_id, "stable_item_key": stable_key}],
+            "tables": [],
+            "figures": [],
+        },
+        page_label_observations=[],
+        bridge_evidence={stable_key: object()},
+        missing_chapter_correspondence=[{"retained_heading_block_ids": [block_id]}],
+    )
+    inputs = DocumentStructureSealingInputs(
+        project_root=tmp_path,
+        identity={"semantic_contract": {"missing_chapter_repair": {"decisions": {}}}},
+        baseline_root=tmp_path,
+        baseline_candidate_id="exv1-" + "b" * 64,
+        baseline_producer_run_id="prv1-baseline",
+        hierarchy_producer_run_id="prv1-hierarchy",
+        control={"physical_page_count": 0},
+        inherited_warnings=[],
+        expectations=None,
+        source_semantic_disposition="strict_quality_gate",
+        semantic_schema_path=schema_path,
+    )
+
+    sealing._validate_semantic_contract(  # type: ignore[arg-type]
+        build, SimpleNamespace(correspondence={}), inputs
+    )
+    build.bridge_evidence = {}
+    sealing._validate_semantic_contract(  # type: ignore[arg-type]
+        build, SimpleNamespace(correspondence={}), inputs
+    )
+
+    assert observed == [frozenset(), frozenset({stable_key})]
+
+
 def _context(tmp_path: Path) -> RuntimeContext:
     task_root = tmp_path / "task"
     return cast(

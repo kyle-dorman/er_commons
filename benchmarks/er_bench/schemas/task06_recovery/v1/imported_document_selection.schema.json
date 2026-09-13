@@ -1,0 +1,204 @@
+{
+  "$defs": {
+    "CollectionArtifactReference": {
+      "additionalProperties": false,
+      "description": "One exact file reference beneath a named collection authority.",
+      "properties": {
+        "authority": {
+          "enum": [
+            "document_input_root",
+            "collection_output_root"
+          ],
+          "title": "Authority",
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "byte_size": {
+          "minimum": 0,
+          "title": "Byte Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "authority",
+        "path",
+        "sha256",
+        "byte_size"
+      ],
+      "title": "CollectionArtifactReference",
+      "type": "object"
+    },
+    "SelectedDocumentCandidate": {
+      "additionalProperties": false,
+      "description": "Exact original evidence for one retained downstream-replay candidate.",
+      "properties": {
+        "source_ordinal": {
+          "minimum": 1,
+          "title": "Source Ordinal",
+          "type": "integer"
+        },
+        "logical_source_id": {
+          "minLength": 1,
+          "title": "Logical Source Id",
+          "type": "string"
+        },
+        "physical_source_id": {
+          "minLength": 1,
+          "title": "Physical Source Id",
+          "type": "string"
+        },
+        "source_identity": {
+          "$ref": "#/$defs/SourceIdentity"
+        },
+        "candidate_id": {
+          "pattern": "^docv1-[0-9a-f]{64}$",
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "candidate_root": {
+          "minLength": 1,
+          "title": "Candidate Root",
+          "type": "string"
+        },
+        "document_identity_ref": {
+          "$ref": "#/$defs/CollectionArtifactReference"
+        },
+        "document_completion_ref": {
+          "$ref": "#/$defs/CollectionArtifactReference"
+        },
+        "candidate_inventory_ref": {
+          "$ref": "#/$defs/CollectionArtifactReference"
+        },
+        "downstream_replay_ref": {
+          "$ref": "#/$defs/CollectionArtifactReference"
+        },
+        "linked_candidate_id": {
+          "pattern": "^exv1-[0-9a-f]{64}$",
+          "title": "Linked Candidate Id",
+          "type": "string"
+        },
+        "linked_candidate_root": {
+          "minLength": 1,
+          "title": "Linked Candidate Root",
+          "type": "string"
+        },
+        "linked_identity_ref": {
+          "$ref": "#/$defs/CollectionArtifactReference"
+        },
+        "linked_completion_ref": {
+          "$ref": "#/$defs/CollectionArtifactReference"
+        },
+        "linked_inventory_ref": {
+          "$ref": "#/$defs/CollectionArtifactReference"
+        }
+      },
+      "required": [
+        "source_ordinal",
+        "logical_source_id",
+        "physical_source_id",
+        "source_identity",
+        "candidate_id",
+        "candidate_root",
+        "document_identity_ref",
+        "document_completion_ref",
+        "candidate_inventory_ref",
+        "downstream_replay_ref",
+        "linked_candidate_id",
+        "linked_candidate_root",
+        "linked_identity_ref",
+        "linked_completion_ref",
+        "linked_inventory_ref"
+      ],
+      "title": "SelectedDocumentCandidate",
+      "type": "object"
+    },
+    "SourceIdentity": {
+      "additionalProperties": false,
+      "description": "Manifest-derived source identity used in completion records.",
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "pdf_page_count": {
+          "exclusiveMinimum": 0,
+          "title": "Pdf Page Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_id",
+        "sha256",
+        "pdf_page_count"
+      ],
+      "title": "SourceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One ordered, sealed set of original candidates imported document candidates.",
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.imported_document_selection.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "document_input_root_relative_path": {
+      "minLength": 1,
+      "title": "Document Input Root Relative Path",
+      "type": "string"
+    },
+    "document_production_identity_ref": {
+      "$ref": "#/$defs/CollectionArtifactReference"
+    },
+    "document_run_spec_ref": {
+      "$ref": "#/$defs/CollectionArtifactReference"
+    },
+    "source_count": {
+      "minimum": 1,
+      "title": "Source Count",
+      "type": "integer"
+    },
+    "ordered_source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Ordered Source Ids",
+      "type": "array"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/SelectedDocumentCandidate"
+      },
+      "minItems": 1,
+      "title": "Candidates",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "document_input_root_relative_path",
+    "document_production_identity_ref",
+    "document_run_spec_ref",
+    "source_count",
+    "ordered_source_ids",
+    "candidates"
+  ],
+  "title": "ImportedDocumentSelection",
+  "type": "object"
+}

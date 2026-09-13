@@ -14,6 +14,7 @@ from er_commons.document_records.document_structure.baseline import BASELINE_COL
 from er_commons.document_records.document_structure.config import DocumentStructureExpectations
 from er_commons.document_records.document_structure.constants import (
     MISSING_CHAPTER_CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
+    REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
 )
 from er_commons.document_records.document_structure.construction import DocumentStructureBuild
 from er_commons.document_records.document_structure.errors import (
@@ -21,6 +22,7 @@ from er_commons.document_records.document_structure.errors import (
 )
 from er_commons.document_records.document_structure.support import (
     MISSING_CHAPTER_CORRESPONDENCE_PATH,
+    REPEATED_HEADING_CORRESPONDENCE_PATH,
     SUPPORT_PATHS,
     CandidateSupport,
     document_structure_validation_bundle,
@@ -82,7 +84,7 @@ def validate_serialize_and_seal(
     _validate_semantic_contract(build, support, inputs)
     write_json(root / "records" / "extraction_identity.json", inputs.identity)
     record_files = _write_record_families(root, build)
-    support_files = _write_support_files(root, support, build)
+    support_files = _write_support_files(root, support, build, inputs.identity)
     manifest = _manifest(
         build=build,
         identity=inputs.identity,
@@ -116,6 +118,8 @@ def validate_serialize_and_seal(
             "source_semantic_disposition": inputs.source_semantic_disposition,
             "artifact_inventory_sha256": sha256_file(inventory_path),
             "support_files_verified": True,
+            "repeated_heading_correspondence_count": len(build.repeated_heading_correspondence),
+            "missing_chapter_correspondence_count": len(build.missing_chapter_correspondence),
             "undeclared_difference_count": 0,
         },
     )
@@ -142,7 +146,40 @@ def _validate_semantic_contract(
     )
     schema = json.loads(inputs.semantic_schema_path.read_bytes())
     Draft202012Validator(schema).validate(bundle)
-    validate_document_structure_contract(bundle, bridge_evidence=build.bridge_evidence)
+    recovered_component_keys = frozenset(
+        str(item["stable_item_key"])
+        for record in getattr(build, "missing_chapter_correspondence", [])
+        for block_id in record["retained_heading_block_ids"]
+        for item in build.collections.get("blocks", [])
+        if item["id"] == block_id
+    )
+    authorized_unbridged_keys = recovered_component_keys - set(build.bridge_evidence)
+    validate_document_structure_contract(
+        bundle,
+        bridge_evidence=build.bridge_evidence,
+        authorized_unbridged_keys=authorized_unbridged_keys,
+    )
+    if getattr(build, "repeated_heading_correspondence", None):
+        from er_commons.document_records.document_structure.repeated_heading_correspondence import (
+            validate_repeated_heading_correspondence,
+        )
+
+        validate_repeated_heading_correspondence(
+            _repeated_heading_correspondence_payload(build, inputs.identity),
+            schema_path=(
+                inputs.project_root / REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH
+            ),
+            candidate_id=str(inputs.identity["extraction_id"]),
+            expected_decision_ref=inputs.identity["semantic_contract"]["repeated_heading_repair"][
+                "decisions"
+            ],
+            sections=build.collections["sections"],
+            content=[
+                item
+                for family in ("blocks", "tables", "figures")
+                for item in build.collections[family]
+            ],
+        )
     if getattr(build, "missing_chapter_correspondence", None):
         from er_commons.document_records.document_structure.missing_chapter_correspondence import (
             validate_missing_chapter_correspondence,
@@ -211,7 +248,10 @@ def _records_for_family(build: DocumentStructureBuild, family: str) -> list[Json
 
 
 def _write_support_files(
-    root: Path, support: CandidateSupport, build: DocumentStructureBuild
+    root: Path,
+    support: CandidateSupport,
+    build: DocumentStructureBuild,
+    identity: JsonObject,
 ) -> list[JsonObject]:
     files = []
     for role, relative_path in SUPPORT_PATHS.items():
@@ -222,6 +262,17 @@ def _write_support_files(
                 "path": relative_path,
                 "sha256": sha256_file(root / relative_path),
                 "schema_version": "2.0.0",
+            }
+        )
+    if build.repeated_heading_correspondence:
+        payload = _repeated_heading_correspondence_payload(build, identity)
+        write_json(root / REPEATED_HEADING_CORRESPONDENCE_PATH, payload)
+        files.append(
+            {
+                "role": "repeated_heading_correspondence",
+                "path": REPEATED_HEADING_CORRESPONDENCE_PATH,
+                "sha256": sha256_file(root / REPEATED_HEADING_CORRESPONDENCE_PATH),
+                "schema_version": "1.0.0",
             }
         )
     if build.missing_chapter_correspondence:
@@ -236,6 +287,21 @@ def _write_support_files(
             }
         )
     return files
+
+
+def _repeated_heading_correspondence_payload(
+    build: DocumentStructureBuild, identity: JsonObject
+) -> JsonObject:
+    """Wrap repeated-heading records with candidate and decision identity."""
+    semantic_contract = identity.get("semantic_contract", {})
+    repeated_contract = semantic_contract.get("repeated_heading_repair", {})
+    decision_ref = repeated_contract.get("decisions", {})
+    return {
+        "schema_version": "er_commons.recovery.repeated_heading_correspondence.v1",
+        "candidate_id": identity.get("extraction_id", ""),
+        "decision_ref": decision_ref,
+        "records": build.repeated_heading_correspondence,
+    }
 
 
 def _missing_chapter_correspondence_payload(build: DocumentStructureBuild) -> JsonObject:
@@ -301,6 +367,7 @@ def _summary(
             "target_aliases": len(build.target_aliases),
             "clean_table_cells": sum(len(item["cells"]) for item in build.collections["tables"]),
             "bridge_entries": len(build.bridge_entries),
+            "repeated_heading_correspondence": len(build.repeated_heading_correspondence),
             "missing_chapter_correspondence": len(build.missing_chapter_correspondence),
         },
         "source_semantic_disposition": source_semantic_disposition,

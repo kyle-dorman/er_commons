@@ -16,6 +16,7 @@ def test_single_build_runs_each_semantic_stage_once_in_fixed_order(monkeypatch: 
         alignment_pages={1: object(), 2: object()},
         document={},
         selected_source=SimpleNamespace(source_path=Path("source.pdf")),
+        source_observation_mode="source_pdf",
     )
 
     def operation(name: str, result: object) -> Any:
@@ -126,3 +127,33 @@ def test_single_build_runs_each_semantic_stage_once_in_fixed_order(monkeypatch: 
     }
     assert result.semantic.features == (feature,)
     assert result.peak_rss_bytes == 123
+
+
+def test_producer_evidence_only_mode_never_reads_source_pdf(monkeypatch: Any) -> None:
+    feature = {"stable_item_key": "a" * 64}
+    inputs = SimpleNamespace(
+        alignment_pages={1: object()},
+        document={},
+        selected_source=SimpleNamespace(source_path=Path("forbidden.pdf")),
+        source_observation_mode="producer_evidence_only",
+    )
+    runner = single_build.SemanticStageRunner(inputs)
+    monkeypatch.setattr(single_build, "build_feature_seeds", lambda *_args: [feature])
+    monkeypatch.setattr(single_build, "apply_outline_observations", lambda features, _: features)
+    monkeypatch.setattr(
+        single_build,
+        "read_pdf_observations",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(AssertionError("PDF opened")),
+    )
+    monkeypatch.setattr(
+        single_build,
+        "read_native_heading_observations",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(AssertionError("PDF opened")),
+    )
+
+    observations = runner._outline_observations([feature])
+    features, native = runner._outline_overlay([feature], observations.outline_observations)
+
+    assert observations == single_build.PdfObservations((), {}, ())
+    assert features == [feature]
+    assert native == {}

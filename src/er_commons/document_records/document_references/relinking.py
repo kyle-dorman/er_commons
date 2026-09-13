@@ -14,7 +14,7 @@ from collections import Counter
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from er_commons.document_records.document_references.construction import (
     CROSS_REFERENCE_PATH,
@@ -107,6 +107,44 @@ class NavigationInputs:
             relations=tuple(remapper.value(row) for row in self.relations),
         )
 
+    def remap_source_record_namespaces(
+        self, source_id: str, target_candidate_id: str
+    ) -> NavigationInputs:
+        """Rebind reviewed source-local record IDs while retaining stable navigation IDs."""
+        record_types = {
+            "asset",
+            "block",
+            "document",
+            "figure",
+            "page",
+            "section",
+            "table",
+            "target-alias",
+        }
+
+        def remap(value: object) -> object:
+            if isinstance(value, str):
+                _, separator, local = value.partition("/")
+                parts = local.split("/")
+                if (
+                    separator
+                    and len(parts) >= 3
+                    and parts[0] in record_types
+                    and parts[1] == source_id
+                ):
+                    return f"{target_candidate_id}/{local}"
+                return value
+            if isinstance(value, list):
+                return [remap(item) for item in value]
+            if isinstance(value, dict):
+                return {key: remap(item) for key, item in value.items()}
+            return value
+
+        return NavigationInputs(
+            entries=tuple(cast(JsonObject, remap(row)) for row in self.entries),
+            relations=tuple(cast(JsonObject, remap(row)) for row in self.relations),
+        )
+
     @classmethod
     def from_machine_records(
         cls, records: Mapping[str, list[JsonObject]], *, source_id: str
@@ -188,6 +226,7 @@ class DocumentRelinkBuilder:
         source_family_catalog: SourceFamilyCatalog,
         source_family_catalog_sha256: str,
         navigation: NavigationInputs | None = None,
+        figure_aliases_enabled: bool | None = None,
     ) -> None:
         self._source = source
         self._upstream_id = upstream_candidate_id
@@ -198,15 +237,21 @@ class DocumentRelinkBuilder:
         self._catalog = source_family_catalog
         self._catalog_sha256 = source_family_catalog_sha256
         self._navigation = navigation or NavigationInputs()
+        self._figure_aliases_enabled = figure_aliases_enabled
         self._remapper = NamespaceRemapper(upstream_candidate_id, candidate_id)
 
     def build(self) -> RelinkBuild:
         """Build deterministic records without writing an artifact."""
-        figure_inputs = self._figure_validation_inputs()
+        figure_aliases_enabled = self._linking_policy.figure_caption_aliases_enabled and (
+            self._figure_aliases_enabled is not False
+        )
+        figure_inputs = self._figure_validation_inputs(
+            figure_aliases_enabled=figure_aliases_enabled
+        )
         index, replayed_v3_table_alias_count, figure_qualification = self._target_index(
             figure_inputs
         )
-        preserved = self._preserved_records()
+        preserved = self._preserved_records(in_place=figure_inputs is None)
         index_payload = index.support_payload()
         if figure_qualification is not None:
             index_payload["schema_version"] = "er_commons.cross_reference_target_index.v4"
@@ -214,7 +259,10 @@ class DocumentRelinkBuilder:
                 sorted(Counter(str(alias["alias_origin"]) for alias in index.aliases).items())
             )
         ordinary = self._ordinary_references(
-            index, serialized_json_sha256(index_payload), preserved
+            index,
+            serialized_json_sha256(index_payload),
+            preserved,
+            figure_aliases_enabled=figure_aliases_enabled,
         )
         nav_entries, nav_relations, nav_decisions, nav_links = self._navigation_links(index)
         products = LinkedSourceProducts(
@@ -254,9 +302,11 @@ class DocumentRelinkBuilder:
             support["figure_qualification"] = figure_qualification
         return RelinkBuild(preserved, products, support, figure_inputs)
 
-    def _figure_validation_inputs(self) -> FigureAliasValidationInputs | None:
+    def _figure_validation_inputs(
+        self, *, figure_aliases_enabled: bool
+    ) -> FigureAliasValidationInputs | None:
         """Assemble the canonical FC1 inputs once for build and later validation."""
-        if not self._linking_policy.figure_caption_aliases_enabled:
+        if not figure_aliases_enabled:
             return None
         upstream = self._source.record_files
         return FigureAliasValidationInputs(
@@ -352,7 +402,21 @@ class DocumentRelinkBuilder:
             figure_qualification,
         )
 
-    def _preserved_records(self) -> dict[str, tuple[JsonObject, ...]]:
+    def _preserved_records(self, *, in_place: bool) -> dict[str, tuple[JsonObject, ...]]:
+        """Remap rows, consuming source containers only when no FC1 view needs upstream IDs.
+
+        The in-place branch is single-use: callers must not build from the same
+        ``CandidateSource`` again after this boundary.
+        """
+        if in_place:
+            for rows in self._source.record_files.values():
+                for row in rows:
+                    self._remapper.value_in_place(row)
+            return {
+                path: tuple(rows)
+                for path, rows in self._source.record_files.items()
+                if path not in {TARGET_ALIAS_PATH, CROSS_REFERENCE_PATH}
+            }
         return {
             path: tuple(self._remapper.value(row) for row in rows)
             for path, rows in self._source.record_files.items()
@@ -364,6 +428,8 @@ class DocumentRelinkBuilder:
         index: TargetIndex,
         index_sha256: str,
         preserved: Mapping[str, tuple[JsonObject, ...]],
+        *,
+        figure_aliases_enabled: bool,
     ) -> list[JsonObject]:
         upstream = self._source.record_files
         detector = MentionDetector(
@@ -386,6 +452,7 @@ class DocumentRelinkBuilder:
             source_id=self._source_id,
             catalog_sha256=self._catalog_sha256,
             linking_policy=self._linking_policy,
+            figure_aliases_enabled=figure_aliases_enabled,
         )
         records: list[JsonObject] = []
         local_blocks = preserved["canonical/blocks.jsonl"]
@@ -567,6 +634,7 @@ class _SharedMentionResolver:
         source_id: str,
         catalog_sha256: str,
         linking_policy: DocumentLinkingPolicy,
+        figure_aliases_enabled: bool,
     ) -> None:
         self.index = target_index
         self.pages = page_numbers
@@ -576,11 +644,12 @@ class _SharedMentionResolver:
         self.source_id = source_id
         self.catalog_sha256 = catalog_sha256
         self.policy = linking_policy
+        self.figure_aliases_enabled = figure_aliases_enabled
 
     def resolve(
         self, mention: DetectedMention, *, source_text: str, source_page_id: str
     ) -> Resolution:
-        if mention.kind is MentionKind.FIGURE and not self.policy.figure_caption_aliases_enabled:
+        if mention.kind is MentionKind.FIGURE and not self.figure_aliases_enabled:
             return Resolution((), UnresolvedReason.TARGET_TYPE_UNAVAILABLE)
         if mention.kind is MentionKind.TABLE and is_qualified_external_table_reference(
             source_text[mention.span.end :]
@@ -736,7 +805,10 @@ def _r6_table_markers_by_target(aliases: Sequence[JsonObject]) -> dict[str, str]
             continue
         match = re.match(r"^table\s+(\d+(?:\.\d+)*)-", str(alias.get("normalized_alias", "")))
         if match is not None:
-            markers[str(alias["targets"][0]["upstream_target_id"])] = match.group(1)
+            target = alias["targets"][0]
+            marker = match.group(1)
+            markers[str(target["upstream_target_id"])] = marker
+            markers[str(target["target_id"])] = marker
     return markers
 
 

@@ -71,8 +71,20 @@ def build_execution_preflight(
         run_spec=run_spec,
         source_id=source_id,
     )
-    lineage = _derive_producer_lineage(data_root, configs)
+    lineage = _derive_producer_lineage(
+        data_root,
+        configs,
+        project_root=project_root,
+        run_spec=run_spec,
+        source_id=source_id,
+    )
     lineage_mode = run_spec.lineage_mode(source_id)
+    selection = run_spec.process_selection(source_id)
+    reused_roles = (
+        set(selection.reused_completions.selected())
+        if selection.reused_completions is not None
+        else None
+    )
     if (
         run_spec.schema_version.endswith(".v2")
         and lineage_mode == "fresh_build"
@@ -89,9 +101,10 @@ def build_execution_preflight(
         lineage_mode=lineage_mode,
         declared_artifact_root=(
             run_spec.artifact_relative_root.parent
-            if run_spec.schema_version.endswith(".v3")
+            if run_spec.schema_version.endswith((".v3", ".v4"))
             else None
         ),
+        reused_roles=reused_roles if run_spec.schema_version.endswith(".v4") else None,
     )
     return ExecutionPreflight(
         run_spec_sha256=run_spec_sha256,
@@ -138,6 +151,12 @@ def verify_execution_preflight(
             or sha256_file(path) != authorization.sha256
         ):
             raise ValueError("bounded authorization changed after parent preflight")
+    selection = run_spec.process_selection(source_id)
+    reused_roles = (
+        set(selection.reused_completions.selected())
+        if run_spec.schema_version.endswith(".v4") and selection.reused_completions is not None
+        else None
+    )
     final_root, _authorization = validate_lineage_bindings(
         configs=configs,
         source_id=source_id,
@@ -148,16 +167,24 @@ def verify_execution_preflight(
         lineage_mode=snapshot.lineage_mode,
         declared_artifact_root=(
             run_spec.artifact_relative_root.parent
-            if run_spec.schema_version.endswith(".v3")
+            if run_spec.schema_version.endswith((".v3", ".v4"))
             else None
         ),
+        reused_roles=reused_roles,
     )
     if final_root != snapshot.final_artifact_relative_root:
         raise ValueError("final document-product root changed after parent preflight")
     return configs
 
 
-def _derive_producer_lineage(data_root: Path, configs: ProcessConfigs) -> ProducerLineage:
+def _derive_producer_lineage(
+    data_root: Path,
+    configs: ProcessConfigs,
+    *,
+    project_root: Path,
+    run_spec: DocumentRunSpec,
+    source_id: str,
+) -> ProducerLineage:
     """Construct effective runtimes and derive both producer identities only."""
 
     def derive(path: Path) -> str:
@@ -168,9 +195,29 @@ def _derive_producer_lineage(data_root: Path, configs: ProcessConfigs) -> Produc
             config_sha256=digest,
         ).identity.run_id
 
+    selection = run_spec.process_selection(source_id)
+    reused = (
+        selection.reused_completions.selected() if selection.reused_completions is not None else {}
+    )
+
+    def producer(role: str, config: Path) -> str:
+        reference = reused.get(role)
+        if reference is None:
+            return derive(config)
+        completion = reference.resolve(
+            repository_root=project_root,
+            artifact_root=data_root,
+            role=f"reused_{role}_completion",
+            source_id=source_id,
+        )
+        producer_id = completion.parents[1].name
+        if not producer_id.startswith("prv1-"):
+            raise ValueError(f"reused producer completion has an unexpected identity: {completion}")
+        return producer_id
+
     return ProducerLineage(
-        baseline=derive(configs.content_parsing),
-        hierarchy=derive(configs.heading_evidence_parsing),
+        baseline=producer("content_parsing", configs.content_parsing),
+        hierarchy=producer("heading_evidence_parsing", configs.heading_evidence_parsing),
     )
 
 

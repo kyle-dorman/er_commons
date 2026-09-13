@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import copy
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any, cast
 
 from er_commons.document_records.document_structure.aliases import AliasSeed
@@ -12,6 +12,7 @@ from er_commons.document_records.document_structure.missing_chapter_policy impor
     MissingChapterDecision,
     StartOrderBasis,
 )
+from er_commons.document_records.document_structure.normalization import normalize_alias
 from er_commons.document_records.document_structure.section_starts import (
     logical_section_start_id,
 )
@@ -233,6 +234,31 @@ def build_missing_chapter_alias_seeds(
                 )
             )
     return seeds
+
+
+def prefer_missing_chapter_alias_evidence(seeds: list[AliasSeed]) -> list[AliasSeed]:
+    """Use the chapter decision for restored-target aliases emitted by multiple owners."""
+    preferred = {
+        (seed.alias_kind, normalize_alias(seed.raw_value), seed.target_id): seed
+        for seed in seeds
+        if seed.evidence_kind == "chapter_decision"
+    }
+    return [
+        replace(
+            seed,
+            target_order=chosen.target_order,
+            evidence_kind=chosen.evidence_kind,
+            evidence_ref=copy.deepcopy(chosen.evidence_ref),
+            toc_reconciliation_ref=chosen.toc_reconciliation_ref,
+        )
+        if (
+            chosen := preferred.get(
+                (seed.alias_kind, normalize_alias(seed.raw_value), seed.target_id)
+            )
+        )
+        else seed
+        for seed in seeds
+    ]
 
 
 def build_missing_chapter_correspondence(
@@ -650,10 +676,11 @@ def _validate_frozen_child_topology(
                 logical_section_start_id(child),
                 None,
             )
+        descendant_ids = _descendants({child["id"]}, sections)
         pages = [
             page
             for item in content
-            if item["section_id"] in _descendants({child["id"]}, sections)
+            if item["section_id"] in descendant_ids
             for page in _content_pages(item)
         ]
         _validate_frozen_fields(

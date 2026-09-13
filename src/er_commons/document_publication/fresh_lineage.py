@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from er_commons.artifact_io import sha256_file, write_json_atomic
+from er_commons.artifact_io import json_bytes, publish_bytes_no_clobber, sha256_file
 from er_commons.document_parsing.content_parsing.config import load_content_parsing_config
 from er_commons.document_publication.process_inputs import ProcessConfigs
 from er_commons.document_records.document_references.config import (
@@ -46,6 +46,24 @@ class FreshLineageBinder:
             self._materialize("content_parsing", {}),
             self._materialize("heading_evidence_parsing", {}),
         )
+
+    def reused_config(
+        self,
+        role: str,
+        completion: Path,
+        *,
+        updates: JsonObject | None = None,
+        upstreams: dict[str, Path] | None = None,
+    ) -> Path:
+        """Materialize a skipped owner's config and retain its sealed completion binding."""
+        bindings = {"reused_completion": completion, **(upstreams or {})}
+        return self._materialize(role, updates or {}, upstreams=bindings)
+
+    def initial_config(self, role: str) -> Path:
+        """Materialize one producer template before its owner runs."""
+        if role not in {"content_parsing", "heading_evidence_parsing"}:
+            raise ValueError(f"not an initial producer role: {role}")
+        return self._materialize(role, {})
 
     def canonical_config(self, baseline_completion: Path) -> Path:
         """Bind record mapping to the newly observed stable-content parse."""
@@ -134,7 +152,7 @@ class FreshLineageBinder:
         value = _json(template)
         value.update(updates)
         path = self._root / f"{role}.json"
-        write_json_atomic(path, value)
+        publish_bytes_no_clobber(path, json_bytes(value))
         _validate_effective_config(role, path)
         self._bindings[role] = {
             "template": _project_ref(template, self._project_root),
@@ -147,15 +165,18 @@ class FreshLineageBinder:
                 for name, upstream in (upstreams or {}).items()
             },
         }
-        write_json_atomic(
-            self._root / "binding_manifest.json",
-            {
-                "schema_version": "er_commons.fresh_document_process_bindings.v2",
-                "source_id": self._source_id,
-                "lineage_mode": "fresh_build",
-                "bindings": self._bindings,
-            },
-        )
+        if set(self._bindings) == set(self._templates.as_dict()):
+            publish_bytes_no_clobber(
+                self._root / "binding_manifest.json",
+                json_bytes(
+                    {
+                        "schema_version": "er_commons.fresh_document_process_bindings.v2",
+                        "source_id": self._source_id,
+                        "lineage_mode": "fresh_build",
+                        "bindings": self._bindings,
+                    }
+                ),
+            )
         return path
 
 

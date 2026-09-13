@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 from dataclasses import replace
 from pathlib import Path
@@ -19,6 +20,9 @@ from er_commons.document_records.document_structure.missing_chapter_corresponden
     CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
     validate_missing_chapter_correspondence,
 )
+from er_commons.document_records.document_structure.missing_chapter_extent_amendment import (
+    amend_child_subtree_extents,
+)
 from er_commons.document_records.document_structure.missing_chapter_policy import (
     ChapterBoundaryEvidence,
     ChapterChildEvidence,
@@ -32,10 +36,12 @@ from er_commons.document_records.document_structure.missing_chapter_policy impor
 from er_commons.document_records.document_structure.missing_chapter_projection import (
     build_missing_chapter_alias_seeds,
     build_missing_chapter_correspondence,
+    prefer_missing_chapter_alias_evidence,
     project_missing_chapter_decisions,
 )
 from er_commons.document_records.document_structure.missing_chapter_qualification import (
     publish_missing_chapter_qualification,
+    verify_compact_qualification_packet,
 )
 from er_commons.document_records.document_structure.policies.aliases import validate_target_aliases
 from er_commons.document_records.document_structure.policies.sections import validate_sections
@@ -609,6 +615,19 @@ def test_reclassification_preservation_is_exactly_decision_bound() -> None:
     )
     assert ordinary["undeclared_difference_count"] == 0
 
+    baseline_without_key = copy.deepcopy(old)
+    baseline_without_key["stable_item_key"] = None
+    current_with_key = copy.deepcopy(new)
+    current_with_key["stable_item_key"] = key
+    assigned_key = compare_baseline_collections(
+        {"blocks": [baseline_without_key]},
+        {"blocks": [current_with_key]},
+        baseline_candidate_id=old_id,
+        new_candidate_id=new_id,
+        authorized_heading_component_keys=frozenset({key}),
+    )
+    assert assigned_key["undeclared_difference_count"] == 0
+
 
 def test_projection_preserves_blocks_and_does_not_steal_unrelated_content() -> None:
     direct_key = "4" * 64
@@ -1094,6 +1113,40 @@ def test_chapter_aliases_are_bound_to_whole_chapter_identity() -> None:
         validate_target_aliases(DocumentStructureBundleView(bad))
 
 
+def test_chapter_decision_evidence_replaces_redirected_heading_duplicate() -> None:
+    decision = classify_missing_chapter(_evidence())
+    sections, content = _projection_fixture()
+    projection = project_missing_chapter_decisions(
+        sections,
+        content,
+        (decision,),
+        decisions_ref={"path": "06e/eligible_decisions.jsonl", "sha256": "f" * 64},
+    )
+    target = projection.chapter_target_ids["8"]
+    seeds = [
+        AliasSeed.canonical_target(
+            alias_kind="section",
+            raw_value="CHAPTER 8",
+            target_id=target,
+            target_type="section",
+            target_order=102,
+            evidence_kind="heading_text",
+            evidence_ref={"path": "hierarchy/decisions.jsonl", "sha256": "a" * 64},
+        ),
+        *build_missing_chapter_alias_seeds((decision,), projection),
+    ]
+
+    preferred = prefer_missing_chapter_alias_evidence(seeds)
+
+    duplicate = [seed for seed in preferred if seed.raw_value.casefold() == "chapter 8"]
+    assert len(duplicate) == 2
+    assert {seed.evidence_kind for seed in duplicate} == {"chapter_decision"}
+    assert {repr(seed.evidence_ref) for seed in duplicate} == {
+        repr({"path": "06e/eligible_decisions.jsonl", "sha256": "f" * 64})
+    }
+    assert {seed.target_order for seed in duplicate} == {100}
+
+
 def test_correspondence_schema_and_section_inverse_fail_closed() -> None:
     """Construction validates both the closed record and its projected-section inverse."""
     decision = classify_missing_chapter(_evidence())
@@ -1456,6 +1509,76 @@ def test_compact_publication_is_no_clobber(tmp_path: Path) -> None:
             schema_ref={"path": "s", "sha256": "b" * 64},
             decision_schema=schema,
         )
+
+
+def test_extent_amendment_includes_nontext_child_content() -> None:
+    decision = classify_missing_chapter(_evidence())
+    sections = [
+        {
+            "id": "exv1-current/section/main/sec000002",
+            "parent_section_id": "exv1-current/section/main/sec000001",
+            "source_stable_item_key": "child-key",
+        }
+    ]
+    content = [
+        {
+            "id": "exv1-current/block/main/blk000001",
+            "section_id": sections[0]["id"],
+            "regions": [{"page_id": "exv1-current/page/main/p000010"}],
+        },
+        {
+            "id": "exv1-current/table/main/tbl000001",
+            "section_id": sections[0]["id"],
+            "regions": [{"page_id": "exv1-current/page/main/p000012"}],
+        },
+    ]
+
+    amended, corrections = amend_child_subtree_extents(
+        (decision,), sections=sections, content=content
+    )
+
+    assert decision.child_topology[0].extent_end_page == 19
+    assert (
+        amended[0].child_topology[0].extent_start_page,
+        amended[0].child_topology[0].extent_end_page,
+    ) == (10, 12)
+    assert corrections == (
+        {
+            "chapter_marker": "8",
+            "section_ref": "child-key",
+            "from_extent": [10, 19],
+            "to_extent": [10, 12],
+        },
+    )
+
+
+def test_compact_qualification_verification_rejects_managed_file_mutation(
+    tmp_path: Path,
+) -> None:
+    """Completion alone cannot authorize changed decision or source-reference bytes."""
+    decision = classify_missing_chapter(_evidence())
+    schema = json.loads(
+        (
+            ROOT / "benchmarks/er_bench/schemas/task06_recovery/v1/"
+            "missing_chapter_decision.schema.json"
+        ).read_text()
+    )
+    output = tmp_path / "qualification"
+    completion_path = publish_missing_chapter_qualification(
+        output,
+        decisions=(decision,),
+        source_ref=_reference(),
+        policy_ref={"path": "p", "sha256": "a" * 64},
+        schema_ref={"path": "s", "sha256": "b" * 64},
+        decision_schema=schema,
+    )
+    completion_sha256 = hashlib.sha256(completion_path.read_bytes()).hexdigest()
+    verify_compact_qualification_packet(output, expected_completion_sha256=completion_sha256)
+    qualification = json.loads((output / "qualification.json").read_text())
+    qualification["source_ref"]["identity"] = "changed-with-stale-completion"
+    (output / "qualification.json").write_text(json.dumps(qualification) + "\n")
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        verify_compact_qualification_packet(output, expected_completion_sha256=completion_sha256)
 
 
 def _projection_view(

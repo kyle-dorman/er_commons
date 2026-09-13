@@ -1,23 +1,21 @@
 """Orchestrate one immutable complete-document producer publication."""
 
-from __future__ import annotations
-
 import logging
 from pathlib import Path
 
+from er_commons.artifact_verification import VerificationBudget
+from er_commons.document_parsing.content_parsing import conversion_bundle, conversion_seal
 from er_commons.document_parsing.content_parsing.config import load_content_parsing_config
-from er_commons.document_parsing.content_parsing.conversion_bundle import (
-    ensure_conversion_bundle,
-    retained_conversion_attempt,
-)
 from er_commons.document_parsing.content_parsing.derived_publication import (
     DerivedPublicationProgress,
     build_and_publish_derived,
 )
 from er_commons.document_parsing.content_parsing.evidence import verify_completed_run
 from er_commons.document_parsing.content_parsing.preparation import (
-    PreparedContentParsing,
-    prepare_content_parsing,
+    PreparedContentParsing as PreparedContentParsing,
+)
+from er_commons.document_parsing.content_parsing.preparation import (
+    prepare_content_parsing as prepare_content_parsing,
 )
 from er_commons.document_parsing.content_parsing.publication import (
     preserve_failed_attempt,
@@ -27,6 +25,32 @@ from er_commons.document_parsing.content_parsing.references import resolve_conve
 from er_commons.document_parsing.content_parsing.services import ContentParsingServices
 
 LOGGER = logging.getLogger(__name__)
+ensure_conversion_bundle = conversion_bundle.ensure_conversion_bundle
+read_accepted_conversion = conversion_seal.read_accepted_conversion
+verify_conversion_bundle = conversion_seal.verify_conversion_bundle
+
+
+def _select_conversion(
+    data_root: Path,
+    task_root: Path,
+    prepared: PreparedContentParsing,
+    services: ContentParsingServices,
+) -> conversion_seal.SealedConversion:
+    """Reuse a sealed accepted conversion or execute the configured conversion owner."""
+    config = prepared.config
+    if config.accepted_conversion_relative_root is None:
+        return ensure_conversion_bundle(task_root=task_root, prepared=prepared, services=services)
+    accepted_root = (data_root.resolve() / config.accepted_conversion_relative_root).resolve()
+    if not accepted_root.is_relative_to(data_root.resolve()):
+        raise ValueError("accepted conversion escapes the artifact root")
+    assert config.accepted_conversion_id is not None
+    read_accepted_conversion(
+        accepted_root,
+        config.accepted_conversion_id,
+        budget=VerificationBudget(),
+        source_id=config.source.source_id,
+    )
+    return verify_conversion_bundle(accepted_root, config.accepted_conversion_id)
 
 
 def run_document_parsing(
@@ -62,11 +86,7 @@ def run_document_parsing(
             resolve_conversion_input(data_root, final_root / "records/conversion_input.json")
             return completion
         progress.stage = "docling_conversion"
-        sealed_conversion = ensure_conversion_bundle(
-            task_root=task_root,
-            prepared=prepared,
-            services=active_services,
-        )
+        sealed_conversion = _select_conversion(data_root, task_root, prepared, active_services)
         return build_and_publish_derived(
             data_root=data_root,
             task_root=task_root,
@@ -78,7 +98,7 @@ def run_document_parsing(
             progress=progress,
         )
     except BaseException as error:
-        conversion_attempt = retained_conversion_attempt(error)
+        conversion_attempt = conversion_bundle.retained_conversion_attempt(error)
         if conversion_attempt is not None:
             LOGGER.error("Conversion attempt failed; evidence=%s", conversion_attempt)
             raise
@@ -94,9 +114,7 @@ def run_document_parsing(
             wall_seconds=active_services.monotonic() - started,
             error=error,
             token=active_services.new_token(),
+            inherited_files=set(progress.inherited_files),
         )
         LOGGER.error("Producer attempt failed; evidence=%s", attempt)
         raise
-
-
-__all__ = ["PreparedContentParsing", "prepare_content_parsing", "run_document_parsing"]

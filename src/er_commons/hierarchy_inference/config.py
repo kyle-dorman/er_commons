@@ -43,6 +43,7 @@ class HierarchyInferenceConfig(StrictConfigModel):
     source: HierarchySource
     producer_artifact_relative_root: Path
     producer_run_id: str = Field(pattern=r"^prv1-[0-9a-f]{64}$")
+    source_observation_mode: Literal["source_pdf", "producer_evidence_only"] = "source_pdf"
     artifact_relative_root: Path
     policy_relative_path: Path
     schema_relative_path: Path

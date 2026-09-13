@@ -6,6 +6,7 @@ import builtins
 import json
 from dataclasses import replace
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from document_publication_test_support import _workspace
@@ -19,12 +20,17 @@ from test_document_relinking_stage import (
 from er_commons import artifact_io
 from er_commons.artifact_io import sha256_file, write_json_atomic
 from er_commons.artifact_verification import VerificationBudget
+from er_commons.authority_reference import AuthorityReference
 from er_commons.document_publication import preflight, storage
+from er_commons.document_publication.candidate_identity_validation import (
+    verify_identity_and_upstreams,
+)
 from er_commons.document_publication.candidates import (
     build_candidate_identity,
     write_candidate_identity,
 )
 from er_commons.document_publication.downstream_replay import publish_downstream_replay
+from er_commons.document_publication.identity import canonical_digest
 from er_commons.document_publication.records import (
     DOCUMENT_PROCESS_NAMES,
     DOCUMENT_PRODUCT_ROLES,
@@ -202,6 +208,20 @@ def test_full_source_free_relink_and_publication(tmp_path, monkeypatch):
         output_schema_paths=_schema_paths(),
         budget=budget,
     )
+    real_publish = relink_publication.publish_relink_candidate
+    released_source_calls = 0
+
+    def publish_after_source_release(**kwargs):
+        nonlocal released_source_calls
+        assert kwargs["source"].record_files == {}
+        released_source_calls += 1
+        return real_publish(**kwargs)
+
+    monkeypatch.setattr(
+        relink_publication,
+        "publish_relink_candidate",
+        publish_after_source_release,
+    )
     linked = relink_publication.execute_document_relink(request)
     _current_recipe(spec, tmp_path)
     prepared = preflight.prepare_accepted_document_run(
@@ -217,6 +237,7 @@ def test_full_source_free_relink_and_publication(tmp_path, monkeypatch):
         prepared_run=prepared,
     )
     reused_link = relink_publication.execute_document_relink(request)
+    assert released_source_calls == 2
     assert reused_link.completion_path == linked.completion_path
     reused_document = publish_downstream_replay(
         data_root=data,
@@ -245,6 +266,100 @@ def test_full_source_free_relink_and_publication(tmp_path, monkeypatch):
     assert replay["source_candidate_id"] == source_root.name
     assert replay["reused_stage_completions"]["structured_document"]["path"].startswith("upstream/")
     assert not list((data / "pipelines/test/task_03f").glob("attempts/*"))
+
+
+def test_v4_downstream_identity_binds_only_controls_it_consumes(tmp_path):
+    """A downstream-only replay binds its resolved run spec without fake process refs."""
+    _, spec, run, structured, _, _ = _sealed_fixture(tmp_path)
+    v4_run = replace(
+        run,
+        project_root=tmp_path,
+        spec=SimpleNamespace(
+            schema_version="er_commons.document_run_spec.v4",
+            production_extraction_id=run.spec.production_extraction_id,
+        ),
+    )
+    reference = ArtifactRef(
+        path=(structured / "records/completion_record.json").relative_to(run.data_root).as_posix(),
+        sha256=sha256_file(structured / "records/completion_record.json"),
+    )
+    result = PipelineResult(
+        source_id="alpha",
+        raw_docling_status="SUCCESS",
+        processed_pages=[1, 2],
+        structured_errors=[],
+        warnings=[],
+        final_candidate_root=str(structured),
+        stage_completions={role: reference for role in DOCUMENT_PRODUCT_ROLES},
+        stage_timings={role: 0.0 for role in DOCUMENT_PROCESS_NAMES},
+        resource_enforcement="validated_before_document_processes",
+    )
+
+    with pytest.raises(ValueError, match="lacks sealed process-config references"):
+        build_candidate_identity(v4_run, content_root=structured, result=result)
+    identity = build_candidate_identity(
+        v4_run,
+        content_root=structured,
+        result=result,
+        allow_spec_only_identity=True,
+    )
+    record = identity.as_record(v4_run)
+    assert record.schema_version == "er_commons.document_candidate_identity.v3"
+    assert record.resolved_spec_ref is not None
+    assert record.resolved_spec_ref.path == spec.relative_to(tmp_path).as_posix()
+    assert record.resolved_process_config_refs is None
+
+    controls = storage._recorded_identity_controls(record)
+    assert controls["resolved_spec_ref"] == record.resolved_spec_ref.model_dump(mode="json")
+    assert "resolved_process_config_refs" not in controls
+    assert record.control_digest == canonical_digest(controls)
+
+
+def test_v4_identity_verification_hashes_resolved_process_specs_as_configs(tmp_path):
+    """Fresh v4 candidates verify their six resolved configs under the compact budget."""
+    _, spec, run, structured, _, _ = _sealed_fixture(tmp_path)
+    v4_run = replace(
+        run,
+        project_root=tmp_path,
+        run_spec_path=structured / "records/completion_record.json",
+        spec_sha256=sha256_file(structured / "records/completion_record.json"),
+        spec=SimpleNamespace(
+            schema_version="er_commons.document_run_spec.v4",
+            production_extraction_id=run.spec.production_extraction_id,
+        ),
+    )
+    completion = structured / "records/completion_record.json"
+    stage_ref = ArtifactRef(
+        path=completion.relative_to(run.data_root).as_posix(),
+        sha256=sha256_file(completion),
+    )
+    config_ref = AuthorityReference(
+        authority="artifact_root",
+        path=completion.relative_to(run.data_root).as_posix(),
+        sha256=sha256_file(completion),
+        byte_size=completion.stat().st_size,
+    )
+    result = PipelineResult(
+        source_id="alpha",
+        raw_docling_status="SUCCESS",
+        processed_pages=[1, 2],
+        structured_errors=[],
+        warnings=[],
+        final_candidate_root=str(structured),
+        stage_completions={role: stage_ref for role in DOCUMENT_PRODUCT_ROLES},
+        stage_timings={role: 0.0 for role in DOCUMENT_PROCESS_NAMES},
+        resource_enforcement="validated_before_document_processes",
+        resolved_process_config_refs={role: config_ref for role in DOCUMENT_PROCESS_NAMES},
+    )
+    identity = build_candidate_identity(v4_run, content_root=structured, result=result)
+    candidate = tmp_path / identity.candidate_id
+    candidate.mkdir()
+    verify_identity_and_upstreams(
+        candidate,
+        identity=identity.as_record(v4_run).model_dump(mode="json"),
+        data_root=run.data_root,
+        budget=VerificationBudget(),
+    )
 
 
 def test_compact_candidate_closure_and_explicit_deep_corruption(tmp_path):

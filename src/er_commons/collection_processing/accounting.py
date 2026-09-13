@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections import Counter
 from dataclasses import dataclass
 
-from er_commons.collection_processing.contract import JsonObject
+from er_commons.collection_processing.contract import JsonObject, collection_identity_fields
 from er_commons.collection_processing.domain import StageBuild, StageName
 from er_commons.collection_processing.storage import inventory_ref, jsonl_bytes
 from er_commons.document_publication.published_document import DocumentTerminalEvidence
@@ -19,6 +19,8 @@ class AccountingInputs:
     scope_kind: str
     production_extraction_id: str
     evidence: tuple[DocumentTerminalEvidence, ...]
+    collection_production_id: str | None = None
+    imported_selection_sha256: str | None = None
 
 
 class AccountingBuilder:
@@ -30,12 +32,18 @@ class AccountingBuilder:
         counts = Counter(row["terminal_state"] for row in rows)
         payloads = {"accounting_rows.jsonl": jsonl_bytes(rows)}
         final_relative = f"scopes/{inputs.scope_id}/accounting/{inputs.scope_id}"
+        identity_fields = collection_identity_fields(
+            inputs.production_extraction_id,
+            inputs.collection_production_id,
+            inputs.imported_selection_sha256,
+        )
+        version = "v3" if inputs.collection_production_id is not None else "v2"
         completion: JsonObject = {
             "record_type": "collection_accounting",
-            "schema_version": "er_commons.collection_accounting.v2",
+            "schema_version": f"er_commons.collection_accounting.{version}",
             "scope_id": inputs.scope_id,
             "scope_kind": inputs.scope_kind,
-            "production_extraction_id": inputs.production_extraction_id,
+            **identity_fields,
             "ordered_sources": [item.source for item in inputs.evidence],
             "rows": rows,
             "counts": {
@@ -52,7 +60,7 @@ class AccountingBuilder:
 
     @staticmethod
     def _row(item: DocumentTerminalEvidence) -> JsonObject:
-        return {
+        row: JsonObject = {
             "source_id": item.source["source_id"],
             "source_ordinal": item.source_ordinal,
             "evidence_kind": item.evidence_kind,
@@ -68,3 +76,7 @@ class AccountingBuilder:
             "failure_class": item.failure_class,
             "retained_evidence_refs": list(item.retained_evidence_refs),
         }
+        if item.imported_selection_ref is not None:
+            row["imported_selection_ref"] = item.imported_selection_ref
+            row["imported_selection_entry_sha256"] = item.imported_selection_entry_sha256
+        return row

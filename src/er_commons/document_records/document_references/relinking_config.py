@@ -130,6 +130,42 @@ class RelinkDocumentSelection(_StrictModel):
     source_id: str = Field(pattern=r"^[a-z][a-z0-9_]*$")
     source_document: _SealedDocument
     structured_document: _SealedStructuredDocument
+    logical_source_id: str | None = Field(
+        default=None, pattern=r"^[a-z][a-z0-9_]*$", exclude_if=lambda value: value is None
+    )
+    base_source_id: str | None = Field(
+        default=None, pattern=r"^[a-z][a-z0-9_]*$", exclude_if=lambda value: value is None
+    )
+    base_source_document: _SealedDocument | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    base_structured_document: _SealedStructuredDocument | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    change_class: (
+        Literal[
+            "preserved_semantic",
+            "new_source_addition_no_old_entity_equivalence",
+            "repeated_heading_many_to_one",
+            "missing_chapter_additions_and_fc1_aliases",
+        ]
+        | None
+    ) = Field(default=None, exclude_if=lambda value: value is None)
+    reuse_basis: (
+        Literal[
+            "sealed_base_candidate_downstream_replay",
+            "qualified_substitute_new_source_no_entity_equivalence",
+            "accepted_repeated_heading_repair",
+            "accepted_missing_chapter_and_fc1_repair",
+        ]
+        | None
+    ) = Field(default=None, exclude_if=lambda value: value is None)
+    evidence_refs: tuple[ExternalArtifactRef, ...] | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    correspondence_refs: tuple[ExternalArtifactRef, ...] | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
 
 
 class ReviewedNavigationSelection(_StrictModel):
@@ -161,6 +197,19 @@ class ReviewedNavigationSelection(_StrictModel):
         return self
 
 
+class AcceptedFc1Evidence(_StrictModel):
+    """Exact accepted Task 06F packet required by the v2 main relink gate."""
+
+    qualification_id: str = Field(pattern=r"^figqualv1-[0-9a-f]{64}$")
+    source_id: Literal["deir_main"]
+    completion_ref: ExternalArtifactRef
+    inventory_ref: ExternalArtifactRef
+    identity_ref: ExternalArtifactRef
+    qualification_ref: ExternalArtifactRef
+    figure_aliases_ref: ExternalArtifactRef
+    target_index_entries_ref: ExternalArtifactRef
+
+
 class OutputSchemaRefs(_StrictModel):
     """Named schema owners for every linked-document output role."""
 
@@ -180,9 +229,17 @@ class OutputSchemaRefs(_StrictModel):
 class DocumentLinkRunSpec(_StrictModel):
     """Closed source set and all identity-bearing relink inputs."""
 
-    schema_version: Literal["er_commons.document_link_run_spec.v1"]
+    schema_version: Literal[
+        "er_commons.document_link_run_spec.v1", "er_commons.document_link_run_spec.v2"
+    ]
+    resolution_status: Literal["template", "resolved"] | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     artifact_relative_root: str = Field(min_length=1)
     base_collection: _BaseCollection
+    base_membership_ref: ExternalArtifactRef | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     base_production_identity_ref: ExternalArtifactRef
     replacement_production_identity_recipe_ref: ExternalArtifactRef
     document_publication_spec_ref: ExternalArtifactRef
@@ -191,6 +248,12 @@ class DocumentLinkRunSpec(_StrictModel):
     linking_policy_schema_ref: ExternalArtifactRef
     source_family_catalog_ref: ExternalArtifactRef
     selected_source_ids: tuple[str, ...] = Field(min_length=1)
+    figure_alias_source_ids: tuple[str, ...] | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    accepted_fc1_evidence: AcceptedFc1Evidence | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     documents: tuple[RelinkDocumentSelection, ...] = Field(min_length=1)
     reviewed_navigation: ReviewedNavigationSelection | None
     output_schema_refs: OutputSchemaRefs
@@ -214,6 +277,40 @@ class DocumentLinkRunSpec(_StrictModel):
         reviewed = self.reviewed_navigation
         if reviewed is not None and not set(reviewed.source_ids).issubset(source_ids):
             raise ValueError("reviewed navigation coverage escapes selected sources")
+        if self.schema_version.endswith(".v1"):
+            if self.figure_alias_source_ids is not None or self.accepted_fc1_evidence is not None:
+                raise ValueError("v1 relink specs retain policy-wide figure alias behavior")
+            if (
+                self.resolution_status is not None
+                or self.base_membership_ref is not None
+                or any(document.logical_source_id is not None for document in self.documents)
+            ):
+                raise ValueError("v1 relink specs cannot claim mixed-lineage membership")
+        else:
+            figure_sources = self.figure_alias_source_ids
+            if figure_sources != ("deir_main",) or "deir_main" not in source_ids:
+                raise ValueError("v2 FC1 authority must select exactly deir_main")
+            if self.base_membership_ref is None:
+                raise ValueError("v2 relink specs require a sealed base membership")
+            if self.accepted_fc1_evidence is None:
+                raise ValueError("v2 relink specs require accepted FC1 evidence")
+            if self.resolution_status == "template":
+                return self
+            if self.resolution_status != "resolved":
+                raise ValueError("v2 relink specs require explicit template or resolved status")
+            for document in self.documents:
+                required = (
+                    document.logical_source_id,
+                    document.base_source_id,
+                    document.base_source_document,
+                    document.base_structured_document,
+                    document.change_class,
+                    document.reuse_basis,
+                    document.evidence_refs,
+                    document.correspondence_refs,
+                )
+                if any(value is None for value in required):
+                    raise ValueError("v2 relink rows require complete mixed-lineage provenance")
         return self
 
     def document(self, source_id: str) -> RelinkDocumentSelection:
@@ -231,6 +328,7 @@ def load_document_link_run_spec(path: Path) -> tuple[DocumentLinkRunSpec, str]:
 
 
 __all__ = [
+    "AcceptedFc1Evidence",
     "BundleArtifactRef",
     "DocumentLinkRunSpec",
     "ExternalArtifactRef",

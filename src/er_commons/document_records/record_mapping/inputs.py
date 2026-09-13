@@ -24,6 +24,7 @@ from er_commons.document_parsing.content_parsing.references import (
 from er_commons.document_parsing.content_parsing.sources import load_sealed_manifest
 from er_commons.document_records.record_mapping.config import RecordMappingConfig
 from er_commons.source_release.models import SourceManifest, SourceRecord, SourceRole
+from er_commons.source_release.retained_processing import validate_processing_source
 
 JsonObject = dict[str, Any]
 
@@ -162,10 +163,11 @@ def _load_jsonl_objects(path: Path) -> tuple[JsonObject, ...]:
 
 
 def _verify_selected_source(
+    data_root: Path,
     config: RecordMappingConfig,
     source_manifest: SourceManifest,
 ) -> SourceRecord:
-    """Match the one-document scope to exactly one sealed model-corpus record."""
+    """Match one sealed model-corpus or verified retained-processing source."""
     selected = config.ordered_materialization_scope[0]
     matches = [
         record for record in source_manifest.sources if record.source_id == selected.source_id
@@ -173,8 +175,12 @@ def _verify_selected_source(
     if len(matches) != 1:
         raise ValueError("sealed manifest must contain exactly one selected source record")
     record = matches[0]
-    if record.source_role != SourceRole.MODEL_CORPUS:
-        raise ValueError("selected record-mapping source is not model_corpus")
+    if record.source_role == SourceRole.QUALIFIED_SUBSTITUTE:
+        validate_processing_source(data_root, source_manifest, record)
+    elif record.source_role != SourceRole.MODEL_CORPUS:
+        raise ValueError(
+            "selected record-mapping source is not model_corpus or a qualified substitute"
+        )
     expected = (
         (record.sha256, selected.source_sha256, "checksum"),
         (record.pdf_page_count, selected.pdf_page_count, "page count"),
@@ -231,7 +237,7 @@ def prepare_record_mapping_inputs(
     )
     if manifest_model.source_release_version != config.source_release_version:
         raise ValueError("sealed source release differs from record-mapping config")
-    selected_source = _verify_selected_source(config, manifest_model)
+    selected_source = _verify_selected_source(data_root, config, manifest_model)
 
     records_root = producer_run_root / "records"
     document_root = (

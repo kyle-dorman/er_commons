@@ -303,3 +303,43 @@ Document/collection v3 supports declared replacement membership. Compact checks
 must retain the shared verification budget and must not claim new payload-byte
 equality. This handoff updates interfaces only; the task's provisional policy and
 separate source, conversion, replay or review authorization boundaries still apply.
+
+## Accepted v2 boundary amendment (2026-09-12)
+
+The replay-v16 failure exposed that qualification v6's selected-record topology
+omitted the immediate plain-form Chapter 07 and Chapter 09 siblings. The user
+explicitly selected those earlier plain-form headings as the true boundaries
+and authorized the bounded repair. Complete reconstruction from the already
+sealed canonical and hierarchy records then proved that page equality is
+legitimate: the preceding chapter's final records occur before the next divider
+in canonical mixed-content order. No PDF, image, model, extraction, conversion,
+or preserved payload hash was used.
+
+The accepted v2 policy therefore retains the page bound as a coarse check and
+adds a strict record-order bound. It freezes two heading orders, two subtree
+order extents, and the immediate boundary order in every eligible decision.
+It also permits the exact immediate nonnumeric terminal division `APPENDICES`
+as the Chapter 09 boundary. Applying that one rule to the complete sibling
+topology qualifies four explicit groups: Chapters 06, 07, 08, and 09. Every
+bar-form heading block is retained; only its duplicate semantic section is
+absorbed. The truthful combined page extents are 311-451, 451-479, 479-491,
+and 491-501 respectively.
+
+Qualification v7 is preserved as a superseded pre-review packet because its
+schema binding changed during final validation. The fresh current packet is
+`pipelines/brisbane_baylands/task_06_recovery_v1/06d/qualification_v8/`.
+It contains four eligible decisions, zero rejected decisions, zero pending
+reviews, and completion-last closure. Its completion SHA-256 is
+`c5c6a2b7f2196dd1d3f49c8ab47fe5dd61f1a55013980112b92211591b644ebd`;
+inventory SHA-256 is
+`8f046456effb7f1b22bbb170f85b7b7829a246c158acf343e4aa5dee0d7ea48b`.
+The packet binds policy SHA-256
+`c61a3c5d829fd0e19825af3ca4194ebd5a3d86a65d3da69b37c2f98388184be2`,
+decision-schema SHA-256
+`f5e2051cd338575fcf6d178c4e6ea53179f34a9f8b4476d8c63212d0239134b1`,
+and generator SHA-256
+`f98e53d655c109509ade56deef9d75cc2496be46b057eec4494b1acda68bcd14`.
+Focused source-free tests cover same-page order acceptance, order collision,
+page crossing, terminal `APPENDICES`, four disjoint projections, idempotency,
+and tampered boundary order. Task 06G must bind v8 and expect four sealed
+many-to-one correspondences; Task 06H remains inactive.

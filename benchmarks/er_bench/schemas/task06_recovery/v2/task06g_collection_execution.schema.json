@@ -1,0 +1,467 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "repository_working_directory",
+    "generation_spec",
+    "tmux_session",
+    "initial_attempt_number",
+    "command_order",
+    "commands",
+    "resource_limits",
+    "prohibited_operations",
+    "ledger_sibling_roots",
+    "pre_execution_identity_checkpoint",
+    "finalization_required_files",
+    "resolver_closure"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.task06g.collection_execution_template.v1"
+    },
+    "repository_working_directory": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generation_spec": {
+      "type": "string",
+      "pattern": "task06g_collection_generation_v1\\.json$"
+    },
+    "tmux_session": {
+      "const": "er-commons-06g-replay-v34"
+    },
+    "initial_attempt_number": {
+      "const": 17
+    },
+    "command_order": {
+      "const": [
+        "assemble_handoff",
+        "resolve_comparison_specs",
+        "publish_comparison",
+        "validate_handoff"
+      ]
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "prefixItems": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/command"
+            },
+            {
+              "properties": {
+                "stage": {
+                  "const": "assemble_handoff"
+                },
+                "argv": {
+                  "minItems": 7,
+                  "maxItems": 7,
+                  "prefixItems": [
+                    {
+                      "const": "uv"
+                    },
+                    {
+                      "const": "run"
+                    },
+                    {
+                      "const": "er-commons"
+                    },
+                    {
+                      "const": "collections"
+                    },
+                    {
+                      "const": "assemble-handoff"
+                    },
+                    {
+                      "const": "--collection-spec"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v34/resolved_specs_v1/00_initial/task06g_collection_only_v1\\.json$"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "checkpoint_after"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "runtime_values"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/command"
+            },
+            {
+              "properties": {
+                "stage": {
+                  "const": "resolve_comparison_specs"
+                },
+                "argv": {
+                  "minItems": 11,
+                  "maxItems": 11,
+                  "prefixItems": [
+                    {
+                      "const": "uv"
+                    },
+                    {
+                      "const": "run"
+                    },
+                    {
+                      "const": "python"
+                    },
+                    {
+                      "const": "scripts/resolve_task06g_specs.py"
+                    },
+                    {
+                      "const": "--generation-spec"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "/configs/task06/v2/task06g_collection_generation_v1\\.json$"
+                    },
+                    {
+                      "const": "--phase"
+                    },
+                    {
+                      "const": "comparison"
+                    },
+                    {
+                      "const": "--output-root"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v34/resolved_specs_v1$"
+                    },
+                    {
+                      "const": "--resume-existing"
+                    }
+                  ]
+                }
+              },
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "checkpoint_after"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "runtime_values"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/command"
+            },
+            {
+              "properties": {
+                "stage": {
+                  "const": "publish_comparison"
+                },
+                "argv": {
+                  "minItems": 7,
+                  "maxItems": 7,
+                  "prefixItems": [
+                    {
+                      "const": "uv"
+                    },
+                    {
+                      "const": "run"
+                    },
+                    {
+                      "const": "er-commons"
+                    },
+                    {
+                      "const": "collections"
+                    },
+                    {
+                      "const": "publish-task06g-comparison"
+                    },
+                    {
+                      "const": "--comparison-spec"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v34/resolved_specs_v1/20_comparison/task06g_collection_comparison_v1\\.json$"
+                    }
+                  ]
+                }
+              },
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "checkpoint_after"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "runtime_values"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/command"
+            },
+            {
+              "properties": {
+                "stage": {
+                  "const": "validate_handoff"
+                },
+                "argv": {
+                  "minItems": 13,
+                  "maxItems": 13,
+                  "prefixItems": [
+                    {
+                      "const": "uv"
+                    },
+                    {
+                      "const": "run"
+                    },
+                    {
+                      "const": "er-commons"
+                    },
+                    {
+                      "const": "collections"
+                    },
+                    {
+                      "const": "validate-handoff"
+                    },
+                    {
+                      "const": "--collection-root"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v34/document_publications$"
+                    },
+                    {
+                      "const": "--scope-id"
+                    },
+                    {
+                      "const": "{scope_id}"
+                    },
+                    {
+                      "const": "--schema"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "/benchmarks/er_bench/schemas/collection_processing/v3/records\\.schema\\.json$"
+                    },
+                    {
+                      "const": "--document-input-root"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32$"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "runtime_values"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "checkpoint_after"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "resource_limits": {
+      "const": {
+        "max_wall_seconds": 86400,
+        "cpu_threads": 4,
+        "max_rss_bytes": 10737418240,
+        "max_output_bytes": 34359738368,
+        "minimum_free_bytes": 68719476736
+      }
+    },
+    "prohibited_operations": {
+      "const": [
+        "pdf_open",
+        "image_open",
+        "image_render",
+        "model_load",
+        "conversion_execute",
+        "extraction_execute",
+        "preserved_payload_hash",
+        "document_publish",
+        "document_relink"
+      ]
+    },
+    "ledger_sibling_roots": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "pre_execution_identity_checkpoint": {
+      "const": "00_initial/pre_execution_collection_identity_checkpoint.json"
+    },
+    "finalization_required_files": {
+      "const": [
+        "correspondence_v1/completion.json",
+        "comparison_v1/completion.json",
+        "identity_checkpoints_v1/inventory.json",
+        "resolved_specs_v1/aggregate_v1/resolved_spec_manifest.json",
+        "resolved_specs_v1/aggregate_v1/artifact_inventory.json"
+      ]
+    },
+    "resolver_closure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_root",
+        "checkpoint_files",
+        "resolved_specs_root",
+        "phase_directories",
+        "process_checkpoint_files",
+        "pre_execution_identity_checkpoint",
+        "pre_execution_manifest_field",
+        "collection_spec"
+      ],
+      "properties": {
+        "checkpoint_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checkpoint_files": {
+          "const": [
+            "stages/collection_handoff.json"
+          ]
+        },
+        "resolved_specs_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phase_directories": {
+          "const": [
+            "00_initial",
+            "20_comparison"
+          ]
+        },
+        "process_checkpoint_files": {
+          "const": []
+        },
+        "pre_execution_identity_checkpoint": {
+          "const": "00_initial/pre_execution_collection_identity_checkpoint.json"
+        },
+        "pre_execution_manifest_field": {
+          "const": "pre_execution_collection_identity_checkpoint"
+        },
+        "collection_spec": {
+          "type": "string",
+          "pattern": "task06g_collection_only_v1\\.json$"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "argv"
+      ],
+      "properties": {
+        "stage": {
+          "type": "string"
+        },
+        "argv": {
+          "type": "array",
+          "minItems": 6,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "checkpoint_after": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stage_key",
+            "path",
+            "completion_source"
+          ],
+          "properties": {
+            "stage_key": {
+              "const": "collection_handoff"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "completion_source": {
+              "const": "stdout_handoff"
+            }
+          }
+        },
+        "runtime_values": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "checkpoint",
+              "pointer"
+            ],
+            "properties": {
+              "name": {
+                "const": "scope_id"
+              },
+              "checkpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "pointer": {
+                "const": "/outputs/scope_id"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

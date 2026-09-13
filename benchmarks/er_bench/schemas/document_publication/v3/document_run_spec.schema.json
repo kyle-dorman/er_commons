@@ -7,7 +7,6 @@
   "required": [
     "schema_version",
     "production_extraction_id",
-    "production_identity_relative_path",
     "scope_kind",
     "source_release_version",
     "source_manifest_relative_path",
@@ -18,7 +17,10 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "er_commons.document_run_spec.v3"
+      "enum": [
+        "er_commons.document_run_spec.v3",
+        "er_commons.document_run_spec.v4"
+      ]
     },
     "production_extraction_id": {
       "type": "string",
@@ -26,6 +28,9 @@
     },
     "production_identity_relative_path": {
       "$ref": "#/$defs/relative_path"
+    },
+    "production_identity_ref": {
+      "$ref": "#/$defs/authority_reference"
     },
     "scope_kind": {
       "enum": [
@@ -63,7 +68,35 @@
       "$ref": "#/$defs/resource_policy"
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {"const": "er_commons.document_run_spec.v4"}
+        }
+      },
+      "then": {
+        "required": ["production_identity_ref"],
+        "properties": {"production_identity_relative_path": false}
+      },
+      "else": {
+        "required": ["production_identity_relative_path"],
+        "properties": {"production_identity_ref": false}
+      }
+    }
+  ],
   "$defs": {
+    "authority_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "path", "sha256", "byte_size"],
+      "properties": {
+        "authority": {"enum": ["repository", "artifact_root"]},
+        "path": {"$ref": "#/$defs/relative_path"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "byte_size": {"type": "integer", "minimum": 0}
+      }
+    },
     "relative_path": {
       "type": "string",
       "minLength": 1,
@@ -87,6 +120,27 @@
             "fresh_build"
           ],
           "default": "sealed_inputs"
+        },
+        "resume_stage": {
+          "enum": [
+            "content_parsing",
+            "heading_evidence_parsing",
+            "record_mapping",
+            "hierarchy_inference",
+            "document_structure",
+            "document_reference_linking"
+          ],
+          "default": "content_parsing"
+        },
+        "reused_completions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "content_parsing": {"$ref": "#/$defs/authority_reference"},
+            "heading_evidence_parsing": {"$ref": "#/$defs/authority_reference"},
+            "record_mapping": {"$ref": "#/$defs/authority_reference"},
+            "hierarchy_inference": {"$ref": "#/$defs/authority_reference"}
+          }
         },
         "configs": {
           "type": "object",

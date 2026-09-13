@@ -46,7 +46,10 @@
       ],
       "properties": {
         "schema_version": {
-          "const": "er_commons.document_link_identity.v1"
+          "enum": [
+            "er_commons.document_link_identity.v1",
+            "er_commons.document_link_identity.v2"
+          ]
         },
         "source_id": {
           "type": "string",
@@ -102,6 +105,15 @@
         },
         "owned_code_bundle_sha256": {
           "$ref": "#/$defs/sha256"
+        },
+        "resolved_spec_ref": {
+          "$ref": "#/$defs/authorityRef"
+        },
+        "accepted_fc1_evidence": {
+          "$ref": "#/$defs/acceptedFc1Evidence"
+        },
+        "fc1_rebuilt_equivalence_sha256": {
+          "$ref": "#/$defs/sha256"
         }
       },
       "allOf": [
@@ -130,6 +142,26 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "schema_version": {"const": "er_commons.document_link_identity.v2"}
+            }
+          },
+          "then": {"required": ["resolved_spec_ref"]},
+          "else": {"properties": {"resolved_spec_ref": false}}
+        },
+        {
+          "if": {
+            "properties": {
+              "schema_version": {"const": "er_commons.document_link_identity.v2"},
+              "source_id": {"const": "deir_main"}
+            },
+            "required": ["schema_version", "source_id"]
+          },
+          "then": {"required": ["accepted_fc1_evidence", "fc1_rebuilt_equivalence_sha256"]},
+          "else": {"properties": {"accepted_fc1_evidence": false, "fc1_rebuilt_equivalence_sha256": false}}
         }
       ]
     }
@@ -142,6 +174,32 @@
     "extractionId": {
       "type": "string",
       "pattern": "^exv1-[0-9a-f]{64}$"
+    },
+    "authorityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "path", "sha256", "byte_size"],
+      "properties": {
+        "authority": {"enum": ["repository", "artifact_root"]},
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_size": {"type": "integer", "minimum": 0}
+      }
+    },
+    "acceptedFc1Evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["qualification_id", "source_id", "completion_ref", "inventory_ref", "identity_ref", "qualification_ref", "figure_aliases_ref", "target_index_entries_ref"],
+      "properties": {
+        "qualification_id": {"type": "string", "pattern": "^figqualv1-[0-9a-f]{64}$"},
+        "source_id": {"const": "deir_main"},
+        "completion_ref": {"$ref": "#/$defs/authorityRef"},
+        "inventory_ref": {"$ref": "#/$defs/authorityRef"},
+        "identity_ref": {"$ref": "#/$defs/authorityRef"},
+        "qualification_ref": {"$ref": "#/$defs/authorityRef"},
+        "figure_aliases_ref": {"$ref": "#/$defs/authorityRef"},
+        "target_index_entries_ref": {"$ref": "#/$defs/authorityRef"}
+      }
     }
   }
 }

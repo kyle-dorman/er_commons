@@ -103,6 +103,12 @@ class SemanticStageRunner:
         )
 
     def _outline_observations(self, preliminary_features: list[ObservedItem]) -> PdfObservations:
+        if self.inputs.source_observation_mode == "producer_evidence_only":
+            return self._run_stage(
+                "outline_observations",
+                len(preliminary_features),
+                lambda: PdfObservations((), {}, ()),
+            )
         return self._run_stage(
             "outline_observations",
             len(preliminary_features),
@@ -119,6 +125,8 @@ class SemanticStageRunner:
     ) -> tuple[list[ObservedItem], dict[str, JsonRecord]]:
         def overlay() -> tuple[list[ObservedItem], dict[str, JsonRecord]]:
             features = apply_outline_observations(preliminary_features, outline_observations)
+            if self.inputs.source_observation_mode == "producer_evidence_only":
+                return features, {}
             native_headings = read_native_heading_observations(
                 self.inputs.selected_source.source_path, features
             )

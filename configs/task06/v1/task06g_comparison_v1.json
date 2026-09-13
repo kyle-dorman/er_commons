@@ -1,0 +1,30 @@
+{
+  "schema_version": "er_commons.task06g.comparison_template.v1",
+  "baseline_handoff_id": "handoffv1-e54a72e4bb8f9ba34888c1fc1f51424c4cc52e5f24d6700b16b462e3a659b6d1",
+  "replacement_handoff_id": "handoffv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "expected_fixed_accounting": {
+    "document_count": 35,
+    "page_count": 49022,
+    "task04a_decision_count": 757,
+    "task05_mention_count": 511,
+    "task05_link_count": 295,
+    "task05_nonlink_count": 216,
+    "ordinary_reference_count": 5088,
+    "navigation_claim_count": 560,
+    "inherited_navigation_link_count": 28,
+    "baseline_resolution_decision_count": 72
+  },
+  "dynamic_accounting": ["target_index_count", "resolution_outcomes", "final_f1_entity_additions"],
+  "required_repair_checks": [
+    "appendix_a_chapter_06_many_to_one",
+    "appendix_a_chapter_07_many_to_one",
+    "appendix_a_chapter_08_many_to_one",
+    "appendix_a_chapter_09_many_to_one",
+    "main_chapter_8_addition",
+    "main_chapter_9_addition",
+    "main_fc1_274_178_96_zero_collision",
+    "figure_4_8_absent",
+    "preserved_32_semantic_equality_after_mapping"
+  ],
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/comparison_v1"
+}

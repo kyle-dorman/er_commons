@@ -253,7 +253,9 @@
               "pattern": "^[a-z0-9][a-z0-9_]*$"
             },
             "source_sha256": {"$ref": "#/$defs/sha256"},
-            "source_role": {"const": "model_corpus"},
+            "source_role": {
+              "enum": ["model_corpus", "qualified_substitute"]
+            },
             "title": {"type": "string", "minLength": 1},
             "page_count": {"type": "integer", "minimum": 1},
             "page_ids": {

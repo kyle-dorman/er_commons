@@ -90,7 +90,8 @@ def build_repeated_heading_correspondence(
         "schema_version": "er_commons.recovery.stage_correspondence.v1",
         "stage_role": "semantic_sections_and_target_aliases",
         "change_class": "many_to_one_repeated_heading_repair",
-        "policy_version": "repeated_chapter_divider_opening_v1",
+        "policy_version": decision.rule_version,
+        "extent_basis": decision.extent_basis,
         "old_targets": [
             {"section_id": old_anchor_id, "role": "retained_anchor"},
             {"section_id": old_absorbed_id, "role": "absorbed_duplicate"},
@@ -102,10 +103,16 @@ def build_repeated_heading_correspondence(
         ],
         "retained_heading_stable_keys": list(decision.heading_stable_keys),
         "logical_content_page_extent": list(expected_extent),
+        "heading_content_orders": list(decision.heading_content_orders),
+        "source_content_order_extents": [
+            list(item) if item is not None else None
+            for item in decision.source_content_order_extents
+        ],
         "following_boundary_section_id": decision.following_boundary_section_id,
         "following_boundary_stable_key": decision.following_boundary_stable_key,
         "following_boundary_raw_text": decision.following_boundary_raw_text,
         "following_boundary_page": decision.following_boundary_page,
+        "following_boundary_content_order": decision.following_boundary_content_order,
         "content_record_count": len(projection.content),
         "content_record_ids_unique": len({item["id"] for item in projection.content})
         == len(projection.content),
@@ -328,6 +335,11 @@ def _heading_topologies_from_records(
         ]
         if not pages:
             raise StructureContractError("repeated-heading input lacks heading page provenance")
+        subtree_content_order = [
+            content_order[item["id"]] for item in content if item["section_id"] in subtree
+        ]
+        if not subtree_content_order:
+            raise StructureContractError("repeated-heading input lacks content-order provenance")
         sibling_values = siblings[section["parent_section_id"]]
         result.append(
             HeadingTopology(
@@ -347,6 +359,11 @@ def _heading_topologies_from_records(
                 child_section_ids=children,
                 ordered_child_ids=tuple(section["ordered_child_ids"]),
                 descendant_page_extent=(min(pages), max(pages)),
+                heading_content_order=content_order[heading["id"]],
+                descendant_content_order_extent=(
+                    min(subtree_content_order),
+                    max(subtree_content_order),
+                ),
             )
         )
     return tuple(result)
@@ -419,6 +436,13 @@ def _validate_frozen_decision(
         ),
         "source_page_extents": decision.source_page_extents,
     }
+    if decision.rule_version == "repeated_chapter_divider_opening_v2":
+        observed["heading_content_orders"] = tuple(item.heading_content_order for item in current)
+        observed["source_content_order_extents"] = tuple(
+            item.descendant_content_order_extent for item in current
+        )
+        expected["heading_content_orders"] = decision.heading_content_orders
+        expected["source_content_order_extents"] = decision.source_content_order_extents
     changed = [field for field in expected if observed[field] != expected[field]]
     if changed:
         raise StructureContractError(
@@ -442,10 +466,18 @@ def _validate_frozen_decision(
         or following.semantic_level != first.semantic_level
         or following.sibling_index != second.sibling_index + 1
         or following.physical_page <= second.physical_page
-        or following_parsed is None
-        or following_parsed[0] == decision.chapter_marker
+        or (following_parsed is not None and following_parsed[0] == decision.chapter_marker)
+        or (
+            decision.rule_version == "repeated_chapter_divider_opening_v1"
+            and following_parsed is None
+        )
+        or (
+            decision.rule_version == "repeated_chapter_divider_opening_v2"
+            and following.heading_content_order != decision.following_boundary_content_order
+        )
     ):
         raise StructureContractError("repeated-heading following boundary changed after decision")
+    _validate_content_order_before_boundary(current, following, decision)
 
 
 def _validate_already_projected_decision(
@@ -536,23 +568,79 @@ def _validate_already_projected_decision(
         or following.parent_section_id != anchor.parent_section_id
         or following.semantic_level != anchor.semantic_level
         or following.sibling_index != anchor.sibling_index + 1
-        or following_parsed is None
-        or following_parsed[0] == decision.chapter_marker
+        or (following_parsed is not None and following_parsed[0] == decision.chapter_marker)
+        or (
+            decision.rule_version == "repeated_chapter_divider_opening_v1"
+            and following_parsed is None
+        )
+        or (
+            decision.rule_version == "repeated_chapter_divider_opening_v2"
+            and following.heading_content_order != decision.following_boundary_content_order
+        )
     ):
         raise StructureContractError("repeated-heading following boundary changed after decision")
+    _validate_content_order_before_boundary((anchor,), following, decision)
+
+
+def _validate_content_order_before_boundary(
+    headings: tuple[HeadingTopology, ...],
+    following: HeadingTopology,
+    decision: RepeatedHeadingDecision,
+) -> None:
+    """Prove same-page chapter transitions from exact record order, never page guesses."""
+    if decision.rule_version == "repeated_chapter_divider_opening_v1":
+        return
+    if len(decision.heading_content_orders) != 2 or len(decision.source_content_order_extents) != 2:
+        raise StructureContractError(
+            "repeated-heading decision lacks complete content-order evidence"
+        )
+    if following.heading_content_order != decision.following_boundary_content_order:
+        raise StructureContractError(
+            "repeated-heading following boundary content order changed after decision"
+        )
+    extents = [item.descendant_content_order_extent for item in headings]
+    if following.heading_content_order is None or any(item is None for item in extents):
+        raise StructureContractError("repeated-heading content-order boundary evidence is absent")
+    if max(item[1] for item in extents if item is not None) >= following.heading_content_order:
+        raise StructureContractError(
+            "repeated-heading descendant content reaches following boundary"
+        )
 
 
 def _validate_decision_extent_before_boundary(decision: RepeatedHeadingDecision) -> None:
-    """Require both frozen extents to terminate strictly before the next chapter."""
+    """Reject page extents that cross the frozen next-chapter boundary."""
+    if decision.rule_version not in {
+        "repeated_chapter_divider_opening_v1",
+        "repeated_chapter_divider_opening_v2",
+    }:
+        raise StructureContractError("unsupported repeated-heading decision rule version")
     extents = [item for item in decision.source_page_extents if item is not None]
-    if (
-        len(extents) != 2
-        or decision.following_boundary_page is None
-        or max(item[1] for item in extents) >= decision.following_boundary_page
-    ):
+    if len(extents) != 2 or decision.following_boundary_page is None:
+        raise StructureContractError("repeated-heading descendant extent lacks following boundary")
+    extent_end = max(item[1] for item in extents)
+    crosses_boundary = (
+        extent_end >= decision.following_boundary_page
+        if decision.rule_version == "repeated_chapter_divider_opening_v1"
+        else extent_end > decision.following_boundary_page
+    )
+    if crosses_boundary:
         raise StructureContractError(
             "repeated-heading descendant extent reaches following boundary"
         )
+    if decision.rule_version == "repeated_chapter_divider_opening_v2":
+        order_extents = [item for item in decision.source_content_order_extents if item is not None]
+        if (
+            len(decision.heading_content_orders) != 2
+            or len(order_extents) != 2
+            or decision.following_boundary_content_order is None
+            or any(item[0] > item[1] for item in order_extents)
+            or tuple(item[0] for item in order_extents) != decision.heading_content_orders
+            or order_extents[0][1] >= order_extents[1][0]
+            or order_extents[1][1] >= decision.following_boundary_content_order
+        ):
+            raise StructureContractError(
+                "repeated-heading decision has invalid content-order boundary evidence"
+            )
 
 
 def _entity_tail(record_id: str) -> str:

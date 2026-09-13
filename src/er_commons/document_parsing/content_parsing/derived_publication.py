@@ -2,19 +2,23 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from pathlib import Path
 
 from er_commons.artifact_io import directory_bytes, sha256_file, write_json_atomic
-from er_commons.document_parsing.content_parsing.conversion import ConversionOutput
+from er_commons.document_parsing.content_parsing.accepted_aggregate import (
+    reuse_accepted_aggregate_tables,
+)
 from er_commons.document_parsing.content_parsing.conversion_seal import SealedConversion
 from er_commons.document_parsing.content_parsing.derived_publication_support import (
+    DerivedPublicationProgress as DerivedPublicationProgress,
+)
+from er_commons.document_parsing.content_parsing.derived_publication_support import (
+    DerivedStages,
     producer_warnings,
-    rebind_aggregate_references,
     write_conversion_reference,
 )
 from er_commons.document_parsing.content_parsing.derived_route_reuse import (
-    routes_from_aggregate_projection,
+    routes_for_conversion,
 )
 from er_commons.document_parsing.content_parsing.derived_table_reuse import (
     reuse_aggregate_table_stage,
@@ -34,8 +38,6 @@ from er_commons.document_parsing.content_parsing.records import (
     CompletionRecord,
     MachineStatus,
     ProducerSummary,
-    RoutingSummary,
-    TableStageObservation,
 )
 from er_commons.document_parsing.content_parsing.routing_execution import (
     route_complete_document,
@@ -43,23 +45,6 @@ from er_commons.document_parsing.content_parsing.routing_execution import (
 )
 from er_commons.document_parsing.content_parsing.services import ContentParsingServices
 from er_commons.document_parsing.content_parsing.table_processing import run_complete_table_stage
-
-
-@dataclass
-class DerivedPublicationProgress:
-    """Failure stage and workspace retained by the application shell."""
-
-    stage: str = "preflight"
-    workspace: ProducerWorkspace | None = None
-
-
-@dataclass(frozen=True)
-class _DerivedStages:
-    """Completed conversion, routing, and table-stage outputs."""
-
-    conversion: ConversionOutput
-    routing: RoutingSummary
-    tables: TableStageObservation
 
 
 def build_and_publish_derived(
@@ -142,37 +127,32 @@ def _run_derived_stages(
     workspace: ProducerWorkspace,
     services: ContentParsingServices,
     progress: DerivedPublicationProgress,
-) -> _DerivedStages:
+) -> DerivedStages:
     """Consume sealed conversion evidence, then route and reconstruct tables."""
     producer_root = workspace.staging_root / "documents" / prepared.source.source_id / "producer"
     producer_root.mkdir(parents=True, exist_ok=False)
     write_conversion_reference(data_root, prepared, sealed_conversion, workspace)
     progress.stage = "route"
-    if range_run_root is None or range_plan_path is None:
-        routes = route_complete_document(
-            prepared.source,
-            sealed_conversion.output.document_payload,
-            prepared.config,
-        )
-        reuse_aggregate_tables = False
-    else:
-        routes = routes_from_aggregate_projection(
-            sealed_conversion.root / "records" / "ordering_projection.json",
-            prepared.config,
-            source_id=prepared.source.source_id,
-            source_page_count=prepared.source.source_page_count,
-        )
-        routes = rebind_aggregate_references(
-            routes,
-            sealed_conversion.output.document_payload,
-        )
-        expected_pages = list(range(1, prepared.source.source_page_count + 1))
-        if [record.physical_pdf_page for record in routes] != expected_pages:
-            raise ValueError("page projections do not cover the complete source")
-        reuse_aggregate_tables = True
+    routes, reuse_aggregate_tables, accepted_inventory = routes_for_conversion(
+        prepared,
+        sealed_conversion,
+        range_run_root,
+        range_plan_path,
+        route_document=route_complete_document,
+    )
     routing = write_routing_artifacts(producer_root / "routing", routes)
     progress.stage = "tables"
-    if reuse_aggregate_tables:
+    inherited_files = None
+    if accepted_inventory is not None:
+        tables, inherited_files = reuse_accepted_aggregate_tables(
+            sealed_conversion,
+            prepared,
+            routes,
+            producer_root / "tables",
+            accepted_inventory,
+            inherited_files=progress.inherited_files,
+        )
+    elif reuse_aggregate_tables:
         tables = reuse_aggregate_table_stage(
             sealed_conversion,
             producer_root / "tables",
@@ -191,14 +171,14 @@ def _run_derived_stages(
         workspace.records_root / "table_stage_observation.json",
         tables.model_dump(mode="json", exclude_none=True),
     )
-    return _DerivedStages(sealed_conversion.output, routing, tables)
+    return DerivedStages(sealed_conversion.output, routing, tables, inherited_files)
 
 
 def _seal_and_publish(
     *,
     prepared: PreparedContentParsing,
     workspace: ProducerWorkspace,
-    stages: _DerivedStages,
+    stages: DerivedStages,
     services: ContentParsingServices,
     started: float,
     progress: DerivedPublicationProgress,
@@ -231,7 +211,11 @@ def _seal_and_publish(
         workspace.records_root / "producer_summary.json",
         summary.model_dump(mode="json", exclude_none=True),
     )
-    inventory_path = write_inventory(workspace.staging_root)
+    inventory_path = (
+        write_inventory(workspace.staging_root, inherited_files=stages.inherited_files)
+        if stages.inherited_files is not None
+        else write_inventory(workspace.staging_root)
+    )
     progress.stage = "publish"
     completion = CompletionRecord(
         schema_version="1.0.0",
@@ -250,4 +234,8 @@ def _seal_and_publish(
         completion.model_dump(mode="json"),
     )
     verify_completed_run(workspace.staging_root, prepared.identity.run_id)
-    return publish_workspace(workspace)
+    return (
+        publish_workspace(workspace, inherited_files=set(stages.inherited_files))
+        if stages.inherited_files is not None
+        else publish_workspace(workspace)
+    )

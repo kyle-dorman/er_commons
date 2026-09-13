@@ -93,7 +93,9 @@ def write_preflight_records(
     )
 
 
-def publish_workspace(workspace: ProducerWorkspace) -> Path:
+def publish_workspace(
+    workspace: ProducerWorkspace, *, inherited_files: set[Path] | None = None
+) -> Path:
     """Durably rename one completion-sealed staging tree into its final path."""
     if workspace.final_root.exists():
         raise FileExistsError(
@@ -102,7 +104,7 @@ def publish_workspace(workspace: ProducerWorkspace) -> Path:
     completion = workspace.records_root / "completion_record.json"
     if not completion.is_file():
         raise ValueError("producer staging tree has no completion record")
-    _fsync_tree(workspace.staging_root)
+    _fsync_tree(workspace.staging_root, inherited_files=inherited_files)
     source_parent = workspace.staging_root.parent
     workspace.staging_root.rename(workspace.final_root)
     _fsync_directory(source_parent)
@@ -121,6 +123,7 @@ def preserve_failed_attempt(
     wall_seconds: float,
     error: BaseException,
     token: str,
+    inherited_files: set[Path] | None = None,
 ) -> Path:
     """Move partial work to attempts and remove any invalid completion marker."""
     attempt_id = (
@@ -131,6 +134,11 @@ def preserve_failed_attempt(
         + token[:8]
     )
     attempt_root = task_root / "attempts" / attempt_id
+    inherited_relative = (
+        {path.relative_to(staging_root) for path in (inherited_files or set())}
+        if staging_root is not None
+        else set()
+    )
     if staging_root is not None and staging_root.exists():
         attempt_root.parent.mkdir(parents=True, exist_ok=True)
         source_parent = staging_root.parent
@@ -163,14 +171,16 @@ def preserve_failed_attempt(
         attempt_root / "attempt_record.json",
         record.model_dump(mode="json"),
     )
-    _fsync_tree(attempt_root)
+    _fsync_tree(attempt_root, inherited_files={attempt_root / path for path in inherited_relative})
     _fsync_directory(attempt_root.parent)
     return attempt_root
 
 
-def _fsync_tree(root: Path) -> None:
-    """Persist every regular file and directory entry below one staged tree."""
+def _fsync_tree(root: Path, *, inherited_files: set[Path] | None = None) -> None:
+    """Persist new bytes and all directory entries; sealed hard links are already durable."""
     for path in sorted(item for item in root.rglob("*") if item.is_file()):
+        if inherited_files is not None and path in inherited_files:
+            continue
         descriptor = os.open(path, os.O_RDONLY)
         try:
             os.fsync(descriptor)

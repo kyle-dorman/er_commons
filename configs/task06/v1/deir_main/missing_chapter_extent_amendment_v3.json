@@ -1,0 +1,49 @@
+{
+  "schema_version": "er_commons.recovery.missing_chapter_extent_amendment.v3",
+  "base_qualification": {
+    "relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06e/qualification_v13",
+    "completion_sha256": "1522d2796c3bd917b8b6544e3c5ee68d760e2b08063fc2a70af193e48ac5d497"
+  },
+  "candidate": {
+    "relative_root": "pipelines/brisbane_baylands/task_04d_relinked_v1/document_links/linked_candidates/deir_main/exv1-d1bbac8a4979836add501c88c3522b908aeefee66b95cf8cef07abda1c30d28c",
+    "completion_sha256": "695f96b05881afc49b4066389f85f52ab7378d96fb852df8b2c2e845a18463d4",
+    "amendment_module_ref": {
+      "path": "src/er_commons/document_records/document_structure/missing_chapter_extent_amendment.py",
+      "sha256": "18c14f33bfb01df8dc5896d98908e98525be768e5ddd0c90a10fd40cf4cb1e68"
+    },
+    "compact_inputs": [
+      {"path": "canonical/sections.jsonl", "sha256": "722504080cb967cf36e83383bd1441a89766243d67453280029cd777fbbd25b7"},
+      {"path": "canonical/blocks.jsonl", "sha256": "0fbfdcd2ef43aaf4f1153e7f0384319ba0fd793b7fc0e69dd006f20502fc6c47"},
+      {"path": "canonical/tables.jsonl", "sha256": "cac83b27b5083fcef80c8583f01743965c405ffd0f6d2385320ca0f4232c86b0"},
+      {"path": "canonical/figures.jsonl", "sha256": "fcaf58d8582de943aa192e49ca5325ed06d111461cac3da3393c3a870b34599a"}
+    ]
+  },
+  "publication_module_ref": {
+    "path": "src/er_commons/document_records/document_structure/missing_chapter_qualification.py",
+    "sha256": "fc709412bb01024b7ae0403aaf5256c665709629d24a894773953cefe17ebf70"
+  },
+  "policy_ref": {
+    "path": "docs/specs/missing_chapter_repair_v1.md",
+    "sha256": "bffa5a81d8b7d4e58fdef4fa67a0dcb8deb845fc9a45a0154da693c02e20cc71"
+  },
+  "decision_schema_ref": {
+    "path": "benchmarks/er_bench/schemas/task06_recovery/v1/missing_chapter_decision.schema.json",
+    "sha256": "d5a2b8324b347813b7c60bf86036420e1a61a640c1cedcb223ed0efc71b92b61"
+  },
+  "generator_ref": {
+    "path": "scripts/amend_task06e_child_extents.py",
+    "sha256": "74dd8f28fb47923e7046c5a73bbed5d3677eb334de9ed00f1e4242611428c1de"
+  },
+  "expected_corrections": [
+    {"chapter_marker": "8", "section_ref": "4821803e515c3cec40434788c0cba626f8358434651582e7f1e649f93de3fbc7", "from_extent": [2008, 2008], "to_extent": [2008, 2010]},
+    {"chapter_marker": "9", "section_ref": "55e6d14877c6ffc5e77061135aeb9492ff0b42785889577b8c1b45b79065ad2c", "from_extent": [2032, 2032], "to_extent": [2032, 2033]},
+    {"chapter_marker": "9", "section_ref": "315bec4ae3af3ad6964467113699105dc8d25c5aa6be48bbbe11d8b43a495bf4", "from_extent": [2033, 2034], "to_extent": [2033, 2035]},
+    {"chapter_marker": "9", "section_ref": "df6dfc48fc87f4d9c66aa2e53abaa4f6efbf4bbfccd58415c2475d88561cd42a", "from_extent": [2039, 2042], "to_extent": [2039, 2043]},
+    {"chapter_marker": "9", "section_ref": "c0bc05f5c8f6fafa88b0cfae493975730f52fb3eafe765fe6cc0daf43efa17b3", "from_extent": [2044, 2044], "to_extent": [2044, 2045]},
+    {"chapter_marker": "9", "section_ref": "acf684b094672c79e36c654f9e016a4d029fbac086c667c27772ec82c6e51ebe", "from_extent": [2046, 2048], "to_extent": [2046, 2050]},
+    {"chapter_marker": "9", "section_ref": "6267c205718fed527835efc41bdef6a503e20db122433ba4e3d7aa67ea219c13", "from_extent": [2051, 2052], "to_extent": [2051, 2054]},
+    {"chapter_marker": "9", "section_ref": "db6d9cac21944070c06756195465d8c556d53607b429629501c0db831b068e92", "from_extent": [2054, 2054], "to_extent": [2054, 2055]},
+    {"chapter_marker": "9", "section_ref": "672d0ff2bbfd87b94af46342c444e351b9e85c9af6122739f0f04f4b43af75d3", "from_extent": [2072, 2076], "to_extent": [2072, 2077]},
+    {"chapter_marker": "9", "section_ref": "4b24039ccf08cec14a66cf1c9659870dfd234d5ed9790e314e680bf6ffd311cb", "from_extent": [2081, 2082], "to_extent": [2081, 2083]}
+  ]
+}

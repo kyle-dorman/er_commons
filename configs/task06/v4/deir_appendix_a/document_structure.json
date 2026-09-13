@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0.0",
+  "semantic_policy_version": "task06d-repeated-heading-repair-v2",
+  "candidate_version_name": "deir_appendix_a_task06g_semantic_candidate_v1",
+  "candidate_scope": "document_scoped_non_release",
+  "control_profile": "strict_quality_gate",
+  "source": {
+    "source_id": "deir_appendix_a",
+    "source_sha256": "6f77ff07db8037b382cbe7ad4555e65bb9808749004a2324f48c615b2e378dd4",
+    "physical_page_count": 514
+  },
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "baseline_candidate_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-f73b201ab51f9ad3cfe3d88d40220e9ef5de1d3044a817463f8456e6d814a511",
+  "baseline_candidate_id": "exv1-f73b201ab51f9ad3cfe3d88d40220e9ef5de1d3044a817463f8456e6d814a511",
+  "baseline_producer_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_parse_evidence",
+  "baseline_producer_run_id": "prv1-ef0af1ca4b2f0f7f3d7e391748bca9e988625cca3dbf6ae23d85bd606de7fee6",
+  "hierarchy_producer_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_parse_evidence",
+  "hierarchy_producer_run_id": "prv1-712f10ef3b5dc30cc16543e6838316a5d4a07933b59739d21bcc4bf9df7ecc38",
+  "hierarchy_candidate_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v4/hierarchy_inference/hcorv1-b207ad4862fcedd55b7c00e9ec9b819eb5d7e3babade8bf3092da45520f4b1a2",
+  "hierarchy_candidate_id": "hcorv1-b207ad4862fcedd55b7c00e9ec9b819eb5d7e3babade8bf3092da45520f4b1a2",
+  "hierarchy_schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
+  "semantic_spec_relative_path": "docs/specs/semantic_structure_v2.md",
+  "semantic_schema_relative_path": "benchmarks/er_bench/schemas/canonical_extraction/v2/semantic_structure.schema.json",
+  "repeated_heading_policy_relative_path": "docs/specs/repeated_heading_repair_v2.md",
+  "repeated_heading_qualification_relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06d/qualification_v8",
+  "repeated_heading_decision_schema_relative_path": "benchmarks/er_bench/schemas/task06_recovery/v1/repeated_heading_decision_v2.schema.json",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/document_structure"
+}

@@ -28,6 +28,13 @@ from er_commons.collection_processing.validation_support import (
 
 def validate_collection_bundle(bundle: JsonObject, reader: CollectionArtifactReader) -> None:
     """Validate v2 identities, joins, counts, and exact referenced bytes."""
+    if bundle.get("schema_version") == "er_commons.collection_workflow_contract.v3":
+        from er_commons.collection_processing.semantic_validation_v3 import (
+            validate_imported_collection_bundle,
+        )
+
+        validate_imported_collection_bundle(bundle, reader)
+        return
     accounting = _object(bundle, "accounting")
     index = _object(bundle, "target_index")
     links = _object(bundle, "resolution_completion")
@@ -41,11 +48,16 @@ def validate_collection_bundle(bundle: JsonObject, reader: CollectionArtifactRea
 
 
 def _validate_accounting(
-    bundle: JsonObject, accounting: JsonObject, reader: CollectionArtifactReader
+    bundle: JsonObject,
+    accounting: JsonObject,
+    reader: CollectionArtifactReader,
+    *,
+    version: str = "v2",
 ) -> None:
-    if accounting.get("schema_version") != "er_commons.collection_accounting.v2":
+    if accounting.get("schema_version") != f"er_commons.collection_accounting.{version}":
         raise ValueError("collection accounting schema is not v2")
-    if accounting.get("production_extraction_id") != bundle.get("production_extraction_id"):
+    identity_field = "collection_production_id" if version == "v3" else "production_extraction_id"
+    if accounting.get(identity_field) != bundle.get(identity_field):
         raise ValueError("collection accounting production identity differs")
     sources = _objects(accounting, "ordered_sources")
     rows = _objects(accounting, "rows")
@@ -70,9 +82,13 @@ def _validate_accounting(
 
 
 def _validate_index(
-    accounting: JsonObject, index: JsonObject, reader: CollectionArtifactReader
+    accounting: JsonObject,
+    index: JsonObject,
+    reader: CollectionArtifactReader,
+    *,
+    version: str = "v2",
 ) -> None:
-    if index.get("schema_version") != "er_commons.record_target_index_completion.v2":
+    if index.get("schema_version") != f"er_commons.record_target_index_completion.{version}":
         raise ValueError("record-target index completion schema is not v2")
     preimage = _object(index, "identity_preimage")
     if index.get("index_id") != build_record_target_index_id(preimage):
@@ -106,8 +122,10 @@ def _validate_index(
     _verify_inventory(index, reader)
 
 
-def _validate_links(index: JsonObject, links: JsonObject, reader: CollectionArtifactReader) -> None:
-    if links.get("schema_version") != "er_commons.cross_document_link_completion.v2":
+def _validate_links(
+    index: JsonObject, links: JsonObject, reader: CollectionArtifactReader, *, version: str = "v2"
+) -> None:
+    if links.get("schema_version") != f"er_commons.cross_document_link_completion.{version}":
         raise ValueError("cross-document link completion schema is not v2")
     if links.get("index_id") != index.get("index_id"):
         raise ValueError("cross-document links name a different record-target index")
@@ -148,8 +166,10 @@ def _validate_handoff(
     links: JsonObject,
     handoff: JsonObject,
     reader: CollectionArtifactReader,
+    *,
+    version: str = "v2",
 ) -> None:
-    if handoff.get("schema_version") != "er_commons.collection_handoff.v2":
+    if handoff.get("schema_version") != f"er_commons.collection_handoff.{version}":
         raise ValueError("collection handoff schema is not v2")
     if handoff.get("index_id") != index.get("index_id"):
         raise ValueError("collection handoff names a different record-target index")

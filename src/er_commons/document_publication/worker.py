@@ -52,6 +52,7 @@ def main() -> None:
         source_id=args.source_id,
         configs=configs,
         diagnostics_root=args.result.parent,
+        run_spec_path=args.run_spec,
     )
     write_json_atomic(args.result, result.model_dump(mode="json"))
 

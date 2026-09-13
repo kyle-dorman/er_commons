@@ -7,13 +7,17 @@ import os
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 
+from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_parsing.content_parsing.config import (
     ContentParsingConfig,
     load_content_parsing_config,
 )
 from er_commons.document_publication.config import DocumentRunSpec, ResourcePolicy
+
+if TYPE_CHECKING:
+    from er_commons.document_publication.accepted_inputs import PreparedPublicationInputs
 
 
 class ResourcePolicySpec(Protocol):
@@ -44,6 +48,40 @@ class ProcessConfigs:
             "document_structure": self.document_structure,
             "document_reference_linking": self.document_reference_linking,
         }
+
+
+def verify_reused_completion_inputs(
+    prepared: PreparedPublicationInputs, source_id: str, budget: VerificationBudget
+) -> None:
+    """Verify every explicitly frozen resume input before a document owner may start."""
+    selection = prepared.spec.process_selection(source_id)
+    if selection.reused_completions is None:
+        return
+    identity_fields = {
+        "content_parsing": "producer_run_id",
+        "heading_evidence_parsing": "producer_run_id",
+        "record_mapping": "candidate_id",
+        "hierarchy_inference": "candidate_id",
+    }
+    for role, reference in selection.reused_completions.selected().items():
+        path = reference.resolve(
+            repository_root=prepared.repository_root,
+            artifact_root=prepared.data_root,
+            budget=budget,
+            role="completion",
+            source_id=source_id,
+        )
+        value = budget.read_json(
+            path,
+            root=prepared.data_root,
+            role=f"reused_{role}_completion",
+            source_id=source_id,
+        )
+        if not isinstance(value, dict) or value.get(identity_fields[role]) != path.parents[1].name:
+            raise ValueError(f"reused completion identity differs from its path: {role}")
+        observed_sources = value.get("source_ids", [value.get("source_id")])
+        if role != "hierarchy_inference" and observed_sources != [source_id]:
+            raise ValueError(f"reused completion source differs: {role}")
 
 
 def prepare_process_configs(

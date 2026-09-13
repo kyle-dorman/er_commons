@@ -428,6 +428,55 @@ def test_routing_change_reuses_conversion_and_rebuilds_derived_output(
     assert second_input["conversion_id"] == prepared.conversion_identity.run_id
 
 
+def test_accepted_conversion_path_never_invokes_conversion(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A 06G derived producer consumes its declared seal without source conversion."""
+    base = _prepared(tmp_path)
+    accepted_id = "dconv1-" + "a" * 64
+    accepted_relative = Path("accepted/conversions") / accepted_id
+    accepted_root = tmp_path / accepted_relative
+    accepted_root.mkdir(parents=True)
+    config = base.config.model_copy(
+        update={
+            "accepted_conversion_relative_root": accepted_relative,
+            "accepted_conversion_id": accepted_id,
+        }
+    )
+    prepared = replace(base, config=config)
+    config_path = tmp_path / "producer_config.json"
+    config_path.write_text(config.model_dump_json(indent=2) + "\n")
+    observed: list[object] = []
+    sealed = object()
+
+    monkeypatch.setattr(application, "prepare_content_parsing", lambda *_args, **_kwargs: prepared)
+    monkeypatch.setattr(
+        application,
+        "ensure_conversion_bundle",
+        lambda **_kwargs: pytest.fail("accepted conversion reuse must not invoke conversion"),
+    )
+    monkeypatch.setattr(
+        application,
+        "read_accepted_conversion",
+        lambda root, conversion_id, **_kwargs: observed.append((root, conversion_id)),
+    )
+    monkeypatch.setattr(
+        application,
+        "verify_conversion_bundle",
+        lambda root, conversion_id: sealed,
+    )
+    expected = tmp_path / "completion.json"
+    monkeypatch.setattr(
+        application,
+        "build_and_publish_derived",
+        lambda **kwargs: (observed.append(kwargs["sealed_conversion"]), expected)[1],
+    )
+
+    assert application.run_document_parsing(tmp_path, config_path, services=_services()) == expected
+    assert observed == [(accepted_root, accepted_id), sealed]
+
+
 def test_interruption_after_conversion_publish_reuses_raw_seal_on_resume(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,

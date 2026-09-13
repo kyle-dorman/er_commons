@@ -40,9 +40,11 @@ def parsing_code_paths(repo_root: Path) -> list[Path]:
     content = repo_root / "src/er_commons/document_parsing/content_parsing"
     tables = repo_root / "src/er_commons/document_parsing/table_reconstruction"
     content_names = (
+        "accepted_aggregate.py",
         "application.py",
         "chunked_application.py",
         "config.py",
+        "configured_application.py",
         "derived_publication.py",
         "derived_publication_support.py",
         "derived_route_reuse.py",

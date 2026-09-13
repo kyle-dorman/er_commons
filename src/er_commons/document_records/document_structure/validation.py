@@ -28,6 +28,7 @@ def validate_document_structure_contract(
     bundle: dict[str, Any],
     *,
     bridge_evidence: BridgeEvidence,
+    authorized_unbridged_keys: frozenset[str] = frozenset(),
 ) -> None:
     """Validate cross-record policy after JSON Schema shape validation.
 
@@ -40,5 +41,7 @@ def validate_document_structure_contract(
     validate_sections(view)
     validate_page_labels(view)
     validate_target_aliases(view)
-    validate_cross_producer_bridge(view, bridge_evidence)
+    validate_cross_producer_bridge(
+        view, bridge_evidence, authorized_unbridged_keys=authorized_unbridged_keys
+    )
     validate_candidate_correspondence(bundle["correspondence_report"])

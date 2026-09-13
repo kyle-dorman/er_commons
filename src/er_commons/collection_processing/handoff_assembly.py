@@ -8,6 +8,7 @@ from er_commons.collection_processing.contract import (
     JsonObject,
     build_collection_handoff_id,
     canonical_sha256,
+    collection_identity_fields,
     unavailable_source_digest,
 )
 from er_commons.collection_processing.domain import PublishedStage, StageBuild, StageName
@@ -27,6 +28,8 @@ class HandoffAssemblyInputs:
     resolution: JsonObject
     resolution_stage: PublishedStage
     blocking_policy: str
+    collection_production_id: str | None = None
+    imported_selection_sha256: str | None = None
 
 
 class HandoffAssembler:
@@ -47,7 +50,11 @@ class HandoffAssembler:
         }
         completion: JsonObject = {
             "record_type": "collection_handoff",
-            "schema_version": "er_commons.collection_handoff.v2",
+            "schema_version": (
+                "er_commons.collection_handoff.v3"
+                if inputs.collection_production_id is not None
+                else "er_commons.collection_handoff.v2"
+            ),
             "handoff_id": handoff_id,
             "scope_id": inputs.scope_id,
             "index_id": inputs.index["index_id"],
@@ -101,8 +108,16 @@ class HandoffAssembler:
         payloads: dict[str, bytes],
     ) -> JsonObject:
         return {
-            "schema_version": "er_commons.collection_handoff_identity.v2",
-            "production_extraction_id": inputs.production_extraction_id,
+            "schema_version": (
+                "er_commons.collection_handoff_identity.v3"
+                if inputs.collection_production_id is not None
+                else "er_commons.collection_handoff_identity.v2"
+            ),
+            **collection_identity_fields(
+                inputs.production_extraction_id,
+                inputs.collection_production_id,
+                inputs.imported_selection_sha256,
+            ),
             "scope_id": inputs.scope_id,
             "accounting_completion_sha256": inputs.accounting_stage.completion_ref["sha256"],
             "index_completion_sha256": inputs.index_stage.completion_ref["sha256"],

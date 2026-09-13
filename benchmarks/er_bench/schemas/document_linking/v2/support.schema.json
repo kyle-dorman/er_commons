@@ -4,9 +4,12 @@
   "title": "Document link support record v2",
   "oneOf": [
     {"$ref": "#/$defs/targetIndex"},
+    {"$ref": "#/$defs/targetIndexV3"},
     {"$ref": "#/$defs/accounting"},
     {"$ref": "#/$defs/preservation"},
-    {"$ref": "#/$defs/figureQualification"}
+    {"$ref": "#/$defs/preservationV1"},
+    {"$ref": "#/$defs/figureQualification"},
+    {"$ref": "#/$defs/fc1RebuiltEquivalence"}
   ],
   "$defs": {
     "count": {"type": "integer", "minimum": 0},
@@ -62,6 +65,18 @@
         "entries": {"type": "array", "items": {"$ref": "#/$defs/indexEntry"}}
       }
     },
+    "targetIndexV3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "upstream_alias_count", "derived_table_alias_count", "derived_figure_alias_count", "entries"],
+      "properties": {
+        "schema_version": {"const": "er_commons.cross_reference_target_index.v3"},
+        "upstream_alias_count": {"$ref": "#/$defs/count"},
+        "derived_table_alias_count": {"$ref": "#/$defs/count"},
+        "derived_figure_alias_count": {"const": 0},
+        "entries": {"type": "array", "items": {"$ref": "#/$defs/indexEntry"}}
+      }
+    },
     "accounting": {
       "type": "object",
       "additionalProperties": false,
@@ -112,6 +127,20 @@
           "prefixItems": [{"const": "R6"}, {"const": "FC1"}],
           "items": false
         },
+        "undeclared_difference_count": {"const": 0},
+        "status": {"const": "passed"}
+      }
+    },
+    "preservationV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "upstream_alias_count", "replayed_v3_table_alias_count", "derived_alias_count", "allowed_derived_alias_rule_ids", "undeclared_difference_count", "status"],
+      "properties": {
+        "schema_version": {"const": "er_commons.document_link_preservation.v1"},
+        "upstream_alias_count": {"$ref": "#/$defs/count"},
+        "replayed_v3_table_alias_count": {"$ref": "#/$defs/count"},
+        "derived_alias_count": {"$ref": "#/$defs/count"},
+        "allowed_derived_alias_rule_ids": {"type": "array", "prefixItems": [{"const": "R6"}], "items": false},
         "undeclared_difference_count": {"const": 0},
         "status": {"const": "passed"}
       }
@@ -233,6 +262,68 @@
           }
         }
       ]
+    },
+    "fc1RebuiltEquivalence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "status", "source_id", "accepted_qualification_id",
+        "accepted_packet_refs", "accepted_upstream_candidate_id",
+        "base_structured_candidate_id", "rebuilt_structured_candidate_id",
+        "correspondence_ref", "namespace_mapping_policy",
+        "accepted_semantic_sha256", "rebuilt_semantic_sha256",
+        "candidate_figure_count", "eligible_figure_count", "rejected_figure_count",
+        "review_required_figure_count", "alias_count", "target_edge_count",
+        "figure_4_8_absent", "equivalence_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.fc1_rebuilt_equivalence.v1"},
+        "status": {"const": "passed"},
+        "source_id": {"const": "deir_main"},
+        "accepted_qualification_id": {"type": "string", "pattern": "^figqualv1-[0-9a-f]{64}$"},
+        "accepted_packet_refs": {"$ref": "#/$defs/acceptedFc1Evidence"},
+        "accepted_upstream_candidate_id": {"type": "string", "pattern": "^exv1-[0-9a-f]{64}$"},
+        "base_structured_candidate_id": {"type": "string", "pattern": "^exv1-[0-9a-f]{64}$"},
+        "rebuilt_structured_candidate_id": {"type": "string", "pattern": "^exv1-[0-9a-f]{64}$"},
+        "correspondence_ref": {"$ref": "#/$defs/authorityRef"},
+        "namespace_mapping_policy": {"const": "declared_main_correspondence_entity_tail_v1"},
+        "accepted_semantic_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "rebuilt_semantic_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "candidate_figure_count": {"const": 274},
+        "eligible_figure_count": {"const": 178},
+        "rejected_figure_count": {"const": 96},
+        "review_required_figure_count": {"const": 0},
+        "alias_count": {"const": 178},
+        "target_edge_count": {"const": 178},
+        "figure_4_8_absent": {"const": true},
+        "equivalence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "authorityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "path", "sha256", "byte_size"],
+      "properties": {
+        "authority": {"enum": ["repository", "artifact_root"]},
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "byte_size": {"type": "integer", "minimum": 1}
+      }
+    },
+    "acceptedFc1Evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["qualification_id", "source_id", "completion_ref", "inventory_ref", "identity_ref", "qualification_ref", "figure_aliases_ref", "target_index_entries_ref"],
+      "properties": {
+        "qualification_id": {"type": "string", "pattern": "^figqualv1-[0-9a-f]{64}$"},
+        "source_id": {"const": "deir_main"},
+        "completion_ref": {"$ref": "#/$defs/authorityRef"},
+        "inventory_ref": {"$ref": "#/$defs/authorityRef"},
+        "identity_ref": {"$ref": "#/$defs/authorityRef"},
+        "qualification_ref": {"$ref": "#/$defs/authorityRef"},
+        "figure_aliases_ref": {"$ref": "#/$defs/authorityRef"},
+        "target_index_entries_ref": {"$ref": "#/$defs/authorityRef"}
+      }
     },
     "figureQualification": {
       "type": "object",

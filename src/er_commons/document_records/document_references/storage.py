@@ -19,8 +19,12 @@ def read_json(path: Path) -> JsonObject:
 
 
 def read_jsonl(path: Path) -> list[JsonObject]:
-    """Read an ordered stream of JSON objects."""
-    records = [json.loads(line) for line in path.read_text().splitlines() if line]
+    """Read an ordered stream without retaining a second whole-file text copy."""
+    records: list[JsonObject] = []
+    with path.open(encoding="utf-8") as stream:
+        for line in stream:
+            if line.rstrip("\r\n"):
+                records.append(json.loads(line))
     if any(not isinstance(record, dict) for record in records):
         raise TypeError(f"expected JSON object records in {path}")
     return records
@@ -33,12 +37,12 @@ def write_json(path: Path, value: Any) -> None:
 
 
 def write_jsonl(path: Path, records: list[JsonObject]) -> None:
-    """Write stable compact JSONL in supplied record order."""
+    """Write stable compact JSONL without assembling a whole-file payload."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    payload = "".join(
-        json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n" for record in records
-    )
-    path.write_text(payload)
+    with path.open("w", encoding="utf-8", newline="") as stream:
+        for record in records:
+            stream.write(json.dumps(record, sort_keys=True, separators=(",", ":")))
+            stream.write("\n")
 
 
 def serialized_json_sha256(value: Any) -> str:

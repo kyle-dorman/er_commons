@@ -26,6 +26,7 @@ from er_commons.document_records.document_references.reviewed_navigation import 
 )
 from er_commons.settings import ProjectSettings, load_settings
 from er_commons.source_release import freeze_release, verify_release
+from er_commons.task06g.comparison import publish_task06g_comparison
 
 app = typer.Typer(
     help="Small, reproducible environmental-review data workflows.",
@@ -264,7 +265,7 @@ def relink_and_replay_selected_document(
         link_spec=link_spec,
         source_id=source_id,
     )
-    typer.echo(f"document_link_completion={result.linked.completion_path}")
+    typer.echo(f"document_link_completion={result.linked_completion_path}")
     typer.echo(f"document_completion={result.document_completion_path}")
 
 
@@ -336,16 +337,52 @@ def validate_published_handoff(
             help="Versioned collection-processing schema.",
         ),
     ],
+    document_input_root: Annotated[
+        Path | None,
+        typer.Option(
+            "--document-input-root",
+            exists=True,
+            file_okay=False,
+            dir_okay=True,
+            readable=True,
+            help="Explicit retained-document authority for collection-only bundles.",
+        ),
+    ] = None,
 ) -> None:
     """Verify one published handoff and its successful documents without rebuilding."""
     result = validate_collection_handoff(
         extraction_root=collection_root,
         scope_id=scope_id,
         schema_path=schema,
+        data_root=load_settings().data_root,
+        document_input_root=document_input_root,
     )
     typer.echo(f"handoff_id={result.handoff_id}")
     typer.echo(f"verified_documents={result.verified_document_count}")
     typer.echo(f"task04_status={result.task04_status}")
+
+
+@collections_app.command("publish-task06g-comparison")
+def publish_task06g_comparison_command(
+    comparison_spec: Annotated[
+        Path,
+        typer.Option(
+            "--comparison-spec",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            readable=True,
+            help="Resolved, receipt-bound Task 06G comparison specification.",
+        ),
+    ],
+) -> None:
+    """Publish source-free Task 06G correspondence and comparison closure."""
+    correspondence, comparison = publish_task06g_comparison(
+        data_root=load_settings().data_root,
+        comparison_spec=comparison_spec,
+    )
+    typer.echo(f"correspondence_completion={correspondence}")
+    typer.echo(f"comparison_completion={comparison}")
 
 
 def main() -> None:

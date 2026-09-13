@@ -6,6 +6,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from er_commons.authority_reference import AuthorityReference
+
 type JsonObject = dict[str, Any]
 
 DOCUMENT_PROCESS_NAMES = (
@@ -78,7 +80,11 @@ class ArtifactRef(StrictRecord):
 class DocumentIdentityRecord(StrictRecord):
     """Persisted preimage proving one document candidate's content and controls."""
 
-    schema_version: Literal["er_commons.document_candidate_identity.v2"]
+    schema_version: Literal[
+        "er_commons.document_candidate_identity.v2",
+        "er_commons.document_candidate_identity.v3",
+        "er_commons.document_candidate_identity.v4",
+    ]
     production_extraction_id: str = Field(pattern=r"^exv1-[0-9a-f]{64}$")
     candidate_id: str = Field(pattern=r"^docv1-[0-9a-f]{64}$")
     source: SourceIdentity
@@ -86,6 +92,12 @@ class DocumentIdentityRecord(StrictRecord):
     control_digest: str = Field(pattern=r"^[0-9a-f]{64}$")
     hierarchy_disposition: dict[str, object]
     run_spec_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    resolved_spec_ref: AuthorityReference | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    resolved_process_config_refs: dict[str, AuthorityReference] | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     stage_completions: dict[str, ArtifactRef]
     terminal_state: Literal["complete", "complete_with_warnings"]
 
@@ -94,6 +106,16 @@ class DocumentIdentityRecord(StrictRecord):
         """Require the exact six stage-one completion roles."""
         if set(self.stage_completions) != DOCUMENT_PRODUCT_ROLE_SET:
             raise ValueError("document identity must seal exactly six document products")
+        if self.schema_version.endswith(".v3") != (self.resolved_spec_ref is not None):
+            if not self.schema_version.endswith(".v4"):
+                raise ValueError("document identity v3 requires one authority-aware resolved spec")
+        if self.schema_version.endswith(".v4"):
+            if self.resolved_spec_ref is None or self.resolved_process_config_refs is None:
+                raise ValueError("document identity v4 requires resolved run and process specs")
+            if set(self.resolved_process_config_refs) != DOCUMENT_PROCESS_NAME_SET:
+                raise ValueError("document identity v4 process-config closure differs")
+        elif self.resolved_process_config_refs is not None:
+            raise ValueError("historical document identities cannot add process-config refs")
         return self
 
 
@@ -152,6 +174,9 @@ class PipelineResult(StrictRecord):
     stage_completions: dict[str, ArtifactRef]
     stage_timings: dict[str, float]
     resource_enforcement: Literal["validated_before_document_processes"]
+    resolved_process_config_refs: dict[str, AuthorityReference] | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
 
     @model_validator(mode="after")
     def require_complete_process_handoff(self) -> PipelineResult:
@@ -160,6 +185,11 @@ class PipelineResult(StrictRecord):
             raise ValueError("pipeline result must contain exactly six stage completions")
         if set(self.stage_timings) != DOCUMENT_PROCESS_NAME_SET:
             raise ValueError("pipeline result must contain exactly six stage timings")
+        if (
+            self.resolved_process_config_refs is not None
+            and set(self.resolved_process_config_refs) != DOCUMENT_PROCESS_NAME_SET
+        ):
+            raise ValueError("pipeline result process-config closure differs")
         return self
 
 

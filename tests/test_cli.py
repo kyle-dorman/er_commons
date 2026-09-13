@@ -214,6 +214,8 @@ def test_handoff_validation_command_reports_public_result(
             "extraction_root": collection_root,
             "scope_id": "scopev1-test",
             "schema_path": schema,
+            "data_root": Path("/Volumes/x10pro/er_commons"),
+            "document_input_root": None,
         }
     ]
     assert "handoff_id=handoffv1-test" in result.output

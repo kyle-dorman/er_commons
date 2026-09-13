@@ -17,6 +17,7 @@ from er_commons.document_records.document_structure.publication import (
 )
 from er_commons.document_records.document_structure.support import (
     MISSING_CHAPTER_CORRESPONDENCE_PATH,
+    REPEATED_HEADING_CORRESPONDENCE_PATH,
     SUPPORT_PATHS,
 )
 from er_commons.document_records.record_mapping.identity import extraction_identity_sha256
@@ -45,6 +46,32 @@ def _v3_identity() -> dict[str, object]:
     return identity
 
 
+def _repeated_identity() -> dict[str, object]:
+    """Return a self-consistent v2 identity with the new compact support binding."""
+    identity: dict[str, object] = {
+        "semantic_contract": {
+            "repeated_heading_repair": {
+                "decisions": {"path": "06d/eligible_decisions.jsonl", "sha256": "2" * 64},
+                "correspondence_schema": {
+                    "path": (
+                        "benchmarks/er_bench/schemas/task06_recovery/v1/"
+                        "repeated_heading_correspondence.schema.json"
+                    ),
+                    "sha256": sha256_file(
+                        Path(__file__).parents[1]
+                        / "benchmarks/er_bench/schemas/task06_recovery/v1/"
+                        "repeated_heading_correspondence.schema.json"
+                    ),
+                },
+            }
+        }
+    }
+    digest = extraction_identity_sha256(identity)
+    identity["extraction_id"] = f"exv1-{digest}"
+    identity["identity_sha256"] = digest
+    return identity
+
+
 def _write_completed_candidate(
     root: Path,
     candidate_id: str,
@@ -54,6 +81,7 @@ def _write_completed_candidate(
     semantic_payload: bytes | None = None,
     v3: bool = False,
     correspondence_payload: dict[str, object] | None = None,
+    repeated: bool = False,
 ) -> None:
     """Write the smallest checksum-valid semantic candidate fixture."""
     support_files = []
@@ -86,6 +114,22 @@ def _write_completed_candidate(
                 "schema_version": "1.0.0",
             }
         )
+    if repeated:
+        identity = _repeated_identity()
+        assert candidate_id == identity["extraction_id"]
+        write_json(root / "records" / "extraction_identity.json", identity)
+        write_json(
+            root / REPEATED_HEADING_CORRESPONDENCE_PATH,
+            correspondence_payload or _valid_repeated_correspondence(candidate_id),
+        )
+        support_files.append(
+            {
+                "role": "repeated_heading_correspondence",
+                "path": REPEATED_HEADING_CORRESPONDENCE_PATH,
+                "sha256": sha256_file(root / REPEATED_HEADING_CORRESPONDENCE_PATH),
+                "schema_version": "1.0.0",
+            }
+        )
     write_json(
         root / "records" / "manifest.json",
         {
@@ -95,7 +139,13 @@ def _write_completed_candidate(
                 else "er_commons.canonical_extraction_manifest.v2"
             ),
             "extraction_id": candidate_id,
-            **({"identity_sha256": _v3_identity()["identity_sha256"]} if v3 else {}),
+            **(
+                {"identity_sha256": _v3_identity()["identity_sha256"]}
+                if v3
+                else (
+                    {"identity_sha256": _repeated_identity()["identity_sha256"]} if repeated else {}
+                )
+            ),
             "source_semantic_disposition": disposition,
             "support_files": support_files,
         },
@@ -118,9 +168,54 @@ def _write_completed_candidate(
             "source_semantic_disposition": disposition,
             "artifact_inventory_sha256": sha256_file(inventory_path),
             "support_files_verified": True,
+            **({"repeated_heading_correspondence_count": 1} if repeated else {}),
             "undeclared_difference_count": 0,
         },
     )
+
+
+def _valid_repeated_correspondence(candidate_id: str) -> dict[str, object]:
+    """Return one closed two-to-one repeated-heading mapping fixture."""
+    return {
+        "schema_version": "er_commons.recovery.repeated_heading_correspondence.v1",
+        "candidate_id": candidate_id,
+        "decision_ref": {"path": "06d/eligible_decisions.jsonl", "sha256": "2" * 64},
+        "records": [
+            {
+                "schema_version": "er_commons.recovery.stage_correspondence.v1",
+                "stage_role": "semantic_sections_and_target_aliases",
+                "change_class": "many_to_one_repeated_heading_repair",
+                "policy_version": "repeated_chapter_divider_opening_v1",
+                "old_targets": [
+                    {"section_id": "old/section/a", "role": "retained_anchor"},
+                    {"section_id": "old/section/b", "role": "absorbed_duplicate"},
+                ],
+                "new_target": {
+                    "section_id": f"{candidate_id}/section/deir_appendix_a/sec000001",
+                    "state": "projected_candidate_local",
+                },
+                "source_heading_block_ids": ["old/block/a", "old/block/b"],
+                "retained_heading_block_ids": [
+                    f"{candidate_id}/block/deir_appendix_a/blk000001",
+                    f"{candidate_id}/block/deir_appendix_a/blk000002",
+                ],
+                "retained_heading_stable_keys": ["a" * 64, "b" * 64],
+                "logical_content_page_extent": [311, 449],
+                "following_boundary_section_id": "old/section/c",
+                "following_boundary_stable_key": "c" * 64,
+                "following_boundary_raw_text": "07 | INFRASTRUCTURE",
+                "following_boundary_page": 452,
+                "content_record_count": 10,
+                "content_record_ids_unique": True,
+                "affected_descendants": [
+                    "semantic_sections_and_membership",
+                    "target_aliases",
+                    "document_links_and_publication",
+                    "collection_target_index_resolution_and_handoff",
+                ],
+            }
+        ],
+    }
 
 
 def _valid_missing_chapter_correspondence(candidate_id: str) -> dict[str, object]:
@@ -182,6 +277,56 @@ def test_v3_adds_correspondence_without_changing_v2_support_roles(tmp_path: Path
     _write_completed_candidate(tmp_path, candidate_id, v3=True)
     assert verify_completed_document_structure(tmp_path, candidate_id).is_file()
     assert (tmp_path / MISSING_CHAPTER_CORRESPONDENCE_PATH).is_file()
+
+
+def test_v2_repeated_heading_support_is_sealed_and_reusable(tmp_path: Path) -> None:
+    """A new v2 candidate exposes compact 06D correspondence under its terminal seal."""
+    candidate_id = str(_repeated_identity()["extraction_id"])
+    _write_completed_candidate(tmp_path, candidate_id, repeated=True)
+
+    assert verify_completed_document_structure(tmp_path, candidate_id).is_file()
+    assert (tmp_path / REPEATED_HEADING_CORRESPONDENCE_PATH).is_file()
+
+
+def test_v2_repeated_heading_reuse_rejects_wrong_candidate_binding(tmp_path: Path) -> None:
+    """Inventory-consistent tampering still fails the compact semantic binding."""
+    candidate_id = str(_repeated_identity()["extraction_id"])
+    payload = _valid_repeated_correspondence(candidate_id)
+    payload["candidate_id"] = "exv1-" + "f" * 64
+    _write_completed_candidate(
+        tmp_path,
+        candidate_id,
+        repeated=True,
+        correspondence_payload=payload,
+    )
+
+    with pytest.raises(DocumentStructureInvariantError) as error:
+        verify_completed_document_structure(tmp_path, candidate_id)
+    assert error.value.invariant == "repeated-heading correspondence matches its closed schema"
+
+
+def test_v2_repeated_heading_identity_rejects_omitted_support(tmp_path: Path) -> None:
+    """A new identity cannot silently omit its declared correspondence support role."""
+    candidate_id = str(_repeated_identity()["extraction_id"])
+    _write_completed_candidate(tmp_path, candidate_id, repeated=True)
+    (tmp_path / REPEATED_HEADING_CORRESPONDENCE_PATH).unlink()
+    manifest_path = tmp_path / "records" / "manifest.json"
+    manifest = json.loads(manifest_path.read_bytes())
+    manifest["support_files"] = [
+        item
+        for item in manifest["support_files"]
+        if item["role"] != "repeated_heading_correspondence"
+    ]
+    write_json(manifest_path, manifest)
+    inventory_path = write_inventory(tmp_path)
+    completion_path = tmp_path / "records" / "completion_record.json"
+    completion = json.loads(completion_path.read_bytes())
+    completion["artifact_inventory_sha256"] = sha256_file(inventory_path)
+    write_json(completion_path, completion)
+
+    with pytest.raises(DocumentStructureInvariantError) as error:
+        verify_completed_document_structure(tmp_path, candidate_id)
+    assert error.value.invariant == "semantic candidate support roles are exact and unique"
 
 
 def test_v3_reuse_rejects_rehashed_identity_with_old_candidate_id(tmp_path: Path) -> None:

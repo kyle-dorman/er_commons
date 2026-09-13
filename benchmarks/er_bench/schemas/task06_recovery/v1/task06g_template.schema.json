@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task06_recovery/v1/task06g_template.schema.json",
+  "title": "Task 06G frozen spec template",
+  "type": "object",
+  "required": ["schema_version"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

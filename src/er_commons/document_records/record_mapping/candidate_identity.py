@@ -105,6 +105,14 @@ def _source_release_identity(
         for record in inputs.sealed_manifest.sources
         if record.source_role == "model_corpus"
     ]
+    if inputs.selected_source.source_role == "qualified_substitute":
+        records = [
+            {
+                "source_id": inputs.selected_source.source_id,
+                "sha256": inputs.selected_source.sha256,
+                "pdf_page_count": inputs.selected_source.pdf_page_count,
+            }
+        ]
     return {
         "source_release_version": config.source_release_version,
         "source_manifest_path": config.source_manifest_relative_path.as_posix(),

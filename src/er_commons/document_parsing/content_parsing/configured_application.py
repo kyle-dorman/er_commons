@@ -65,8 +65,12 @@ def run_configured_document_parsing(
     selected_policy = policy_path or config_path.with_name("chunked_conversion.json")
     if not selected_policy.is_file():
         return run_document_parsing(data_root, config_path)
-    policy = ChunkedExecutionPolicy.model_validate_json(selected_policy.read_bytes())
     config, config_sha256 = load_content_parsing_config(config_path)
+    if getattr(config, "accepted_conversion_id", None) is not None:
+        # An accepted aggregate is a closed source-free input, never a request
+        # to plan or execute fresh ranges even if a sibling policy exists.
+        return run_document_parsing(data_root, config_path)
+    policy = ChunkedExecutionPolicy.model_validate_json(selected_policy.read_bytes())
     prepared = prepare_content_parsing(data_root, config=config, config_sha256=config_sha256)
     threshold = policy.source_selection.pdf_page_count_greater_than
     if prepared.source.source_page_count <= threshold:

@@ -21,6 +21,7 @@ from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 
 from er_commons.artifact_io import canonical_json_sha256
 from er_commons.artifact_verification import VerificationBudget
+from er_commons.authority_reference import reference_for_path
 from er_commons.document_publication.accepted_inputs import (
     PreparedPublicationInputs,
     capture_verified_stamps,
@@ -39,7 +40,13 @@ from er_commons.document_records.document_references.construction import (
     TARGET_ALIAS_PATH,
     CandidateSource,
 )
+from er_commons.document_records.document_references.fc1_equivalence import (
+    AcceptedFc1Packet,
+    build_fc1_rebuilt_equivalence,
+    load_accepted_fc1_packet,
+)
 from er_commons.document_records.document_references.figure_aliases import (
+    FigureAliasValidationInputs,
     validate_caption_figure_alias_evidence,
 )
 from er_commons.document_records.document_references.indexing import NamespaceRemapper
@@ -49,6 +56,7 @@ from er_commons.document_records.document_references.linking_policy import (
 )
 from er_commons.document_records.document_references.policy import default_mention_policy
 from er_commons.document_records.document_references.relink_preflight import (
+    task06g_base_membership_from_source_slots,
     validate_base_collection_selection,
 )
 from er_commons.document_records.document_references.relinking import (
@@ -60,6 +68,7 @@ from er_commons.document_records.document_references.relinking_config import (
     OUTPUT_SCHEMA_ROLES,
     DocumentLinkRunSpec,
     ExternalArtifactRef,
+    RelinkDocumentSelection,
 )
 from er_commons.document_records.document_references.reviewed_navigation import (
     ArtifactRoots,
@@ -78,6 +87,18 @@ from er_commons.document_records.record_mapping.publication import (
 )
 from er_commons.source_family_catalog import SourceFamilyCatalog
 
+RELINK_READ_FILE_LIMIT = 2_147_483_648
+RELINK_READ_TOTAL_LIMIT = 8_589_934_592
+
+
+def _relink_verification_budget() -> VerificationBudget:
+    """Bound accepted canonical-record reads for one collection-wide relink."""
+    return VerificationBudget(
+        read_file_limit=RELINK_READ_FILE_LIMIT,
+        read_total_limit=RELINK_READ_TOTAL_LIMIT,
+    )
+
+
 _NAVIGATION_PATHS = {
     "entries": "navigation/entries.jsonl",
     "relations": "navigation/parent_relations.jsonl",
@@ -89,6 +110,7 @@ _SUPPORT_PATHS = {
     "accounting": "support/document_link_accounting.json",
     "preservation": "support/document_link_preservation.json",
     "figure_qualification": "support/figure_caption_alias_qualification.json",
+    "fc1_rebuilt_equivalence": "support/fc1_rebuilt_equivalence.json",
 }
 _OUTPUT_SCHEMA_ROLE_SET = frozenset(OUTPUT_SCHEMA_ROLES)
 _OUTPUT_ROW_PATHS = {
@@ -119,6 +141,9 @@ class RelinkIdentityInputs:
     reviewed_navigation_completion_sha256: str | None
     output_schema_bundle_sha256: str
     owned_code_bundle_sha256: str
+    resolved_spec_ref: JsonObject | None = None
+    accepted_fc1_evidence: JsonObject | None = None
+    fc1_rebuilt_equivalence_sha256: str | None = None
 
 
 @dataclass(frozen=True)
@@ -138,6 +163,10 @@ class RelinkExecutionRequest:
     reviewed_navigation_completion_path: Path | None = None
     prepared_navigation: NavigationInputs | None = None
     budget: VerificationBudget | None = None
+    figure_aliases_enabled: bool | None = None
+    accepted_fc1_packet: AcceptedFc1Packet | None = None
+    base_structured_candidate_id: str | None = None
+    fc1_correspondence_ref: JsonObject | None = None
 
 
 @dataclass(frozen=True)
@@ -183,6 +212,7 @@ class PreparedRelinkRun:
     budget: VerificationBudget
     reviewed_navigation: PreparedReviewedNavigation | None
     shared_refs: tuple[ExternalArtifactRef, ...]
+    accepted_fc1_packet: AcceptedFc1Packet | None = None
     publication_inputs: PreparedPublicationInputs | None = None
     input_stamps: Mapping[Path, tuple[int, int, int, int]] | None = None
 
@@ -198,13 +228,24 @@ def prepare_document_relink_run(
     spec_path = link_spec.resolve()
     repo_root = (repository_root or Path(__file__).resolve().parents[4]).resolve()
     artifact_root = data_root.resolve()
-    budget = VerificationBudget()
+    spec_root = (
+        artifact_root
+        if spec_path.is_relative_to(artifact_root)
+        else repo_root
+        if spec_path.is_relative_to(repo_root)
+        else None
+    )
+    if spec_root is None:
+        raise ValueError("link specification is outside repository and artifact roots")
+    budget = _relink_verification_budget()
     spec_sha256 = budget.hash_file(
-        spec_path, role="run_descriptor", source_id="shared", root=repo_root
+        spec_path, role="run_descriptor", source_id="shared", root=spec_root
     )
     spec = DocumentLinkRunSpec.model_validate(
-        budget.read_json(spec_path, role="run_descriptor", source_id="shared", root=repo_root)
+        budget.read_json(spec_path, role="run_descriptor", source_id="shared", root=spec_root)
     )
+    if spec.base_membership_ref is not None and spec.resolution_status != "resolved":
+        raise ValueError("mixed-lineage relink execution requires a resolved spec")
 
     def resolve(reference: ExternalArtifactRef) -> Path:
         return reference.resolve(
@@ -222,18 +263,74 @@ def prepare_document_relink_run(
         replacement_identity,
         expected_source_ids=list(spec.selected_source_ids),
         project_root=repo_root,
+        artifact_root=artifact_root,
         budget=budget,
     )
+    base_membership_spec: DocumentLinkRunSpec | tuple[RelinkDocumentSelection, ...] | None = None
+    if spec.base_membership_ref is not None:
+        base_membership_path = resolve(spec.base_membership_ref)
+        base_membership_value = budget.read_json(
+            base_membership_path,
+            role="input_binding",
+            source_id="shared",
+            root=(
+                artifact_root
+                if spec.base_membership_ref.authority == "artifact_root"
+                else repo_root
+            ),
+        )
+        if spec.base_membership_ref is not None:
+            contract_path = Path(spec.base_collection.contract_bundle_ref.path)
+            if contract_path.name != "contract_bundle.json" or len(contract_path.parents) < 3:
+                raise ValueError("mixed-lineage base collection contract path is invalid")
+            base_membership_spec = task06g_base_membership_from_source_slots(
+                cast(dict[str, object], base_membership_value),
+                artifact_root=artifact_root,
+                publication_root=artifact_root / contract_path.parents[2],
+                production_extraction_id=base.value,
+                budget=budget,
+            )
+        else:
+            base_membership_spec = DocumentLinkRunSpec.model_validate(base_membership_value)
     validate_base_collection_selection(
         spec=spec,
         base_production_identity=base_identity,
         handoff=handoff,
         contract_bundle=contract_bundle,
+        base_membership_spec=base_membership_spec,
     )
+    for selection in spec.documents:
+        for evidence_ref in (
+            *(selection.evidence_refs or ()),
+            *(selection.correspondence_refs or ()),
+        ):
+            resolve(evidence_ref)
+    accepted_fc1_packet = None
+    if spec.accepted_fc1_evidence is not None:
+        fc1 = spec.accepted_fc1_evidence
+        accepted_fc1_packet = load_accepted_fc1_packet(
+            fc1,
+            resolved_paths={
+                "completion": resolve(fc1.completion_ref),
+                "inventory": resolve(fc1.inventory_ref),
+                "identity": resolve(fc1.identity_ref),
+                "qualification": resolve(fc1.qualification_ref),
+                "figure_aliases": resolve(fc1.figure_aliases_ref),
+                "target_index_entries": resolve(fc1.target_index_entries_ref),
+            },
+        )
     document_spec_path = resolve(spec.document_publication_spec_ref)
+    document_spec_root = (
+        artifact_root
+        if spec.document_publication_spec_ref.authority == "artifact_root"
+        else repo_root
+    )
     document_spec = DocumentRunSpec.model_validate(
         budget.read_json(
-            document_spec_path, role="run_descriptor", source_id="shared", root=repo_root
+            document_spec_path,
+            role="run_descriptor",
+            source_id="shared",
+            root=document_spec_root,
         )
     )
     document_source_ids = tuple(item.source_id for item in document_spec.document_processes)
@@ -283,6 +380,7 @@ def prepare_document_relink_run(
             spec.source_family_catalog_ref,
             *tuple(getattr(spec.output_schema_refs, role) for role in OUTPUT_SCHEMA_ROLES),
         ),
+        accepted_fc1_packet=accepted_fc1_packet,
     )
 
     publication_inputs = (
@@ -298,8 +396,16 @@ def prepare_document_relink_run(
 
 def verify_prepared_link_spec(prepared: PreparedRelinkRun) -> None:
     """Fail if the small run specification changes during a collection run."""
+    artifact_root = getattr(prepared, "artifact_root", prepared.repository_root)
     digest = prepared.budget.hash_file(
-        prepared.spec_path, role="run_descriptor", source_id="shared", root=prepared.repository_root
+        prepared.spec_path,
+        role="run_descriptor",
+        source_id="shared",
+        root=(
+            artifact_root
+            if prepared.spec_path.is_relative_to(artifact_root)
+            else prepared.repository_root
+        ),
     )
     if digest != prepared.spec_sha256:
         raise ValueError("prepared link specification changed")
@@ -367,7 +473,11 @@ def execute_prepared_document_relink(
         source_document_root=source_document_root,
         artifact_root=artifact_root,
         expected_source_id=source_id,
-        expected_production_id=prepared.base_production_id,
+        expected_production_id=(
+            prepared.replacement_production_id
+            if selection.change_class != "preserved_semantic"
+            else prepared.base_production_id
+        ),
         selected_structured_completion=selection.structured_document.completion_ref,
         budget=prepared.budget,
     )
@@ -396,6 +506,21 @@ def execute_prepared_document_relink(
         reviewed_navigation_completion_sha256=reviewed_completion_sha256,
         output_schema_bundle_sha256=canonical_json_sha256(schema_refs),
         owned_code_bundle_sha256=prepared.owned_code_bundle_sha256,
+        resolved_spec_ref=(
+            reference_for_path(
+                prepared.spec_path,
+                repository_root=repo_root,
+                artifact_root=artifact_root,
+                sha256=spec_sha256,
+            ).model_dump(mode="json")
+            if spec.base_membership_ref is not None
+            else None
+        ),
+        accepted_fc1_evidence=(
+            spec.accepted_fc1_evidence.model_dump(mode="json")
+            if source_id == "deir_main" and spec.accepted_fc1_evidence is not None
+            else None
+        ),
     )
     return execute_document_relink(
         RelinkExecutionRequest(
@@ -414,6 +539,24 @@ def execute_prepared_document_relink(
             reviewed_navigation_completion_path=reviewed_completion,
             prepared_navigation=(reviewed.inputs_by_source[source_id] if reviewed else None),
             budget=prepared.budget,
+            figure_aliases_enabled=(
+                source_id in spec.figure_alias_source_ids
+                if spec.figure_alias_source_ids is not None
+                else None
+            ),
+            accepted_fc1_packet=(
+                prepared.accepted_fc1_packet if source_id == "deir_main" else None
+            ),
+            base_structured_candidate_id=(
+                selection.base_structured_document.candidate_id
+                if source_id == "deir_main" and selection.base_structured_document is not None
+                else None
+            ),
+            fc1_correspondence_ref=(
+                selection.correspondence_refs[0].model_dump(mode="json")
+                if source_id == "deir_main" and selection.correspondence_refs
+                else None
+            ),
         )
     )
 
@@ -530,10 +673,23 @@ def _verify_source_document_reuse_boundary(
 
 def build_relink_identity(inputs: RelinkIdentityInputs) -> JsonObject:
     """Derive an acyclic identity from sealed inputs, never from output bytes."""
+    values = dict(inputs.__dict__)
+    resolved_spec_ref = values.pop("resolved_spec_ref")
+    accepted_fc1_evidence = values.pop("accepted_fc1_evidence")
+    fc1_equivalence_sha256 = values.pop("fc1_rebuilt_equivalence_sha256")
     preimage: JsonObject = {
-        "schema_version": "er_commons.document_link_identity.v1",
-        **inputs.__dict__,
+        "schema_version": (
+            "er_commons.document_link_identity.v2"
+            if resolved_spec_ref is not None
+            else "er_commons.document_link_identity.v1"
+        ),
+        **values,
     }
+    if resolved_spec_ref is not None:
+        preimage["resolved_spec_ref"] = resolved_spec_ref
+    if accepted_fc1_evidence is not None:
+        preimage["accepted_fc1_evidence"] = accepted_fc1_evidence
+        preimage["fc1_rebuilt_equivalence_sha256"] = fc1_equivalence_sha256
     digest = canonical_json_sha256(preimage)
     return {
         "schema_version": "er_commons.extraction_identity.v3",
@@ -590,6 +746,9 @@ def execute_document_relink(request: RelinkExecutionRequest) -> RelinkExecutionR
         if not isinstance(prior_linked_id, str) or not prior_linked_id:
             raise ValueError("source document content lacks its linked extraction identity")
         navigation = navigation.remap_namespace(prior_linked_id, inputs.structured_candidate_id)
+        navigation = navigation.remap_source_record_namespaces(
+            inputs.source_id, inputs.structured_candidate_id
+        )
     documents = source.record_files.get("canonical/documents.jsonl", [])
     if (
         request.structured_root.name != inputs.structured_candidate_id
@@ -597,6 +756,37 @@ def execute_document_relink(request: RelinkExecutionRequest) -> RelinkExecutionR
         or documents[0].get("source_id") != inputs.source_id
     ):
         raise ValueError("structured candidate identity or source differs")
+    equivalence = None
+    if request.accepted_fc1_packet is not None:
+        if (
+            inputs.source_id != "deir_main"
+            or request.base_structured_candidate_id is None
+            or request.fc1_correspondence_ref is None
+        ):
+            raise ValueError("accepted FC1 evidence lacks main correspondence context")
+        equivalence = build_fc1_rebuilt_equivalence(
+            packet=request.accepted_fc1_packet,
+            inputs=FigureAliasValidationInputs(
+                upstream_candidate_id=inputs.structured_candidate_id,
+                candidate_id=inputs.structured_candidate_id,
+                source_id=inputs.source_id,
+                source_document_id=(
+                    f"{inputs.structured_candidate_id}/document/{inputs.source_id}"
+                ),
+                upstream_figures=tuple(source.record_files.get("canonical/figures.jsonl", [])),
+                upstream_images=tuple(source.record_files.get("canonical/images.jsonl", [])),
+                upstream_blocks=tuple(source.record_files["canonical/blocks.jsonl"]),
+                upstream_pages=tuple(source.record_files["canonical/pages.jsonl"]),
+            ),
+            base_structured_candidate_id=request.base_structured_candidate_id,
+            correspondence_ref=request.fc1_correspondence_ref,
+        )
+        inputs = replace(
+            inputs,
+            fc1_rebuilt_equivalence_sha256=str(equivalence["equivalence_sha256"]),
+        )
+    elif inputs.accepted_fc1_evidence is not None:
+        raise ValueError("FC1 identity evidence lacks a verified accepted packet")
     identity = build_relink_identity(inputs)
     candidate_id = str(identity["extraction_id"])
     build = DocumentRelinkBuilder(
@@ -611,7 +801,17 @@ def execute_document_relink(request: RelinkExecutionRequest) -> RelinkExecutionR
         source_family_catalog=SourceFamilyCatalog.load(request.source_family_catalog_path),
         source_family_catalog_sha256=inputs.source_family_catalog_sha256,
         navigation=navigation,
+        figure_aliases_enabled=request.figure_aliases_enabled,
     ).build()
+    if equivalence is not None:
+        build = replace(
+            build,
+            support={**build.support, "fc1_rebuilt_equivalence": equivalence},
+        )
+    # Publication uses the sealed manifest and support paths, while ``build``
+    # owns the remapped record rows. Drop the duplicate upstream row graph
+    # before writing and verifying a large candidate.
+    source = replace(source, record_files={})
     root = request.output_parent / candidate_id
     completion = publish_relink_candidate(
         root=root,
@@ -772,7 +972,7 @@ def verify_relink_candidate(
     if expected_identity is not None and identity != expected_identity:
         raise ValueError("existing relink identity differs from the requested build")
     completion = _read_object(completion_path, budget=budget, role="completion")
-    if completion != {
+    expected_completion: JsonObject = {
         "schema_version": "er_commons.document_link_completion.v1",
         "extraction_id": candidate_id,
         "status": "complete_with_warnings",
@@ -786,7 +986,16 @@ def verify_relink_candidate(
         ),
         "preservation_status": "passed",
         "undeclared_difference_count": 0,
-    }:
+    }
+    equivalence = root / _SUPPORT_PATHS["fc1_rebuilt_equivalence"]
+    if equivalence.is_file():
+        expected_completion.update(
+            schema_version="er_commons.document_link_completion.v2",
+            fc1_rebuilt_equivalence_sha256=str(
+                _read_object(equivalence, budget=budget)["equivalence_sha256"]
+            ),
+        )
+    if completion != expected_completion:
         raise ValueError("relink completion fields differ")
     if budget is not None:
         verify_inventory_metadata(
@@ -891,6 +1100,13 @@ def _write_candidate(
         "preservation_status": "passed",
         "undeclared_difference_count": 0,
     }
+    if "fc1_rebuilt_equivalence" in build.support:
+        completion.update(
+            schema_version="er_commons.document_link_completion.v2",
+            fc1_rebuilt_equivalence_sha256=build.support["fc1_rebuilt_equivalence"][
+                "equivalence_sha256"
+            ],
+        )
     _validate_schema_value(validators["completion"], completion, "completion")
     write_json(root / "records/completion_record.json", completion)
 
@@ -1198,6 +1414,7 @@ def _owned_code_bundle_sha256(budget: VerificationBudget | None = None) -> str:
         "detection",
         "errors",
         "exact_resolution",
+        "fc1_equivalence",
         "figure_aliases",
         "indexing",
         "linking_core",

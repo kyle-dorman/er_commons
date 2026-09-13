@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "canonicalization_policy_version": "task03d-v1",
+  "mapping_policy_version": "task03g2-source-neutral-mapping-v1",
+  "candidate_version_name": "feir_appendix_f1_task06g_core_candidate_v1",
+  "candidate_scope": "document_scoped_non_release",
+  "acceptance_profile": "generic_complete_document",
+  "source_release_version": "brisbane_baylands_2025_feir_f1_processing_v1",
+  "source_manifest_relative_path": "pipelines/brisbane_baylands/task_06_recovery_v1/06c/gate3_inputs_v1/source/records/source_manifest.json",
+  "ordered_materialization_scope": [
+    {
+      "source_id": "feir_appendix_f1",
+      "source_sha256": "e13c5b53f0f4da6a91f52ac784acce06619eeffd3fe053542d7ce1593b957e5e",
+      "pdf_page_count": 756
+    }
+  ],
+  "producer_artifact_relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/document_parse_evidence",
+  "producer_run_id": "prv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/document_records"
+}

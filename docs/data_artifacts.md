@@ -183,11 +183,12 @@ stages are sealed; later document/collection production replay remains
 unexecuted.
 
 Task 06D's current compact source-free classification lives under
-`06d/qualification_v6/`. Its completion-last inventory covers only decision and
-summary records, binds the checked-in policy/schema, and references selected 06A
-records without hashing preserved document payloads. The earlier
-`06d/qualification_v1/` through `qualification_v5/` working packets are
-preserved as superseded evidence and must not be consumed by Task 06G.
+`06d/qualification_v8/`. Its completion-last inventory covers four explicit
+record-order-bounded decisions and summary records, binds the checked-in v2
+policy/schema/generator, and reconstructs from sealed compact records without
+hashing preserved document payloads. `qualification_v1/` through
+`qualification_v7/` are preserved as superseded evidence and must not be
+consumed by Task 06G.
 
 Task 06F's accepted compact source-free figure qualification lives under
 `06f/qualification_v10/`. It binds the accepted canonical record seals and the

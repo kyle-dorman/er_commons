@@ -23,7 +23,10 @@ from er_commons.document_parsing.content_parsing.identity import (
     routing_table_policy,
 )
 from er_commons.document_parsing.content_parsing.routing import layout_table_observations
-from er_commons.document_parsing.content_parsing.sources import resolve_complete_source
+from er_commons.document_parsing.content_parsing.sources import (
+    resolve_complete_source,
+    resolve_complete_source_metadata,
+)
 from er_commons.source_release.models import SourceManifest
 
 
@@ -158,6 +161,20 @@ def test_complete_source_verifies_manifest_identity_and_local_bytes(
     source_path.write_bytes(b"changed")
     with pytest.raises(ValueError, match="changed"):
         resolve_complete_source(tmp_path, selected, manifest)
+
+
+def test_accepted_conversion_source_metadata_does_not_touch_pdf(tmp_path: Path) -> None:
+    """A downstream-only producer may trust sealed identity without reopening the PDF."""
+    source_path = tmp_path / "source.pdf"
+    source_path.write_bytes(b"%PDF-test")
+    selected = _selected(source_path)
+    manifest = _manifest([_manifest_record(source_path)])
+    source_path.unlink()
+
+    resolved = resolve_complete_source_metadata(tmp_path, selected, manifest)
+
+    assert resolved.source_sha256 == selected.expected_sha256
+    assert resolved.source_path == source_path.resolve()
 
 
 @pytest.mark.parametrize(

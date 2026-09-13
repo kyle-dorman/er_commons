@@ -239,6 +239,19 @@ source acquisition, cleanup, commit, push, Task 05G, or benchmark publication.
 
 ## Outcome
 
+### Complete-subtree evidence amendment (2026-09-12)
+
+Task 06G replay-v18 exposed a frozen-evidence defect: qualification v13 used
+block-only endpoints for ten Chapter 8/9 child leaves even though accepted owned
+tables extend those subtrees. Qualification v17 preserves the v13 policy and
+source authority and changes only those ten `child_topology.extent_end_page`
+values. Its amendment recipe verifies the full v13 completion-to-inventory
+managed-file chain and seals every consumed compact record and result-controlling
+module. A separate current-code source-free projection completed as
+`exv1-259528836c331c29e4921673f7c28109b262cdbc999418023e176be2f74fe0ea`
+with zero undeclared differences. Production acceptance remains owned by Task
+06G; Task 06H remains the later human review boundary.
+
 Implementation and compact qualification are complete and accepted. Astra
 accepted the v12 functional implementation; independent review confirmed the
 behavior-preserving v13 maintainability cleanup has byte-identical decisions.

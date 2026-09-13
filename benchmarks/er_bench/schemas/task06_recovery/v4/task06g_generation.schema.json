@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task06_recovery/v1/task06g_generation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "repository_root", "data_root", "accepted_repository_commit", "tmux_session", "source_order", "fc1_allowed_source_ids", "accepted_evidence", "generator_files", "document_process_templates", "production_identity_recipe", "phases"],
+  "properties": {
+    "schema_version": {"const": "er_commons.task06g_generation.v1"},
+    "repository_root": {"type": "string"},
+    "data_root": {"type": "string"},
+    "accepted_repository_commit": {"const": "ff5613075c1e73d66e487381566e33dbfc6778f4"},
+    "tmux_session": {"const": "er-commons-06g-replay-v38"},
+    "source_order": {"type": "array", "minItems": 35, "maxItems": 35, "uniqueItems": true, "items": {"type": "string"}},
+    "fc1_allowed_source_ids": {"const": ["deir_main"]},
+    "generator_files": {
+      "type": "array", "minItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["authority", "path", "sha256", "byte_size"],
+        "properties": {
+          "authority": {"const": "repository"}, "path": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "byte_size": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "document_process_templates": {
+      "type": "object", "additionalProperties": false,
+      "required": ["stage_order", "phase_root", "sources", "runtime_resolutions"],
+      "properties": {
+        "stage_order": {
+          "const": ["content_parsing", "heading_evidence_parsing", "record_mapping", "hierarchy_inference", "document_structure", "document_reference_linking"]
+        },
+        "phase_root": {"const": "document_stages"},
+        "sources": {
+          "type": "object", "minProperties": 3, "maxProperties": 3,
+          "additionalProperties": {
+            "type": "object", "minProperties": 6, "maxProperties": 6,
+            "additionalProperties": {
+              "type": "object", "additionalProperties": false,
+              "required": ["template", "template_sha256", "template_byte_size", "loader"],
+              "properties": {
+                "template": {"type": "string"},
+                "template_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "template_byte_size": {"type": "integer", "minimum": 1},
+                "loader": {"enum": ["content_parsing", "heading_evidence_parsing", "record_mapping", "hierarchy_inference", "document_structure", "document_reference_linking"]}
+              }
+            }
+          }
+        },
+        "runtime_resolutions": {
+          "type": "object", "minProperties": 6, "maxProperties": 6,
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["pointer", "source_stage", "source_pointer"],
+              "properties": {
+                "pointer": {"type": "string", "pattern": "^/"},
+                "source_stage": {"enum": ["content_parsing", "heading_evidence_parsing", "record_mapping", "hierarchy_inference", "document_structure", "document_reference_linking"]},
+                "source_pointer": {"type": "string", "pattern": "^/"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "production_identity_recipe": {
+      "type": "object", "additionalProperties": false,
+      "required": ["base_identity_authority", "base_identity_path", "base_identity_sha256", "contract_revision", "extraction_version_name", "production_scope", "document_process_contract_version", "collection_process_contract_version", "additional_references"],
+      "properties": {
+        "base_identity_authority": {"enum": ["repository", "artifact_root"]},
+        "base_identity_path": {"type": "string"},
+        "base_identity_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "contract_revision": {"type": "string"}, "extraction_version_name": {"type": "string"},
+        "production_scope": {"type": "object"},
+        "document_process_contract_version": {"type": "string"},
+        "collection_process_contract_version": {"type": "string"},
+        "additional_references": {"type": "object"}
+      }
+    },
+    "accepted_evidence": {
+      "type": "array", "minItems": 6,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["name", "authority", "path", "sha256", "byte_size"],
+        "properties": {
+          "name": {"type": "string"}, "authority": {"enum": ["repository", "artifact_root"]},
+          "path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "byte_size": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "phases": {
+      "type": "object", "minProperties": 1,
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false,
+        "required": ["directory", "specs"],
+        "properties": {
+          "directory": {"type": "string"},
+          "specs": {
+            "type": "array", "minItems": 1,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["template", "destination", "schema", "template_sha256", "schema_sha256", "generator", "resolutions"],
+              "properties": {
+                "template": {"type": "string"}, "destination": {"type": "string"}, "schema": {"type": "string"},
+                "template_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "schema_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "generator": {"type": "string"},
+                "resolutions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object", "additionalProperties": false,
+                    "required": ["pointer", "source_pointer"],
+                    "properties": {
+                      "pointer": {"type": "string", "pattern": "^/"},
+                      "checkpoint": {"type": "string"},
+                      "checkpoint_authority": {"enum": ["repository", "artifact_root", "recipe"]},
+                      "in_memory_checkpoint": {"type": "string"},
+                      "source_pointer": {"type": "string", "pattern": "^/"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

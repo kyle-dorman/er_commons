@@ -31,6 +31,25 @@ ROOT = Path(__file__).parents[1]
 FIXTURES = ROOT / "benchmarks/er_bench/fixtures/canonical_extraction/v3"
 
 
+def test_namespace_remapper_in_place_matches_copy_without_replacing_containers() -> None:
+    upstream = "exv1-" + "1" * 64
+    candidate = "exv1-" + "2" * 64
+    original = {
+        "schema_version": "er_commons.canonical_extraction.v2",
+        "id": f"{upstream}/table/1",
+        "nested": [{"target": f"{upstream}/page/1"}],
+    }
+    mutable = json.loads(json.dumps(original))
+    nested = mutable["nested"]
+    remapper = NamespaceRemapper(upstream, candidate)
+
+    observed = remapper.value_in_place(mutable)
+
+    assert observed is mutable
+    assert mutable["nested"] is nested
+    assert observed == remapper.value(original)
+
+
 def _source_family_catalog(
     *, target_alias: str | None = None, second_target_alias: str | None = None
 ) -> SourceFamilyCatalog:

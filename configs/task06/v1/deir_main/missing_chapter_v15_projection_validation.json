@@ -1,0 +1,31 @@
+{
+  "schema_version": "3.0.0",
+  "semantic_policy_version": "task06e-missing-whole-chapter-v1",
+  "candidate_version_name": "deir_main_task06e_v15_projection_validation_v1",
+  "candidate_scope": "document_scoped_non_release",
+  "control_profile": "strict_quality_gate",
+  "source": {
+    "source_id": "deir_main",
+    "source_sha256": "0b81e84176c86205c07d9ae6b2a9994fcd45405e516546bcfc7ab9b1f88cf83f",
+    "physical_page_count": 2092
+  },
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "baseline_candidate_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-19733c628064c30b30278ed388383e0e57abc33617b8df4608ddfcfe9a29426b",
+  "baseline_candidate_id": "exv1-19733c628064c30b30278ed388383e0e57abc33617b8df4608ddfcfe9a29426b",
+  "baseline_producer_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_parse_evidence",
+  "baseline_producer_run_id": "prv1-276e95927a6f0cae631e348109691d531aa62f0d0820d6493b589ddb512aff55",
+  "hierarchy_producer_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_parse_evidence",
+  "hierarchy_producer_run_id": "prv1-bb5404435052fb069482834c9efa941791ca323cdc2d356bdcdc21c4477e1587",
+  "hierarchy_candidate_relative_root": "pipelines/brisbane_baylands/task_03h_clean_full_v4/hierarchy_inference/hcorv1-de54427cf346cd61ae72c97146c15729168c2ed97fdd995514462600087e5ed7",
+  "hierarchy_candidate_id": "hcorv1-de54427cf346cd61ae72c97146c15729168c2ed97fdd995514462600087e5ed7",
+  "hierarchy_schema_relative_path": "benchmarks/er_bench/schemas/hierarchy_correction/v1/records.schema.json",
+  "semantic_spec_relative_path": "docs/specs/missing_chapter_repair_v1.md",
+  "semantic_schema_relative_path": "benchmarks/er_bench/schemas/canonical_extraction/v3/semantic_structure.schema.json",
+  "missing_chapter_policy_relative_path": "docs/specs/missing_chapter_repair_v1.md",
+  "missing_chapter_qualification_relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06e/qualification_v15",
+  "missing_chapter_decision_schema_relative_path": "benchmarks/er_bench/schemas/task06_recovery/v1/missing_chapter_decision.schema.json",
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06e/qualification_v15_projection_validation",
+  "bounded_acceptance_relative_path": null,
+  "bounded_acceptance_policy_relative_path": null,
+  "producer_comparison_relative_path": null
+}

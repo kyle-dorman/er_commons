@@ -92,6 +92,13 @@ def test_schema_bundle_and_every_valid_record() -> None:
     )
 
 
+def test_document_schema_preserves_truthful_qualified_substitute_role() -> None:
+    document = copy.deepcopy(BUNDLE["documents"][0])
+    document["source_role"] = "qualified_substitute"
+
+    definition_validator("document").validate(document)
+
+
 @pytest.mark.parametrize(
     "mutation",
     INVALID_MUTATIONS,

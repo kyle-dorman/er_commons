@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Self
+from typing import Any, Literal, Self
 
 from pydantic import BaseModel, ConfigDict, model_validator
 
@@ -17,6 +17,8 @@ class RelinkPreparationSpec(BaseModel):
     repo_root: Path
     data_root: Path
     reviewed_descriptor: Path
+    runtime_spec_authority: Literal["repository", "artifact_root"] = "repository"
+    output_authority: Literal["repository", "artifact_root"] = "repository"
     base_identity: Path
     base_document_spec: Path
     base_collection_spec: Path

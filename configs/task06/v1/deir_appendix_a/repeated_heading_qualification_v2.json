@@ -1,0 +1,82 @@
+{
+  "schema_version": "er_commons.task06d.repeated_heading_qualification_recipe.v2",
+  "source_id": "deir_appendix_a",
+  "input_document_structure_config": "configs/task06/v1/deir_appendix_a/repeated_heading_qualification_input.json",
+  "policy_path": "docs/specs/repeated_heading_repair_v2.md",
+  "decision_schema_path": "benchmarks/er_bench/schemas/task06_recovery/v1/repeated_heading_decision_v2.schema.json",
+  "source_namespace": "exv1-f73b201ab51f9ad3cfe3d88d40220e9ef5de1d3044a817463f8456e6d814a511",
+  "groups": [
+    {
+      "chapter_marker": "06",
+      "heading_stable_keys": [
+        "1f1d44fe54c2ea8f3d84e8d8605789c364868541a898081c7c5ed327848cf8b7",
+        "83dbb3888070e20f87435cd85028dc80a7614bb42ef051dd9e94b7648f97fe11"
+      ],
+      "following_boundary_stable_key": "36485d6529033ef91824616e4d339548f813fe04244595c4368adbc1070be813",
+      "toc_evidence": {
+        "evidence_ids": [
+          "exv1-068eee2baac7c7dc3c6fb025e07fa814f885cf7f7d5c9414fc12fc26a2f8cbb3/block/deir_appendix_a/blk000048",
+          "exv1-068eee2baac7c7dc3c6fb025e07fa814f885cf7f7d5c9414fc12fc26a2f8cbb3/block/deir_appendix_a/blk000049"
+        ],
+        "raw_text": "06 | CIRCULATION",
+        "terminal_destination_token": "280"
+      }
+    },
+    {
+      "chapter_marker": "07",
+      "heading_stable_keys": [
+        "36485d6529033ef91824616e4d339548f813fe04244595c4368adbc1070be813",
+        "7f45c9f7e3044b413c295bc77c7ddbb278fca558dbe6b1a25e51a99f0d3fd437"
+      ],
+      "following_boundary_stable_key": "0584787e4c7dda195aae2d83b1e0afb88ecc652a2cbc4d05fe2461c2e6dbd3e1",
+      "toc_evidence": {
+        "evidence_ids": [
+          "exv1-f73b201ab51f9ad3cfe3d88d40220e9ef5de1d3044a817463f8456e6d814a511/block/deir_appendix_a/blk000093",
+          "exv1-f73b201ab51f9ad3cfe3d88d40220e9ef5de1d3044a817463f8456e6d814a511/block/deir_appendix_a/blk000094"
+        ],
+        "raw_text": "07 | INFRASTRUCTURE",
+        "terminal_destination_token": "419"
+      }
+    },
+    {
+      "chapter_marker": "08",
+      "heading_stable_keys": [
+        "0584787e4c7dda195aae2d83b1e0afb88ecc652a2cbc4d05fe2461c2e6dbd3e1",
+        "b94ff657dd38d85cf75c21c20f7d3456f4c57ed9f2ef09951a6b7b7fc0cad1c3"
+      ],
+      "following_boundary_stable_key": "c57f43547dedabd0dae9afced0155277e71e742c12b67ce7942b3393445381dd",
+      "toc_evidence": {
+        "evidence_ids": [
+          "exv1-068eee2baac7c7dc3c6fb025e07fa814f885cf7f7d5c9414fc12fc26a2f8cbb3/table/deir_appendix_a/tbl000005#cell/56",
+          "exv1-068eee2baac7c7dc3c6fb025e07fa814f885cf7f7d5c9414fc12fc26a2f8cbb3/table/deir_appendix_a/tbl000005#cell/57"
+        ],
+        "raw_text": "08 | PUBLIC FACILITIES FINANCING",
+        "terminal_destination_token": "447"
+      }
+    },
+    {
+      "chapter_marker": "09",
+      "heading_stable_keys": [
+        "c57f43547dedabd0dae9afced0155277e71e742c12b67ce7942b3393445381dd",
+        "501f549bd93e70da877ab566d0d89367b696f521af3f67ab57d5457392759b3b"
+      ],
+      "following_boundary_stable_key": "c4d15a7f83c8ed553f8beeb870f16357e6d39bbe647e1452a3568bb1a722644c",
+      "toc_evidence": {
+        "evidence_ids": ["navtocentryv1-16bb69c5dfb510f80c37c965"],
+        "raw_text": "09 | IMPLEMENTATION",
+        "terminal_destination_token": "459"
+      }
+    }
+  ],
+  "human_decision_ref": {
+    "authority": "user_decision",
+    "relative_path": "tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md",
+    "identity": "user-selected-earlier-boundaries-and-authorized-fix-2026-09-12",
+    "verification_mode": "recorded_conversation_decision"
+  },
+  "limitations": [
+    "TOC destination tokens remain unresolved and do not select anchors",
+    "same-page chapter transitions are established by canonical global record order",
+    "production replay remains Task 06G owned"
+  ]
+}

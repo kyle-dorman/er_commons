@@ -38,6 +38,51 @@ def test_selected_sources_must_equal_unique_ordered_document_rows() -> None:
         DocumentLinkRunSpec.model_validate(value)
 
 
+def test_v2_limits_figure_aliases_to_an_explicit_selected_subset() -> None:
+    value = _fixture("machine_only_run.json")
+    value["selected_source_ids"] = ["deir_main"]
+    value["documents"][0]["source_id"] = "deir_main"
+    value.update(
+        schema_version="er_commons.document_link_run_spec.v2",
+        resolution_status="template",
+        figure_alias_source_ids=["deir_main"],
+        accepted_fc1_evidence=_accepted_fc1_evidence(),
+        base_membership_ref=value["base_production_identity_ref"],
+    )
+    spec = DocumentLinkRunSpec.model_validate(value)
+    assert spec.figure_alias_source_ids == ("deir_main",)
+
+    value["figure_alias_source_ids"] = ["outside_scope"]
+    with pytest.raises(ValidationError, match="exactly deir_main"):
+        DocumentLinkRunSpec.model_validate(value)
+
+
+def test_v1_rejects_the_v2_figure_source_extension() -> None:
+    value = _fixture("machine_only_run.json")
+    value["figure_alias_source_ids"] = [value["selected_source_ids"][0]]
+    with pytest.raises(ValidationError, match="v1 relink specs"):
+        DocumentLinkRunSpec.model_validate(value)
+
+
+def _accepted_fc1_evidence() -> dict[str, object]:
+    reference = {
+        "authority": "artifact_root",
+        "path": "06f/value.json",
+        "sha256": "a" * 64,
+        "byte_size": 1,
+    }
+    return {
+        "qualification_id": "figqualv1-" + "b" * 64,
+        "source_id": "deir_main",
+        "completion_ref": reference,
+        "inventory_ref": reference,
+        "identity_ref": reference,
+        "qualification_ref": reference,
+        "figure_aliases_ref": reference,
+        "target_index_entries_ref": reference,
+    }
+
+
 def test_candidate_kinds_are_strict() -> None:
     wrong_candidate = _fixture("machine_only_run.json")
     wrong_candidate["documents"][0]["source_document"]["candidate_id"] = "exv1-" + "1" * 64

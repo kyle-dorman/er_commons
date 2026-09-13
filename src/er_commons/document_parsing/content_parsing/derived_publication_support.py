@@ -2,15 +2,40 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from er_commons.artifact_io import write_json_atomic
+from er_commons.document_parsing.content_parsing.conversion import ConversionOutput
 from er_commons.document_parsing.content_parsing.conversion_seal import SealedConversion
 from er_commons.document_parsing.content_parsing.preparation import PreparedContentParsing
 from er_commons.document_parsing.content_parsing.publication import ProducerWorkspace
-from er_commons.document_parsing.content_parsing.records import PageRouteRecord
+from er_commons.document_parsing.content_parsing.records import (
+    PageRouteRecord,
+    RoutingSummary,
+    TableStageObservation,
+)
 from er_commons.document_parsing.content_parsing.sources import CompleteResolvedSource
 from er_commons.document_parsing.content_parsing.table_markers import MARKER_LABELS
+
+
+@dataclass
+class DerivedPublicationProgress:
+    """Failure stage, workspace, and inherited files retained by the application shell."""
+
+    stage: str = "preflight"
+    workspace: ProducerWorkspace | None = None
+    inherited_files: dict[Path, tuple[Path, int, str]] = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class DerivedStages:
+    """Completed conversion, routing, and table-stage outputs."""
+
+    conversion: ConversionOutput
+    routing: RoutingSummary
+    tables: TableStageObservation
+    inherited_files: dict[Path, tuple[Path, int, str]] | None = None
 
 
 def rebind_aggregate_references(

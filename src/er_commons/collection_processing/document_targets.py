@@ -4,13 +4,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from er_commons.collection_processing.authority_refs import CollectionArtifactResolver
 from er_commons.collection_processing.contract import JsonObject
 from er_commons.collection_processing.storage import read_jsonl
 from er_commons.document_publication.published_document import DocumentTerminalEvidence
 
 
 def build_document_targets(
-    evidence: tuple[DocumentTerminalEvidence, ...], extraction_root: Path
+    evidence: tuple[DocumentTerminalEvidence, ...],
+    extraction_root: Path,
+    resolver: CollectionArtifactResolver | None = None,
 ) -> list[JsonObject]:
     """Index document records by source identity without using display aliases."""
     rows: list[JsonObject] = []
@@ -24,7 +27,12 @@ def build_document_targets(
         ]
         if len(document_refs) != 1:
             raise ValueError("successful candidate lacks one sealed document stream")
-        for document in read_jsonl(_absolute(document_refs[0], extraction_root)):
+        records = (
+            resolver.read_jsonl(document_refs[0], expected_authority="document_input_root")
+            if resolver is not None and "authority" in document_refs[0]
+            else read_jsonl(_absolute(document_refs[0], extraction_root))
+        )
+        for document in records:
             rows.append(
                 {
                     "source_id": item.source["source_id"],

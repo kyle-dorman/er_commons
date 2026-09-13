@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task06_recovery/v1/task06g_execution.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "repository_working_directory", "generation_spec", "tmux_session",
+    "command_order", "commands", "resource_limits", "prohibited_operations",
+    "ledger_sibling_roots", "finalization_required_files", "resolver_closure"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.task06g.execution_template.v1"},
+    "repository_working_directory": {"type": "string", "minLength": 1},
+    "generation_spec": {"type": "string", "minLength": 1},
+    "tmux_session": {"const": "er-commons-06g-replay-v38"},
+    "command_order": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string"}},
+    "commands": {
+      "type": "array", "minItems": 8,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["stage", "argv"],
+        "properties": {
+          "stage": {"type": "string"},
+          "argv": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "runtime_values": {"type": "array", "items": {"type": "object"}},
+          "checkpoint_after": {"type": "object"}
+        }
+      }
+    },
+    "resource_limits": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_wall_seconds", "cpu_threads", "max_rss_bytes", "max_output_bytes", "minimum_free_bytes"],
+      "properties": {
+        "max_wall_seconds": {"const": 86400}, "cpu_threads": {"const": 4},
+        "max_rss_bytes": {"const": 10737418240}, "max_output_bytes": {"const": 55834574848},
+        "minimum_free_bytes": {"const": 68719476736}
+      }
+    },
+    "prohibited_operations": {"type": "array", "minItems": 7, "uniqueItems": true, "items": {"type": "string"}},
+    "ledger_sibling_roots": {"type": "array", "items": {"type": "string"}},
+    "finalization_required_files": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string"}},
+    "resolver_closure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["checkpoint_root", "checkpoint_files", "resolved_specs_root", "phase_directories", "process_checkpoint_files"],
+      "properties": {
+        "checkpoint_root": {"type": "string"}, "resolved_specs_root": {"type": "string"},
+        "checkpoint_files": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}},
+        "phase_directories": {"type": "array", "minItems": 21, "maxItems": 21, "uniqueItems": true, "items": {"type": "string"}},
+        "process_checkpoint_files": {"type": "array", "minItems": 18, "maxItems": 18, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    }
+  }
+}

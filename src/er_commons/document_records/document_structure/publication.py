@@ -7,12 +7,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from er_commons.document_records.document_structure.constants import (
+    REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
+)
 from er_commons.document_records.document_structure.errors import (
     DocumentStructureInvariantError,
     StructureContractError,
 )
 from er_commons.document_records.document_structure.support import (
     MISSING_CHAPTER_CORRESPONDENCE_PATH,
+    REPEATED_HEADING_CORRESPONDENCE_PATH,
     SUPPORT_PATHS,
 )
 from er_commons.document_records.record_mapping.errors import MappingContractError
@@ -195,8 +199,8 @@ def _verify_manifest_and_inventory(
         ) from error
 
 
-def _verify_support_files(root: Path, records: _CandidateRecords) -> None:
-    """Verify every declared support role, path, file, and checksum."""
+def _support_entries(records: _CandidateRecords) -> tuple[dict[str, JsonObject], int]:
+    """Load support entries keyed by role and retain the declared count."""
     support_files = records.manifest.get("support_files")
     if not isinstance(support_files, list) or not all(
         isinstance(item, dict) and isinstance(item.get("role"), str) for item in support_files
@@ -208,14 +212,152 @@ def _verify_support_files(root: Path, records: _CandidateRecords) -> None:
             observed=support_files,
             subject=records.manifest_path.as_posix(),
         )
-    support = {item["role"]: item for item in support_files}
+    return {item["role"]: item for item in support_files}, len(support_files)
+
+
+def _expected_support_paths(
+    root: Path,
+    records: _CandidateRecords,
+    support: dict[str, JsonObject],
+) -> tuple[dict[str, str], JsonObject | None]:
+    """Derive versioned support roles and load optional candidate identity."""
     expected_paths = dict(SUPPORT_PATHS)
+    identity_path = root / "records" / "extraction_identity.json"
+    identity = _load_record(identity_path) if identity_path.is_file() else None
+    semantic_contract = identity.get("semantic_contract") if identity is not None else None
+    repeated_contract = (
+        semantic_contract.get("repeated_heading_repair", {})
+        if isinstance(semantic_contract, dict)
+        else {}
+    )
+    requires_repeated_correspondence = (
+        isinstance(repeated_contract, dict) and "correspondence_schema" in repeated_contract
+    )
+    if "repeated_heading_correspondence" in support or requires_repeated_correspondence:
+        expected_paths["repeated_heading_correspondence"] = REPEATED_HEADING_CORRESPONDENCE_PATH
     if records.manifest.get("schema_version") == "er_commons.canonical_extraction_manifest.v3":
         expected_paths["missing_chapter_correspondence"] = MISSING_CHAPTER_CORRESPONDENCE_PATH
+    return expected_paths, identity
+
+
+def _verify_repeated_heading_correspondence(
+    root: Path,
+    records: _CandidateRecords,
+    identity: JsonObject | None,
+    relative_path: str,
+) -> None:
+    """Verify repeated-heading correspondence against identity and schema."""
+    from er_commons.document_records.document_structure.repeated_heading_correspondence import (
+        validate_repeated_heading_correspondence,
+    )
+
+    path = root / relative_path
+    try:
+        if identity is None:
+            raise StructureContractError("repeated-heading candidate identity is absent")
+        identity_digest = extraction_identity_sha256(identity)
+        if (
+            identity.get("extraction_id") != records.manifest["extraction_id"]
+            or identity.get("extraction_id") != f"exv1-{identity_digest}"
+            or identity.get("identity_sha256") != identity_digest
+            or records.manifest.get("identity_sha256") != identity_digest
+        ):
+            raise StructureContractError(
+                "repeated-heading identity digest or candidate binding is invalid"
+            )
+        repeated_contract = identity["semantic_contract"]["repeated_heading_repair"]
+        expected_decision_ref = repeated_contract["decisions"]
+        if not isinstance(expected_decision_ref, dict):
+            raise StructureContractError(
+                "repeated-heading identity lacks its decision artifact reference"
+            )
+        schema_path = (
+            Path(__file__).resolve().parents[4]
+            / REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH
+        )
+        expected_schema_ref = {
+            "path": REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH.as_posix(),
+            "sha256": sha256_file(schema_path),
+        }
+        if repeated_contract.get("correspondence_schema") != expected_schema_ref:
+            raise StructureContractError(
+                "repeated-heading identity correspondence schema binding differs"
+            )
+        validate_repeated_heading_correspondence(
+            _load_record(path),
+            schema_path=schema_path,
+            candidate_id=str(records.manifest["extraction_id"]),
+            expected_decision_ref=expected_decision_ref,
+        )
+        record_count = len(_load_record(path)["records"])
+        _require_publication_value(
+            invariant="semantic completion repeated-heading count matches",
+            expected=record_count,
+            observed=records.completion.get("repeated_heading_correspondence_count"),
+            subject=records.completion_path.as_posix(),
+        )
+    except (KeyError, StructureContractError) as error:
+        raise DocumentStructureInvariantError(
+            stage="candidate reuse verification",
+            invariant="repeated-heading correspondence matches its closed schema",
+            expected="valid er_commons.recovery.repeated_heading_correspondence.v1",
+            observed=str(error),
+            subject=path.as_posix(),
+        ) from error
+
+
+def _verify_missing_chapter_correspondence(
+    root: Path,
+    records: _CandidateRecords,
+    relative_path: str,
+) -> None:
+    """Verify missing-chapter correspondence against candidate identity."""
+    from er_commons.document_records.document_structure.missing_chapter_correspondence import (
+        validate_missing_chapter_correspondence,
+    )
+
+    path = root / relative_path
+    identity_path = root / "records" / "extraction_identity.json"
+    try:
+        identity = _load_record(identity_path)
+        identity_digest = extraction_identity_sha256(identity)
+        if (
+            identity.get("extraction_id") != records.manifest["extraction_id"]
+            or identity.get("extraction_id") != f"exv1-{identity_digest}"
+            or identity.get("identity_sha256") != identity_digest
+            or records.manifest.get("identity_sha256") != identity_digest
+        ):
+            raise StructureContractError(
+                "missing-chapter identity digest or candidate binding is invalid"
+            )
+        expected_decision_ref = identity["semantic_contract"]["missing_chapter_repair"]["decisions"]
+        if not isinstance(expected_decision_ref, dict):
+            raise StructureContractError(
+                "missing-chapter identity lacks its decision artifact reference"
+            )
+        validate_missing_chapter_correspondence(
+            _load_record(path),
+            candidate_id=str(records.manifest["extraction_id"]),
+            expected_decision_ref=expected_decision_ref,
+        )
+    except (KeyError, StructureContractError) as error:
+        raise DocumentStructureInvariantError(
+            stage="candidate reuse verification",
+            invariant="missing-chapter correspondence matches its closed schema",
+            expected="valid er_commons.recovery.missing_chapter_correspondence.v1",
+            observed=str(error),
+            subject=path.as_posix(),
+        ) from error
+
+
+def _verify_support_files(root: Path, records: _CandidateRecords) -> None:
+    """Verify every declared support role, path, file, and checksum."""
+    support, declared_count = _support_entries(records)
+    expected_paths, identity = _expected_support_paths(root, records, support)
     _require_publication_value(
         invariant="semantic candidate support roles are exact and unique",
         expected=sorted(expected_paths),
-        observed=sorted(support) if len(support) == len(support_files) else "duplicate roles",
+        observed=sorted(support) if len(support) == declared_count else "duplicate roles",
         subject=records.manifest_path.as_posix(),
     )
     for role, relative in expected_paths.items():
@@ -241,46 +383,12 @@ def _verify_support_files(root: Path, records: _CandidateRecords) -> None:
             observed=item.get("sha256"),
             subject=path.as_posix(),
         )
+    repeated_path = expected_paths.get("repeated_heading_correspondence")
+    if repeated_path is not None:
+        _verify_repeated_heading_correspondence(root, records, identity, repeated_path)
     correspondence_path = expected_paths.get("missing_chapter_correspondence")
     if correspondence_path is not None:
-        from er_commons.document_records.document_structure.missing_chapter_correspondence import (
-            validate_missing_chapter_correspondence,
-        )
-
-        path = root / correspondence_path
-        identity_path = root / "records" / "extraction_identity.json"
-        try:
-            identity = _load_record(identity_path)
-            identity_digest = extraction_identity_sha256(identity)
-            if (
-                identity.get("extraction_id") != records.manifest["extraction_id"]
-                or identity.get("extraction_id") != f"exv1-{identity_digest}"
-                or identity.get("identity_sha256") != identity_digest
-                or records.manifest.get("identity_sha256") != identity_digest
-            ):
-                raise StructureContractError(
-                    "missing-chapter identity digest or candidate binding is invalid"
-                )
-            expected_decision_ref = identity["semantic_contract"]["missing_chapter_repair"][
-                "decisions"
-            ]
-            if not isinstance(expected_decision_ref, dict):
-                raise StructureContractError(
-                    "missing-chapter identity lacks its decision artifact reference"
-                )
-            validate_missing_chapter_correspondence(
-                _load_record(path),
-                candidate_id=str(records.manifest["extraction_id"]),
-                expected_decision_ref=expected_decision_ref,
-            )
-        except (KeyError, StructureContractError) as error:
-            raise DocumentStructureInvariantError(
-                stage="candidate reuse verification",
-                invariant="missing-chapter correspondence matches its closed schema",
-                expected="valid er_commons.recovery.missing_chapter_correspondence.v1",
-                observed=str(error),
-                subject=path.as_posix(),
-            ) from error
+        _verify_missing_chapter_correspondence(root, records, correspondence_path)
 
 
 def verify_completed_document_structure(root: Path, candidate_id: str) -> Path:

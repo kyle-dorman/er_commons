@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 
 from er_commons.artifact_io import assert_contained
 from er_commons.artifact_verification import VerificationBudget
+from er_commons.authority_reference import AuthorityReference, authority_root_for_path
 from er_commons.document_parsing.content_parsing.sources import load_sealed_manifest_metadata
 from er_commons.document_publication.config import DocumentRunSpec
 from er_commons.document_publication.identity import canonical_digest
@@ -75,17 +76,21 @@ def prepare_publication_inputs(
             spec_path, root=spec_path.parent, role="run_descriptor", source_id="shared"
         )
     )
-    identity_path = assert_contained(
-        repository_root, spec.production_identity_relative_path.as_posix()
+    identity_path = _production_identity_path(
+        spec, repository_root=repository_root, data_root=data_root, budget=budget
+    )
+    identity_root = authority_root_for_path(
+        identity_path, repository_root=repository_root, artifact_root=data_root
     )
     record = budget.read_json(
-        identity_path, root=repository_root, role="identity_preimage", source_id="shared"
+        identity_path, root=identity_root, role="identity_preimage", source_id="shared"
     )
     if not isinstance(record, dict):
         raise ValueError("production identity must be an object")
     production = validate_production_identity(
         record,
         project_root=repository_root,
+        artifact_root=data_root,
         budget=budget,
         expected_source_ids=[item.source_id for item in spec.document_processes],
         expected_scope_kind=spec.scope_kind,
@@ -115,6 +120,28 @@ def prepare_publication_inputs(
         budget,
         MappingProxyType(capture_verified_stamps(budget)),
     )
+
+
+def _production_identity_path(
+    spec: DocumentRunSpec,
+    *,
+    repository_root: Path,
+    data_root: Path,
+    budget: VerificationBudget,
+) -> Path:
+    """Resolve historical repository identities or a v4 declared authority."""
+    reference: AuthorityReference | None = spec.production_identity_ref
+    if reference is not None:
+        return reference.resolve(
+            repository_root=repository_root,
+            artifact_root=data_root,
+            budget=budget,
+            role="identity_preimage",
+        )
+    relative = spec.production_identity_relative_path
+    if relative is None:
+        raise ValueError("document specification lacks a production identity")
+    return assert_contained(repository_root, relative.as_posix())
 
 
 def _recorded_scope(

@@ -10,7 +10,7 @@
   ],
   "properties": {
     "record_type": {"const": "production_identity"},
-    "schema_version": {"const": "er_commons.document_publication_identity.v2"},
+    "schema_version": {"enum": ["er_commons.document_publication_identity.v2", "er_commons.document_publication_identity.v3"]},
     "fixture_status": {"const": "identity_recipe"},
     "execution_status": {"const": "not_executed"},
     "extraction_id": {"type": "string", "pattern": "^exv1-[0-9a-f]{64}$"},
@@ -23,7 +23,7 @@
         "production_scope", "document_process_contract", "collection_process_contract"
       ],
       "properties": {
-        "schema_version": {"const": "er_commons.document_publication_identity_preimage.v2"},
+        "schema_version": {"enum": ["er_commons.document_publication_identity_preimage.v2", "er_commons.document_publication_identity_preimage.v3"]},
         "contract_revision": {"type": "string", "minLength": 1},
         "extraction_version_name": {"type": "string", "minLength": 1},
         "production_scope": {
@@ -53,6 +53,7 @@
         "path": {"type": "string", "minLength": 1},
         "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
         "byte_size": {"type": "integer", "minimum": 0}
+        ,"authority": {"enum": ["repository", "artifact_root"]}
       }
     },
     "contract": {

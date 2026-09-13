@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/collection-processing/v4/collection_run_spec.schema.json",
+  "title": "ER Commons imported-evidence collection run specification v4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_ids",
+    "source_membership",
+    "source_family_catalog_relative_path",
+    "blocking_policy",
+    "document_evidence_mode",
+    "target_policy_sha256",
+    "resolution_policy_sha256",
+    "ordering_policy_version",
+    "collection_output_relative_root",
+    "collection_production_id",
+    "collection_production_identity_ref",
+    "imported_document_root_relative_path",
+    "imported_selection_ref",
+    "imported_document_run_spec_ref",
+    "imported_document_production_identity_ref"
+  ],
+  "properties": {
+    "schema_version": {"const": "er_commons.collection_run_spec.v4"},
+    "source_ids": {
+      "type": "array", "minItems": 35, "maxItems": 35, "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"}
+    },
+    "source_membership": {
+      "type": "array", "minItems": 35, "maxItems": 35,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["logical_source_id", "physical_source_id"],
+        "properties": {
+          "logical_source_id": {"type": "string"},
+          "physical_source_id": {"type": "string"},
+          "substitution_relative_path": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "source_family_catalog_relative_path": {"$ref": "#/$defs/relative_path"},
+    "blocking_policy": {"const": "all_sources_successful"},
+    "document_evidence_mode": {"const": "imported_downstream_selection"},
+    "target_policy_sha256": {"$ref": "#/$defs/sha256"},
+    "resolution_policy_sha256": {"$ref": "#/$defs/sha256"},
+    "ordering_policy_version": {"const": "record_target_order_v2"},
+    "collection_output_relative_root": {"$ref": "#/$defs/relative_path"},
+    "collection_production_id": {"pattern": "^cprodv1-[0-9a-f]{64}$"},
+    "collection_production_identity_ref": {"$ref": "#/$defs/artifact_ref"},
+    "imported_document_root_relative_path": {"$ref": "#/$defs/relative_path"},
+    "imported_selection_ref": {"$ref": "#/$defs/artifact_ref"},
+    "imported_document_run_spec_ref": {"$ref": "#/$defs/document_ref"},
+    "imported_document_production_identity_ref": {"$ref": "#/$defs/document_ref"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "relative_path": {
+      "type": "string", "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "sealed_ref": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authority", "path", "sha256", "byte_size"],
+      "properties": {
+        "authority": {"type": "string"},
+        "path": {"$ref": "#/$defs/relative_path"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_size": {"type": "integer", "minimum": 0}
+      }
+    },
+    "artifact_ref": {
+      "allOf": [
+        {"$ref": "#/$defs/sealed_ref"},
+        {"properties": {"authority": {"const": "artifact_root"}}}
+      ]
+    },
+    "document_ref": {
+      "allOf": [
+        {"$ref": "#/$defs/sealed_ref"},
+        {"properties": {"authority": {"const": "document_input_root"}}}
+      ]
+    }
+  }
+}

@@ -8,6 +8,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from er_commons.authority_reference import AuthorityReference
+
 
 class StrictModel(BaseModel):
     """Reject undeclared fields and mutation after validation."""
@@ -67,11 +69,44 @@ class DocumentProcessConfigs(StrictModel):
         return self
 
 
+type DocumentProcessStage = Literal[
+    "content_parsing",
+    "heading_evidence_parsing",
+    "record_mapping",
+    "hierarchy_inference",
+    "document_structure",
+    "document_reference_linking",
+]
+
+
+class ReusedProcessCompletions(StrictModel):
+    """Authority-aware completion records reused before one resume stage."""
+
+    content_parsing: AuthorityReference | None = None
+    heading_evidence_parsing: AuthorityReference | None = None
+    record_mapping: AuthorityReference | None = None
+    hierarchy_inference: AuthorityReference | None = None
+
+    def selected(self) -> dict[str, AuthorityReference]:
+        """Return only explicitly selected predecessor completions."""
+        return {
+            name: value
+            for name in self.__class__.model_fields
+            if (value := getattr(self, name)) is not None
+        }
+
+
 class DocumentProcessSelection(StrictModel):
     """Data-driven process configurations for one manifest source."""
 
     source_id: str = Field(pattern=r"^[a-z0-9][a-z0-9_]*$")
     lineage_mode: Literal["sealed_inputs", "fresh_build"] = "sealed_inputs"
+    resume_stage: DocumentProcessStage = Field(
+        default="content_parsing", exclude_if=lambda value: value == "content_parsing"
+    )
+    reused_completions: ReusedProcessCompletions | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     configs: DocumentProcessConfigs
     source_manifest_relative_path: Path | None = Field(
         default=None, exclude_if=lambda value: value is None
@@ -86,6 +121,30 @@ class DocumentProcessSelection(StrictModel):
             raise ValueError("per-source manifest and release version must be selected together")
         if path is not None and (path.is_absolute() or ".." in path.parts):
             raise ValueError("per-source manifest must be a contained relative path")
+        expected_reuse = {
+            "content_parsing": set(),
+            "heading_evidence_parsing": {"content_parsing"},
+            "document_structure": {
+                "content_parsing",
+                "heading_evidence_parsing",
+                "record_mapping",
+                "hierarchy_inference",
+            },
+        }
+        if self.resume_stage not in expected_reuse:
+            raise ValueError(
+                "document replay may resume only at content, heading evidence, "
+                "or document structure"
+            )
+        selected = self.reused_completions.selected() if self.reused_completions else {}
+        if set(selected) != expected_reuse[self.resume_stage]:
+            raise ValueError(
+                "resume stage requires the exact preceding completion set: "
+                f"stage={self.resume_stage}, expected={sorted(expected_reuse[self.resume_stage])}, "
+                f"observed={sorted(selected)}"
+            )
+        if self.resume_stage != "content_parsing" and self.lineage_mode != "fresh_build":
+            raise ValueError("only a fresh build may reuse upstream process completions")
         return self
 
 
@@ -112,9 +171,18 @@ class HierarchyDisposition(StrictModel):
 class DocumentRunSpec(StrictModel):
     """One explicit manifest-selected document publication recipe."""
 
-    schema_version: Literal["er_commons.document_run_spec.v2", "er_commons.document_run_spec.v3"]
+    schema_version: Literal[
+        "er_commons.document_run_spec.v2",
+        "er_commons.document_run_spec.v3",
+        "er_commons.document_run_spec.v4",
+    ]
     production_extraction_id: str = Field(pattern=r"^exv1-[0-9a-f]{64}$")
-    production_identity_relative_path: Path
+    production_identity_relative_path: Path | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    production_identity_ref: AuthorityReference | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     scope_kind: Literal["fixture", "engineering_smoke", "representative_pilot", "production_full"]
     source_release_version: str
     source_manifest_relative_path: Path
@@ -135,13 +203,26 @@ class DocumentRunSpec(StrictModel):
             item.source_manifest_relative_path is not None for item in self.document_processes
         ):
             raise ValueError("explicit per-source manifests require document run spec v3")
+        if not self.schema_version.endswith(".v4") and any(
+            item.resume_stage != "content_parsing" for item in self.document_processes
+        ):
+            raise ValueError("per-source process resume requires document run spec v4")
+        legacy_identity = self.production_identity_relative_path
+        if self.schema_version.endswith(".v4"):
+            if legacy_identity is not None or self.production_identity_ref is None:
+                raise ValueError("document run spec v4 requires one authority-aware identity ref")
+        elif legacy_identity is None or self.production_identity_ref is not None:
+            raise ValueError("historical document run specs require the relative identity path")
         for path in (
-            self.production_identity_relative_path,
             self.source_manifest_relative_path,
             self.artifact_relative_root,
         ):
             if path.is_absolute() or ".." in path.parts:
                 raise ValueError("run-spec paths must be contained relative paths")
+        if legacy_identity is not None and (
+            legacy_identity.is_absolute() or ".." in legacy_identity.parts
+        ):
+            raise ValueError("run-spec paths must be contained relative paths")
         ids = [item.source_id for item in self.hierarchy_dispositions]
         process_ids = [item.source_id for item in self.document_processes]
         if len(process_ids) != len(set(process_ids)):
@@ -165,6 +246,13 @@ class DocumentRunSpec(StrictModel):
     def processes_for(self, source_id: str) -> DocumentProcessConfigs:
         """Return the explicit process configuration set for one source."""
         matches = [item.configs for item in self.document_processes if item.source_id == source_id]
+        if len(matches) != 1:
+            raise ValueError(f"run spec lacks one document-process selection: {source_id}")
+        return matches[0]
+
+    def process_selection(self, source_id: str) -> DocumentProcessSelection:
+        """Return the complete process and resume selection for one source."""
+        matches = [item for item in self.document_processes if item.source_id == source_id]
         if len(matches) != 1:
             raise ValueError(f"run spec lacks one document-process selection: {source_id}")
         return matches[0]

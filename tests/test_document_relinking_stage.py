@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import json
-from dataclasses import replace
+from copy import deepcopy
+from dataclasses import asdict, replace
 from hashlib import sha256
 from pathlib import Path
 from types import SimpleNamespace
@@ -55,6 +56,28 @@ def test_navigation_inputs_remap_only_embedded_source_namespace() -> None:
     assert remapped.entries[0]["destination_page_ids"] == [f"{current}/page/report_alpha/p000001"]
 
 
+def test_navigation_inputs_remap_reviewed_source_local_record_namespaces() -> None:
+    """Reviewed page bindings may carry a different accepted extraction namespace."""
+    prior = "exv1-" + "7" * 64
+    current = "exv1-" + "8" * 64
+    navigation = NavigationInputs(
+        entries=(
+            {
+                "navigation_entry_id": "stable-navigation-id",
+                "source_id": "report_alpha",
+                "source_page_id": f"{prior}/page/report_alpha/p000003",
+                "destination_page_ids": [f"{prior}/page/report_alpha/p000021"],
+            },
+        )
+    )
+
+    remapped = navigation.remap_source_record_namespaces("report_alpha", current)
+
+    assert remapped.entries[0]["navigation_entry_id"] == "stable-navigation-id"
+    assert remapped.entries[0]["source_page_id"] == f"{current}/page/report_alpha/p000003"
+    assert remapped.entries[0]["destination_page_ids"] == [f"{current}/page/report_alpha/p000021"]
+
+
 def test_builder_preserves_records_adds_only_r6_and_uses_shared_resolution(
     tmp_path: Path,
 ) -> None:
@@ -103,6 +126,84 @@ def test_builder_preserves_records_adds_only_r6_and_uses_shared_resolution(
             build.products.target_aliases[0]["id"],
         )
     )
+
+
+def test_in_place_remapping_matches_copy_for_nested_r6_navigation(tmp_path: Path) -> None:
+    """Borrowing rows must preserve chapter-scoped navigation and ordinary links byte-for-byte."""
+    source = _source(tmp_path)
+    records = source.record_files
+    chapter = str(records["canonical/sections.jsonl"][0]["id"])
+    subsection = chapter + "-subsection"
+    records["canonical/sections.jsonl"].append(
+        {
+            **records["canonical/sections.jsonl"][0],
+            "id": subsection,
+            "sequence": 2,
+            "heading_block_id": None,
+            "parent_section_id": chapter,
+        }
+    )
+    records["canonical/tables.jsonl"][0]["section_id"] = subsection
+    records["canonical/blocks.jsonl"][2]["section_id"] = subsection
+    records["canonical/blocks.jsonl"][2]["canonical_text"] = "Table 1-1. Results"
+    records["canonical/blocks.jsonl"][1]["canonical_text"] = "See Section 1 and Table 1-1."
+    original = deepcopy(source)
+    navigation = NavigationInputs(
+        entries=(
+            {
+                "navigation_entry_id": "chapter",
+                "source_id": "report_alpha",
+                "lookup_text": "1 Overview",
+                "target_type": "section",
+            },
+            {
+                "navigation_entry_id": "table",
+                "source_id": "report_alpha",
+                "lookup_text": "Table 1-1. Results",
+                "target_type": "table",
+            },
+        ),
+        relations=(
+            {
+                "relation_id": "chapter-table",
+                "source_id": "report_alpha",
+                "parent_entry_id": "chapter",
+                "child_entry_id": "table",
+            },
+        ),
+    )
+
+    class CopyingBuilder(DocumentRelinkBuilder):
+        def _preserved_records(self, *, in_place: bool):
+            """Keep the prior deep-copy path as the equivalence oracle."""
+            return super()._preserved_records(in_place=False)
+
+    arguments = {
+        "upstream_candidate_id": UPSTREAM,
+        "candidate_id": str(build_relink_identity(_identity_inputs())["extraction_id"]),
+        "source_id": "report_alpha",
+        "mention_policy": default_mention_policy(),
+        "linking_policy": _linking_policy(),
+        "source_family_catalog": _catalog(),
+        "source_family_catalog_sha256": "8" * 64,
+        "navigation": navigation,
+    }
+    copied = CopyingBuilder(source=original, **arguments).build()
+    borrowed = DocumentRelinkBuilder(source=source, **arguments).build()
+
+    assert json.dumps(asdict(borrowed), sort_keys=True) == json.dumps(
+        asdict(copied), sort_keys=True
+    )
+    assert len(borrowed.products.ordinary_references) == 3
+    assert [row["outcome"] for row in borrowed.products.navigation_decisions] == [
+        "resolved_unique",
+        "resolved_unique",
+    ]
+    assert (
+        borrowed.preserved_record_files["canonical/tables.jsonl"][0]
+        is records["canonical/tables.jsonl"][0]
+    )
+    assert original.record_files["canonical/tables.jsonl"][0]["id"].startswith(UPSTREAM)
 
 
 @pytest.mark.parametrize(
@@ -246,6 +347,45 @@ def test_v2_fc1_accounts_only_its_keys_and_preserves_existing_collisions(
     validate_relink_build_products(build, schema_paths=_schema_paths_v2())
 
 
+def test_v2_fc1_can_be_disabled_for_an_unqualified_source(tmp_path: Path) -> None:
+    identity = build_relink_identity(_identity_inputs())
+    source = _source(tmp_path)
+    source.record_files["canonical/blocks.jsonl"][1]["canonical_text"] = "See Figure 4.8-5."
+    build = DocumentRelinkBuilder(
+        source=source,
+        upstream_candidate_id=UPSTREAM,
+        candidate_id=str(identity["extraction_id"]),
+        source_id="report_alpha",
+        mention_policy=default_mention_policy(),
+        linking_policy=_linking_policy_v2(),
+        source_family_catalog=_catalog(),
+        source_family_catalog_sha256="8" * 64,
+        figure_aliases_enabled=False,
+    ).build()
+
+    assert "figure_qualification" not in build.support
+    assert build.support["preservation"]["allowed_derived_alias_rule_ids"] == ["R6"]
+    assert build.products.ordinary_references[0]["mention_class"] == "figure"
+    assert build.products.ordinary_references[0]["resolution_status"] == "unresolved"
+    assert (
+        build.products.ordinary_references[0]["unresolved_reason"]
+        == "accepted_target_type_unavailable"
+    )
+
+
+def test_v2_relink_identity_binds_authority_aware_resolved_spec() -> None:
+    reference = {
+        "authority": "artifact_root",
+        "path": "resolved_specs_v1/link.json",
+        "sha256": "c" * 64,
+        "byte_size": 123,
+    }
+    identity = build_relink_identity(replace(_identity_inputs(), resolved_spec_ref=reference))
+    contract = identity["document_link_contract"]
+    assert contract["schema_version"] == "er_commons.document_link_identity.v2"
+    assert contract["resolved_spec_ref"] == reference
+
+
 def test_navigation_r1_uses_structural_marker_only_with_destination_evidence(
     tmp_path: Path,
 ) -> None:
@@ -358,6 +498,14 @@ def test_source_document_boundary_verifies_all_five_reused_stage_seals(
         expected_production_id="exv1-" + "a" * 64,
         selected_structured_completion=structured_ref,
     )
+    with pytest.raises(ValueError, match="identity, production, or source differs"):
+        relink_publication._verify_source_document_reuse_boundary(
+            source_document_root=source_root,
+            artifact_root=tmp_path,
+            expected_source_id="report_alpha",
+            expected_production_id="exv1-" + "b" * 64,
+            selected_structured_completion=structured_ref,
+        )
     (tmp_path / stage_refs["mapped_records"]["path"]).write_text("tampered\n")
     with pytest.raises(ValueError, match="reused mapped_records seal differs"):
         relink_publication._verify_source_document_reuse_boundary(

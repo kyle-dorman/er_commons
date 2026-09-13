@@ -1,0 +1,657 @@
+{
+  "artifact_relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/document_publications",
+  "document_processes": [
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k4/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k4/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k4/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k4/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k4/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k4/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k4"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_n1/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_n1/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_n1/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_n1/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_n1/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_n1/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_n1"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k5/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k5/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k5/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k5/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k5/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k5/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k5"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_n2/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_n2/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_n2/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_n2/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_n2/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_n2/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_n2"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_f2/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_f2/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_f2/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_f2/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_f2/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_f2/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_f2"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k6/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k6/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k6/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k6/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k6/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k6/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k6"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_m3/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_m3/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_m3/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_m3/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_m3/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_m3/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_m3"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_l/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_l/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_l/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_l/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_l/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_l/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_l"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_o/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_o/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_o/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_o/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_o/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_o/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_o"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task06/v4/feir_appendix_f1/content_parsing.json",
+        "document_reference_linking": "configs/task06/v4/feir_appendix_f1/document_reference_linking.json",
+        "document_structure": "configs/task06/v4/feir_appendix_f1/document_structure.json",
+        "heading_evidence_parsing": "configs/task06/v4/feir_appendix_f1/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task06/v4/feir_appendix_f1/hierarchy_inference.json",
+        "record_mapping": "configs/task06/v4/feir_appendix_f1/record_mapping.json"
+      },
+      "lineage_mode": "fresh_build",
+      "resume_stage": "heading_evidence_parsing",
+      "reused_completions": {
+        "content_parsing": {
+          "authority": "artifact_root",
+          "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06c/gate3_processing_v1/document_parse_evidence/prv1-01c8e77c10303f8d54d4a34ebe38b489699386897a8d4c78a931f371bafbcb36/records/completion_record.json",
+          "sha256": "52fb25b80048af7dcc67e54ffee1914984a1e4f647ef12d1f9a84d5bd3013e1e",
+          "byte_size": 643
+        }
+      },
+      "source_id": "feir_appendix_f1",
+      "source_release_version": "brisbane_baylands_2025_feir_f1_processing_v1",
+      "source_manifest_relative_path": "pipelines/brisbane_baylands/task_06_recovery_v1/06c/gate3_inputs_v1/source/records/source_manifest.json"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_c/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_c/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_c/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_c/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_c/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_c/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_c"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_j/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_j/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_j/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_j/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_j/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_j/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_j"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_p/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_p/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_p/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_p/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_p/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_p/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_p"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_m1/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_m1/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_m1/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_m1/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_m1/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_m1/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_m1"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_b/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_b/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_b/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_b/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_b/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_b/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_b"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_d/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_d/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_d/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_d/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_d/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_d/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_d"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_e/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_e/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_e/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_e/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_e/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_e/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_e"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_a/content_parsing.json",
+        "document_reference_linking": "configs/task06/v4/deir_appendix_a/document_reference_linking.json",
+        "document_structure": "configs/task06/v4/deir_appendix_a/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_a/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_a/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_a/record_mapping.json"
+      },
+      "lineage_mode": "fresh_build",
+      "resume_stage": "document_structure",
+      "reused_completions": {
+        "content_parsing": {
+          "authority": "artifact_root",
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_parse_evidence/prv1-ef0af1ca4b2f0f7f3d7e391748bca9e988625cca3dbf6ae23d85bd606de7fee6/records/completion_record.json",
+          "sha256": "b4e80ab3f346fc3c8aaed3d9e5ae42a78aa216388ad5b5f8b95b2786de208896",
+          "byte_size": 642
+        },
+        "heading_evidence_parsing": {
+          "authority": "artifact_root",
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_parse_evidence/prv1-712f10ef3b5dc30cc16543e6838316a5d4a07933b59739d21bcc4bf9df7ecc38/records/completion_record.json",
+          "sha256": "8f02413458f49aad56eed9af48acda1fa8ae4b0938f2a2296f9387192926749b",
+          "byte_size": 642
+        },
+        "record_mapping": {
+          "authority": "artifact_root",
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-f73b201ab51f9ad3cfe3d88d40220e9ef5de1d3044a817463f8456e6d814a511/records/completion_record.json",
+          "sha256": "b56bbc19b0fd4d288de4e380b147cbdb12999fa4c15ac617de21a12ebfdb5021",
+          "byte_size": 549
+        },
+        "hierarchy_inference": {
+          "authority": "artifact_root",
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/hierarchy_inference/hcorv1-b207ad4862fcedd55b7c00e9ec9b819eb5d7e3babade8bf3092da45520f4b1a2/records/completion_record.json",
+          "sha256": "84b108247adcb2c51d7ef975c73ea74dd3349e84ac4037e75f8ac1cb107a00a9",
+          "byte_size": 223
+        }
+      },
+      "source_id": "deir_appendix_a"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k1_part_1_of_4/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k1_part_1_of_4/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k1_part_1_of_4/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k1_part_1_of_4/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k1_part_1_of_4/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k1_part_1_of_4/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k1_part_1_of_4"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_m2/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_m2/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_m2/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_m2/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_m2/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_m2/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_m2"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k2_part_2_of_5/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k2_part_2_of_5/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k2_part_2_of_5/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k2_part_2_of_5/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k2_part_2_of_5/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k2_part_2_of_5/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k2_part_2_of_5"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k3/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k3/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k3/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k3/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k3/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k3/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k3"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k1_part_2_of_4/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k1_part_2_of_4/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k1_part_2_of_4/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k1_part_2_of_4/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k1_part_2_of_4/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k1_part_2_of_4/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k1_part_2_of_4"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k2_part_1_of_5/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k2_part_1_of_5/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k2_part_1_of_5/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k2_part_1_of_5/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k2_part_1_of_5/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k2_part_1_of_5/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k2_part_1_of_5"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_main/content_parsing.json",
+        "document_reference_linking": "configs/task06/v4/deir_main/document_reference_linking.json",
+        "document_structure": "configs/task06/v4/deir_main/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_main/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_main/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_main/record_mapping.json"
+      },
+      "lineage_mode": "fresh_build",
+      "resume_stage": "document_structure",
+      "reused_completions": {
+        "content_parsing": {
+          "authority": "artifact_root",
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_parse_evidence/prv1-276e95927a6f0cae631e348109691d531aa62f0d0820d6493b589ddb512aff55/records/completion_record.json",
+          "sha256": "5f47c679a660b0012140edcf57ffcda547dffec3822bf5e4ee4007f10b954848",
+          "byte_size": 636
+        },
+        "heading_evidence_parsing": {
+          "authority": "artifact_root",
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_parse_evidence/prv1-bb5404435052fb069482834c9efa941791ca323cdc2d356bdcdc21c4477e1587/records/completion_record.json",
+          "sha256": "d8d471e3f6dfcdd137a5a80382b2c43af63603fa9c290d8965d45d691423c70c",
+          "byte_size": 636
+        },
+        "record_mapping": {
+          "authority": "artifact_root",
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/document_records/exv1-19733c628064c30b30278ed388383e0e57abc33617b8df4608ddfcfe9a29426b/records/completion_record.json",
+          "sha256": "f4550e6f4a649ddbd0a9266543cb17c9fd4088743a6a1696b74f8fd5ef78df4a",
+          "byte_size": 543
+        },
+        "hierarchy_inference": {
+          "authority": "artifact_root",
+          "path": "pipelines/brisbane_baylands/task_03h_clean_full_v4/hierarchy_inference/hcorv1-de54427cf346cd61ae72c97146c15729168c2ed97fdd995514462600087e5ed7/records/completion_record.json",
+          "sha256": "efd22685a67fddaf80923cc762a2fd5a4b0fccead02600abd1a52e8db549aefe",
+          "byte_size": 223
+        }
+      },
+      "source_id": "deir_main"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k2_part_5_of_5/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k2_part_5_of_5/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k2_part_5_of_5/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k2_part_5_of_5/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k2_part_5_of_5/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k2_part_5_of_5/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k2_part_5_of_5"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_i/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_i/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_i/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_i/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_i/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_i/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_i"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_g1/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_g1/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_g1/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_g1/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_g1/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_g1/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_g1"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k1_part_4_of_4/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k1_part_4_of_4/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k1_part_4_of_4/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k1_part_4_of_4/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k1_part_4_of_4/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k1_part_4_of_4/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k1_part_4_of_4"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_h/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_h/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_h/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_h/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_h/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_h/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_h"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k1_part_3_of_4/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k1_part_3_of_4/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k1_part_3_of_4/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k1_part_3_of_4/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k1_part_3_of_4/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k1_part_3_of_4/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k1_part_3_of_4"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_g2/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_g2/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_g2/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_g2/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_g2/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_g2/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_g2"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k2_part_4_of_5/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k2_part_4_of_5/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k2_part_4_of_5/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k2_part_4_of_5/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k2_part_4_of_5/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k2_part_4_of_5/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k2_part_4_of_5"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_g3/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_g3/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_g3/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_g3/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_g3/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_g3/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_g3"
+    },
+    {
+      "configs": {
+        "content_parsing": "configs/task03h/v4/deir_appendix_k2_part_3_of_5/content_parsing.json",
+        "document_reference_linking": "configs/task03h/v4/deir_appendix_k2_part_3_of_5/document_reference_linking.json",
+        "document_structure": "configs/task03h/v4/deir_appendix_k2_part_3_of_5/document_structure.json",
+        "heading_evidence_parsing": "configs/task03h/v4/deir_appendix_k2_part_3_of_5/heading_evidence_parsing.json",
+        "hierarchy_inference": "configs/task03h/v4/deir_appendix_k2_part_3_of_5/hierarchy_inference.json",
+        "record_mapping": "configs/task03h/v4/deir_appendix_k2_part_3_of_5/record_mapping.json"
+      },
+      "lineage_mode": "sealed_inputs",
+      "source_id": "deir_appendix_k2_part_3_of_5"
+    }
+  ],
+  "hierarchy_dispositions": [
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k4"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_n1"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k5"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_n2"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_f2"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k6"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_m3"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_l"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_o"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "feir_appendix_f1"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_c"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_j"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_p"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_m1"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_b"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_d"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_e"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_a"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k1_part_1_of_4"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_m2"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k2_part_2_of_5"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k3"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k1_part_2_of_4"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k2_part_1_of_5"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_main"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k2_part_5_of_5"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_i"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_g1"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k1_part_4_of_4"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_h"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k1_part_3_of_4"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_g2"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k2_part_4_of_5"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_g3"
+    },
+    {
+      "authority": "machine_validation",
+      "source_id": "deir_appendix_k2_part_3_of_5"
+    }
+  ],
+  "production_extraction_id": "exv1-0000000000000000000000000000000000000000000000000000000000000000",
+  "resource_policy": {
+    "cancellation_grace_seconds": 15,
+    "cpu_threads_per_document": 4,
+    "device": "cpu",
+    "docling_timeout_seconds": null,
+    "document_concurrency": 1,
+    "memory_estimate_bytes": 10737418240,
+    "outer_process_deadline_seconds": 86400,
+    "page_batch_size": 4,
+    "queue_capacity": 100,
+    "retry_limit": 0,
+    "stage_batch_size": 4,
+    "storage_estimate_bytes": 55834574848
+  },
+  "schema_version": "er_commons.document_run_spec.v4",
+  "scope_kind": "production_full",
+  "source_manifest_relative_path": "datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "source_release_version": "brisbane_baylands_2025_deir_sources_v1",
+  "production_identity_ref": {
+    "authority": "artifact_root",
+    "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/resolved_specs_v1/00_initial/production_identity.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "byte_size": 0
+  }
+}

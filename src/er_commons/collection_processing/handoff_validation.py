@@ -44,10 +44,25 @@ def validate_collection_handoff(
     scope_id: str,
     schema_path: Path,
     data_root: Path | None = None,
+    document_input_root: Path | None = None,
 ) -> VerifiedHandoff:
-    """Verify the v2 bundle and every successful document candidate in place."""
+    """Verify a versioned bundle without rebuilding or mutating its evidence."""
     root = extraction_root.resolve()
     bundle = _json_object(root / "scopes" / scope_id / "contract_bundle.json")
+    version = bundle.get("schema_version")
+    if version == "er_commons.collection_workflow_contract.v3":
+        from er_commons.collection_processing.handoff_validation_v3 import (
+            validate_v3_collection_handoff,
+        )
+
+        return validate_v3_collection_handoff(
+            root=root,
+            scope_id=scope_id,
+            schema_path=schema_path,
+            bundle=bundle,
+            data_root=data_root,
+            document_input_root=document_input_root,
+        )
     checked_data_root = (
         data_root.resolve() if data_root is not None else _infer_data_root(root, bundle)
     )

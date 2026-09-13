@@ -18,6 +18,9 @@ from er_commons.document_records.document_structure.config import (
     DocumentStructureConfig,
     load_document_structure_config,
 )
+from er_commons.document_records.document_structure.constants import (
+    REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
+)
 from er_commons.document_records.document_structure.identity import (
     build_document_structure_identity,
 )
@@ -343,6 +346,7 @@ def test_v2_identity_binds_repeated_heading_policy_schema_and_decisions(tmp_path
         project_root / config.semantic_schema_relative_path,
         project_root / config.repeated_heading_policy_relative_path,  # type: ignore[arg-type]
         project_root / config.repeated_heading_decision_schema_relative_path,  # type: ignore[arg-type]
+        project_root / REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
         project_root / "src/owned.py",
     )
     for path in paths:
@@ -395,6 +399,9 @@ def test_v2_identity_binds_repeated_heading_policy_schema_and_decisions(tmp_path
     repeated = identity["semantic_contract"]["repeated_heading_repair"]
     assert repeated["decisions"]["sha256"] == "1" * 64
     assert repeated["policy"]["path"] == "docs/specs/repeated_heading_repair_v1.md"
+    assert repeated["correspondence_schema"]["path"] == (
+        REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH.as_posix()
+    )
 
 
 def test_task06_main_v3_config_is_source_local_and_binds_missing_chapters() -> None:
@@ -406,7 +413,7 @@ def test_task06_main_v3_config_is_source_local_and_binds_missing_chapters() -> N
     assert config.source.source_id == "deir_main"
     assert config.repeated_heading_qualification_relative_root is None
     assert config.missing_chapter_qualification_relative_root == Path(
-        "pipelines/brisbane_baylands/task_06_recovery_v1/06e/qualification_v13"
+        "pipelines/brisbane_baylands/task_06_recovery_v1/06e/qualification_v17"
     )
     assert config.semantic_schema_relative_path == Path(
         "benchmarks/er_bench/schemas/canonical_extraction/v3/semantic_structure.schema.json"

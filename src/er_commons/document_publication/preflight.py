@@ -11,6 +11,7 @@ from er_commons.artifact_io import assert_contained, sha256_file
 from er_commons.artifact_verification import VerificationBudget
 from er_commons.document_publication.accepted_inputs import (
     PreparedPublicationInputs,
+    _production_identity_path,
     prepare_publication_inputs,
 )
 from er_commons.document_publication.config import (
@@ -70,6 +71,14 @@ def prepare_document_run(data_root: Path, run_spec_path: Path, source_id: str) -
     """Load the run contract, verify production scope, and select one source."""
     spec, spec_sha256 = load_document_run_spec(run_spec_path)
     project_root = Path(__file__).resolve().parents[3]
+    if spec.schema_version.endswith(".v4"):
+        return prepare_accepted_document_run(
+            data_root,
+            run_spec_path,
+            source_id,
+            budget=VerificationBudget(),
+            repository_root=project_root,
+        )
     _verify_production_contract(spec, project_root, data_root)
     source = resolve_manifest_source(data_root, spec, source_id)
     disposition = spec.hierarchy_disposition(source_id).model_dump(mode="json")
@@ -94,9 +103,12 @@ def prepare_document_run(data_root: Path, run_spec_path: Path, source_id: str) -
 
 def _verify_production_contract(spec: DocumentRunSpec, project_root: Path, data_root: Path) -> None:
     """Reject arbitrary or stale production identities before source work."""
-    identity_path = (project_root / spec.production_identity_relative_path).resolve()
-    if not identity_path.is_relative_to(project_root.resolve()) or not identity_path.is_file():
-        raise FileNotFoundError(identity_path)
+    identity_path = _production_identity_path(
+        spec,
+        repository_root=project_root,
+        data_root=data_root,
+        budget=VerificationBudget(),
+    )
     identity = json.loads(identity_path.read_text())
     source_ids: list[str] | None = None
     scope_evidence: dict[str, object] | None = None
@@ -117,6 +129,7 @@ def _verify_production_contract(spec: DocumentRunSpec, project_root: Path, data_
         expected_scope=scope_evidence,
         expected_scope_kind=spec.scope_kind,
         project_root=project_root if spec.scope_kind != "fixture" else None,
+        artifact_root=data_root if spec.scope_kind != "fixture" else None,
     )
     if identity.get("extraction_id") != spec.production_extraction_id:
         raise ValueError("run-spec production extraction ID differs from checked identity")

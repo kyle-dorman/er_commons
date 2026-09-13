@@ -42,6 +42,7 @@ class HierarchyInferenceInputs:
     document: JsonObject
     alignment_pages: dict[int, AlignmentPage]
     input_inventory: JsonObject
+    source_observation_mode: str
 
 
 @dataclass
@@ -153,4 +154,5 @@ def load_hierarchy_inference_inputs(
             expected_page_count=selected_source.source_page_count,
         ),
         input_inventory=input_inventory,
+        source_observation_mode=config.source_observation_mode,
     )

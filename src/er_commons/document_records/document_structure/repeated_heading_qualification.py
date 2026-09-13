@@ -27,6 +27,8 @@ def publish_repeated_heading_qualification(
     policy_ref: JsonObject,
     schema_ref: JsonObject,
     decision_schema: JsonObject,
+    generator_ref: JsonObject | None = None,
+    human_decision_ref: JsonObject | None = None,
     limitations: tuple[str, ...] = (),
 ) -> Path:
     """Publish one fresh compact qualification directory without clobbering evidence."""
@@ -41,7 +43,9 @@ def publish_repeated_heading_qualification(
         group_keys = [item.heading_stable_keys for item in ordered_decisions]
         if len(set(group_keys)) != len(group_keys):
             raise ValueError("repeated-heading qualification contains a duplicate group")
-        records = [_decision_record(item, source_ref) for item in ordered_decisions]
+        records = [
+            _decision_record(item, source_ref, human_decision_ref) for item in ordered_decisions
+        ]
         validator = Draft202012Validator(decision_schema)
         for record in records:
             errors = sorted(validator.iter_errors(record), key=lambda item: list(item.path))
@@ -63,6 +67,7 @@ def publish_repeated_heading_qualification(
                 "source_ref": source_ref,
                 "policy_ref": policy_ref,
                 "decision_schema_ref": schema_ref,
+                "generator_ref": generator_ref,
                 "counts": {
                     status: sum(item.status == status for item in ordered_decisions)
                     for status in ("eligible", "rejected", "review_required")
@@ -100,7 +105,11 @@ def publish_repeated_heading_qualification(
     return output_root / "completion.json"
 
 
-def _decision_record(decision: RepeatedHeadingDecision, source_ref: JsonObject) -> JsonObject:
+def _decision_record(
+    decision: RepeatedHeadingDecision,
+    source_ref: JsonObject,
+    human_decision_ref: JsonObject | None,
+) -> JsonObject:
     marker = decision.chapter_marker
     anchor = decision.anchor_heading_key
     new_target_ref = None
@@ -114,6 +123,7 @@ def _decision_record(decision: RepeatedHeadingDecision, source_ref: JsonObject) 
     return decision.as_record(
         source_ref=source_ref,
         new_target_ref=new_target_ref,
+        human_decision_ref=human_decision_ref,
     )
 
 

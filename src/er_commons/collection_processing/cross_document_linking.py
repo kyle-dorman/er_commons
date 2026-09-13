@@ -6,10 +6,12 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
+from er_commons.collection_processing.authority_refs import CollectionArtifactResolver
 from er_commons.collection_processing.contract import (
     JsonObject,
     build_cross_document_link_id,
     canonical_sha256,
+    collection_identity_fields,
 )
 from er_commons.collection_processing.cross_document_resolver import CrossDocumentResolver
 from er_commons.collection_processing.domain import PublishedStage, StageBuild, StageName
@@ -38,6 +40,9 @@ class CrossDocumentLinkInputs:
     index_stage: PublishedStage
     evidence: tuple[DocumentTerminalEvidence, ...]
     resolution_policy_sha256: str
+    collection_production_id: str | None = None
+    imported_selection_sha256: str | None = None
+    artifact_resolver: CollectionArtifactResolver | None = None
 
 
 class CrossDocumentLinkBuilder:
@@ -58,6 +63,7 @@ class CrossDocumentLinkBuilder:
             inputs.extraction_root,
             catalog,
             str(catalog_ref["sha256"]),
+            inputs.artifact_resolver,
         ).build(inputs.evidence)
         manifest_record = manifest.as_record(
             index_id=str(inputs.index["index_id"]),
@@ -104,7 +110,11 @@ class CrossDocumentLinkBuilder:
         }
         completion: JsonObject = {
             "record_type": "cross_document_link_completion",
-            "schema_version": "er_commons.cross_document_link_completion.v2",
+            "schema_version": (
+                "er_commons.cross_document_link_completion.v3"
+                if inputs.collection_production_id is not None
+                else "er_commons.cross_document_link_completion.v2"
+            ),
             "resolution_id": resolution_id,
             "index_id": inputs.index["index_id"],
             "identity_preimage": preimage,
@@ -133,8 +143,16 @@ class CrossDocumentLinkBuilder:
         payloads: dict[str, bytes],
     ) -> JsonObject:
         return {
-            "schema_version": "er_commons.cross_document_link_identity.v2",
-            "production_extraction_id": inputs.production_extraction_id,
+            "schema_version": (
+                "er_commons.cross_document_link_identity.v3"
+                if inputs.collection_production_id is not None
+                else "er_commons.cross_document_link_identity.v2"
+            ),
+            **collection_identity_fields(
+                inputs.production_extraction_id,
+                inputs.collection_production_id,
+                inputs.imported_selection_sha256,
+            ),
             "scope_id": inputs.scope_id,
             "index_completion_sha256": inputs.index_stage.completion_ref["sha256"],
             "mention_input_manifest_sha256": manifest_ref["sha256"],

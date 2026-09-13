@@ -2,12 +2,49 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
+from er_commons.artifact_verification import VerificationBudget
+from er_commons.authority_reference import AuthorityReference
 from er_commons.document_publication import fresh_preflight, process_inputs
 from er_commons.document_publication.config import load_document_run_spec
-from er_commons.document_publication.process_inputs import ProcessConfigs
+from er_commons.document_publication.process_inputs import (
+    ProcessConfigs,
+    verify_reused_completion_inputs,
+)
+
+
+def test_reused_completion_uses_the_compact_completion_hash_role(tmp_path: Path) -> None:
+    """A sealed JSON resume input stays hashable without widening the payload allowlist."""
+    producer_id = f"prv1-{'1' * 64}"
+    completion = tmp_path / "producers" / producer_id / "records/completion_record.json"
+    completion.parent.mkdir(parents=True)
+    completion.write_text(
+        json.dumps({"producer_run_id": producer_id, "source_id": "example"}) + "\n"
+    )
+    reference = AuthorityReference(
+        authority="artifact_root",
+        path=completion.relative_to(tmp_path).as_posix(),
+        sha256=hashlib.sha256(completion.read_bytes()).hexdigest(),
+        byte_size=completion.stat().st_size,
+    )
+    reused = SimpleNamespace(selected=lambda: {"content_parsing": reference})
+    selection = SimpleNamespace(reused_completions=reused)
+    prepared = SimpleNamespace(
+        repository_root=tmp_path / "repository",
+        data_root=tmp_path,
+        spec=SimpleNamespace(process_selection=lambda _source_id: selection),
+    )
+
+    budget = VerificationBudget()
+    verify_reused_completion_inputs(prepared, "example", budget)
+
+    hashed = [item for item in budget.observations if item.get("sha256")]
+    assert len(hashed) == 1
+    assert hashed[0]["role"] == "completion"
 
 
 def test_preparsed_controls_do_not_reopen_configs_or_hash_the_manifest(tmp_path, monkeypatch):

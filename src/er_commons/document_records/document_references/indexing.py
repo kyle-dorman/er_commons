@@ -67,6 +67,23 @@ class NamespaceRemapper:
             return {key: self.value(item) for key, item in value.items()}
         return copy.deepcopy(value)
 
+    def value_in_place(self, value: Any) -> Any:
+        """Apply the same transformation while reusing mutable containers."""
+        if isinstance(value, str):
+            remapped = value.replace(self.upstream_candidate_id, self.candidate_id)
+            if remapped == "er_commons.canonical_extraction.v2":
+                return "er_commons.canonical_extraction.v3"
+            return remapped
+        if isinstance(value, list):
+            for index, item in enumerate(value):
+                value[index] = self.value_in_place(item)
+            return value
+        if isinstance(value, dict):
+            for key, item in value.items():
+                value[key] = self.value_in_place(item)
+            return value
+        return value
+
     def record_id(self, upstream_record_id: str) -> str:
         """Remap one known upstream record ID."""
         return upstream_record_id.replace(self.upstream_candidate_id, self.candidate_id)

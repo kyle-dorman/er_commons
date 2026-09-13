@@ -27,6 +27,7 @@ def validate_lineage_bindings(
     project_root: Path | None = None,
     lineage_mode: Literal["sealed_inputs", "fresh_build"] = "sealed_inputs",
     declared_artifact_root: Path | None = None,
+    reused_roles: set[str] | None = None,
 ) -> tuple[Path, ArtifactRef | None]:
     """Validate every derivable config and sealed-artifact lineage join."""
     root = project_root or Path(__file__).resolve().parents[3]
@@ -42,6 +43,7 @@ def validate_lineage_bindings(
             disposition=disposition,
             data_root=data_root,
             declared_artifact_root=declared_artifact_root,
+            reused_roles=reused_roles,
         )
     mismatches = _producer_mismatches(record_mapping, correction, document_structure, lineage)
     _validate_candidate_paths(document_structure, mismatches)

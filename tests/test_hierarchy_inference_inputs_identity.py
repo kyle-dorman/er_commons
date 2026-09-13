@@ -277,6 +277,7 @@ def test_identity_binds_exact_digests_and_derives_hcorv1_id(tmp_path: Path) -> N
             "conversion_completion_sha256": "f" * 64,
             "conversion_inventory_sha256": "a" * 64,
         },
+        source_observation_mode="source_pdf",
     )
 
     identity = build_candidate_identity(

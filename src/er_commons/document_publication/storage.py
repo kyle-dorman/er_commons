@@ -257,17 +257,7 @@ def _verify_recorded_candidate_identity(
     sealed = [row for row in inventory["files"] if row["path"] == "records/document_identity.json"]
     if len(sealed) != 1 or sealed[0]["sha256"] != identity_digest:
         raise ValueError("candidate identity inventory binding differs")
-    control = canonical_digest(
-        {
-            "hierarchy_disposition": identity.hierarchy_disposition,
-            "run_spec_sha256": identity.run_spec_sha256,
-            "stage_completions": {
-                role: ref.model_dump(mode="json")
-                for role, ref in identity.stage_completions.items()
-            },
-            "terminal_state": identity.terminal_state,
-        }
-    )
+    control = canonical_digest(_recorded_identity_controls(identity))
     if identity.control_digest != control or candidate_id != build_candidate_id(
         production_extraction_id=identity.production_extraction_id,
         source_id=source.source_id,
@@ -288,6 +278,26 @@ def _verify_recorded_candidate_identity(
     if identity.content_digest != canonical_digest(recorded_content):
         raise ValueError("candidate recorded content inventory digest differs")
     return root / "records/completion_record.json"
+
+
+def _recorded_identity_controls(identity: DocumentIdentityRecord) -> dict[str, Any]:
+    """Reconstruct every versioned control bound into a document candidate ID."""
+    controls: dict[str, Any] = {
+        "hierarchy_disposition": identity.hierarchy_disposition,
+        "run_spec_sha256": identity.run_spec_sha256,
+        "stage_completions": {
+            role: ref.model_dump(mode="json") for role, ref in identity.stage_completions.items()
+        },
+        "terminal_state": identity.terminal_state,
+    }
+    if identity.resolved_spec_ref is not None:
+        controls["resolved_spec_ref"] = identity.resolved_spec_ref.model_dump(mode="json")
+    if identity.resolved_process_config_refs is not None:
+        controls["resolved_process_config_refs"] = {
+            role: ref.model_dump(mode="json")
+            for role, ref in identity.resolved_process_config_refs.items()
+        }
+    return controls
 
 
 def sealed_content_inventory(

@@ -178,6 +178,7 @@ def build_document_structure_records(
     if inputs.missing_chapter_repair_enabled:
         from er_commons.document_records.document_structure.missing_chapters import (
             build_missing_chapter_alias_seeds,
+            prefer_missing_chapter_alias_evidence,
         )
 
         missing_projection = semantic_placement.missing_chapter_projection
@@ -186,6 +187,7 @@ def build_document_structure_records(
         alias_seeds.extend(
             build_missing_chapter_alias_seeds(inputs.missing_chapter_decisions, missing_projection)
         )
+        alias_seeds = prefer_missing_chapter_alias_evidence(alias_seeds)
     aliases = build_target_aliases(
         alias_seeds,
         extraction_id=inputs.candidate_id,

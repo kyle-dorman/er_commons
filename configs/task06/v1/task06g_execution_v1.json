@@ -1,0 +1,358 @@
+{
+  "schema_version": "er_commons.task06g.execution_template.v1",
+  "repository_working_directory": "/Users/kyledorman/Documents/er_commons",
+  "generation_spec": "/Users/kyledorman/Documents/er_commons/configs/task06/v1/task06g_generation_v1.json",
+  "tmux_session": "er-commons-06g-replay-v32",
+  "command_order": [
+    "document_feir_appendix_f1",
+    "document_deir_appendix_a",
+    "document_deir_main",
+    "resolve_relink_specs",
+    "relink_and_assemble",
+    "resolve_comparison_specs",
+    "publish_comparison",
+    "validate_handoff"
+  ],
+  "commands": [
+    {
+      "stage": "document_feir_appendix_f1",
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "scripts/run_document_collection.py",
+        "--document-spec",
+        "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/resolved_specs_v1/00_initial/task06g_document_v1.json",
+        "--progress-root",
+        "{progress_root}",
+        "--source-id",
+        "feir_appendix_f1"
+      ],
+      "runtime_values": [
+        {
+          "name": "progress_root",
+          "authority": "launch_binding",
+          "pointer": "/progress_root"
+        }
+      ],
+      "checkpoint_after": {
+        "stage_key": "document_feir_appendix_f1",
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/identity_checkpoints_v1/stages/document_feir_appendix_f1.json",
+        "completion_source": "document_log",
+        "source_id": "feir_appendix_f1"
+      }
+    },
+    {
+      "stage": "document_deir_appendix_a",
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "scripts/run_document_collection.py",
+        "--document-spec",
+        "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/resolved_specs_v1/00_initial/task06g_document_v1.json",
+        "--progress-root",
+        "{progress_root}",
+        "--source-id",
+        "deir_appendix_a"
+      ],
+      "runtime_values": [
+        {
+          "name": "progress_root",
+          "authority": "launch_binding",
+          "pointer": "/progress_root"
+        }
+      ],
+      "checkpoint_after": {
+        "stage_key": "document_deir_appendix_a",
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/identity_checkpoints_v1/stages/document_deir_appendix_a.json",
+        "completion_source": "document_log",
+        "source_id": "deir_appendix_a"
+      }
+    },
+    {
+      "stage": "document_deir_main",
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "scripts/run_document_collection.py",
+        "--document-spec",
+        "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/resolved_specs_v1/00_initial/task06g_document_v1.json",
+        "--progress-root",
+        "{progress_root}",
+        "--source-id",
+        "deir_main"
+      ],
+      "runtime_values": [
+        {
+          "name": "progress_root",
+          "authority": "launch_binding",
+          "pointer": "/progress_root"
+        }
+      ],
+      "checkpoint_after": {
+        "stage_key": "document_deir_main",
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/identity_checkpoints_v1/stages/document_deir_main.json",
+        "completion_source": "document_log",
+        "source_id": "deir_main"
+      }
+    },
+    {
+      "stage": "resolve_relink_specs",
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "scripts/resolve_task06g_specs.py",
+        "--generation-spec",
+        "/Users/kyledorman/Documents/er_commons/configs/task06/v1/task06g_generation_v1.json",
+        "--phase",
+        "relink",
+        "--output-root",
+        "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/resolved_specs_v1",
+        "--resume-existing"
+      ]
+    },
+    {
+      "stage": "relink_and_assemble",
+      "argv": [
+        "uv",
+        "run",
+        "er-commons",
+        "collections",
+        "relink-and-assemble",
+        "--link-spec",
+        "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/resolved_specs_v1/10_relink/task06g_link_v1.json"
+      ],
+      "checkpoint_after": {
+        "stage_key": "collection_handoff",
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/identity_checkpoints_v1/stages/collection_handoff.json",
+        "completion_source": "stdout_handoff"
+      }
+    },
+    {
+      "stage": "resolve_comparison_specs",
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "scripts/resolve_task06g_specs.py",
+        "--generation-spec",
+        "/Users/kyledorman/Documents/er_commons/configs/task06/v1/task06g_generation_v1.json",
+        "--phase",
+        "comparison",
+        "--output-root",
+        "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/resolved_specs_v1",
+        "--resume-existing"
+      ]
+    },
+    {
+      "stage": "publish_comparison",
+      "argv": [
+        "uv",
+        "run",
+        "er-commons",
+        "collections",
+        "publish-task06g-comparison",
+        "--comparison-spec",
+        "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/resolved_specs_v1/20_comparison/task06g_comparison_v1.json"
+      ]
+    },
+    {
+      "stage": "validate_handoff",
+      "argv": [
+        "uv",
+        "run",
+        "er-commons",
+        "collections",
+        "validate-handoff",
+        "--collection-root",
+        "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/document_publications",
+        "--scope-id",
+        "{scope_id}",
+        "--schema",
+        "/Users/kyledorman/Documents/er_commons/benchmarks/er_bench/schemas/collection_processing/v2/records.schema.json"
+      ],
+      "runtime_values": [
+        {
+          "name": "scope_id",
+          "checkpoint": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/identity_checkpoints_v1/stages/collection_handoff.json",
+          "pointer": "/outputs/scope_id"
+        }
+      ]
+    }
+  ],
+  "resource_limits": {
+    "max_wall_seconds": 86400,
+    "cpu_threads": 4,
+    "max_rss_bytes": 10737418240,
+    "max_output_bytes": 34359738368,
+    "minimum_free_bytes": 68719476736
+  },
+  "prohibited_operations": [
+    "pdf_open",
+    "image_open",
+    "image_render",
+    "model_load",
+    "conversion_execute",
+    "extraction_execute",
+    "preserved_payload_hash"
+  ],
+  "ledger_sibling_roots": [
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v1",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v2",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v2",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v3",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v3",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v4",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v4",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v5",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v5",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v6",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v6",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v6",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v1",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v7",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v7",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v7",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v2",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v8",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v9",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v9",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v9",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v3",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v10",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v10",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v11",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v11",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v11",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v4",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_re_v12",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v12",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v12",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v12",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v5",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v13",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v13",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v14",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v14",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v14",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v6",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v15",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v15",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v16",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v16",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v16",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v7",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v17",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v17",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v18",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v18",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v18",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v8",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v19",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v19",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v19",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v9",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v20",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v20",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v20",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v10",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v21",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v22",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v22",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v22",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v11",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v23",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v23",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v24",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v24",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v24",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v12",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v25",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v25",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v25",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v13",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/diagnostic_v25_main_relink",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/diagnostic_v25_main_relink_2",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v26",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v26",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/diagnostic_v26_main_schema_gate",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v27",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v27",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v27",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v14",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/diagnostic_v27_g2_sandbox",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v28",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v28",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v28",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v15",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v29",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v29",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v30",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v30",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/prelaunch_recovery_v31",
+    "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v31"
+  ],
+  "finalization_required_files": [
+    "correspondence_v1/completion.json",
+    "comparison_v1/completion.json",
+    "identity_checkpoints_v1/inventory.json",
+    "resolved_specs_v1/aggregate_v1/resolved_spec_manifest.json",
+    "resolved_specs_v1/aggregate_v1/artifact_inventory.json"
+  ],
+  "resolver_closure": {
+    "checkpoint_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/identity_checkpoints_v1",
+    "checkpoint_files": [
+      "stages/document_feir_appendix_f1.json",
+      "stages/document_deir_appendix_a.json",
+      "stages/document_deir_main.json",
+      "stages/collection_handoff.json"
+    ],
+    "resolved_specs_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v32/resolved_specs_v1",
+    "phase_directories": [
+      "00_initial",
+      "document_stages/feir_appendix_f1/01_content_parsing",
+      "document_stages/feir_appendix_f1/02_heading_evidence_parsing",
+      "document_stages/feir_appendix_f1/03_record_mapping",
+      "document_stages/feir_appendix_f1/04_hierarchy_inference",
+      "document_stages/feir_appendix_f1/05_document_structure",
+      "document_stages/feir_appendix_f1/06_document_reference_linking",
+      "document_stages/deir_appendix_a/01_content_parsing",
+      "document_stages/deir_appendix_a/02_heading_evidence_parsing",
+      "document_stages/deir_appendix_a/03_record_mapping",
+      "document_stages/deir_appendix_a/04_hierarchy_inference",
+      "document_stages/deir_appendix_a/05_document_structure",
+      "document_stages/deir_appendix_a/06_document_reference_linking",
+      "document_stages/deir_main/01_content_parsing",
+      "document_stages/deir_main/02_heading_evidence_parsing",
+      "document_stages/deir_main/03_record_mapping",
+      "document_stages/deir_main/04_hierarchy_inference",
+      "document_stages/deir_main/05_document_structure",
+      "document_stages/deir_main/06_document_reference_linking",
+      "10_relink",
+      "20_comparison"
+    ],
+    "process_checkpoint_files": [
+      "document_stage_checkpoints_v1/feir_appendix_f1/01_content_parsing.json",
+      "document_stage_checkpoints_v1/feir_appendix_f1/02_heading_evidence_parsing.json",
+      "document_stage_checkpoints_v1/feir_appendix_f1/03_record_mapping.json",
+      "document_stage_checkpoints_v1/feir_appendix_f1/04_hierarchy_inference.json",
+      "document_stage_checkpoints_v1/feir_appendix_f1/05_document_structure.json",
+      "document_stage_checkpoints_v1/feir_appendix_f1/06_document_reference_linking.json",
+      "document_stage_checkpoints_v1/deir_appendix_a/01_content_parsing.json",
+      "document_stage_checkpoints_v1/deir_appendix_a/02_heading_evidence_parsing.json",
+      "document_stage_checkpoints_v1/deir_appendix_a/03_record_mapping.json",
+      "document_stage_checkpoints_v1/deir_appendix_a/04_hierarchy_inference.json",
+      "document_stage_checkpoints_v1/deir_appendix_a/05_document_structure.json",
+      "document_stage_checkpoints_v1/deir_appendix_a/06_document_reference_linking.json",
+      "document_stage_checkpoints_v1/deir_main/01_content_parsing.json",
+      "document_stage_checkpoints_v1/deir_main/02_heading_evidence_parsing.json",
+      "document_stage_checkpoints_v1/deir_main/03_record_mapping.json",
+      "document_stage_checkpoints_v1/deir_main/04_hierarchy_inference.json",
+      "document_stage_checkpoints_v1/deir_main/05_document_structure.json",
+      "document_stage_checkpoints_v1/deir_main/06_document_reference_linking.json"
+    ]
+  }
+}

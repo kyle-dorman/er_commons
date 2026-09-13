@@ -46,13 +46,18 @@ def validate_production_identity(
     expected_scope: JsonObject | None = None,
     expected_scope_kind: ProductionScopeKind | None = None,
     project_root: Path | None = None,
+    artifact_root: Path | None = None,
     budget: VerificationBudget | None = None,
 ) -> ProductionIdentity:
     """Verify the native v2 recipe, source scope, and optional code references."""
     if record.get("record_type") != "production_identity":
         raise ValueError("document production identity has the wrong record type")
-    if record.get("schema_version") != "er_commons.document_publication_identity.v2":
-        raise ValueError("document production identity schema is not v2")
+    schema_version = record.get("schema_version")
+    if schema_version not in {
+        "er_commons.document_publication_identity.v2",
+        "er_commons.document_publication_identity.v3",
+    }:
+        raise ValueError("document production identity schema is not v2 or v3")
     if (
         record.get("fixture_status") != "identity_recipe"
         or record.get("execution_status") != "not_executed"
@@ -61,8 +66,9 @@ def validate_production_identity(
     preimage = _object(record, "preimage")
     if set(preimage) != PREIMAGE_FIELDS:
         raise ValueError("document production identity preimage fields differ")
-    if preimage.get("schema_version") != "er_commons.document_publication_identity_preimage.v2":
-        raise ValueError("document production identity preimage schema is not v2")
+    expected_preimage_version = str(schema_version).replace("_identity.v", "_identity_preimage.v")
+    if preimage.get("schema_version") != expected_preimage_version:
+        raise ValueError("document production identity preimage schema differs")
     digest = canonical_digest(preimage)
     extraction_id = f"exv1-{digest}"
     if record.get("identity_sha256") != digest or record.get("extraction_id") != extraction_id:
@@ -95,13 +101,15 @@ def validate_production_identity(
         }
         if observed_scope != expected_scope:
             raise ValueError("document production scope differs from checked evidence")
-    _validate_contract_shapes(preimage)
+    _validate_contract_shapes(preimage, authority_required=schema_version.endswith(".v3"))
     if project_root is not None:
-        _verify_contract_references(preimage, project_root, budget=budget)
+        _verify_contract_references(
+            preimage, project_root, artifact_root=artifact_root, budget=budget
+        )
     return ProductionIdentity(extraction_id, preimage)
 
 
-def _validate_contract_shapes(preimage: JsonObject) -> None:
+def _validate_contract_shapes(preimage: JsonObject, *, authority_required: bool) -> None:
     """Validate historical contract records without consulting today's paths."""
     for section_name in CONTRACT_SECTIONS:
         section = _object(preimage, section_name)
@@ -114,13 +122,24 @@ def _validate_contract_shapes(preimage: JsonObject) -> None:
             if not isinstance(references, list):
                 raise ValueError(f"{section_name}.{collection} must be a list")
             for reference in references:
-                _validate_reference_shape(reference)
+                _validate_reference_shape(reference, authority_required=authority_required)
 
 
-def _validate_reference_shape(reference: object) -> JsonObject:
+def _validate_reference_shape(reference: object, *, authority_required: bool = False) -> JsonObject:
     """Require a portable closed byte reference independently of file availability."""
-    if not isinstance(reference, dict) or set(reference) != {"path", "sha256", "byte_size"}:
+    fields = (
+        {"path", "sha256", "byte_size", "authority"}
+        if authority_required
+        else {
+            "path",
+            "sha256",
+            "byte_size",
+        }
+    )
+    if not isinstance(reference, dict) or set(reference) != fields:
         raise ValueError("document production artifact reference is not closed")
+    if authority_required and reference.get("authority") not in {"repository", "artifact_root"}:
+        raise ValueError("document production artifact authority is invalid")
     relative = reference["path"]
     if (
         not isinstance(relative, str)
@@ -140,7 +159,11 @@ def _validate_reference_shape(reference: object) -> JsonObject:
 
 
 def _verify_contract_references(
-    preimage: JsonObject, project_root: Path, *, budget: VerificationBudget | None = None
+    preimage: JsonObject,
+    project_root: Path,
+    *,
+    artifact_root: Path | None = None,
+    budget: VerificationBudget | None = None,
 ) -> None:
     """Verify current writer files only after the recorded recipe shape is valid."""
     root = project_root.resolve()
@@ -154,16 +177,27 @@ def _verify_contract_references(
                 _verify_reference(
                     reference,
                     root,
+                    artifact_root=artifact_root,
                     budget=budget,
                     role="code" if collection == "owned_code" else "config",
                 )
 
 
 def _verify_reference(
-    reference: object, root: Path, *, budget: VerificationBudget | None = None, role: str = "config"
+    reference: object,
+    root: Path,
+    *,
+    artifact_root: Path | None = None,
+    budget: VerificationBudget | None = None,
+    role: str = "config",
 ) -> None:
     """Match one current repository file to its already validated byte reference."""
-    reference = _validate_reference_shape(reference)
+    authority_required = isinstance(reference, dict) and "authority" in reference
+    reference = _validate_reference_shape(reference, authority_required=authority_required)
+    if reference.get("authority") == "artifact_root":
+        if artifact_root is None:
+            raise ValueError("artifact-root production reference lacks its declared root")
+        root = artifact_root.resolve()
     relative = str(reference["path"])
     path = (root / relative).resolve()
     if (

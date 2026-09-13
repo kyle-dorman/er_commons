@@ -1,0 +1,91 @@
+{
+  "schema_version": "er_commons.task06g.finalization_amendment.v1",
+  "status": "approved_for_independent_review",
+  "scope": "unused_execution_ordinal_enumeration_only",
+  "original_generation": {
+    "path": "/Users/kyledorman/Documents/er_commons/configs/task06/v4/task06g_generation_v1.json",
+    "sha256": "8bc787ea84f4b1587e0c3ef2734c151b1b43aa073078074fdfa8caebbb8f9115",
+    "byte_size": 104184
+  },
+  "original_finalizer_owner": {
+    "authority": "repository",
+    "byte_size": 33652,
+    "path": "src/er_commons/task06g/finalization.py",
+    "sha256": "17a64f557266ad3f061c1cbba916eec9d2e5147908b6c2f35273852a5e57f11c"
+  },
+  "corrected_finalizer_owner": {
+    "path": "src/er_commons/task06g/finalization.py",
+    "sha256": "6a165d5f6fb748954b8cbaf5e3afffe393921c7d5d60f1e41b84216dc298edbf",
+    "byte_size": 40296
+  },
+  "original_wrapper_owner": {
+    "authority": "repository",
+    "byte_size": 902,
+    "path": "scripts/finalize_task06g_readiness.py",
+    "sha256": "9847da5afb6b2657d6cb8f00f09d57161d1e0f63d3f8ae0a060f3223a557c178"
+  },
+  "corrected_wrapper_owner": {
+    "path": "scripts/finalize_task06g_readiness.py",
+    "sha256": "c504d23d0fbcd66cd89823e6a396f8161e8a5701f66bbe709f190b13c1bc9931",
+    "byte_size": 1025
+  },
+  "regression_test": {
+    "path": "tests/test_task06g_orchestration.py",
+    "sha256": "5c8948aa440abdecf2d03c50de92c4d8c8313b6a66df30f80be73740a1decdbb",
+    "byte_size": 73900
+  },
+  "selected_execution": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/execution_attempt_v20/execution.json",
+    "sha256": "102f6e23b9ec54213d62ef6919e12086395649e500ed854af8054ae53c7a32c0",
+    "byte_size": 1759
+  },
+  "selected_launch_intent": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v38/launch_intent.json",
+    "sha256": "83a225a990312a3ada1e4050be0f219fe0f99a6feaf52aff899d56bd4f1851e4",
+    "byte_size": 27278703
+  },
+  "selected_dispatch_record": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/initial_launch_v38/dispatch_record.json",
+    "sha256": "3cf0ad33f5bbb2314639d5d59e1bfffbdb0672ca5a4f243064e1582c30243fb4",
+    "byte_size": 1887
+  },
+  "failed_finalization": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/finalization_attempt_v1/failure.json",
+    "sha256": "8630c08701aacfc655f4f9265468b2c6e526d8efe21ccf62d32d4b70d3e720dd",
+    "byte_size": 235
+  },
+  "required_output_evidence": [
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/correspondence_v1/completion.json",
+      "sha256": "57aeec4ebf63f996f13e392df8643899c6103c6a9673b5b96c480ed08965f9ed",
+      "byte_size": 292
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/comparison_v1/completion.json",
+      "sha256": "2b2e76a7b645468a78f4f7bbe0b97185a671911a7c01323d378941ae09134b51",
+      "byte_size": 288
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/identity_checkpoints_v1/inventory.json",
+      "sha256": "356a98cbdc4540617a6d020c7ecdfade95dbc30174c751328ae6b15ea9c598c0",
+      "byte_size": 636
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/resolved_specs_v1/aggregate_v1/resolved_spec_manifest.json",
+      "sha256": "1a9df9522a0f21255078e72b5d9cf2d743d658bf931ecaa73311c678b3da0139",
+      "byte_size": 7098
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/resolved_specs_v1/aggregate_v1/artifact_inventory.json",
+      "sha256": "164362a8e2017cab3e9528d9527187c645a80f5ab1c2dc22fb6ce1b0414f9681",
+      "byte_size": 3574
+    }
+  ],
+  "execution_attempts_present": [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20
+  ],
+  "execution_attempts_unused": [18],
+  "next_finalization_attempt_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/finalization_attempt_v2",
+  "production_outputs_rerun": false,
+  "source_or_model_execution_required": false
+}

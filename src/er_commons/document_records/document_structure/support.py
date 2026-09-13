@@ -26,6 +26,7 @@ SUPPORT_PATHS = {
     "bounded_control_verification": "support/bounded_control_verification.json",
 }
 MISSING_CHAPTER_CORRESPONDENCE_PATH = "support/missing_chapter_correspondence.json"
+REPEATED_HEADING_CORRESPONDENCE_PATH = "support/repeated_heading_correspondence.json"
 
 
 @dataclass(frozen=True)
@@ -99,7 +100,11 @@ def build_candidate_support(
             invariant="Task 03D.1 differences are declared semantic extensions",
             expected=0,
             observed=preservation["undeclared_difference_count"],
-            subject="candidate collections",
+            subject=(
+                "candidate collections; "
+                f"authorized_heading_component_keys={sorted(authorized_heading_component_keys)!r}; "
+                f"differences={preservation['differences']!r}"
+            ),
         )
     correspondence = {
         key: preservation[key]

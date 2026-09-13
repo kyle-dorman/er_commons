@@ -37,6 +37,8 @@ class HeadingTopology:
     child_section_ids: tuple[str, ...] = ()
     ordered_child_ids: tuple[str, ...] = ()
     descendant_page_extent: tuple[int, int] | None = None
+    heading_content_order: int | None = None
+    descendant_content_order_extent: tuple[int, int] | None = None
 
 
 @dataclass(frozen=True)
@@ -76,6 +78,12 @@ class RepeatedHeadingDecision:
     following_boundary_stable_key: str | None
     following_boundary_raw_text: str | None
     following_boundary_page: int | None
+    heading_content_orders: tuple[int, ...] = ()
+    source_content_order_extents: tuple[tuple[int, int] | None, ...] = ()
+    following_boundary_content_order: int | None = None
+    schema_version: str = "er_commons.recovery.chapter_decision.v2"
+    rule_version: str = "repeated_chapter_divider_opening_v2"
+    extent_basis: str = "record_order_before_immediate_same_level_sibling"
 
     @classmethod
     def from_record(cls, record: JsonObject) -> RepeatedHeadingDecision:
@@ -106,6 +114,15 @@ class RepeatedHeadingDecision:
             following_boundary_stable_key=record["following_boundary_stable_key"],
             following_boundary_raw_text=record["following_boundary_raw_text"],
             following_boundary_page=record["following_boundary_page"],
+            heading_content_orders=tuple(record.get("heading_content_orders", [])),
+            source_content_order_extents=tuple(
+                tuple(item) if item is not None else None
+                for item in record.get("source_content_order_extents", [])
+            ),
+            following_boundary_content_order=record.get("following_boundary_content_order"),
+            schema_version=record["schema_version"],
+            rule_version=record["rule_version"],
+            extent_basis=record["extent_basis"],
         )
 
     def as_record(
@@ -116,9 +133,9 @@ class RepeatedHeadingDecision:
         human_decision_ref: JsonObject | None = None,
     ) -> JsonObject:
         """Return the versioned source-free decision/correspondence record."""
-        return {
-            "schema_version": "er_commons.recovery.chapter_decision.v1",
-            "rule_version": "repeated_chapter_divider_opening_v1",
+        record = {
+            "schema_version": self.schema_version,
+            "rule_version": self.rule_version,
             "decision_kind": "repeated_chapter_heading",
             "status": self.status,
             "reason_codes": list(self.reason_codes),
@@ -145,12 +162,20 @@ class RepeatedHeadingDecision:
             "following_boundary_stable_key": self.following_boundary_stable_key,
             "following_boundary_raw_text": self.following_boundary_raw_text,
             "following_boundary_page": self.following_boundary_page,
-            "extent_basis": "anchor_through_before_following_same_level_sibling",
+            "extent_basis": self.extent_basis,
             "inference_method": "accepted_topology_and_toc_correspondence",
             "source_ref": source_ref,
             "new_target_ref": new_target_ref,
             "human_decision_ref": human_decision_ref,
         }
+        if self.rule_version == "repeated_chapter_divider_opening_v2":
+            record["heading_content_orders"] = list(self.heading_content_orders)
+            record["source_content_order_extents"] = [
+                list(item) if item is not None else None
+                for item in self.source_content_order_extents
+            ]
+            record["following_boundary_content_order"] = self.following_boundary_content_order
+        return record
 
 
 def classify_repeated_heading_group(
@@ -264,6 +289,31 @@ def _review_reasons(
         reasons.append("descendant_page_extent_absent")
     elif _extents_overlap(first.descendant_page_extent, second.descendant_page_extent):
         reasons.append("overlapping_child_ranges")
+    content_extents = (
+        first.descendant_content_order_extent,
+        second.descendant_content_order_extent,
+    )
+    heading_orders = (first.heading_content_order, second.heading_content_order)
+    if any(item is None for item in content_extents) or any(
+        item is None for item in heading_orders
+    ):
+        reasons.append("content_order_extent_absent")
+    elif any(extent[0] > extent[1] for extent in content_extents if extent is not None):
+        reasons.append("invalid_content_order_extent")
+    elif any(
+        extent is None or heading is None or extent[0] != heading
+        for extent, heading in zip(content_extents, heading_orders, strict=True)
+    ):
+        reasons.append("heading_content_order_mismatch")
+    elif (
+        content_extents[0] is not None
+        and content_extents[1] is not None
+        and (
+            _extents_overlap(content_extents[0], content_extents[1])
+            or content_extents[0][1] >= content_extents[1][0]
+        )
+    ):
+        reasons.append("content_order_not_in_source_order")
     matching_toc = _matching_toc(toc_evidence, marker, title)
     if not matching_toc:
         reasons.append("matching_toc_evidence_absent")
@@ -291,15 +341,24 @@ def _review_reasons(
         reasons.append("following_chapter_boundary_incompatible")
     else:
         following = _parse_heading(following_sibling.raw_text)
-        if following is None or following[0] == marker:
+        if following is not None and following[0] == marker:
             reasons.append("following_boundary_not_distinct_chapter")
+        page_extents = (first.descendant_page_extent, second.descendant_page_extent)
         if (
-            first.descendant_page_extent is not None
-            and second.descendant_page_extent is not None
-            and max(first.descendant_page_extent[1], second.descendant_page_extent[1])
-            >= following_sibling.physical_page
+            all(item is not None for item in page_extents)
+            and max(item[1] for item in page_extents if item is not None)
+            > following_sibling.physical_page
         ):
-            reasons.append("descendant_extent_reaches_following_boundary")
+            reasons.append("descendant_extent_crosses_following_boundary_page")
+        if following_sibling.heading_content_order is None or any(
+            item is None for item in content_extents
+        ):
+            reasons.append("content_order_extent_absent")
+        elif (
+            max(item[1] for item in content_extents if item is not None)
+            >= following_sibling.heading_content_order
+        ):
+            reasons.append("descendant_content_reaches_following_boundary")
     return reasons
 
 
@@ -343,6 +402,14 @@ def _decision_base(
             for item in headings
         ),
         source_page_extents=tuple(item.descendant_page_extent for item in headings),
+        heading_content_orders=tuple(
+            item.heading_content_order
+            for item in headings
+            if item.heading_content_order is not None
+        ),
+        source_content_order_extents=tuple(
+            item.descendant_content_order_extent for item in headings
+        ),
         anchor_heading_key=None,
         absorbed_heading_key=None,
         toc_evidence_ids=tuple(
@@ -366,5 +433,8 @@ def _decision_base(
         ),
         following_boundary_page=(
             following_sibling.physical_page if following_sibling is not None else None
+        ),
+        following_boundary_content_order=(
+            following_sibling.heading_content_order if following_sibling is not None else None
         ),
     )

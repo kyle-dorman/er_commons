@@ -22,6 +22,7 @@ def validate_fresh_build_templates(
     declared_artifact_root: Path | None = None,
     recorded_manifest_digest: tuple[Path, str] | None = None,
     parsed_values: dict[str, JsonObject] | None = None,
+    reused_roles: set[str] | None = None,
 ) -> tuple[Path, None]:
     """Validate fresh policy templates without requiring not-yet-built candidates."""
     values = (
@@ -62,24 +63,28 @@ def validate_fresh_build_templates(
     )
     artifact_roots = _fresh_artifact_roots(values)
     invalid_roots = (
-        [
-            str(path)
-            for path in artifact_roots
-            if not (
-                path.is_relative_to(declared_artifact_root)
-                and not path.is_absolute()
-                and ".." not in path.parts
-            )
-        ]
-        if declared_artifact_root is not None
-        else [str(path) for path in artifact_roots if not is_fresh_document_root(path)]
+        _invalid_mixed_lineage_roots(values, declared_artifact_root, reused_roles)
+        if reused_roles is not None
+        else (
+            [
+                str(path)
+                for path in artifact_roots
+                if not (
+                    path.is_relative_to(declared_artifact_root)
+                    and not path.is_absolute()
+                    and ".." not in path.parts
+                )
+            ]
+            if declared_artifact_root is not None
+            else [str(path) for path in artifact_roots if not is_fresh_document_root(path)]
+        )
     )
     if invalid_roots:
         mismatches.append(
-            "fresh process artifact roots must use a task_03g2 or task_03h namespace: "
+            "fresh process artifact roots violate the declared lineage boundary: "
             + ", ".join(invalid_roots)
         )
-    _validate_fresh_placeholders(values, mismatches)
+    _validate_fresh_placeholders(values, mismatches, reused_roles=reused_roles)
     final_value = values["document_reference_linking"].get("artifact_relative_root")
     final_root = Path(final_value) if isinstance(final_value, str) else Path(".")
     if final_root.is_absolute() or ".." in final_root.parts:
@@ -90,6 +95,54 @@ def validate_fresh_build_templates(
             + "; ".join(mismatches)
         )
     return final_root, None
+
+
+def _invalid_mixed_lineage_roots(
+    values: dict[str, JsonObject], declared_root: Path | None, reused_roles: set[str]
+) -> list[str]:
+    """Allow historical inputs only for an explicit sealed prefix; contain fresh outputs."""
+    stage_order = (
+        "content_parsing",
+        "heading_evidence_parsing",
+        "record_mapping",
+        "hierarchy_inference",
+        "document_structure",
+        "document_reference_linking",
+    )
+    if declared_root is None or reused_roles != set(stage_order[: len(reused_roles)]):
+        return ["mixed lineage requires a declared root and an exact reused-stage prefix"]
+
+    def contained(path: Path) -> bool:
+        return (
+            not path.is_absolute() and ".." not in path.parts and path.is_relative_to(declared_root)
+        )
+
+    invalid: list[str] = []
+    for role in stage_order:
+        if role in reused_roles:
+            continue
+        output = Path(str(values[role].get("artifact_relative_root", ".")))
+        if not contained(output):
+            invalid.append(f"{role}.artifact_relative_root={output}")
+    dependencies = {
+        ("record_mapping", "producer_artifact_relative_root"): "content_parsing",
+        ("hierarchy_inference", "producer_artifact_relative_root"): ("heading_evidence_parsing"),
+        ("document_structure", "baseline_candidate_relative_root"): "record_mapping",
+        ("document_structure", "baseline_producer_relative_root"): "content_parsing",
+        ("document_structure", "hierarchy_producer_relative_root"): ("heading_evidence_parsing"),
+        ("document_structure", "hierarchy_candidate_relative_root"): "hierarchy_inference",
+    }
+    for (role, field), dependency in dependencies.items():
+        if role in reused_roles:
+            continue
+        path = Path(str(values[role].get(field, ".")))
+        if dependency in reused_roles:
+            valid = contained(path) or is_fresh_document_root(path)
+        else:
+            valid = contained(path)
+        if not valid:
+            invalid.append(f"{role}.{field}={path}")
+    return invalid
 
 
 def is_fresh_document_root(path: Path) -> bool:
@@ -129,23 +182,50 @@ def _validate_manifest(
         mismatches.append("fresh cross-reference source manifest seal differs")
 
 
-def _validate_fresh_placeholders(values: dict[str, JsonObject], mismatches: list[str]) -> None:
+def _validate_fresh_placeholders(
+    values: dict[str, JsonObject],
+    mismatches: list[str],
+    *,
+    reused_roles: set[str] | None = None,
+) -> None:
     zero = "0" * 64
     expected = {
-        ("record_mapping", "producer_run_id"): f"prv1-{zero}",
-        ("hierarchy_inference", "producer_run_id"): f"prv1-{zero}",
-        ("document_structure", "baseline_candidate_id"): f"exv1-{zero}",
-        ("document_structure", "baseline_producer_run_id"): f"prv1-{zero}",
-        ("document_structure", "hierarchy_producer_run_id"): f"prv1-{zero}",
-        ("document_structure", "hierarchy_candidate_id"): f"hcorv1-{zero}",
-        ("document_reference_linking", "upstream_candidate_id"): f"exv1-{zero}",
-        ("document_reference_linking", "upstream_completion_sha256"): zero,
-        ("document_reference_linking", "upstream_inventory_sha256"): zero,
+        ("record_mapping", "producer_run_id"): (f"prv1-{zero}", "content_parsing"),
+        ("hierarchy_inference", "producer_run_id"): (
+            f"prv1-{zero}",
+            "heading_evidence_parsing",
+        ),
+        ("document_structure", "baseline_candidate_id"): (f"exv1-{zero}", "record_mapping"),
+        ("document_structure", "baseline_producer_run_id"): (
+            f"prv1-{zero}",
+            "content_parsing",
+        ),
+        ("document_structure", "hierarchy_producer_run_id"): (
+            f"prv1-{zero}",
+            "heading_evidence_parsing",
+        ),
+        ("document_structure", "hierarchy_candidate_id"): (
+            f"hcorv1-{zero}",
+            "hierarchy_inference",
+        ),
+        ("document_reference_linking", "upstream_candidate_id"): (
+            f"exv1-{zero}",
+            "document_structure",
+        ),
+        ("document_reference_linking", "upstream_completion_sha256"): (
+            zero,
+            "document_structure",
+        ),
+        ("document_reference_linking", "upstream_inventory_sha256"): (
+            zero,
+            "document_structure",
+        ),
     }
+    reused = reused_roles or set()
     stale = [
         f"{role}.{field}"
-        for (role, field), placeholder in expected.items()
-        if values[role].get(field) != placeholder
+        for (role, field), (placeholder, dependency) in expected.items()
+        if dependency not in reused and values[role].get(field) != placeholder
     ]
     if stale:
         mismatches.append(

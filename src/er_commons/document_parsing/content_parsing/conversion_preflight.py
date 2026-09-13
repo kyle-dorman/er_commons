@@ -25,3 +25,11 @@ class PreparedConversion:
     model_inventory_sha256: str
     runtime: dict[str, Any]
     conversion_identity: ContentParsingIdentity
+
+
+@dataclass(frozen=True)
+class PreparedContentParsing(PreparedConversion):
+    """Verified inputs and constructed runtime required before staging begins."""
+
+    config_sha256: str
+    identity: ContentParsingIdentity

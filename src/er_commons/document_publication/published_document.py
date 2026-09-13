@@ -43,6 +43,8 @@ class DocumentTerminalEvidence:
     cross_references_ref: JsonObject | None = None
     target_aliases_ref: JsonObject | None = None
     target_records_refs: tuple[JsonObject, ...] = ()
+    imported_selection_ref: JsonObject | None = None
+    imported_selection_entry_sha256: str | None = None
 
 
 __all__ = ["DocumentTerminalEvidence", "ProducerLineage", "TerminalDisposition"]

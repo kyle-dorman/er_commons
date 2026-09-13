@@ -57,11 +57,14 @@ BRIDGE_EVIDENCE = {
 def validate_document_structure_contract(
     bundle: dict[str, Any],
     bridge_evidence: dict[str, BridgeSourceEvidence] | None = None,
+    *,
+    authorized_unbridged_keys: frozenset[str] = frozenset(),
 ) -> None:
     """Validate a mutation against the fixture's independently frozen bridge evidence."""
     validate_contract(
         bundle,
         bridge_evidence=BRIDGE_EVIDENCE if bridge_evidence is None else bridge_evidence,
+        authorized_unbridged_keys=authorized_unbridged_keys,
     )
 
 
@@ -444,6 +447,30 @@ def test_bridge_permitted_replacement_dispositions_are_closed(
     )
     with pytest.raises(StructureContractError, match="retained canonical blocks"):
         validate_document_structure_contract(retained, retained_evidence)
+
+
+def test_decision_authorized_heading_component_may_be_unbridged() -> None:
+    bundle = copy.deepcopy(BUNDLE)
+    content = next(
+        item
+        for item in bundle["content"]
+        if item["semantic_placement"] == "heading_owner" and item["stable_item_key"] is not None
+    )
+    stable_key = content["stable_item_key"]
+    bundle["bridge_entries"] = [
+        entry for entry in bundle["bridge_entries"] if entry["stable_item_key"] != stable_key
+    ]
+    evidence = dict(BRIDGE_EVIDENCE)
+    del evidence[stable_key]
+
+    validate_document_structure_contract(
+        bundle, evidence, authorized_unbridged_keys=frozenset({stable_key})
+    )
+
+    with pytest.raises(StructureContractError, match="is absent"):
+        validate_document_structure_contract(
+            bundle, evidence, authorized_unbridged_keys=frozenset({"f" * 64})
+        )
 
 
 def test_mapped_bridge_targets_must_be_canonical_blocks() -> None:

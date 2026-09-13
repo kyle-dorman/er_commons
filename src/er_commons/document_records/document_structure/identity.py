@@ -13,6 +13,7 @@ from er_commons.document_records.document_structure.code_inventory import (
 from er_commons.document_records.document_structure.config import DocumentStructureConfig
 from er_commons.document_records.document_structure.constants import (
     MISSING_CHAPTER_CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
+    REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH,
 )
 from er_commons.document_records.document_structure.inputs import DocumentStructureInputs
 from er_commons.document_records.record_mapping.candidate_identity import owned_code_digest
@@ -123,6 +124,12 @@ def build_document_structure_identity(
                 "path": config.repeated_heading_decision_schema_relative_path.as_posix(),
                 "sha256": sha256_file(
                     project_root / config.repeated_heading_decision_schema_relative_path
+                ),
+            },
+            "correspondence_schema": {
+                "path": REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH.as_posix(),
+                "sha256": sha256_file(
+                    project_root / REPEATED_HEADING_CORRESPONDENCE_SCHEMA_RELATIVE_PATH
                 ),
             },
             "decisions": inputs.repeated_heading_decisions_ref.as_dict(),

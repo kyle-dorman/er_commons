@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from collection_processing_test_support import write_collection_spec
@@ -12,8 +13,14 @@ from document_publication_test_support import _source_record, _workspace
 
 from er_commons.artifact_io import sha256_file, write_json_atomic
 from er_commons.artifact_verification import VerificationBudget
+from er_commons.collection_processing.config import CollectionSourceMembership
 from er_commons.collection_processing.preflight import prepare_collection_run
+from er_commons.collection_processing.source_membership import (
+    _role_matches_membership,
+    _substitution_record,
+)
 from er_commons.document_publication.sources import manifest_selection_for
+from er_commons.source_release.models import SourceRole
 
 
 def _replacement_workspace(tmp_path: Path) -> tuple[Path, Path]:
@@ -137,9 +144,45 @@ def test_35_slot_replacement_preserves_original_manifest_bindings(tmp_path, monk
     assert len(manifest_hashes) == 2
 
 
+def test_replacement_membership_preserves_declared_collection_order(tmp_path: Path) -> None:
+    """An explicit replacement scope may retain its accepted non-manifest order."""
+    data_root, path = _replacement_workspace(tmp_path)
+    document_path = tmp_path / "run_spec.json"
+    document = json.loads(document_path.read_text())
+    document["document_processes"][0], document["document_processes"][1] = (
+        document["document_processes"][1],
+        document["document_processes"][0],
+    )
+    document["hierarchy_dispositions"][0], document["hierarchy_dispositions"][1] = (
+        document["hierarchy_dispositions"][1],
+        document["hierarchy_dispositions"][0],
+    )
+    write_json_atomic(document_path, document)
+    collection = json.loads(path.read_text())
+    for key in ("source_ids", "source_membership"):
+        collection[key][0], collection[key][1] = collection[key][1], collection[key][0]
+    write_json_atomic(path, collection)
+    catalog_path = data_root / "catalog.json"
+    catalog = json.loads(catalog_path.read_text())
+    catalog["sources"][0], catalog["sources"][1] = catalog["sources"][1], catalog["sources"][0]
+    write_json_atomic(catalog_path, catalog)
+
+    run = prepare_collection_run(data_root, path)
+
+    assert run.collection_spec.source_ids[:2] == ("beta", "alpha")
+
+
 @pytest.mark.parametrize(
     "mutation",
-    ["unchanged_manifest", "missing_slot", "wrong_replacement", "wrong_order", "wrong_original"],
+    [
+        "unchanged_manifest",
+        "missing_slot",
+        "duplicate_slot",
+        "extra_slot",
+        "wrong_replacement",
+        "wrong_order",
+        "wrong_original",
+    ],
 )
 def test_mixed_membership_rejects_changed_original_binding(tmp_path, mutation):
     """Replacement composition never silently rebuilds unrelated source identities."""
@@ -155,6 +198,19 @@ def test_mixed_membership_rejects_changed_original_binding(tmp_path, mutation):
     elif mutation == "missing_slot":
         collection = json.loads(path.read_text())
         collection["source_membership"].pop()
+        write_json_atomic(path, collection)
+    elif mutation == "duplicate_slot":
+        collection = json.loads(path.read_text())
+        collection["source_membership"][1]["logical_source_id"] = collection["source_membership"][
+            0
+        ]["logical_source_id"]
+        write_json_atomic(path, collection)
+    elif mutation == "extra_slot":
+        collection = json.loads(path.read_text())
+        collection["source_ids"].append("unexpected")
+        collection["source_membership"].append(
+            {"logical_source_id": "unexpected", "physical_source_id": "unexpected"}
+        )
         write_json_atomic(path, collection)
     elif mutation == "wrong_order":
         collection = json.loads(path.read_text())
@@ -192,3 +248,35 @@ def test_historical_v2_round_trip_keeps_closed_schema(tmp_path: Path) -> None:
             (root / f"benchmarks/er_bench/schemas/{owner}/v2/{filename}.schema.json").read_text()
         )
         Draft202012Validator(schema).validate(model.model_dump(mode="json"))
+
+
+def test_qualified_substitute_role_is_limited_to_the_explicit_f1_membership() -> None:
+    retained = SimpleNamespace(source_role=SourceRole.QUALIFIED_SUBSTITUTE)
+    replacement = CollectionSourceMembership(
+        logical_source_id="deir_appendix_f1",
+        physical_source_id="feir_appendix_f1",
+        substitution_relative_path=Path("accepted/substitution.json"),
+    )
+    unchanged = CollectionSourceMembership(
+        logical_source_id="deir_main", physical_source_id="deir_main"
+    )
+
+    assert _role_matches_membership(retained, replacement)  # type: ignore[arg-type]
+    assert not _role_matches_membership(retained, unchanged)  # type: ignore[arg-type]
+
+
+def test_sealed_06c_manifest_supplies_substitution_provenance() -> None:
+    """The accepted retained manifest is the authority; no invented sidecar is required."""
+    provenance = {
+        "schema_version": "er_commons.recovery.source_substitution.v1",
+        "logical_source_id": "deir_appendix_f1",
+        "physical_source_id": "feir_appendix_f1",
+    }
+    manifest = {
+        "aggregates": {
+            "substitution": provenance,
+            "acquisition_spec": {"provenance": provenance},
+        }
+    }
+
+    assert _substitution_record(manifest) is provenance

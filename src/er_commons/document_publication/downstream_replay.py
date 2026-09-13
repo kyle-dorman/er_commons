@@ -82,6 +82,9 @@ def publish_downstream_replay(
         content_root=inputs.cross_reference_root,
         result=result,
         recorded_content_inventory=inputs.content_inventory,
+        # This replay consumes the resolved run spec and sealed stage
+        # completions, but executes no document process configuration.
+        allow_spec_only_identity=True,
     )
 
     existing = run.final_parent / identity.candidate_id

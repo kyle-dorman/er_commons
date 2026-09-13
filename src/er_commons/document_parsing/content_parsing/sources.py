@@ -163,3 +163,35 @@ def resolve_complete_source(
         source_page_count=record.pdf_page_count,
         warnings=record.warnings,
     )
+
+
+def resolve_complete_source_metadata(
+    data_root: Path,
+    selected: CompleteSource,
+    manifest: SourceManifest,
+) -> CompleteResolvedSource:
+    """Resolve sealed source identity without opening or statting its payload."""
+    matches = [record for record in manifest.sources if record.source_id == selected.source_id]
+    if len(matches) != 1:
+        raise ValueError(
+            f"sealed manifest must contain exactly one source record: {selected.source_id}"
+        )
+    record = matches[0]
+    validate_processing_source(data_root, manifest, record)
+    expected = (
+        (record.sha256, selected.expected_sha256, "checksum"),
+        (record.byte_size, selected.expected_byte_size, "byte size"),
+        (record.pdf_page_count, selected.expected_pdf_page_count, "page count"),
+        (record.official_title, selected.official_title, "official title"),
+    )
+    for actual, frozen, label in expected:
+        if actual != frozen:
+            raise ValueError(f"source {label} differs from producer config: {selected.source_id}")
+    return CompleteResolvedSource(
+        source_id=selected.source_id,
+        source_path=assert_contained(data_root, record.local_path),
+        source_sha256=record.sha256,
+        source_byte_size=record.byte_size,
+        source_page_count=record.pdf_page_count,
+        warnings=record.warnings,
+    )

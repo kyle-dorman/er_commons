@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://er-commons.local/schemas/task06_recovery/v1/repeated_heading_correspondence.schema.json",
+  "title": "ER Commons Task 06D repeated-heading correspondence",
+  "type": "object",
+  "required": ["schema_version", "candidate_id", "decision_ref", "records"],
+  "properties": {
+    "schema_version": {"const": "er_commons.recovery.repeated_heading_correspondence.v1"},
+    "candidate_id": {"$ref": "#/$defs/candidate_id"},
+    "decision_ref": {"$ref": "#/$defs/artifact_ref"},
+    "records": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/record"},
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "candidate_id": {"type": "string", "pattern": "^exv1-[0-9a-f]{64}$"},
+    "record_id": {"type": "string", "minLength": 1},
+    "stable_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact_ref": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "old_target": {
+      "type": "object",
+      "required": ["section_id", "role"],
+      "properties": {
+        "section_id": {"$ref": "#/$defs/record_id"},
+        "role": {"enum": ["retained_anchor", "absorbed_duplicate"]}
+      },
+      "additionalProperties": false
+    },
+    "record": {
+      "type": "object",
+      "required": [
+        "schema_version", "stage_role", "change_class", "policy_version",
+        "old_targets", "new_target", "source_heading_block_ids",
+        "retained_heading_block_ids", "retained_heading_stable_keys",
+        "logical_content_page_extent", "following_boundary_section_id",
+        "following_boundary_stable_key", "following_boundary_raw_text",
+        "following_boundary_page", "content_record_count",
+        "content_record_ids_unique", "affected_descendants"
+      ],
+      "properties": {
+        "schema_version": {"const": "er_commons.recovery.stage_correspondence.v1"},
+        "stage_role": {"const": "semantic_sections_and_target_aliases"},
+        "change_class": {"const": "many_to_one_repeated_heading_repair"},
+        "policy_version": {
+          "enum": [
+            "repeated_chapter_divider_opening_v1",
+            "repeated_chapter_divider_opening_v2"
+          ]
+        },
+        "extent_basis": {
+          "enum": [
+            "anchor_through_before_following_same_level_sibling",
+            "record_order_before_immediate_same_level_sibling"
+          ]
+        },
+        "heading_content_orders": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "minItems": 0,
+          "maxItems": 2,
+          "uniqueItems": true
+        },
+        "source_content_order_extents": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {"type": "integer", "minimum": 0},
+              {"type": "integer", "minimum": 0}
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 0,
+          "maxItems": 2
+        },
+        "following_boundary_content_order": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "old_targets": {
+          "type": "array", "prefixItems": [
+            {"allOf": [{"$ref": "#/$defs/old_target"}, {"properties": {"role": {"const": "retained_anchor"}}}]},
+            {"allOf": [{"$ref": "#/$defs/old_target"}, {"properties": {"role": {"const": "absorbed_duplicate"}}}]}
+          ], "minItems": 2, "maxItems": 2
+        },
+        "new_target": {
+          "type": "object", "required": ["section_id", "state"],
+          "properties": {"section_id": {"$ref": "#/$defs/record_id"}, "state": {"const": "projected_candidate_local"}},
+          "additionalProperties": false
+        },
+        "source_heading_block_ids": {"type": "array", "items": {"$ref": "#/$defs/record_id"}, "minItems": 2, "maxItems": 2, "uniqueItems": true},
+        "retained_heading_block_ids": {"type": "array", "items": {"$ref": "#/$defs/record_id"}, "minItems": 2, "maxItems": 2, "uniqueItems": true},
+        "retained_heading_stable_keys": {"type": "array", "items": {"$ref": "#/$defs/stable_key"}, "minItems": 2, "maxItems": 2, "uniqueItems": true},
+        "logical_content_page_extent": {"type": "array", "prefixItems": [{"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}], "minItems": 2, "maxItems": 2},
+        "following_boundary_section_id": {"$ref": "#/$defs/record_id"},
+        "following_boundary_stable_key": {"$ref": "#/$defs/stable_key"},
+        "following_boundary_raw_text": {"type": "string", "minLength": 1},
+        "following_boundary_page": {"type": "integer", "minimum": 1},
+        "content_record_count": {"type": "integer", "minimum": 1},
+        "content_record_ids_unique": {"const": true},
+        "affected_descendants": {
+          "const": ["semantic_sections_and_membership", "target_aliases", "document_links_and_publication", "collection_target_index_resolution_and_handoff"]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

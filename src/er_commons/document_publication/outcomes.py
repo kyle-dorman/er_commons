@@ -33,7 +33,11 @@ TARGET_RECORD_STREAMS = (
     "pages.jsonl",
 )
 
-__all__ = ["DocumentTerminalEvidence", "observe_document_outcome"]
+__all__ = [
+    "DocumentTerminalEvidence",
+    "observe_document_outcome",
+    "observe_downstream_replay_outcome",
+]
 
 
 def observe_document_outcome(
@@ -44,8 +48,45 @@ def observe_document_outcome(
     source_ordinal: int,
 ) -> DocumentTerminalEvidence:
     """Return one verified successful candidate or latest terminal failure."""
+    return _observe_document_outcome(
+        data_root,
+        document_run_spec,
+        source_id,
+        source_ordinal=source_ordinal,
+        evidence_kind=None,
+    )
+
+
+def observe_downstream_replay_outcome(
+    data_root: Path,
+    document_run_spec: Path,
+    source_id: str,
+    *,
+    source_ordinal: int,
+) -> DocumentTerminalEvidence:
+    """Return the sole verified downstream replay required by collection mode."""
+    return _observe_document_outcome(
+        data_root,
+        document_run_spec,
+        source_id,
+        source_ordinal=source_ordinal,
+        evidence_kind="downstream_replay",
+    )
+
+
+def _observe_document_outcome(
+    data_root: Path,
+    document_run_spec: Path,
+    source_id: str,
+    *,
+    source_ordinal: int,
+    evidence_kind: Literal["downstream_replay"] | None,
+) -> DocumentTerminalEvidence:
+    """Observe one run with an optional exact publication-kind requirement."""
     run = prepare_document_run(data_root, document_run_spec, source_id)
-    completion_path = find_reusable_candidate(run)
+    completion_path = find_reusable_candidate(run, evidence_kind=evidence_kind)
+    if completion_path is None and evidence_kind == "downstream_replay":
+        raise ValueError(f"no reusable downstream replay candidate for {source_id}")
     if completion_path is not None:
         completion = DocumentCompletion.model_validate_json(completion_path.read_bytes())
         candidate_root = completion_path.parents[1]
