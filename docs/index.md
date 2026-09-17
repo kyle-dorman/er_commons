@@ -5,7 +5,7 @@ Start with `AGENTS.md`, then use this page to decide what to read.
 
 ## Current status
 
-Sprint 2 is active. Tasks 02 through 05F and Tasks 06A through 06G are complete
+Sprint 2 is active. Tasks 02 through 05F and Tasks 06A through 06H are complete
 and accepted; Task 05F closed as a partial outcome with 295 links and 216
 explicit nonlinks across 511 mentions. Task 03J remains the immutable extraction
 basis, Task 04A supplies accepted usability decisions, and Task 04D is the
@@ -14,8 +14,18 @@ and validation evidence.
 
 ## Next action
 
-[Task 06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) is
-complete and accepted. [Task 06G](../tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md)
+[Task 06H](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md) is
+accepted with sampled-review limitations as
+`acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1`.
+Its accepted non-executable Task 05G handoff is
+`handoffv1-9ce5d7c8b5f328ae714605709f344e66ace60e09ac1bfd9b5d6f8a57cedf442f`.
+The next bounded step is to revise and approve Task 05G's replay contract against
+that handoff. Do not run Task 05G/05H, commit, or push without separate
+authorization.
+
+### Preserved Task 06G execution history
+
+[Task 06G](../tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md)
 contains the Astra-accepted and user-approved Phase 1 replay plan. Its first
 prelaunch stopped before supervisor execution on a stale repository-schema
 identity reference, and `replay_v1` remains preserved. The user authorized the
@@ -151,7 +161,8 @@ comparison, and handoff with zero swap growth. Finalization attempt 3 completed
 the reviewed completion-last readiness publication after two preserved bounded
 finalizer failures closed unused-attempt enumeration and inventory-backed
 prohibited-payload revalidation. The user accepted the execution result on
-2026-09-12, so Task 06G is complete. Task 06H and Task 05G remain inactive.
+2026-09-12, so Task 06G is complete. Task 06H was subsequently accepted with
+sampled-review limitations on 2026-09-17; Task 05G remains inactive.
 The completed replay preserves its frozen mixed-lineage boundary, source-free
 integration gate, commands, namespaces, accounting, staged runtime identities,
 allowlisted resolved specs, recovery evidence, and supervisor-terminal record.

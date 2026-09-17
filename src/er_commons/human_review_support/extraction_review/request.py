@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 from typing import Literal
 
@@ -25,6 +26,10 @@ from er_commons.human_review_support.extraction_review.gate_d import (
 )
 from er_commons.human_review_support.extraction_review.models import BuildRequest
 from er_commons.human_review_support.extraction_review.scope_policy import InputScopePolicy
+from er_commons.human_review_support.extraction_review.task06h_review import (
+    Task06HRequestSpec,
+    execute_task06h_request,
+)
 
 Operation = Literal["prepare", "build_bundle", "build_final", "publish"]
 
@@ -126,9 +131,26 @@ class ReviewRequestSpec(BaseModel):
         return value
 
 
-def load_review_request(path: Path, operation: Operation) -> ReviewRequestSpec:
+def load_review_request(path: Path, operation: Operation) -> ReviewRequestSpec | Task06HRequestSpec:
     """Resolve explicit request paths relative to the request, without settings defaults."""
-    spec = ReviewRequestSpec.model_validate_json(path.read_bytes())
+    raw = path.read_bytes()
+    try:
+        envelope = json.loads(raw)
+    except ValueError as error:
+        raise ValueError(f"invalid extraction review request JSON: {path}") from error
+    if envelope.get("schema_version") == "er_commons.extraction_review_request.v2":
+        task06h = Task06HRequestSpec.model_validate_json(raw)
+        if task06h.operation != operation:
+            raise ValueError(
+                f"review request operation differs: expected={operation} "
+                f"observed={task06h.operation}"
+            )
+        values = task06h.model_dump()
+        for name, value in values.items():
+            if isinstance(value, Path):
+                values[name] = (path.parent / value).resolve()
+        return Task06HRequestSpec.model_validate(values)
+    spec = ReviewRequestSpec.model_validate_json(raw)
     if spec.operation != operation:
         raise ValueError(
             f"review request operation differs: expected={operation} observed={spec.operation}"
@@ -140,8 +162,10 @@ def load_review_request(path: Path, operation: Operation) -> ReviewRequestSpec:
     return ReviewRequestSpec.model_validate(values)
 
 
-def execute_review_request(spec: ReviewRequestSpec, output_root: Path) -> Path:
+def execute_review_request(spec: ReviewRequestSpec | Task06HRequestSpec, output_root: Path) -> Path:
     """Dispatch one explicit historical policy request without selecting hidden inputs."""
+    if isinstance(spec, Task06HRequestSpec):
+        return execute_task06h_request(spec, output_root)
     if spec.operation == "build_bundle":
         return build_review_bundle(
             BuildRequest(

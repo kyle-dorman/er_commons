@@ -1,11 +1,11 @@
 # Task 06: Repair Reference Sources and Targets, and Simplify Reuse
 
-Status: **06A through 06F are complete and accepted. Astra and the user accepted
-Task 06F remediation attempt v10 for MVP correctness and human maintainability.
-Production replay remains gated to Task 06G.**
-The [06C outcome](06c_qualify_and_process_replacement_f1.md) owns the fresh
-retained-source receipt and sealed reusable-stage handoff. Keep 06G–06H
-inactive; Task 06G has not replayed production artifacts.
+Status: **06A through 06H are complete and accepted. Task 06H was accepted with
+sampled-review limitations on 2026-09-17 as
+`acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1`.**
+The [06G outcome](06g_replay_repaired_document_and_collection_stages.md) owns
+the accepted replacement mechanical handoff. Task 06H owns the separate human
+review, usability, and explicit acceptance boundary.
 
 ## Abstract
 

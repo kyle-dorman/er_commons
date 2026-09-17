@@ -8,10 +8,19 @@ remains immutable extraction evidence, Task 04A owns accepted review, and Task
 04D remains the designated linking-dependent handoff until a replacement is
 accepted. Exact outcomes belong in the completed task records.
 
-## Next action: await authorization for Task 06H
+## Next action: prepare Task 05G replay from accepted Task 06H
 
-[Task 06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) is
-complete and accepted. The [Task 06G](../tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md)
+[Task 06H](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md) is
+accepted with sampled-review limitations as
+`acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1`.
+Revise Task 05G against accepted handoff
+`handoffv1-9ce5d7c8b5f328ae714605709f344e66ace60e09ac1bfd9b5d6f8a57cedf442f`,
+preserving all Final F1 and unreviewed-target limitations. Do not execute Task
+05G/05H, commit, or push without separate authorization.
+
+### Preserved Task 06G execution history
+
+The [Task 06G](../tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md)
 accepted Phase 1 plan freezes its accepted inputs, mixed-lineage boundary,
 affected stages, commands, namespaces, accounting, staged runtime identities,
 allowlisted resolved specs, prelaunch recovery, fresh-attempt restart design,
@@ -180,7 +189,8 @@ growth. Two separately preserved finalization attempts exposed and closed the
 unused-attempt ordinal assumption and prohibited-payload revalidation path.
 Finalization attempt 3 passed completion-last publication under the independently
 reviewed finalization-only amendment. The user accepted the execution result on
-2026-09-12, and Task 06G is complete. Task 06H and Task 05G remain inactive
+2026-09-12, and Task 06G is complete. Task 06H was subsequently accepted with
+sampled-review limitations on 2026-09-17. Task 05G remains inactive
 pending separate authorization.
 This is an MVP
 correctness, provenance, contract-closure, maintainability, and reproducibility
@@ -201,7 +211,7 @@ conversion reuse. Later tasks remain inactive.
 | [06E](../tasks/sprint2/06e_restore_missing_chapter_targets.md) | Recover missing chapters or use the TOC/children fallback | Complete and accepted; v13 maintainability cleanup equivalence-reviewed |
 | [06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) | Publish independent exact figure-caption targets | Complete and accepted; v10 correctness and maintainability review passed |
 | [06G](../tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md) | Replay only affected descendants and compare complete correspondence | Complete and accepted; v38 execution and finalization succeeded |
-| [06H](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md) | Reuse accepted review, review changed evidence, and accept replacement handoff | Provisional; inactive |
+| [06H](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md) | Reuse accepted review, review changed evidence, and accept replacement handoff | Complete and accepted with sampled-review limitations |
 
 The accepted [Task 05F partial candidate](../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
 accounts for 511 mentions as 295 links and 216 explicit nonlinks. It preserves

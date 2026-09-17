@@ -1,0 +1,17 @@
+{
+  "schema_version": "er_commons.extraction_review_request.v2",
+  "operation": "prepare",
+  "review_pass": "task06h_replacement",
+  "data_root": "/Volumes/x10pro/er_commons",
+  "correspondence_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/correspondence_v1",
+  "comparison_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/comparison_v1",
+  "qualification_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06f/qualification_v10",
+  "task04_gate_d_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_04_review/reviewv1-task03j-final-c17/gate_d",
+  "baseline_publications_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_03h_clean_full_v4/document_publications",
+  "selected_publications_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/document_publications",
+  "deir_source_manifest": "/Volumes/x10pro/er_commons/datasets/ceqa/raw/brisbane_baylands/brisbane_baylands_2025_deir_sources_v1/records/source_manifest.json",
+  "f1_source_manifest": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06c/gate3_inputs_v1/source/records/source_manifest.json",
+  "accepted_candidate_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/readiness_candidates/finalization_attempt_v3",
+  "expected_source_count": 35,
+  "render_pages": false
+}
