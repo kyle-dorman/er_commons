@@ -1,0 +1,14 @@
+{
+  "candidate_id": "replayv1-2f17f8c6c701e0811e6a4674b155d688b95e86521d83e53bafd86c722e54abb3",
+  "run_spec_sha256": "2f17f8c6c701e0811e6a4674b155d688b95e86521d83e53bafd86c722e54abb3",
+  "candidate_checkpoint_id": "checkpoint05gv1-61ed715f733e941ff692ddc148cf88fa337ff5698c60be22560331111257d9d8",
+  "comparison_checkpoint_id": "checkpoint05gv1-0a1da89e856d386f1c02843460822675d4eb0728489bd97b7e4a3067f2b2ade2",
+  "status": "passed",
+  "reviewer": "Codex maintain_resolver independent maintainability review; parent integration verification",
+  "material_findings": [],
+  "scope": "MVP human maintainability and exact refactor equivalence, not fresh source review",
+  "quality_review_path": "docs/specs/task05g_code_quality_review.md",
+  "quality_review_sha256": "5d0146ed8f8be29f44b91713a8c7a7eccb8b423df44041cee3e7e25985afd82d",
+  "refactor_equivalence_sha256": "32d415600c9b2eb94589115b414abb96d23cd914f038a9c07b1270e134fa11b8",
+  "strict_fresh_equality_sha256": "932efb5b1d496f1c40bab629efe29e870f403ba246ba66c7c58582a91ff8fe97"
+}

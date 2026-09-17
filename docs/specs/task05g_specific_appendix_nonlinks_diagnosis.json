@@ -1,0 +1,182 @@
+{
+  "status": "diagnosis_only_no_repair",
+  "candidate_id": "replayv1-463a13c8e7314cd534001f3f099078686198eecb1250c60900b532e7ab74a9a1",
+  "counts": {
+    "total": 14,
+    "genuine_specific_references": 13,
+    "false_positive": 1
+  },
+  "mentions": [
+    {
+      "mention_id": "mentionv1-0b7436129de467273c8f73704b9eafea108965f6ef8a59bb590ad5433ef89b8b",
+      "source_unit_id": "unitv1-5eb84538a982f32352ac7554fbc809adc8a3cec1e89def70498eca9f4af2a5c6",
+      "official_label": "Response SA-CDFW-9",
+      "physical_page": 118,
+      "raw_target_label": "Draft EIR Appendix \r\nD",
+      "routed_source_ids": [
+        "deir_appendix_d"
+      ],
+      "previous_terminal_reason": "more_specific_appendix_target_requires_resolution",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-1a9d5309c0ad0144da324a23f0893b84824b3ef02ea33b464cd450550d904ea9",
+      "source_unit_id": "unitv1-08582a09f2070d4cad23c4707ed825a17a489463a08a513db0e7329f82456c87",
+      "official_label": "Response M-OSEC-94",
+      "physical_page": 340,
+      "raw_target_label": "Draft EIR Appendix F.1",
+      "routed_source_ids": [
+        "feir_appendix_f1"
+      ],
+      "previous_terminal_reason": "upstream_source_identity_repair_required",
+      "diagnosis": "false_positive_table_are"
+    },
+    {
+      "mention_id": "mentionv1-60e100ef024ea09ab4d1172cb7ed70558a37900d6b3e619c83299cfa04a77b60",
+      "source_unit_id": "unitv1-0c4752924a33197c1f123f74919d5e07b6fece2b5d0c290790a22d6ebfea9161",
+      "official_label": "Response M-CSSC-32",
+      "physical_page": 214,
+      "raw_target_label": "Draft EIR Appendix F.2",
+      "routed_source_ids": [
+        "deir_appendix_f2"
+      ],
+      "previous_terminal_reason": "more_specific_appendix_target_requires_resolution",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-6bcb657e7dc49c498c2d6064db85520d7dca10af31ac395a48de46eb59cb8d84",
+      "source_unit_id": "unitv1-d9083d932344bd002a2cdeb4114a81a1bebb50e40305fd93b28ad578fca1d3c7",
+      "official_label": "Response SA-Caltrans-9",
+      "physical_page": 90,
+      "raw_target_label": "Draft EIR \r\nAppendix F.1",
+      "routed_source_ids": [
+        "feir_appendix_f1"
+      ],
+      "previous_terminal_reason": "upstream_source_identity_repair_required",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-72b724008c1d946dd3b2cb5dbb8f72cd21a12df1fe9cc6b217920e1754e7c7a0",
+      "source_unit_id": "unitv1-c37b8ab6bcf2ad4b370405c4d0ae0361a24ac7c4696ef1d7b94f180edf5251ee",
+      "official_label": "Response M-OSEC-190",
+      "physical_page": 405,
+      "raw_target_label": "Draft EIR Appendix D",
+      "routed_source_ids": [
+        "deir_appendix_d"
+      ],
+      "previous_terminal_reason": "more_specific_appendix_target_requires_resolution",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-7ef156894c9a9a5403bd615d7fd57fffa07719acea85d3606b6ac07758f6ab85",
+      "source_unit_id": "unitv1-7bc791638d94df550c2f58971eb7b8dc9b620684e86a0109904e51e569ec7f68",
+      "official_label": "Response M-CSSC-94",
+      "physical_page": 238,
+      "raw_target_label": "Draft EIR Appendix F.1",
+      "routed_source_ids": [
+        "feir_appendix_f1"
+      ],
+      "previous_terminal_reason": "upstream_source_identity_repair_required",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-7f238099e19695260f5c863f82869fb644486bf3b01490320eb4de8bad57bcbc",
+      "source_unit_id": "unitv1-0978a84f04564653700556b93a8c6f033a44620d4ed9bb52c563fe73be3f1b5c",
+      "official_label": "Response SA-Caltrans-8",
+      "physical_page": 89,
+      "raw_target_label": "Draft EIR \r\nAppendix F.1",
+      "routed_source_ids": [
+        "feir_appendix_f1"
+      ],
+      "previous_terminal_reason": "upstream_source_identity_repair_required",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-82890a1bf855773fabfa31e31644ef691e2cc4f2fdd4d75e462605875e40aa27",
+      "source_unit_id": "unitv1-25f45aabd6fb1183642b6139e4e5788c9d1e04036057ecbbd3ee2a0ced28314a",
+      "official_label": "Response M-CSSC-85",
+      "physical_page": 235,
+      "raw_target_label": "Draft EIR Appendix F.1",
+      "routed_source_ids": [
+        "feir_appendix_f1"
+      ],
+      "previous_terminal_reason": "upstream_source_identity_repair_required",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-8cab8ca69d3784b84323523fcc4a5c78d65eddbf639e46ac141699f051871f03",
+      "source_unit_id": "unitv1-41d2de9ebaa4abdcfbb984a05b8ed94b0973e4aeafeba7ae297455f1895bcdd8",
+      "official_label": "Response M-OSEC-112",
+      "physical_page": 349,
+      "raw_target_label": "Draft EIR Appendix A",
+      "routed_source_ids": [
+        "deir_appendix_a"
+      ],
+      "previous_terminal_reason": "more_specific_appendix_target_requires_resolution",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-97b5812826823e9a2d68761714dd0a227bec46c0dc3a70e3b65d2e7f396d2589",
+      "source_unit_id": "unitv1-25e8f83fb197176834a964df2ece955e525fc7a84d8dd140f632090c037e5a8a",
+      "official_label": "Response O-Joint-74",
+      "physical_page": 664,
+      "raw_target_label": "Draft EIR \r\nAppendix K1",
+      "routed_source_ids": [
+        "deir_appendix_k1_part_1_of_4",
+        "deir_appendix_k1_part_2_of_4",
+        "deir_appendix_k1_part_3_of_4",
+        "deir_appendix_k1_part_4_of_4"
+      ],
+      "previous_terminal_reason": "more_specific_appendix_target_requires_resolution",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-a0735cfe682e27ceb3fa2c68c2d909f5ea60af84f4ec07c00b4ab9844b5e6e26",
+      "source_unit_id": "unitv1-1e79142bf469b6088f841e051ab9994140342fd80048925c1b0bf9a6c8d83380",
+      "official_label": "Response SA-Caltrans-6",
+      "physical_page": 88,
+      "raw_target_label": "Draft EIR Appendix F.1",
+      "routed_source_ids": [
+        "feir_appendix_f1"
+      ],
+      "previous_terminal_reason": "upstream_source_identity_repair_required",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-a3bba132725b9671768f3c0570808d2a78e7442130d52da1abd4560b177efa08",
+      "source_unit_id": "unitv1-778d1e9dbba377a6fb04b71a5ef70d260b140e3cb62d9be3b337483f09aaec73",
+      "official_label": "Response M-CSSC-126",
+      "physical_page": 254,
+      "raw_target_label": "Draft EIR Appendix F.1",
+      "routed_source_ids": [
+        "feir_appendix_f1"
+      ],
+      "previous_terminal_reason": "upstream_source_identity_repair_required",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-ac50aff61440bfad9555171a6701c1d4836d8a66c35b3ddd963342f093329cbc",
+      "source_unit_id": "unitv1-1e79142bf469b6088f841e051ab9994140342fd80048925c1b0bf9a6c8d83380",
+      "official_label": "Response SA-Caltrans-6",
+      "physical_page": 88,
+      "raw_target_label": "Draft EIR \r\nAppendix F.1",
+      "routed_source_ids": [
+        "feir_appendix_f1"
+      ],
+      "previous_terminal_reason": "upstream_source_identity_repair_required",
+      "diagnosis": "specific_inner_reference"
+    },
+    {
+      "mention_id": "mentionv1-cf4b001e6f0e463fe4279c2df2f03897ef105b4a1fc2c6511ec2e446699f0e52",
+      "source_unit_id": "unitv1-42bde126f24260b1ada760aa7f2a9d79b73a0b86a550ca511ac1cba22724ab70",
+      "official_label": "Response M-CSSC-153",
+      "physical_page": 269,
+      "raw_target_label": "Draft EIR Appendix A",
+      "routed_source_ids": [
+        "deir_appendix_a"
+      ],
+      "previous_terminal_reason": "more_specific_appendix_target_requires_resolution",
+      "diagnosis": "specific_inner_reference"
+    }
+  ]
+}

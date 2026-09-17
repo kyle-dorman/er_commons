@@ -1,0 +1,1658 @@
+{
+  "status": "diagnosis_only_no_repair",
+  "candidate_id": "replayv1-abb4b6df8f79537dabe3fad564b165d87cd6c249d2dcb498070d20e88936e6bb",
+  "candidate_completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/candidates/replayv1-abb4b6df8f79537dabe3fad564b165d87cd6c249d2dcb498070d20e88936e6bb/attempt-005/completion.json",
+    "sha256": "63ab85d21c2b22af231d37d231f17a6bffd12c7f72cde2a33937c70fe0f6763c",
+    "size_bytes": 6226
+  },
+  "count": 12,
+  "unchanged_from_phase3": true,
+  "groups": {
+    "section_header_collision_mentions": 9,
+    "multipart_document_mentions": 3
+  },
+  "mentions": [
+    {
+      "mention_id": "mentionv1-099260e387f0746c314f5ab28c3507ea7ea349dbd95ba1ff7b24f66ada6f8777",
+      "response": "Response O-Joint-24",
+      "reference": "section 4.5",
+      "response_physical_page": 621,
+      "candidate_target_ids": [
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000705",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000834"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-31ec7e582d228f3e398e7194eafd7852edf54f06fa08ff1d86b95af6e84fa0f0",
+      "response": "Response M-OSEC-342",
+      "reference": "appendix k1",
+      "response_physical_page": 486,
+      "candidate_target_ids": [
+        "exv1-1c55879fb245007c6742aa3b5b4e5e909d48808aa1d3c46199bd2ed3d4cee4ef/document/deir_appendix_k1_part_4_of_4",
+        "exv1-2c909ef1f89071576f6bcb2798a9b00c8979f29b8f583fa2e1415a8322e3d868/document/deir_appendix_k1_part_1_of_4",
+        "exv1-bbd6f9bddb6d38cfb19602c73db7a5a42b612a6cee49b0b138c106158e31db52/document/deir_appendix_k1_part_3_of_4",
+        "exv1-bc8e02641118f89e9345d669eba0ab77ad1855419b0da6110b2fcd6c92ab5275/document/deir_appendix_k1_part_2_of_4"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-3879d6e5f9f16e7d4870b7ae1eb5202617d23cabad6f5722efb13f4e3d7754da",
+      "response": "Response M-OSEC-65",
+      "reference": "section 4.13",
+      "response_physical_page": 326,
+      "candidate_target_ids": [
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001748",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001797",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001798"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-47e71982aad5424886cc716fada59eafdf943ad4d983354f9ca25e586b7717ef",
+      "response": "Response M-OSEC-143",
+      "reference": "section 8.5",
+      "response_physical_page": 377,
+      "candidate_target_ids": [
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec003322",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec003325"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-4f686a58871a36594cc6e9ab16a4a6d9df40776de9402ec97ad6355a606840c1",
+      "response": "Response M-OSEC-340",
+      "reference": "section 4.12",
+      "response_physical_page": 485,
+      "candidate_target_ids": [
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001587",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001697"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-60d5e92c2c28b1985bcc7d2ba59ce30b6de5a192382152faa35c418524834c95",
+      "response": "Response M-OSEC-91",
+      "reference": "appendix k1",
+      "response_physical_page": 339,
+      "candidate_target_ids": [
+        "exv1-1c55879fb245007c6742aa3b5b4e5e909d48808aa1d3c46199bd2ed3d4cee4ef/document/deir_appendix_k1_part_4_of_4",
+        "exv1-2c909ef1f89071576f6bcb2798a9b00c8979f29b8f583fa2e1415a8322e3d868/document/deir_appendix_k1_part_1_of_4",
+        "exv1-bbd6f9bddb6d38cfb19602c73db7a5a42b612a6cee49b0b138c106158e31db52/document/deir_appendix_k1_part_3_of_4",
+        "exv1-bc8e02641118f89e9345d669eba0ab77ad1855419b0da6110b2fcd6c92ab5275/document/deir_appendix_k1_part_2_of_4"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-7084e142e4207c839f1d943588f4e3083a87cc88e894ce9b0c044e37dc701a69",
+      "response": "Response M-OSEC-93",
+      "reference": "section 4.6",
+      "response_physical_page": 340,
+      "candidate_target_ids": [
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000864",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000951",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000956",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000986"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-c8a12410e2abd97dd8d0a42c00a90b59f1c369d7494c8ce3fa456f4245fbbaad",
+      "response": "Response M-OSEC-137",
+      "reference": "section 4-11",
+      "response_physical_page": 370,
+      "candidate_target_ids": [
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001497",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001541",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001563"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-cb205aa486cfc09b48b2ea2d1eb16bff27980d96d2f27fdf958815df26cd7d1a",
+      "response": "Response O-Joint-2",
+      "reference": "section 4.6",
+      "response_physical_page": 602,
+      "candidate_target_ids": [
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000864",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000951",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000956",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000986"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-d894a7492636c48c719037a280288a40a371de6471b8871f41c0996fce76aab6",
+      "response": "Response M-OSEC-91",
+      "reference": "appendix k2",
+      "response_physical_page": 339,
+      "candidate_target_ids": [
+        "exv1-35da07ea3df7908b1171773ad64e12d622b397c0df75889a51dfb5eb0e316bed/document/deir_appendix_k2_part_1_of_5",
+        "exv1-435b03e2915c7377127316624e8a62883eb5cb63705615d3eeaaf6c6edcdd1aa/document/deir_appendix_k2_part_5_of_5",
+        "exv1-479246955d23a04c2275717792f6d6a2b640ffc265c17275e1f9eb52fabe0c8b/document/deir_appendix_k2_part_3_of_5",
+        "exv1-e13622cc8c28e0f7c59cccb616ed35eb298587bf8513c1b5511da445b4404d64/document/deir_appendix_k2_part_4_of_5",
+        "exv1-e35f2053ba4ffa1d01e2f575667901c365eb4fe111025607f54655d5897b03ee/document/deir_appendix_k2_part_2_of_5"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-e13d2247d89a6d178775308ce15d74259f3c34f801f645cfe1f84ca5f2198769",
+      "response": "Response M-OSEC-13",
+      "reference": "section es.6",
+      "response_physical_page": 290,
+      "candidate_target_ids": [
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000260",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000264",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000266",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000267",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000268",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000269",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000270"
+      ]
+    },
+    {
+      "mention_id": "mentionv1-e80dbcc0f9063ef37237f9fcbfbb13b37fa49e43e4319579d7828e73240c4887",
+      "response": "Response M-OSEC-137",
+      "reference": "section 4.6",
+      "response_physical_page": 371,
+      "candidate_target_ids": [
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000864",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000951",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000956",
+        "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000986"
+      ]
+    }
+  ],
+  "target_evidence": [
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000260",
+      "title": "ES.6 ALTERNATIVES",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk004198",
+      "physical_page": 184,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.42822265625,
+          460.6533508300781,
+          203.19175720214844,
+          468.42718505859375
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000184",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000135",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 5,
+      "same_geometry_furniture_header_count": 0,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021543",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                744.0242309570312,
+                136.76382446289062,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000184",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021552",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000186",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "probable_true_section_opener"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000264",
+      "title": "ES.6 Alternatives",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk004216",
+      "physical_page": 188,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.20748138427734,
+          556.82421875,
+          136.76382446289062,
+          562.7294311523438
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 612.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000188",
+        "page_width": 792.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000263",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 5,
+      "same_geometry_furniture_header_count": 2,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021552",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000186",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021577",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000192",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000266",
+      "title": "ES.6 Alternatives",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk004219",
+      "physical_page": 190,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.20748138427734,
+          556.82421875,
+          136.76382446289062,
+          562.7294311523438
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 612.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000190",
+        "page_width": 792.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000263",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 5,
+      "same_geometry_furniture_header_count": 2,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021552",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000186",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021577",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000192",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000267",
+      "title": "ES.6 Alternatives",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk004221",
+      "physical_page": 194,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.20748138427734,
+          556.82421875,
+          136.76382446289062,
+          562.7294311523438
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 612.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000194",
+        "page_width": 792.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000263",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 5,
+      "same_geometry_furniture_header_count": 2,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021552",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000186",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021577",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000192",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000268",
+      "title": "ES.6 Alternatives",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk004223",
+      "physical_page": 196,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.20748138427734,
+          556.82421875,
+          136.76382446289062,
+          562.7294311523438
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 612.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000196",
+        "page_width": 792.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000263",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 5,
+      "same_geometry_furniture_header_count": 2,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021552",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000186",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021577",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000192",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000269",
+      "title": "ES.6 Alternatives",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk004225",
+      "physical_page": 198,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.20748138427734,
+          556.82421875,
+          136.76382446289062,
+          562.7294311523438
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 612.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000198",
+        "page_width": 792.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000263",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 5,
+      "same_geometry_furniture_header_count": 2,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021552",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000186",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021577",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000192",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000270",
+      "title": "ES.6 Alternatives",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk004227",
+      "physical_page": 200,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.20748138427734,
+          556.82421875,
+          136.76382446289062,
+          562.7294311523438
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 612.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000200",
+        "page_width": 792.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000263",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 5,
+      "same_geometry_furniture_header_count": 2,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021552",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000186",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk021577",
+          "canonical_text": "ES.6 Alternatives",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.20748138427734,
+                556.82421875,
+                136.76382446289062,
+                562.7294311523438
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 612.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000192",
+              "page_width": 792.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000705",
+      "title": "4.5 AESTHETIC AND VISUAL RESOURCES",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk007233",
+      "physical_page": 569,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.0,
+          700.5360107421875,
+          367.02801513671875,
+          709.031982421875
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000569",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000552",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 0,
+      "same_geometry_furniture_header_count": 0,
+      "example_furniture_headers": [],
+      "diagnosis_status": "probable_true_section_opener"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000834",
+      "title": "4.5 . Aesthetic and Visual Resources",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk007796",
+      "physical_page": 632,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.00798034667969,
+          744.0242309570312,
+          196.52694702148438,
+          749.929443359375
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000632",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000552",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 76,
+      "same_geometry_furniture_header_count": 37,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk023386",
+          "canonical_text": "4.5 . Aesthetic and Visual Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                744.0242309570312,
+                196.52694702148438,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000570",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk023405",
+          "canonical_text": "4.5 . Aesthetic and Visual Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                744.0242309570312,
+                196.52694702148438,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000574",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000864",
+      "title": "4.6 BIOLOGICAL RESOURCES",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk007938",
+      "physical_page": 647,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.0,
+          700.5960083007812,
+          286.26800537109375,
+          709.031982421875
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000647",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000552",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 0,
+      "same_geometry_furniture_header_count": 0,
+      "example_furniture_headers": [],
+      "diagnosis_status": "probable_true_section_opener"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000951",
+      "title": "4.6 . Biological Resources",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk008307",
+      "physical_page": 696,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.00798034667969,
+          741.8776245117188,
+          158.2947540283203,
+          749.929443359375
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000696",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000552",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 93,
+      "same_geometry_furniture_header_count": 42,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk023781",
+          "canonical_text": "4.6 . Biological Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                158.2947540283203,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000648",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk023791",
+          "canonical_text": "4.6 . Biological Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                158.2947540283203,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000650",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000956",
+      "title": "4.6 . Biological Resources",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk008327",
+      "physical_page": 700,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.00798034667969,
+          741.8776245117188,
+          158.2947540283203,
+          749.929443359375
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000700",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000552",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 93,
+      "same_geometry_furniture_header_count": 42,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk023781",
+          "canonical_text": "4.6 . Biological Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                158.2947540283203,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000648",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk023791",
+          "canonical_text": "4.6 . Biological Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                158.2947540283203,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000650",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000986",
+      "title": "4.6 . Biological Resources",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk008548",
+      "physical_page": 728,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.00798034667969,
+          741.8776245117188,
+          158.2947540283203,
+          749.929443359375
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000728",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec000552",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 93,
+      "same_geometry_furniture_header_count": 42,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk023781",
+          "canonical_text": "4.6 . Biological Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                158.2947540283203,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000648",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk023791",
+          "canonical_text": "4.6 . Biological Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                158.2947540283203,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p000650",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001497",
+      "title": "4.11 ENERGY RESOURCES",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk011503",
+      "physical_page": 1087,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.0,
+          700.5360107421875,
+          254.6959991455078,
+          709.0440063476562
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001087",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001368",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 0,
+      "same_geometry_furniture_header_count": 0,
+      "example_furniture_headers": [],
+      "diagnosis_status": "probable_true_section_opener"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001541",
+      "title": "4.11 . Energy Resources",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk011687",
+      "physical_page": 1106,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.00798034667969,
+          741.8776245117188,
+          152.8345184326172,
+          749.674072265625
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001106",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001368",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 42,
+      "same_geometry_furniture_header_count": 20,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk025976",
+          "canonical_text": "4.11 . Energy Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                152.8345184326172,
+                749.674072265625
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001088",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk025986",
+          "canonical_text": "4.11 . Energy Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                152.8345184326172,
+                749.674072265625
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001090",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001563",
+      "title": "4.11 . Energy Resources",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk011794",
+      "physical_page": 1118,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.00798034667969,
+          741.8776245117188,
+          152.8345184326172,
+          749.674072265625
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001118",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001368",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 42,
+      "same_geometry_furniture_header_count": 20,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk025976",
+          "canonical_text": "4.11 . Energy Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                152.8345184326172,
+                749.674072265625
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001088",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk025986",
+          "canonical_text": "4.11 . Energy Resources",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                741.8776245117188,
+                152.8345184326172,
+                749.674072265625
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001090",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001587",
+      "title": "4.12 NOISE AND VIBRATION",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk011958",
+      "physical_page": 1133,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.0,
+          700.5360107421875,
+          275.4320068359375,
+          709.031982421875
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001133",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001368",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 0,
+      "same_geometry_furniture_header_count": 0,
+      "example_furniture_headers": [],
+      "diagnosis_status": "probable_true_section_opener"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001697",
+      "title": "4.12 . Noise and Vibration",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk012653",
+      "physical_page": 1202,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.00798034667969,
+          744.0003051757812,
+          161.7003173828125,
+          749.929443359375
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001202",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001368",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 100,
+      "same_geometry_furniture_header_count": 49,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk026204",
+          "canonical_text": "4.12 . Noise and Vibration",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                744.0003051757812,
+                161.7003173828125,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001134",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk026214",
+          "canonical_text": "4.12 . Noise and Vibration",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                744.0003051757812,
+                161.7003173828125,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001136",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001748",
+      "title": "4.13 HAZARDS AND HAZARDOUS MATERIALS",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk012949",
+      "physical_page": 1235,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.0,
+          700.5360107421875,
+          393.77606201171875,
+          709.031982421875
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001235",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001368",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 0,
+      "same_geometry_furniture_header_count": 0,
+      "example_furniture_headers": [],
+      "diagnosis_status": "probable_true_section_opener"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001797",
+      "title": "4.13 . Hazards and Hazardous Materials",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk013186",
+      "physical_page": 1264,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.00798034667969,
+          744.0242309570312,
+          211.79873657226562,
+          749.929443359375
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001264",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001368",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 76,
+      "same_geometry_furniture_header_count": 38,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk026712",
+          "canonical_text": "4.13 . Hazards and Hazardous Materials",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                744.0242309570312,
+                211.79873657226562,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001236",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk026722",
+          "canonical_text": "4.13 . Hazards and Hazardous Materials",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                744.0242309570312,
+                211.79873657226562,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001238",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001798",
+      "title": "4.13 . Hazards and Hazardous Materials",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk013190",
+      "physical_page": 1266,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.00798034667969,
+          744.0242309570312,
+          211.79873657226562,
+          749.929443359375
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001266",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec001368",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 76,
+      "same_geometry_furniture_header_count": 38,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk026712",
+          "canonical_text": "4.13 . Hazards and Hazardous Materials",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                744.0242309570312,
+                211.79873657226562,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001236",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        },
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk026722",
+          "canonical_text": "4.13 . Hazards and Hazardous Materials",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.00798034667969,
+                744.0242309570312,
+                211.79873657226562,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p001238",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec003322",
+      "title": "8.5 ENVIRONMENTALLY SUPERIOR ALTERNATIVE",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk018651",
+      "physical_page": 2008,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.26399993896484,
+          496.7559814453125,
+          428.5999450683594,
+          505.26397705078125
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p002008",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec003489",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 0,
+      "same_geometry_furniture_header_count": 0,
+      "example_furniture_headers": [],
+      "diagnosis_status": "probable_true_section_opener"
+    },
+    {
+      "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec003325",
+      "title": "8.5 . Environmentally Superior Alternative",
+      "heading_block_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk018669",
+      "physical_page": 2012,
+      "region": {
+        "affine_transform": null,
+        "bbox": [
+          72.19950103759766,
+          741.8776245117188,
+          220.2435302734375,
+          749.929443359375
+        ],
+        "coordinate_space": "producer_pdf",
+        "origin": "bottom_left",
+        "page_height": 792.0,
+        "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p002012",
+        "page_width": 612.0,
+        "render_scale": null,
+        "rotation_degrees": 0,
+        "units": "pdf_points"
+      },
+      "parent_section_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec003489",
+      "canonical_block_type": "heading",
+      "canonical_content_layer": "body",
+      "canonical_inference_method": "accepted_hierarchy_correction",
+      "casefold_identical_furniture_header_count": 2,
+      "same_geometry_furniture_header_count": 1,
+      "example_furniture_headers": [
+        {
+          "id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/block/deir_main/blk030298",
+          "canonical_text": "8.5 . Environmentally Superior Alternative",
+          "regions": [
+            {
+              "affine_transform": null,
+              "bbox": [
+                72.19950103759766,
+                741.8776245117188,
+                220.2435302734375,
+                749.929443359375
+              ],
+              "coordinate_space": "producer_pdf",
+              "origin": "bottom_left",
+              "page_height": 792.0,
+              "page_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/page/deir_main/p002008",
+              "page_width": 612.0,
+              "render_scale": null,
+              "rotation_degrees": 0,
+              "units": "pdf_points"
+            }
+          ]
+        }
+      ],
+      "diagnosis_status": "inferred_repeated_running_header_misclassified_as_body_heading"
+    }
+  ],
+  "input_refs": {
+    "sections": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/document_publications/documents/deir_main/docv1-7d28dcdc5411c1239ee5db17328045fc73275afc0bcbc43ba42f853bd9840e7a/content/canonical/sections.jsonl",
+      "sha256": "b1c38a1477f6b0e61a573474f322cadd3b04ddf288dcaf6fd9ca482323e5b3ff"
+    },
+    "blocks": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/document_publications/documents/deir_main/docv1-7d28dcdc5411c1239ee5db17328045fc73275afc0bcbc43ba42f853bd9840e7a/content/canonical/blocks.jsonl",
+      "sha256": "77321ac4e6bcb78813c5152ccefad71745201d5988392f05e6da3aeab718436d"
+    }
+  }
+}

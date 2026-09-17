@@ -1,0 +1,490 @@
+{
+  "$defs": {
+    "AcceptedTask05D": {
+      "additionalProperties": false,
+      "description": "Exact accepted 05D candidate consumed by the source-free graph stage.",
+      "properties": {
+        "candidate_root": {
+          "format": "path",
+          "title": "Candidate Root",
+          "type": "string"
+        },
+        "acceptance_path": {
+          "format": "path",
+          "title": "Acceptance Path",
+          "type": "string"
+        },
+        "revision_id": {
+          "const": "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030",
+          "title": "Revision Id",
+          "type": "string"
+        },
+        "acceptance_id": {
+          "const": "acceptancev1-7edf64ffd5e283c736e9980c79f682997ce06c135038d4ceb3ecbc496ce6c027",
+          "title": "Acceptance Id",
+          "type": "string"
+        },
+        "activity_id": {
+          "const": "activityv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030",
+          "title": "Activity Id",
+          "type": "string"
+        },
+        "completion_id": {
+          "const": "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f",
+          "title": "Completion Id",
+          "type": "string"
+        },
+        "inventory_id": {
+          "const": "fileinventoryv1-a04c715a6dff6bdfe6d28eaed9b40211382d60a74d540cdf46cd3b2c993c60a0",
+          "title": "Inventory Id",
+          "type": "string"
+        },
+        "semantic_digest": {
+          "const": "f7aa9fd6e6d4e464b27b270e6f61a8dcbfb0d998dc44e7eda84abd07db5d9247",
+          "title": "Semantic Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_root",
+        "acceptance_path",
+        "revision_id",
+        "acceptance_id",
+        "activity_id",
+        "completion_id",
+        "inventory_id",
+        "semantic_digest"
+      ],
+      "title": "AcceptedTask05D",
+      "type": "object"
+    },
+    "AcceptedTask05E": {
+      "additionalProperties": false,
+      "description": "Exact accepted 05E candidate consumed by Task 05F.",
+      "properties": {
+        "candidate_root": {
+          "format": "path",
+          "title": "Candidate Root",
+          "type": "string"
+        },
+        "acceptance_path": {
+          "format": "path",
+          "title": "Acceptance Path",
+          "type": "string"
+        },
+        "revision_id": {
+          "const": "revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1",
+          "title": "Revision Id",
+          "type": "string"
+        },
+        "acceptance_id": {
+          "const": "acceptancev1-4b8a13393c57660fdb0a6b303912150ca9d1380688a86a6728267a4c79aacac5",
+          "title": "Acceptance Id",
+          "type": "string"
+        },
+        "activity_id": {
+          "const": "activityv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1",
+          "title": "Activity Id",
+          "type": "string"
+        },
+        "completion_id": {
+          "const": "completionv1-867b3e6f9d9cc1e2666cb184523590c2fd02154347ea9787144e61bb43851555",
+          "title": "Completion Id",
+          "type": "string"
+        },
+        "inventory_id": {
+          "const": "fileinventoryv1-924533bd3c59160bd0853aa38dc095965b07b2d4bf2d78a5ad9431cd2836f667",
+          "title": "Inventory Id",
+          "type": "string"
+        },
+        "semantic_digest": {
+          "const": "3a6f5b0f4f116b2800e0a8b02bb98fde9d37a48ccc0baff321fd484f2489e71b",
+          "title": "Semantic Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_root",
+        "acceptance_path",
+        "revision_id",
+        "acceptance_id",
+        "activity_id",
+        "completion_id",
+        "inventory_id",
+        "semantic_digest"
+      ],
+      "title": "AcceptedTask05E",
+      "type": "object"
+    },
+    "BaselineBinding": {
+      "additionalProperties": false,
+      "description": "The accepted nonterminal 05F result has a receipt, not a completion.",
+      "properties": {
+        "root": {
+          "title": "Root",
+          "type": "string"
+        },
+        "receipt_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Receipt Sha256",
+          "type": "string"
+        },
+        "inventory_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Inventory Sha256",
+          "type": "string"
+        },
+        "semantic_digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Semantic Digest",
+          "type": "string"
+        },
+        "rules_id": {
+          "pattern": "^rulesv1-[0-9a-f]{64}$",
+          "title": "Rules Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "root",
+        "receipt_sha256",
+        "inventory_sha256",
+        "semantic_digest",
+        "rules_id"
+      ],
+      "title": "BaselineBinding",
+      "type": "object"
+    },
+    "FileBinding": {
+      "additionalProperties": false,
+      "description": "One contained relative file and its recorded digest.",
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "title": "FileBinding",
+      "type": "object"
+    },
+    "MechanicalBinding": {
+      "additionalProperties": false,
+      "description": "Explicit selected mechanical roots; no historical layout inference.",
+      "properties": {
+        "readiness_root": {
+          "title": "Readiness Root",
+          "type": "string"
+        },
+        "readiness_completion_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Readiness Completion Sha256",
+          "type": "string"
+        },
+        "readiness_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Readiness Sha256",
+          "type": "string"
+        },
+        "correspondence_root": {
+          "title": "Correspondence Root",
+          "type": "string"
+        },
+        "correspondence_completion_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Correspondence Completion Sha256",
+          "type": "string"
+        },
+        "publication_root": {
+          "title": "Publication Root",
+          "type": "string"
+        },
+        "catalog": {
+          "$ref": "#/$defs/FileBinding"
+        },
+        "handoff_completion_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Handoff Completion Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "readiness_root",
+        "readiness_completion_sha256",
+        "readiness_sha256",
+        "correspondence_root",
+        "correspondence_completion_sha256",
+        "publication_root",
+        "catalog",
+        "handoff_completion_sha256"
+      ],
+      "title": "MechanicalBinding",
+      "type": "object"
+    },
+    "PriorReplayBinding": {
+      "additionalProperties": false,
+      "description": "Seal the previous working candidate and the review scope of one rule cycle.",
+      "properties": {
+        "candidate_root": {
+          "title": "Candidate Root",
+          "type": "string"
+        },
+        "completion_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Completion Sha256",
+          "type": "string"
+        },
+        "allowed_change_mentions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Change Mentions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "candidate_root",
+        "completion_sha256",
+        "allowed_change_mentions"
+      ],
+      "title": "PriorReplayBinding",
+      "type": "object"
+    },
+    "ReplayAuthorization": {
+      "additionalProperties": false,
+      "description": "New operational authorization never mutates an upstream acceptance record.",
+      "properties": {
+        "replay": {
+          "title": "Replay",
+          "type": "boolean"
+        },
+        "finalization": {
+          "title": "Finalization",
+          "type": "boolean"
+        },
+        "acceptance": {
+          "title": "Acceptance",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "replay",
+        "finalization",
+        "acceptance"
+      ],
+      "title": "ReplayAuthorization",
+      "type": "object"
+    },
+    "ReplayInputBindings": {
+      "additionalProperties": false,
+      "description": "Accepted source, graph, baseline, mechanical and human authorities.",
+      "properties": {
+        "task06h_pointer": {
+          "title": "Task06H Pointer",
+          "type": "string"
+        },
+        "task05d": {
+          "$ref": "#/$defs/AcceptedTask05D"
+        },
+        "task05e": {
+          "$ref": "#/$defs/AcceptedTask05E"
+        },
+        "task05f": {
+          "$ref": "#/$defs/BaselineBinding"
+        },
+        "task06g": {
+          "$ref": "#/$defs/MechanicalBinding"
+        }
+      },
+      "required": [
+        "task06h_pointer",
+        "task05d",
+        "task05e",
+        "task05f",
+        "task06g"
+      ],
+      "title": "ReplayInputBindings",
+      "type": "object"
+    },
+    "ReplayLimits": {
+      "additionalProperties": false,
+      "description": "The reviewed fixed limits cannot silently expand in a retry.",
+      "properties": {
+        "workers": {
+          "const": 1,
+          "default": 1,
+          "title": "Workers",
+          "type": "integer"
+        },
+        "cpu_threads": {
+          "const": 2,
+          "default": 2,
+          "title": "Cpu Threads",
+          "type": "integer"
+        },
+        "max_seconds": {
+          "const": 1800,
+          "default": 1800,
+          "title": "Max Seconds",
+          "type": "integer"
+        },
+        "max_rss_bytes": {
+          "const": 4294967296,
+          "default": 4294967296,
+          "title": "Max Rss Bytes",
+          "type": "integer"
+        },
+        "max_output_bytes": {
+          "const": 2147483648,
+          "default": 2147483648,
+          "title": "Max Output Bytes",
+          "type": "integer"
+        },
+        "min_free_bytes": {
+          "const": 8589934592,
+          "default": 8589934592,
+          "title": "Min Free Bytes",
+          "type": "integer"
+        },
+        "max_swap_growth_bytes": {
+          "const": 0,
+          "default": 0,
+          "title": "Max Swap Growth Bytes",
+          "type": "integer"
+        },
+        "sample_seconds": {
+          "default": 0.1,
+          "maximum": 0.1,
+          "minimum": 0.1,
+          "title": "Sample Seconds",
+          "type": "number"
+        },
+        "disk_sample_seconds": {
+          "default": 1.0,
+          "maximum": 1.0,
+          "minimum": 1.0,
+          "title": "Disk Sample Seconds",
+          "type": "number"
+        },
+        "termination_grace_seconds": {
+          "default": 15.0,
+          "maximum": 15.0,
+          "minimum": 15.0,
+          "title": "Termination Grace Seconds",
+          "type": "number"
+        }
+      },
+      "title": "ReplayLimits",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One explicit source-free consumer run, with no input or output defaults.",
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.response_reference_run_spec.v6",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "task_stage": {
+      "const": "05g",
+      "title": "Task Stage",
+      "type": "string"
+    },
+    "policy": {
+      "enum": [
+        "accepted_05f_rules_with_verified_final_f1_substitution",
+        "accepted_05f_rules_with_general_inner_references_v1",
+        "accepted_05f_rules_with_inner_and_header_qualification_v1"
+      ],
+      "title": "Policy",
+      "type": "string"
+    },
+    "prior_replay": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PriorReplayBinding"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "binding_freeze": {
+      "title": "Binding Freeze",
+      "type": "string"
+    },
+    "population_freeze": {
+      "title": "Population Freeze",
+      "type": "string"
+    },
+    "inputs": {
+      "$ref": "#/$defs/ReplayInputBindings"
+    },
+    "repository_bindings": {
+      "items": {
+        "$ref": "#/$defs/FileBinding"
+      },
+      "title": "Repository Bindings",
+      "type": "array"
+    },
+    "output_relative_root": {
+      "const": "pipelines/brisbane_baylands/task_05_response_inventory/working/05g",
+      "title": "Output Relative Root",
+      "type": "string"
+    },
+    "authorization": {
+      "$ref": "#/$defs/ReplayAuthorization"
+    },
+    "limits": {
+      "$ref": "#/$defs/ReplayLimits"
+    },
+    "source_pdf_access": {
+      "const": false,
+      "title": "Source Pdf Access",
+      "type": "boolean"
+    },
+    "model_access": {
+      "const": false,
+      "title": "Model Access",
+      "type": "boolean"
+    },
+    "hash_large_upstream_payloads": {
+      "const": false,
+      "title": "Hash Large Upstream Payloads",
+      "type": "boolean"
+    },
+    "task05h_execution_authorized": {
+      "const": false,
+      "title": "Task05H Execution Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "task_stage",
+    "policy",
+    "binding_freeze",
+    "population_freeze",
+    "inputs",
+    "repository_bindings",
+    "output_relative_root",
+    "authorization",
+    "limits",
+    "source_pdf_access",
+    "model_access",
+    "hash_large_upstream_payloads",
+    "task05h_execution_authorized"
+  ],
+  "title": "ReferenceReplaySpec",
+  "type": "object"
+}

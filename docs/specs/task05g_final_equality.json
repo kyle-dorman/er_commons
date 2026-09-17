@@ -1,0 +1,47 @@
+{
+  "status": "passed_exact_semantic_equality",
+  "baseline_candidate_id": "replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0",
+  "candidate_id": "replayv1-2f17f8c6c701e0811e6a4674b155d688b95e86521d83e53bafd86c722e54abb3",
+  "checks": {
+    "outcomes/reference_outcomes.jsonl": {
+      "rows": 511,
+      "equal": true,
+      "ignored_identity_fields": [
+        "link_id",
+        "outcome_id"
+      ]
+    },
+    "links/draft_eir_links.jsonl": {
+      "rows": 468,
+      "equal": true,
+      "ignored_identity_fields": [
+        "activity_id",
+        "link_id"
+      ]
+    },
+    "diagnostics/individual_diagnostics.jsonl": {
+      "rows": 43,
+      "equal": true,
+      "ignored_identity_fields": [
+        "activity_id",
+        "diagnostic_id"
+      ]
+    }
+  },
+  "census": {
+    "explicit_nonlinks": 43,
+    "links": 468,
+    "terminal_reasons": {
+      "appendix_q_verification_required": 2,
+      "appendix_source_route_absent": 2,
+      "comment_authored_reference_no_official_response_link": 11,
+      "exact_figure_target_absent": 1,
+      "exact_target_absent": 19,
+      "exact_target_collision": 3,
+      "more_specific_appendix_target_requires_resolution": 5
+    },
+    "total": 511
+  },
+  "source_warning_and_annotation_changes": 0,
+  "authorization_condition_satisfied": true
+}

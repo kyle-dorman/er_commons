@@ -24,6 +24,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     arguments = parser.parse_args(argv)
     repository_root = Path(__file__).resolve().parents[3]
 
+    if arguments.command.endswith("-05g") or (
+        arguments.command in {"validate-spec", "build"} and _is_reference_replay(arguments.run_spec)
+    ):
+        return _dispatch_05g(arguments, parser, repository_root)
+
     if arguments.command == "validate-spec":
         return _validate_spec(arguments.run_spec, repository_root)
     artifact_root = _artifact_root(parser)
@@ -75,6 +80,9 @@ def _build_parser() -> argparse.ArgumentParser:
     review_parser.add_argument("--render-root", required=True, type=Path)
     review_parser.add_argument("--output-root", required=True, type=Path)
     review_parser.add_argument("--served-root", required=True, type=Path)
+    _add_05g_parsers(subparsers)
+    build_parser.add_argument("--attempt", type=int, default=1)
+    build_parser.add_argument("--resume-from", type=int)
     return parser
 
 
@@ -274,6 +282,87 @@ def _load_review_dispositions(
     elif not all(isinstance(value, str) for value in dispositions.values()):
         parser.error("05C review dispositions must map pages to status strings")
     return dispositions
+
+
+def _is_reference_replay(path: Path) -> bool:
+    """Select v6 without changing the accepted historical run-spec reader."""
+    from er_commons.response_inventory.reference_replay_spec import is_replay_spec
+
+    return is_replay_spec(path)
+
+
+def _add_05g_parsers(subparsers: Any) -> None:
+    """Expose separate source-free preparation, comparison and publication gates."""
+    for name in ("prepare", "compare", "validate", "finalize", "accept"):
+        command = subparsers.add_parser(f"{name}-05g")
+        command.add_argument("--run-spec", type=Path, required=True)
+        command.add_argument("--attempt", type=int, default=1)
+        command.add_argument("--resume-from", type=int)
+        if name in {"finalize", "accept"}:
+            command.add_argument("--review-record", type=Path, required=True)
+        if name == "finalize":
+            command.add_argument("--quality-report", type=Path, required=True)
+        if name == "accept":
+            command.add_argument("--candidate-root", type=Path, required=True)
+            command.add_argument("--accepted-by", required=True)
+            command.add_argument("--accepted-at", required=True)
+
+
+def _dispatch_05g(
+    args: argparse.Namespace, parser: argparse.ArgumentParser, repository_root: Path
+) -> int:
+    """Keep new consumer roles out of all historical parser and writer recipes."""
+    from er_commons.response_inventory.reference_replay_spec import load_replay_spec
+    from er_commons.response_inventory.reference_replay_workflow import (
+        open_run,
+    )
+
+    if args.command == "validate-spec":
+        _, digest = load_replay_spec(args.run_spec, repository_root)
+        print(json.dumps({"status": "valid", "task_stage": "05g", "behavior_sha256": digest}))
+        return 0
+    if getattr(args, "review_dispositions", None) is not None:
+        parser.error("Task 05G does not accept --review-dispositions")
+    run = open_run(
+        args.run_spec,
+        repository_root,
+        _artifact_root(parser),
+        attempt=args.attempt,
+        resume_from=args.resume_from,
+    )
+    if args.command == "finalize-05g":
+        from er_commons.response_inventory.reference_replay_acceptance import finalize_replay
+
+        result = finalize_replay(run, args.quality_report, args.review_record)
+    elif args.command == "accept-05g":
+        from er_commons.response_inventory.reference_replay_acceptance import accept_replay
+
+        result = accept_replay(
+            run,
+            args.candidate_root,
+            args.review_record,
+            accepted_by=args.accepted_by,
+            accepted_at=args.accepted_at,
+        )
+    else:
+        from er_commons.response_inventory.reference_replay_launch import launch_replay
+
+        operation = {
+            "prepare-05g": "prepare",
+            "build": "build",
+            "compare-05g": "compare",
+            "validate-05g": "validate",
+        }[args.command]
+        result = launch_replay(
+            args.run_spec,
+            repository_root,
+            run.artifact_root,
+            attempt=run.attempt,
+            resume_from=run.resume_from,
+            operation=operation,
+        )
+    print(json.dumps(result, sort_keys=True))
+    return 1 if result.get("status") == "failed" else 0
 
 
 if __name__ == "__main__":

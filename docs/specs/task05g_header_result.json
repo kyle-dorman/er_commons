@@ -1,0 +1,255 @@
+{
+  "status": "working_candidate_header_trial_complete_not_accepted",
+  "candidate_id": "replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0",
+  "candidate_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/candidates/replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007",
+  "behavior_sha256": "44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0",
+  "checkpoint_seals": {
+    "prepared_root": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/plans/44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/completion.json",
+      "sha256": "9f476c35e547adefee08108d8eba3dfc77ec53371086268ae1e49091c9e48921",
+      "size_bytes": 5264
+    },
+    "resolved_root": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/attempts/44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/resolved/completion.json",
+      "sha256": "faf82974050d5072d2375eae5e2d6a5ffd180c68675a292c4ce071abeb0fe126",
+      "size_bytes": 6225
+    },
+    "candidate_root": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/candidates/replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/completion.json",
+      "sha256": "046def5854196ad5a9d65ae4611f3abe66e18136b212de98e16fe1eaacf9b2c9",
+      "size_bytes": 6226
+    },
+    "comparison_root": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/comparisons/replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/completion.json",
+      "sha256": "bbb4fab7a51970aabc361c366839e530b7ddf9db40c60d938ed4d44eea834340",
+      "size_bytes": 5396
+    }
+  },
+  "comparison_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/comparisons/replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007",
+  "comparisons": {
+    "comparison.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/comparisons/replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/comparison.json",
+      "sha256": "3c45c9f5b8b4be5cff2d41b9aa99bb666abb24ddef30a371bd9bbb7d2032d76f",
+      "size_bytes": 5968806
+    },
+    "rule_cycle_comparison.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/comparisons/replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/rule_cycle_comparison.json",
+      "sha256": "19d80a86a7e29f6e2b600e106bcb68ccc7f484f440eebb8af336badce18a5e87",
+      "size_bytes": 615100
+    }
+  },
+  "checkpoint_snapshot": {
+    "prepared_root": {
+      "prepared_inputs.json": {
+        "sha256": "d67713cfb24f7484201a2457f2a63816c519f884ad8b0ef28c035fba5a6fbc9a",
+        "mtime_ns": 1789674776090599498
+      },
+      "completion.json": {
+        "sha256": "9f476c35e547adefee08108d8eba3dfc77ec53371086268ae1e49091c9e48921",
+        "mtime_ns": 1789674776091633431
+      }
+    },
+    "resolved_root": {
+      "completion.json": {
+        "sha256": "faf82974050d5072d2375eae5e2d6a5ffd180c68675a292c4ce071abeb0fe126",
+        "mtime_ns": 1789674778222552814
+      },
+      "records/dependencies.json": {
+        "sha256": "4b41474987cc257a5f12fbcd4c0bbe69923d7dfcb137ab95ca4401757fa083da",
+        "mtime_ns": 1789674778219769145
+      },
+      "records/activity.json": {
+        "sha256": "0ddceb4b52edd70acd1101d5d5bd07f981d72a298d0ddea50e3c6cd189464ae4",
+        "mtime_ns": 1789674778219461015
+      },
+      "outcomes/reference_outcomes.jsonl": {
+        "sha256": "e5b644fdb21eea4e9d6275fd9a13adfe366ffd2704e7f43ed927a0b7fb0f6090",
+        "mtime_ns": 1789674778212562615
+      },
+      "links/draft_eir_links.jsonl": {
+        "sha256": "5b82afd2e2f77d10ba235555f4f40108ccf8522391de574621228e73350e8513",
+        "mtime_ns": 1789674778207240990
+      },
+      "diagnostics/individual_diagnostics.jsonl": {
+        "sha256": "dc4c01215398c58ccdd1fb9b3ee12f0e0adb347be0c96a1ebee1ae579de7e4ac",
+        "mtime_ns": 1789674778204592781
+      },
+      "diagnostics/rule_census.json": {
+        "sha256": "be15c3ec44b8e1c2fa60331ee1a49c07d68a6cc0eaa8832295ac86bd8b508bba",
+        "mtime_ns": 1789674778205587505
+      },
+      "indexes/mention_to_link.jsonl": {
+        "sha256": "11f3380cb01c4f7a71ca12b7d8175936129684821f2f7b3e7b97ec6fc35dcaa2",
+        "mtime_ns": 1789674778206240224
+      },
+      "indexes/target_to_links.jsonl": {
+        "sha256": "087fef83ea0892af748adbe10a2e0c8adef0d1e619bf2a4c9cd8ce0eaa999361",
+        "mtime_ns": 1789674778206669064
+      }
+    },
+    "candidate_root": {
+      "completion.json": {
+        "sha256": "046def5854196ad5a9d65ae4611f3abe66e18136b212de98e16fe1eaacf9b2c9",
+        "mtime_ns": 1789674778727604621
+      },
+      "records/dependencies.json": {
+        "sha256": "4b41474987cc257a5f12fbcd4c0bbe69923d7dfcb137ab95ca4401757fa083da",
+        "mtime_ns": 1789674778724387570
+      },
+      "records/activity.json": {
+        "sha256": "0ddceb4b52edd70acd1101d5d5bd07f981d72a298d0ddea50e3c6cd189464ae4",
+        "mtime_ns": 1789674778724080982
+      },
+      "outcomes/reference_outcomes.jsonl": {
+        "sha256": "e5b644fdb21eea4e9d6275fd9a13adfe366ffd2704e7f43ed927a0b7fb0f6090",
+        "mtime_ns": 1789674778716997579
+      },
+      "links/draft_eir_links.jsonl": {
+        "sha256": "5b82afd2e2f77d10ba235555f4f40108ccf8522391de574621228e73350e8513",
+        "mtime_ns": 1789674778711215696
+      },
+      "diagnostics/individual_diagnostics.jsonl": {
+        "sha256": "dc4c01215398c58ccdd1fb9b3ee12f0e0adb347be0c96a1ebee1ae579de7e4ac",
+        "mtime_ns": 1789674778707893519
+      },
+      "diagnostics/rule_census.json": {
+        "sha256": "be15c3ec44b8e1c2fa60331ee1a49c07d68a6cc0eaa8832295ac86bd8b508bba",
+        "mtime_ns": 1789674778709034537
+      },
+      "indexes/mention_to_link.jsonl": {
+        "sha256": "11f3380cb01c4f7a71ca12b7d8175936129684821f2f7b3e7b97ec6fc35dcaa2",
+        "mtime_ns": 1789674778710240306
+      },
+      "indexes/target_to_links.jsonl": {
+        "sha256": "087fef83ea0892af748adbe10a2e0c8adef0d1e619bf2a4c9cd8ce0eaa999361",
+        "mtime_ns": 1789674778710630521
+      }
+    },
+    "comparison_root": {
+      "comparison.json": {
+        "sha256": "3c45c9f5b8b4be5cff2d41b9aa99bb666abb24ddef30a371bd9bbb7d2032d76f",
+        "mtime_ns": 1789674780963815700
+      },
+      "rule_cycle_comparison.json": {
+        "sha256": "19d80a86a7e29f6e2b600e106bcb68ccc7f484f440eebb8af336badce18a5e87",
+        "mtime_ns": 1789674780975665094
+      },
+      "completion.json": {
+        "sha256": "bbb4fab7a51970aabc361c366839e530b7ddf9db40c60d938ed4d44eea834340",
+        "mtime_ns": 1789674780978225135
+      }
+    }
+  },
+  "repeat_checkpoint_bytes_and_mtimes_unchanged": true,
+  "executions": [
+    {
+      "attempt": 7,
+      "receipt": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g_execution_attempts/44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/execution.json",
+        "sha256": "53248389a168fcb5a61290879eaf36b888108538ee7988fe777c607b090c3b4c",
+        "size_bytes": 1826
+      },
+      "launch_packet": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/plans/44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/launch-attempt-007.json",
+        "sha256": "a9a91fa06ec979eaca2af9d1746fad58df7cf55e8b89f4f16e5e9a43ad7923f9",
+        "size_bytes": 26226
+      },
+      "status": "succeeded",
+      "returncode": 0,
+      "elapsed_seconds": 6.915008875075728,
+      "peak_rss_bytes": 719585280,
+      "peak_swap_growth_bytes": 0,
+      "peak_output_bytes": 102370733
+    },
+    {
+      "attempt": 8,
+      "receipt": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g_execution_attempts/44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-008/execution.json",
+        "sha256": "4ddcdfc89cbec7f60d948d4f0f8461f5addce6cbdedf1de9f6da46aa10673baf",
+        "size_bytes": 1857
+      },
+      "launch_packet": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/plans/44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/launch-attempt-008.json",
+        "sha256": "2922568faf5d3352970ba0fde78d8134838de32acc242adb1af1e57b3ea92408",
+        "size_bytes": 26280
+      },
+      "status": "succeeded",
+      "returncode": 0,
+      "elapsed_seconds": 5.5783742079511285,
+      "peak_rss_bytes": 701693952,
+      "peak_swap_growth_bytes": 0,
+      "peak_output_bytes": 102397043
+    }
+  ],
+  "finalization_published": false,
+  "acceptance_published": false,
+  "task05h_executed": false,
+  "comparison_summary": {
+    "baseline_counts": {
+      "explicit_nonlinks": 216,
+      "links": 295,
+      "total": 511
+    },
+    "census": {
+      "explicit_nonlinks": 43,
+      "links": 468,
+      "total": 511
+    },
+    "classifications": {
+      "accepted_figure_target_availability": 78,
+      "accepted_source_substitution": 61,
+      "accepted_structural_repair": 19,
+      "approved_general_inner_reference": 8,
+      "approved_header_qualification": 9,
+      "namespace_only": 306,
+      "review_annotation": 30
+    },
+    "link_gains": 173,
+    "link_losses": 0,
+    "residual_census": {
+      "appendix_q_verification_required": 2,
+      "appendix_source_route_absent": 2,
+      "comment_authored_reference_no_official_response_link": 11,
+      "exact_figure_target_absent": 1,
+      "exact_target_absent": 19,
+      "exact_target_collision": 3,
+      "more_specific_appendix_target_requires_resolution": 5
+    },
+    "schema_version": "er_commons.task05g.comparison.v1"
+  },
+  "rule_cycle_summary": {
+    "allowed_change_mentions": [
+      "mentionv1-099260e387f0746c314f5ab28c3507ea7ea349dbd95ba1ff7b24f66ada6f8777",
+      "mentionv1-3879d6e5f9f16e7d4870b7ae1eb5202617d23cabad6f5722efb13f4e3d7754da",
+      "mentionv1-47e71982aad5424886cc716fada59eafdf943ad4d983354f9ca25e586b7717ef",
+      "mentionv1-4f686a58871a36594cc6e9ab16a4a6d9df40776de9402ec97ad6355a606840c1",
+      "mentionv1-7084e142e4207c839f1d943588f4e3083a87cc88e894ce9b0c044e37dc701a69",
+      "mentionv1-c8a12410e2abd97dd8d0a42c00a90b59f1c369d7494c8ce3fa456f4245fbbaad",
+      "mentionv1-cb205aa486cfc09b48b2ea2d1eb16bff27980d96d2f27fdf958815df26cd7d1a",
+      "mentionv1-e13d2247d89a6d178775308ce15d74259f3c34f801f645cfe1f84ca5f2198769",
+      "mentionv1-e80dbcc0f9063ef37237f9fcbfbb13b37fa49e43e4319579d7828e73240c4887"
+    ],
+    "changed_count": 9,
+    "link_gains": 9,
+    "link_losses": 0,
+    "schema_version": "er_commons.task05g.rule_cycle_comparison.v1",
+    "total": 511,
+    "unchanged_outside_scope": 502
+  },
+  "prior_replay": {
+    "candidate_root": "pipelines/brisbane_baylands/task_05_response_inventory/working/05g/candidates/replayv1-abb4b6df8f79537dabe3fad564b165d87cd6c249d2dcb498070d20e88936e6bb/attempt-005",
+    "completion_sha256": "63ab85d21c2b22af231d37d231f17a6bffd12c7f72cde2a33937c70fe0f6763c",
+    "allowed_change_mentions": [
+      "mentionv1-099260e387f0746c314f5ab28c3507ea7ea349dbd95ba1ff7b24f66ada6f8777",
+      "mentionv1-3879d6e5f9f16e7d4870b7ae1eb5202617d23cabad6f5722efb13f4e3d7754da",
+      "mentionv1-47e71982aad5424886cc716fada59eafdf943ad4d983354f9ca25e586b7717ef",
+      "mentionv1-4f686a58871a36594cc6e9ab16a4a6d9df40776de9402ec97ad6355a606840c1",
+      "mentionv1-7084e142e4207c839f1d943588f4e3083a87cc88e894ce9b0c044e37dc701a69",
+      "mentionv1-c8a12410e2abd97dd8d0a42c00a90b59f1c369d7494c8ce3fa456f4245fbbaad",
+      "mentionv1-cb205aa486cfc09b48b2ea2d1eb16bff27980d96d2f27fdf958815df26cd7d1a",
+      "mentionv1-e13d2247d89a6d178775308ce15d74259f3c34f801f645cfe1f84ca5f2198769",
+      "mentionv1-e80dbcc0f9063ef37237f9fcbfbb13b37fa49e43e4319579d7828e73240c4887"
+    ]
+  },
+  "cumulative_output_bytes": 102373277
+}

@@ -1,0 +1,291 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "outcome_id",
+    "mention_id",
+    "mention_span_id",
+    "source_unit_id",
+    "raw_text_sha256",
+    "raw_target_label",
+    "resolver_rule",
+    "coverage_boundary",
+    "qualifier",
+    "projected_target",
+    "canonical_target",
+    "requested_target_type",
+    "terminal_reason",
+    "link_id",
+    "logical_source_ids",
+    "routed_source_ids",
+    "global_candidate_target_ids",
+    "source_candidate_target_ids",
+    "compatible_target_ids",
+    "source_usability",
+    "source_kind",
+    "reference_domain",
+    "outcome",
+    "target_annotations",
+    "final_f1_warning",
+    "input_refs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.task05g.reference_outcome.v1"
+    },
+    "outcome_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mention_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mention_span_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_unit_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "raw_text_sha256": {
+      "type": "string",
+      "minLength": 1
+    },
+    "raw_target_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resolver_rule": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coverage_boundary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "qualifier": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "projected_target": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "canonical_target": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "requested_target_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "terminal_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "link_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "logical_source_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "routed_source_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "global_candidate_target_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "source_candidate_target_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "compatible_target_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "source_usability": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "source_kind": {
+      "enum": [
+        "response",
+        "general_response",
+        "comment"
+      ]
+    },
+    "reference_domain": {
+      "enum": [
+        "draft_eir",
+        "appendix_q"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "resolved",
+        "terminal_nonlink"
+      ]
+    },
+    "target_annotations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "target_id",
+          "source_id",
+          "target_type",
+          "source_usability",
+          "target_limitation",
+          "fresh_review_status",
+          "text_only_model_eligibility"
+        ],
+        "properties": {
+          "target_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_usability": {
+            "type": "object"
+          },
+          "target_limitation": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "fresh_review_status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text_only_model_eligibility": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "final_f1_warning": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "binding",
+        "response_specific",
+        "draft_final_equivalence_proven"
+      ],
+      "properties": {
+        "binding": {
+          "type": "object"
+        },
+        "response_specific": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "draft_final_equivalence_proven": {
+          "const": false
+        }
+      }
+    },
+    "input_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "identity",
+          "authority",
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "minItems": 12,
+      "maxItems": 12
+    },
+    "inner_reference_evidence": {
+      "type": "object"
+    },
+    "header_qualification_evidence": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "status": "passed_read_only_equivalence",
+  "historical_candidate_id": "replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0",
+  "historical_checkpoint_seals": {
+    "prepared_root": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/plans/44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/completion.json",
+      "sha256": "9f476c35e547adefee08108d8eba3dfc77ec53371086268ae1e49091c9e48921",
+      "size_bytes": 5264
+    },
+    "resolved_root": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/attempts/44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/resolved/completion.json",
+      "sha256": "faf82974050d5072d2375eae5e2d6a5ffd180c68675a292c4ce071abeb0fe126",
+      "size_bytes": 6225
+    },
+    "candidate_root": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/candidates/replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/completion.json",
+      "sha256": "046def5854196ad5a9d65ae4611f3abe66e18136b212de98e16fe1eaacf9b2c9",
+      "size_bytes": 6226
+    },
+    "comparison_root": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/comparisons/replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/completion.json",
+      "sha256": "bbb4fab7a51970aabc361c366839e530b7ddf9db40c60d938ed4d44eea834340",
+      "size_bytes": 5396
+    }
+  },
+  "current_repository_bindings": [
+    {
+      "path": "benchmarks/er_bench/schemas/response_inventory/v6/records.schema.json",
+      "sha256": "09b74333235ca490c70fc2bda9e0d23706e343aadd74848ff9eb694498bc3f63"
+    },
+    {
+      "path": "benchmarks/er_bench/schemas/response_inventory/v6/reference_outcome.schema.json",
+      "sha256": "6ef3b1fbaf0315e116a0a3ba48b976e2298a9df3850f885a0af18733ce3c1ed0"
+    },
+    {
+      "path": "benchmarks/er_bench/schemas/response_inventory/v6/reference_run_spec.schema.json",
+      "sha256": "4f2f6913d24806a769bd232bbe709287e4d86ef3fe5c185d335475bc260b3075"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "4622a822017ac97dfbd14848c308b7dc49b17b03f0a3c2f88c2f237bfd7239d3"
+    },
+    {
+      "path": "scripts/verify_task05g_refactor.py",
+      "sha256": "5240e63cd8dd2296f6d54c90ab935df22271d758c691e5fa6564fe85ec02fdcf"
+    },
+    {
+      "path": "src/er_commons/artifact_io.py",
+      "sha256": "742def5e35aa9a29f747149a06d77daf44106ddd5ce50c157181e19f6561236f"
+    },
+    {
+      "path": "src/er_commons/document_publication/background_execution.py",
+      "sha256": "f7f1bb25941010ac3bd5194e559cc58c19488e177104242d2289fed1c2c85c78"
+    },
+    {
+      "path": "src/er_commons/document_records/document_references/exact_resolution.py",
+      "sha256": "58904f6a4e50b6b60454107de85dd493691dbd5651f9b6fd7fce4ca5e5cdd030"
+    },
+    {
+      "path": "src/er_commons/document_records/document_references/indexing.py",
+      "sha256": "4cec2b3d222687df5e448416598292d41d639a042e035ec5437ba1167cc8efc2"
+    },
+    {
+      "path": "src/er_commons/document_records/document_references/linking_core.py",
+      "sha256": "30c41ec42132b7bfa0ce1bdc7d41ac4819b1c6230d8ae577d211646b53484dcf"
+    },
+    {
+      "path": "src/er_commons/document_records/document_references/policy.py",
+      "sha256": "5aa068fe75230f84d39d2c66966570f132fab98d7a495fedcdf25c0fdafca2ea"
+    },
+    {
+      "path": "src/er_commons/document_records/document_references/table_aliases.py",
+      "sha256": "489440afe0c14e8eedfc0e7a1cf1b7b486e5efb73ea3b4f5f81510c98b7b590a"
+    },
+    {
+      "path": "src/er_commons/document_records/document_references/types.py",
+      "sha256": "02f049791a3c156779f027b2cdb64e60f255cd8e979eb11ff157aa0cab3cde98"
+    },
+    {
+      "path": "src/er_commons/document_records/document_structure/normalization.py",
+      "sha256": "cf8e2fdb83f0027799da13347c4c9c9cb91592f064e8a8d13eae3f9f55dc6230"
+    },
+    {
+      "path": "src/er_commons/response_inventory/cli.py",
+      "sha256": "4104987785095e171302dfa6cd109183b10918d145dd16bd1b6f20d9e7b2e69b"
+    },
+    {
+      "path": "src/er_commons/response_inventory/code_inventory.py",
+      "sha256": "6c0b8d9a2c3d9970820e19c73a414821dd59304a23269758a248539675e1a19e"
+    },
+    {
+      "path": "src/er_commons/response_inventory/complete_source_policy.py",
+      "sha256": "16b1d936e9cffe8383f3ce2c6706bfa26f53dfaf02365d99b6cca3715fc9327a"
+    },
+    {
+      "path": "src/er_commons/response_inventory/contract.py",
+      "sha256": "eaa845264a76b1a7d166a688c5191c866b0d75949d351c7d67dec9899bc229ed"
+    },
+    {
+      "path": "src/er_commons/response_inventory/pilot_policy.py",
+      "sha256": "4c84a8005ed63a659eadc4a4157a01f902c5719639f9049ca3e96f2ab05c04ce"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_baseline.py",
+      "sha256": "9b1f8eef2e4a570147fa8fe1a0f80aee00fe6d04f9b368897551a3a6b7c1e102"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_acceptance.py",
+      "sha256": "e70667bf2b5a270588f26302c768229f7e89581a3b6f96c5e17082cf0afcc40d"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_comparison.py",
+      "sha256": "0cb7c4816bda21413a7af89d8283ac75058f1b20ccb1b56184599a066414ebad"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_cycle.py",
+      "sha256": "dd9fb16f8f8d55c987ca16a61957f8b6b977a277956ef2682db346c00507972b"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_headers.py",
+      "sha256": "bd9c2c9f1baef809da2bbfa5e9b14e9073fb46d44cb6fd19aca24a2086324617"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_inner.py",
+      "sha256": "17c290ecb29e9699c73681759312c45a70ec2068ab299bd012433a3335ec9e75"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_inputs.py",
+      "sha256": "866b5e8091b4f0ca1108c3b2e1fa0e9fd3411ed232da3a430daeefe46da8d5ba"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_launch.py",
+      "sha256": "29d2dafa3868d98abfa6fbc9fa705c7159e7ab3dcda1f3c98b8124c87550ca0f"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_mechanical.py",
+      "sha256": "737d461e697a966a910386751590b826925d1b8d919ab6dd49a176b760fe167c"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_qualification.py",
+      "sha256": "94be4d45adb38d1d7bb0fc9b3cb32389b65609647a25b59fd8766f8f16e1c1f9"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_resolver.py",
+      "sha256": "c409421c41094ff18eb3dc978cd696f09b9a5d8b201f53afa286ed55e386634b"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_spec.py",
+      "sha256": "7721d7d8d5fb33965e2f51d6047afdb6d2535b3a7f915cb29f73f6ea0f2b1ba8"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_storage.py",
+      "sha256": "e187a47e77f2469119ac1168ec2fe24894303ed1fa29911aa4784b8e14e72efb"
+    },
+    {
+      "path": "src/er_commons/response_inventory/reference_replay_workflow.py",
+      "sha256": "26284fb54babd4416c0fabf3edf11f4ed90e0f1e5242d7dde5f57143f8962b32"
+    },
+    {
+      "path": "src/er_commons/response_inventory/run_spec.py",
+      "sha256": "988075bcc7e369f556f6e62974fb3713d01384b1f4c10cdcf4e195fe109dd44d"
+    },
+    {
+      "path": "src/er_commons/response_inventory/source_structure.py",
+      "sha256": "bd39f050a32a1ab956de2da85c89ba2b6e80a145d3f7034510afb824ef568eb2"
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "6f971f2d27875fb0f3abe2b0051f3adcbd21164ca1a386e9f2a2cc301c88b452"
+    }
+  ],
+  "census": {
+    "total": 511,
+    "links": 468,
+    "explicit_nonlinks": 43,
+    "terminal_reasons": {
+      "appendix_q_verification_required": 2,
+      "appendix_source_route_absent": 2,
+      "comment_authored_reference_no_official_response_link": 11,
+      "exact_figure_target_absent": 1,
+      "exact_target_absent": 19,
+      "exact_target_collision": 3,
+      "more_specific_appendix_target_requires_resolution": 5
+    }
+  },
+  "byte_equal_result_files": [
+    "outcomes/reference_outcomes.jsonl",
+    "links/draft_eir_links.jsonl",
+    "diagnostics/individual_diagnostics.jsonl",
+    "indexes/mention_to_link.jsonl",
+    "indexes/target_to_links.jsonl",
+    "diagnostics/rule_census.json",
+    "comparison.json"
+  ],
+  "candidate_published": false,
+  "acceptance_published": false,
+  "source_pdf_accessed": false,
+  "model_accessed": false,
+  "historical_checkpoint_bytes_and_mtimes_unchanged": true,
+  "supervisor_receipt": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g_quality_attempts/attempt-002/execution.json",
+    "sha256": "f80598487943877d4386b90e68813dcc783c2bb2157899c44f6ea336739c02c8",
+    "status": "succeeded",
+    "elapsed_seconds": 2.8683668749872595,
+    "peak_rss_bytes": 695009280,
+    "peak_swap_growth_bytes": 0,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "status": "diagnosis_only_no_repair",
+  "candidate_id": "replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0",
+  "candidate_completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05g/candidates/replayv1-44763b4cce241c7b07562f5b7f7f18da8ea01f87385420dbacdca69b9690f3c0/attempt-007/completion.json",
+    "sha256": "046def5854196ad5a9d65ae4611f3abe66e18136b212de98e16fe1eaacf9b2c9",
+    "size_bytes": 6226
+  },
+  "count": 2,
+  "mentions": [
+    {
+      "mention_id": "mentionv1-a91c2f94b78eb9e9547c5ce41d09407da8098cc6d8ac893d51eef6da1d4c53e0",
+      "response": "Response M-CSSC-135",
+      "raw_target_label": "Draft EIR \r\nAppendix F",
+      "physical_page": 261,
+      "source_unit_id": "unitv1-2ec658e681bd744e97d57f8a5a6d465794e894b583ca9cd9a13600abe8ad75b9",
+      "mention_span_id": "spanv1-ddf59e3f17b9bbe98a00f748498bfbc67f858e50d388696604d69d24dd818bb0",
+      "original_f1_reconciliation_member": false,
+      "current_final_f1_warning": null
+    },
+    {
+      "mention_id": "mentionv1-be411a62b48eb03f967167534dcec3d9bd9acc208955d91fa7ac51b7d862230d",
+      "response": "Response M-CSSC-32",
+      "raw_target_label": "Draft EIR Appendix F",
+      "physical_page": 215,
+      "source_unit_id": "unitv1-0c4752924a33197c1f123f74919d5e07b6fece2b5d0c290790a22d6ebfea9161",
+      "mention_span_id": "spanv1-f8e4bc7ed989d55830b524a45709b19dc752207631b1e8500b33f0aa286f8e03",
+      "original_f1_reconciliation_member": false,
+      "current_final_f1_warning": null
+    }
+  ],
+  "input_refs": [
+    {
+      "authority": "artifact_root",
+      "identity": "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/records/stage_completion.json",
+      "role": "task05d_completion",
+      "sha256": "c9bf783ba2a0658e7e5cedcdf6dd80d3f14667e039a1fc022cc219c1484386db"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "completionv1-867b3e6f9d9cc1e2666cb184523590c2fd02154347ea9787144e61bb43851555",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05e/revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1/records/stage_completion.json",
+      "role": "task05e_completion",
+      "sha256": "37b385a974db217622b8bef08d21e8415e48ec5070c13676d2186f6f057cf979"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "rulesv1-9e67959aefc07f9ffd65605ad9d886a53022dcaccc5c9c8bed1494c41b4c0a83",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05f/rulesv1-9e67959aefc07f9ffd65605ad9d886a53022dcaccc5c9c8bed1494c41b4c0a83/records/rule_receipt.json",
+      "role": "task05f_baseline",
+      "sha256": "5088c82be0530ad02992f9fcd40fc5874864f5dbcce0468a51297fbf61331fc7"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1",
+      "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06h/acceptances/acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1/records/acceptance.json",
+      "role": "task06h_acceptance",
+      "sha256": "62083c58e04691f9566a9fe8cccd8f047fa139efa7ee18f83a5ad41fab43eccf"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "handoffv1-9ce5d7c8b5f328ae714605709f344e66ace60e09ac1bfd9b5d6f8a57cedf442f",
+      "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06h/reviewfinalv1-166c681736c334388bf7161af94a416ebe4030fb40eec418bdbd704a380d62e1/records/task05g_handoff.json",
+      "role": "task06h_handoff",
+      "sha256": "98179492648821c3446c6266e76cc11549837072cfea37708918569ed34d6a5e"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "registryv1-a1754bf3e539bd3f1fe2bb1ed102243b00bd972fc37bf1bcc81c13e684c39f5c",
+      "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06h/reviewfinalv1-166c681736c334388bf7161af94a416ebe4030fb40eec418bdbd704a380d62e1/records/usability_registry.json",
+      "role": "task06h_registry",
+      "sha256": "741e77d87ee4f300f92ed78e421a8de26ff740e13e534eb4cd4b28762263d350"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "tocmergev1-3374f49f829bbf5c9bccfedf6e3980ac12393728ecd39e2158746e1fbcd4ff38",
+      "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06h/reviewfinalv1-166c681736c334388bf7161af94a416ebe4030fb40eec418bdbd704a380d62e1/records/toc_review_decisions.json",
+      "role": "task06h_toc_merge",
+      "sha256": "913815ca5dc25018de3962137fc8a64279f2ed65b90a6161985bd49e9bffdfdc"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "targetlimitationsv1-da1e3a7397e582d215c232c12be681dc84ded1d35fcb76063eeba61649fa7d16",
+      "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06h/reviewfinalv1-166c681736c334388bf7161af94a416ebe4030fb40eec418bdbd704a380d62e1/records/target_review_limitations.json",
+      "role": "task06h_target_limitations",
+      "sha256": "cb3b7cdf266abaecd1d1c6b7d31379b249a7c3ec8693d7e8d907360bcdf07df4"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "handoffv1-3603a7974be9b9dc7471dfd9a64e27468a2bdc67d44cef4944b8c24a5d60f8b9",
+      "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/document_publications/scopes/scopev1-c9966bf1fbf87a88f8b8094806ab578f37fc646f3b22f5c552e8623e0b509be7/handoffs/handoffv1-3603a7974be9b9dc7471dfd9a64e27468a2bdc67d44cef4944b8c24a5d60f8b9/records/completion_record.json",
+      "role": "task06g_handoff",
+      "sha256": "aceb25700dc329ad0d3a1949202fdb027e3502833f5c45278654ae9ed53b2bca"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "idxv1-56350e0078ec7cd1483f94ee6803bbc5c3299aa2de74df8bf3eed3ba5a3e6755",
+      "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/document_publications/scopes/scopev1-c9966bf1fbf87a88f8b8094806ab578f37fc646f3b22f5c552e8623e0b509be7/target_indexes/idxv1-56350e0078ec7cd1483f94ee6803bbc5c3299aa2de74df8bf3eed3ba5a3e6755/records/completion_record.json",
+      "role": "task06g_target_index",
+      "sha256": "4310187db6e8dd15ccf9ac66ee1486377cf09d566fbe25b73e49f4f131fed638"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "er_commons.task06g.correspondence_completion.v1",
+      "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/correspondence_v1/completion.json",
+      "role": "task06g_source_correspondence",
+      "sha256": "57aeec4ebf63f996f13e392df8643899c6103c6a9673b5b96c480ed08965f9ed"
+    },
+    {
+      "authority": "artifact_root",
+      "identity": "source_family_catalog",
+      "path": "pipelines/brisbane_baylands/task_06_recovery_v1/06g/replay_v38/inputs/task06g_source_family_catalog_v1.json",
+      "role": "source_family_catalog",
+      "sha256": "e6d1e631a42260545a8dc0eabb32dddd4e99b8b5472fd3de2f681ff23ee39b56"
+    }
+  ],
+  "selected_f1_target_candidates": [
+    {
+      "section_suffix": "sec000634",
+      "heading_suffix": "blk005426",
+      "physical_page": 682,
+      "title": "Appendix F: Bayshore Mobility Study"
+    },
+    {
+      "section_suffix": "sec000436",
+      "heading_suffix": "blk003943",
+      "physical_page": 501,
+      "title": "Appendix C.4. TDM Effectiveness Calculations",
+      "competing_bullet_heading": {
+        "section_suffix": "sec000429",
+        "heading_suffix": "blk003879",
+        "physical_page": 489,
+        "is_toc_row": false
+      }
+    }
+  ]
+}

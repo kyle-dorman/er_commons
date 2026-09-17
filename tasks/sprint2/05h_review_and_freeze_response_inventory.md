@@ -1,6 +1,6 @@
 # Task 05H: Review and Freeze the Response Inventory
 
-Status: **provisional; inactive until Task 05G is accepted**.
+Status: **provisional; Task 05G is accepted, awaiting separate planning authorization**.
 
 ## Abstract
 
@@ -15,6 +15,12 @@ source evidence, machine derivation, human correction, and downstream semantic
 screening distinct.
 
 ## Inputs
+
+Task 05G is accepted as `acceptance05gv1-d7270d3b39b2a0de220268497ff16dc85b6406f211135f59fa3813952f072cbd` with 468 links and 43 explicit nonlinks.
+Its [final result](../../docs/specs/task05g_final_result.json) binds the acceptance
+pointer and sealed `task05h_handoff.json`. Revise this provisional contract from
+that handoff before execution; Task 05H is not yet authorized. Preserve all F1,
+sampled-review and figure text-only limitations.
 
 - Accepted Task 05D source-unit candidate.
 - Accepted Task 05E intra-Volume graph and review views.

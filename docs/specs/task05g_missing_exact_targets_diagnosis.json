@@ -1,0 +1,191 @@
+{
+  "status": "diagnosis_only_no_repair",
+  "candidate_id": "replayv1-463a13c8e7314cd534001f3f099078686198eecb1250c60900b532e7ab74a9a1",
+  "count": 19,
+  "label_counts": {
+    "section 2.7.2": 1,
+    "section 4.8.7a": 2,
+    "table 4.5-2": 2,
+    "table 4.5-2a": 10,
+    "table 4.5-2g": 3,
+    "table 9.9-11": 1
+  },
+  "mentions": [
+    {
+      "mention_id": "mentionv1-6737b793892086c195644535f0206b751ef9766a48eade529baf12deb854a5aa",
+      "source_unit_id": "unitv1-453af5a866b63a7008ac62e91f2d394212457f96ce26c0316ad76a4f49e94e1a",
+      "mention_span_id": "spanv1-d4e4e8f4773b0eef3f47cd708b9b0a196e4d36b180320f71f9c6a5d1074fdb5a",
+      "canonical_target": "section 2.7.2",
+      "official_label": "Response M-OSEC-357",
+      "physical_page": 493,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-596f0d78d2ceed527519058cc46472536cb7ab9c4afa05127a57075fbb9a0e4c",
+      "source_unit_id": "unitv1-dbb92da067653d9d83c7891c08e86959e7b4e4e2d1e35a80f80441cdb0d5f368",
+      "mention_span_id": "spanv1-3a674ff9c2b06521cb7ac188fbe5f3d699366de721e66c758d8a8d9abfc120fe",
+      "canonical_target": "section 4.8.7a",
+      "official_label": "Response M-OSEC-152",
+      "physical_page": 383,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-748d617c7db3468a30d82f99f7e6f84ef1ef050af64444af713bd84e3629bc99",
+      "source_unit_id": "unitv1-8a969b75cb26a5246c6f0de5702f76e919bdf6a495341764a031209f82a26394",
+      "mention_span_id": "spanv1-e993e91d876facaab6063c6337d9ac16297499b3b4f6d1478a990cc46d9a2ed4",
+      "canonical_target": "section 4.8.7a",
+      "official_label": "GENERAL RESPONSE 3",
+      "physical_page": 44,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-2105e62e5c05e57667213e9c26f8de6f22fe5fa016f8e5c08b59e3c0dbf532af",
+      "source_unit_id": "unitv1-61d23e4d65ce5415c142f37c37187078bb1bb5821318a1d2a903e368786845ca",
+      "mention_span_id": "spanv1-c3cdc44122fb556141a9c3ba3c39e2c98bb34872a0478b0e59ba0b886b5a8a26",
+      "canonical_target": "table 4.5-2",
+      "official_label": "Response SA-Caltrans-24",
+      "physical_page": 96,
+      "scope": "unsuffixed family"
+    },
+    {
+      "mention_id": "mentionv1-b2096a8db6af03a922b5ac81acadf0a1353b9f7df58c60bd359da082aec9f27e",
+      "source_unit_id": "unitv1-91e0fc23e645aebcd014616bbdf973bf911e4a0589dee4dfb9671fcbcfb38c0b",
+      "mention_span_id": "spanv1-245b8288cc91d4148037ec8ca39f0ab849fe723e4fdc1f63607ad15bc6214d5b",
+      "canonical_target": "table 4.5-2",
+      "official_label": "Response M-CSSC-12",
+      "physical_page": 202,
+      "scope": "unsuffixed family"
+    },
+    {
+      "mention_id": "mentionv1-1c7cb1e4e727887156d559e19f4ecefb7a4cfa53a852e20b9a6ee5230765fb72",
+      "source_unit_id": "unitv1-f36f2b2a13e1f0c7d8ff74534838e4fda903dd352e21eca2409dac60af1567ee",
+      "mention_span_id": "spanv1-127f97348fcfb88ffa2a5ce5c4cf2aae487339cb5013970d17de7535822d7dfd",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response PC-CS-4",
+      "physical_page": 732,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-66127969c232c100dd7c0d10b770b56f427a91c430367d60c770d09ab919eed2",
+      "source_unit_id": "unitv1-487e80a727c4ffb77bb83e5aecc6f332c6fe06d4976f90e1a82fbb1d433d1692",
+      "mention_span_id": "spanv1-14ff90fbd0dfb9bd194d0e58701223ef01df0416f62af8d0282c7ff963294a3d",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response M-OSEC-170",
+      "physical_page": 392,
+      "scope": "a\u2013r range"
+    },
+    {
+      "mention_id": "mentionv1-920a543dade00bbdb3142a5dd641068110b9abead0e154bfa27443d247907880",
+      "source_unit_id": "unitv1-f36f2b2a13e1f0c7d8ff74534838e4fda903dd352e21eca2409dac60af1567ee",
+      "mention_span_id": "spanv1-511437fd17bdd2ba8d519c7a074023839dc15a11481e4be35b68269fb2c3562b",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response PC-CS-4",
+      "physical_page": 731,
+      "scope": "a\u2013r range"
+    },
+    {
+      "mention_id": "mentionv1-bec8b370e3594b6771c56b366ee55e453c01ef0ecc9f0215290f2f982e953acb",
+      "source_unit_id": "unitv1-328dbcb3c20e4ecedd4be11caea12fa6a1b6e5720fbfeb3734dd0a78f250ea85",
+      "mention_span_id": "spanv1-b6dbd7fed4f1aebec0ec82f3fed1c2bc3178dd51589bf167c5db91a23656c805",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response I-CJ-6",
+      "physical_page": 703,
+      "scope": "a\u2013r range"
+    },
+    {
+      "mention_id": "mentionv1-c2870e2e0a3c19175b98528133e2ce6c115c306cca6c1cae0e1f5221590b8886",
+      "source_unit_id": "unitv1-bb617d866b930e614d9ab8e57b35ddf66eee11174e4d17a9f3a8e5c4953d33f7",
+      "mention_span_id": "spanv1-eff6953b473c37d0d2a48b3f311b6c90724fed9887bc9464897c7d85fa866da2",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response O-YIMBY-5",
+      "physical_page": 687,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-c370cb8b9bc651558d31357c5c2658292906e999287201190d1a7c2d9810246a",
+      "source_unit_id": "unitv1-76c8f6c8e71d2a9bf9b967d714277580fd3d2d24546316f106150d4815efc93b",
+      "mention_span_id": "spanv1-d82004536e60c4b4b7189615a64c0c49547a31381e5fc602d256bb4630ee8067",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response O-GA-5",
+      "physical_page": 586,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-c70d6a917ec3ca85635b93415733fb2570a89becdd3f7d49f8dec320d8813909",
+      "source_unit_id": "unitv1-cfa5f3283ae2bc47f2da7ffc5a384737a068a5c00bb552c8fd59e19badc17e7f",
+      "mention_span_id": "spanv1-4148d7bebf63106f8c1b332d56e8900ad1418be9d4719ca8661f9b0a152bec53",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response M-OSEC-169",
+      "physical_page": 392,
+      "scope": "a\u2013r range"
+    },
+    {
+      "mention_id": "mentionv1-c86ecf491c169089654b5a3945828473e3d876960c0a2c57b367bac8e30a88d0",
+      "source_unit_id": "unitv1-328dbcb3c20e4ecedd4be11caea12fa6a1b6e5720fbfeb3734dd0a78f250ea85",
+      "mention_span_id": "spanv1-727694384c98b4022e4ad669b4118944b0afaefcf14e3fd5468cda0d2fa56e21",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response I-CJ-6",
+      "physical_page": 703,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-d2f5edca25173c4acfa715a6d454ed6bf4d8ff0360fca9571a44ec9686d79b8a",
+      "source_unit_id": "unitv1-bb617d866b930e614d9ab8e57b35ddf66eee11174e4d17a9f3a8e5c4953d33f7",
+      "mention_span_id": "spanv1-987bb5de82e3e239779b985429fb2e34715335a88c9b1ab998e5842c9b1c0191",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response O-YIMBY-5",
+      "physical_page": 687,
+      "scope": "a\u2013r range"
+    },
+    {
+      "mention_id": "mentionv1-d9b88c7409a10f88e6636463e6c1e80fa702489dc01e0eeb0f4f67ae6aae0a7c",
+      "source_unit_id": "unitv1-76c8f6c8e71d2a9bf9b967d714277580fd3d2d24546316f106150d4815efc93b",
+      "mention_span_id": "spanv1-c0ec6f77268dd0963faad54dff03e725b363f86759ef2e0abd294ce6a3ffec7b",
+      "canonical_target": "table 4.5-2a",
+      "official_label": "Response O-GA-5",
+      "physical_page": 586,
+      "scope": "a\u2013r range"
+    },
+    {
+      "mention_id": "mentionv1-5877e9666dc26ae156f0af8df696a2ee3c1dceab6589ee2e2098b186bf6627da",
+      "source_unit_id": "unitv1-c35becbf7ddd6b615d8fb4782886eb9c68686d669c233de2d6bbc38605827a67",
+      "mention_span_id": "spanv1-d6bcc4f56f9ef86599358d6efaef5cf2d974f7a01dd36861e677e2187af3b307",
+      "canonical_target": "table 4.5-2g",
+      "official_label": "Response M-CSSC-15",
+      "physical_page": 205,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-5ccc18cbcb0c016531ef07c0345b4fd7da90244a9c1593c1f50cc808833d5e05",
+      "source_unit_id": "unitv1-bb617d866b930e614d9ab8e57b35ddf66eee11174e4d17a9f3a8e5c4953d33f7",
+      "mention_span_id": "spanv1-a6a3e2ce0ba2c5fa228eb3b80965fa3b268b85c10fb4fef31c8c59e06649f9b9",
+      "canonical_target": "table 4.5-2g",
+      "official_label": "Response O-YIMBY-5",
+      "physical_page": 688,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-88cdcda2123983cea321f8d7ce633aef92df0c4c70acc1d5ea8ce72443a15799",
+      "source_unit_id": "unitv1-76c8f6c8e71d2a9bf9b967d714277580fd3d2d24546316f106150d4815efc93b",
+      "mention_span_id": "spanv1-ba4c1eeb5d380ca5e616ae2339d89b9fc6b608cfb6b2d385a621aeb409691825",
+      "canonical_target": "table 4.5-2g",
+      "official_label": "Response O-GA-5",
+      "physical_page": 587,
+      "scope": "specific label"
+    },
+    {
+      "mention_id": "mentionv1-509585d97091d178e32e66af4a061e7f6a38c13b93b20145dad483e00151d6e3",
+      "source_unit_id": "unitv1-156fef9be19576cae7bd372b7d6af77fa7528c6409a5dc4d570b50e9fb411191",
+      "mention_span_id": "spanv1-edacae5d123429e4b4d00a2dbaded8c083927d28972e2fa3bfc0d8faa778b6ba",
+      "canonical_target": "table 9.9-11",
+      "official_label": "Response M-OSEC-46",
+      "physical_page": 314,
+      "scope": "specific label"
+    }
+  ],
+  "user_disposition": {
+    "all_19_remain_nonlinked": true,
+    "fixes_requested": false,
+    "scope": "this nonlink group only; no candidate acceptance or eligibility change"
+  }
+}

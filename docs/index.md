@@ -5,23 +5,26 @@ Start with `AGENTS.md`, then use this page to decide what to read.
 
 ## Current status
 
-Sprint 2 is active. Tasks 02 through 05F and Tasks 06A through 06H are complete
+Sprint 2 is active. Tasks 02 through 05G and Tasks 06A through 06H are complete
 and accepted; Task 05F closed as a partial outcome with 295 links and 216
 explicit nonlinks across 511 mentions. Task 03J remains the immutable extraction
 basis, Task 04A supplies accepted usability decisions, and Task 04D is the
 designated linking-dependent handoff. Completed task records own exact identities
 and validation evidence.
 
-## Next action
+## Next action: Task 05H planning when authorized
 
-[Task 06H](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md) is
-accepted with sampled-review limitations as
-`acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1`.
-Its accepted non-executable Task 05G handoff is
-`handoffv1-9ce5d7c8b5f328ae714605709f344e66ace60e09ac1bfd9b5d6f8a57cedf442f`.
-The next bounded step is to revise and approve Task 05G's replay contract against
-that handoff. Do not run Task 05G/05H, commit, or push without separate
-authorization.
+[Task 05G](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md) is
+complete and accepted with limitations: **468 links and 43 explicit nonlinks**
+across all 511 references, 173 gains and zero losses compared with accepted 05F.
+The fresh refactored-code replay exactly matched the reviewed links and annotations;
+repeat, independent review, finalization and acceptance succeeded.
+
+Acceptance: `acceptance05gv1-d7270d3b39b2a0de220268497ff16dc85b6406f211135f59fa3813952f072cbd`.
+The [final result](specs/task05g_final_result.json) binds the pointer and Task 05H
+handoff. All F1, sampled-review and text-only figure limitations remain explicit.
+[Task 05H](../tasks/sprint2/05h_review_and_freeze_response_inventory.md) is the next
+planning task; it has not started and its execution is not authorized. No push.
 
 ### Preserved Task 06G execution history
 

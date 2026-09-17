@@ -1,7 +1,7 @@
 # Task 05: Build the Curator-Only Response Inventory
 
-Status: **planned umbrella; decomposed into Tasks 05A through 05H;
-not activated**.
+Status: **umbrella in progress; Tasks 05A–05G complete and accepted;
+Task 05H remains provisional and unstarted**.
 
 ## Abstract
 
@@ -10,9 +10,9 @@ units in Final EIR Volume 4. Preserve source structure, provenance, explicit
 relationships, and official Draft EIR references without adding Volume 4 to the
 Task 03 model corpus.
 
-Task 05 is an umbrella, not an executable contract. Only Task 05A may be
-activated first. Tasks 05B through 05G remain provisional and must be revised
-from the accepted preceding outcome before activation. This prevents source
+Task 05 is an umbrella, not an executable contract. Tasks 05A through 05G
+are complete. Task 05H must be revised from the accepted Task 05G handoff
+before activation. This prevents source
 discovery, contract design, implementation, full-source execution, graph
 resolution, human QA, and publication from accumulating inside one task.
 
@@ -81,7 +81,7 @@ Task 05 must remain cheap to iterate:
   revision and compact decision record rather than modifying a consumed revision
   or preserving a full copy of every attempt.
 - Publish one immutable accepted release only under `<inventoryv1-id>/` in Task
-  05G. Earlier task outputs are working candidates, not releases.
+  05H. Earlier task outputs are working candidates, not releases.
 - Store source-derived text once. Graphs, target links, corrections, and release
   descriptors reference stable IDs rather than copying payloads.
 - Hash compact schemas, configs, decisions, manifests, and authoritative final
@@ -191,3 +191,11 @@ and `diagnostics/`. At minimum it preserves:
   or evaluation.
 - A workflow framework, permissions system, content-addressed artifact store, or
   repeated integrity scan of previously sealed large artifacts.
+
+
+## Accepted linking handoff
+
+Task 05G is complete and accepted with limitations at 468 links and 43 explicit
+nonlinks across 511 references. The [final result](../../docs/specs/task05g_final_result.json)
+owns acceptance and Task 05H handoff identities. Task 05H remains the sole final
+inventory publication task and requires separate authorization.

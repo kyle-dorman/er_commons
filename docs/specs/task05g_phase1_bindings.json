@@ -1,0 +1,1346 @@
+{
+  "schema_version": "er_commons.task05g.phase1_bindings.v1",
+  "purpose": "planning-only compact metadata freeze; not an executable run spec or acceptance",
+  "repository_base": "6c95803",
+  "acceptance_pointer": {
+    "acceptance_id": "acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1",
+    "acceptance_relative_path": "pipelines/brisbane_baylands/task_06_recovery_v1/06h/acceptances/acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1",
+    "acceptance_sha256": "62083c58e04691f9566a9fe8cccd8f047fa139efa7ee18f83a5ad41fab43eccf",
+    "completion_sha256": "aa8a8e6630080f68174e01f821a0d80dcd0889f086331d5b5508aa66cdf45019",
+    "finalization_id": "reviewfinalv1-166c681736c334388bf7161af94a416ebe4030fb40eec418bdbd704a380d62e1",
+    "schema_version": "er_commons.task06h.acceptance_pointer.v1",
+    "status": "accepted_with_limitations",
+    "task05g_execution_authorized": false,
+    "task05g_handoff_id": "handoffv1-9ce5d7c8b5f328ae714605709f344e66ace60e09ac1bfd9b5d6f8a57cedf442f"
+  },
+  "acceptance": {
+    "schema_version": "er_commons.task06h.acceptance.v1",
+    "acceptance_id": "acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1",
+    "status": "accepted_with_limitations",
+    "bindings": {
+      "mechanical_handoff_id": "handoffv1-3603a7974be9b9dc7471dfd9a64e27468a2bdc67d44cef4944b8c24a5d60f8b9",
+      "readiness_sha256": "3bd11f48e75ed4e1078eaacf89c4adf6edaaf64c39cab4f55911973c19bfd057",
+      "review_completion_sha256": "d25e4749155c505a139d7a436229a672b7354ed903a35a661e9a92a6bc826ed3",
+      "correspondence_completion_sha256": "57aeec4ebf63f996f13e392df8643899c6103c6a9673b5b96c480ed08965f9ed",
+      "registry_id": "registryv1-a1754bf3e539bd3f1fe2bb1ed102243b00bd972fc37bf1bcc81c13e684c39f5c",
+      "source_substitution": {
+        "classification": "substituted_new_source",
+        "logical_source_id": "deir_appendix_f1",
+        "selected_source_id": "feir_appendix_f1",
+        "sha256": "fa6ba267c267604ff5f3c10d064395998f9eef1a42ce1237bd8e7e8f2f450498"
+      },
+      "limitations_sha256": "092dd9fc2fc53eaa68e713d01b01bbc9c9cbe97c9249478b3c9850117679083c",
+      "task05g_handoff_sha256": "98179492648821c3446c6266e76cc11549837072cfea37708918569ed34d6a5e",
+      "mechanical_status": "ready_for_review",
+      "human_review_status": "accepted_with_limitation",
+      "finalization_id": "reviewfinalv1-166c681736c334388bf7161af94a416ebe4030fb40eec418bdbd704a380d62e1",
+      "sampled_review_merge_id": "reviewmergev1-d9b6301048b7ac5bc5efd0c2f2a6076362e718e799ffea48ae4b6d50ccf99b9e",
+      "sampled_review_merge_completion_sha256": "a8052fe3f15146b1aacd90ffec6c539c68f5b514357bc6d74697ef1cfb8549aa",
+      "toc_merge_id": "tocmergev1-3374f49f829bbf5c9bccfedf6e3980ac12393728ecd39e2158746e1fbcd4ff38",
+      "target_limitations_id": "targetlimitationsv1-da1e3a7397e582d215c232c12be681dc84ded1d35fcb76063eeba61649fa7d16",
+      "task05g_handoff_id": "handoffv1-9ce5d7c8b5f328ae714605709f344e66ace60e09ac1bfd9b5d6f8a57cedf442f",
+      "accepted_by": "user_explicit_approval",
+      "accepted_on": "2026-09-17",
+      "acceptance_scope": "bounded_sampled_human_review_merged_with_accepted_task04"
+    },
+    "limitations": [
+      "41-page sampled follow-up; not exhaustive fresh review of every target",
+      "51 repaired-source navigation decisions carried after four-stratum sample confirmation; not individually re-reviewed",
+      "166 caption-backed figures were not freshly viewed",
+      "all 178 caption-backed figures remain unavailable as text-only evidence",
+      "Final F1 retains exact edition, response-specific revision, decoder, conversion, and zero-table warnings"
+    ],
+    "task05g_execution_authorized": false,
+    "task05g_requires_separate_user_authorization": true,
+    "task05h_executed": false,
+    "accepted_candidate_immutable": true
+  },
+  "finalization_relative_root": "pipelines/brisbane_baylands/task_06_recovery_v1/06h/reviewfinalv1-166c681736c334388bf7161af94a416ebe4030fb40eec418bdbd704a380d62e1",
+  "finalization_completion_sha256": "d25e4749155c505a139d7a436229a672b7354ed903a35a661e9a92a6bc826ed3",
+  "finalization_inventory": {
+    "file_count": 7,
+    "byte_count": 463857,
+    "files": [
+      {
+        "path": "decision_provenance.jsonl",
+        "byte_size": 271986,
+        "sha256": "acab423e63d9f1fc1edf9095cec5427da691d4e2b11f19c6bc1ca9db305dd012"
+      },
+      {
+        "path": "finalization_candidate.json",
+        "byte_size": 1458,
+        "sha256": "53bf6619249140bb3d64367d5c81a64b6d2b42af5a98dd5af8853fc34cad6242"
+      },
+      {
+        "path": "sample_stratum_confirmations.json",
+        "byte_size": 1596,
+        "sha256": "2bb2257deada852cec3ead40e625ff77cae6f6bba6a1f9c8736baa26dacd7281"
+      },
+      {
+        "path": "target_review_limitations.json",
+        "byte_size": 87348,
+        "sha256": "cb3b7cdf266abaecd1d1c6b7d31379b249a7c3ec8693d7e8d907360bcdf07df4"
+      },
+      {
+        "path": "task05g_handoff.json",
+        "byte_size": 3859,
+        "sha256": "98179492648821c3446c6266e76cc11549837072cfea37708918569ed34d6a5e"
+      },
+      {
+        "path": "toc_review_decisions.json",
+        "byte_size": 75897,
+        "sha256": "913815ca5dc25018de3962137fc8a64279f2ed65b90a6161985bd49e9bffdfdc"
+      },
+      {
+        "path": "usability_registry.json",
+        "byte_size": 21713,
+        "sha256": "741e77d87ee4f300f92ed78e421a8de26ff740e13e534eb4cd4b28762263d350"
+      }
+    ]
+  },
+  "task05g_handoff": {
+    "execution_authorized": false,
+    "image_dependent_figure_is_text_only_evidence": false,
+    "only_source_free_invalidated_resolver_descendants": true,
+    "outcomes": {
+      "explicit_nonlinks": 216,
+      "links": 295,
+      "total": 511
+    },
+    "required_reconciliation": {
+      "appendix_a_impacts": 2,
+      "appendix_q_outcomes": 2,
+      "chapter_8_9_mentions": 19,
+      "collision_sets": 12,
+      "comment_authored_exclusions": 11,
+      "draft_response_mentions": 509,
+      "f1_mentions": 66,
+      "figure_mentions": 79
+    },
+    "schema_version": "er_commons.task06h.task05g_handoff.v1",
+    "specific_target_downgrade_allowed": false,
+    "status": "ready_pending_explicit_task06h_acceptance",
+    "task05d_revision": "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030",
+    "task05e_revision": "revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1",
+    "task05f_rules": "rulesv1-9e67959aefc07f9ffd65605ad9d886a53022dcaccc5c9c8bed1494c41b4c0a83",
+    "task05f_semantic_digest": "8dcd3af81b10003c49ee0588bd01a5ce8f5e778f41159bdf8b3769794dbf80ac",
+    "toc_merge_id": "tocmergev1-3374f49f829bbf5c9bccfedf6e3980ac12393728ecd39e2158746e1fbcd4ff38",
+    "sampled_review_merge_id": "reviewmergev1-d9b6301048b7ac5bc5efd0c2f2a6076362e718e799ffea48ae4b6d50ccf99b9e",
+    "mechanical_handoff_id": "handoffv1-3603a7974be9b9dc7471dfd9a64e27468a2bdc67d44cef4944b8c24a5d60f8b9",
+    "coverage_boundary": "bounded sampled human review merged with accepted Task 04; unreviewed targets retain explicit limitations",
+    "usability_registry_id": "registryv1-a1754bf3e539bd3f1fe2bb1ed102243b00bd972fc37bf1bcc81c13e684c39f5c",
+    "target_limitations_id": "targetlimitationsv1-da1e3a7397e582d215c232c12be681dc84ded1d35fcb76063eeba61649fa7d16",
+    "final_f1_warning_binding": {
+      "general_warning": "Final EIR Appendix F1 substituted for the incorrectly selected Draft source; use with edition warning",
+      "response_specific": [
+        {
+          "material": "Muni section revision",
+          "mention_ids": [
+            "mentionv1-6bcb657e7dc49c498c2d6064db85520d7dca10af31ac395a48de46eb59cb8d84"
+          ],
+          "response": "Response SA-Caltrans-9",
+          "unit_id": "unitv1-d9083d932344bd002a2cdeb4114a81a1bebb50e40305fd93b28ad578fca1d3c7"
+        },
+        {
+          "material": "Table 6 revision",
+          "mention_ids": [
+            "mentionv1-ac50aff61440bfad9555171a6701c1d4836d8a66c35b3ddd963342f093329cbc",
+            "mentionv1-a0735cfe682e27ceb3fa2c68c2d909f5ea60af84f4ec07c00b4ab9844b5e6e26"
+          ],
+          "response": "Response SA-Caltrans-6",
+          "unit_id": "unitv1-1e79142bf469b6088f841e051ab9994140342fd80048925c1b0bf9a6c8d83380"
+        }
+      ],
+      "other_mentions_not_proven_draft_final_equivalent": 64,
+      "source_substitution": {
+        "baseline": {
+          "candidate_id": "docv1-baf8f14b0e050d3788d5ceaffc17bf33813b0b90dca3c037cca648bffd0537e2",
+          "pdf_page_count": 75,
+          "sha256": "dd51b7e5f0d511abc34617c10afde270e27d5dfe5df7ae9b7048cc206528ac78",
+          "source_id": "deir_appendix_f1"
+        },
+        "classification": "new_source_addition_no_old_entity_equivalence",
+        "draft_final_equivalence_proven": false,
+        "logical_source_id": "deir_appendix_f1",
+        "owner": "task06c",
+        "selected": {
+          "candidate_id": "docv1-55e5ed5711ba804130fd4729efd8fac56a97cec2e19b07321a2621bc30835050",
+          "pdf_page_count": 756,
+          "sha256": "e13c5b53f0f4da6a91f52ac784acce06619eeffd3fe053542d7ce1593b957e5e",
+          "source_id": "feir_appendix_f1"
+        },
+        "semantic_equivalence": false
+      },
+      "limitations_sha256": "092dd9fc2fc53eaa68e713d01b01bbc9c9cbe97c9249478b3c9850117679083c",
+      "source_substitution_sha256": "fa6ba267c267604ff5f3c10d064395998f9eef1a42ce1237bd8e7e8f2f450498"
+    },
+    "task05g_handoff_id": "handoffv1-9ce5d7c8b5f328ae714605709f344e66ace60e09ac1bfd9b5d6f8a57cedf442f"
+  },
+  "review_coverage_projection": {
+    "decision_origin_counts": {
+      "accepted_task04_proved_correspondence": 706,
+      "accepted_task04_repaired_source_sample_confirmed": 51
+    },
+    "sample_strata": [
+      {
+        "source_id": "deir_appendix_a",
+        "baseline_disposition": "not_toc",
+        "population_count": 20,
+        "sample_entry_ids": [
+          "tocpagev1-0fe29d930e15a4a989b1f66c",
+          "tocpagev1-5b017330c9db07df32273764",
+          "tocpagev1-8dfda75a024217efe0909011",
+          "tocpagev1-dfcd2efa238c6d44c16a8978"
+        ],
+        "sample_count": 4,
+        "result": "confirmed_for_bounded_carry_forward"
+      },
+      {
+        "source_id": "deir_appendix_a",
+        "baseline_disposition": "toc",
+        "population_count": 5,
+        "sample_entry_ids": [
+          "tocpagev1-0eb304b50c989eb7169886f1",
+          "tocpagev1-9f93acaac79f15473b190307"
+        ],
+        "sample_count": 2,
+        "result": "confirmed_for_bounded_carry_forward"
+      },
+      {
+        "source_id": "deir_main",
+        "baseline_disposition": "not_toc",
+        "population_count": 7,
+        "sample_entry_ids": [
+          "tocpagev1-44d46c416fe72efede66f2b6",
+          "tocpagev1-98ddf21d99d7651c2c0f0eee",
+          "tocpagev1-c50f58c52a6f08aebd9524e1"
+        ],
+        "sample_count": 3,
+        "result": "confirmed_for_bounded_carry_forward"
+      },
+      {
+        "source_id": "deir_main",
+        "baseline_disposition": "toc",
+        "population_count": 19,
+        "sample_entry_ids": [
+          "tocpagev1-22a8e7008d747147bdf472de",
+          "tocpagev1-31630b6baf9d96db9a942d23"
+        ],
+        "sample_count": 2,
+        "result": "confirmed_for_bounded_carry_forward"
+      }
+    ],
+    "targets": [
+      {
+        "target_id": "docv1-55e5ed5711ba804130fd4729efd8fac56a97cec2e19b07321a2621bc30835050",
+        "target_kind": "document",
+        "fresh_review_status": "sampled_source_review_complete",
+        "text_only_model_eligibility": null
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000002",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000003",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000004",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000006",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000007",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000008",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000009",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000011",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000013",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000014",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000015",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000016",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000017",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000018",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000019",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000020",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000021",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000023",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000024",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000025",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000026",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000027",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000028",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000029",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000030",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000031",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000032",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000033",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000034",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000035",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000036",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000037",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000038",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000039",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000040",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000041",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000043",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000044",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000046",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000048",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000049",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000050",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000051",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000052",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000055",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000057",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000059",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000060",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000061",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000062",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000063",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000064",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000066",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000070",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000071",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000072",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000073",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000074",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000075",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000076",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000077",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000078",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000079",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000083",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000084",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000085",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000086",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000087",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000088",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000089",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000090",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000091",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000092",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000093",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000094",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000095",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000096",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000099",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000100",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000101",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000102",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000103",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000104",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000105",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000106",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000107",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000108",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000113",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000117",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000118",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000121",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000127",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000128",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000129",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000130",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000145",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000182",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000183",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000184",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000185",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000186",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000187",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000189",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000190",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000191",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000192",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000193",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000194",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000197",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000198",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000199",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000200",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000201",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000202",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000203",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000206",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000207",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000208",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000209",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000212",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000216",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000217",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000218",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000220",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000221",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000222",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000223",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000224",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000225",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000226",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000227",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000228",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000229",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000230",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000231",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000232",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000233",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000234",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000235",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000236",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000237",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000238",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000239",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000240",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000241",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000242",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000243",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000244",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000245",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000246",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000247",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000248",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000249",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000250",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000251",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000252",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000253",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000254",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000255",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000256",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000257",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000258",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000259",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000260",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000261",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000262",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000263",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000264",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000265",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000266",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000267",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000268",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000269",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000270",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000271",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000272",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000273",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "not_freshly_reviewed",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/figure/deir_main/fig000274",
+        "target_kind": "caption_backed_figure",
+        "fresh_review_status": "sampled_visual_review_complete",
+        "text_only_model_eligibility": false
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec003489",
+        "target_kind": "repaired_chapter",
+        "fresh_review_status": "sampled_boundary_review_complete",
+        "text_only_model_eligibility": null
+      },
+      {
+        "target_id": "exv1-0b398345894de37c9a2bcae4b32b8c80f4b0cb61ecb20c2e435f83561f9009ba/section/deir_main/sec003490",
+        "target_kind": "repaired_chapter",
+        "fresh_review_status": "sampled_boundary_review_complete",
+        "text_only_model_eligibility": null
+      },
+      {
+        "target_id": "exv1-aa20e8e11e7b5c36326a0a0b5c69a6c15b7d58ff703d7bc89ac6ced6be30a7aa/section/deir_appendix_a/sec000446",
+        "target_kind": "repaired_section",
+        "fresh_review_status": "sampled_boundary_review_complete",
+        "text_only_model_eligibility": null
+      },
+      {
+        "target_id": "exv1-aa20e8e11e7b5c36326a0a0b5c69a6c15b7d58ff703d7bc89ac6ced6be30a7aa/section/deir_appendix_a/sec000662",
+        "target_kind": "repaired_section",
+        "fresh_review_status": "sampled_boundary_review_complete",
+        "text_only_model_eligibility": null
+      },
+      {
+        "target_id": "exv1-aa20e8e11e7b5c36326a0a0b5c69a6c15b7d58ff703d7bc89ac6ced6be30a7aa/section/deir_appendix_a/sec000748",
+        "target_kind": "repaired_section",
+        "fresh_review_status": "sampled_boundary_review_complete",
+        "text_only_model_eligibility": null
+      },
+      {
+        "target_id": "exv1-aa20e8e11e7b5c36326a0a0b5c69a6c15b7d58ff703d7bc89ac6ced6be30a7aa/section/deir_appendix_a/sec000783",
+        "target_kind": "repaired_section",
+        "fresh_review_status": "sampled_boundary_review_complete",
+        "text_only_model_eligibility": null
+      }
+    ]
+  }
+}

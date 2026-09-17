@@ -3,20 +3,24 @@
 ## Sprint status
 
 Sprint 2, Brisbane Draft-EIR defense vertical slice, is active. Tasks 02 through
-05F are complete and accepted; Task 05F closed with a partial outcome. Task 03J
+05G are complete and accepted; Task 05F closed with a partial outcome. Task 03J
 remains immutable extraction evidence, Task 04A owns accepted review, and Task
 04D remains the designated linking-dependent handoff until a replacement is
 accepted. Exact outcomes belong in the completed task records.
 
-## Next action: prepare Task 05G replay from accepted Task 06H
+## Next action: Task 05H planning when authorized
 
-[Task 06H](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md) is
-accepted with sampled-review limitations as
-`acceptv1-7702aa9d77da3f3ecdc9da0a126d5b7ffc1e8483c0e8054a3ad6ad3c04d139c1`.
-Revise Task 05G against accepted handoff
-`handoffv1-9ce5d7c8b5f328ae714605709f344e66ace60e09ac1bfd9b5d6f8a57cedf442f`,
-preserving all Final F1 and unreviewed-target limitations. Do not execute Task
-05G/05H, commit, or push without separate authorization.
+[Task 05G](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md) is
+complete and accepted with limitations: **468 links and 43 explicit nonlinks**
+across all 511 references, 173 gains and zero losses compared with accepted 05F.
+The fresh refactored-code replay exactly matched the reviewed links and annotations;
+repeat, independent review, finalization and acceptance succeeded.
+
+Acceptance: `acceptance05gv1-d7270d3b39b2a0de220268497ff16dc85b6406f211135f59fa3813952f072cbd`.
+The [final result](specs/task05g_final_result.json) binds the pointer and Task 05H
+handoff. All F1, sampled-review and text-only figure limitations remain explicit.
+[Task 05H](../tasks/sprint2/05h_review_and_freeze_response_inventory.md) is the next
+planning task; it has not started and its execution is not authorized. No push.
 
 ### Preserved Task 06G execution history
 
