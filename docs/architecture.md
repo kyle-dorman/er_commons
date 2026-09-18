@@ -166,6 +166,28 @@ acceptance uses the separate `er-responses accept-05e` transition, which
 revalidates the terminal candidate and writes a compact adjacent pointer without
 changing the candidate's managed closure.
 
+Task 05H composes those accepted source and graph records with all accepted 05G
+reference outcomes. The `response_inventory.release_*` modules keep input
+verification, review, storage, supervision, and publication as separate readable
+owners. Preparation, review, finalization, publication, and acceptance are
+separately authorized supervised stages. Finalization seals review decisions,
+limitations, component references, and the Task 07/08 handoff; publication copies
+that sealed container without changing its identity. Acceptance writes the
+designation pointer only after successful terminal supervision and revalidation.
+The [final result](specs/task05h_final_result.json) records the release bindings.
+
+Tasks 07 and 08 resolve the Task 05H acceptance pointer once, then pin the
+inventory identity, completion seal, and exact component references for the
+whole downstream run. They preserve all 511 reference outcomes (468 links and
+43 explicit nonlinks), all 66 Final F1 warnings, and the distinction between
+706 evidence-proven Task 04 disposition reuses and 51 sampled-stratum carries.
+The 51 are not individually re-reviewed or proven equivalent. The F1 warnings
+retain both response-specific revised-content warnings and the rule that the
+other 64 mentions are not proven Draft/Final equivalent. All 178
+caption-backed figure targets remain unavailable as text-only evidence;
+resolvable target identity does not establish evidence eligibility. Curator
+review and accepted inventory status do not authorize downstream execution.
+
 ## Review boundary
 
 Human review consumes published Task 03 evidence through a separate

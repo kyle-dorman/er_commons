@@ -5,26 +5,23 @@ Start with `AGENTS.md`, then use this page to decide what to read.
 
 ## Current status
 
-Sprint 2 is active. Tasks 02 through 05G and Tasks 06A through 06H are complete
+Sprint 2 is active. Tasks 02 through 05H and Tasks 06A through 06H are complete
 and accepted; Task 05F closed as a partial outcome with 295 links and 216
 explicit nonlinks across 511 mentions. Task 03J remains the immutable extraction
 basis, Task 04A supplies accepted usability decisions, and Task 04D is the
 designated linking-dependent handoff. Completed task records own exact identities
 and validation evidence.
 
-## Next action: Task 05H planning when authorized
+## Task 05 complete; Task 07 remains inactive
 
-[Task 05G](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md) is
-complete and accepted with limitations: **468 links and 43 explicit nonlinks**
-across all 511 references, 173 gains and zero losses compared with accepted 05F.
-The fresh refactored-code replay exactly matched the reviewed links and annotations;
-repeat, independent review, finalization and acceptance succeeded.
-
-Acceptance: `acceptance05gv1-d7270d3b39b2a0de220268497ff16dc85b6406f211135f59fa3813952f072cbd`.
-The [final result](specs/task05g_final_result.json) binds the pointer and Task 05H
-handoff. All F1, sampled-review and text-only figure limitations remain explicit.
-[Task 05H](../tasks/sprint2/05h_review_and_freeze_response_inventory.md) is the next
-planning task; it has not started and its execution is not authorized. No push.
+[Task 05H](../tasks/sprint2/05h_review_and_freeze_response_inventory.md) published
+and accepted the sole curator-only response inventory with limitations.
+The [final result](specs/task05h_final_result.json) binds the immutable release,
+acceptance pointer and Task 07/08 handoff; the
+[summary](specs/task05h_final_summary.md) explains review coverage and limitations.
+All 511 reference outcomes, F1 warnings, sampled-review qualifications and
+text-only figure restrictions remain intact. No later task is active.
+Task 07 planning is next; downstream execution, commit and push remain separate.
 
 ### Preserved Task 06G execution history
 

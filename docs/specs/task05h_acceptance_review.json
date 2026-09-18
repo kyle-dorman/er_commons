@@ -1,0 +1,38 @@
+{
+  "acceptance_packet": {
+    "path": "docs/specs/task05h_acceptance_packet.json",
+    "sha256": "15f9db0be5ebb73c99b12406bec87b5346b43c54147b96f7ea649439d5d381b1",
+    "size_bytes": 10374
+  },
+  "acceptance_performed": false,
+  "accepted_at": "2026-09-18T21:46:45.081745+00:00",
+  "accepted_by": "Kyle Dorman",
+  "checks": {
+    "attribution": "Kyle Dorman is the authorizing user; no claim of user-performed substantive review; timezone-aware fixed acceptance time",
+    "designation": "Existing reviewed path requires terminal successful acceptance and publication before writing execution evidence and pointer last; downstream execution remains false",
+    "namespace": "No acceptance pointer, attempt receipt directory or sealed acceptance launch packet exists",
+    "packet": "Exact packet regenerated and all fields match; request and 29 code owners reverified",
+    "published_candidate": "Exact supervised publication, finalization completion and all 14 payloads match; correct immutable root",
+    "resources": "Unchanged resource policy; cumulative accounting includes published inventory and prior supervisor outputs; metadata reservation remains available"
+  },
+  "inventory_id": "inventoryv1-ad2958c7ad1fc4e584fee16b9784623169dfe493df41642be8f0636039bc19f3",
+  "material_findings": [],
+  "plan_id": "plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771",
+  "publication_execution": {
+    "attempt": 1,
+    "launch_packet_sha256": "f0bdaeac35cef3169169c4d5220aa821e19bd40607c65b1b6246747b3ae32f08",
+    "operation": "publish",
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001-publish/execution.json",
+    "sha256": "705a1ad2f0d21c58465644b6323b6b613db311273cb992f270ca7c65953c4ded"
+  },
+  "request": {
+    "path": "configs/brisbane_baylands_2025_feir_task05h_publish_v1.json",
+    "sha256": "79214eb85711ea8b0de50f4e2c76117ed23c87e111fabd1ae567e4b939224c39",
+    "size_bytes": 6871
+  },
+  "review_scope": "Read-only exact packet, code seals, compact finalized/published JSON containers and terminal publication evidence; no upstream payload rehash or source/model work",
+  "reviewed_at": "2026-09-18T21:47:26.660950+00:00",
+  "reviewer": "Codex agent publication_review (independent AI-assisted audit)",
+  "schema_version": "er_commons.task05h.acceptance_review.v1",
+  "status": "passed"
+}

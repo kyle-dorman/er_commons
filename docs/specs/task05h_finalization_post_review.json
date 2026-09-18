@@ -1,0 +1,94 @@
+{
+  "acceptance_performed": false,
+  "candidate_root": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001/finalized",
+  "checks": {
+    "component_changes": "Exactly six 05D null digest entries received first byte seals; every other field and every other component unchanged",
+    "handoff": "Review and execution digests verified, dependencies match, curator-only and downstream execution disabled",
+    "limitations": "Accounting and limitations byte-identical to prepared evidence, including 511/468/43, 706/51, all 66 F1 warnings, other64 caveat and 178 text-only unavailable figures",
+    "managed_closure": "14 payloads plus inventory and completion; every size/digest/identity verified",
+    "prepared_comparison": "Only components changed among 8 prepared payloads; six expected compact final payloads added",
+    "publication_and_acceptance": "Exact future release root, 05H acceptance pointer and acceptances directory absent",
+    "review_evidence": "Decisions match bytewise; completion and quality match exact canonical content of curation evidence",
+    "source_storage": "No source payloads copied: final tree contains only the declared composition, review, provenance and ID view payloads",
+    "worker_binding": "Successful supervised finalize receipt and retained worker completion exactly match"
+  },
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001/finalized/records/completion.json",
+    "sha256": "a2409c609b173b68aed1efca5ff1d034ddeb359a71891a36409d3552665a6e78",
+    "size_bytes": 589
+  },
+  "first_publication_component_seals": [
+    {
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/inventory/source_records.jsonl",
+      "role": "source_records",
+      "sha256": "9e2750a36b0e9983040ffe0c2b984c8b8c8b92950f124201c82b458ec45c913b",
+      "size_bytes": 9064442
+    },
+    {
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/diagnostics/build_summary.json",
+      "role": "task05d_build_summary",
+      "sha256": "d874466a63b0b054d371c07572861b1bc3ab38d85c9dea8be43f6578be00e19a",
+      "size_bytes": 1040
+    },
+    {
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/diagnostics/qualification.json",
+      "role": "task05d_qualification",
+      "sha256": "96f202040b7c23f793f128638abc5dd33c719defac85fb7cb3c96ccdc6059c21",
+      "size_bytes": 1234684
+    },
+    {
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/diagnostics/repeatability.json",
+      "role": "task05d_repeatability",
+      "sha256": "e5ad949c9e6ec550f67c5ae4d758d2150d65b33ad267a3fc23c34b1fd3e77e0a",
+      "size_bytes": 390
+    },
+    {
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/diagnostics/runtime_resources.json",
+      "role": "task05d_runtime_resources",
+      "sha256": "a0cebdb71dde89758c6a7495bbec149e7e03e85fcc130228346b59426ff82afd",
+      "size_bytes": 477
+    },
+    {
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05d/revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030/diagnostics/structural_accounting.json",
+      "role": "task05d_structural_accounting",
+      "sha256": "9ee672e3ea46748c16258c0299f853c6f2a5eda4d783c53344d2b70f04c3bedc",
+      "size_bytes": 6351
+    }
+  ],
+  "handoff": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001/finalized/records/task07_task08_handoff.json",
+    "sha256": "5f572d8d7e42f04ff61fe2355b2d7d24b3a3acf5462e4e33bfc5c8ba73691eb0",
+    "size_bytes": 14297
+  },
+  "inventory_id": "inventoryv1-ad2958c7ad1fc4e584fee16b9784623169dfe493df41642be8f0636039bc19f3",
+  "managed_file_inventory": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001/finalized/records/managed_file_inventory.json",
+    "sha256": "7f98f5abdeceab0e644db355bc607c4cc75ce989f4a19bc0ee31e18bd3712b71",
+    "size_bytes": 2156
+  },
+  "material_findings": [],
+  "plan_id": "plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771",
+  "prelaunch_review": {
+    "path": "docs/specs/task05h_finalization_review.json",
+    "sha256": "68af811635e295fd2ab914b9035a9fffe4a867c928d571065edf6f2dc751017d",
+    "size_bytes": 3839
+  },
+  "publication_performed": false,
+  "request": {
+    "path": "configs/brisbane_baylands_2025_feir_task05h_finalize_v1.json",
+    "sha256": "aed7c754395f0b8285aefe79b0f7af9bea8c7277b7eff061b9f51cc19071a8f0",
+    "size_bytes": 6873
+  },
+  "review_scope": "Read-only final/prepared containers and JSON curation evidence. Did not rehash upstream source components or rerun finalization. Parent separately validates candidate semantics.",
+  "reviewed_at": "2026-09-18T21:13:01.984347+00:00",
+  "reviewer": "Codex agent finalization_review (independent AI-assisted audit)",
+  "schema_version": "er_commons.task05h.finalization_post_review.v1",
+  "status": "passed",
+  "terminal_execution": {
+    "attempt": 1,
+    "launch_packet_sha256": "775a0efd02711a6102e69652a0da21c54d2cf3224585a852bc50a5bc2121bced",
+    "operation": "finalize",
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001-finalize/execution.json",
+    "sha256": "1a8fcda1bf0b12e534fdd47603d4667175b22e3767eee674ac8484764962b679"
+  }
+}

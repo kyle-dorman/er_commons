@@ -105,6 +105,7 @@ publication layers:
 ```text
 pipelines/brisbane_baylands/task_05_response_inventory/
   working/
+    05h/accepted.json         # pointer written after supervised acceptance
     cache/                    # replaceable renders and materialized views
     <stage>/<revision-id>/    # named working revisions
   pilots/<pilotv1-id>/        # bounded qualification candidates
@@ -148,6 +149,21 @@ source-text store. Store source-derived text once;
 later graphs, target links, corrections, and release descriptors reference
 stable IDs rather than duplicate payloads. The Task 05 namespace is not part of
 the Task 03 model corpus and must not copy the raw PDF.
+
+The Task 05H designation pointer is
+`pipelines/brisbane_baylands/task_05_response_inventory/working/05h/accepted.json`,
+relative to `ER_COMMONS_DATA_ROOT`. It remains outside the immutable release's
+managed-file closure and is written last, after supervised acceptance succeeds.
+Tasks 07 and 08 resolve it once and pin its inventory identity and completion
+seal together with `inventory/components.json` and
+`records/task07_task08_handoff.json`; they must not select the newest working
+revision or silently follow a changed pointer during a run. Component references
+retain the accepted 05D source text in its existing store and reference 05E/05G
+artifacts without copying their payloads. The
+[final result](specs/task05h_final_result.json) binds the exact pointer, immutable
+release, and downstream handoff. All inherited reference outcomes, substitution
+warnings, sampled-review limits, and text-only evidence exclusions travel with
+that handoff.
 
 ## Git policy
 

@@ -1,0 +1,66 @@
+{
+  "attempt": 1,
+  "authorization_scope": {
+    "acceptance": false,
+    "commit": false,
+    "finalization": true,
+    "publication": false,
+    "push": false
+  },
+  "checks": {
+    "curation_payload_files_verified": 25,
+    "limitations": "116 explicit AI-assisted evidence renewals, not fresh human or visual reviews; inherited 706/51, F1 66 warnings with other-64 caveat, and 178 text-only unavailable figures remain unchanged",
+    "new_namespace": "finalized root and finalize supervisor/launch paths absent before launch",
+    "prerequisite_terminal_receipts": "prepare and review attempt 001 passed under unchanged limits",
+    "quality_report": "Passed independent report binds exact same reviewed payload and current owners",
+    "reconstructed_launch_packet": "exact_match",
+    "repository_bindings_verified": 29,
+    "request_delta": "Only authorization, review_decisions and quality_report differ from replay request; finalization only newly enabled",
+    "source_read_scope": "Read-only review inspected repository code and JSON evidence. Finalizer may first-seal declared 05D JSON/JSONL only where inherited byte digest absent; semantic equality required before sealing. No PDF/image/model/extraction path.",
+    "validation_history": "127 focused and 2504 full passes inherited from sealed reports; three documented historical failures remain",
+    "write_scope": "Working attempt-001/finalized plus finalize supervisor evidence only; no publication or acceptance pointer"
+  },
+  "curation_manifest": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001/curation/review_manifest.json",
+    "sha256": "d195c10f1d487dd680ec779de18bc45bf5c8a0a0a0d055f590bc0c866fe02d92",
+    "size_bytes": 3555
+  },
+  "finalization_performed_by_reviewer": false,
+  "material_findings": [],
+  "packet": {
+    "authority": "repository",
+    "path": "docs/specs/task05h_finalization_packet.json",
+    "sha256": "014f03e2ed63e02d7947528aff258f39373c17071b76aac5927d46bb894d6b5f"
+  },
+  "plan_id": "plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771",
+  "prerequisite_execution": [
+    {
+      "attempt": 1,
+      "launch_packet_sha256": "a63caca5fe85773c2ef8374a11e9b45becfc499f6e9c245528baa215c5e244d1",
+      "operation": "prepare",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001-prepare/execution.json",
+      "sha256": "85228190956f0925e5de0493f6e04b5f47f59659b7a5cb08f08191fef7fc28e3"
+    },
+    {
+      "attempt": 1,
+      "launch_packet_sha256": "5b122dee8b9430e788e5d51d76ee9f1322fa2a9e52f26f4443c21f6381cabd86",
+      "operation": "review",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001-review/execution.json",
+      "sha256": "365e443d8281d377c804e67d09724f7ddf9262413489e73bd523b4022e675ecd"
+    }
+  ],
+  "prior_phase3_result": {
+    "path": "docs/specs/task05h_phase3_replay_result.json",
+    "sha256": "5f5d00ef4ec1688e1076f9a33ea3f0f10c7978078d24721bec8e87e1e7b395dc"
+  },
+  "request": {
+    "authority": "repository",
+    "path": "configs/brisbane_baylands_2025_feir_task05h_finalize_v1.json",
+    "sha256": "aed7c754395f0b8285aefe79b0f7af9bea8c7277b7eff061b9f51cc19071a8f0"
+  },
+  "review_payload_digest": "20ba8e1c0ed7e60297361d16c65d382cc798c77fb3733ad2a23e74bd8faefa3e",
+  "reviewed_at": "2026-09-18T21:10:32.425706+00:00",
+  "reviewer": "Codex agent finalization_review (independent AI-assisted prelaunch audit)",
+  "schema_version": "er_commons.task05h.finalization_review.v1",
+  "status": "passed"
+}

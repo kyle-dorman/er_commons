@@ -1,7 +1,7 @@
 # Task 05: Build the Curator-Only Response Inventory
 
-Status: **umbrella in progress; Tasks 05A–05G complete and accepted;
-Task 05H remains provisional and unstarted**.
+Status: **Complete and accepted with limitations; Tasks 05A–05H are complete.
+Task 05H designates the sole immutable curator-only response inventory.**
 
 ## Abstract
 
@@ -11,10 +11,11 @@ relationships, and official Draft EIR references without adding Volume 4 to the
 Task 03 model corpus.
 
 Task 05 is an umbrella, not an executable contract. Tasks 05A through 05G
-are complete. Task 05H must be revised from the accepted Task 05G handoff
-before activation. This prevents source
-discovery, contract design, implementation, full-source execution, graph
-resolution, human QA, and publication from accumulating inside one task.
+are complete. Task 05H has completed the authorized validator repair, fresh
+composition replay and explicit renewal of its 116 AI-assisted review decisions.
+Canonical validation and exact repeat pass; independent assembled review remains
+the Phase 3 closure gate. The [replay result](../../docs/specs/task05h_phase3_replay_result.json)
+owns the evidence. Finalization and publication require separate authorization.
 
 ## Goal
 
@@ -199,3 +200,12 @@ Task 05G is complete and accepted with limitations at 468 links and 43 explicit
 nonlinks across 511 references. The [final result](../../docs/specs/task05g_final_result.json)
 owns acceptance and Task 05H handoff identities. Task 05H remains the sole final
 inventory publication task and requires separate authorization.
+
+
+## Final inventory outcome
+
+Task 05H published and accepted
+`inventoryv1-ad2958c7ad1fc4e584fee16b9784623169dfe493df41642be8f0636039bc19f3`.
+The [final result](../../docs/specs/task05h_final_result.json) binds the sole
+acceptance pointer and Task 07/08 handoff. All inherited limitations remain;
+accepted inventory status does not authorize downstream execution.

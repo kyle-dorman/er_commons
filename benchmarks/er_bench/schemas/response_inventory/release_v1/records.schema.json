@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "er_commons.response_inventory_release.records.v1",
+  "description": "Closed decision, managed manifest and completion records. Component, selection and cross-record review semantics are validated by their release owners.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/managed_file_inventory"
+    },
+    {
+      "$ref": "#/$defs/completion"
+    },
+    {
+      "$ref": "#/$defs/decision"
+    }
+  ],
+  "$defs": {
+    "managed_file_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "er_commons.response_inventory_release.v1"
+        },
+        "record_type": {
+          "const": "managed_file_inventory"
+        },
+        "plan_id": {
+          "type": "string",
+          "pattern": "^plan05hv1-[0-9a-f]{64}$"
+        },
+        "files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "path",
+              "size_bytes",
+              "sha256"
+            ]
+          }
+        },
+        "inventory_id": {
+          "type": "string",
+          "pattern": "^files05hv1-[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "record_type",
+        "plan_id",
+        "files",
+        "inventory_id"
+      ]
+    },
+    "completion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "er_commons.response_inventory_release.v1"
+        },
+        "record_type": {
+          "const": "completion"
+        },
+        "stage": {
+          "const": "05h"
+        },
+        "status": {
+          "enum": [
+            "prepared",
+            "complete_with_limitations"
+          ]
+        },
+        "plan_id": {
+          "type": "string",
+          "pattern": "^plan05hv1-[0-9a-f]{64}$"
+        },
+        "semantic_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "inventory_id": {
+          "type": "string",
+          "pattern": "^files05hv1-[0-9a-f]{64}$"
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "completion_id": {
+          "type": "string",
+          "pattern": "^completion05hv1-[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "record_type",
+        "stage",
+        "status",
+        "plan_id",
+        "semantic_digest",
+        "inventory_id",
+        "manifest_sha256",
+        "completion_id"
+      ]
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decision_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_version": {
+          "const": "er_commons.response_inventory_release.v1"
+        },
+        "plan_id": {
+          "type": "string",
+          "pattern": "^plan05hv1-[0-9a-f]{64}$"
+        },
+        "subject_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "question_version": {
+          "const": "task05h_composition_review.v1"
+        },
+        "coverage_basis": {
+          "enum": [
+            "new_individual",
+            "new_rule"
+          ]
+        },
+        "disposition": {
+          "enum": [
+            "confirmed_composition",
+            "confirmed_with_limitation",
+            "correction_required"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "identity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "record_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "identity",
+              "path",
+              "sha256",
+              "record_id"
+            ]
+          }
+        },
+        "reviewer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "supersedes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "action": {
+          "enum": [
+            "none",
+            "review_metadata",
+            "display_disposition",
+            "owner_finding"
+          ]
+        },
+        "replacement_refs": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "requires_owner_replay": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "decision_id",
+        "schema_version",
+        "plan_id",
+        "subject_refs",
+        "question_version",
+        "coverage_basis",
+        "disposition",
+        "rationale",
+        "evidence_refs",
+        "reviewer",
+        "reviewed_at",
+        "supersedes",
+        "action",
+        "replacement_refs",
+        "requires_owner_replay"
+      ]
+    }
+  }
+}

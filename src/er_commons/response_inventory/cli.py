@@ -24,6 +24,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     arguments = parser.parse_args(argv)
     repository_root = Path(__file__).resolve().parents[3]
 
+    if arguments.command.endswith("-05h") or (
+        arguments.command == "validate-spec" and _is_release_request(arguments.run_spec)
+    ):
+        return _dispatch_05h(arguments, parser, repository_root)
+
     if arguments.command.endswith("-05g") or (
         arguments.command in {"validate-spec", "build"} and _is_reference_replay(arguments.run_spec)
     ):
@@ -81,6 +86,7 @@ def _build_parser() -> argparse.ArgumentParser:
     review_parser.add_argument("--output-root", required=True, type=Path)
     review_parser.add_argument("--served-root", required=True, type=Path)
     _add_05g_parsers(subparsers)
+    _add_05h_parsers(subparsers)
     build_parser.add_argument("--attempt", type=int, default=1)
     build_parser.add_argument("--resume-from", type=int)
     return parser
@@ -360,6 +366,65 @@ def _dispatch_05g(
             attempt=run.attempt,
             resume_from=run.resume_from,
             operation=operation,
+        )
+    print(json.dumps(result, sort_keys=True))
+    return 1 if result.get("status") == "failed" else 0
+
+
+def _is_release_request(path: Path) -> bool:
+    """Select the new release contract without changing historical readers."""
+    from er_commons.response_inventory.release_spec import is_release_spec
+
+    return is_release_spec(path)
+
+
+def _add_05h_parsers(subparsers: Any) -> None:
+    """Expose independent composition, review, validation and publication gates."""
+    for name in ("prepare", "review", "validate", "finalize", "publish", "accept"):
+        command = subparsers.add_parser(f"{name}-05h")
+        command.add_argument("--run-spec", type=Path, required=True)
+        command.add_argument("--attempt", type=int, default=1)
+        command.add_argument("--resume-from", type=int)
+        if name in {"validate", "publish", "accept"}:
+            command.add_argument("--candidate-root", type=Path, required=True)
+        if name == "accept":
+            command.add_argument("--accepted-by", required=True)
+            command.add_argument("--accepted-at", required=True)
+
+
+def _dispatch_05h(
+    args: argparse.Namespace, parser: argparse.ArgumentParser, repository_root: Path
+) -> int:
+    """Keep release commands source-free and writing commands supervised."""
+    from er_commons.response_inventory.release_spec import load_release_spec
+
+    if args.command == "validate-spec":
+        _, digest = load_release_spec(args.run_spec, repository_root)
+        print(
+            json.dumps({"status": "valid", "task_stage": "05h", "plan_id": "plan05hv1-" + digest})
+        )
+        return 0
+    artifact_root = _artifact_root(parser)
+    if args.command == "validate-05h":
+        from er_commons.response_inventory.release_workflow import open_run, validate_candidate
+
+        run = open_run(
+            args.run_spec, repository_root, artifact_root, args.attempt, args.resume_from
+        )
+        result = validate_candidate(run, args.candidate_root)
+    else:
+        from er_commons.response_inventory.release_launch import launch_release
+
+        result = launch_release(
+            args.run_spec,
+            repository_root,
+            artifact_root,
+            attempt=args.attempt,
+            operation=args.command.removesuffix("-05h"),
+            resume_from=args.resume_from,
+            candidate=getattr(args, "candidate_root", None),
+            accepted_by=getattr(args, "accepted_by", ""),
+            accepted_at=getattr(args, "accepted_at", ""),
         )
     print(json.dumps(result, sort_keys=True))
     return 1 if result.get("status") == "failed" else 0

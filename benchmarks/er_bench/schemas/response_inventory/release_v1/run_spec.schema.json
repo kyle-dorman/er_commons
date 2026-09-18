@@ -1,0 +1,326 @@
+{
+  "$defs": {
+    "EvidenceBinding": {
+      "additionalProperties": false,
+      "description": "Explicit authority for mutable review inputs kept outside plan identity.",
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "authority": {
+          "enum": [
+            "repository",
+            "artifact_root"
+          ],
+          "title": "Authority",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "authority"
+      ],
+      "title": "EvidenceBinding",
+      "type": "object"
+    },
+    "FileBinding": {
+      "additionalProperties": false,
+      "description": "A relative repository file with an exact byte digest.",
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "title": "FileBinding",
+      "type": "object"
+    },
+    "ReleaseAuthorization": {
+      "additionalProperties": false,
+      "description": "Execution, finalization, publication and acceptance are independent gates.",
+      "properties": {
+        "execution": {
+          "title": "Execution",
+          "type": "boolean"
+        },
+        "finalization": {
+          "title": "Finalization",
+          "type": "boolean"
+        },
+        "publication": {
+          "title": "Publication",
+          "type": "boolean"
+        },
+        "acceptance": {
+          "title": "Acceptance",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "execution",
+        "finalization",
+        "publication",
+        "acceptance"
+      ],
+      "title": "ReleaseAuthorization",
+      "type": "object"
+    },
+    "ReleaseLimits": {
+      "additionalProperties": false,
+      "description": "Freeze the approved 05G-sized ceilings for all new 05H output.",
+      "properties": {
+        "workers": {
+          "const": 1,
+          "default": 1,
+          "title": "Workers",
+          "type": "integer"
+        },
+        "cpu_threads": {
+          "const": 2,
+          "default": 2,
+          "title": "Cpu Threads",
+          "type": "integer"
+        },
+        "max_seconds": {
+          "const": 1800,
+          "default": 1800,
+          "title": "Max Seconds",
+          "type": "integer"
+        },
+        "max_rss_bytes": {
+          "const": 4294967296,
+          "default": 4294967296,
+          "title": "Max Rss Bytes",
+          "type": "integer"
+        },
+        "max_output_bytes": {
+          "const": 2147483648,
+          "default": 2147483648,
+          "title": "Max Output Bytes",
+          "type": "integer"
+        },
+        "min_free_bytes": {
+          "const": 8589934592,
+          "default": 8589934592,
+          "title": "Min Free Bytes",
+          "type": "integer"
+        },
+        "max_swap_growth_bytes": {
+          "const": 0,
+          "default": 0,
+          "title": "Max Swap Growth Bytes",
+          "type": "integer"
+        },
+        "sample_seconds": {
+          "default": 0.1,
+          "maximum": 0.1,
+          "minimum": 0.1,
+          "title": "Sample Seconds",
+          "type": "number"
+        },
+        "disk_sample_seconds": {
+          "default": 1.0,
+          "maximum": 1.0,
+          "minimum": 1.0,
+          "title": "Disk Sample Seconds",
+          "type": "number"
+        },
+        "termination_grace_seconds": {
+          "default": 15.0,
+          "maximum": 15.0,
+          "minimum": 15.0,
+          "title": "Termination Grace Seconds",
+          "type": "number"
+        }
+      },
+      "title": "ReleaseLimits",
+      "type": "object"
+    },
+    "RuntimeVersions": {
+      "additionalProperties": false,
+      "description": "Pin only the installed runtime dependencies used by release and supervision.",
+      "properties": {
+        "python": {
+          "minLength": 1,
+          "title": "Python",
+          "type": "string"
+        },
+        "pydantic": {
+          "minLength": 1,
+          "title": "Pydantic",
+          "type": "string"
+        },
+        "jsonschema": {
+          "minLength": 1,
+          "title": "Jsonschema",
+          "type": "string"
+        },
+        "rfc8785": {
+          "minLength": 1,
+          "title": "Rfc8785",
+          "type": "string"
+        },
+        "psutil": {
+          "minLength": 1,
+          "title": "Psutil",
+          "type": "string"
+        }
+      },
+      "required": [
+        "python",
+        "pydantic",
+        "jsonschema",
+        "rfc8785",
+        "psutil"
+      ],
+      "title": "RuntimeVersions",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "An explicit 05H composition request, never an upstream workflow request.",
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.response_inventory_release_request.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "task_stage": {
+      "const": "05h",
+      "title": "Task Stage",
+      "type": "string"
+    },
+    "binding_freeze": {
+      "$ref": "#/$defs/FileBinding"
+    },
+    "selection_freeze": {
+      "$ref": "#/$defs/FileBinding"
+    },
+    "selection_policy": {
+      "const": "task05h_curator_selection.v1",
+      "title": "Selection Policy",
+      "type": "string"
+    },
+    "question_version": {
+      "const": "task05h_composition_review.v1",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "view_policy": {
+      "const": "task05h_lazy_text_view.v1",
+      "title": "View Policy",
+      "type": "string"
+    },
+    "repository_bindings": {
+      "items": {
+        "$ref": "#/$defs/FileBinding"
+      },
+      "title": "Repository Bindings",
+      "type": "array"
+    },
+    "runtime_versions": {
+      "$ref": "#/$defs/RuntimeVersions"
+    },
+    "output_relative_root": {
+      "const": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h",
+      "title": "Output Relative Root",
+      "type": "string"
+    },
+    "limits": {
+      "$ref": "#/$defs/ReleaseLimits"
+    },
+    "authorization": {
+      "$ref": "#/$defs/ReleaseAuthorization"
+    },
+    "source_pdf_access": {
+      "const": false,
+      "title": "Source Pdf Access",
+      "type": "boolean"
+    },
+    "image_access": {
+      "const": false,
+      "title": "Image Access",
+      "type": "boolean"
+    },
+    "render_access": {
+      "const": false,
+      "title": "Render Access",
+      "type": "boolean"
+    },
+    "model_access": {
+      "const": false,
+      "title": "Model Access",
+      "type": "boolean"
+    },
+    "network_access": {
+      "const": false,
+      "title": "Network Access",
+      "type": "boolean"
+    },
+    "hash_large_upstream_payloads": {
+      "const": false,
+      "title": "Hash Large Upstream Payloads",
+      "type": "boolean"
+    },
+    "review_decisions": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EvidenceBinding"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "quality_report": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EvidenceBinding"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "schema_version",
+    "task_stage",
+    "binding_freeze",
+    "selection_freeze",
+    "selection_policy",
+    "question_version",
+    "view_policy",
+    "repository_bindings",
+    "runtime_versions",
+    "output_relative_root",
+    "limits",
+    "authorization",
+    "source_pdf_access",
+    "image_access",
+    "render_access",
+    "model_access",
+    "network_access",
+    "hash_large_upstream_payloads"
+  ],
+  "title": "ReleaseSpec",
+  "type": "object"
+}

@@ -1,0 +1,15 @@
+{
+  "completion": {
+    "completion_id": "completion05hv1-50e00679a5e1aaf89797c3323aa7007361dd77c43ee8759ee68da2560c396784",
+    "inventory_id": "files05hv1-9fe64fa4b66075d902f4b4cce910b7c17dff71f85ae90e4571849d5f32764aab",
+    "manifest_sha256": "7f98f5abdeceab0e644db355bc607c4cc75ce989f4a19bc0ee31e18bd3712b71",
+    "plan_id": "plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771",
+    "record_type": "completion",
+    "schema_version": "er_commons.response_inventory_release.v1",
+    "semantic_digest": "33ad56297546877d2adce871c0ab7af5b63e0131dc3d0c556d8235183ef67199",
+    "stage": "05h",
+    "status": "complete_with_limitations"
+  },
+  "input_semantic_digest": "f21d5de02ede5f977598169bb985da63e1d3317ba9689879170823f1ecc3fe8b",
+  "status": "valid"
+}

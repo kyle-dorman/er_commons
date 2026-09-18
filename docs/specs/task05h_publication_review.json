@@ -1,0 +1,44 @@
+{
+  "acceptance_performed": false,
+  "checks": {
+    "acceptance": "Subsequent exact acceptance packet required after publication; terminal successful publication and acceptance checked before pointer-last designation",
+    "closure": "Finalized completion and 14 payload closure verified; exact result bindings and inventory identity match",
+    "namespace": "Publication root, publication receipt paths and acceptance pointer absent",
+    "packet": "Regenerated exact launch packet matches every field; finalized attempt001 selected without resume; tmux and supervisor entrypoints bound",
+    "publication": "Code verifies successful exact finalized worker result and revalidates candidate; copy contains compact owned payloads only, no-clobber with completion last",
+    "request_change": "Only publication and acceptance authorizations changed; all inputs, 29 code owners, decisions, quality, selection and limits unchanged",
+    "resources": "One worker, two threads, 4 GiB RSS, zero swap, 1800 seconds, 8 GiB free minimum, cumulative 2 GiB across all retained outputs; exact prospective copy and metadata reserved",
+    "scope": "JSON/JSONL and source code only; source payloads referenced rather than copied; no source/model/downstream activity authorized"
+  },
+  "finalization_execution": {
+    "attempt": 1,
+    "launch_packet_sha256": "775a0efd02711a6102e69652a0da21c54d2cf3224585a852bc50a5bc2121bced",
+    "operation": "finalize",
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001-finalize/execution.json",
+    "sha256": "1a8fcda1bf0b12e534fdd47603d4667175b22e3767eee674ac8484764962b679"
+  },
+  "finalization_result": {
+    "path": "docs/specs/task05h_finalization_result.json",
+    "sha256": "d9834b3ca294ac946b80579d246e55dafdc20f7950236039aa2b6143c859a4db",
+    "size_bytes": 8583
+  },
+  "inventory_id": "inventoryv1-ad2958c7ad1fc4e584fee16b9784623169dfe493df41642be8f0636039bc19f3",
+  "later_acceptance_packet_review_required": true,
+  "material_findings": [],
+  "plan_id": "plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771",
+  "publication_packet": {
+    "path": "docs/specs/task05h_publication_packet.json",
+    "sha256": "95338bb73d8f7a04705ef27e7c9c137d3cb605eabc1d2494fd87e9220444b2de",
+    "size_bytes": 10508
+  },
+  "publication_performed": false,
+  "request": {
+    "path": "configs/brisbane_baylands_2025_feir_task05h_publish_v1.json",
+    "sha256": "79214eb85711ea8b0de50f4e2c76117ed23c87e111fabd1ae567e4b939224c39",
+    "size_bytes": 6871
+  },
+  "reviewed_at": "2026-09-18T21:45:45.597657+00:00",
+  "reviewer": "Codex agent publication_review (independent AI-assisted audit)",
+  "schema_version": "er_commons.task05h.publication_review.v1",
+  "status": "passed"
+}

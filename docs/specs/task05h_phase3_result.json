@@ -1,0 +1,167 @@
+{
+  "acceptance_performed": false,
+  "accounting": {
+    "counts": {
+      "edges": 1538,
+      "f1_warnings": 66,
+      "links": 468,
+      "nonlinks": 43,
+      "outcomes": 511,
+      "text_only_excluded_figures": 178,
+      "units": 2029
+    },
+    "coverage": {
+      "caption_backed_figures_unavailable_as_text_only_evidence": 178,
+      "sampled_carries_individually_rereviewed": false,
+      "sampled_stratum_carries": 51,
+      "task04_evidence_proven_reuses": 706
+    },
+    "mechanical_check_is_human_review": false,
+    "membership_digests": {
+      "edges": "5f58dcf632fb5d95b88cb3817dfc2fa73d52cb19df8bd98a77dd7da6dc511a8b",
+      "f1_warnings": "f443d7bbddc7d3c8387ae4b0d4317ab75f621abb0657cf477b7c8a687b0a1870",
+      "links": "ee0675d83b9922a7ab35c4b4c4246872a97e49d763e0452f2fe67f8fef42fe6d",
+      "nonlinks": "12d45e656aafcfdbaed9493ae118853c8ff4dfa798f92df651dbb471000d1a43",
+      "outcomes": "a2690eea17997ca43f56d2bb6d9c3dabcc4fb37c9e1ec4321ab726fba9835626",
+      "text_only_excluded_figures": "e796733fc95375dffc12a3d137fcda8cf48143e6584060d13441223299209358",
+      "units": "8762c26211f6c75409f685b285bf9691baeb85ea22f8bd54a1171a41198af37b"
+    },
+    "nonlink_counts": {
+      "appendix_q_verification_required": 2,
+      "appendix_source_route_absent": 2,
+      "comment_authored_reference_no_official_response_link": 11,
+      "exact_figure_target_absent": 1,
+      "exact_target_absent": 19,
+      "exact_target_collision": 3,
+      "more_specific_appendix_target_requires_resolution": 5
+    }
+  },
+  "authorization": {
+    "acceptance": false,
+    "execution": true,
+    "finalization": false,
+    "publication": false
+  },
+  "authorized_scope": "Phase3 only; stop before finalization or publication",
+  "candidate_decisions": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-001/curation/candidate_decisions.jsonl",
+    "sha256": "0d79548e0b6e085c2000e018ff17dd851675c56b9e13bb076098e33255566044",
+    "size_bytes": 189363
+  },
+  "canonical_review_closure": "not_passed",
+  "commit_or_push_performed": false,
+  "content_correction_findings": 0,
+  "coverage_basis_counts": {
+    "new_individual": 101,
+    "new_rule": 15
+  },
+  "curation_manifest": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-001/curation/review_manifest.json",
+    "sha256": "617b21475eefc36700ebe45908d09c5c61b3144a3db0c1ba439aed2ee3955205",
+    "size_bytes": 2127
+  },
+  "disposition_counts": {
+    "confirmed_composition": 31,
+    "confirmed_with_limitation": 85
+  },
+  "finalization_performed": false,
+  "implementation_blockers": [
+    {
+      "cause": "outcomes receipt_role=None selects unrelated roleless dependency metadata",
+      "field": "identity",
+      "owner": "release_review.validate_decision_evidence",
+      "type": "KeyError"
+    }
+  ],
+  "independent_review": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-001/curation/independent_review.json",
+    "sha256": "3f8724769e2ac735ceca5b8f9657ee2ffadeeca325eb5fe94e101bebbc5f3cc7",
+    "size_bytes": 10899
+  },
+  "input_semantic_digest": "f21d5de02ede5f977598169bb985da63e1d3317ba9689879170823f1ecc3fe8b",
+  "patch_applied": false,
+  "plan_id": "plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d",
+  "prepared_completion": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-001/prepared/records/completion.json",
+    "sha256": "ad95e0800490d9f810b5a647b6a5d42cbd5ee1334e675e34816e1ba823b72ad6",
+    "size_bytes": 572
+  },
+  "proposed_patch": "docs/specs/task05h_phase3_validator_fix.patch",
+  "proposed_remediation": "docs/specs/task05h_phase3_validator_amendment.json",
+  "publication_performed": false,
+  "receipts": [
+    {
+      "attempt": 1,
+      "elapsed_seconds": 19.548818832961842,
+      "operation": "prepare",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-001-prepare/execution.json",
+      "peak_output_bytes": 1594860,
+      "peak_rss_bytes": 201621504,
+      "peak_swap_growth_bytes": 0,
+      "returncode": 0,
+      "sha256": "ac5a42274179e95423f1a9b501edced8f2fc81dabbf33bfffea52b5df5254361",
+      "size_bytes": 1868
+    },
+    {
+      "attempt": 1,
+      "elapsed_seconds": 38.02322179218754,
+      "operation": "review",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-001-review/execution.json",
+      "peak_output_bytes": 17962733,
+      "peak_rss_bytes": 258473984,
+      "peak_swap_growth_bytes": 0,
+      "returncode": 0,
+      "sha256": "2732e88f0a0f8b42063370d53be28a82c6ade89d1daab422435504bb194b2e89",
+      "size_bytes": 1872
+    },
+    {
+      "attempt": 2,
+      "elapsed_seconds": 19.082056832965463,
+      "operation": "prepare",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-002-prepare/execution.json",
+      "peak_output_bytes": 3279576,
+      "peak_rss_bytes": 202014720,
+      "peak_swap_growth_bytes": 0,
+      "returncode": 0,
+      "sha256": "49d1027ace06ae6bdb591152b0b0e0474532621dd550aab43eebdf00df65c929",
+      "size_bytes": 1868
+    },
+    {
+      "attempt": 2,
+      "elapsed_seconds": 37.72329287487082,
+      "operation": "review",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-002-review/execution.json",
+      "peak_output_bytes": 35857691,
+      "peak_rss_bytes": 262717440,
+      "peak_swap_growth_bytes": 0,
+      "returncode": 0,
+      "sha256": "a836c508ef63c77cd0101b96b353428e8d3e33fbc60c4891687259ac959e60da",
+      "size_bytes": 1872
+    }
+  ],
+  "recorded_at": "2026-09-18T19:48:36.995523+00:00",
+  "repeat_validation": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-001/curation/repeat_validation.json",
+    "sha256": "0f52e178537e4e9a074bd18bf6096f489e8b5860571048a2edba82e6cd9325ad",
+    "size_bytes": 21532
+  },
+  "request": "configs/brisbane_baylands_2025_feir_task05h_phase3_v1.json",
+  "request_sha256": "d3f6b0b298bea10b7b1dce21fb545185ffb8a75aa1dd90e80d0ad14f610516c3",
+  "retained_new_output_bytes": {
+    "cache": 35789916,
+    "published": 0,
+    "supervisor": 46241,
+    "working": 3672699
+  },
+  "review_method": "AI-assisted composition inspection of bounded prose excerpts plus full mechanical correspondence; no user-authored human judgments",
+  "review_validation": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-001/curation/review_validation.json",
+    "sha256": "661850f44fb960e29ae6f01aae8e4325d830b8572a00668e726601e0d5063a1d",
+    "size_bytes": 2620
+  },
+  "reviewed_obligations": 116,
+  "schema_version": "er_commons.task05h.phase3_result.v1",
+  "selection_digest": "d6aaebaca32620e3b85ab3514e8ed1c3547442f3f731adcc1ef934edfb3666eb",
+  "status": "blocked_evidence_validator",
+  "strata": 52
+}

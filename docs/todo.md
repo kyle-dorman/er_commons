@@ -3,24 +3,21 @@
 ## Sprint status
 
 Sprint 2, Brisbane Draft-EIR defense vertical slice, is active. Tasks 02 through
-05G are complete and accepted; Task 05F closed with a partial outcome. Task 03J
+05H are complete and accepted; Task 05F closed with a partial outcome. Task 03J
 remains immutable extraction evidence, Task 04A owns accepted review, and Task
 04D remains the designated linking-dependent handoff until a replacement is
 accepted. Exact outcomes belong in the completed task records.
 
-## Next action: Task 05H planning when authorized
+## Task 05 complete; Task 07 remains inactive
 
-[Task 05G](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md) is
-complete and accepted with limitations: **468 links and 43 explicit nonlinks**
-across all 511 references, 173 gains and zero losses compared with accepted 05F.
-The fresh refactored-code replay exactly matched the reviewed links and annotations;
-repeat, independent review, finalization and acceptance succeeded.
-
-Acceptance: `acceptance05gv1-d7270d3b39b2a0de220268497ff16dc85b6406f211135f59fa3813952f072cbd`.
-The [final result](specs/task05g_final_result.json) binds the pointer and Task 05H
-handoff. All F1, sampled-review and text-only figure limitations remain explicit.
-[Task 05H](../tasks/sprint2/05h_review_and_freeze_response_inventory.md) is the next
-planning task; it has not started and its execution is not authorized. No push.
+[Task 05H](../tasks/sprint2/05h_review_and_freeze_response_inventory.md) published
+and accepted the sole curator-only response inventory with limitations.
+The [final result](specs/task05h_final_result.json) binds the immutable release,
+acceptance pointer and Task 07/08 handoff; the
+[summary](specs/task05h_final_summary.md) explains review coverage and limitations.
+All 511 reference outcomes, F1 warnings, sampled-review qualifications and
+text-only figure restrictions remain intact. No later task is active.
+Task 07 planning is next; downstream execution, commit and push remain separate.
 
 ### Preserved Task 06G execution history
 
@@ -232,18 +229,13 @@ separate actions.
 
 ## Later sequence
 
-1. [Task 05G](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md):
-   consume the accepted Task 06H replacement contract, update frozen consumer
-   bindings, replay only affected Task 05 stages, and qualify further exact rules.
-2. [Task 05H](../tasks/sprint2/05h_review_and_freeze_response_inventory.md): final
-   curator review and immutable response-inventory publication.
-3. Task 07: pilot reference-case authoring and evidence review.
-4. Task 08: curate, cluster, split, and freeze benchmark cases.
-5. Task 09: build and freeze human evaluation.
-6. Task 10: build and freeze BM25 retrieval.
-7. Task 11: build and freeze target generation.
-8. Task 12: calibrate the automated judge.
-9. Task 13: run the locked test and close Sprint 2.
+1. Task 07: pilot reference-case authoring and evidence review.
+2. Task 08: curate, cluster, split, and freeze benchmark cases.
+3. Task 09: build and freeze human evaluation.
+4. Task 10: build and freeze BM25 retrieval.
+5. Task 11: build and freeze target generation.
+6. Task 12: calibrate the automated judge.
+7. Task 13: run the locked test and close Sprint 2.
 
 No later task is active. The [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md)
 owns sprint-level sequencing; the [Task 05 umbrella](../tasks/sprint2/05_build_curator_only_response_inventory.md)

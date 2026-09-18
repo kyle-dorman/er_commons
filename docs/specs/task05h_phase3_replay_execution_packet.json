@@ -1,0 +1,431 @@
+{
+  "authorization": {
+    "acceptance": false,
+    "execution": true,
+    "finalization": false,
+    "publication": false
+  },
+  "packets": {
+    "prepare": {
+      "attempt": 1,
+      "attempt_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001-prepare",
+      "authorization": {
+        "acceptance": false,
+        "execution": true,
+        "finalization": false,
+        "publication": false
+      },
+      "binding_freeze": {
+        "path": "docs/specs/task05h_phase1_bindings.json",
+        "sha256": "a26dd72ef9267413c9d3f97b73dc3aa9ca02291e21c5410304d8ac3c8e1b7568"
+      },
+      "cache_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/cache/05h",
+      "candidate_root": null,
+      "command": [
+        "/usr/bin/env",
+        "OMP_NUM_THREADS=2",
+        "OPENBLAS_NUM_THREADS=2",
+        "MKL_NUM_THREADS=2",
+        "NUMEXPR_NUM_THREADS=2",
+        "VECLIB_MAXIMUM_THREADS=2",
+        "ER_COMMONS_DATA_ROOT=/Volumes/x10pro/er_commons",
+        "uv",
+        "run",
+        "python",
+        "-m",
+        "er_commons.response_inventory.release_workflow",
+        "--run-spec",
+        "/Users/kyledorman/Documents/er_commons/configs/brisbane_baylands_2025_feir_task05h_phase3_replay_v1.json",
+        "--attempt",
+        "1",
+        "--operation",
+        "prepare"
+      ],
+      "cumulative_max_bytes": 2147483648,
+      "data_root": "/Volumes/x10pro/er_commons",
+      "effective_worker_thread_environment": {
+        "MKL_NUM_THREADS": "2",
+        "NUMEXPR_NUM_THREADS": "2",
+        "OMP_NUM_THREADS": "2",
+        "OPENBLAS_NUM_THREADS": "2",
+        "VECLIB_MAXIMUM_THREADS": "2"
+      },
+      "launch_command": [
+        "tmux",
+        "new-session",
+        "-d",
+        "-s",
+        "er-commons-05h-d9889b552771-001-prepare",
+        "-c",
+        "/Users/kyledorman/Documents/er_commons",
+        "uv run python -m er_commons.response_inventory.release_launch --run-spec /Users/kyledorman/Documents/er_commons/configs/brisbane_baylands_2025_feir_task05h_phase3_replay_v1.json --attempt 1 --operation prepare"
+      ],
+      "launch_packet_path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/launch-001-prepare.json",
+      "metadata_reserve_bytes": 65536,
+      "operation": "prepare",
+      "output_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05h",
+      "plan_id": "plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771",
+      "prior_bytes": {
+        "cache": 35789916,
+        "published": 0,
+        "supervisor": 46241,
+        "working": 4569684
+      },
+      "prior_output_bytes": 4569684,
+      "publication_reserve_bytes": 0,
+      "repository_bindings": [
+        {
+          "path": "benchmarks/er_bench/schemas/response_inventory/release_v1/records.schema.json",
+          "sha256": "f46940f36b40ceec14debc3324a46452c32e09bebc3a04a73c856fda6d533107"
+        },
+        {
+          "path": "benchmarks/er_bench/schemas/response_inventory/release_v1/run_spec.schema.json",
+          "sha256": "07b7fb46f569aba561bfc32170aff5ed9c7337a2afb4eae3bbb359aa67305f22"
+        },
+        {
+          "path": "benchmarks/er_bench/schemas/response_inventory/v1/records.schema.json",
+          "sha256": "fa8cac55243db90b94ac451e9d00dba5d509ef0e07a72a739570dd6994b625ba"
+        },
+        {
+          "path": "docs/specs/task05h_phase1_bindings.json",
+          "sha256": "a26dd72ef9267413c9d3f97b73dc3aa9ca02291e21c5410304d8ac3c8e1b7568"
+        },
+        {
+          "path": "pyproject.toml",
+          "sha256": "4622a822017ac97dfbd14848c308b7dc49b17b03f0a3c2f88c2f237bfd7239d3"
+        },
+        {
+          "path": "scripts/prepare_task05h_execution.py",
+          "sha256": "3c514f1cd6d1c5dd382b42c903d2b262397044be4824acd700fb5b6020398e5e"
+        },
+        {
+          "path": "src/er_commons/artifact_io.py",
+          "sha256": "742def5e35aa9a29f747149a06d77daf44106ddd5ce50c157181e19f6561236f"
+        },
+        {
+          "path": "src/er_commons/document_publication/background_execution.py",
+          "sha256": "f7f1bb25941010ac3bd5194e559cc58c19488e177104242d2289fed1c2c85c78"
+        },
+        {
+          "path": "src/er_commons/response_inventory/__init__.py",
+          "sha256": "238e966e3f74df1f4540beb106ad4651ddf1ee66033cf98c462c8967b96bbafc"
+        },
+        {
+          "path": "src/er_commons/response_inventory/cli.py",
+          "sha256": "f1a26756a019d8fad0db33b5fb397cdea4119db03fed401e3e9f9a801ae168a9"
+        },
+        {
+          "path": "src/er_commons/response_inventory/code_inventory.py",
+          "sha256": "6c0b8d9a2c3d9970820e19c73a414821dd59304a23269758a248539675e1a19e"
+        },
+        {
+          "path": "src/er_commons/response_inventory/complete_source_policy.py",
+          "sha256": "16b1d936e9cffe8383f3ce2c6706bfa26f53dfaf02365d99b6cca3715fc9327a"
+        },
+        {
+          "path": "src/er_commons/response_inventory/contract.py",
+          "sha256": "eaa845264a76b1a7d166a688c5191c866b0d75949d351c7d67dec9899bc229ed"
+        },
+        {
+          "path": "src/er_commons/response_inventory/observations.py",
+          "sha256": "a345b98759e7d10860f898df4139506715ac22574f3b762a4ec11ca20e3e6514"
+        },
+        {
+          "path": "src/er_commons/response_inventory/pilot_policy.py",
+          "sha256": "4c84a8005ed63a659eadc4a4157a01f902c5719639f9049ca3e96f2ab05c04ce"
+        },
+        {
+          "path": "src/er_commons/response_inventory/producer.py",
+          "sha256": "a5823662337a41cb9af52305ccee975e5ed40eba3add29d29493808d5b8023a1"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_execution.py",
+          "sha256": "1b4fc8d4a2e20512cf5dcd41c1bf0a6181a3495c463416e81d14e6977e951528"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_inputs.py",
+          "sha256": "1c2f790711829b23446bcffaa37a67dfe5509233b38f64f94507bd2281909e9d"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_launch.py",
+          "sha256": "1188484510eb531eb4755e817ebe0b6cc0baaea8de44b5e22e78bd70450c9055"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_publication.py",
+          "sha256": "d83d789b47f8a406c322869a52c5f3eb331288cdc558f3b498fd1b5f2f876b04"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_review.py",
+          "sha256": "2c17b9f3599e2af450e247768b68bb0a6b93e36dea2fbdead83bcce1aecf92ef"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_spec.py",
+          "sha256": "d5699fc7d4ce8798075512760a4a253d964e2de931ab6363db1356f9aa53cde3"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_storage.py",
+          "sha256": "0d37c4b2f50596ae07b71d13aeec2cb19574b03cee3b72ff0ca0332d148f8b41"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_validation.py",
+          "sha256": "6d7b6b7b21377887ed401fd592c4a36dffe7fc05b19ec03da009dac9acccc54f"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_views.py",
+          "sha256": "efe069f5c5c1dd32448e6e5495f774a622b4b4e716ab4d8e5728bf078fc41d06"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_workflow.py",
+          "sha256": "b5ca147b3677c74eb4881f1f1522aafc05c597d3c3b1d78157831348745eeef4"
+        },
+        {
+          "path": "src/er_commons/response_inventory/run_spec.py",
+          "sha256": "988075bcc7e369f556f6e62974fb3713d01384b1f4c10cdcf4e195fe109dd44d"
+        },
+        {
+          "path": "src/er_commons/response_inventory/source_structure.py",
+          "sha256": "bd39f050a32a1ab956de2da85c89ba2b6e80a145d3f7034510afb824ef568eb2"
+        },
+        {
+          "path": "uv.lock",
+          "sha256": "6f971f2d27875fb0f3abe2b0051f3adcbd21164ca1a386e9f2a2cc301c88b452"
+        }
+      ],
+      "repository_root": "/Users/kyledorman/Documents/er_commons",
+      "request_sha256": "95a6a71a8cbac2e52592621a027506552d3ae0e1bcccae3748a7875257f29c0c",
+      "resume_from": null,
+      "run_spec": "/Users/kyledorman/Documents/er_commons/configs/brisbane_baylands_2025_feir_task05h_phase3_replay_v1.json",
+      "schema_version": "er_commons.task05h.launch_packet.v1",
+      "selection_freeze": {
+        "path": "docs/specs/task05h_review_selection.json",
+        "sha256": "aaed7df7bd59529d3bfc9cfe81b02f104b35d01136d2b8889771fc1ad01ec395"
+      },
+      "supervisor_attempts_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts",
+      "supervisor_limits": {
+        "disk_sample_seconds": 1.0,
+        "max_output_bytes": 2111581955,
+        "max_rss_bytes": 4294967296,
+        "max_seconds": 1800,
+        "max_swap_growth_bytes": 0,
+        "min_free_bytes": 8589934592,
+        "sample_seconds": 0.1,
+        "termination_grace_seconds": 15.0
+      },
+      "working_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05h"
+    },
+    "review": {
+      "attempt": 1,
+      "attempt_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001-review",
+      "authorization": {
+        "acceptance": false,
+        "execution": true,
+        "finalization": false,
+        "publication": false
+      },
+      "binding_freeze": {
+        "path": "docs/specs/task05h_phase1_bindings.json",
+        "sha256": "a26dd72ef9267413c9d3f97b73dc3aa9ca02291e21c5410304d8ac3c8e1b7568"
+      },
+      "cache_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/cache/05h",
+      "candidate_root": null,
+      "command": [
+        "/usr/bin/env",
+        "OMP_NUM_THREADS=2",
+        "OPENBLAS_NUM_THREADS=2",
+        "MKL_NUM_THREADS=2",
+        "NUMEXPR_NUM_THREADS=2",
+        "VECLIB_MAXIMUM_THREADS=2",
+        "ER_COMMONS_DATA_ROOT=/Volumes/x10pro/er_commons",
+        "uv",
+        "run",
+        "python",
+        "-m",
+        "er_commons.response_inventory.release_workflow",
+        "--run-spec",
+        "/Users/kyledorman/Documents/er_commons/configs/brisbane_baylands_2025_feir_task05h_phase3_replay_v1.json",
+        "--attempt",
+        "1",
+        "--operation",
+        "review"
+      ],
+      "cumulative_max_bytes": 2147483648,
+      "data_root": "/Volumes/x10pro/er_commons",
+      "effective_worker_thread_environment": {
+        "MKL_NUM_THREADS": "2",
+        "NUMEXPR_NUM_THREADS": "2",
+        "OMP_NUM_THREADS": "2",
+        "OPENBLAS_NUM_THREADS": "2",
+        "VECLIB_MAXIMUM_THREADS": "2"
+      },
+      "launch_command": [
+        "tmux",
+        "new-session",
+        "-d",
+        "-s",
+        "er-commons-05h-d9889b552771-001-review",
+        "-c",
+        "/Users/kyledorman/Documents/er_commons",
+        "uv run python -m er_commons.response_inventory.release_launch --run-spec /Users/kyledorman/Documents/er_commons/configs/brisbane_baylands_2025_feir_task05h_phase3_replay_v1.json --attempt 1 --operation review"
+      ],
+      "launch_packet_path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/launch-001-review.json",
+      "metadata_reserve_bytes": 65536,
+      "operation": "review",
+      "output_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/cache/05h",
+      "plan_id": "plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771",
+      "prior_bytes": {
+        "cache": 35789916,
+        "published": 0,
+        "supervisor": 46241,
+        "working": 4569684
+      },
+      "prior_output_bytes": 35789916,
+      "publication_reserve_bytes": 0,
+      "repository_bindings": [
+        {
+          "path": "benchmarks/er_bench/schemas/response_inventory/release_v1/records.schema.json",
+          "sha256": "f46940f36b40ceec14debc3324a46452c32e09bebc3a04a73c856fda6d533107"
+        },
+        {
+          "path": "benchmarks/er_bench/schemas/response_inventory/release_v1/run_spec.schema.json",
+          "sha256": "07b7fb46f569aba561bfc32170aff5ed9c7337a2afb4eae3bbb359aa67305f22"
+        },
+        {
+          "path": "benchmarks/er_bench/schemas/response_inventory/v1/records.schema.json",
+          "sha256": "fa8cac55243db90b94ac451e9d00dba5d509ef0e07a72a739570dd6994b625ba"
+        },
+        {
+          "path": "docs/specs/task05h_phase1_bindings.json",
+          "sha256": "a26dd72ef9267413c9d3f97b73dc3aa9ca02291e21c5410304d8ac3c8e1b7568"
+        },
+        {
+          "path": "pyproject.toml",
+          "sha256": "4622a822017ac97dfbd14848c308b7dc49b17b03f0a3c2f88c2f237bfd7239d3"
+        },
+        {
+          "path": "scripts/prepare_task05h_execution.py",
+          "sha256": "3c514f1cd6d1c5dd382b42c903d2b262397044be4824acd700fb5b6020398e5e"
+        },
+        {
+          "path": "src/er_commons/artifact_io.py",
+          "sha256": "742def5e35aa9a29f747149a06d77daf44106ddd5ce50c157181e19f6561236f"
+        },
+        {
+          "path": "src/er_commons/document_publication/background_execution.py",
+          "sha256": "f7f1bb25941010ac3bd5194e559cc58c19488e177104242d2289fed1c2c85c78"
+        },
+        {
+          "path": "src/er_commons/response_inventory/__init__.py",
+          "sha256": "238e966e3f74df1f4540beb106ad4651ddf1ee66033cf98c462c8967b96bbafc"
+        },
+        {
+          "path": "src/er_commons/response_inventory/cli.py",
+          "sha256": "f1a26756a019d8fad0db33b5fb397cdea4119db03fed401e3e9f9a801ae168a9"
+        },
+        {
+          "path": "src/er_commons/response_inventory/code_inventory.py",
+          "sha256": "6c0b8d9a2c3d9970820e19c73a414821dd59304a23269758a248539675e1a19e"
+        },
+        {
+          "path": "src/er_commons/response_inventory/complete_source_policy.py",
+          "sha256": "16b1d936e9cffe8383f3ce2c6706bfa26f53dfaf02365d99b6cca3715fc9327a"
+        },
+        {
+          "path": "src/er_commons/response_inventory/contract.py",
+          "sha256": "eaa845264a76b1a7d166a688c5191c866b0d75949d351c7d67dec9899bc229ed"
+        },
+        {
+          "path": "src/er_commons/response_inventory/observations.py",
+          "sha256": "a345b98759e7d10860f898df4139506715ac22574f3b762a4ec11ca20e3e6514"
+        },
+        {
+          "path": "src/er_commons/response_inventory/pilot_policy.py",
+          "sha256": "4c84a8005ed63a659eadc4a4157a01f902c5719639f9049ca3e96f2ab05c04ce"
+        },
+        {
+          "path": "src/er_commons/response_inventory/producer.py",
+          "sha256": "a5823662337a41cb9af52305ccee975e5ed40eba3add29d29493808d5b8023a1"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_execution.py",
+          "sha256": "1b4fc8d4a2e20512cf5dcd41c1bf0a6181a3495c463416e81d14e6977e951528"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_inputs.py",
+          "sha256": "1c2f790711829b23446bcffaa37a67dfe5509233b38f64f94507bd2281909e9d"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_launch.py",
+          "sha256": "1188484510eb531eb4755e817ebe0b6cc0baaea8de44b5e22e78bd70450c9055"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_publication.py",
+          "sha256": "d83d789b47f8a406c322869a52c5f3eb331288cdc558f3b498fd1b5f2f876b04"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_review.py",
+          "sha256": "2c17b9f3599e2af450e247768b68bb0a6b93e36dea2fbdead83bcce1aecf92ef"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_spec.py",
+          "sha256": "d5699fc7d4ce8798075512760a4a253d964e2de931ab6363db1356f9aa53cde3"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_storage.py",
+          "sha256": "0d37c4b2f50596ae07b71d13aeec2cb19574b03cee3b72ff0ca0332d148f8b41"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_validation.py",
+          "sha256": "6d7b6b7b21377887ed401fd592c4a36dffe7fc05b19ec03da009dac9acccc54f"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_views.py",
+          "sha256": "efe069f5c5c1dd32448e6e5495f774a622b4b4e716ab4d8e5728bf078fc41d06"
+        },
+        {
+          "path": "src/er_commons/response_inventory/release_workflow.py",
+          "sha256": "b5ca147b3677c74eb4881f1f1522aafc05c597d3c3b1d78157831348745eeef4"
+        },
+        {
+          "path": "src/er_commons/response_inventory/run_spec.py",
+          "sha256": "988075bcc7e369f556f6e62974fb3713d01384b1f4c10cdcf4e195fe109dd44d"
+        },
+        {
+          "path": "src/er_commons/response_inventory/source_structure.py",
+          "sha256": "bd39f050a32a1ab956de2da85c89ba2b6e80a145d3f7034510afb824ef568eb2"
+        },
+        {
+          "path": "uv.lock",
+          "sha256": "6f971f2d27875fb0f3abe2b0051f3adcbd21164ca1a386e9f2a2cc301c88b452"
+        }
+      ],
+      "repository_root": "/Users/kyledorman/Documents/er_commons",
+      "request_sha256": "95a6a71a8cbac2e52592621a027506552d3ae0e1bcccae3748a7875257f29c0c",
+      "resume_from": null,
+      "run_spec": "/Users/kyledorman/Documents/er_commons/configs/brisbane_baylands_2025_feir_task05h_phase3_replay_v1.json",
+      "schema_version": "er_commons.task05h.launch_packet.v1",
+      "selection_freeze": {
+        "path": "docs/specs/task05h_review_selection.json",
+        "sha256": "aaed7df7bd59529d3bfc9cfe81b02f104b35d01136d2b8889771fc1ad01ec395"
+      },
+      "supervisor_attempts_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts",
+      "supervisor_limits": {
+        "disk_sample_seconds": 1.0,
+        "max_output_bytes": 2142802187,
+        "max_rss_bytes": 4294967296,
+        "max_seconds": 1800,
+        "max_swap_growth_bytes": 0,
+        "min_free_bytes": 8589934592,
+        "sample_seconds": 0.1,
+        "termination_grace_seconds": 15.0
+      },
+      "working_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_05_response_inventory/working/05h"
+    }
+  },
+  "patch_applied_sha256": "4fa1a2f06e074db5927e32a9148a84a1d8cb270987ca72f81b56ddd1c0e1c213",
+  "plan_id": "plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771",
+  "prior_plan_id": "plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d",
+  "request": "configs/brisbane_baylands_2025_feir_task05h_phase3_replay_v1.json",
+  "request_sha256": "95a6a71a8cbac2e52592621a027506552d3ae0e1bcccae3748a7875257f29c0c",
+  "schema_version": "er_commons.task05h.phase3_replay_authorization.v1",
+  "user_instruction": "yes fix and replay please"
+}

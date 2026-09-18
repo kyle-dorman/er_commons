@@ -1,0 +1,78 @@
+{
+  "acceptance_execution": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/acceptances/acceptance05hv1-16d43a7f43be8ef0c70cb3fd7088aa73dc3c6f01bdc7827ad89c231101cba58c/execution.json",
+    "sha256": "19bd4b6d3bdd164bb35d96bada97e252fa71bfa66e5c6db4ea205830f2a81818",
+    "size_bytes": 1102
+  },
+  "acceptance_id": "acceptance05hv1-16d43a7f43be8ef0c70cb3fd7088aa73dc3c6f01bdc7827ad89c231101cba58c",
+  "acceptance_pointer": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/accepted.json",
+    "sha256": "75236575707e0330f42077b746aff8217aa37262c5342093e881127e024b440e",
+    "size_bytes": 892
+  },
+  "acceptance_record": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/acceptances/acceptance05hv1-16d43a7f43be8ef0c70cb3fd7088aa73dc3c6f01bdc7827ad89c231101cba58c/acceptance.json",
+    "sha256": "75236575707e0330f42077b746aff8217aa37262c5342093e881127e024b440e",
+    "size_bytes": 892
+  },
+  "checks": {
+    "attribution": "Kyle Dorman authorizes acceptance; review remains AI-assisted as recorded; no new human substantive review claim",
+    "designation": "Canonical acceptance ID, exact pointer/record equality and completion/manifest/handoff digests verified; one Task05H release and one designation",
+    "downstream": "Execution remains explicitly unauthorized",
+    "limitations": "511 outcomes, 468 links, 43 nonlinks; 706 proven and 51 sampled carries remain distinct; 66 F1 warnings including two response-specific cases and other64 caveat; 178 figure exclusions retained",
+    "publication": "Published and finalized containers byte-identical, exact managed closure verified",
+    "review_history": "Both old blocked and new completed curation trees exactly match sealed manifests; new manifest still matches finalization binding",
+    "supervision": "Successful terminal publication and acceptance receipts verified with original limits and launch bindings"
+  },
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/inventoryv1-ad2958c7ad1fc4e584fee16b9784623169dfe493df41642be8f0636039bc19f3/records/completion.json",
+    "sha256": "a2409c609b173b68aed1efca5ff1d034ddeb359a71891a36409d3552665a6e78",
+    "size_bytes": 589
+  },
+  "handoff": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/inventoryv1-ad2958c7ad1fc4e584fee16b9784623169dfe493df41642be8f0636039bc19f3/records/task07_task08_handoff.json",
+    "sha256": "5f572d8d7e42f04ff61fe2355b2d7d24b3a3acf5462e4e33bfc5c8ba73691eb0",
+    "size_bytes": 14297
+  },
+  "historical_curation_manifests": [
+    {
+      "file_count": 14,
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-d1e048c11366c68d8518342ffbfd61f69955cea62438ac7648e50795104e326d/attempt-001/curation/review_manifest.json",
+      "sha256": "617b21475eefc36700ebe45908d09c5c61b3144a3db0c1ba439aed2ee3955205"
+    },
+    {
+      "file_count": 25,
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001/curation/review_manifest.json",
+      "sha256": "d195c10f1d487dd680ec779de18bc45bf5c8a0a0a0d055f590bc0c866fe02d92"
+    }
+  ],
+  "inventory_id": "inventoryv1-ad2958c7ad1fc4e584fee16b9784623169dfe493df41642be8f0636039bc19f3",
+  "manifest": {
+    "path": "pipelines/brisbane_baylands/task_05_response_inventory/inventoryv1-ad2958c7ad1fc4e584fee16b9784623169dfe493df41642be8f0636039bc19f3/records/managed_file_inventory.json",
+    "sha256": "7f98f5abdeceab0e644db355bc607c4cc75ce989f4a19bc0ee31e18bd3712b71",
+    "size_bytes": 2156
+  },
+  "material_findings": [],
+  "plan_id": "plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771",
+  "review_scope": "Read-only exact compact release/acceptance artifacts, JSON limitations and historical curation manifest verification; no source/PDF/model access or production rerun",
+  "reviewed_at": "2026-09-18T21:50:05.209023+00:00",
+  "reviewer": "Codex agent publication_review (independent AI-assisted audit)",
+  "schema_version": "er_commons.task05h.final_review.v1",
+  "status": "passed",
+  "terminal_execution": {
+    "accept": {
+      "attempt": 1,
+      "launch_packet_sha256": "907949e566d5e64840d045d59386d14dc866932b4df4f482e09d4988ebeddba9",
+      "operation": "accept",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001-accept/execution.json",
+      "sha256": "9b21579788a90bbb6c5267fc0c5e4b82faba66a5c00b78b8ce107f756f0e2d7b"
+    },
+    "publish": {
+      "attempt": 1,
+      "launch_packet_sha256": "f0bdaeac35cef3169169c4d5220aa821e19bd40607c65b1b6246747b3ae32f08",
+      "operation": "publish",
+      "path": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h_execution_attempts/plan05hv1-99ff42d0d9a321713a0207668b92f119953f0fc827cc3be55c3ed9889b552771/attempt-001-publish/execution.json",
+      "sha256": "705a1ad2f0d21c58465644b6323b6b613db311273cb992f270ca7c65953c4ded"
+    }
+  }
+}

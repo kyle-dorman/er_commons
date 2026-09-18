@@ -1,0 +1,63 @@
+--- a/src/er_commons/response_inventory/release_review.py
++++ b/src/er_commons/response_inventory/release_review.py
+@@ -480,7 +480,7 @@
+         ("outcomes", inputs.outcomes, None),
+     ):
+         component = next((c for c in inputs.components if c["role"] == role), None)
+-        receipt = dependencies.get(receipt_role)
++        receipt = dependencies.get(receipt_role) if receipt_role is not None else None
+         for row in rows:
+             record_id = primary_id(row)
+             if record_id is None:
+--- /dev/null
++++ b/tests/test_task05h_roleless_metadata.py
+@@ -0,0 +1,49 @@
++"""Production dependency metadata must not become an outcome receipt fallback."""
++
++from dataclasses import replace
++
++import pytest
++
++from er_commons.response_inventory.release_inputs import ReleaseInputs
++from er_commons.response_inventory.release_review import validate_decision_evidence
++
++
++def test_roleless_metadata_is_not_an_outcome_receipt() -> None:
++    """Outcomes have a sealed component and deliberately no completion fallback."""
++    seal = {"identity": "replay", "path": "outcomes.jsonl", "sha256": "a" * 64}
++    inputs = ReleaseInputs(
++        source_records=[],
++        edges=[],
++        graph_diagnostics=[],
++        graph_views=[],
++        outcomes=[{"outcome_id": "outcome", "mention_id": "mention", "outcome": "resolved"}],
++        links=[],
++        reference_diagnostics=[],
++        dependencies=[{"path": "accepted_metadata.json", "sha256": "b" * 64}],
++        components=[
++            {
++                "role": "outcomes",
++                "owner_revision": "replay",
++                "path": "outcomes.jsonl",
++                "sha256": "a" * 64,
++            }
++        ],
++        limitations={},
++        handoff={},
++        accounting={},
++        semantic_digest="c" * 64,
++    )
++    selection = {"obligations": [{"subject_ref": "mention", "member_refs": ["mention"]}]}
++    decisions = [{"subject_refs": ["mention"], "evidence_refs": [{**seal, "record_id": "mention"}]}]
++    validate_decision_evidence(inputs, selection, decisions)
++    # A roleless seal must not substitute for a missing authoritative component.
++    with pytest.raises(ValueError, match="not a retained accepted member"):
++        validate_decision_evidence(replace(inputs, components=[]), selection, decisions)
++    # The guard must not hide malformed named completion authorities.
++    malformed = replace(
++        inputs,
++        source_records=[{"record_type": "source_unit", "unit_id": "unit"}],
++        dependencies=[{"role": "task05d_completion", "path": "bad.json"}],
++    )
++    with pytest.raises(KeyError, match="identity"):
++        validate_decision_evidence(malformed, selection, decisions)
