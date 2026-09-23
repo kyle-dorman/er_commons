@@ -143,12 +143,11 @@ Record whether each apparent orphan is a source omission, extraction failure,
 unresolved cross-reference, or legitimate document structure. Do not silently
 drop unmatched units.
 
-Construct the inventory deterministically from document structure, source IDs,
-headings, and explicit cross-reference patterns, with manual resolution of
-ambiguous cases. Do not use an LLM to create, segment, link, or triage the
-inventory in this sprint. Model assistance for inventory work is out of scope
-for now; it may be evaluated later against the completed human-reviewed
-inventory as a QA reference.
+Construct the Task 05 inventory deterministically from document structure,
+source IDs, headings, and explicit cross-reference patterns, with manual
+resolution of ambiguous cases. No LLM creates, segments, links, or triages
+that accepted inventory. Task 07 may use model suggestions to screen already
+accepted pairs for pilot fit; those suggestions do not change Task 05 records.
 
 Task 05's accepted curator-only inventory is owned by the
 [Task 05 umbrella](../../tasks/sprint2/05_build_curator_only_response_inventory.md)
@@ -227,8 +226,8 @@ Keep the project's graph roles distinct:
 - Task 05 owns the curator-only comment, individual-response, and
   general-response relationship graph plus links from official response
   references to Task 03 targets.
-- Task 07 owns only a curator-search traversal/index view over the accepted
-  Task 03 graph.
+- Task 07 may add a curator-search traversal/index view over the accepted Task
+  03 graph if pilot evidence gaps warrant it.
 - Task 08 owns the case-clustering graph.
 
 Draft EIR section adjacency, a shared Task 03 target, or traversal proximity
@@ -263,47 +262,49 @@ changes as new named runs rather than replacing the primary result.
 
 ### Model-assisted reference-case authoring
 
-For the bounded Task 07 pilot, the curator may select a small, varied set of
-plausibly eligible Task 05 cases for exploratory authoring. This pilot inclusion
-is not formal eligibility, acceptance, or a substitute for Task 08's complete
-two-pass review. For each selected pilot case, a curation model may use the
-original comment, resolved individual and general responses, and candidate
-Draft EIR evidence to propose three distinct artifacts in order:
+Task 07 first screens **at least 50 distinct comment-response pairs** from the
+accepted Task 05H inventory for pilot fit. In a focused Label Studio project,
+the curator reviews every pair and assigns `great_fit`, `ok_fit`, or
+`skip_for_pilot`, with multiple reason codes where useful. Codex may propose
+ratings, but only the human disposition counts. Preserve selection coverage,
+ranking or priority groups, reasons, and counts. Select a small, varied set of
+great fits (initial target 6–10) for exploratory authoring; expand the screened
+batch if it yields too few. Pilot fit does not establish Task 08 eligibility or
+replace its complete two-pass review.
 
-1. **Relevant citations:** canonical Draft EIR evidence spans with source IDs
-   and provenance distinguishing references explicitly identified by the
-   official response from evidence found through additional corpus retrieval.
-2. **Evidence summary:** a concise synthesis of what the proposed evidence
-   establishes, with every substantive statement linked to the proposed
-   citations.
-3. **Reference defense:** a concise answer to the original comment using only
-   the proposed Draft EIR evidence, with sentence-level citations.
+Each selected case then passes through five further, separately configured
+Label Studio review projects:
 
-Treat these as three separate review levels, similar to the staged DocScope
-review pattern, rather than one opaque generated answer. Preserve the model's
-proposal and the curator-edited result at every level, along with prompt
-version, model tag and resolved digest, settings, and input artifact IDs. The
-single human curator reviews and edits all three levels before the case can be
-finalized. Model output never establishes evidence validity or case acceptance
-without that review.
+1. **Comment question:** identify the concerns in the original comment.
+2. **Response assertions:** break the official individual and incorporated
+   general responses into candidate facts, qualifications, and conclusions,
+   retaining their source spans and attribution.
+3. **Evidence:** find and review Draft EIR passages for each material assertion,
+   distinguishing direct support, context, contradictions, and gaps.
+4. **Answer logic / evidence summary:** explain how the reviewed evidence
+   answers each concern and where it does not.
+5. **Reference defense:** draft and review a complete answer with resolvable
+   sentence-level citations, or preserve an insufficient-evidence outcome.
 
-Human approval is a gate between authoring levels. The curation model first
-proposes citations; only the curator-approved citation set may be passed to the
-summary call. Only the curator-approved citations and summary may be passed to
-the defense call. Each case therefore uses three separately recorded model
-calls and three curator review states. A rejected or unresolved level stops the
-case from advancing rather than allowing downstream prose to conceal an
-upstream evidence problem.
+For each stage, prepare a bounded input batch and prompt for a separate Codex
+task. The user starts that task through existing app access. Small code helpers
+validate and import its proposals, export human annotations, and prepare only
+approved outputs for the next stage. There is no paid API integration or live
+model backend requirement for this pilot. Preserve source and case IDs, prompt
+and form versions, selected model, input batch, model proposal, and curator
+edits. A stage may repeat under a new named revision as its review criteria
+improve. A rejected or unresolved stage never advances silently.
 
-Build the proposed citation pool through a reproducible high-recall curator
-search that is separate from the later top-five benchmark retriever. Resolve
-the official response's explicit Draft EIR references first, then search the
-full usable corpus from the comment and resolved response. Preserve distinct
-provenance for response-explicit and search-discovered evidence, along with
-which model call proposed each span and the curator's disposition.
+Build candidate evidence through reproducible curator search, separate from
+the later top-five benchmark retriever. Resolve the official response's
+explicit Draft EIR references first, then search usable corpus text using the
+comment, response, and reviewed assertions. Search may fan out by assertion;
+merge candidates for case-level review. Preserve distinct provenance for
+response-explicit, lexical, and any graph-discovered evidence, along with
+which Codex task proposed a span and the curator's disposition.
 
-The citation-proposal call is closed over that supplied candidate pool. Its
-schema may select only canonical evidence IDs present in the input; it may not
+The evidence proposal is closed over that supplied candidate pool. Its schema
+may select only canonical evidence IDs present in the input; it may not
 invent page references, quote unseen passages, or request arbitrary source
 IDs. For each selected span, require a short relevance explanation and a
 classification of direct support versus contextual material. The schema must
@@ -312,8 +313,8 @@ IDs mechanically before presenting the proposal for curator review.
 
 Contextual spans may remain in the curation packet to explain terminology,
 scope, or cross-references, but they do not count as reference evidence and
-cannot independently justify a claim. Every substantive sentence in both the
-curator-approved evidence summary and curator-approved reference defense must
+cannot independently justify a claim. Every substantive step in the
+curator-approved answer logic and reference defense must
 cite at least one direct-support span. Retrieval coverage metrics score only
 against curator-approved direct-support spans, not contextual material.
 
@@ -500,55 +501,44 @@ search where the evidence shows it is unnecessary. Do not tune the later
 top-five benchmark retriever on this curation search configuration or report
 the curation search as baseline retrieval performance.
 
-For the initial pilot, construct curation-search queries deterministically from
-the original comment, individual response, incorporated general-response text,
-and explicit section, appendix, page, or named-topic references. Run and log
-the component lexical searches separately, then merge and deduplicate their
-results before the citation-proposal model sees them. Model-generated query
-expansion is out of scope for the initial pilot and may be tested later only if
-the recorded evidence shows inadequate recall.
-
-Materialize a deterministic traversal/index view over the accepted Task 03
-cross-reference records; Task 07 does not re-extract or re-resolve references.
-Use Task 05 official-response references as curator-only seeds and traverse
-only resolved edges whose targets remain usable under Task 04A. Unresolved
-mentions remain lexical-search or manual-review signals, not graph edges.
-Semantic section or printed-label references seed search, but accepted evidence
-still requires exact block or table anchors. Preserve the complete discovery
-path for every graph-expanded span, deduplicate cycles, and record any
-configured traversal or result limit rather than silently truncating the
-expansion.
-
-For the pilot, traverse at most two explicit-reference edges from each seed
-section. This permits paths such as a response-cited section referring to a
-second section that in turn refers to an appendix, without unbounded graph
-expansion. Report how often curator-accepted evidence originated at hop zero,
-one, or two. The annotation workflow may reduce the depth before it is frozen
-if second-hop evidence does not contribute.
+Start with recorded lexical searches from the original comment, resolved
+response, reviewed assertions, and explicit source references. Merge and
+deduplicate candidate IDs before Codex evidence proposals. If reviewed gaps
+show that these searches missed needed evidence, a named revision may add
+recorded query expansion or a deterministic traversal/index view over accepted
+Task 03 cross-references. Task 07 does not re-extract or re-resolve references.
+Any traversal uses only resolved edges to usable targets, records its full
+path and limits, and stops at two explicit-reference hops. Unresolved mentions
+remain search or manual-review signals, not graph edges. Accepted evidence
+always needs exact canonical anchors, regardless of how it was discovered.
 
 ### Model roles
 
 Keep curation, target generation, and automated judging as distinct model
-roles. Use pinned `gpt-oss:20b` as the initial local curation model for citation
-proposals, evidence summaries, and reference-defense drafts. Use pinned
+roles. Use a capable Codex model available through the user's existing app
+allowance for Task 07's first proposal batches; record the selected model and
+exact task/prompt/input/output provenance. After human-approved examples are
+stable, replay representative **pre-review inputs** with pinned local
+`gpt-oss:20b` or another no-extra-cost model and compare proposals through
+human review. No LLM judge is part of Task 07. Use pinned
 `qwen3:4b-instruct-2507-q4_K_M` as the intentionally small initial target
-baseline. Use pinned `gemma3:12b` as the initial local judge candidate; compare
+baseline in later tasks. Use pinned `gemma3:12b` as the later local judge
+candidate; compare
 `gemma3:4b` on the same human-scored development records only if a smaller,
 faster judge is useful, and adopt it only if calibration shows little material
 loss.
 
-Resolve and record the exact model digest for every run rather than relying on
-mutable tags. Local inference avoids per-token API charges but does not remove
-the requirement to record runtime, structured-output failures, and human
-calibration. A later target-model comparison may test other model sizes or
-families against the same frozen benchmark without changing the reference
-cases.
+Resolve and record the exact local-model digest for every local run rather than
+relying on mutable tags. Local inference avoids per-token API charges but does
+not remove the need to record runtime, structured-output failures, and human
+comparison. A later target-model comparison may test other model sizes or
+families against the same frozen benchmark without changing the reference cases.
 
 The canonical case preserves the exact original comment text or an explicitly
-identified source span with its provenance. It does not add a curator-written
-neutral question or a separate material-concerns field. The target model
-receives that scoped original comment, not the official response, curation
-model drafts, reviewed evidence summary, or reviewed reference defense.
+identified source span with its provenance. Task 07's reviewed question and
+material-concerns records are curator-only authoring aids. The target model
+receives the scoped original comment, not those aids, the official response,
+curation drafts, reviewed answer logic, or reference defense.
 
 ## Execution sequence
 
@@ -573,12 +563,14 @@ negative results, and validation evidence remain in the completed task records.
 
 ### Remaining task sequence
 
-1. **Task 07 — Pilot reference-case authoring.** Implement deterministic
-   high-recall curator search, a two-hop traversal/index view over the accepted
-   Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence
-   registry, and Label Studio review on a small varied pilot. Official-response
-   references are curator-only seeds; accepted evidence requires exact
-   canonical block or table anchors.
+1. **Task 07 — Pilot reference-case authoring.** Screen at least 50 accepted
+   comment-response pairs for pilot fit, then take a small varied subset
+   through separate Label Studio projects for comment questions, response
+   assertions, evidence, answer logic, and defenses. Codex proposes bounded
+   batches in separate tasks; the curator reviews each stage. A later bounded
+   local-model replay compares proposal quality. The
+   [Task 07 umbrella](../../tasks/sprint2/07_pilot_reference_case_authoring.md)
+   routes the provisional subtasks and review gates.
 2. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Identify at
    least 35 plausible cases, finish two-pass single-curator review, accept at
    least 25 cases, and materialize the deterministic 10-development/15-test

@@ -9,18 +9,21 @@ Sprint 2 is active. Tasks 02–06 are complete, including the repaired
 [Task 06H handoff](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
 and the sole immutable [Task 05H response inventory](specs/task05h_final_result.json).
 The [05H summary](specs/task05h_final_summary.md) owns review coverage and
-inherited limits. No later task is active; [Task 07 planning](sprints/sprint2_brisbane_draft_eir_defense.md#model-assisted-reference-case-authoring)
-is next. Write its bounded contract before implementation.
+inherited limits. The [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
+and provisional subtasks are drafted for review; no Task 07 implementation is
+active. [07A screening](../tasks/sprint2/07a_screen_pilot_candidates.md) is the
+first proposed execution task.
 
 ## Read for the next phase
 
-1. [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md) for Task 07
-   scope and later eligibility/evaluation boundaries.
+1. [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
+   for the proposed stage order and [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md)
+   for later eligibility/evaluation boundaries.
 2. [Task 05H outcome](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
    for the accepted Task 07/08 input; follow its predecessor links only as needed.
-3. [Documentation guide](documentation.md) and [task shape](../tasks/README.md)
-   before writing the next contract. Read architecture or artifact guidance when
-   the contract touches those boundaries.
+3. [07A draft](../tasks/sprint2/07a_screen_pilot_candidates.md) for the first
+   proposed task; read [task shape](../tasks/README.md) and the [documentation
+   guide](documentation.md) before revising it.
 
 ## Document roles
 
