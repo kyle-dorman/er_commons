@@ -128,43 +128,13 @@ specification](specs/restartable_corpus_extraction_v1_1.md). The chunked
 conversion specification defines the independent range-evidence boundary used
 by the current production path.
 
-Task 05's separate curator-only response inventory uses the
+Task 05's curator-only response inventory uses the
 [response inventory v1 specification](specs/response_inventory_v1.md). Its
-source records, normalized relationship edges, sparse corrections, and derived
-review indexes remain separate. The contract is intentionally MVP-sized: one
-record-schema union and one semantic validator, not a new workflow framework.
-The isolated `er-responses validate-spec` command is source-free.
-`er-responses build --run-spec <path>` is curator-only and may access only the
-exact range or ranges accepted by its strict Task 05C or 05D run specification.
-Task 05D declares one `1-744` range, compares and renders every page, freezes a
-deterministic review population, and requires a later receipt-reuse invocation
-before terminal completion. Both stages write replaceable range receipts and a
-nonterminal visual-review packet before terminal publication.
-The full-source workflow exposes named preflight, source-record, review, and
-publication phases. Its all-page Poppler qualification writes and validates one
-atomic page checkpoint at a time, allowing an interrupted pass to resume
-without repeating accepted page evidence. Cache rejection reports bounded
-mismatched receipt fields before source access, and terminal resource reporting
-combines the source pass with the later source-free closure. Candidate
-acceptance uses the same public read-only validator available to maintainers;
-the writing transition remains separately authorized.
-For Task 05D, an exact source-independent same-page comment/response pairing may
-promote a response-style comment marker without relaxing the ordinary marker
-policy. A numbered source-authored missing response heading is retained as the
-terminal `source_response_heading_absent` diagnostic; no response record is
-invented. The run specification may allow that diagnostic class, and reviewed
-zero, one, or multiple occurrences determine `complete` versus
-`complete_with_warnings` from the records.
-`er-responses accept` is a separate explicit transition for an already terminal
-05D candidate; it writes a compact adjacent acceptance pointer outside the
-candidate's managed-file closure and does not change candidate identity.
-For Task 05E, `er-responses finalize-05e` verifies one closed source-free review
-receipt, binds a passing file-checksummed human-maintainability report, and
-atomically wraps the unchanged graph in managed-inventory and completion
-records. It does not rerun matching or copy accepted source records. Candidate
-acceptance uses the separate `er-responses accept-05e` transition, which
-revalidates the terminal candidate and writes a compact adjacent pointer without
-changing the candidate's managed closure.
+source units, relationship graph, exact reference outcomes, review, and final
+publication remain separate from the Task 03 model corpus. The maintained
+`er-responses` CLI validates explicit run specs and uses separate acceptance
+transitions; the [Task 05 umbrella](../tasks/sprint2/05_build_curator_only_response_inventory.md)
+routes the completed stages and their detailed execution contracts.
 
 Task 05H composes those accepted source and graph records with all accepted 05G
 reference outcomes. The `response_inventory.release_*` modules keep input
@@ -178,52 +148,28 @@ The [final result](specs/task05h_final_result.json) records the release bindings
 
 Tasks 07 and 08 resolve the Task 05H acceptance pointer once, then pin the
 inventory identity, completion seal, and exact component references for the
-whole downstream run. They preserve all 511 reference outcomes (468 links and
-43 explicit nonlinks), all 66 Final F1 warnings, and the distinction between
-706 evidence-proven Task 04 disposition reuses and 51 sampled-stratum carries.
-The 51 are not individually re-reviewed or proven equivalent. The F1 warnings
-retain both response-specific revised-content warnings and the rule that the
-other 64 mentions are not proven Draft/Final equivalent. All 178
-caption-backed figure targets remain unavailable as text-only evidence;
-resolvable target identity does not establish evidence eligibility. Curator
-review and accepted inventory status do not authorize downstream execution.
+whole downstream run. They retain the accepted reference, F1-substitution,
+sampled-review, and text-only figure limitations; see the
+[Task 05H summary](specs/task05h_final_summary.md). A link or accepted inventory
+membership does not establish case eligibility or evidence sufficiency.
 
 ## Review boundary
 
-Human review consumes published Task 03 evidence through a separate
-`human_review_support` package. Review selections, requested renders, findings,
-usability dispositions, and release-freeze records do not modify machine
-records. Task 04's first-pass review is historical. Task 04A allocates a new
-review identity bound to Task 03J and owns the final usability registry and
-initial release decision. Task 04B is a conditional fresh replay after an
-approved Task 04A TOC/navigation stop handoff. When Task 03J is accepted without
-regeneration, Task 04C owns the separate derived consumer that combines the
-immutable machine candidate with the accepted human TOC layer for semantic
-navigation, aliases, and links.
+Human review consumes published evidence through `human_review_support`.
+Selections, requested renders, findings, usability dispositions, and release
+records do not modify machine records. Task 04A owns the original usability
+registry; Task 06H owns the accepted replacement review. The original Task 04D
+linking handoff remains distinct from the Task 06H repaired handoff. Their
+exact correspondence and limits live in the [04D](../tasks/sprint2/04d_relink_frozen_extraction.md)
+and [06H](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
+outcomes.
 
-Task 04D owns the fresh replacement-linking boundary. It reuses Task 03J's
-sealed extraction through target-alias construction plus Task 04C's accepted
-navigation semantics and TOC text, changes only document linking behavior, and
-replays linked-document and collection descendants under fresh identities.
-Task 04D may not rerun or modify parsing, table reconstruction, hierarchy,
-section mapping, printed-page resolution, or existing canonical target-alias
-generation. Its only alias extension is the accepted R6/R6a body-derived table
-caption evidence; source navigation text and mentions may query but never
-generate aliases.
-
-Task 06F adds the maintained FC1 figure-alias owner at
-`document_records.document_references.figure_aliases`. It enumerates canonical
-figures and derives marker-only aliases exclusively from each figure's own exact
-canonical image/caption attachments under the
-[`figure_caption_alias_v1`](specs/figure_caption_alias_v1.md) policy. The
-document-linking v2 policy and narrow v2 alias/support schemas add FC1 without
-changing conversion, producer, canonical figure/image/caption, or structural
-record ownership. Relinking remains the integration owner, and collection
-target indexing remains a shape-agnostic consumer of the sealed alias stream.
-Structural figure identity and Task 06H text-only usability are separate
-statuses. Astra and the user accepted remediation attempt v10 for MVP
-correctness and human maintainability; production replay remains owned by Task
-06G.
+Task 06F's maintained figure-alias owner is
+`document_records.document_references.figure_aliases`. Its
+[caption policy](specs/figure_caption_alias_v1.md) derives exact marker aliases
+from a figure's own canonical image/caption attachments. Collection indexing
+consumes the sealed aliases. Structural figure identity and text-only evidence
+usability remain separate decisions.
 
 The exact local target-resolution engine is shared beneath both callers and is
 owned by `document_records.document_references`. It owns exact typed alias
@@ -244,50 +190,34 @@ publisher. Collections continue through the existing assembly interface under
 a fresh scope. Corpus-specific audits may compare this path but may not own a
 resolver, publisher, or identity recipe.
 
-Task 04D's validated handoff is the designated downstream replacement.
-Linking-dependent consumers pin that handoff; they do not compose Task 03J
-machine links with the Task 04C overlay. Task 03J continues to own the
-immutable extraction inputs reused by this replacement. The exact identity and
-completion evidence are retained in the [Task 04D outcome](../tasks/sprint2/04d_relink_frozen_extraction.md).
+Task 04D's validated handoff is the original linking-dependent replacement.
+Task 06H's accepted repaired handoff supersedes it for later reference consumers;
+Task 05G pinned that replacement. Neither handoff is assembled by composing
+Task 03J machine links with the Task 04C overlay. Task 03J continues to own the
+immutable extraction inputs. Exact identities and completion evidence are in
+the [Task 04D outcome](../tasks/sprint2/04d_relink_frozen_extraction.md) and
+[Task 06H outcome](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md).
 
-Gate C implements the record builder and caller adapters in `relinking.py` and
-keeps run-spec resolution, identity derivation, schema enforcement, and
-completion-last publication in `relink_publication.py`. This split preserves a
-single public command while keeping matching behavior independent from artifact
-transaction mechanics.
-
-Collection replay prepares and validates the sealed run once, then executes its
-35 sources sequentially with visible progress. Base-lineage membership is
-proved from sealed handoff, accounting, inventory-reference, and completion
-metadata; the preflight does not hash PDF or preserved document payloads.
+Record-building and caller adaptation live in `relinking.py`; run-spec
+resolution, identity, schema enforcement, and completion-last publication live
+in `relink_publication.py`. The [document-linking specification](specs/document_linking_v1.md)
+owns their contract. Collection replay uses sealed membership and compact
+completion evidence without rehashing preserved source or document payloads;
+the [06G outcome](../tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md)
+owns its completed execution details.
 
 ## Configuration and paths
 
 ### Task 06 reuse boundary
 
-[Task 06B Gate 1](../tasks/sprint2/06b_refactor_pipeline_identity_and_reuse.md)
-implements explicit historical seal consumption separately from current writer
-recipe validation. Its [verification specification](specs/task06b_verification_boundaries_v1.md)
-routes maintained readers and finite behavior inventories. Prepared relink and
-publication state shares one verification budget, loads each original manifest
-and reviewed-navigation bundle once, and checks per-source compatibility.
-Routine accepted-input checks use compact seals and metadata; explicit deep
-audits retain byte-verification semantics. Unchanged inherited support digests
-are propagated into fresh publications without rehashing their payloads.
-
-Document and collection v3 specifications express original per-source releases
-and replacement logical/physical membership. Unchanged sources keep their
-accepted manifests and identities. New descendants bind current behavior and
-upstream seals; metadata qualification does not claim fresh payload equality.
-Gate 2 migrated maintained wrappers to explicit requests and responsibility owners;
-see the [command map](pipeline_commands.md) and
-[executed inventory](specs/task06b_gate2_executed_inventory.md). Generation and input
-preparation live in `document_publication/config_generation` and `input_preparation`;
-review support lives in `human_review_support/extraction_review`; diagnostics live
-in `document_performance/conversion_scaling` and `conversion_compatibility_audit`.
-The retired pilot island has no maintained callers. Historical recipes and schema
-literals remain unchanged. Later structural, F1 and review-policy work remains with
-06C–06H.
+The [Task 06B verification specification](specs/task06b_verification_boundaries_v1.md)
+separates historical seal consumption from current writer recipe validation.
+Routine reuse checks exact compact seals, membership, and inventories; a deep
+payload-byte audit is a separate operation. Unchanged sources keep accepted
+manifests and identities while changed descendants bind current behavior and
+upstream seals. The [maintained command map](pipeline_commands.md) and
+[executed owner inventory](specs/task06b_gate2_executed_inventory.md) name current
+interfaces and migration evidence.
 
 ### Repeated chapter-heading projection
 
@@ -306,47 +236,24 @@ both physical heading blocks and all content remain in source order, while the
 opening section's children and direct records move to the anchor. Alias
 construction redirects both heading spellings and exact TOC aliases to that
 single target. A fresh candidate identity binds the policy, decision schema,
-closed qualification packet, and owned code. Task 06G materializes the output
-and writes adjacent many-to-one target correspondence; resolvers and collection
+closed qualification packet, and owned code. Task 06G materialized the output
+and wrote adjacent many-to-one target correspondence; resolvers and collection
 indexing consume the aliases and never rediscover duplicates.
 
 ### Qualified source acquisition
 
 `source_release` owns the [Task 06C qualification boundary](specs/task06c_source_qualification_v1.md).
-A strict portable request binds the selected URL, semantic policy, finite limits
-and explicit substitute provenance. The separate acquisition path supervises
-streaming and bounded existing pypdf extraction; it seals observed evidence only
-after qualification. Compact reuse checks the owned implementation/tool/request
-bindings and exact receipt membership without opening the source PDF. Historical
-source-release writers and accepted per-source manifests remain unchanged.
-
 The selected Final F1 is a distinct physical source for the logical Draft F1
-slot, with explicit Final edition and the bounded exception in Decision 001.
-Its qualification receipt is not a legacy source manifest or a conversion
-completion. A separately authorized conversion gate must prepare the measured
-manifest/processing adapter and model bindings before executing maintained stages.
-The 06B stage and range readers continue to own downstream reuse.
+slot, with its Final edition and reviewed substitution provenance. Acquisition,
+retained-source qualification, conversion, and downstream use have separate
+receipts and gates; a failed acquisition remains preserved evidence. Maintained
+consumers validate the exact exception before using the source without another
+PDF hash. The [Task 06C outcome](../tasks/sprint2/06c_qualify_and_process_replacement_f1.md)
+owns the source and receipt details.
 
-The separately reviewed retained-source boundary uses `local_qualification.py`
-to assess exact exception and semantic evidence without opening PDFs. A fresh
-`er_commons.recovery.retained_source_completion.v1` receipt seals a
-`qualified_with_reviewed_exceptions` record referencing the unchanged source.
-Its original failed acquisition is retained. A consumer must explicitly support
-this schema, policy/implementation provenance and exception limitations; it is
-not interchangeable with the strict acquisition receipt.
-`source_release/retained_processing.py` validates that pinned receipt, evaluator
-implementation and unchanged source metadata to publish a reference-only
-processing manifest. Its `qualified_substitute` role requires exact F1 provenance
-and remains distinct from `model_corpus`. Both maintained source resolvers
-validate the exception before allowing processing without a new source hash.
-The clean-table request also carries the explicit producer manifest path; it
-verifies the same sealed source and qualified metadata. Historical requests
-without that field retain their original release-path resolution.
-
-`document_publication/background_execution.py` supervises one explicit offline
-command with persistent external logs and sampled process-tree, wall-time,
-output and swap ceilings. It preserves failed attempts, handles descendants
-across process sessions, and does not schedule automatic assistant follow-ups.
+`document_publication/background_execution.py` supervises an explicit offline
+command with persistent external logs and finite process, time, output, and swap
+limits. It preserves failed attempts and does not schedule automatic follow-ups.
 
 ### Current configuration
 

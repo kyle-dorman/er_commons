@@ -83,11 +83,12 @@ document dispositions such as `usable`, `usable_with_exclusions`, and
 `skipped_no_ocr`; reviewer fields and human dispositions never enter immutable
 Task 03 machine records.
 
-For the remaining sprint, the **accepted review registry** means Task 04A's
-registry when Task 04A freezes Task 03J without remediation, or Task 04B's fresh
-post-repair registry when conditional Task 04B activates. Downstream tasks must
-pin that registry together with its corresponding accepted extraction identity;
-they may not combine a Task 04A registry with a Task 04B machine candidate.
+Task 04A's registry is the original accepted usability review over Task 03J;
+Task 04B closed as a no-op. Task 06H accepted the repaired review and handoff
+with sampled-coverage limitations. Downstream work pins the matching extraction,
+review, and handoff identities rather than combining parts from different
+lineages. [Task 06H](../../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
+owns the exact replacement correspondence.
 
 An isolated failed page does not require excluding an otherwise usable
 appendix. Mark failed pages unusable and retain the appendix as
@@ -149,28 +150,14 @@ inventory in this sprint. Model assistance for inventory work is out of scope
 for now; it may be evaluated later against the completed human-reviewed
 inventory as a QA reference.
 
-Task 05 is an eight-part umbrella rather than one execution contract:
+Task 05's accepted curator-only inventory is owned by the
+[Task 05 umbrella](../../tasks/sprint2/05_build_curator_only_response_inventory.md)
+and [Task 05H outcome](../../tasks/sprint2/05h_review_and_freeze_response_inventory.md).
+Its source, relationship, linking, review, and publication details live in those
+completed task records. The [accepted release](../specs/task05h_final_result.json)
+is the Task 07/08 input; it does not itself establish case eligibility or
+evidence sufficiency.
 
-1. Task 05A qualifies sealed inputs and profiles bounded representative source
-   structures.
-2. Task 05B freezes source-unit, relationship, provenance, correction, identity,
-   and publication contracts.
-3. Task 05C implements and reviews a bounded, structurally varied producer
-   pilot, including a maintainability gate before scale-up.
-4. Task 05D creates the complete working source-unit inventory without resolving
-   graph relationships.
-5. Task 05E resolves the intra-Volume response graph and materializes linked
-   review views without judging substantive adequacy.
-6. Task 05F establishes and accepts a partial exact-link layer over official
-   Draft EIR references through Task 04D with separate Task 04A usability.
-7. Task 05G replays that layer after Task 06 repairs and iteratively qualifies
-   further exact linking rules.
-8. Task 05H reviews corrections and publishes the sole immutable Task 05
-   inventory release.
-
-Tasks 05A through 05F and source-free Task 06A are complete. Task 06
-continues with 06B implementation awaiting authorization; its
-accepted handoff is required before Task 05G, and Task 05H follows Task 05G.
 Use replaceable working space and bounded pilots for iteration; do not seal
 every experiment. Routine Task 05
 validation pins the Task 02 source checksum and Task 03J/04A/04D identities
@@ -565,273 +552,34 @@ model drafts, reviewed evidence summary, or reviewed reference defense.
 
 ## Execution sequence
 
-Task 02 and all Task 03 work are complete. Task 03J produced the current
-machine-only 35-source candidate and validated collection handoff. Task 04 and
-Task 03I are complete as the first-pass review and its bounded extraction
-disposition. Task 04A is complete and freezes Task 03J with its separate human
-TOC and source-usability layer. Task 04B is closed as a no-op. Task 04C is
-superseded review evidence. Task 04D is complete; its validated replacement
-handoff is designated for linking-dependent consumers. Tasks 05A through 05F
-are complete, with Task 05F accepted as a partial outcome. Task 06A qualification
-is complete; 06B is next and awaits implementation authorization. Task 05G replay
-and Task 05H publication follow the accepted Task 06 handoff.
+### Accepted inputs
 
-The task files preserve detailed outcomes, negative experiments, and identity
-history. The map below is retained as sprint scope and sequencing, not as a
-current execution diary. Split a stage further only when new evidence creates a
-distinct decision or validation boundary.
+- [Task 03J](../../tasks/sprint2/03j_run_final_canonical_extraction.md)
+  owns the immutable 35-source machine extraction.
+- [Task 04A](../../tasks/sprint2/04a_regenerate_review_and_freeze_release.md)
+  owns the original usability review; [Task 04D](../../tasks/sprint2/04d_relink_frozen_extraction.md)
+  owns the original linking handoff.
+- [Task 06H](../../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
+  owns the accepted repaired handoff and sampled-review limitations;
+  [Task 06](../../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
+  routes its completed subtasks.
+- [Task 05G](../../tasks/sprint2/05g_replay_and_extend_official_reference_links.md)
+  owns the accepted reference replay; [Task 05H](../../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
+  owns the sole immutable curator-only response inventory and its
+  [Task 07/08 handoff](../specs/task05h_final_result.json).
 
-### Historical task map
+All of these tasks are complete. No later task is active. Exact identities,
+negative results, and validation evidence remain in the completed task records.
 
-1. **Task 02 — Freeze sources and provenance.** Inventory, acquire, checksum,
-   validate, and manifest the complete Draft EIR main report, all official
-   appendices, curator-only Final EIR Volume 4, and duplicate chapter files used
-   only for recovery or QA. Record URL, checksum, page count, and source role
-   per file. For this local MVP, use one corpus-level visible-terms note with a
-   per-file override only when a source differs; do not require a separate
-   per-PDF legal matrix or make a reuse determination.
-2. **Task 03 — Build the canonical Draft EIR extraction.** Pin the accepted
-   Docling-plus-clean-table configuration; produce canonical document, section,
-   page, block, table, table-family, figure, image, asset, and cross-reference
-   records with version-scoped deterministic IDs. At the user's request, this
-   large stage is split into bounded stop-and-review contracts:
-   - [Task 03A](../../tasks/sprint2/03a_validate_document_parser.md): validate
-     Docling, the native-only configuration, and structural failure modes;
-   - [Task 03B](../../tasks/sprint2/03b_define_canonical_extraction_contract.md):
-     define extraction versioning, schemas, provenance, coordinates, and IDs;
-   - [Task 03C](../../tasks/sprint2/03c_build_single_document_conversion.md):
-     promote the accepted producer stack into one atomic complete-document run;
-   - [Task 03D](../../tasks/sprint2/03d_materialize_canonical_records.md):
-     materialize core canonical records from preserved raw output;
-   - [Task 03E](../../tasks/sprint2/03e_evaluate_docling_heading_hierarchy.md):
-     evaluate Docling's maintained heading-hierarchy feature on Appendix P and
-     accept or reject it under a predeclared good-enough gate;
-   - [Task 03E.0](../../tasks/sprint2/03e0_rewrite_hierarchy_evaluation.md):
-     replace the Task 03E MVP evaluator with a behavior-preserving,
-     human-owned implementation before correction work;
-   - [Task 03E.1](../../tasks/sprint2/03e1_define_deterministic_hierarchy_correction.md):
-     define deterministic features, visible-TOC reconciliation, correction
-     rules, evidence, ambiguity, identity, held-out review, and no-LLM runtime
-     boundaries without implementing the layer;
-   - [Task 03E.2](../../tasks/sprint2/03e2_implement_deterministic_hierarchy_correction.md):
-     implement and evaluate the deterministic correction overlay without
-     mutating or rerunning Docling;
-   - [Task 03E.2a](../../tasks/sprint2/03e2a_fix_nested_regime_exit.md):
-     fix the general nested-regime exit stack defect without rewriting the
-     exposed held-out evaluation;
-   - [Task 03E.2b](../../tasks/sprint2/03e2b_rewrite_hierarchy_correction.md):
-     replace the correction MVP with a human-owned implementation under exact
-     semantic equivalence;
-   - [Task 03E.2d](../../tasks/sprint2/03e2d_accept_and_publish_hierarchy_correction.md):
-     explicitly accept the known post-03E.2a limitations for Appendix P, run
-     the full human-owned correction, and publish its immutable candidate;
-   - [Task 03E.3](../../tasks/sprint2/03e3_define_semantic_structure_contract.md):
-     define semantic sections, ordered membership, printed-label observations
-     and resolutions, aliases, evidence, ambiguity, and correspondence without
-     producing a live candidate;
-   - [Task 03E.4](../../tasks/sprint2/03e4_materialize_semantic_structure.md):
-     map the Task 03E.2d-accepted corrected hierarchy into a new immutable
-     Appendix P canonical candidate with thin, deterministic glue;
-   - [Task 03E.5](../../tasks/sprint2/03e5_pilot_cross_references.md):
-     extract exact reference mentions and pilot within-document resolution,
-     leaving other-document references for the corpus pass;
-   - [Task 03F](../../tasks/sprint2/03f_make_extraction_restartable.md): add
-     restartable per-document stage one, a sealed corpus target/alias index,
-     and an immutable cross-document-resolution pass;
-   - [Task 03F.1](../../tasks/sprint2/03f1_define_restartable_extraction_contract.md):
-     inventory Appendix-P coupling and freeze the corpus identity, state,
-     artifact, cache, failure, index, resolution, and validation contract;
-   - [Task 03F.2](../../tasks/sprint2/03f2_generalize_restartable_document_stage.md):
-     generalize and simplify stage one, deleting obsolete Appendix-P-only or
-     duplicate runtime code where the approved inventory permits;
-   - [Task 03F.3](../../tasks/sprint2/03f3_implement_corpus_resolution_workflow.md):
-     add scope-exact accounting, target-index sealing, and immutable
-     cross-document resolution;
-   - [Task 03F.4](../../tasks/sprint2/03f4_prune_extraction_proof_scaffolding.md):
-     transfer active invariants and remove obsolete proof scaffolding while
-     preserving the declared pilot, validation, observation, and review path;
-   - [Task 03G](../../tasks/sprint2/03g_run_representative_extraction_pilot.md):
-     coordinate a POC-sized breadth smoke, three-document full pilot, and only
-     the remediation subtasks justified by observed failures;
-   - [Task 03G.1](../../tasks/sprint2/03g1_smoke_all_model_corpus_sources.md):
-     run a fresh incomplete diagnostic over at most ten deterministic pages
-     from each of the 35 model-corpus PDFs without claiming document or corpus
-     completion;
-   - [Task 03G.2](../../tasks/sprint2/03g2_run_three_document_full_pilot.md):
-     after accepted smoke evidence, run the complete two-stage workflow fresh
-     on the main report, Appendix D, and Appendix P, then verify checksum reuse;
-   - [Task 03G.3](../../tasks/sprint2/03g3_align_pipeline_responsibilities_and_names.md):
-     align maintained code boundaries and operation-oriented vocabulary with
-     the accepted semantic DAG before the all-source run. Gate A was explicitly
-     accepted, Gate B was implemented and offline-validated, and the user
-     accepted and closed the task on 2026-08-18; and
-   - completed [Task
-     03H](../../tasks/sprint2/03h_run_full_canonical_extraction.md): the first
-     all-source end-to-end attempt, which exercised and repaired the production
-     path but did not claim final corpus publication after closing identity changes
-     required a fresh run;
-   - completed [Task
-     03I](../../tasks/sprint2/03i_remediate_task04_review_findings.md): disposition
-     accepted extraction findings from the intervening Task 04 review, including a
-     valid no-op outcome; its first repair, committed disposition, and independent
-     maintainability gate are complete; and
-   - completed [Task
-     03J](../../tasks/sprint2/03j_run_final_canonical_extraction.md): published all
-     35 sources and 48,341 pages with zero failures under fresh production identity
-     `exv1-6913f56b...009a773`, then published and validated ready handoff
-     `handoffv1-44d510d5...102325` for Task 04A; and
-   - completed [Task
-     03H.2](../../tasks/sprint2/03h2_build_restartable_chunked_docling_conversion.md):
-     proved and productionized independently sealed, deterministic, fixed-size
-     Docling ranges before Task 03H's first real chunked Appendix G2 run.
-   Tasks 03A through 03D are complete. Task 03C published the checksum-verified
-   222-page Appendix P producer run with 19 clean tables and 19
-   complete-document families. [Task
-   03C.1](../../tasks/sprint2/03c1_rewrite_complete_document_producer.md)
-   subsequently replaced the reference orchestrator with the accepted
-   human-owned implementation and proved semantic equivalence through a second
-   complete Appendix P run. Task 03D then materialized its schema-valid,
-   checksum-verified canonical candidate and preserved the observed producer
-   anomalies. Task 03D.1 replaced the MVP materializer with a human-owned
-   implementation and passed a record-level equivalence gate with zero
-   mismatches. Task 03E evaluated the maintained hierarchy, passed producer
-   preservation and repeatability, and rejected the defaults as the sole
-   project policy. Task 03E.0 then replaced the evaluator with a
-   human-owned implementation and exactly reproduced both frozen 159-artifact
-   comparisons. Task 03E.1 completed the deterministic correction contract,
-   fixtures, and human-oriented cross-record validator after reference
-   equivalence and maintainability review. Task 03E.2 implemented the complete
-   correction and preserved its failed candidate after the frozen quality gate
-   rejected four development cases, two held-out false table boundaries, and
-   four held-out wrong level/parent results. Task 03E.2a then fixed the one
-   material Appendix E nested-regime exit defect without rerunning the held-out
-   evaluation. Task 03E.2b replaced the MVP with a human-owned implementation
-   and reproduced the complete post-03E.2a semantic payload byte-for-byte. The
-   unanchored page-2000 heading remains a non-blocking ambiguity by user
-   decision. Task 03E.2d published the complete human-owned Appendix P
-   correction as candidate
-   `hcorv1-aab01b14c3122dbc0f5cec57147b5be2eadaf1cd895311ef7dafa46b469348b1`
-   under a distinct `accepted_with_known_limitations` authorization without
-   changing the historical rejection. Task 03E.3 has been revised against that
-   exact handoff and is complete after its human-ownership rewrite. It has not
-   published a candidate. Task 03E.4 published visual-MVP reference candidate
-   `exv1-c500c1731aa02a97d3cebe1b582eb8b03671a75b29eb3f1df349edd2f34fe5bf`
-   with zero undeclared baseline differences and passed the exact ten-page
-   visual review, then replaced its machine-oriented MVP with human-owned
-   candidate
-   `exv1-2cba27c14e4a1aba72080c9803ce72f8dd728595bcd8176b60ffad777af4cf9b`
-   under a zero-mismatch candidate/review equivalence report. Task 03E.5 then
-   accepted pattern-policy-v2 candidate
-   `exv1-34f91f3117d7bbd2284b4b18b7b75df956eec7ca1cb493e6a4bbe51c7563f263`
-   with 292 mentions, exact table-target evidence, zero derived figure aliases,
-   structural reference exclusions, and two accepted source-authored appendix
-   inconsistencies. Task 03F is now a four-part umbrella: Task 03F.1 is
-   complete with its read-only inventory and Gate B corpus contract explicitly
-   accepted, while Task 03F.2 is complete after its behavioral MVP was retained
-   as reference evidence and its replacement passed the maintainability gate.
-   Task 03F.3 completed its contract-amendment Gate A and used its synthetic
-   Gate B behavior as a transient rewrite oracle. Its human-owned replacement
-   passed exact fixed-evidence artifact equivalence, substantive maintainability
-   checks, and the full repository gate; the unused rewrite scaffolding was then
-   removed, closing the task. Task 03F.4 is complete, accepted, and validated,
-   with current extraction boundaries, transferred invariants, one-build
-   hierarchy metrics, candidate-neutral review/comparison, refreshed production
-   identity `exv1-1bd71e02...c1fcc4`, and completed Appendix P document
-   candidate `docv1-532b14da...8df40` accepted after combined review.
-   By user decision, the separate Task 03F engineering smoke remains skipped.
-   Task 03G.1 instead owns a new incomplete POC diagnostic across bounded pages
-   from all 35 sources, and Task 03G.2 owns a fresh three-document complete
-   pilot. Neither can claim all-source completion. Task 03H owned the first all-35-
-   source attempt; completed Task 03J owns the fresh final machine candidate and
-   terminal accounting. Task 03G and its
-   observed-failure remediation are accepted, and Task 03H was activated by
-   user direction on 2026-08-18; source-PDF and model execution remain behind
-   the task's explicit user check-in.
-3. **[Task 04](../../tasks/sprint2/04_review_extraction_and_freeze_release.md),
-   [Task 04A](../../tasks/sprint2/04a_regenerate_review_and_freeze_release.md),
-   and conditional [Task
-   04B](../../tasks/sprint2/04b_remediate_toc_navigation_and_reprocess.md) — Pilot
-   extraction review, final-candidate review, and bounded TOC remediation when
-   required.** Task
-   04 completed its first-pass review and independent maintainability gate using the
-   mostly but not fully extracted Task 03H evidence to qualify a small read-only
-   local HTML review workspace and conduct a user-led diagnostic pass. Cover all
-   35 sources, review every retained document-processing failure, spot-check
-   deterministic warning samples, inspect valid pages from every source with
-   evidence, and inspect a bounded mix of table evidence. Oversample the main
-   report relative to the median appendix allocation because it holds the primary
-   benchmark evidence; preserve complete source coverage and describe this as
-   importance-weighted risk review rather than statistical estimation. Record
-   observations outside the UI as exact, versioned findings. Route only accepted
-   extraction defects to Task 03I and close Task 04, then let Task 03J run all 35
-   sources under a fresh identity. After that handoff exists, revise and activate
-   provisional Task 04A to generate a new review dataset, recheck repairs and fresh
-   risk samples, conduct a complete review of every machine-detectable document or
-   embedded TOC candidate, validate machine integrity, and either publish the
-   separate usability registry and freeze the accepted extraction release or stop
-   on a material defect. If Task 04A approves a TOC/navigation extraction defect,
-   conditional Task 04B consumes only its checksummed handoff, applies the bounded
-   source-general repair, replays canonical and linking stages under fresh
-   identities, and requires a new human recheck before freezing. Keep Task 03 and
-   review records immutable and renders regenerable outside extraction identity.
-4. **[Task 04C](../../tasks/sprint2/04c_materialize_human_review_navigation_overlay.md)
-   — Materialize the accepted human navigation overlay.** When Task 04A freezes
-   Task 03J without regeneration, combine the immutable machine candidate and
-   human TOC registry in a separately identified derived semantic, alias, and
-   linking view. Reconcile newly confirmed TOCs conservatively, retain unsupported
-   links as unresolved, and do not mutate Task 03J or reinterpret browser state in
-   each downstream consumer.
-5. **[Task 04D](../../tasks/sprint2/04d_relink_frozen_extraction.md) — Relink the
-   frozen extraction.** Inspect source-general linking rules individually, then
-   implement them once in a shared exact target-resolution engine used by both
-   the machine and overlay adapters. Reuse Task 03J's sealed extraction and
-   replace only linking and its dependent document and collection publications
-   under fresh identities. Gates A through D are complete, and the validated
-   replacement handoff is designated for downstream use.
-6. **[Task 05](../../tasks/sprint2/05_build_curator_only_response_inventory.md)
-   — Build the complete curator-only response inventory.** This planned umbrella
-   is split into sequential stop-and-review contracts:
+### Remaining task sequence
 
-   - [Task 05A](../../tasks/sprint2/05a_qualify_and_profile_response_source.md)
-     binds compact upstream records, profiles bounded Volume 4 structures, and
-     selects the extraction/transcription route;
-   - [Task 05B](../../tasks/sprint2/05b_define_response_inventory_contract.md)
-     freezes schemas, IDs, anchors, provenance, corrections, identity, and the
-     working-to-publication lifecycle;
-   - [Task 05C](../../tasks/sprint2/05c_build_response_inventory_pilot.md)
-     implements and qualifies a bounded producer pilot before scale-up;
-   - [Task 05D](../../tasks/sprint2/05d_build_complete_source_unit_inventory.md)
-     creates the complete structural working candidate over all 744 pages;
-   - [Task 05E](../../tasks/sprint2/05e_build_response_relationship_graph.md)
-     resolves the intra-Volume comment and response graph and linked views;
-   - [Task 05F](../../tasks/sprint2/05f_resolve_official_draft_eir_references.md)
-     establishes the accepted partial official-reference link layer;
-   - [Task 05G](../../tasks/sprint2/05g_replay_and_extend_official_reference_links.md)
-     replays through Task 05F after Task 06 and iterates on further exact
-     linking rules; and
-   - [Task 05H](../../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
-     applies curator QA and publishes the sole immutable Task 05 release.
-
-   Only Task 05A may activate first. The later contracts remain provisional and
-   are revised from accepted preceding evidence. Task 05 uses replaceable working
-   space for iteration and does not routinely copy or rehash sealed large inputs.
-7. **[Task 06](../../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
-   — Repair reference sources/targets and simplify reuse.** The eight-part
-   umbrella sequences 06A evidence/design; 06B sealed-reuse and code cleanup in
-   two gates; 06C Final F1 qualification/conversion; 06D duplicate chapters;
-   06E missing chapters with an evidence-backed fallback; 06F caption-backed
-   figures; 06G affected replay; and 06H review reuse and accepted handoff.
-   Preserve accepted chunked conversion before changing identities or task-era
-   executable names. 06A is complete; 06B awaits implementation authorization.
-   Later subtasks remain provisional; planning does not
-   authorize processing. Task 05G owns the subsequent reference replay.
-8. **Task 07 — Pilot reference-case authoring.** Implement deterministic
+1. **Task 07 — Pilot reference-case authoring.** Implement deterministic
    high-recall curator search, a two-hop traversal/index view over the accepted
    Task 03 graph, three approval-gated GPT-OSS authoring calls, the evidence
    registry, and Label Studio review on a small varied pilot. Official-response
    references are curator-only seeds; accepted evidence requires exact
    canonical block or table anchors.
-9. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Identify at
+2. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Identify at
    least 35 plausible cases, finish two-pass single-curator review, accept at
    least 25 cases, and materialize the deterministic 10-development/15-test
    split. Build cluster edges only from commenter membership, Task 05
@@ -840,28 +588,28 @@ distinct decision or validation boundary.
    and shared Task 03 targets are warnings, never automatic edges. Preserve
    decisions, validate duplicate candidates, and publish the cross-split
    leakage audit.
-10. **Task 09 — Build and freeze human evaluation.** Implement the staged,
+3. **Task 09 — Build and freeze human evaluation.** Implement the staged,
    blinded evidence-support, responsiveness, and reference-coverage forms and
    anchored `0`/`1`/`2` rubric. Pin exports and forms to the accepted Task 03
    extraction, accepted review registry, and Task 08 case/split versions; link
    requested render cache separately.
-11. **Task 10 — Build and freeze BM25 retrieval.** Build units from accepted
+4. **Task 10 — Build and freeze BM25 retrieval.** Build units from accepted
    hierarchy and accepted-review-registry body content and tables. Analyze leaf-section
    lengths, choose whole sections or a documented contiguous fallback that
    never spans excluded content, run the lexical preprocessing pilot, freeze
    the index, and report development-only evidence-coverage curves. Do not
    graph-expand benchmark retrieval unless a later explicit decision adds that
    condition.
-12. **Task 11 — Build and freeze target generation.** Pin the full extraction,
+5. **Task 11 — Build and freeze target generation.** Pin the full extraction,
    usability, case, split, index, prompt, model, and schema identity chain.
    Implement the zero-shot Qwen3 4B prompt, abstention and citation validation,
    deterministic source-label rendering, output-length pilot, and development
    stability check without exposing curator-only or QA metadata.
-13. **Task 12 — Calibrate the automated judge.** Pin and verify the same
+6. **Task 12 — Calibrate the automated judge.** Pin and verify the same
     identity chain. Run the three staged Gemma 3 12B judge calls against locked
     human development scores without raw Final EIR response text, then freeze
     the judge or retain it as diagnostic-only under the accepted gate.
-14. **Task 13 — Run the locked test and close Sprint 2.** Verify the complete
+7. **Task 13 — Run the locked test and close Sprint 2.** Verify the complete
     identity chain before execution. Run the primary baseline first, then the
     pre-registered `A` and `A+B` oracle diagnostics; human-review every test
     prediction, preserve automated scores separately, analyze errors by stage,

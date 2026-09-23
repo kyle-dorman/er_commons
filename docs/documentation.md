@@ -20,6 +20,10 @@ before creating or editing durable docs, task outcomes, or decision notes.
 ## Write rules
 
 - Keep current contracts current; do not turn them into historical logs.
+- Keep the index to status and reading routes, the TODO to the next actionable
+  step, and sprint plans to durable scope and future sequence. Replace completed
+  attempt timelines, exact IDs, validation diaries, and repeated task maps with
+  links to their numbered task outcomes or accepted specifications.
 - Put task-specific inputs, outputs, validation, and detailed evidence in the
   numbered task, not the queue.
 - Put an accepted data, benchmark, architecture, or policy conclusion in a

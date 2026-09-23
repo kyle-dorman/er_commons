@@ -1,7 +1,8 @@
 # Task 05G: Replay and Extend Official Reference Links
 
 Status: **complete and accepted with limitations on 2026-09-17.
-468 links and 43 explicit nonlinks; Task 05H remains unstarted.**
+468 links and 43 explicit nonlinks. Task 05H subsequently published the sole
+immutable response inventory.**
 
 ## Abstract
 

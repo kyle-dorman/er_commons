@@ -376,7 +376,7 @@ non-Draft figure expansion; broad parser/table/conversion algorithm rewrites;
 new workflow/cache/review frameworks; bulk historical artifact renaming or
 cleanup; Task 05G resolution, Task 05H inventory publication, and benchmark runs.
 
-## Outcome
+## Planning outcome (historical)
 
 Detailed planning contracts have been authored for 06A–06H, with 06B combining
 reuse/identity and cleanup as two gates. No evidence qualification,
@@ -384,7 +384,7 @@ implementation, source acquisition, conversion, replay, or review acceptance has
 been performed as part of writing this plan.
 
 
-### Current gate handoff
+### Final umbrella closure
 
 [Task 06B](06b_refactor_pipeline_identity_and_reuse.md) completed both gates on
 2026-09-10: source-free identity/reuse implementation, finite maintained-code
@@ -397,5 +397,8 @@ qualification packet. Astra accepted the v12 functional implementation; the
 v13 maintainability-only cleanup passed independent equivalence review with
 byte-identical decisions. Task 06F supplies an accepted source-general
 caption-backed figure-alias policy and compact 274-figure qualification after
-remediating all six code-quality findings from Astra's v7 review. Production
-replay and terminal review remain owned by 06G and 06H.
+remediating all six code-quality findings from Astra's v7 review. Task 06G
+completed the repaired descendant replay and collection handoff; Task 06H
+accepted the replacement review and usability binding with sampled-review
+limitations. Task 05G and Task 05H subsequently completed the reference replay
+and immutable curator-only response inventory under their own contracts.

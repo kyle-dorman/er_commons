@@ -15,7 +15,7 @@ applicable authorization; their presence here is not production authorization.
 | Qualify selected run inputs | `prepare_document_inputs.py --document-spec PATH --collection-spec PATH --output-root PATH` | `document_publication/input_preparation.py`; compact bounded manifest/recipe checks |
 | Execute declared documents | `run_document_collection.py --document-spec PATH --source-id ID --progress-root PATH` (repeat IDs, or select `--all-sources`) | `document_publication/collection_runner.py`; serial, spec-bound progress; actual execution may open sources |
 | Prepare relink contracts | `prepare_document_relink_specs.py --preparation-spec PATH` | `document_records/document_references/preparation_spec.py`; explicit accepted roots, old recipe, new paths, policies and v2/v3 schemas |
-| Qualify caption-backed figures | `uv run python scripts/qualify_figure_caption_aliases.py --structured-root DIR --source-id ID --source-document-id ID --output-root DIR [--reuse-existing]` | [Figure-caption policy](specs/figure_caption_alias_v1.md); source-free selected-record qualification with a fresh no-clobber output, or exact current-identity verification when reuse is explicit |
+| Qualify caption-backed figures | `uv run python scripts/qualify_figure_caption_aliases.py --structured-root DIR --source-id ID --source-document-id ID --output-root DIR [--reuse-existing]` | [Figure-caption policy](specs/figure_caption_alias_v1.md); source-free selected-record qualification with a fresh no-clobber output, or exact current-identity verification when reuse is explicit. [Task 06F](../tasks/sprint2/06f_publish_caption_backed_figure_targets.md) retains the accepted example. |
 | Prepare/materialize/reconcile reviewed navigation | `prepare_reviewed_navigation.py`, `materialize_reviewed_navigation.py`, `reconcile_reviewed_navigation.py`, each with `--input-spec PATH --output-root PATH` | `navigation_overlay/input_specs.py`; explicit extraction/review/scope/schema bindings |
 | Publish one document / relink / assemble | `er-commons documents publish`, `documents relink`, `collections assemble-handoff` | Existing commands retain their explicit document/link/collection specs; use `--help` for selectors |
 | Inspect Task 05G replay | `er-responses validate-spec --run-spec PATH`; `python -m er_commons.response_inventory.reference_replay_launch --run-spec PATH --attempt N --print-packet` | New v6 consumer; read-only request/packet validation; [05G contract](../tasks/sprint2/05g_replay_and_extend_official_reference_links.md) |
@@ -39,25 +39,3 @@ uses explicit logical-to-physical membership; an F1 replacement or wrapper renam
 does not make the other documents fresh conversion outputs. Original task-named
 configs, schema literals, seals, identities, and human decisions remain historical
 contracts. A historical reader does not require old implementation files to exist.
-
-## Task 06F figure qualification
-
-Select the sealed linked-candidate root that directly contains
-`records/manifest.json` and the four canonical streams. The source ID and document
-ID must match that manifest's extraction namespace; do not infer them from Task 05
-mentions. A fresh review attempt uses a new output directory:
-
-```bash
-uv run python scripts/qualify_figure_caption_aliases.py \
-  --structured-root /Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_04d_relinked_v1/document_links/linked_candidates/deir_main/exv1-d1bbac8a4979836add501c88c3522b908aeefee66b95cf8cef07abda1c30d28c \
-  --source-id deir_main \
-  --source-document-id exv1-d1bbac8a4979836add501c88c3522b908aeefee66b95cf8cef07abda1c30d28c/document/deir_main \
-  --output-root /Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_06_recovery_v1/06f/qualification_v10
-```
-
-To verify and reuse that exact packet after publication, repeat the same command
-with `--reuse-existing`. Reuse fails if the selected records, code, policy,
-schemas, requested IDs, managed-file closure, or semantic reconstruction differ.
-The command logs whether it published or reused the packet and its resolved path.
-Neither form opens PDFs or images, hashes preserved PDF/image payloads, loads a
-model, or runs Task 06G production replay.

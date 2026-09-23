@@ -57,9 +57,10 @@ they do not copy or mutate them. A matching valid completion may be reused only
 when its identity and managed-file inventory verify exactly.
 
 Task 03J remains the immutable extraction source. The accepted Task 04A
-usability registry and Task 04D's designated linking-dependent handoff are
-separate downstream inputs; their exact identities and closure are retained in
-their task outcomes.
+usability registry and Task 04D's original linking-dependent handoff are
+separate upstream inputs. Task 06H's accepted replacement handoff and Task 05H's
+immutable response inventory supply the later boundaries; exact identities and
+closure are retained in their task outcomes.
 
 ## Review artifacts
 
@@ -75,9 +76,9 @@ pipelines/brisbane_baylands/task_04_review/<reviewv1-id>/
 The accepted Task 04A closure is under
 `pipelines/brisbane_baylands/task_04_review/reviewv1-task03j-final-c17/gate_d/`.
 Task 04C's overlay namespaces are immutable superseded review evidence. The
-designated Task 04D replacement is rooted at
-`pipelines/brisbane_baylands/task_04d_relinked_v1/`. It replaces Task 03J only
-for linking-dependent use; Task 03J remains the immutable extraction source.
+original Task 04D linking replacement is rooted at
+`pipelines/brisbane_baylands/task_04d_relinked_v1/`. Task 06H accepted the later
+repaired handoff; Task 03J remains the immutable extraction source.
 The exact Task 04 identities, validation passes, and superseded namespaces are
 retained in the [Task 04A](../tasks/sprint2/04a_regenerate_review_and_freeze_release.md),
 [Task 04C](../tasks/sprint2/04c_materialize_human_review_navigation_overlay.md),
@@ -165,52 +166,18 @@ release, and downstream handoff. All inherited reference outcomes, substitution
 warnings, sampled-review limits, and text-only evidence exclusions travel with
 that handoff.
 
+## Task 06 repair artifacts
+
+The accepted repair and replacement handoff live under
+`pipelines/brisbane_baylands/task_06_recovery_v1/`. They reference sealed
+upstream source, conversion, producer, and review evidence in place; unchanged
+sources retain their original manifests. [Task 06](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
+routes the accepted subtasks. The [06G outcome](../tasks/sprint2/06g_replay_repaired_document_and_collection_stages.md)
+owns replay namespaces and attempt history; the
+[06H outcome](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
+owns the accepted replacement handoff and sampled-review limitations.
+
 ## Git policy
-
-### Task 06 evidence
-
-[Task 06](../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
-uses `pipelines/brisbane_baylands/task_06_recovery_v1/` for its compact recovery
-packet, frozen by 06A. It references old accepted source, chunk/conversion,
-producer, and review seals rather than moving
-or copying their payload trees. F1 receives a new explicit Final-edition source
-lineage. Task 06E publishes only five-file source-free qualification packets.
-The functionally accepted v12 baseline remains immutable under
-`06e/qualification_v12/`; the contract-equivalent maintainability candidate is
-under `06e/qualification_v13/`, with v1–v11 preserved as superseded attempts.
-Source PDFs, accepted candidates, and producer
-payloads remain referenced in place and were not rehashed or copied. Unaffected
-documents retain original source-manifest bindings; fresh
-descendants and the replacement collection record their input correspondence.
-06B code cleanup does not authorize external artifact deletion or renaming.
-06H owns the replacement human-review acceptance; 05G then owns the separate
-response-reference replay. 06A qualification records exist under `06a/`. Source-free 06B Gate 1 and post-migration Gate 2
-qualification records under `06b/` bind accepted conversions, ranges, producers
-and document seals with explicit hash/read observations. They are compatibility
-evidence, not new production artifacts or fresh payload-byte equality. Task 06C
-Gate 2 retained a complete but structurally unqualified F1 download in the fresh
-`brisbane_baylands_2025_feir_f1_qualified_v1` raw-source namespace. Its
-`source.part` and `failure.json` remain the immutable failed-attempt evidence.
-The subsequently approved retained-source qualification is separately sealed
-under `06c/gate2_local_qualification_v1/` and references those bytes with explicit
-thumbnail/title exceptions. It does not rewrite the failed attempt. Task 06C
-owns exact evidence and receipt bindings. Its fresh conversion and producer
-stages are sealed; later document/collection production replay remains
-unexecuted.
-
-Task 06D's current compact source-free classification lives under
-`06d/qualification_v8/`. Its completion-last inventory covers four explicit
-record-order-bounded decisions and summary records, binds the checked-in v2
-policy/schema/generator, and reconstructs from sealed compact records without
-hashing preserved document payloads. `qualification_v1/` through
-`qualification_v7/` are preserved as superseded evidence and must not be
-consumed by Task 06G.
-
-Task 06F's accepted compact source-free figure qualification lives under
-`06f/qualification_v10/`. It binds the accepted canonical record seals and the
-figure-caption policy, schemas, and owned code without opening or hashing PDF or
-image payloads. Attempts `qualification_v1/` through `qualification_v9/` remain
-preserved as superseded no-clobber evidence and must not be consumed by Task 06G.
 
 ### Tracked and external files
 
