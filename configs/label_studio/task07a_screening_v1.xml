@@ -1,0 +1,93 @@
+<View className="pilot-review">
+  <Style>
+    .pilot-review .review-layout > div:first-child { container-type: inline-size; container-name: reading; }
+    @container reading (max-width: 680px) { .pilot-review .reading-grid { grid-template-columns: 1fr; } }
+    .pilot-review { color: #24313a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 1500px; margin: 0 auto; padding: 8px 8px 32px; }
+    .pilot-review .review-kicker { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: #54746d; font-weight: 700; margin-bottom: 6px; }
+    .pilot-review h1 { font-size: 26px; letter-spacing: -.03em; margin: 0 0 8px; }
+    .pilot-review .review-subtitle { color: #65727c; font-size: 14px; margin-bottom: 22px; }
+    .pilot-review .review-layout { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 22px; align-items: start; }
+    .pilot-review .reading-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+    .pilot-review .reading-card { background: #fff; border: 1px solid #dfe5e7; border-radius: 10px; padding: 18px; min-width: 0; }
+    .pilot-review .reading-card h2 { font-size: 17px !important; margin: 0 0 12px !important; }
+    .pilot-review .reading-card h3 { font-size: 14px; margin: 10px 0 6px; }
+    .pilot-review .reading-card p { font-size: 15px; line-height: 1.7; margin: 0 0 14px; }
+    .pilot-review .reading-card a { color: #21695e; text-decoration: underline; }
+    .pilot-review .reading-card pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.6 ui-monospace, monospace; color: #66717b; }
+    .pilot-review .reading-card details { margin-top: 14px; }
+    .pilot-review summary { cursor: pointer; color: #21695e; font-size: 14px; padding: 6px 0; }
+    .pilot-review .context-card { margin-top: 18px; }
+    .pilot-review .decision-card { position: sticky; top: 10px; max-height: calc(100vh - 130px); overflow-y: auto; border: 1px solid #cbded9; border-radius: 10px; padding: 20px; background: #f3f8f6; }
+    .pilot-review .decision-card h2 { font-size: 18px; margin: 0 0 8px; }
+    .pilot-review .decision-card p { font-size: 13px; line-height: 1.55; margin: 8px 0 14px; color: #56666b; }
+    .pilot-review .decision-card label { font-size: 14px; line-height: 1.5; }
+    .pilot-review .decision-card .ant-radio-wrapper { display: inline-flex; margin: 4px 4px 4px 0; padding: 7px 8px; background: white; border: 1px solid #dde6e2; border-radius: 7px; }
+    .pilot-review .decision-card .ant-checkbox-wrapper { display: flex; margin: 5px 0; font-weight: 400; }
+    .pilot-review .decision-card sup { display: none; }
+    .pilot-review .skip-heading h3 { font-size: 15px !important; margin: 0 0 8px !important; }
+    .pilot-review .skip-heading { margin-top: 20px; border-top: 1px solid #cbded9; padding-top: 16px; font-size: 14px; font-weight: 650; }
+    .pilot-review .review-help { font-size: 12px; line-height: 1.55; color: #65727c; }
+    .pilot-review .source-pages { font-size: 12px; color: #64756f; margin-bottom: 14px; }
+    .pilot-review .source-warning { border-left: 3px solid #bba36f; padding: 9px 12px; background: #faf7ee; }
+    .pilot-review .decision-card .lsf-richtext { font-size: 13px; line-height: 1.55; }
+    .pilot-review .decision-card .lsf-richtext__line { font-size: 13px; line-height: 1.55; }
+    .pilot-review .review-kicker h4 { font-size: 11px !important; margin: 0 !important; }
+    .pilot-review .review-subtitle { margin-bottom: 12px; }
+    @media (max-width: 1100px) { .pilot-review .reading-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 760px) { .pilot-review .review-layout { grid-template-columns: 1fr; } .pilot-review .decision-card { position: static; max-height: none; overflow: visible; } }
+  </Style>
+  <View className="review-kicker"><Header value="ER Commons · Pilot screening" size="6" /></View>
+  <Header value="$case_title" size="1" />
+  <View className="review-subtitle"><Text name="source_summary" value="$source_summary" /></View>
+  <View className="review-layout">
+    <View>
+      <View className="reading-grid">
+        <View className="reading-card">
+          <Header value="Comment" size="2" />
+          <HyperText name="comment" value="$comment_html" inline="true" selectionEnabled="false" clickableLinks="true" />
+        </View>
+        <View className="reading-card">
+          <Header value="Official response" size="2" />
+          <HyperText name="response" value="$response_html" inline="true" selectionEnabled="false" clickableLinks="true" />
+        </View>
+      </View>
+      <View className="reading-card context-card">
+        <Collapse><Panel value="Linked response context · expand to read">
+          <HyperText name="context" value="$context_html" inline="true" selectionEnabled="false" clickableLinks="true" />
+        </Panel></Collapse>
+      </View>
+      <View className="reading-card context-card">
+        <Collapse><Panel value="Citations and source limitations">
+          <HyperText name="references" value="$reference_html" inline="true" selectionEnabled="false" clickableLinks="true" />
+        </Panel></Collapse>
+      </View>
+    </View>
+    <View className="decision-card">
+      <Header value="Worth authoring?" size="2" />
+      <Text name="rating_hint" value="Choose one fit rating. No written notes needed." />
+      <Choices name="pilot_fit" toName="comment" choice="single-radio" showInline="true" required="true" requiredMessage="Choose Great, OK, or Skip before submitting.">
+        <Choice value="Great" alias="great_fit" />
+        <Choice value="OK" alias="ok_fit" />
+        <Choice value="Skip" alias="skip_for_pilot" />
+      </Choices>
+      <View className="review-help">
+        <Text name="fit_guide" value="Great: clear and manageable. OK: promising, with more work. Skip: unsuitable for this pilot." />
+      </View>
+      <View visibleWhen="choice-selected" whenTagName="pilot_fit" whenChoiceValue="Skip">
+        <View className="skip-heading"><Header value="Why skip? Optional" size="4" /></View>
+        <Choices name="skip_reasons" toName="comment" choice="multiple" required="false">
+          <Choice value="Says a document was changed" alias="document_change" />
+          <Choice value="Cites an unavailable external document" alias="external_document_unavailable" />
+          <Choice value="Other required evidence unavailable" alias="unavailable_evidence" />
+          <Choice value="Requires visual interpretation" alias="requires_visual_interpretation" />
+          <Choice value="Not a useful substantive question" alias="not_useful_question" />
+          <Choice value="Too complex for this pilot" alias="too_complex" />
+          <Choice value="Other" alias="other" />
+        </Choices>
+      </View>
+      <View className="review-help" style="margin-top: 18px;">
+        <Text name="scope_guide" value="Any stated document change, even a minor correction, or a citation to an unavailable external document means Skip. Evidence verification comes later." />
+      </View>
+    </View>
+  </View>
+</View>

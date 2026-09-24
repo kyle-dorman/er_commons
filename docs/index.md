@@ -10,9 +10,10 @@ Sprint 2 is active. Tasks 02–06 are complete, including the repaired
 and the sole immutable [Task 05H response inventory](specs/task05h_final_result.json).
 The [05H summary](specs/task05h_final_summary.md) owns review coverage and
 inherited limits. The [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
-and provisional subtasks are drafted for review; no Task 07 implementation is
-active. [07A screening](../tasks/sprint2/07a_screen_pilot_candidates.md) is the
-first proposed execution task.
+and later subtasks remain provisional. The
+[07A sample](../tasks/sprint2/07a_screen_pilot_candidates.md#sampling-outcome)
+contains 50 selected comments with completed, verified human labels.
+Authoring-case selection is deferred until the response-linking repair.
 
 ## Read for the next phase
 
@@ -21,7 +22,7 @@ first proposed execution task.
    for later eligibility/evaluation boundaries.
 2. [Task 05H outcome](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
    for the accepted Task 07/08 input; follow its predecessor links only as needed.
-3. [07A draft](../tasks/sprint2/07a_screen_pilot_candidates.md) for the first
+3. [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md) for the first
    proposed task; read [task shape](../tasks/README.md) and the [documentation
    guide](documentation.md) before revising it.
 

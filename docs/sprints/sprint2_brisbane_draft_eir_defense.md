@@ -146,8 +146,8 @@ drop unmatched units.
 Construct the Task 05 inventory deterministically from document structure,
 source IDs, headings, and explicit cross-reference patterns, with manual
 resolution of ambiguous cases. No LLM creates, segments, links, or triages
-that accepted inventory. Task 07 may use model suggestions to screen already
-accepted pairs for pilot fit; those suggestions do not change Task 05 records.
+that accepted inventory. Task 07A uses direct human review of accepted
+comment-rooted cases for pilot fit; screening does not change Task 05 records.
 
 Task 05's accepted curator-only inventory is owned by the
 [Task 05 umbrella](../../tasks/sprint2/05_build_curator_only_response_inventory.md)
@@ -564,11 +564,12 @@ negative results, and validation evidence remain in the completed task records.
 ### Remaining task sequence
 
 1. **Task 07 — Pilot reference-case authoring.** Screen at least 50 accepted
-   comment-response pairs for pilot fit, then take a small varied subset
-   through separate Label Studio projects for comment questions, response
-   assertions, evidence, answer logic, and defenses. Codex proposes bounded
-   batches in separate tasks; the curator reviews each stage. A later bounded
-   local-model replay compares proposal quality. The
+   comment-rooted cases with complete response context through human-only review,
+   then take a small varied subset through separate Label Studio projects for
+   comment questions, response
+   assertions, evidence, answer logic, and defenses. For those later authoring
+   stages, Codex proposes bounded batches in separate tasks; the curator reviews
+   each stage. A later bounded local-model replay compares proposal quality. The
    [Task 07 umbrella](../../tasks/sprint2/07_pilot_reference_case_authoring.md)
    routes the provisional subtasks and review gates.
 2. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Identify at

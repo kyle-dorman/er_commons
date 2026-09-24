@@ -146,6 +146,12 @@ that sealed container without changing its identity. Acceptance writes the
 designation pointer only after successful terminal supervision and revalidation.
 The [final result](specs/task05h_final_result.json) records the release bindings.
 
+`pilot_screening` is a narrow downstream adapter: it verifies a saved 07A sample
+and prepares one unrated Label Studio task with source IDs and readable text.
+It neither discovers response links nor imports tasks or assigns ratings. The
+[form README](../configs/label_studio/README.md) owns the isolated review setup;
+Task 07A owns the completed export and migration boundary.
+
 Tasks 07 and 08 resolve the Task 05H acceptance pointer once, then pin the
 inventory identity, completion seal, and exact component references for the
 whole downstream run. They retain the accepted reference, F1-substitution,
