@@ -15,13 +15,15 @@ and later subtasks remain provisional. The
 contains 50 selected comments with completed, verified human labels.
 [Task 07A.1](../tasks/sprint2/07a1_repair_response_list_links.md) repaired explicit
 response-list links, published the [replacement inventory](specs/task07a1_final_result.json),
-and verified all 50 decisions in a separate review project. Task 07A is ready
-for example selection; no examples have been selected.
+and verified all 50 decisions in a separate review project. Task 07A is complete
+with [eight selected Great cases](../tasks/sprint2/07a_screen_pilot_candidates.md#eight-case-selection-and-07b-handoff).
+Next, revise Task 07B for their comment-question review.
 
 ## Read for the next phase
 
-1. [Task 07A](../tasks/sprint2/07a_screen_pilot_candidates.md) for example
-   selection readiness and [07A.1](../tasks/sprint2/07a1_repair_response_list_links.md)
+1. [Task 07B](../tasks/sprint2/07b_review_comment_questions.md) for the next
+   provisional contract, [07A](../tasks/sprint2/07a_screen_pilot_candidates.md)
+   for the selected-case handoff, and [07A.1](../tasks/sprint2/07a1_repair_response_list_links.md)
    for the accepted replacement and verified migration.
 2. [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
    for the proposed stage order and [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md)

@@ -1,6 +1,6 @@
 # Task 07A: Screen Pilot Candidates
 
-Status: **All 50 human decisions preserved in the accepted 07A.1 replacement and verified project 2; ready for authoring-case selection. No examples selected.**
+Status: **Complete: 50 verified human decisions and eight selected authoring cases.**
 
 ## Abstract and goal
 
@@ -290,3 +290,38 @@ Five cases gained response context: O-Joint-74 (Great), O-YIMBY-8, M-OSEC-50,
 RA-Caltrain-6 and O-SAMCEDA-6 (all Skip). Their decisions remain unchanged.
 Optional follow-up is separate from the completed batch. Selection of 6–10
 examples is ready to begin but was not performed by the repair task.
+
+
+## Eight-case selection and 07B handoff
+
+Selected eight distinct cases from the 20 human Great decisions, using the
+repaired inventory and migrated project 2. The user requested four cases using
+different general responses, two main-only cases, and two different appendices.
+
+| Comment | Coverage | Topic |
+| --- | --- | --- |
+| I-EA-2 | GR1 | Regional jobs–housing imbalance |
+| O-Joint-19 | GR3 | Housing demand and displacement |
+| I-CJ-4 | GR4 | Contamination and cleanup requirements |
+| I-CF-4 | GR8 | Bayshore cycling and traffic safety |
+| PC-LM-2 | Main only | Why Alternative 7 is environmentally superior |
+| SA-Caltrans-33 | Main only | Net emissions versus baseline |
+| M-OSEC-273 | Appendix H | Electricity mix in GHG estimates |
+| O-GGBA-2 | Appendix D | Wildlife corridors and biological surveys |
+
+GR8 also links to GR7; retain that context. The appendix cases also cite main
+text. The main-only and appendix slots have no general-response links.
+The selection favors manageable concerns and varied evidence paths, without
+changing human decisions or claiming formal benchmark eligibility.
+
+The external handoff is
+`pipelines/brisbane_baylands/task_07_pilot/07a/authoring_selection_20260924_v1/`:
+`selected_cases.json` binds all eight comment, response, view, relationship,
+reference and annotation IDs; `selected_cases.md` summarizes the selection;
+`selection_manifest.json` pins the repaired sample and human export.
+
+Validation: migration and sample file hashes verified, eight unique comments,
+all eight Great, four distinct designated GRs, two full-context main-only cases,
+and two distinct appendix targets. No source, labels, or projects were modified.
+Task 07A is complete. Next: revise [07B](07b_review_comment_questions.md) for
+these eight cases before implementing its comment-question review.

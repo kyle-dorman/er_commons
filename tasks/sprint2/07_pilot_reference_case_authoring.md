@@ -1,6 +1,6 @@
 # Task 07: Pilot Reference-Case Authoring
 
-Status: **07A screening and verified migration complete; ready for example selection after accepted 07A.1 repair. No examples selected. Later authoring subtasks remain provisional.**
+Status: **07A and 07A.1 complete; eight Great cases selected. Revise 07B before authoring; later subtasks remain provisional.**
 
 ## Abstract
 
