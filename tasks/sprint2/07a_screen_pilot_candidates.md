@@ -272,3 +272,6 @@ recorded full-suite Task 06G failures were not re-run for this localized refacto
 Commit this screening checkpoint before creating the response-linking repair
 subtask. Resume 07A example selection only after that repair and verified label
 transfer; the completed project and verified export remain immutable inputs.
+
+The next contract is [Task 07A.1](07a1_repair_response_list_links.md). Return here
+for example selection after its verified linking and label-transfer handoff.

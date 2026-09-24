@@ -13,16 +13,20 @@ inherited limits. The [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_cas
 and later subtasks remain provisional. The
 [07A sample](../tasks/sprint2/07a_screen_pilot_candidates.md#sampling-outcome)
 contains 50 selected comments with completed, verified human labels.
-Authoring-case selection is deferred until the response-linking repair.
+Authoring-case selection is deferred until
+[07A.1 response-linking repair](../tasks/sprint2/07a1_repair_response_list_links.md),
+the next bounded task.
 
 ## Read for the next phase
 
-1. [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
+1. [Task 07A.1](../tasks/sprint2/07a1_repair_response_list_links.md) for the
+   immediate repair and label-preservation contract.
+2. [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
    for the proposed stage order and [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md)
    for later eligibility/evaluation boundaries.
-2. [Task 05H outcome](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
+3. [Task 05H outcome](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
    for the accepted Task 07/08 input; follow its predecessor links only as needed.
-3. [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md) for the first
+4. [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md) for the first
    proposed task; read [task shape](../tasks/README.md) and the [documentation
    guide](documentation.md) before revising it.
 
