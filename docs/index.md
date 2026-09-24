@@ -18,12 +18,16 @@ response-list links, published the [replacement inventory](specs/task07a1_final_
 and verified all 50 decisions in a separate review project. Task 07A is complete
 with [eight selected Great cases](../tasks/sprint2/07a_screen_pilot_candidates.md#eight-case-selection-and-07b-handoff).
 Task 07B is complete: seven approved cases and one unclear case (I-CJ-4), with
-all eight outcomes exported and validated. Only approved cases may advance.
+all eight outcomes exported and validated. Task 07C is complete: seven approved
+cases and 31 reviewed response argument blocks, with a validated export.
+Task 07D planning is next; evidence verification has not started.
 
 ## Read for the next phase
 
-1. [Task 07C](../tasks/sprint2/07c_review_response_assertions.md) for the next
-   provisional contract, [07B](../tasks/sprint2/07b_review_comment_questions.md#final-reviewed-export)
+1. [Task 07D](../tasks/sprint2/07d_discover_and_review_evidence.md) for the next
+   provisional contract, [07C](../tasks/sprint2/07c_review_response_assertions.md#final-reviewed-export-and-learning)
+   for the completed seven-case export and review lessons, and
+   [07B](../tasks/sprint2/07b_review_comment_questions.md#final-reviewed-export)
    for the completed review handoff, [07A](../tasks/sprint2/07a_screen_pilot_candidates.md)
    for the selected-case handoff, and [07A.1](../tasks/sprint2/07a1_repair_response_list_links.md)
    for the accepted replacement and verified migration.

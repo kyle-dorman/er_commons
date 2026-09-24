@@ -1,0 +1,65 @@
+<View className="claim-review">
+  <Style>
+    .claim-review { max-width: 1480px; margin: 0 auto; padding: 12px 16px 28px; color: #263b3a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .claim-review h1 { font-size: 25px; margin: 0 0 6px; }
+    .claim-review h2 { font-size: 18px; margin: 0 0 12px; }
+    .claim-review h3 { font-size: 15px; margin: 18px 0 8px; }
+    .claim-review .intro, .claim-review .help { color: #526b65; font-size: 13px; line-height: 1.6; margin: 8px 0 16px; }
+    .claim-review .columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 20px; align-items: start; }
+    .claim-review .card { border: 1px solid #dbe4e1; border-radius: 10px; padding: 20px; background: white; min-width: 0; }
+    .claim-review .edit-card { background: #f5f9f7; }
+    .claim-review .source-reader { max-height: 600px; overflow-y: auto; overflow-wrap: anywhere; padding-right: 10px; font-size: 14px; line-height: 1.65; }
+    .claim-review pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 14px/1.65 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .claim-review .source-reader pre { white-space: pre-wrap !important; }
+    .claim-review .concerns p { margin: 0 0 12px; }
+    .claim-review .source-reader h4 { margin: 18px 0 8px; }
+    .claim-review blockquote { margin: 8px 0 16px; padding: 8px 12px; border-left: 3px solid #cadbd3; white-space: pre-wrap; }
+    .claim-review li { margin-bottom: 10px; }
+    .claim-review .concerns { font-size: 14px; line-height: 1.6; }
+    .claim-review .notes { background: #fff9ec; border: 1px solid #e7dab9; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 13px; line-height: 1.55; }
+    .claim-review .notes h3 { margin-top: 4px; }
+    .claim-review textarea { font: 14px/1.65 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 12px; resize: vertical; background: white; }
+    .claim-review .list-editor textarea { min-height: 610px !important; }
+    .claim-review .status { margin-top: 18px; border-top: 1px solid #dbe4e1; padding-top: 16px; }
+    .claim-review .optional { margin-top: 18px; }
+    .claim-review .proposal-reader { max-height: 540px; overflow-y: auto; font-size: 14px; line-height: 1.6; }
+    @media (max-width: 1000px) { .claim-review .columns { grid-template-columns: 1fr; } .claim-review .source-reader { max-height: 400px; } .claim-review .list-editor textarea { min-height: 450px !important; } }
+  </Style>
+  <Header value="$case_label" size="1" />
+  <View className="intro"><Text name="instructions" value="Review what the official responses claim. Preserve their meaning, qualifications, and attribution. Approval means faithful extraction; evidence verification comes later in 07D." /></View>
+  <View className="columns">
+    <View className="card">
+      <Header value="Reviewed concerns" size="2" />
+      <View className="concerns"><HyperText name="concerns_context" value="$concerns_html" inline="true" selectionEnabled="false" /></View>
+      <Header value="Complete linked responses" size="2" />
+      <View className="help"><Text name="sources_help" value="R01 is the individual response; R02 is General Response 3. Both are included in full, followed by footnote 75. Match the short passage references to those in your claims. Scroll within this panel to read all passages." /></View>
+      <View className="source-reader"><HyperText name="response_context" value="$sources_html" inline="true" selectionEnabled="false" /></View>
+      <View className="optional"><Collapse>
+        <Panel value="Draft coverage notes"><HyperText name="coverage" value="$coverage_html" inline="true" selectionEnabled="false" /></Panel>
+        <Panel value="Original comment"><HyperText name="original_comment" value="$comment_html" inline="true" selectionEnabled="false" /></Panel>
+        <Panel value="Source notes and inherited limits"><HyperText name="warnings" value="$warnings_html" inline="true" selectionEnabled="false" /></Panel>
+        <Panel value="Initial proposal and quotations · unchanged"><View className="proposal-reader"><HyperText name="original_proposal" value="$proposal_html" inline="true" selectionEnabled="false" /></View></Panel>
+      </Collapse></View>
+    </View>
+    <View className="card edit-card">
+      <Header value="Your reviewed argument blocks" size="2" />
+      <View className="help"><Text name="edit_help" value="Group supporting details with the argument they support. Each block starts with claim ID | concern IDs | passage IDs, followed by its wording. Edit, add, split, merge, or delete blocks. Use a new unused C-number for an added claim and unassigned if no concern fits. Update passage references when changing a claim's source." /></View>
+      <View className="notes"><HyperText name="draft_notes" value="$notes_html" inline="true" selectionEnabled="false" /></View>
+      <View className="list-editor"><TextArea name="claims" toName="response_context" rows="28" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false" placeholder="C001 | Q1,Q2 | R01-P01&#10;Claim wording" /></View>
+      <View className="help"><Text name="binding_help" value="Passage references bind your edited claims to the full source passages. Initial proposal quotations remain unchanged as drafting history; they are not automatically treated as quotations supporting your edits. Concern links mean relevance, not an adequate answer. No evidence judgment is required here." /></View>
+      <View className="status">
+        <Header value="Review status" size="2" />
+        <Choices name="review_status" toName="response_context" choice="single-radio" showInline="true" required="true" requiredMessage="Choose a review status before submitting.">
+          <Choice value="Approved" alias="approved" />
+          <Choice value="Unclear" alias="unclear" />
+          <Choice value="Needs context" alias="needs_context" />
+        </Choices>
+        <View className="help"><Text name="status_help" value="Approved: the claims faithfully cover the relevant response material, including qualifications. Unclear: meaning cannot be represented confidently. Needs context: specific source material is missing. Retained source ambiguity is not a factual-support judgment." /></View>
+      </View>
+      <View className="optional">
+        <Header value="Note · optional" size="2" />
+        <TextArea name="review_note" toName="response_context" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false" placeholder="Anything unclear or missing?" />
+      </View>
+    </View>
+  </View>
+</View>

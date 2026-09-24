@@ -175,6 +175,13 @@ Only explicit approved, nonempty numbered lists can advance; original text,
 proposal, and source bindings remain separate from curator edits. Import/API
 execution stays in the external trial record.
 
+`pilot_claims` is the Task 07C adapter. It verifies sealed response packets and
+separate proposals, renders full source context with a claims prediction, and
+normalizes saved reviews against trusted task data. Edited claims bind current
+source passages; immutable proposal quotes remain drafting provenance. Explicit
+approved records alone can advance, with content/export-bound IDs and complete
+proposal lineage rather than inferred per-claim split/merge ancestry.
+
 `pilot_context_repair` refreshes a fixed sample using directed response closure;
 cycles are deduplicated and other comments cannot enter the context.
 `pilot_label_migration` verifies protected exports, joins annotations by stable

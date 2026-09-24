@@ -7,17 +7,17 @@ are complete. The [accepted replacement inventory](specs/task07a1_final_result.j
 is the current input; historical releases and inherited limitations are preserved.
 See the [index](index.md) for entry links.
 
-## Next: Task 07C planning
+## Next: Task 07D planning
 
-[Task 07A](../tasks/sprint2/07a_screen_pilot_candidates.md#eight-case-selection-and-07b-handoff)
-is complete: 50 verified human decisions and eight selected Great cases
-(4 general-response, 2 main-only, 2 distinct appendices).
+[Task 07C is complete](../tasks/sprint2/07c_review_response_assertions.md#final-reviewed-export-and-learning):
+seven approved cases and 31 reviewed response argument blocks, exported and
+validated. I-CJ-4 remains excluded by 07B. All original proposals and human edits
+are preserved.
 
-[07B is complete](../tasks/sprint2/07b_review_comment_questions.md#final-reviewed-export):
-seven approved cases and I-CJ-4 marked unclear and skipped. All eight outcomes
-are exported and validated, with no pending cases or drafts. Next: agree on
-the provisional 07C contract before execution. Only approved cases may advance;
-preserve all reviews, screening labels, and existing projects.
+Revise the provisional [07D contract](../tasks/sprint2/07d_discover_and_review_evidence.md)
+with Kyle before evidence work. Address the review burden and distinguish
+faithful response extraction, relevance to the comment, and evidence support.
+Use the exact completed 07C handoff; do not reopen approved labels implicitly.
 
 The [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md) owns later
 sequencing. Completed task records own exact identities and execution evidence.

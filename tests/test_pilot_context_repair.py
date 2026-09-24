@@ -108,3 +108,74 @@ def test_changed_direct_response_stops_refresh() -> None:
     edges[0]["target_unit_id"] = "r2"
     with pytest.raises(ValueError, match="Direct response changed"):
         refresh_cases(old, sources, edges, [], views)
+
+
+def test_general_response_chain_preserves_full_text_and_cycle_edges() -> None:
+    """Follow general-response referrals to completion without duplicating sources."""
+    old, sources, edges, views = _fixture()
+    for uid in ("g2", "g3"):
+        text = f"Complete response {uid}, including its final qualification."
+        sources.extend(
+            [
+                {
+                    "record_type": "source_unit",
+                    "unit_id": uid,
+                    "unit_kind": "general_response",
+                    "official_label": uid,
+                    "span_ids": ["s-" + uid],
+                },
+                {
+                    "record_type": "source_span",
+                    "span_id": "s-" + uid,
+                    "fragments": [{"page_id": "p-" + uid, "text_start": 0, "text_end": len(text)}],
+                },
+                {
+                    "record_type": "page",
+                    "page_id": "p-" + uid,
+                    "physical_page": 2,
+                    "raw_text": text,
+                },
+            ]
+        )
+    for name, source, target in (
+        ("general-next", "g", "g2"),
+        ("general-deeper", "g2", "g3"),
+        ("general-cycle", "g3", "g"),
+    ):
+        edges.append(
+            {
+                "edge_id": name,
+                "source_unit_id": source,
+                "target_unit_id": target,
+                "relation_type": "general_response_general_response",
+            }
+        )
+
+    cases, context, _ = refresh_cases(old, sources, edges, [], views)
+
+    assert cases[0]["context_unit_ids"] == ["c", "r1", "r2", "g", "g2", "g3"]
+    assert cases[0]["general_response_ids"] == ["g", "g2", "g3"]
+    assert set(cases[0]["relationship_ids"]) == {
+        edge["edge_id"] for edge in edges if edge["edge_id"] != "membership"
+    }
+    assert len(context) == 6
+    by_id = {row["unit_id"]: row for row in context}
+    for uid in ("g2", "g3"):
+        assert by_id[uid]["text"] == f"Complete response {uid}, including its final qualification."
+    assert old[0]["context_unit_ids"] == ["c", "r1"]
+
+
+def test_missing_linked_response_stops_refresh() -> None:
+    """A missing general-response target must not produce a partial context."""
+    old, sources, edges, views = _fixture()
+    edges.append(
+        {
+            "edge_id": "missing-referral",
+            "source_unit_id": "g",
+            "target_unit_id": "missing-response",
+            "relation_type": "general_response_general_response",
+        }
+    )
+    with pytest.raises(KeyError, match="missing-response"):
+        refresh_cases(old, sources, edges, [], views)
+    assert old[0]["context_unit_ids"] == ["c", "r1"]
