@@ -34,12 +34,12 @@
       "properties": {
         "candidate_root": {"$ref": "#/$defs/relative_path"},
         "acceptance_path": {"$ref": "#/$defs/relative_path"},
-        "revision_id": {"const": "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"},
-        "acceptance_id": {"const": "acceptancev1-7edf64ffd5e283c736e9980c79f682997ce06c135038d4ceb3ecbc496ce6c027"},
-        "activity_id": {"const": "activityv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"},
-        "completion_id": {"const": "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f"},
-        "inventory_id": {"const": "fileinventoryv1-a04c715a6dff6bdfe6d28eaed9b40211382d60a74d540cdf46cd3b2c993c60a0"},
-        "semantic_digest": {"const": "f7aa9fd6e6d4e464b27b270e6f61a8dcbfb0d998dc44e7eda84abd07db5d9247"}
+        "revision_id": {"type": "string", "pattern": "^revisionv1-[0-9a-f]{64}$"},
+        "acceptance_id": {"type": "string", "pattern": "^acceptancev1-[0-9a-f]{64}$"},
+        "activity_id": {"type": "string", "pattern": "^activityv1-[0-9a-f]{64}$"},
+        "completion_id": {"type": "string", "pattern": "^completionv1-[0-9a-f]{64}$"},
+        "inventory_id": {"type": "string", "pattern": "^fileinventoryv1-[0-9a-f]{64}$"},
+        "semantic_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
       }
     },
     "repository_bindings": {

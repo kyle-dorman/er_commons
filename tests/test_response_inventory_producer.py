@@ -951,3 +951,63 @@ def test_rejects_missing_or_duplicate_page_scope() -> None:
         assert "do not close" in str(error)
     else:  # pragma: no cover - failure branch
         raise AssertionError("missing activity page should fail")
+
+
+@pytest.mark.parametrize(
+    ("citation", "expected"),
+    [
+        ("Responses O-Joint-63, O-Joint-64, and\nO-Joint-66.", ["63", "64", "66"]),
+        ("Response O-Joint-63, O-Joint-64 and O-Joint-66.", ["64", "66"]),
+        ("Responses O-Joint-63 or O-Joint-66; other prose.", ["63", "66"]),
+        ("Responses O-Joint-63, 64, and 66.", ["63"]),
+        ("Responses O-Joint-63 through O-Joint-66.", []),
+        ("Responses O-Joint-63-66.", []),
+        ("Responses address these issues and comments.", []),
+        ("Response O-Joint-63, Response O-Joint-64.", []),
+    ],
+)
+def test_explicit_response_lists_preserve_exact_prefix_and_item_evidence(
+    citation: str, expected: list[str]
+) -> None:
+    """Each new list mention has two exact spans and a checked resolver rule."""
+    import hashlib
+
+    from er_commons.response_inventory.contract import _mention_evidence_names_target
+    from er_commons.response_inventory.relationship_baseline import (
+        _ResolutionPolicy,
+        _resolve_mention_target,
+    )
+    from er_commons.response_inventory.response_lists import LIST_ITEM_RULE, response_list_target
+
+    text = "Response O-Joint-74\nRefer to " + citation + "\n"
+    page = _page(1, text, {0: {"italic": True, "dotted_rule": True}}, closes_open_unit=True)
+    records = build_source_records(_activity([[1, 1]]), [page])
+    validate_record_bundle(records, json.loads(SCHEMA_PATH.read_text()))
+    spans = {r["span_id"]: r for r in records if r["record_type"] == "source_span"}
+    pages = {r["page_id"]: r for r in records if r["record_type"] == "page"}
+    mentions = [
+        r
+        for r in records
+        if r["record_type"] == "reference_mention"
+        and len(spans[r["mention_span_id"]]["fragments"]) == 2
+    ]
+    assert [response_list_target(m, spans, pages) for m in mentions] == [
+        "Response O-Joint-" + suffix for suffix in expected
+    ]
+    for mention in mentions:
+        fragments = spans[mention["mention_span_id"]]["fragments"]
+        raw = "".join(text[f["text_start"] : f["text_end"]] for f in fragments)
+        assert mention["raw_text_sha256"] == hashlib.sha256(raw.encode()).hexdigest()
+        target = response_list_target(mention, spans, pages)
+        assert target is not None
+        unit = {"official_label": target}
+        resolved = _resolve_mention_target(
+            raw, mention, {target: unit}, spans, pages, _ResolutionPolicy(name="test")
+        )
+        assert resolved == (target, unit, LIST_ITEM_RULE)
+        assert _mention_evidence_names_target(mention, unit, LIST_ITEM_RULE, spans, pages)
+        assert _resolve_mention_target(
+            raw, mention, {}, spans, pages, _ResolutionPolicy(name="test")
+        ) == (target, None, LIST_ITEM_RULE)
+        fragments[1]["text_start"] += 1
+        assert not _mention_evidence_names_target(mention, unit, LIST_ITEM_RULE, spans, pages)

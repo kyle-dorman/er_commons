@@ -1,0 +1,183 @@
+{
+  "authorization": {
+    "execution": true,
+    "finalization": true,
+    "publication": true,
+    "acceptance": true
+  },
+  "binding_freeze": {
+    "path": "docs/specs/task07a1_release_bindings.json",
+    "sha256": "d55868313ddfcf259254aa6890ceab7132864234dc9fc1b79daab7744c5da71c"
+  },
+  "hash_large_upstream_payloads": false,
+  "image_access": false,
+  "limits": {
+    "cpu_threads": 2,
+    "disk_sample_seconds": 1.0,
+    "max_output_bytes": 2147483648,
+    "max_rss_bytes": 4294967296,
+    "max_seconds": 1800,
+    "max_swap_growth_bytes": 0,
+    "min_free_bytes": 8589934592,
+    "sample_seconds": 0.1,
+    "termination_grace_seconds": 15.0,
+    "workers": 1
+  },
+  "model_access": false,
+  "network_access": false,
+  "output_relative_root": "pipelines/brisbane_baylands/task_05_response_inventory/working/05h",
+  "question_version": "task05h_composition_review.v1",
+  "render_access": false,
+  "repository_bindings": [
+    {
+      "path": "benchmarks/er_bench/schemas/response_inventory/release_v1/records.schema.json",
+      "sha256": "f46940f36b40ceec14debc3324a46452c32e09bebc3a04a73c856fda6d533107"
+    },
+    {
+      "path": "benchmarks/er_bench/schemas/response_inventory/release_v1/run_spec.schema.json",
+      "sha256": "fd481e34b39fa8ae43512c8c1721c36f688b1fb79eeb120c32fd62c91a5b485a"
+    },
+    {
+      "path": "benchmarks/er_bench/schemas/response_inventory/v1/records.schema.json",
+      "sha256": "fa8cac55243db90b94ac451e9d00dba5d509ef0e07a72a739570dd6994b625ba"
+    },
+    {
+      "path": "docs/specs/task07a1_release_bindings.json",
+      "sha256": "d55868313ddfcf259254aa6890ceab7132864234dc9fc1b79daab7744c5da71c"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "4622a822017ac97dfbd14848c308b7dc49b17b03f0a3c2f88c2f237bfd7239d3"
+    },
+    {
+      "path": "scripts/prepare_task05h_execution.py",
+      "sha256": "3c514f1cd6d1c5dd382b42c903d2b262397044be4824acd700fb5b6020398e5e"
+    },
+    {
+      "path": "src/er_commons/artifact_io.py",
+      "sha256": "742def5e35aa9a29f747149a06d77daf44106ddd5ce50c157181e19f6561236f"
+    },
+    {
+      "path": "src/er_commons/document_publication/background_execution.py",
+      "sha256": "f7f1bb25941010ac3bd5194e559cc58c19488e177104242d2289fed1c2c85c78"
+    },
+    {
+      "path": "src/er_commons/response_inventory/__init__.py",
+      "sha256": "238e966e3f74df1f4540beb106ad4651ddf1ee66033cf98c462c8967b96bbafc"
+    },
+    {
+      "path": "src/er_commons/response_inventory/cli.py",
+      "sha256": "f1a26756a019d8fad0db33b5fb397cdea4119db03fed401e3e9f9a801ae168a9"
+    },
+    {
+      "path": "src/er_commons/response_inventory/code_inventory.py",
+      "sha256": "960d135cb4db5d9d402190edbde71a264fcdee65bcaa496cf8cccfed3bae5cd3"
+    },
+    {
+      "path": "src/er_commons/response_inventory/complete_source_policy.py",
+      "sha256": "16b1d936e9cffe8383f3ce2c6706bfa26f53dfaf02365d99b6cca3715fc9327a"
+    },
+    {
+      "path": "src/er_commons/response_inventory/contract.py",
+      "sha256": "7541ef79c558263119b160ec45f01be76abab1cf06f565a21fa4de0e1d6f42b6"
+    },
+    {
+      "path": "src/er_commons/response_inventory/observations.py",
+      "sha256": "a345b98759e7d10860f898df4139506715ac22574f3b762a4ec11ca20e3e6514"
+    },
+    {
+      "path": "src/er_commons/response_inventory/pilot_policy.py",
+      "sha256": "4c84a8005ed63a659eadc4a4157a01f902c5719639f9049ca3e96f2ab05c04ce"
+    },
+    {
+      "path": "src/er_commons/response_inventory/producer.py",
+      "sha256": "ebb8111f06aef2546ef0422b7b4142a15e999a7d45d320417d62913f3b99537b"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_execution.py",
+      "sha256": "1b4fc8d4a2e20512cf5dcd41c1bf0a6181a3495c463416e81d14e6977e951528"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_inputs.py",
+      "sha256": "1c2f790711829b23446bcffaa37a67dfe5509233b38f64f94507bd2281909e9d"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_launch.py",
+      "sha256": "1188484510eb531eb4755e817ebe0b6cc0baaea8de44b5e22e78bd70450c9055"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_publication.py",
+      "sha256": "64b99447401a0019d102752d76d592487af63aa88572692825e9ecc9aee186d9"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_review.py",
+      "sha256": "2c17b9f3599e2af450e247768b68bb0a6b93e36dea2fbdead83bcce1aecf92ef"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_spec.py",
+      "sha256": "de1e607f3a416b86ab3d75a30d8a1a1297f6998540a470f164742f1c3395166b"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_storage.py",
+      "sha256": "0d37c4b2f50596ae07b71d13aeec2cb19574b03cee3b72ff0ca0332d148f8b41"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_validation.py",
+      "sha256": "edf452d0b81970ebae4929e6c7df9531529c9d35f7cd34396d62b222b69b5362"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_views.py",
+      "sha256": "efe069f5c5c1dd32448e6e5495f774a622b4b4e716ab4d8e5728bf078fc41d06"
+    },
+    {
+      "path": "src/er_commons/response_inventory/release_workflow.py",
+      "sha256": "b5ca147b3677c74eb4881f1f1522aafc05c597d3c3b1d78157831348745eeef4"
+    },
+    {
+      "path": "src/er_commons/response_inventory/response_lists.py",
+      "sha256": "2d7c5ec8be774ab29495b7b549ef222a038a9eef1234a7f4335707550dcf1dcd"
+    },
+    {
+      "path": "src/er_commons/response_inventory/run_spec.py",
+      "sha256": "5dc37725483efc9995031d95a49af5a47fdaa71302252eda89ae3eaaf3f9a825"
+    },
+    {
+      "path": "src/er_commons/response_inventory/source_structure.py",
+      "sha256": "bd39f050a32a1ab956de2da85c89ba2b6e80a145d3f7034510afb824ef568eb2"
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "6f971f2d27875fb0f3abe2b0051f3adcbd21164ca1a386e9f2a2cc301c88b452"
+    }
+  ],
+  "runtime_versions": {
+    "python": "3.12.11",
+    "pydantic": "2.13.4",
+    "jsonschema": "4.26.0",
+    "rfc8785": "0.1.4",
+    "psutil": "7.2.2"
+  },
+  "schema_version": "er_commons.response_inventory_release_request.v1",
+  "selection_freeze": {
+    "path": "docs/specs/task07a1_release_selection.json",
+    "sha256": "b36e6203eb2057482d8d47edaac84f0334328db77bf5c9843ec8a1e14c71c048"
+  },
+  "selection_policy": "task05h_curator_selection.v1",
+  "source_pdf_access": false,
+  "task_stage": "05h",
+  "view_policy": "task05h_lazy_text_view.v1",
+  "supersedes_acceptance": {
+    "path": "acceptances/acceptance05hv1-16d43a7f43be8ef0c70cb3fd7088aa73dc3c6f01bdc7827ad89c231101cba58c/acceptance.json",
+    "sha256": "75236575707e0330f42077b746aff8217aa37262c5342093e881127e024b440e"
+  },
+  "review_decisions": {
+    "authority": "artifact_root",
+    "path": "pipelines/brisbane_baylands/task_07_pilot/07a1/curation/decisions.jsonl",
+    "sha256": "d3a1c666cf3d329b54ae441c40be4da9dcfaecff7e74c337b218261bd9a29215"
+  },
+  "quality_report": {
+    "authority": "artifact_root",
+    "path": "pipelines/brisbane_baylands/task_07_pilot/07a1/curation/quality_report.json",
+    "sha256": "d3842b2cb1375ab9dc8a3c2a29303ba84b043f7288522f2da84a4169170d4548"
+  }
+}

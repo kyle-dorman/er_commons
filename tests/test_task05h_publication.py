@@ -194,3 +194,40 @@ def test_quality_requires_typed_independent_attestation(
     }
     with pytest.raises(ValueError, match="identified independent reviewer"):
         validate_quality(quality, plan_id="plan", semantic_digest="input", repository_bindings=[])
+
+
+def test_explicit_supersession_preserves_prior_acceptance(tmp_path: Path) -> None:
+    """Change only the designation after verifying preserved exact prior bytes."""
+    from er_commons.response_inventory.release_publication import designate_acceptance
+    from er_commons.response_inventory.release_storage import digest, encode
+
+    parent = tmp_path / "task05"
+    working = parent / "working/05h"
+    completion = candidate(working / "p/attempt-001/finalized")
+    plan = completion["plan_id"]
+    published = publish_inventory(
+        working / "p/attempt-001/finalized", parent, spec(publication=True), plan_id=plan
+    )
+    destination = Path(published["inventory_root"])
+    args = dict(plan_id=plan, accepted_by="Fixture curator", accepted_at="2026-09-17T20:00:00Z")
+    old = designate_acceptance(
+        destination, working, spec(acceptance=True), execution_evidence={}, **args
+    )
+    old_bytes = (working / "accepted.json").read_bytes()
+    replacement = spec(acceptance=True)
+    replacement["supersedes_acceptance"] = {
+        "path": f"acceptances/{old['acceptance_id']}/acceptance.json",
+        "sha256": digest(old_bytes),
+    }
+    args["accepted_at"] = "2026-09-24T20:00:00Z"
+    new = designate_acceptance(destination, working, replacement, execution_evidence={}, **args)
+    assert new != old
+    assert (working / "accepted.json").read_bytes() == encode(new)
+    assert (working / replacement["supersedes_acceptance"]["path"]).read_bytes() == old_bytes
+    assert (
+        designate_acceptance(destination, working, replacement, execution_evidence={}, **args)
+        == new
+    )
+    with pytest.raises(ValueError, match="preserved prior pointer"):
+        args["accepted_at"] = "2026-09-25T20:00:00Z"
+        designate_acceptance(destination, working, replacement, execution_evidence={}, **args)

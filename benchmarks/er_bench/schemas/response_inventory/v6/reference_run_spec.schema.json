@@ -15,32 +15,32 @@
           "type": "string"
         },
         "revision_id": {
-          "const": "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030",
+          "pattern": "^revisionv1-[0-9a-f]{64}$",
           "title": "Revision Id",
           "type": "string"
         },
         "acceptance_id": {
-          "const": "acceptancev1-7edf64ffd5e283c736e9980c79f682997ce06c135038d4ceb3ecbc496ce6c027",
+          "pattern": "^acceptancev1-[0-9a-f]{64}$",
           "title": "Acceptance Id",
           "type": "string"
         },
         "activity_id": {
-          "const": "activityv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030",
+          "pattern": "^activityv1-[0-9a-f]{64}$",
           "title": "Activity Id",
           "type": "string"
         },
         "completion_id": {
-          "const": "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f",
+          "pattern": "^completionv1-[0-9a-f]{64}$",
           "title": "Completion Id",
           "type": "string"
         },
         "inventory_id": {
-          "const": "fileinventoryv1-a04c715a6dff6bdfe6d28eaed9b40211382d60a74d540cdf46cd3b2c993c60a0",
+          "pattern": "^fileinventoryv1-[0-9a-f]{64}$",
           "title": "Inventory Id",
           "type": "string"
         },
         "semantic_digest": {
-          "const": "f7aa9fd6e6d4e464b27b270e6f61a8dcbfb0d998dc44e7eda84abd07db5d9247",
+          "pattern": "^[0-9a-f]{64}$",
           "title": "Semantic Digest",
           "type": "string"
         }
@@ -73,32 +73,32 @@
           "type": "string"
         },
         "revision_id": {
-          "const": "revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1",
+          "pattern": "^revisionv1-[0-9a-f]{64}$",
           "title": "Revision Id",
           "type": "string"
         },
         "acceptance_id": {
-          "const": "acceptancev1-4b8a13393c57660fdb0a6b303912150ca9d1380688a86a6728267a4c79aacac5",
+          "pattern": "^acceptancev1-[0-9a-f]{64}$",
           "title": "Acceptance Id",
           "type": "string"
         },
         "activity_id": {
-          "const": "activityv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1",
+          "pattern": "^activityv1-[0-9a-f]{64}$",
           "title": "Activity Id",
           "type": "string"
         },
         "completion_id": {
-          "const": "completionv1-867b3e6f9d9cc1e2666cb184523590c2fd02154347ea9787144e61bb43851555",
+          "pattern": "^completionv1-[0-9a-f]{64}$",
           "title": "Completion Id",
           "type": "string"
         },
         "inventory_id": {
-          "const": "fileinventoryv1-924533bd3c59160bd0853aa38dc095965b07b2d4bf2d78a5ad9431cd2836f667",
+          "pattern": "^fileinventoryv1-[0-9a-f]{64}$",
           "title": "Inventory Id",
           "type": "string"
         },
         "semantic_digest": {
-          "const": "3a6f5b0f4f116b2800e0a8b02bb98fde9d37a48ccc0baff321fd484f2489e71b",
+          "pattern": "^[0-9a-f]{64}$",
           "title": "Semantic Digest",
           "type": "string"
         }
@@ -302,6 +302,17 @@
         },
         "task06g": {
           "$ref": "#/$defs/MechanicalBinding"
+        },
+        "replaces_source_graph": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceGraphReplacement"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "required": [
@@ -384,6 +395,24 @@
       },
       "title": "ReplayLimits",
       "type": "object"
+    },
+    "SourceGraphReplacement": {
+      "additionalProperties": false,
+      "description": "Pin the historical pair whose source evidence a replacement must preserve.",
+      "properties": {
+        "task05d": {
+          "$ref": "#/$defs/AcceptedTask05D"
+        },
+        "task05e": {
+          "$ref": "#/$defs/AcceptedTask05E"
+        }
+      },
+      "required": [
+        "task05d",
+        "task05e"
+      ],
+      "title": "SourceGraphReplacement",
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -438,7 +467,7 @@
       "type": "array"
     },
     "output_relative_root": {
-      "const": "pipelines/brisbane_baylands/task_05_response_inventory/working/05g",
+      "pattern": "^pipelines/brisbane_baylands/task_05_response_inventory/working/05g(?:/[a-zA-Z0-9_-]+)*$",
       "title": "Output Relative Root",
       "type": "string"
     },

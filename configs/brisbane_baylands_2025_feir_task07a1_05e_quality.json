@@ -1,0 +1,113 @@
+{
+  "schema_version": "er_commons.task05e.code_quality_review.v1",
+  "status": "pass",
+  "activity_id": "activityv1-02b56473692da439322beed8271bb6bdade820fbe6916f666b725021c9004550",
+  "semantic_digest": "7dec9cd43e3f13e45bb7309b60b1a8eb79fc724750b3a3287f590f784ca93b51",
+  "reviewed_at": "2026-09-24T17:38:37.178316Z",
+  "material_findings": [],
+  "criteria": [
+    {
+      "name": "readability",
+      "status": "pass",
+      "finding": "Bounded list grammar and shared-prefix evidence have named small owners."
+    },
+    {
+      "name": "editability",
+      "status": "pass",
+      "finding": "Normalization and evidence checks share the same exact grammar without hardcoded response labels."
+    },
+    {
+      "name": "debugging",
+      "status": "pass",
+      "finding": "Raw item and prefix spans, exact labels, and one outcome per mention remain explicit."
+    },
+    {
+      "name": "operations",
+      "status": "pass",
+      "finding": "Saved-source evidence verified; all original edges and evidence preserved, only explicit uniquely resolved response links added."
+    },
+    {
+      "name": "testing",
+      "status": "pass",
+      "finding": "119 focused parser/resolver/evidence tests plus source/run-spec/candidate checks pass; exact source and graph comparisons retained."
+    }
+  ],
+  "reviewed_files": [
+    {
+      "path": "src/er_commons/artifact_io.py",
+      "sha256": "742def5e35aa9a29f747149a06d77daf44106ddd5ce50c157181e19f6561236f"
+    },
+    {
+      "path": "src/er_commons/response_inventory/acceptance.py",
+      "sha256": "3c33ba4d605776c63b02b3b0823b6adbedab61fe4431d33e55fd7f4e77f3589d"
+    },
+    {
+      "path": "src/er_commons/response_inventory/complete_source_policy.py",
+      "sha256": "16b1d936e9cffe8383f3ce2c6706bfa26f53dfaf02365d99b6cca3715fc9327a"
+    },
+    {
+      "path": "src/er_commons/response_inventory/contract.py",
+      "sha256": "7541ef79c558263119b160ec45f01be76abab1cf06f565a21fa4de0e1d6f42b6"
+    },
+    {
+      "path": "src/er_commons/response_inventory/full_policy.py",
+      "sha256": "69ebcadb17e7a9b3f6fa096229b760ac6ed4a532c84e5fcf236f16f4e2c00b29"
+    },
+    {
+      "path": "src/er_commons/response_inventory/full_workflow.py",
+      "sha256": "964e29b7364ee7ed3c6aadc06a75829debbbc2273336cd821a652e66333b48f4"
+    },
+    {
+      "path": "src/er_commons/response_inventory/observations.py",
+      "sha256": "a345b98759e7d10860f898df4139506715ac22574f3b762a4ec11ca20e3e6514"
+    },
+    {
+      "path": "src/er_commons/response_inventory/pdf_access.py",
+      "sha256": "7543b0e9beb5f732c261e0a5c787926243803b4880686638e6bbe7c674d42698"
+    },
+    {
+      "path": "src/er_commons/response_inventory/pilot_policy.py",
+      "sha256": "4c84a8005ed63a659eadc4a4157a01f902c5719639f9049ca3e96f2ab05c04ce"
+    },
+    {
+      "path": "src/er_commons/response_inventory/producer.py",
+      "sha256": "ebb8111f06aef2546ef0422b7b4142a15e999a7d45d320417d62913f3b99537b"
+    },
+    {
+      "path": "src/er_commons/response_inventory/qualification.py",
+      "sha256": "92bf0791cede4444cf90a80cb56c4d65a3eae02f6a85f78626ead838a75b55e1"
+    },
+    {
+      "path": "src/er_commons/response_inventory/range_receipts.py",
+      "sha256": "88d4889f09a767dd77c644b2a28eac7a0ee6140c9d65e1823e4e5fee04559e58"
+    },
+    {
+      "path": "src/er_commons/response_inventory/relationship_baseline.py",
+      "sha256": "080eff2d87004b99e28c25bd538ce893a928ecfd5735d9f1cf05b47d871f8438"
+    },
+    {
+      "path": "src/er_commons/response_inventory/relationship_candidate.py",
+      "sha256": "bd314f703a066085faa1155ecf4e9007ee7be66192f8e6c6bc355e0f976eea39"
+    },
+    {
+      "path": "src/er_commons/response_inventory/response_lists.py",
+      "sha256": "2d7c5ec8be774ab29495b7b549ef222a038a9eef1234a7f4335707550dcf1dcd"
+    },
+    {
+      "path": "src/er_commons/response_inventory/run_spec.py",
+      "sha256": "5dc37725483efc9995031d95a49af5a47fdaa71302252eda89ae3eaaf3f9a825"
+    },
+    {
+      "path": "src/er_commons/response_inventory/saved_evidence.py",
+      "sha256": "948841a2b0984ec0693aaad73af9297120e05721ae9ee4ad6b7a491a7fff372a"
+    },
+    {
+      "path": "src/er_commons/response_inventory/source_structure.py",
+      "sha256": "bd39f050a32a1ab956de2da85c89ba2b6e80a145d3f7034510afb824ef568eb2"
+    },
+    {
+      "path": "src/er_commons/response_inventory/workflow.py",
+      "sha256": "4c78e21320f44c5eb24000dcc10f06608bf375a7684dcd221d31fb95bcf5cd35"
+    }
+  ]
+}

@@ -310,15 +310,20 @@ def compare_replay(run: ReplayRun) -> dict[str, Any]:
     if run.spec.get("prior_replay") is not None:
         from er_commons.response_inventory.reference_replay_cycle import (
             compare_rule_cycle,
+            compare_source_graph_cycle,
             prior_outcomes,
         )
 
         prior = run.spec["prior_replay"]
-        cycle = compare_rule_cycle(
-            prior_outcomes(prior, run.artifact_root),
-            result["outcomes"],
-            prior["allowed_change_mentions"],
-        )
+        previous = prior_outcomes(prior, run.artifact_root)
+        if run.spec["inputs"].get("replaces_source_graph"):
+            cycle = compare_source_graph_cycle(
+                previous, result["outcomes"], inputs.dependencies, inputs.replaced_dependencies
+            )
+        else:
+            cycle = compare_rule_cycle(
+                previous, result["outcomes"], prior["allowed_change_mentions"]
+            )
         payloads["rule_cycle_comparison.json"] = json_bytes(cycle)
     publish_checkpoint(selected, payloads, bindings)
     return {

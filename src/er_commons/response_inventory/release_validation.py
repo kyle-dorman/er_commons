@@ -52,7 +52,8 @@ def _source_graph(inputs: ReleaseInputs) -> dict[str, JsonObject]:
     }:
         raise ValueError("accepted source unit census differs")
     edges = keyed(inputs.edges, "edge_id")
-    if len(edges) != 1538:
+    census = inputs.limitations["graph_review_census"]["counts"]
+    if len(edges) != census["semantic_edges"]:
         raise ValueError("accepted graph edge census differs")
     for edge in edges.values():
         if edge["source_unit_id"] not in units or edge["target_unit_id"] not in units:
@@ -67,7 +68,7 @@ def _source_graph(inputs: ReleaseInputs) -> dict[str, JsonObject]:
             or not set(view["edge_ids"]) <= edges.keys()
         ):
             raise ValueError(f"review view has foreign units or edges: {view['view_id']}")
-    if len(keyed(inputs.graph_diagnostics, "diagnostic_id")) != 320:
+    if len(keyed(inputs.graph_diagnostics, "diagnostic_id")) != census["diagnostics"]:
         raise ValueError("accepted graph diagnostic census differs")
     return units
 

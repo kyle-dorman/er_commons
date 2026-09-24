@@ -60,6 +60,13 @@ class MechanicalBinding(StrictRequest):
     handoff_completion_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
+class SourceGraphReplacement(StrictRequest):
+    """Pin the historical pair whose source evidence a replacement must preserve."""
+
+    task05d: AcceptedTask05D
+    task05e: AcceptedTask05E
+
+
 class ReplayInputBindings(StrictRequest):
     """Accepted source, graph, baseline, mechanical and human authorities."""
 
@@ -68,6 +75,7 @@ class ReplayInputBindings(StrictRequest):
     task05e: AcceptedTask05E
     task05f: BaselineBinding
     task06g: MechanicalBinding
+    replaces_source_graph: SourceGraphReplacement | None = None
 
 
 class ReplayLimits(StrictRequest):
@@ -122,9 +130,9 @@ class ReferenceReplaySpec(StrictRequest):
     population_freeze: str
     inputs: ReplayInputBindings
     repository_bindings: list[FileBinding]
-    output_relative_root: Literal[
-        "pipelines/brisbane_baylands/task_05_response_inventory/working/05g"
-    ]
+    output_relative_root: str = Field(
+        pattern=r"^pipelines/brisbane_baylands/task_05_response_inventory/working/05g(?:/[a-zA-Z0-9_-]+)*$"
+    )
     authorization: ReplayAuthorization
     limits: ReplayLimits
     source_pdf_access: Literal[False]
@@ -140,10 +148,11 @@ class ReferenceReplaySpec(StrictRequest):
         if self.prior_replay is not None:
             relative_path(self.prior_replay.candidate_root)
             ids = self.prior_replay.allowed_change_mentions
-            if not ids or len(ids) != len(set(ids)):
+            if (not ids and self.inputs.replaces_source_graph is None) or len(ids) != len(set(ids)):
                 raise ValueError("rule-cycle comparison population must be nonempty and unique")
         relative_path(self.binding_freeze)
         relative_path(self.population_freeze)
+        relative_path(self.output_relative_root)
         data = self.inputs.model_dump(mode="json")
         for name in ("task05d", "task05e"):
             relative_path(data[name]["candidate_root"])

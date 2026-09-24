@@ -71,12 +71,12 @@
       "required": ["candidate_root", "acceptance_path", "revision_id", "acceptance_id", "activity_id", "completion_id", "inventory_id", "semantic_digest"],
       "properties": {
         "candidate_root": {"$ref": "#/$defs/relative_path"}, "acceptance_path": {"$ref": "#/$defs/relative_path"},
-        "revision_id": {"const": "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"},
-        "acceptance_id": {"const": "acceptancev1-7edf64ffd5e283c736e9980c79f682997ce06c135038d4ceb3ecbc496ce6c027"},
-        "activity_id": {"const": "activityv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"},
-        "completion_id": {"const": "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f"},
-        "inventory_id": {"const": "fileinventoryv1-a04c715a6dff6bdfe6d28eaed9b40211382d60a74d540cdf46cd3b2c993c60a0"},
-        "semantic_digest": {"const": "f7aa9fd6e6d4e464b27b270e6f61a8dcbfb0d998dc44e7eda84abd07db5d9247"}
+        "revision_id": {"type": "string", "pattern": "^revisionv1-[0-9a-f]{64}$"},
+        "acceptance_id": {"type": "string", "pattern": "^acceptancev1-[0-9a-f]{64}$"},
+        "activity_id": {"type": "string", "pattern": "^activityv1-[0-9a-f]{64}$"},
+        "completion_id": {"type": "string", "pattern": "^completionv1-[0-9a-f]{64}$"},
+        "inventory_id": {"type": "string", "pattern": "^fileinventoryv1-[0-9a-f]{64}$"},
+        "semantic_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
       }
     },
     "accepted_task05e": {
@@ -84,12 +84,12 @@
       "required": ["candidate_root", "acceptance_path", "revision_id", "acceptance_id", "activity_id", "completion_id", "inventory_id", "semantic_digest"],
       "properties": {
         "candidate_root": {"$ref": "#/$defs/relative_path"}, "acceptance_path": {"$ref": "#/$defs/relative_path"},
-        "revision_id": {"const": "revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1"},
-        "acceptance_id": {"const": "acceptancev1-4b8a13393c57660fdb0a6b303912150ca9d1380688a86a6728267a4c79aacac5"},
-        "activity_id": {"const": "activityv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1"},
-        "completion_id": {"const": "completionv1-867b3e6f9d9cc1e2666cb184523590c2fd02154347ea9787144e61bb43851555"},
-        "inventory_id": {"const": "fileinventoryv1-924533bd3c59160bd0853aa38dc095965b07b2d4bf2d78a5ad9431cd2836f667"},
-        "semantic_digest": {"const": "3a6f5b0f4f116b2800e0a8b02bb98fde9d37a48ccc0baff321fd484f2489e71b"}
+        "revision_id": {"type": "string", "pattern": "^revisionv1-[0-9a-f]{64}$"},
+        "acceptance_id": {"type": "string", "pattern": "^acceptancev1-[0-9a-f]{64}$"},
+        "activity_id": {"type": "string", "pattern": "^activityv1-[0-9a-f]{64}$"},
+        "completion_id": {"type": "string", "pattern": "^completionv1-[0-9a-f]{64}$"},
+        "inventory_id": {"type": "string", "pattern": "^fileinventoryv1-[0-9a-f]{64}$"},
+        "semantic_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
       }
     },
     "task04": {

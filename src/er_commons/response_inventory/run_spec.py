@@ -250,22 +250,12 @@ class AcceptedTask05D(StrictModel):
 
     candidate_root: Path
     acceptance_path: Path
-    revision_id: Literal[
-        "revisionv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"
-    ]
-    acceptance_id: Literal[
-        "acceptancev1-7edf64ffd5e283c736e9980c79f682997ce06c135038d4ceb3ecbc496ce6c027"
-    ]
-    activity_id: Literal[
-        "activityv1-857ecbc97cccc24bf18808acffd9d36418f850423b6487cafb78bbaebe26e030"
-    ]
-    completion_id: Literal[
-        "completionv1-82d534e4e3cc7db7275892690fe4d357540131c9477775d5ebf1d54ad6ab555f"
-    ]
-    inventory_id: Literal[
-        "fileinventoryv1-a04c715a6dff6bdfe6d28eaed9b40211382d60a74d540cdf46cd3b2c993c60a0"
-    ]
-    semantic_digest: Literal["f7aa9fd6e6d4e464b27b270e6f61a8dcbfb0d998dc44e7eda84abd07db5d9247"]
+    revision_id: str = Field(pattern=r"^revisionv1-[0-9a-f]{64}$")
+    acceptance_id: str = Field(pattern=r"^acceptancev1-[0-9a-f]{64}$")
+    activity_id: str = Field(pattern=r"^activityv1-[0-9a-f]{64}$")
+    completion_id: str = Field(pattern=r"^completionv1-[0-9a-f]{64}$")
+    inventory_id: str = Field(pattern=r"^fileinventoryv1-[0-9a-f]{64}$")
+    semantic_digest: str = Field(pattern=r"^[0-9a-f]{64}$")
 
     @model_validator(mode="after")
     def validate_paths(self) -> AcceptedTask05D:
@@ -277,6 +267,10 @@ class AcceptedTask05D(StrictModel):
             raise ValueError("05D acceptance path must be adjacent to its candidate")
         if self.candidate_root.name != self.revision_id:
             raise ValueError("05D candidate path differs from its accepted revision ID")
+        if self.activity_id.removeprefix("activityv1-") != self.revision_id.removeprefix(
+            "revisionv1-"
+        ):
+            raise ValueError("accepted revision and activity identities differ")
         return self
 
 
@@ -317,22 +311,12 @@ class AcceptedTask05E(StrictModel):
 
     candidate_root: Path
     acceptance_path: Path
-    revision_id: Literal[
-        "revisionv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1"
-    ]
-    acceptance_id: Literal[
-        "acceptancev1-4b8a13393c57660fdb0a6b303912150ca9d1380688a86a6728267a4c79aacac5"
-    ]
-    activity_id: Literal[
-        "activityv1-df6e04a7f24a79ad15dbb12f0796edcd9c9348bdd1f1db94093dd800e4091ca1"
-    ]
-    completion_id: Literal[
-        "completionv1-867b3e6f9d9cc1e2666cb184523590c2fd02154347ea9787144e61bb43851555"
-    ]
-    inventory_id: Literal[
-        "fileinventoryv1-924533bd3c59160bd0853aa38dc095965b07b2d4bf2d78a5ad9431cd2836f667"
-    ]
-    semantic_digest: Literal["3a6f5b0f4f116b2800e0a8b02bb98fde9d37a48ccc0baff321fd484f2489e71b"]
+    revision_id: str = Field(pattern=r"^revisionv1-[0-9a-f]{64}$")
+    acceptance_id: str = Field(pattern=r"^acceptancev1-[0-9a-f]{64}$")
+    activity_id: str = Field(pattern=r"^activityv1-[0-9a-f]{64}$")
+    completion_id: str = Field(pattern=r"^completionv1-[0-9a-f]{64}$")
+    inventory_id: str = Field(pattern=r"^fileinventoryv1-[0-9a-f]{64}$")
+    semantic_digest: str = Field(pattern=r"^[0-9a-f]{64}$")
 
     @model_validator(mode="after")
     def validate_paths(self) -> AcceptedTask05E:
@@ -343,6 +327,10 @@ class AcceptedTask05E(StrictModel):
             raise ValueError("05E acceptance path must be adjacent to its candidate")
         if self.candidate_root.name != self.revision_id:
             raise ValueError("05E candidate path differs from its accepted revision ID")
+        if self.activity_id.removeprefix("activityv1-") != self.revision_id.removeprefix(
+            "revisionv1-"
+        ):
+            raise ValueError("accepted revision and activity identities differ")
         return self
 
 
@@ -589,10 +577,8 @@ class AcceptedRelationshipBaseline(StrictModel):
     """Exact Gate 1 evidence that the bounded review pass must preserve."""
 
     baseline_root: Path
-    activity_id: Literal[
-        "activityv1-50ae2f7de5f28e882e62627db103e03f0059677fcdfc1e1f8be3a9bf5232b778"
-    ]
-    census_digest: Literal["ff509e0a5434b7a4e41a83ac94b950c3a70a84f99f954aca57d1fd0f087ff246"]
+    activity_id: str = Field(pattern=r"^activityv1-[0-9a-f]{64}$")
+    census_digest: str = Field(pattern=r"^[0-9a-f]{64}$")
 
     @model_validator(mode="after")
     def validate_path(self) -> AcceptedRelationshipBaseline:

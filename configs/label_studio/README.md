@@ -97,3 +97,21 @@ the complete import data; `screening_initial_export.json` records the unrated
 handoff. Do not repeat the 49-case import or remove human annotations. Report
 citations are listed with resolution status; direct cited-report PDF navigation
 is not implemented in this approved form.
+
+
+## Verified replacement after Task 07A.1
+
+Use [project 2](http://127.0.0.1:8097/projects/2/data?tab=1&labeling=1), titled
+`Task 07A.1 · Repaired links · 50 saved decisions`, for the repaired context.
+All 50 original annotations are complete and verified. Project 1 remains
+unchanged historical evidence; the isolated servers and source-PDF URL are the
+same. No global Label Studio projects were modified.
+
+The [07A.1 outcome](../../tasks/sprint2/07a1_repair_response_list_links.md) owns
+migration identity, validation and the five optional follow-up cases. The fixed
+replacement sample and checksummed export/map are under
+`pipelines/brisbane_baylands/task_07_pilot/07a1/sample_repaired_v1/` and
+`pipelines/brisbane_baylands/task_07_pilot/07a1/migration/` respectively. Original
+annotation metadata remains distinct from new Label Studio IDs/timestamps.
+Do not rerun imports blindly: the recorded driver exports and reconciles by
+comment ID before appending only missing tasks.

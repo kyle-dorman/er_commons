@@ -7,7 +7,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from er_commons.artifact_io import canonical_json_sha256
+from er_commons.artifact_io import atomic_text_writer, canonical_json_sha256
 from er_commons.response_inventory.release_storage import (
     COMPLETION,
     MANIFEST,
@@ -130,11 +130,14 @@ def accept_inventory(
     if pointer.exists():
         old: dict[str, Any] = json.loads(pointer.read_bytes())
         if old != record:
-            raise ValueError("different acceptance already exists; explicit supersession required")
-        acceptance_path = working_root / "acceptances" / record["acceptance_id"] / "acceptance.json"
-        if acceptance_path.read_bytes() != encode(record):
-            raise ValueError("acceptance record does not match existing pointer")
-        return old
+            _verify_superseded_acceptance(working_root, spec, pointer.read_bytes())
+        else:
+            acceptance_path = (
+                working_root / "acceptances" / record["acceptance_id"] / "acceptance.json"
+            )
+            if acceptance_path.read_bytes() != encode(record):
+                raise ValueError("acceptance record does not match existing pointer")
+            return old
     acceptance_root = working_root / "acceptances" / record["acceptance_id"]
     no_symlinks(acceptance_root)
     acceptance_root.mkdir(parents=True, exist_ok=True)
@@ -146,6 +149,27 @@ def accept_inventory(
         write_file(path, encode(record))
     # The supervisor has not completed yet: deliberately leave the pointer absent.
     return record
+
+
+def _verify_superseded_acceptance(
+    working_root: Path, spec: dict[str, Any], pointer_bytes: bytes
+) -> None:
+    """Require exact prior pointer bytes preserved in an immutable acceptance record."""
+    from er_commons.response_inventory.release_spec import contained_path
+
+    binding = spec.get("supersedes_acceptance")
+    if not binding:
+        raise ValueError("different acceptance already exists; explicit supersession required")
+    path = contained_path(working_root, binding["path"])
+    no_symlinks(path)
+    old = json.loads(pointer_bytes)
+    expected = working_root / "acceptances" / old["acceptance_id"] / "acceptance.json"
+    if (
+        path != expected
+        or path.read_bytes() != pointer_bytes
+        or digest(pointer_bytes) != binding["sha256"]
+    ):
+        raise ValueError("superseded acceptance does not match preserved prior pointer")
 
 
 def designate_acceptance(
@@ -188,7 +212,10 @@ def designate_acceptance(
     pointer = working_root / "accepted.json"
     if pointer.exists():
         if pointer.read_bytes() != encode(prepared):
-            raise ValueError("different acceptance already exists; explicit supersession required")
+            _verify_superseded_acceptance(working_root, spec, pointer.read_bytes())
+            # Only the mutable designation changes, after terminal supervision.
+            with atomic_text_writer(pointer) as stream:
+                stream.write(encode(prepared).decode())
     else:
         write_file(pointer, encode(prepared))
     return prepared

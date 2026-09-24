@@ -12,6 +12,7 @@ ResponseStage = Literal["source", "relationship", "reference", "presentation"]
 _PACKAGE = "src/er_commons/response_inventory/"
 _SHARED = (
     "contract.py",
+    "response_lists.py",
     "source_structure.py",
     "pilot_policy.py",
     "complete_source_policy.py",
@@ -28,6 +29,7 @@ _STAGE_MODULES: dict[ResponseStage, tuple[str, ...]] = {
         "workflow.py",
         "full_policy.py",
         "full_workflow.py",
+        "saved_evidence.py",
     ),
     "relationship": (
         *_SHARED,

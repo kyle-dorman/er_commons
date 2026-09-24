@@ -23,6 +23,7 @@ from er_commons.response_inventory.complete_source_policy import (
     ACCEPTED_WARNING_CODES,
 )
 from er_commons.response_inventory.pilot_policy import ACCEPTED_PILOT_RANGES
+from er_commons.response_inventory.response_lists import LIST_ITEM_RULE, response_list_target
 from er_commons.response_inventory.source_structure import (
     SOURCE_RESPONSE_HEADING_ABSENT,
     SOURCE_RESPONSE_HEADING_ABSENT_MESSAGE,
@@ -1165,6 +1166,8 @@ def _mention_evidence_names_target(
 ) -> bool:
     """Validate exact or explicitly declared bounded mention normalization."""
     target_label = str(target["official_label"])
+    if rule == LIST_ITEM_RULE:
+        return response_list_target(mention, spans, pages) == target_label
     if target_label in mention["target_labels"]:
         return rule is None
     if len(mention["target_labels"]) != 1 or rule is None:

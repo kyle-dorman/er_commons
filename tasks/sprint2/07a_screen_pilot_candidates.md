@@ -1,6 +1,6 @@
 # Task 07A: Screen Pilot Candidates
 
-Status: **All 50 human decisions exported and verified; authoring-case selection deferred until linking repair.**
+Status: **All 50 human decisions preserved in the accepted 07A.1 replacement and verified project 2; ready for authoring-case selection. No examples selected.**
 
 ## Abstract and goal
 
@@ -275,3 +275,18 @@ transfer; the completed project and verified export remain immutable inputs.
 
 The next contract is [Task 07A.1](07a1_repair_response_list_links.md). Return here
 for example selection after its verified linking and label-transfer handoff.
+
+
+## Post-repair readiness
+
+[Task 07A.1](07a1_repair_response_list_links.md) is complete. Use its
+[accepted replacement result](../../docs/specs/task07a1_final_result.json) and
+[project 2](http://127.0.0.1:8097/projects/2/data?tab=1&labeling=1) for the next
+selection step. The same 50 comment IDs and all original decisions were verified:
+20 Great, 6 OK, 24 Skip, with exact reason sets and original decision provenance.
+The original sample, project 1 and protected export remain historical evidence.
+
+Five cases gained response context: O-Joint-74 (Great), O-YIMBY-8, M-OSEC-50,
+RA-Caltrain-6 and O-SAMCEDA-6 (all Skip). Their decisions remain unchanged.
+Optional follow-up is separate from the completed batch. Selection of 6–10
+examples is ready to begin but was not performed by the repair task.

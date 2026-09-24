@@ -11,7 +11,7 @@ import json
 import re
 from collections import Counter
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -42,6 +42,7 @@ class ReplayInputs:
     handoff: JsonObject
     correspondence: JsonObject
     dependencies: list[JsonObject]
+    replaced_dependencies: list[JsonObject] = field(default_factory=list)
 
 
 def contained(root: Path, relative: str) -> Path:
@@ -281,7 +282,7 @@ def _dependency(
 
 
 def _load_legacy_inputs(
-    inputs: JsonObject, artifact_root: Path
+    inputs: JsonObject, artifact_root: Path, *, replacement: bool = False
 ) -> tuple[list[JsonObject], list[JsonObject]]:
     """Reuse accepted source/graph checks without verifying obsolete code bindings."""
     from types import SimpleNamespace
@@ -317,8 +318,42 @@ def _load_legacy_inputs(
     records, units = baseline._load_task05d(adapter, artifact_root)
     baseline._validate_task05e(adapter, artifact_root)
     all_mentions = [row for row in records if row.get("record_type") == "reference_mention"]
-    baseline._validate_population(all_mentions, units)
+    if not replacement:
+        baseline._validate_population(all_mentions, units)
     return records, dependencies
+
+
+def validate_source_replacement(previous: list[JsonObject], current: list[JsonObject]) -> None:
+    """Permit only added intra-volume mentions/spans, preserving all source semantics.
+
+    Activity provenance changes on replay. Every other historical field, including
+    IDs, raw pages, unit boundaries and report mentions, must remain identical.
+    The caller separately validates the new bundle's evidence and accepted seals.
+    """
+    from er_commons.artifact_io import canonical_json_sha256
+
+    def index(rows: list[JsonObject]) -> dict[str, JsonObject]:
+        """Compare complete records after removing only the new activity binding."""
+        return {
+            canonical_json_sha256({k: v for k, v in row.items() if k != "activity_id"}): row
+            for row in rows
+            if row["record_type"] != "activity"
+        }
+
+    old, new = index(previous), index(current)
+    if not old.keys() <= new.keys():
+        raise ValueError("source replacement changed or removed historical source evidence")
+    added = [new[key] for key in new.keys() - old.keys()]
+    mentions = [row for row in added if row["record_type"] == "reference_mention"]
+    span_ids = {row["mention_span_id"] for row in mentions}
+    if not mentions or any(row["reference_domain"] != "intra_volume" for row in mentions):
+        raise ValueError("source replacement must add only intra-volume mentions")
+    if any(
+        row["record_type"] != "reference_mention"
+        and not (row["record_type"] == "source_span" and row["span_id"] in span_ids)
+        for row in added
+    ):
+        raise ValueError("source replacement contains unrelated records")
 
 
 def _load_baseline(
@@ -438,10 +473,19 @@ def load_replay_inputs(
     inputs = dict(spec["inputs"])
     review = load_review_chain(contained(root, inputs["task06h_pointer"]), root, freeze)
     handoff = review["handoff"]
+    replacement = inputs.get("replaces_source_graph")
+    historical = replacement or inputs
     for name in ("task05d", "task05e"):
-        if inputs[name]["revision_id"] != handoff[name + "_revision"]:
+        if historical[name]["revision_id"] != handoff[name + "_revision"]:
             raise ValueError(f"{name} revision differs from accepted handoff")
-    records, dependencies = _load_legacy_inputs(inputs, root)
+    records, dependencies = _load_legacy_inputs(inputs, root, replacement=bool(replacement))
+    prior_dependencies: list[JsonObject] = []
+    if replacement:
+        from er_commons.response_inventory.acceptance import validate_task05d_candidate
+
+        validate_task05d_candidate(contained(root, inputs["task05d"]["candidate_root"]), root)
+        previous, prior_dependencies = _load_legacy_inputs(replacement, root)
+        validate_source_replacement(previous, records)
     outcomes, links, baseline_dependency = _load_baseline(inputs, root, handoff)
     validate_population(outcomes, population)
     dependencies.append(baseline_dependency)
@@ -491,4 +535,5 @@ def load_replay_inputs(
         handoff=handoff,
         correspondence=mechanics["correspondence"],
         dependencies=dependencies,
+        replaced_dependencies=prior_dependencies,
     )

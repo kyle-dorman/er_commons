@@ -112,6 +112,7 @@ def composition() -> ReleaseInputs:
         for i in range(1011)
     ]
     limitations: dict[str, Any] = {
+        "graph_review_census": {"counts": {"semantic_edges": 1538, "diagnostics": 320}},
         "coverage": dict(COVERAGE),
         "final_f1_warning_binding": binding,
         "target_limitations": {
@@ -263,3 +264,20 @@ def test_loader_import_does_not_load_reference_resolvers() -> None:
         capture_output=True,
         text=True,
     )
+
+
+def test_source_graph_counts_follow_accepted_census() -> None:
+    """A replacement census permits additions but still rejects missing records."""
+    inputs = composition()
+    inputs.edges.append(
+        {"edge_id": "new-edge", "source_unit_id": "comment-0", "target_unit_id": "response-0"}
+    )
+    inputs.graph_diagnostics.append({"diagnostic_id": "new-diagnostic"})
+    inputs.limitations["graph_review_census"]["counts"] = {
+        "semantic_edges": 1539,
+        "diagnostics": 321,
+    }
+    validate_composition(inputs)
+    inputs.edges.pop()
+    with pytest.raises(ValueError, match="graph edge census"):
+        validate_composition(inputs)

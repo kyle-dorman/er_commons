@@ -167,6 +167,7 @@ class ReleaseSpec(StrictRecord):
     hash_large_upstream_payloads: Literal[False]
     review_decisions: EvidenceBinding | None = None
     quality_report: EvidenceBinding | None = None
+    supersedes_acceptance: FileBinding | None = None
 
     @model_validator(mode="before")
     @classmethod
@@ -225,6 +226,7 @@ def required_repository_paths(repository_root: Path | None = None) -> set[str]:
             "run_spec",
             "code_inventory",
             "contract",
+            "response_lists",
             "complete_source_policy",
             "pilot_policy",
             "source_structure",

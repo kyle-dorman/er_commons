@@ -299,6 +299,17 @@
         }
       ],
       "default": null
+    },
+    "supersedes_acceptance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FileBinding"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     }
   },
   "required": [

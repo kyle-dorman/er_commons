@@ -10,6 +10,7 @@ from typing import Any, Final, Literal
 
 from er_commons.response_inventory.contract import SCHEMA_VERSION, build_record_id
 from er_commons.response_inventory.observations import LineObservation, PageObservation
+from er_commons.response_inventory.response_lists import response_list_items
 from er_commons.response_inventory.source_structure import (
     SOURCE_RESPONSE_HEADING_ABSENT,
     SOURCE_RESPONSE_HEADING_ABSENT_MESSAGE,
@@ -825,10 +826,42 @@ def _reference_records(
     unit_span: Mapping[str, Any],
     pages: Mapping[int, JsonObject],
 ) -> list[JsonObject]:
+    """Preserve singular mentions and add independently evidenced list items."""
     records: list[JsonObject] = []
     for fragment in unit_span["fragments"]:
         page = next(record for record in pages.values() if record["page_id"] == fragment["page_id"])
         text = page["raw_text"][fragment["text_start"] : fragment["text_end"]]
+        for item in response_list_items(text):
+            prefix_span = _single_page_span(
+                source_id,
+                page,
+                fragment["text_start"] + item.prefix_start,
+                fragment["text_start"] + item.prefix_end,
+                (),
+            )
+            item_span = _single_page_span(
+                source_id,
+                page,
+                fragment["text_start"] + item.item_start,
+                fragment["text_start"] + item.item_end,
+                (),
+            )
+            prefix_span["fragments"].extend(item_span["fragments"])
+            prefix_span["span_id"] = build_record_id(prefix_span)
+            raw_text = (
+                text[item.prefix_start : item.prefix_end] + text[item.item_start : item.item_end]
+            )
+            list_mention: JsonObject = {
+                "schema_version": SCHEMA_VERSION,
+                "record_type": "reference_mention",
+                "source_unit_id": unit["unit_id"],
+                "mention_span_id": prefix_span["span_id"],
+                "raw_text_sha256": hashlib.sha256(raw_text.encode("utf-8")).hexdigest(),
+                "target_labels": [raw_text],
+                "reference_domain": "intra_volume",
+            }
+            list_mention["mention_id"] = build_record_id(list_mention)
+            records.extend((prefix_span, list_mention))
         for domain, pattern in _REFERENCE_PATTERNS:
             for match in pattern.finditer(text):
                 start = fragment["text_start"] + match.start()

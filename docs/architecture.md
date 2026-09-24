@@ -136,6 +136,16 @@ publication remain separate from the Task 03 model corpus. The maintained
 transitions; the [Task 05 umbrella](../tasks/sprint2/05_build_curator_only_response_inventory.md)
 routes the completed stages and their detailed execution contracts.
 
+`response_lists` owns the bounded explicit full-ID list grammar and shared-prefix
+evidence checks. `saved_evidence.replay_saved_source` can replay the qualified
+744-page source from accepted observations and verified render evidence without
+opening the PDF. It writes fresh producer receipts and requires explicit renewal
+of unchanged review evidence. A source/graph replacement may reuse the reference
+baseline only after proving that all historical source semantics remain and the
+only additions are intra-volume mentions and their spans. The reference replay
+then checks every report outcome against the accepted predecessor, allowing only
+the verified source/graph provenance changes.
+
 Task 05H composes those accepted source and graph records with all accepted 05G
 reference outcomes. The `response_inventory.release_*` modules keep input
 verification, review, storage, supervision, and publication as separate readable
@@ -144,13 +154,27 @@ separately authorized supervised stages. Finalization seals review decisions,
 limitations, component references, and the Task 07/08 handoff; publication copies
 that sealed container without changing its identity. Acceptance writes the
 designation pointer only after successful terminal supervision and revalidation.
-The [final result](specs/task05h_final_result.json) records the release bindings.
+The [replacement result](specs/task07a1_final_result.json) records current release
+bindings; the [original result](specs/task05h_final_result.json) remains historical.
+
+An explicitly bound supersession preserves the previous immutable acceptance
+record and changes only the current designation pointer after the replacement
+passes supervised acceptance. The request pins the exact previous pointer bytes;
+a different intervening designation fails closed.
 
 `pilot_screening` is a narrow downstream adapter: it verifies a saved 07A sample
 and prepares one unrated Label Studio task with source IDs and readable text.
 It neither discovers response links nor imports tasks or assigns ratings. The
 [form README](../configs/label_studio/README.md) owns the isolated review setup;
 Task 07A owns the completed export and migration boundary.
+
+`pilot_context_repair` refreshes a fixed sample using directed response closure;
+cycles are deduplicated and other comments cannot enter the context.
+`pilot_label_migration` verifies protected exports, joins annotations by stable
+comment ID, reconciles missing-only imports, and compares every completed result.
+Original annotation provenance stays separate from the replacement inventory and
+new Label Studio IDs/timestamps. API operations remain in the external execution
+record rather than in the pure transformation helpers.
 
 Tasks 07 and 08 resolve the Task 05H acceptance pointer once, then pin the
 inventory identity, completion seal, and exact component references for the

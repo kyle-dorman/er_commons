@@ -24,6 +24,7 @@ from er_commons.response_inventory.contract import (
     semantic_bundle_digest,
     validate_record_bundle,
 )
+from er_commons.response_inventory.response_lists import LIST_ITEM_RULE, response_list_target
 from er_commons.response_inventory.run_spec import (
     ResponseRelationshipReviewRunSpecV4,
     ResponseRelationshipRunSpecV3,
@@ -800,7 +801,10 @@ def _resolve_mention_target(
     pages: Mapping[str, JsonObject],
     policy: _ResolutionPolicy,
 ) -> tuple[str, JsonObject | None, str]:
-    """Select one endpoint by ordered exact, whitespace, case, or separator rules."""
+    """Select one endpoint by evidenced list, exact, or bounded normalization rules."""
+    list_target = response_list_target(mention, spans, pages)
+    if list_target is not None:
+        return list_target, labels.get(list_target), LIST_ITEM_RULE
     exact = labels.get(raw_label)
     if exact is not None:
         return raw_label, exact, EXACT_MENTION_RULE

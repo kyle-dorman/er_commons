@@ -74,3 +74,32 @@ def compare_rule_cycle(
         "link_losses": 0,
         "unchanged_outside_scope": len(old) - len(allowed),
     }
+
+
+def compare_source_graph_cycle(
+    before: list[dict[str, Any]],
+    after: list[dict[str, Any]],
+    dependencies: list[dict[str, Any]],
+    replaced_dependencies: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Allow only the independently verified D/E provenance replacement in outcomes."""
+    refs = {row["role"]: row for row in replaced_dependencies}
+    old = {row["mention_id"]: row for row in before}
+    translated = []
+    for row in after:
+        if row.get("inner_reference_evidence") != old.get(row["mention_id"], {}).get(
+            "inner_reference_evidence"
+        ):
+            raise ValueError("source graph replacement changed inner reference evidence")
+        if row["input_refs"] != dependencies:
+            raise ValueError("replacement outcome dependency binding differs")
+        previous_refs = []
+        for ref in dependencies:
+            role = ref["role"]
+            if role in {"task05d_completion", "task05e_completion"}:
+                ref = refs[role]
+            previous_refs.append(ref)
+        translated.append({**row, "input_refs": previous_refs})
+    result = compare_rule_cycle(before, translated, [])
+    result["provenance_replacement"] = ["task05d_completion", "task05e_completion"]
+    return result
