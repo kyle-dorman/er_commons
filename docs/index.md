@@ -17,12 +17,14 @@ contains 50 selected comments with completed, verified human labels.
 response-list links, published the [replacement inventory](specs/task07a1_final_result.json),
 and verified all 50 decisions in a separate review project. Task 07A is complete
 with [eight selected Great cases](../tasks/sprint2/07a_screen_pilot_candidates.md#eight-case-selection-and-07b-handoff).
-Next, revise Task 07B for their comment-question review.
+Task 07B is complete: seven approved cases and one unclear case (I-CJ-4), with
+all eight outcomes exported and validated. Only approved cases may advance.
 
 ## Read for the next phase
 
-1. [Task 07B](../tasks/sprint2/07b_review_comment_questions.md) for the next
-   provisional contract, [07A](../tasks/sprint2/07a_screen_pilot_candidates.md)
+1. [Task 07C](../tasks/sprint2/07c_review_response_assertions.md) for the next
+   provisional contract, [07B](../tasks/sprint2/07b_review_comment_questions.md#final-reviewed-export)
+   for the completed review handoff, [07A](../tasks/sprint2/07a_screen_pilot_candidates.md)
    for the selected-case handoff, and [07A.1](../tasks/sprint2/07a1_repair_response_list_links.md)
    for the accepted replacement and verified migration.
 2. [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)

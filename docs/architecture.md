@@ -168,6 +168,13 @@ It neither discovers response links nor imports tasks or assigns ratings. The
 [form README](../configs/label_studio/README.md) owns the isolated review setup;
 Task 07A owns the completed export and migration boundary.
 
+`pilot_questions` is the comment-only Task 07B adapter. It verifies an explicit
+one-case drafting packet and proposal, prepares a concerns prediction without
+approval, and normalizes saved reviews against trusted prepared task data.
+Only explicit approved, nonempty numbered lists can advance; original text,
+proposal, and source bindings remain separate from curator edits. Import/API
+execution stays in the external trial record.
+
 `pilot_context_repair` refreshes a fixed sample using directed response closure;
 cycles are deduplicated and other comments cannot enter the context.
 `pilot_label_migration` verifies protected exports, joins annotations by stable

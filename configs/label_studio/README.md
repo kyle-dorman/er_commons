@@ -115,3 +115,59 @@ replacement sample and checksummed export/map are under
 annotation metadata remains distinct from new Label Studio IDs/timestamps.
 Do not rerun imports blindly: the recorded driver exports and reconciles by
 comment ID before appending only missing tasks.
+
+
+## Task 07B one-case question review
+
+`task07b_questions_v1.xml` is the separate three-field comment-question form.
+[Project 3](http://127.0.0.1:8097/projects/3/data?tab=2&labeling=1) now contains all
+eight selected comments. O-Joint-19 (task 101) is approved unchanged in
+annotation 105. All eight reviews are saved: seven approved and I-CJ-4 unclear
+and skipped. The [final export](../../tasks/sprint2/07b_review_comment_questions.md#final-reviewed-export)
+is validated. It uses the same approved
+form, isolated server, and local account. Preserve screening projects 1 and 2,
+and the first human review in project 3.
+
+The original comment and initial proposal are read-only; the numbered list is
+prefilled through a prediction and remains editable. Source line wrapping is
+visual only. Review status has no default. Use native Submit to save; after a
+saved review, Previous task reopens the completed case for editing. Unclear or
+Needs context holds the case from advancement. The source note remains visible. Nonempty drafting notes appear inside
+**Initial proposal · unchanged**; expand that panel for M-OSEC-273. Such notes
+do not assign a human status.
+
+Use the shared prediction `model_version` `task07b.questions.v1` and set the
+project's selected `model_version` to that exact value. Per-case proposal
+versions remain in `original_proposal`. The normal labeling queue filters
+predictions by this project setting; a task-detail preview alone cannot verify
+prefill. Never clear an existing draft to force a prediction to appear.
+
+One-case preparation uses:
+
+```bash
+uv run python -m er_commons.pilot_questions prepare \
+  --drafting-dir "$ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_07_pilot/07b/o_joint_19_trial_v1/drafting" \
+  --output /path/to/new-trial-import.json
+```
+
+The helper verifies packet hashes and proposal identity, accepts no response
+context, and refuses to overwrite its output. It does not import into Label
+Studio. The historical external `ui/trial_driver.py` handles only the original
+one-case trial and must not be rerun against the expanded project. The saved
+`remaining_seven_20260924_v1/import/load_seven.py` records the bounded batch
+import, reconciling live stable IDs before appending missing cases. Stop using
+that import driver once human review starts; preserve all later annotations.
+Reviewed exports must remain no-clobber.
+
+For export normalization, supply the native task and its saved annotation to
+`normalize_review(task, annotation, expected_task=build_trial_task(drafting_dir))`.
+The trusted comparison catches changes to original text, spans, and proposal.
+Do not treat a native completed-task count as 07B acceptance: the native form
+can save an empty Approved list, which this validator rejects. Empty unresolved
+records remain valid. No automatic progression or model backend is installed.
+
+The [07B outcome](../../tasks/sprint2/07b_review_comment_questions.md#one-case-trial-outcome)
+owns tests, temporary annotation cleanup, preservation checks, and external
+artifact locations. At the trial handoff there were zero human annotations;
+Kyle has since saved approved annotation 105. QA exports remain separate test evidence. Never rerun
+the historical QA cleanup against the accepted human annotation.
