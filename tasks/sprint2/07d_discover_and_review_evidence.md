@@ -1,6 +1,6 @@
 # Task 07D: Discover and Review Evidence
 
-Status: **Provisional draft; revise after 07C.**
+Status: **Provisional; input scope updated after 07C.1. Discovery plan and trial not started.**
 
 ## Abstract and goal
 
@@ -11,7 +11,8 @@ packet per case. Follow the [Task 07 umbrella](07_pilot_reference_case_authoring
 
 ## Inputs and outputs
 
-- Input: approved questions/assertions, response-explicit references, accepted
+- Input: the [07C.1 replacement handoff](07c1_review_claims_and_relevance.md#final-reviewed-export-and-replacement-handoff),
+  approved questions/claims, response-explicit references, accepted
   canonical extraction and usability records, and source limitations.
 - Build reproducible candidate discovery from explicit references and lexical
   search across usable Draft EIR content. Test accepted cross-reference hops
@@ -28,8 +29,8 @@ packet per case. Follow the [Task 07 umbrella](07_pilot_reference_case_authoring
 ## Research / learning checkpoint and plan
 
 Review accepted source and cross-reference contracts, Label Studio rendering
-options, and retrieval practice. Trial the interface with M-CSSC-97 and other
-cases where one official citation omits a material fact. Explain the difference
+options, and retrieval practice. Choose one of the six approved cases for the first interface trial after
+inspecting its reviewed claims and explicit references. Explain the difference
 between finding a relevant passage and verifying that it entails the assertion.
 Add search expansion only when the initial candidates miss useful evidence.
 
@@ -41,3 +42,22 @@ review renders as needed. The curator decides support. Accept when every
 material assertion has reviewed evidence or an explicit gap. Do not convert a
 response-authored claim into a fact, use Final EIR text as target evidence,
 or hide unsupported assertions in later prose.
+
+## Reviewed input boundary
+
+Use the [accepted result binding](../../docs/specs/task07c1_final_result.json)
+to pin `07c1/reviews/seven_case_export_20260925T211401Z/` under the Task 07 pilot
+artifact root and verify its manifest before use. This supersedes original 07C
+assertions for this task, while retaining that predecessor unchanged.
+
+The six approved cases are O-Joint-19, O-GGBA-2, M-OSEC-273, SA-Caltrans-33,
+PC-LM-2 and I-CF-4. Their normalized `evidence_candidate_claim_ids` select 31
+stable claim identities. Preserve exact reviewed wording, source references,
+concern links and supporting graph; do not reconstruct the queue from slot order
+or label counts. I-EA-2 is a case-level Unclear stop and contributes no candidates.
+I-CJ-4 remains excluded. Not-relevant claims remain in the review export but are
+outside discovery. Relevance does not establish evidentiary support or adequacy.
+
+Before execution, refine this provisional contract with a brief discovery plan,
+source/retrieval research, versioned evidence records, a one-case UI prototype and
+validation/acceptance gates. This scope update starts no searches or model runs.

@@ -252,3 +252,82 @@ PC-LM-2 has two final blocks after Kyle's edit. Use the
 [final handoff](../../tasks/sprint2/07c_review_response_assertions.md#final-reviewed-export-and-learning)
 for all seven normalized reviews. Earlier pending-state descriptions above are
 integration history; never rerun imports or QA cleanup against saved reviews.
+
+
+## Task 07C.1 combined review
+
+Kyle approved the revised UI and saved the
+[Project 8 · O-Joint-19 combined review](http://127.0.0.1:8097/projects/8/data?labeling=1).
+Preserve task 119, annotation 123. Its validated export is under
+`07c1/reviews/o_joint_19_approved_20260925T205026Z/` within the Task 07 pilot
+artifact root: 13 retained claims, no substantive removals, four unused-slot
+removal actions, 10 candidate evidence claims, and no unclear claims. This is
+the first accepted case. Evidence execution is separate from review completion. Project 9 is now reviewed and exported: four approved, I-EA-2 unclear.
+I-CF-4 is now approved (annotation 129); all seven outcomes are exported in
+`07c1/reviews/seven_case_export_20260925T211401Z/`. Six cases are approved;
+I-EA-2 remains an explicit Unclear stop. The 57 retained claims include 31
+candidates for future evidence review. See the final task outcome for the
+provenance of the assistant-cleared stale C025 target.
+
+Project 4 and its seven approved 07C reviews remain unchanged. Projects 5–7
+are marked QA and must never supply human decisions. The verified remaining
+queues originally contained 44 proposals across six cases:
+
+- [Five shorter cases · Project 9](http://127.0.0.1:8097/projects/9/data?labeling=1):
+  O-GGBA-2 (task 120), M-OSEC-273 (121), SA-Caltrans-33 (122), PC-LM-2 (123),
+  and I-EA-2 (124).
+- [I-CF-4 · Project 10](http://127.0.0.1:8097/projects/10/data?labeling=1): task 125,
+  with its complete longer response context and matching slot capacity.
+
+Project 9 annotations 124–128 are exported under
+`07c1/reviews/five_case_export_20260925T210734Z/`: four approved outcomes and
+I-EA-2 unclear, with 17 retained claims and no validation errors. The PC-LM-2
+restoration was explicitly presented and is now approved. I-EA-2 remains a case
+stop even though its C004 was relabeled not relevant.
+
+Project 10 now presents six direct, six supporting, then 15 not-relevant claims,
+followed by four blank slots. Ordering is fixed from the proposal; changing a
+relationship does not move a card mid-review. IDs remain unchanged, so their
+numbers are intentionally nonconsecutive on screen. Only XML card order changed;
+all task data, native controls and saved reviews remain identical. Do not rerun
+the old import configuration over this approved presentation change.
+
+Review the wording, relation and targets in each card. Direct links use Q IDs;
+supporting links use C IDs. Leave targets blank for Not relevant and Unclear.
+Expand the card's model panel for rationale, initial wording, exact quotations
+and prior-edit notes. Not relevant retains a claim; the removal checkbox deletes
+an extraction mistake or duplicate. Repair dependent targets after removal.
+
+Open Original comment for its complete text. Reviewed concerns and the full
+response reader remain beside the claims. The two readers scroll independently.
+Native autofocus may open the claims pane near its last prefilled field: scroll
+that pane to C001 to start. Text boxes can be resized for longer arguments.
+Unused addition slots need no action: leave every field blank. A removal click
+on an empty addition slot is retained as `unused_slot_removals`, not a deleted
+substantive claim; selected labels and other native fields remain preserved.
+Save partial work as Needs context. Native
+Submit/Update saves asynchronously; wait for completion before exporting. After
+completion, Go to Previous Task reopens the saved review.
+
+The [versioned contract](../../docs/specs/claim_relevance_review_v1.md) and
+[task outcome](../../tasks/sprint2/07c1_review_claims_and_relevance.md#final-reviewed-export-and-replacement-handoff)
+own readiness, validation and provenance. The native form can save structurally
+invalid links; normalized export rejects invalid approvals. Faithfully unclear
+claims can remain in an approved case but are held from evidence work.
+
+Prepare one task with `python -m er_commons.pilot_claim_relevance prepare`, using
+explicit `--drafting-dir`, `--predecessor-proposal`, `--proposal`, `--output`, and
+optional `--slots`. Generate the matching form with
+`python -m er_commons.pilot_relevance_form --slots N --output /new/form.xml`.
+Both commands refuse overwrites. The shared prediction selector must be
+`task07c1.claim_relevance.v1`. Bind the generated form and trusted prepared task
+in the execution manifest. Normalize native annotations against that trusted
+rebuild using `normalize_review(..., export_lineage=...)`.
+
+For overflow, preserve native exports and drafts first, prepare a larger task
+with `expand_task`, and create a separate project with a larger generated form.
+Import/rebind the preserved native annotation explicitly; `migration` is provenance,
+not an automatically loaded annotation. Compare every old field, claim identity
+and reviewer binding after reload. Never clear a draft or overwrite the old form
+to make space. The external `overflow/` evidence demonstrates 17-to-21-slot
+migration with edited text, relationships, an addition and removals intact.

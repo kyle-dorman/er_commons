@@ -1,0 +1,26 @@
+{
+  "schema_version": "er_commons.task07c1.accepted_review_handoff.v1",
+  "status": "complete_with_explicit_case_stop",
+  "export_manifest": {
+    "path": "pipelines/brisbane_baylands/task_07_pilot/07c1/reviews/seven_case_export_20260925T211401Z/manifest.json",
+    "sha256": "558e6d069cb5a528b35b3cdcf0461cb9c958444457475803ade91b0ea2b9c428"
+  },
+  "independent_audit": {
+    "path": "pipelines/brisbane_baylands/task_07_pilot/07c1/reviews/seven_case_export_20260925T211401Z_audit.json",
+    "sha256": "803729c7603636f0a3cc80b653892a2757c630e430302747373a5a240e2eb0c2"
+  },
+  "assistant_consistency_correction_manifest": {
+    "path": "pipelines/brisbane_baylands/task_07_pilot/07c1/i_cf_4_stale_target_20260925T211400Z/manifest.json",
+    "sha256": "b6f7eb0d9330efc3870d855a96ab1cc9e5c129276cc04f570b5df977aaf821d7"
+  },
+  "correction_actor_note": "Kyle selected I-CF-4 C025 not_relevant. Codex removed its stale C013 target only, with original native annotation preserved. This cleanup is not a new human relevance decision.",
+  "case_count": 7,
+  "approved_cases": 6,
+  "case_stops": [
+    "I-EA-2"
+  ],
+  "retained_claims": 57,
+  "evidence_candidate_claims": 31,
+  "previous_07c_preserved": true,
+  "evidence_execution_started": false
+}

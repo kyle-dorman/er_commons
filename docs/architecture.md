@@ -182,6 +182,18 @@ source passages; immutable proposal quotes remain drafting provenance. Explicit
 approved records alone can advance, with content/export-bound IDs and complete
 proposal lineage rather than inferred per-claim split/merge ancestry.
 
+`pilot_claim_relevance` is the separate Task 07C.1 combined review adapter. It binds
+combined claim/relevance proposals to the sealed source and predecessor review,
+keeps stable claim identities independent of edited content, and validates
+supporting paths plus explicit removals. Removal clicks on addition slots with
+no proposed claim or current text are recorded as `unused_slot_removals`,
+separate from substantive claim deletions; native fields remain preserved.
+`pilot_relevance_form` generates native
+fixed-slot controls; capacity changes preserve saved annotations through a separate
+project migration. The [combined review contract](specs/claim_relevance_review_v1.md)
+owns uncertainty and evidence-queue boundaries. The combined UI is approved;
+case acceptance still requires an explicit, validated human review.
+
 `pilot_context_repair` refreshes a fixed sample using directed response closure;
 cycles are deduplicated and other comments cannot enter the context.
 `pilot_label_migration` verifies protected exports, joins annotations by stable

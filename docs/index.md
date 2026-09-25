@@ -20,12 +20,16 @@ with [eight selected Great cases](../tasks/sprint2/07a_screen_pilot_candidates.m
 Task 07B is complete: seven approved cases and one unclear case (I-CJ-4), with
 all eight outcomes exported and validated. Task 07C is complete: seven approved
 cases and 31 reviewed response argument blocks, with a validated export.
+Task 07C.1 is complete: its validated replacement retains 57 claims across six
+approved cases and one unclear stop (I-EA-2). The 31 direct/supporting claims from
+approved cases are candidates for Task 07D. Prior reviews remain preserved.
 Task 07D planning is next; evidence verification has not started.
 
 ## Read for the next phase
 
 1. [Task 07D](../tasks/sprint2/07d_discover_and_review_evidence.md) for the next
-   provisional contract, [07C](../tasks/sprint2/07c_review_response_assertions.md#final-reviewed-export-and-learning)
+   provisional scope and [Task 07C.1](../tasks/sprint2/07c1_review_claims_and_relevance.md#final-reviewed-export-and-replacement-handoff)
+   for the accepted combined-review replacement, [07C](../tasks/sprint2/07c_review_response_assertions.md#final-reviewed-export-and-learning)
    for the completed seven-case export and review lessons, and
    [07B](../tasks/sprint2/07b_review_comment_questions.md#final-reviewed-export)
    for the completed review handoff, [07A](../tasks/sprint2/07a_screen_pilot_candidates.md)
