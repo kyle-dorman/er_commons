@@ -1,0 +1,85 @@
+{
+  "schema_version": "er_commons.task07d.final_result.v1",
+  "status": "complete_with_user_accepted_mvp_warnings",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_07_pilot/07d/exports/case_citations_20260928_v1",
+  "manifest": {
+    "path": "pipelines/brisbane_baylands/task_07_pilot/07d/exports/case_citations_20260928_v1/manifest.json",
+    "sha256": "f1df7259805888754f4dac612a19761997d3ac5491de4094c8c00ac8b5a2b289"
+  },
+  "case_count": 6,
+  "claim_count": 31,
+  "citation_count": 84,
+  "support_citations": 43,
+  "context_citations": 41,
+  "context_optional_for_required_coverage": true,
+  "cases": [
+    {
+      "case_id": "I-CF-4",
+      "claims": 11,
+      "citations": 31,
+      "support": 14,
+      "context": 17,
+      "accepted_mvp_warning_tasks": [
+        195,
+        197
+      ]
+    },
+    {
+      "case_id": "M-OSEC-273",
+      "claims": 2,
+      "citations": 6,
+      "support": 5,
+      "context": 1,
+      "accepted_mvp_warning_tasks": []
+    },
+    {
+      "case_id": "O-GGBA-2",
+      "claims": 2,
+      "citations": 9,
+      "support": 7,
+      "context": 2,
+      "accepted_mvp_warning_tasks": []
+    },
+    {
+      "case_id": "O-Joint-19",
+      "claims": 10,
+      "citations": 21,
+      "support": 9,
+      "context": 12,
+      "accepted_mvp_warning_tasks": [
+        184,
+        185
+      ]
+    },
+    {
+      "case_id": "PC-LM-2",
+      "claims": 3,
+      "citations": 6,
+      "support": 4,
+      "context": 2,
+      "accepted_mvp_warning_tasks": []
+    },
+    {
+      "case_id": "SA-Caltrans-33",
+      "claims": 3,
+      "citations": 11,
+      "support": 4,
+      "context": 7,
+      "accepted_mvp_warning_tasks": []
+    }
+  ],
+  "excluded_cases": [
+    "I-EA-2",
+    "I-CJ-4"
+  ],
+  "accepted_mvp_warning_tasks": [
+    184,
+    185,
+    195,
+    197
+  ],
+  "clarification_task": 164,
+  "claim_relevance_revised": false,
+  "native_labels_modified": false,
+  "benchmark_eligibility_established": false
+}

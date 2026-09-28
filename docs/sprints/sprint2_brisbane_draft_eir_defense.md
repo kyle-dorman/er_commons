@@ -314,8 +314,8 @@ IDs mechanically before presenting the proposal for curator review.
 Contextual spans may remain in the curation packet to explain terminology,
 scope, or cross-references, but they do not count as reference evidence and
 cannot independently justify a claim. Every substantive step in the
-curator-approved answer logic and reference defense must
-cite at least one direct-support span. Retrieval coverage metrics score only
+curator-approved answer logic and reference defense must be supported by the
+reviewed evidence, without requiring explicit claim-to-citation output links. Retrieval coverage metrics score only
 against curator-approved direct-support spans, not contextual material.
 
 Represent evidence hierarchically rather than treating a PDF page as the
@@ -338,8 +338,14 @@ classification, discovery provenance, and curator disposition. A record may
 combine multiple blocks within one semantic evidence unit without weakening
 their exact source traceability.
 
-Require curation and target models to return structured statement-to-evidence
-mappings using only IDs supplied in their respective inputs. Render those IDs
+Require curation and target models to return separate citation and claim lists,
+followed by a final answer, using only citation IDs supplied in their respective
+inputs. Do not require statement-to-evidence mappings. Deduplicate reference
+citations within each case by canonical section/table identity and retain
+`support` over `context` across reviewed uses. Direct and supporting claim roles
+do not create different citation levels. Context-only citations remain optional
+for required coverage. The [07D export contract](../specs/evidence_review_v1.md#case-level-citation-export-decision-2026-09-28)
+owns exact aggregation and review-provenance rules. Render those IDs
 deterministically into human-readable Draft EIR citations; do not rely on a
 model to reproduce section names, page labels, or citation formatting. Keep
 curator-approved reference evidence separate from target retrieval records:
@@ -637,8 +643,8 @@ retrieval or target generation. Keep three review dimensions separate:
    important Draft-EIR-supported answer. Do not create a separate
    material-concerns field for this purpose.
 
-Allow the target output schema to return either `answered` with structured
-statement-to-evidence mappings or `insufficient_evidence` with no substantive
+Allow the target output schema to return either `answered` with separate
+citations, claims and final answer or `insufficient_evidence` with no substantive
 defense claims. Treat abstention as structurally valid but not successful:
 evidence support is not applicable, responsiveness is `0`, and reference
 coverage is `0`. Report abstentions separately. Attribute an abstention to a

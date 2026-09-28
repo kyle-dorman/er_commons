@@ -9,6 +9,7 @@ export ER_COMMONS_DATA_ROOT
 	assemble-collection-handoff validate-collection-handoff \
 	validate-response-inventory-contract validate-response-inventory-pilot-spec \
 	validate-response-inventory-complete-spec validate-response-relationship-review-spec \
+	export-pilot-case-citations \
 	build-response-relationship-review-pass build-response-relationship-review \
 	finalize-response-relationship-candidate \
 	format format-check lint lint-fix type test check fix
@@ -30,6 +31,7 @@ help:
 	@echo "  make publish-document DOCUMENT_SPEC=PATH SOURCE_ID=ID  Publish one document"
 	@echo "  make assemble-collection-handoff COLLECTION_SPEC=PATH  Assemble one collection handoff"
 	@echo "  make validate-collection-handoff COLLECTION_ROOT=DIR SCOPE_ID=ID SCHEMA=FILE"
+	@echo "  make export-pilot-case-citations CASE_EXPORT_DIR=PATH  Replay sealed reviews into a fresh case export"
 	@echo "  make fix         Apply lint and formatting fixes"
 	@echo "  make check       Run formatting, linting, types, and tests"
 
@@ -130,6 +132,15 @@ validate-collection-handoff: check-env
 		--collection-root "$(COLLECTION_ROOT)" \
 		--scope-id "$(SCOPE_ID)" \
 		--schema "$(SCHEMA)"
+
+# Use a fresh output directory; the exporter never overwrites a release.
+export-pilot-case-citations: check-env
+	@test -n "$(CASE_EXPORT_DIR)" || (echo "Set CASE_EXPORT_DIR to a fresh output directory"; exit 1)
+	uv run python -m er_commons.pilot_case_export \
+		--data-root "$(ER_COMMONS_DATA_ROOT)" \
+		--review-status docs/specs/task07d_review_export_status.json \
+		--claim-handoff docs/specs/task07c1_final_result.json \
+		--output "$(CASE_EXPORT_DIR)"
 
 format:
 	uv run ruff format .

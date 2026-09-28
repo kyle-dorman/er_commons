@@ -1,0 +1,140 @@
+{
+  "schema_version": "er_commons.task07d.remaining_review_result.v1",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_07_pilot/07d/remaining_cases_20260928_v1",
+  "manifest": "manifest.json",
+  "manifest_sha256": "ce9c419be1a6de75c5fae7cf0d3b7caa866ba5d17a57d49e71886395cf373c3d",
+  "status": "ready_for_human_review_with_explicit_gaps",
+  "cases": [
+    {
+      "case_id": "I-CF-4",
+      "project_id": 36,
+      "task_ids": [
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198
+      ],
+      "count": 11,
+      "source_cards_first_claim": 9,
+      "native_data_exact": true,
+      "unlabeled": true,
+      "citation_units": 37,
+      "source_judgments": 56,
+      "assembly_gap_count": 4,
+      "url": "http://127.0.0.1:8097/projects/36/data?labeling=1"
+    },
+    {
+      "case_id": "M-OSEC-273",
+      "project_id": 30,
+      "task_ids": [
+        170,
+        171
+      ],
+      "count": 2,
+      "source_cards_first_claim": 3,
+      "native_data_exact": true,
+      "unlabeled": true,
+      "citation_units": 6,
+      "source_judgments": 8,
+      "assembly_gap_count": 0,
+      "url": "http://127.0.0.1:8097/projects/30/data?labeling=1"
+    },
+    {
+      "case_id": "O-GGBA-2",
+      "project_id": 29,
+      "task_ids": [
+        168,
+        169
+      ],
+      "count": 2,
+      "source_cards_first_claim": 6,
+      "native_data_exact": true,
+      "unlabeled": true,
+      "citation_units": 9,
+      "source_judgments": 11,
+      "assembly_gap_count": 0,
+      "url": "http://127.0.0.1:8097/projects/29/data?labeling=1"
+    },
+    {
+      "case_id": "O-Joint-19",
+      "project_id": 35,
+      "task_ids": [
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187
+      ],
+      "count": 10,
+      "source_cards_first_claim": 8,
+      "native_data_exact": true,
+      "unlabeled": true,
+      "citation_units": 46,
+      "source_judgments": 67,
+      "assembly_gap_count": 2,
+      "url": "http://127.0.0.1:8097/projects/35/data?labeling=1"
+    },
+    {
+      "case_id": "PC-LM-2",
+      "project_id": 33,
+      "task_ids": [
+        174,
+        175,
+        176
+      ],
+      "count": 3,
+      "source_cards_first_claim": 4,
+      "native_data_exact": true,
+      "unlabeled": true,
+      "citation_units": 6,
+      "source_judgments": 9,
+      "assembly_gap_count": 2,
+      "url": "http://127.0.0.1:8097/projects/33/data?labeling=1"
+    }
+  ],
+  "claim_tasks": 28,
+  "citation_units_across_cases": 104,
+  "source_judgments": 151,
+  "retrieval": {
+    "indexed_records": 1136626,
+    "eligible_sources": 35,
+    "baseline_queries": 84,
+    "followup_queries": 22
+  },
+  "icj4": {
+    "project_id": 26,
+    "task_id": 165,
+    "status": "excluded_by_user_20260928_catchup_no_longer_required",
+    "live_project": false
+  },
+  "excluded": [
+    "I-EA-2",
+    "I-CJ-4"
+  ],
+  "prototype": {
+    "project_id": 25,
+    "submitted_tasks": 3,
+    "normalized_tasks": 2,
+    "task_requiring_partial_explanation": 164
+  },
+  "human_verification": "human_verification.json",
+  "selection_update": {
+    "date": "2026-09-28",
+    "selected_cases": 6,
+    "evidence_ready_claims": 31,
+    "note": "Latest user exclusion supersedes I-CJ-4 reopening; sealed manifest retains its earlier historical state."
+  },
+  "historical_project_archive": "pipelines/brisbane_baylands/task_07_pilot/maintenance/label_studio_cleanup_20260928T192837Z"
+}

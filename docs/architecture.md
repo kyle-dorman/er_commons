@@ -194,6 +194,23 @@ project migration. The [combined review contract](specs/claim_relevance_review_v
 owns uncertainty and evidence-queue boundaries. The combined UI is approved;
 case acceptance still requires an explicit, validated human review.
 
+`pilot_evidence` is the Task 07D evidence-review adapter. It checks immutable
+reviewed claim membership and exact canonical record snapshots/text spans,
+prepares one native task per claim with only its mapped evidence, and normalizes
+explicit human support judgments against trusted task data. The original
+case-level adapter remains available for preserved prototype records. A saved
+claim does not assert case completion. Discovery and local
+Label Studio operations remain in the external run. Source eligibility comes
+from the pinned accepted handoffs, not from a matching quote. The
+[evidence-review contract](specs/evidence_review_v1.md) owns support, partial
+coverage, gaps and provenance; relevance never establishes evidence support.
+Current review shows the exact claim and reviewed question above separate
+reviewer-note and source-excerpt panes. Versioned forms preserve historical
+normalization while citation metadata distinguish supplied, corrected and
+omitted references. Discovery may search beyond response citations. `pilot_citation_units` verifies
+current packet-v2 heading boundaries and complete section/table membership
+against parsed sources; exact anchors remain below semantic citation identities.
+
 `pilot_context_repair` refreshes a fixed sample using directed response closure;
 cycles are deduplicated and other comments cannot enter the context.
 `pilot_label_migration` verifies protected exports, joins annotations by stable
@@ -330,3 +347,38 @@ negative experiments, identities, and validation evidence. They are the source
 of truth for historical reconstruction, not current entry-point instructions.
 Use the active task and the versioned specifications for new work; do not copy
 old task-era package names, commands, or artifact roots into a current contract.
+
+### Task 07D repeatable discovery and citation assembly
+
+`pilot_evidence_search` builds a source-bound SQLite FTS5 cache and produces
+ordered BM25 receipts from fixed query plans. The index is a derived external
+artifact, not the source of truth or the frozen evaluation retriever. Case-level
+agent assignments use the [saved per-claim prompt](prompts/task07d_claim_citation_search_v1.md)
+and [search protocol](specs/task07d_search_protocol_v1.md). Current execution uses
+an FTS5-enabled system Python; the repository's uv SQLite lacks that extension.
+The package raises a capability error rather than substituting another search.
+
+`pilot_citation_units` validates ordinary and audited table units.
+`pilot_citation_boundary_overrides` owns the narrowly source-bound Section 8.5.2
+overlay; `pilot_citation_visual_sections` preserves text plus explicit figure
+locations without inferring visual evidence. All outputs bind unchanged canonical
+records. Packet preparation and human-review normalization remain in
+`pilot_evidence`; discovery proposals never become human support labels.
+
+
+`pilot_case_citations` owns pure Task07D case-level citation aggregation after
+source/review validation. It separates unchanged claims and deduplicated support/
+context citations from lossless review audit, rejects conflicting source identities
+and incomplete judgments, and never derives support from claim relevance or overall
+outcomes. The sealed Task07D export records its bounded orchestration script and
+explicit user dispositions; it does not mutate Label Studio or upstream artifacts.
+
+
+Task07D maintainability boundaries and replay are documented in the
+[maintainer guide](task07d_maintainer_guide.md). `pilot_evidence_forms` owns native
+layout versions separately from task/review logic; `pilot_citation_records` owns
+shared source-record operations while unit-specific policy remains in the citation
+modules. `pilot_case_export` owns verified file I/O and publication around the pure
+aggregator, replacing machine-specific one-off orchestration as the maintained
+entrypoint. `ReviewValidationError` exposes rejected parsed judgments for audit;
+only a manifest-bound explicit disposition can accept its exact warning signature.

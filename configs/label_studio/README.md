@@ -21,6 +21,22 @@ reading. Collapse its unused right-hand region-panel group using its chevron;
 this preference is remembered in the preview browser. Native Submit saves the
 rating; the native Postpone action leaves the case pending.
 
+## Current projects and archived history
+
+After user-authorized cleanup on 2026-09-28, only projects **25, 29, 30, 33, 35,
+36** remain live. See [current review queues](#task-07d-evidence-review-queues).
+Other project links below describe historical trials and no longer open live
+projects. Their configurations, full task snapshots, exports, annotations and
+drafts are preserved in the cleanup backup, alongside the earlier sealed artifacts.
+
+The backup is under the artifact root at
+`pipelines/brisbane_baylands/task_07_pilot/maintenance/label_studio_cleanup_20260928T192837Z/`.
+It contains a verified full `before.sqlite3` database backup, per-project exports,
+before/after current-task snapshots, and a checksummed manifest. Treat the database
+backup as sensitive local data; it contains account/settings data as well as reviews.
+Restore into a separate isolated instance for historical inspection rather than
+replacing the active database and losing newer reviews.
+
 ## Isolated local trial
 
 Under the configured `ER_COMMONS_DATA_ROOT`:
@@ -331,3 +347,43 @@ not an automatically loaded annotation. Compare every old field, claim identity
 and reviewer binding after reload. Never clear a draft or overwrite the old form
 to make space. The external `overflow/` evidence demonstrates 17-to-21-slot
 migration with edited text, relationships, an addition and removals intact.
+
+
+## Task 07D evidence-review queues
+
+All 31 claims (including the three SA-Caltrans-33 prototype claims) are submitted.
+The [final case exports](../../docs/specs/task07d_final_result.json) are complete
+with accepted MVP warnings. These five projects hold the 28 expansion reviews:
+
+| Case | Claim tasks | Review |
+| --- | ---: | --- |
+| I-CF-4 | 11 | [Open project 36](http://127.0.0.1:8097/projects/36/data?labeling=1) |
+| M-OSEC-273 | 2 | [Open project 30](http://127.0.0.1:8097/projects/30/data?labeling=1) |
+| O-GGBA-2 | 2 | [Open project 29](http://127.0.0.1:8097/projects/29/data?labeling=1) |
+| O-Joint-19 | 10 | [Open project 35](http://127.0.0.1:8097/projects/35/data?labeling=1) |
+| PC-LM-2 | 3 | [Open project 33](http://127.0.0.1:8097/projects/33/data?labeling=1) |
+
+Read the exact claim and reviewed question first. Source excerpts are on the right;
+reviewer notes and controls are on the left. Judge each displayed source, then use
+**Overall outcome for this claim**. Submit advances to the next claim. Citation repetition across claims is intentional;
+the final case export deduplicates canonical units and retains support over context.
+
+Narrative citations stop at the next actual section heading. Complete tables retain
+notes; unresolved boundaries are gaps rather than invented units. PDF links use
+physical pages, separate from printed labels. Figure links point to source locations;
+they do not supply model-interpreted figure evidence. Reviewer notes never form part
+of the quoted source. Use Unresolved and explain when sources cannot settle a claim.
+
+I-CJ-4 project 26 is an archived
+historical catch-up queue: Kyle excluded I-CJ-4 again on 2026-09-28, so no further
+review is required. Its history is preserved. [SA-Caltrans-33 project 25](http://127.0.0.1:8097/projects/25/data?labeling=1)
+has three submitted prototype reviews. Kyle clarified task164’s partial source
+as context in a separate export overlay; native judgments remain unchanged.
+
+`pilot_evidence.prepare_claim_tasks` validates packets and anchors;
+`build_claim_form` renders the shared form; `normalize_claim_review` validates
+saved reviews against trusted tasks. Projects 27, 28, 31, 32 and 34 are synthetic
+QA only. Earlier QA and human prototype projects remain preserved.
+See the [queue handoff](../../docs/specs/task07d_remaining_result.json),
+[07D task](../../tasks/sprint2/07d_discover_and_review_evidence.md) and
+[record contract](../../docs/specs/evidence_review_v1.md) before changes.

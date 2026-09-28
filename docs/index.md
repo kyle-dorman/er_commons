@@ -23,12 +23,19 @@ cases and 31 reviewed response argument blocks, with a validated export.
 Task 07C.1 is complete: its validated replacement retains 57 claims across six
 approved cases and one unclear stop (I-EA-2). The 31 direct/supporting claims from
 approved cases are candidates for Task 07D. Prior reviews remain preserved.
-Task 07D planning is next; evidence verification has not started.
+Task07D is complete, including the required
+[code-quality gate](specs/task07d_code_quality_result.json). Its maintained exporter
+reproduces the [sealed six-case output](specs/task07d_final_result.json) byte-for-byte:
+31 claims and 84 citations, with accepted MVP limitations preserved. The
+[maintainer guide](task07d_maintainer_guide.md) owns replay and code boundaries.
+07E remains provisional; see the [TODO](todo.md).
 
 ## Read for the next phase
 
-1. [Task 07D](../tasks/sprint2/07d_discover_and_review_evidence.md) for the next
-   provisional scope and [Task 07C.1](../tasks/sprint2/07c1_review_claims_and_relevance.md#final-reviewed-export-and-replacement-handoff)
+1. [Task 07D](../tasks/sprint2/07d_discover_and_review_evidence.md) for the completed
+   evidence handoff and preserved discovery procedure, the [search protocol](specs/task07d_search_protocol_v1.md)
+   and [per-claim agent prompt](prompts/task07d_claim_citation_search_v1.md) for
+   repeatable evidence discovery, and [Task 07C.1](../tasks/sprint2/07c1_review_claims_and_relevance.md#final-reviewed-export-and-replacement-handoff)
    for the accepted combined-review replacement, [07C](../tasks/sprint2/07c_review_response_assertions.md#final-reviewed-export-and-learning)
    for the completed seven-case export and review lessons, and
    [07B](../tasks/sprint2/07b_review_comment_questions.md#final-reviewed-export)

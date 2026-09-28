@@ -1,0 +1,53 @@
+{
+  "status": "case_level_export_complete_with_accepted_mvp_warnings",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_07_pilot/07d/reviews/six_case_export_20260928T210030Z",
+  "manifest_sha256": "3e6d1da3a117b03f0a1ee9f8174432a992916b1c3a1d2a198fa01b1c57b954a5",
+  "submitted_claim_reviews": 31,
+  "valid_under_current_validator": 26,
+  "validation_issues": [
+    {
+      "case": "SA-Caltrans-33",
+      "task": 164,
+      "claim": "SA-Caltrans-33 \u00b7 C003 \u00b7 3 of 3",
+      "error": "c001_p01: explanation required"
+    },
+    {
+      "case": "O-Joint-19",
+      "task": 184,
+      "claim": "O-Joint-19 \u00b7 C010 \u00b7 7 of 10",
+      "error": "c001: explanation required; c001: partial outcome needs positive evidence"
+    },
+    {
+      "case": "O-Joint-19",
+      "task": 185,
+      "claim": "O-Joint-19 \u00b7 C011 \u00b7 8 of 10",
+      "error": "c001: supported outcome needs supporting evidence or a reasoned joint partial set"
+    },
+    {
+      "case": "I-CF-4",
+      "task": 195,
+      "claim": "I-CF-4 \u00b7 C011 \u00b7 8 of 11",
+      "error": "c001: explanation required; c001: partial outcome needs positive evidence"
+    },
+    {
+      "case": "I-CF-4",
+      "task": 197,
+      "claim": "I-CF-4 \u00b7 C013 \u00b7 10 of 11",
+      "error": "c001: explanation required; c001: partial outcome needs positive evidence"
+    }
+  ],
+  "native_labels_modified": false,
+  "case_level_citation_export_finalized": true,
+  "user_disposition_artifact": "pipelines/brisbane_baylands/task_07_pilot/07d/reviews/mvp_disposition_20260928T211718Z",
+  "user_disposition_manifest_sha256": "26b1932633d7485e96752e585e68a6b4a4a77fb3e2a2a474b753edc3d1b27a65",
+  "effective_reviews_passing_strict_validator": 27,
+  "accepted_mvp_consistency_warning_tasks": [
+    184,
+    185,
+    195,
+    197
+  ],
+  "claim_count_retained": 31,
+  "validation_issues_are_historical": true,
+  "final_result": "docs/specs/task07d_final_result.json"
+}

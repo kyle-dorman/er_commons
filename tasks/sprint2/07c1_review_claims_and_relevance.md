@@ -487,3 +487,49 @@ Independent final review passed 64 checks: all seven normalized rebuilds match,
 and the earlier completed native exports and old project settings are unchanged.
 `git diff --check` passed. This artifact-only closeout required no code changes;
 the earlier 102-test implementation validation remains the applicable result.
+
+### Takeaway from downstream evidence review (2026-09-28)
+
+Kyle reported fatigue during 07D because too many irrelevant claims had passed
+the relevance review, and the claim wording was confusing, fluid and insufficiently
+concrete. This is an authoring and filtering problem, not just a request for the
+reviewer to be more careful. Evidence review should ask “does this source support
+this statement?” without first requiring the reviewer to reconstruct the assertion.
+
+For the next round, use a consistent statement structure:
+**[Subject] [specific assertion], under [conditions], for [time/place/comparison].**
+Include only the scope fields that matter; do not invent missing specificity.
+
+- Write one independently assessable assertion per claim, using a concrete
+  subject and verb. Keep necessary conditions, negation, uncertainty and
+  attribution in the statement. Clear wording must not strengthen the source.
+- Separate independently assessable conclusions, methodology assertions and
+  background facts. Retain qualifications with the assertion they qualify;
+  do not split every incidental number or inflate the review inventory.
+- Put exact response passages, supplied citations and drafting explanations
+  underneath the claim as provenance, rather than mixing them into its wording.
+  Preserve attribution in the claim itself when it changes the meaning.
+- For a direct claim, identify the specific concern it answers, including
+  distinctions such as construction versus long-term operation. For a supporting
+  claim, state how it materially supports a relevant answer. Sharing a topic or
+  vocabulary is insufficient; ask whether removing it would materially weaken
+  the answer's reasoning.
+- Continue to inventory all substantive response claims for relevance review,
+  but keep not-relevant claims out of evidence discovery. Helpful background
+  citations can remain optional context without making every background response
+  assertion a separate evidence-review task.
+
+For example, replace a paragraph mixing a corridor conclusion, citations,
+surveys and habitat qualifications with a bounded assertion such as:
+
+> The proposed development area does not currently function as a terrestrial
+> wildlife corridor because surrounding roads, rail lines and industrial
+> development interrupt habitat connections.
+
+This illustrates sentence structure, not an approved replacement claim. Its
+scope and certainty must still match the response. Separate assertions about
+survey adequacy or bird habitat need their own relevance decisions.
+
+Apply this standard to future proposals and independent checks. Preserve this
+round's accepted wording, labels and export unchanged; this takeaway does not
+identify particular claims for retrospective exclusion or authorize relabeling.

@@ -1,0 +1,16 @@
+{
+  "status": "validated_and_sealed_with_explicit_mvp_limitations",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_07_pilot/07d/handoffs/validated_20260928T212334Z",
+  "manifest_sha256": "abdcfb0a6460d76e4c589bc0b487fba4cdb6b32bad4a773711ab38bbc8a8f7b7",
+  "final_result": "docs/specs/task07d_final_result.json",
+  "final_result_sha256": "26b7f09bb023fee8b33e3546bc8b0dc6b350f5112fff53b1f90dfe4d0967efc2",
+  "case_count": 6,
+  "claim_count": 31,
+  "citation_count": 84,
+  "accepted_mvp_warning_tasks": [
+    184,
+    185,
+    195,
+    197
+  ]
+}
