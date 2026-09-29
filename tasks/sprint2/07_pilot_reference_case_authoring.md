@@ -1,7 +1,7 @@
 # Task 07: Pilot Reference-Case Authoring
 
-Status: **07A–07D complete, including the 07C.1 replacement. Next: combined
-07E reference-answer/reasoning review; separate 07F superseded.**
+Status: **07A–07E complete, including the 07C.1 replacement and six approved
+chat-reviewed reference answers. Next: finalize provisional 07G; 07F superseded.**
 
 ## Abstract
 
@@ -37,7 +37,7 @@ and what must change before broader annotation.
 
 ## Proposed subtask order
 
-| Subtask | Label Studio review stage | Outcome |
+| Subtask | Review stage | Outcome |
 | --- | --- | --- |
 | [07A](07a_screen_pilot_candidates.md) | Pilot-fit screening | Human-only ratings and optional skip reasons for at least 50 distinct comments with complete response context; prioritized small pilot |
 | [07B](07b_review_comment_questions.md) | Comment question | Approved account of what each selected comment asks |
@@ -47,8 +47,8 @@ and what must change before broader annotation.
 | [07F](07f_review_reference_defenses.md) | Merged into 07E | No separate labeling pass or post-outline approval |
 | [07G](07g_assess_pilot_and_local_replay.md) | Assessment and local replay | Stage attrition, correction effort, unresolved cases, and local-model comparison |
 
-07D is complete. The next implementation contract is combined 07E; later
-subtask contracts remain **provisional**: revise the next one
+07E is complete. The 07G assessment/replay contract remains **provisional**:
+revise it
 from the accepted prior outcome before starting it. The curator may repeat a
 stage with a new named form or prompt revision; a rejected or unresolved case
 does not silently advance.
@@ -73,13 +73,17 @@ correctness scoring. Automatic citation matching remains separate from both.
 export records; it has no Codex proposals or handoff prompt. Its sampling and
 rebuttal-focused skip criteria are owned by the [07A plan](07a_screen_pilot_candidates.md).
 
-Later review subtasks own focused Label Studio projects and enough narrow code
+Tasks 07B–07D use focused Label Studio projects and enough narrow code
 to prepare inputs, validate Codex proposals, import suggestions, export human
 annotations, and produce the next stage's approved records. Prepare a
 bounded batch and a self-contained prompt for a **separate Codex task** using
 the user's existing app allowance. The user starts that task; Task 07 does not
 automate paid API calls or require a live model backend inside Label Studio.
 Keep the model proposal distinct from the curator-edited record.
+
+07E instead uses chat: Codex drafts, Kyle gives feedback, and Codex revises until
+explicit approval or stop. Its sealed exports preserve exact answer versions and
+chat decisions; direct human editing and Label Studio forms are not required.
 
 Use stable case, response, assertion, and evidence IDs; version the input
 batch, form, review, and export; add prompt, selected Codex model, and proposal

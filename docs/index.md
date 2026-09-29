@@ -28,15 +28,17 @@ Task 07D is complete, including the required
 reproduces the [sealed six-case output](specs/task07d_final_result.json) byte-for-byte:
 31 claims and 84 citations, with accepted MVP limitations preserved. The
 [maintainer guide](task07d_maintainer_guide.md) owns replay and code boundaries.
-07E now combines reference-answer and reasoning review; separate 07F is superseded.
+07E is closed: six answers approved through combined answer/reasoning review
+in chat, with the [sealed handoff](specs/task07e_final_result.json) preserving
+all claims, citation pools and review histories. Separate 07F is superseded.
 The [benchmark evaluation plan](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
 uses automatic retrieval/final-citation metrics plus grounded correctness and
-answer adequacy. See the [TODO](todo.md) for the bounded prototype preparation.
+answer adequacy. See the [TODO](todo.md) for provisional 07G assessment planning.
 
 ## Read for the next phase
 
-1. [Combined 07E](../tasks/sprint2/07e_review_answer_logic.md) for the next
-   reference-answer review; [07F](../tasks/sprint2/07f_review_reference_defenses.md)
+1. [Task 07G](../tasks/sprint2/07g_assess_pilot_and_local_replay.md) for the next
+   provisional assessment contract, using the [07E outcome](../tasks/sprint2/07e_review_answer_logic.md#final-outcome-and-six-case-handoff); [07F](../tasks/sprint2/07f_review_reference_defenses.md)
    records why no separate labeling pass is needed. Apply the
    [current benchmark evaluation contract](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary).
 2. [Task 07D](../tasks/sprint2/07d_discover_and_review_evidence.md) for the completed

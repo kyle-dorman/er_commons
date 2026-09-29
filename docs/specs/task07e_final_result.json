@@ -1,0 +1,41 @@
+{
+  "schema_version": "er_commons.task07e.final_result.v1",
+  "status": "complete_with_preserved_mvp_limits",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_07_pilot/07e/handoffs/six_case_chat_20260929T203021Z",
+  "manifest": {
+    "path": "pipelines/brisbane_baylands/task_07_pilot/07e/handoffs/six_case_chat_20260929T203021Z/manifest.json",
+    "sha256": "fa442ab35708293a7cd6e09ce0a0482608ffcb0b34ee29801917e1655d81623e"
+  },
+  "case_count": 6,
+  "approved_case_count": 6,
+  "explicit_stop_count": 0,
+  "claim_count": 31,
+  "citation_pool_count": 84,
+  "cited_reference_count": 69,
+  "answer_or_partial_revision_count": 14,
+  "chat_event_count": 48,
+  "cases": [
+    "M-OSEC-273",
+    "O-GGBA-2",
+    "PC-LM-2",
+    "SA-Caltrans-33",
+    "I-CF-4",
+    "O-Joint-19"
+  ],
+  "accepted_mvp_warning_tasks": [
+    184,
+    185,
+    195,
+    197
+  ],
+  "excluded_cases": [
+    "I-EA-2",
+    "I-CJ-4"
+  ],
+  "question_scopes_changed": false,
+  "claim_or_citation_labels_changed": false,
+  "native_reviews_modified": false,
+  "benchmark_eligibility_established": false,
+  "target_or_judge_runs_started": false,
+  "next_task": "tasks/sprint2/07g_assess_pilot_and_local_replay.md"
+}

@@ -7,14 +7,18 @@ are complete. The [accepted replacement inventory](specs/task07a1_final_result.j
 is the current input; historical releases and inherited limitations are preserved.
 See the [index](index.md) for entry links.
 
-## Next: finalize the combined 07E reference-answer prototype
+## Next: finalize Task 07G pilot assessment
 
-[07E](../tasks/sprint2/07e_review_answer_logic.md) now combines reasoning and
-reference-answer review in one human labeling pass; separate 07F is superseded.
-No independently approved outline, mapping artifact or final prose-polishing
-review is required. Finalize one case's question/input binding and proposed form
-before execution; trial one task before expanding. No new labeling project or
-judge run has started.
+[Combined 07E](../tasks/sprint2/07e_review_answer_logic.md#final-outcome-and-six-case-handoff)
+is closed: six approved answers, preserved chat histories, 31 unchanged claims
+and 84 reviewed citations. The [sealed result](specs/task07e_final_result.json)
+retains inherited warnings and source limits. Separate 07F is superseded.
+
+[07G](../tasks/sprint2/07g_assess_pilot_and_local_replay.md) remains provisional.
+Revise its assessment and bounded local-proposal comparison contract using the
+07E handoff and MVP lessons before execution. No local replay, target run, judge
+run or benchmark eligibility decision has started. The [authoring prompt](prompts/task07e_reference_answer_authoring_v2.md)
+records the current rebuttal and chat-review approach.
 
 For the next authoring pass, each comment yields at most one faithful focused
 question. Rewrite only when straightforward; otherwise skip rather than split or
