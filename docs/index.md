@@ -10,7 +10,7 @@ Sprint 2 is active. Tasks 02–06 are complete, including the repaired
 and the preserved [Task 05H response inventory](specs/task05h_final_result.json).
 The [05H summary](specs/task05h_final_summary.md) owns review coverage and
 inherited limits. The [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
-and later subtasks remain provisional. The
+is closed, with six approved reference answers and a recorded Task 08 handoff. The
 [07A sample](../tasks/sprint2/07a_screen_pilot_candidates.md#sampling-outcome)
 contains 50 selected comments with completed, verified human labels.
 [Task 07A.1](../tasks/sprint2/07a1_repair_response_list_links.md) repaired explicit
@@ -33,13 +33,19 @@ in chat, with the [sealed handoff](specs/task07e_final_result.json) preserving
 all claims, citation pools and review histories. Separate 07F is superseded.
 The [benchmark evaluation plan](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
 uses automatic retrieval/final-citation metrics plus grounded correctness and
-answer adequacy. See the [TODO](todo.md) for provisional 07G assessment planning.
+answer adequacy. 07G is closed by user decision without a full retrospective or
+another pilot round. See the [TODO](todo.md) for Task 08 question selection.
+The consolidated [comment and response human review process](response_comment_human_review_process.md)
+owns reusable workflow guidance for Task 08 preparation; Task 07 outcomes retain
+historical evidence and case-specific decisions.
 
 ## Read for the next phase
 
-1. [Task 07G](../tasks/sprint2/07g_assess_pilot_and_local_replay.md) for the next
-   provisional assessment contract, using the [07E outcome](../tasks/sprint2/07e_review_answer_logic.md#final-outcome-and-six-case-handoff); [07F](../tasks/sprint2/07f_review_reference_defenses.md)
-   records why no separate labeling pass is needed. Apply the
+1. [Decision 005](decisions/005_task08_grouped_question_selection.md) for the
+   accepted Task 08 question-selection plan: exclusive groups and up to three
+   human-selected questions per group. [07G](../tasks/sprint2/07g_assess_pilot_and_local_replay.md)
+   records the decision to proceed; the [07E outcome](../tasks/sprint2/07e_review_answer_logic.md#final-outcome-and-six-case-handoff)
+   preserves the sealed pilot. Apply the
    [current benchmark evaluation contract](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary).
 2. [Task 07D](../tasks/sprint2/07d_discover_and_review_evidence.md) for the completed
    evidence handoff and preserved discovery procedure, the [search protocol](specs/task07d_search_protocol_v1.md)
@@ -52,14 +58,17 @@ answer adequacy. See the [TODO](todo.md) for provisional 07G assessment planning
    for the selected-case handoff, and [07A.1](../tasks/sprint2/07a1_repair_response_list_links.md)
    for the accepted replacement and verified migration.
 3. [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
-   for the proposed stage order and [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md)
+   for the closed pilot's outcomes and [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md)
    for later eligibility/evaluation boundaries.
+   Use the [human review process](response_comment_human_review_process.md) for
+   consolidated Task 07 learning and the prospective Task 08 question/claim/
+   evidence/answer review sequence.
 4. [Replacement result](specs/task07a1_final_result.json) for the current Task 07/08
    input; the [05H outcome](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
    preserves the predecessor and inherited limitations.
-5. [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md) for the current
-   selection contract; read [task shape](../tasks/README.md) and the [documentation
-   guide](documentation.md) before revising it.
+5. Read [task shape](../tasks/README.md) and the [documentation guide](documentation.md)
+   before writing the bounded Task 08 contract. The [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md)
+   preserves the completed pilot's selection contract.
 
 ## Document roles
 

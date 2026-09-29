@@ -16,3 +16,6 @@ work and task files for detailed execution context.
   limitations](004_accept_appendix_p_hierarchy_with_known_limitations.md) —
   preserve the strict Task 03E.2 rejection while content-binding a separate,
   Appendix P-only publication authorization and Task 03G hypothesis.
+- [005: Grouped question selection for Task 08](005_task08_grouped_question_selection.md)
+  — exclusive review groups, up to three human-selected questions per group,
+  and a quality-first stopping rule.

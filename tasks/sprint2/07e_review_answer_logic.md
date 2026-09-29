@@ -2,7 +2,7 @@
 
 Status: **Closed: six human-approved reference answers exported and validated
 2026-09-29, with inherited MVP limitations preserved. Combined 07E/07F used
-chat-based review. Next: finalize the provisional Task 07G assessment contract.**
+chat-based review. Tasks 07G and 07 are now closed; next: Task 08.**
 
 ## Goal and boundary
 
@@ -528,8 +528,9 @@ important for distinguishing regional from project effects and planning capacity
 from guaranteed delivery. Successful authoring is not proof of automatic-judge
 performance or universal prompt effectiveness.
 
-Next is [07G](07g_assess_pilot_and_local_replay.md): revise its provisional
-assessment and representative local-proposal comparison plan from this handoff.
-No local model, paid API, benchmark target or judge was run by 07E. Define and
-review the bounded comparison before execution; approved answers must not leak
-into the pre-review inputs used to generate comparison proposals.
+The handoff advanced to [07G](07g_assess_pilot_and_local_replay.md). Kyle
+subsequently removed the local-model comparison, selected Astra for model-assisted
+dataset-label authoring with human review, and closed 07G and Task 07 without
+a full retrospective or another pilot round. [Decision 005](../../docs/decisions/005_task08_grouped_question_selection.md)
+records the Task 08 selection plan. No local model, paid API, benchmark target
+or judge was run by 07E.

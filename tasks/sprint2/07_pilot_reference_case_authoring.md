@@ -1,7 +1,19 @@
 # Task 07: Pilot Reference-Case Authoring
 
-Status: **07A–07E complete, including the 07C.1 replacement and six approved
-chat-reviewed reference answers. Next: finalize provisional 07G; 07F superseded.**
+Status: **Closed by Kyle on 2026-09-29. 07A–07E complete, including the 07C.1
+replacement and six approved chat-reviewed reference answers. 07F superseded;
+07G closed by user decision. Next: Task 08 question selection.**
+
+## Closure and handoff
+
+The pilot closes with six approved reference answers, 31 claims, and 84 reviewed
+citations preserved in the [sealed 07E handoff](../../docs/specs/task07e_final_result.json).
+I-CJ-4 and I-EA-2 remain explicit stops. Kyle waived the full 07G retrospective
+and another pilot round; closure does not claim that assessment was performed.
+The [human review process](../../docs/response_comment_human_review_process.md)
+preserves reusable lessons, and [Decision 005](../../docs/decisions/005_task08_grouped_question_selection.md)
+owns the accepted Task 08 selection plan. Task 08 selection has not started;
+pilot approval does not establish benchmark eligibility.
 
 ## Abstract
 
@@ -35,7 +47,7 @@ and what must change before broader annotation.
 - Follow the [Sprint 2 scope](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md)
   and the [artifact contract](../../docs/data_artifacts.md).
 
-## Proposed subtask order
+## Subtask sequence and outcomes
 
 | Subtask | Review stage | Outcome |
 | --- | --- | --- |
@@ -45,11 +57,14 @@ and what must change before broader annotation.
 | [07D](07d_discover_and_review_evidence.md) | Evidence per assertion | Exact Draft EIR anchors, support judgments, and explicit gaps |
 | [07E](07e_review_answer_logic.md) | Reference answer and reasoning | One reviewed concise answer with essential explanation, conditions, limits and source provenance |
 | [07F](07f_review_reference_defenses.md) | Merged into 07E | No separate labeling pass or post-outline approval |
-| [07G](07g_assess_pilot_and_local_replay.md) | Assessment and local replay | Stage attrition, correction effort, unresolved cases, and local-model comparison |
+| [07G](07g_assess_pilot_and_local_replay.md) | Closed by user decision | Proceed to Task 08 using recorded workflow lessons; full retrospective and another pilot round waived |
 
-07E is complete. The 07G assessment/replay contract remains **provisional**:
-revise it
-from the accepted prior outcome before starting it. The curator may repeat a
+07E is complete. Kyle closed 07G and accepted the
+[Task 08 grouped question-selection plan](../../docs/decisions/005_task08_grouped_question_selection.md)
+without another pilot round or a full retrospective. Astra
+(`gpt-6-astra`) supplies all model-assisted dataset-label proposals and revisions;
+human review remains required. Preserve human-only stages and actual historical
+model provenance. The curator may repeat a
 stage with a new named form or prompt revision; a rejected or unresolved case
 does not silently advance.
 
@@ -66,6 +81,12 @@ to the next pass, not a silent rewrite of the sealed six-case MVP.
 and limits. No separate approved outline or required claim-to-citation output map.
 The reference serves later answer-adequacy scoring; source text serves grounded-
 correctness scoring. Automatic citation matching remains separate from both.
+
+For consolidated reusable review guidance and the prospective Task 08 question,
+claim, evidence, and rebuttal sequence, see the [comment and response human review
+process](../../docs/response_comment_human_review_process.md). This process note
+does not change Task 07's sealed answers, reviews, question scopes, or accepted
+MVP limitations.
 
 ## Shared batch workflow
 

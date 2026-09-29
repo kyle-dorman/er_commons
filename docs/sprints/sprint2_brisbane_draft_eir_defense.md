@@ -167,6 +167,12 @@ specific integrity concern or separately approved archival boundary.
 
 ### Task 08 eligibility, clustering, and split boundary
 
+Begin question selection with the exclusive groups in
+[Decision 005](../decisions/005_task08_grouped_question_selection.md). Kyle reviews
+until he finds up to three reasonable questions per group, with fewer permitted
+when suitable candidates run out. This bounded, purposive selection does not
+change the subsequent eligibility, clustering, or final split requirements.
+
 Human reviewers alone determine candidate eligibility. Deterministic checks
 may flag language, source references, or missing links for reviewer attention,
 but they do not accept or reject cases. Exclude an entire comment-response case
@@ -536,12 +542,14 @@ always needs exact canonical anchors, regardless of how it was discovered.
 ### Model roles
 
 Keep curation, target generation, and automated judging as distinct model
-roles. Use a capable Codex model available through the user's existing app
-allowance for Task 07's first proposal batches; record the selected model and
-exact task/prompt/input/output provenance. After human-approved examples are
-stable, replay representative **pre-review inputs** with pinned local
-`gpt-oss:20b` or another no-extra-cost model and compare proposals through
-human review. No LLM judge is part of Task 07. Use pinned
+roles. Use Astra (`gpt-6-astra`) through the user's existing app allowance for
+all model-assisted dataset-label authoring, including proposal drafting and
+revisions. Record the actual model, task, prompt and input/output provenance;
+human review determines label acceptance. Human-only stages remain human-only.
+Kyle removed the local/no-extra-cost authoring-model comparison from Task 07G;
+Kyle then closed 07G and accepted grouped Task 08 question selection without
+another pilot round or a full retrospective. No LLM judge is
+part of Task 07. Use pinned
 `qwen3:4b-instruct-2507-q4_K_M` as the intentionally small initial target
 baseline in later tasks. Use pinned `gemma3:12b` as the later local judge
 candidate; compare
@@ -587,15 +595,16 @@ negative results, and validation evidence remain in the completed task records.
 
 ### Remaining task sequence
 
-1. **Task 07 — Pilot reference-case authoring.** Screen at least 50 accepted
+1. **Task 07 — Pilot reference-case authoring (closed).** Screen at least 50 accepted
    comment-rooted cases with complete response context through human-only review,
    then take a small varied subset through reviews for
    one scoped question, claims/relevance, evidence, and a combined reference answer
    with its reasoning (07E absorbs 07F). For those later authoring
    stages, Codex proposes bounded batches in separate tasks; the curator reviews
-   each stage. A later bounded local-model replay compares proposal quality. The
+   each stage. Astra supplies model-assisted proposals; Kyle closed 07G and
+   chose to proceed to Task 08 without another pilot round or full retrospective. The
    [Task 07 umbrella](../../tasks/sprint2/07_pilot_reference_case_authoring.md)
-   routes the provisional subtasks and review gates.
+   records the closed pilot's outcomes and handoff.
 2. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Identify at
    least 35 plausible cases, finish two-pass single-curator review, accept at
    least 25 cases, and materialize the deterministic 10-development/15-test
