@@ -1,35 +1,19 @@
-# Task 07F: Review Reference Defenses
+# Task 07F: Reference Defense — Merged into 07E
 
-Status: **Provisional draft; revise after 07E.**
+Status: **Superseded as a separate labeling pass, 2026-09-29.**
 
-## Abstract and goal
+The user approved one combined review of a concise reference answer and its
+reasoning. [Task 07E](07e_review_answer_logic.md) now owns that deliverable.
+Do not build a separate 07F Label Studio project or require a second approval of
+polished prose after an outline review. An internal drafting outline is optional.
 
-Build the final authoring project in Label Studio. Codex drafts a response to
-the original comment from the reviewed question, assertion, evidence, and
-logic records; the curator edits the full defense. Follow the shared workflow
-in the [Task 07 umbrella](07_pilot_reference_case_authoring.md).
+The reference answer retains the direct conclusion, essential explanation,
+conditions, limitations and exact source provenance. It guides the later answer-
+adequacy judgment; it is hidden from the target and grounded-correctness judge.
+The [Sprint 2 evaluation contract](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
+owns metric definitions and judge visibility.
 
-## Inputs and outputs
-
-- Input: original comment and all approved 07B–07E records. The official
-  response remains curator context, not independent evidence.
-- Codex proposes a concise defense with sentence-level references to supplied
-  direct-support IDs or an explicit insufficient-evidence outcome.
-- Output: curator-reviewed reference defenses, exact citation mappings, and
-  unresolved/failed-case records. Render human-readable citations from
-  canonical IDs instead of trusting generated citation strings.
-
-## Research / learning checkpoint and plan
-
-Trial the review form on a small varied subset, checking whether the defense
-answers every concern without overclaiming. Revise prompt and form under named
-versions before finishing the selected pilot. Record how much editing the
-curator performs and why.
-
-## Validation, review, and acceptance
-
-Check every citation ID, sentence-level support, question coverage, canonical
-anchor, and final human disposition. Review the defense against the original
-comment and evidence, not just the official response. Accept only supported
-defenses or explicit insufficient-evidence outcomes. Do not run the target
-model, freeze splits, or claim Task 08 eligibility.
+Historical intent: 07E would have approved a reasoning bridge, followed by 07F
+approval of a full reference defense. Neither stage had executed when they were
+merged. Keep this routing record so older references resolve; no historical
+human labels or sealed 07D artifacts are rewritten.

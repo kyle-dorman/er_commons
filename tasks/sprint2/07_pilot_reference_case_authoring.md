@@ -1,13 +1,14 @@
 # Task 07: Pilot Reference-Case Authoring
 
-Status: **07A and 07A.1 complete; eight Great cases selected. Revise 07B before authoring; later subtasks remain provisional.**
+Status: **07A–07D complete, including the 07C.1 replacement. Next: combined
+07E reference-answer/reasoning review; separate 07F superseded.**
 
 ## Abstract
 
 Learn how to turn a small set of official comment-response pairs into reviewed,
 source-grounded reference defenses. Start with human-only review of at least
 50 comment-rooted cases for pilot fit, then advance only a small, varied selection
-through five separate Label Studio authoring projects. For those later stages,
+through question, claims/relevance, evidence and combined reference-answer review. For those later stages,
 Codex proposes each batch in a separate task; the curator edits and approves
 each stage before its output becomes input to the next. Revisit each project's form, prompt, and criteria in named revisions
 as the pilot reveals problems.
@@ -19,7 +20,7 @@ receives the official response or curator-only authoring records.
 ## Goal
 
 Produce a reviewed pilot set that makes the question, official-response
-assertions, supporting evidence, answer logic, and reference defense explicit.
+assertions, supporting evidence, and reference answer with its reasoning explicit.
 Measure how often each step succeeds, how much curator correction it needs,
 and what must change before broader annotation.
 
@@ -42,15 +43,29 @@ and what must change before broader annotation.
 | [07B](07b_review_comment_questions.md) | Comment question | Approved account of what each selected comment asks |
 | [07C](07c_review_response_assertions.md) | Response assertions | Reviewed facts, qualifications, conclusions, and source spans |
 | [07D](07d_discover_and_review_evidence.md) | Evidence per assertion | Exact Draft EIR anchors, support judgments, and explicit gaps |
-| [07E](07e_review_answer_logic.md) | Answer logic | Reviewed explanation connecting question, assertions, and evidence |
-| [07F](07f_review_reference_defenses.md) | Reference defense | Reviewed full answers with mechanically resolvable citations |
+| [07E](07e_review_answer_logic.md) | Reference answer and reasoning | One reviewed concise answer with essential explanation, conditions, limits and source provenance |
+| [07F](07f_review_reference_defenses.md) | Merged into 07E | No separate labeling pass or post-outline approval |
 | [07G](07g_assess_pilot_and_local_replay.md) | Assessment and local replay | Stage attrition, correction effort, unresolved cases, and local-model comparison |
 
-07A is the first prospective implementation task after this draft is
-reviewed. Later subtask contracts are **provisional**: revise the next one
+07D is complete. The next implementation contract is combined 07E; later
+subtask contracts remain **provisional**: revise the next one
 from the accepted prior outcome before starting it. The curator may repeat a
 stage with a new named form or prompt revision; a rejected or unresolved case
 does not silently advance.
+
+## Prospective case and review simplification (2026-09-29)
+
+One comment yields at most one independently answerable question. Prefer strong
+examples and skip ambiguous/multiple-question comments unless a faithful single
+question is straightforward. Do not split them into additional cases or discard
+hard qualifications to salvage an answer. Save the original comment and approved
+question; retrieval, target and judge must use that same question. This applies
+to the next pass, not a silent rewrite of the sealed six-case MVP.
+
+07E and 07F are one human pass over the reference answer, including its explanation
+and limits. No separate approved outline or required claim-to-citation output map.
+The reference serves later answer-adequacy scoring; source text serves grounded-
+correctness scoring. Automatic citation matching remains separate from both.
 
 ## Shared batch workflow
 
@@ -110,11 +125,14 @@ one explicit mapping from Label Studio task IDs back to stable source IDs.
 
 ## Acceptance criteria
 
-All seven subtasks close with human-reviewed outcomes or explicit stops. At
+All executed stages close with human-reviewed outcomes or explicit stops; 07F
+is satisfied by the combined 07E outcome, not a second review. At
 least 50 distinct comment-rooted screening cases have curator decisions; only a
-bounded selected subset is authored. Every finalized pilot defense traces each substantive
-statement to reviewed direct-support Draft EIR anchors, or the case retains an
-insufficient-evidence status. The Task 07 outcome reports attrition, review
+bounded selected subset is authored. Reviewers verify that each substantive
+statement in a finalized reference answer is justified by the reviewed supporting
+Draft EIR sources, or the case retains an insufficient-evidence status. This
+does not require an exported statement-to-citation map or a separate outline.
+The Task 07 outcome reports attrition, review
 effort, failure patterns, and the Task 08 handoff without claiming formal
 benchmark eligibility.
 

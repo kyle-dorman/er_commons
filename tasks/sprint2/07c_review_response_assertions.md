@@ -2,6 +2,93 @@
 
 Status: **Complete: seven approved cases, 31 reviewed argument blocks, validated immutable export.**
 
+## Historical process: extraction then grouping
+
+This note documents the original September 24, 2026 procedure, consolidated on
+September 28. It is historical, not the later 07C.1 combined claim/relevance
+policy. The [reusable drafting prompt](../../docs/prompts/task07c_response_claims_two_pass_v1.md)
+reconstructs the saved prompts and subsequent instructions; it is not an exact
+transcript or a newly tested prompt. Later pilot membership changes do not alter
+this run's seven-case membership or its exclusion of I-CJ-4.
+
+**Inputs and preparation.** The originating task prepared sealed packets from
+original comments, final human-reviewed 07B concerns, and accepted 07A.1 response
+sources. Kyle required all explicitly linked responses, recursively to completion,
+in both the model packet and UI. Source text was not pruned by relevance. The
+preparing agents audited referrals versus headers/self-references/coverage lists,
+retained source identities, exact page passages, warnings and hashes, and checked
+closure before drafting. O-Joint-19 included two responses/eight passages plus a
+separately attributed footnote; I-CF-4 later exercised the deeper GR8 → GR7 link.
+Evidence citations were not followed as response referrals.
+
+**Extraction and the trial correction.** A separate drafting task read the whole
+O-Joint-19 packet and produced 19 claims. Its saved prompt asked for independently
+assessable propositions, splitting where different evidence might be needed.
+Selection was limited to material statements relevant to the original comment
+and reviewed concerns, including necessary reasoning/qualifications. Unrelated
+parts of general responses could be omitted with source-level coverage notes;
+relevant claims without a clear concern match could remain unassigned. No
+per-claim relevance category or supporting-claim graph was collected.
+
+Kyle found 19 items excessive and asked for regrouping. The drafting task reread
+all passages and the footnote, preserved V1, and returned nine readable argument
+blocks plus a complete 19-to-9 map. Supporting quantities, background facts and
+intermediate reasoning stayed with their substantive conclusion. Separate
+verifiability no longer dictated final block boundaries. Distinct conclusions,
+qualifications or confusing combinations still required splits; there was no
+count target. For example, local RHNA/housing-stock figures were grouped with
+the housing-need argument, while the adverse air-quality finding and mitigation
+limitation stayed separate. Conditional regional VMT comparisons retained their
+scenario assumptions rather than becoming unconditional benefits.
+
+**Preservation and batch roles.** Both passes preserved negation, quantities,
+modality, scope, attribution and ambiguity. Exact quotations/passage bindings
+and concern-link unions survived grouping; the undefined city “size” and RHNA
+chronology questions remained unresolved. After Kyle approved the trial content
+and separately accepted the UI, he requested one new task for the other six.
+That task was instructed to perform detailed extraction, then grouping and a
+complete mapping before returning proposals. Case-pair workers covered EA/CF,
+LM/Caltrans and OSEC/GGBA. LM/Caltrans reviewed EA/CF; OSEC/GGBA reviewed
+LM/Caltrans; the lead reread all nine response occurrences and checked OSEC/GGBA
+proposals, integrating semantic review with separate mechanical validation. The originating task independently checked the batch
+and handled UI integration/export. These were distinct operational roles, not
+proof of isolated model judgments or independently sampled runs.
+
+**Checks and revisions.** The six-case batch yielded 49 detailed assertions and
+23 grouped arguments, with no omissions or case stops. Validators checked packet
+seals, exact source/concern bindings, unique quotations, schema, IDs and mappings;
+reviewers also reread sources for missing meaning. I-CF-4's selected grouped V3
+restored an explicit emergency-access mitigation qualification with an additional
+quotation; prior versions remained intact. This illustrates why quote matching
+alone was insufficient. The batch handoff selected exact final versions, not
+just the newest filename. Historical evidence lives in the trial's saved
+`drafting/drafting_prompt.md` and `returned_proposal_v2/revision_notes.md`, and the
+batch's `HANDOFF.md`, case prompts, mappings and review receipts referenced below.
+
+**Human review and outcome.** Only grouped proposals became editable prefills in
+separate project 4; detailed drafts and mappings remained audit material. The
+actual labeling queue, full displayed sources, edits and save/export behavior
+were checked, not merely previews. Kyle reviewed a multiline claim list with
+passage/concern references, a required case status and optional note. All seven
+cases were approved; his PC-LM-2 edit reduced three blocks to two, leaving 31
+final blocks. Its rationale was not recorded. Native/live/export fidelity was
+validated and prior proposals, labels and projects preserved. This approved
+faithful in-scope extraction, not truth, evidence support or answer adequacy.
+Kyle's later over-answering concern motivated 07C.1; it must not be retroactively
+represented as a relevance assessment performed in this original run.
+
+**Limits and recommendations for reuse.** This was an interactive procedure:
+the grouping rule emerged after trial feedback, and the batch received that
+lesson and the trial example. This chat also inspected Draft EIR RHNA/Plan Bay
+Area mentions in response to Kyle's questions; those lookups were not a formal
+07D support review and did not resolve the proposal's ambiguity notes. Exact
+model/settings and inherited context were not controlled consistently (all six
+batch model fields are null); do not
+claim a clean-context experiment or infer missing settings. For future repeats,
+save the filled reconstructed prompt, supplied examples and known settings/context,
+and retain a separate source-fidelity review. These recording recommendations
+are not claims about controls in the historical run.
+
 ## Abstract and goal
 
 Turn official responses for the seven approved 07B cases into a concise,

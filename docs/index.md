@@ -23,16 +23,23 @@ cases and 31 reviewed response argument blocks, with a validated export.
 Task 07C.1 is complete: its validated replacement retains 57 claims across six
 approved cases and one unclear stop (I-EA-2). The 31 direct/supporting claims from
 approved cases are candidates for Task 07D. Prior reviews remain preserved.
-Task07D is complete, including the required
+Task 07D is complete, including the required
 [code-quality gate](specs/task07d_code_quality_result.json). Its maintained exporter
 reproduces the [sealed six-case output](specs/task07d_final_result.json) byte-for-byte:
 31 claims and 84 citations, with accepted MVP limitations preserved. The
 [maintainer guide](task07d_maintainer_guide.md) owns replay and code boundaries.
-07E remains provisional; see the [TODO](todo.md).
+07E now combines reference-answer and reasoning review; separate 07F is superseded.
+The [benchmark evaluation plan](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
+uses automatic retrieval/final-citation metrics plus grounded correctness and
+answer adequacy. See the [TODO](todo.md) for the bounded prototype preparation.
 
 ## Read for the next phase
 
-1. [Task 07D](../tasks/sprint2/07d_discover_and_review_evidence.md) for the completed
+1. [Combined 07E](../tasks/sprint2/07e_review_answer_logic.md) for the next
+   reference-answer review; [07F](../tasks/sprint2/07f_review_reference_defenses.md)
+   records why no separate labeling pass is needed. Apply the
+   [current benchmark evaluation contract](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary).
+2. [Task 07D](../tasks/sprint2/07d_discover_and_review_evidence.md) for the completed
    evidence handoff and preserved discovery procedure, the [search protocol](specs/task07d_search_protocol_v1.md)
    and [per-claim agent prompt](prompts/task07d_claim_citation_search_v1.md) for
    repeatable evidence discovery, and [Task 07C.1](../tasks/sprint2/07c1_review_claims_and_relevance.md#final-reviewed-export-and-replacement-handoff)
@@ -42,13 +49,13 @@ reproduces the [sealed six-case output](specs/task07d_final_result.json) byte-fo
    for the completed review handoff, [07A](../tasks/sprint2/07a_screen_pilot_candidates.md)
    for the selected-case handoff, and [07A.1](../tasks/sprint2/07a1_repair_response_list_links.md)
    for the accepted replacement and verified migration.
-2. [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
+3. [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
    for the proposed stage order and [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md)
    for later eligibility/evaluation boundaries.
-3. [Replacement result](specs/task07a1_final_result.json) for the current Task 07/08
+4. [Replacement result](specs/task07a1_final_result.json) for the current Task 07/08
    input; the [05H outcome](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
    preserves the predecessor and inherited limitations.
-4. [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md) for the current
+5. [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md) for the current
    selection contract; read [task shape](../tasks/README.md) and the [documentation
    guide](documentation.md) before revising it.
 
@@ -70,6 +77,9 @@ reproduces the [sealed six-case output](specs/task07d_final_result.json) byte-fo
   editing rules.
 - [`docs/todo.md`](todo.md): current queue and next action.
 - [`docs/backlog.md`](backlog.md): unselected future ideas only.
+- [LLM judge learning notes](llm_judge_learning_notes.md): questions and
+  proposed development checks for future Tasks 09/12; the sprint plan owns
+  the evaluation contract.
 - [`tasks/`](../tasks/): detailed task contracts, validation, and outcomes.
 
 ## Reading rule

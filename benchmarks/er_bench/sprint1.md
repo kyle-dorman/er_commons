@@ -2,6 +2,26 @@
 
 Status: **accepted 2026-07-10; Sprint 2 implementation plan current**.
 
+## Current Sprint 2 amendment (2026-09-29)
+
+The original Sprint 1 decisions below are preserved as history. For current
+implementation, the [Sprint 2 plan](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
+supersedes its evaluation-unit, reference-authoring, query/input and metric rows:
+
+- At most one faithful focused question per comment; skip rather than split or
+  salvage unsuitable examples. Use the same frozen question for retrieval, target
+  and judge, retaining the original comment as provenance.
+- One combined reference-answer/reasoning approval (07E absorbs 07F); no required
+  independently approved outline or separate prose-polishing review.
+- Automatic retrieved-unit recall, plus final-cited-unit precision/recall/F1,
+  using canonical section/table units; accepted context is optional/neutral.
+- Two staged human/LLM scores: grounded correctness from sources without the
+  reference answer, and answer adequacy with the reference. The old third
+  reference-coverage score is absorbed into adequacy.
+
+Existing reviewed MVP artifacts are not rewritten by this prospective amendment.
+Source, split and leakage boundaries remain unless explicitly amended in Sprint 2.
+
 ## Confirmed facts, assumptions, and user choices
 
 - The City of Brisbane's 2026 Final EIR describes its components as the 2025

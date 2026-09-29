@@ -1,10 +1,11 @@
 # Task 07G: Assess Pilot and Compare Local Proposals
 
-Status: **Provisional draft; revise after 07F.**
+Status: **Provisional draft; revise after combined 07E.**
 
 ## Abstract and goal
 
-Summarize what the five authoring reviews and screening stage taught us, then
+Summarize what screening, question, claims/relevance, evidence and combined reference-answer
+review taught us, then
 test whether a local or otherwise no-extra-cost model can make comparably
 useful proposals. This is authoring-workflow assessment, not an LLM judge or
 the benchmark target evaluation. Follow the

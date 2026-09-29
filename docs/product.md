@@ -16,7 +16,11 @@ before the project expands into broader data or workflow products.
 
 - Sprint 1 accepted one benchmark contract:
   `er_bench.sprint1.brisbane_draft_defense.v1`. Its task is Draft EIR + public
-  comment -> concise defense with Draft-EIR citations.
+  comment -> concise defense with Draft-EIR citations. The current Sprint2
+  amendment uses one faithful focused question per comment, automatic retrieval
+  and final-citation metrics, and grounded-correctness/answer-adequacy judgments.
+  The [Sprint2 plan](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
+  owns those definitions; Sprint1 remains the historical baseline.
 - Sprint 2 is the current single-project vertical slice. The complete original
   Brisbane Baylands Draft EIR main report and official appendices are the
   model-facing evidence universe, with the selected Final EIR Appendix F1

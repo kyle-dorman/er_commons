@@ -170,11 +170,22 @@ specific integrity concern or separately approved archival boundary.
 Human reviewers alone determine candidate eligibility. Deterministic checks
 may flag language, source references, or missing links for reviewer attention,
 but they do not accept or reject cases. Exclude an entire comment-response case
-when any material part of the response depends on a later revision, new
+when answering its scoped question materially depends on a later revision, new
 Final-EIR analysis, external evidence, a mitigation change, unusable source
-content, or visual evidence unavailable to the target model. Do not rewrite a
-question to isolate only its convenient answerable portion unless the source
-itself clearly separates independent issues into distinct response units.
+content, or visual evidence unavailable to the target model.
+
+For the next authoring pass, one original comment yields at most one case with
+one independently answerable, human-approved question. Distill or rewrite only
+when the question faithfully preserves the comment's central issue, scope and
+qualifications. If it contains multiple independent asks that cannot naturally
+be expressed as one question, skip it; do not split it into several cases or
+hide the multiple asks in a compound sentence. Prefer filtering to salvaging.
+Do not remove a difficult qualification merely to make the case answerable.
+Preserve the original comment, the exact question, source IDs and the rewrite/skip
+reason. Freeze that same question as retrieval, generation and evaluation input.
+This prospective rule does not rewrite the sealed six-case 07D MVP: any later
+question migration requires an explicit versioned human decision, not inferred
+scope changes or relabeling of its 31 claims.
 
 Use a two-pass single-curator workflow because this sprint has one available
 human reviewer. In the first pass, the curator reviews the resolved
@@ -272,20 +283,23 @@ great fits (initial target 6–10) for exploratory authoring; expand the screene
 batch if it yields too few. Pilot fit does not establish Task 08 eligibility or
 replace its complete two-pass review.
 
-Each selected case then passes through five further, separately configured
-Label Studio review projects:
+Each selected case then passes through four authoring reviews:
 
-1. **Comment question:** identify the concerns in the original comment.
-2. **Response assertions:** break the official individual and incorporated
-   general responses into candidate facts, qualifications, and conclusions,
-   retaining their source spans and attribution.
-3. **Evidence:** find and review Draft EIR passages for each material assertion,
-   distinguishing direct support, context, contradictions, and gaps.
-4. **Answer logic / evidence summary:** explain how the reviewed evidence
-   answers each concern and where it does not.
-5. **Reference defense:** draft and review a complete answer with resolvable
-   sentence-level citations, or preserve an insufficient-evidence outcome.
+1. **One comment question:** approve a faithful single question or skip the case.
+2. **Claims and relevance:** state substantive response claims clearly and review
+   whether they answer or materially support an answer to that question. Preserve
+   excluded claims in history rather than carrying them into evidence discovery.
+3. **Evidence:** review source sections/tables and retain separate deduplicated
+   support/context citation pools, source judgments and explicit gaps.
+4. **Reference answer, including reasoning (combined 07E/07F):** review one concise
+   answer that gives the conclusion, necessary supporting explanation, conditions
+   and limitations. An internal draft outline is optional; there is no separately
+   approved outline, reasoning map or subsequent polished-answer labeling pass.
 
+The final answer and reviewed source pool provide the reference for later answer
+adequacy judgments. They are not exposed to the target and do not establish truth
+merely by being authored. Retain exact source provenance without adding mandatory
+claim-to-citation mapping fields.
 For each stage, prepare a bounded input batch and prompt for a separate Codex
 task. The user starts that task through existing app access. Small code helpers
 validate and import its proposals, export human annotations, and prepare only
@@ -380,34 +394,31 @@ diagnostics. Unusable source content is excluded before retrieval rather than
 marked for the target. Rank conveys ordering; the model receives no gold
 annotations.
 
-Pre-register two secondary oracle scaffold diagnostics using the three-stage
-reference artifacts. The primary baseline remains the scoped comment plus five
-BM25 passages and must run first. In the `A` condition, give the same target the
-comment plus curator-approved reference citations and evidence, but neither the
-reviewed summary nor reference defense. In the `A+B` condition, also provide
-the reviewed evidence summary, but never provide the reference defense. Store
-each condition under a separate anonymous run ID and evaluate predictions in
-blinded randomized order.
+Retain the secondary evidence-only oracle `A`: the same scoped question plus
+curator-approved source citations/text, without the reference answer or authoring
+notes. Run the primary question-plus-five-BM25-passages baseline first; preserve
+anonymous condition IDs and blinded evaluation. Do not blend oracle results into
+the primary score. Baseline-to-A differences diagnose retrieval/evidence-selection
+limits, without claiming a clean causal separation of every failure mode.
 
-Do not mix oracle-condition results into the primary baseline score. Interpret
-baseline-to-`A` improvement as evidence of retrieval or evidence-selection
-limitations, `A`-to-`A+B` improvement as evidence of synthesis limitations,
-and failure under `A+B` as evidence of defense-writing or instruction-following
-limitations. These conditions change the supplied scaffold, not the target
-model's weights.
+The previously proposed `A+B` reasoning-summary diagnostic is deferred. Combined
+07E/07F no longer produces an independently approved non-answer summary, and
+supplying its reference answer as B would leak the answer. A replacement scaffold
+requires a separate explicit design decision; this plan creates no additional
+outline review to preserve that diagnostic.
 
 Do not freeze a 200-word defense limit before the annotation and target pilots.
 Test at least 200- and 400-word limits against varied reviewed reference cases,
 including long official responses, and select the smallest limit that permits
 a complete concise Draft-EIR-only defense without forced omission. Apply the
-same frozen word and statement limits to the primary baseline and both oracle
-conditions; exclude deterministically rendered citations from the word count.
+same frozen word and statement limits to the primary baseline and the evidence-only oracle
+condition; exclude deterministically rendered citations from the word count.
 If 400 words is still inadequate for a complete pilot case, stop for a new
 length decision rather than silently truncating the answer or reference.
 
 Use a zero-shot fixed prompt for the initial target baseline. It contains the
 task instruction, structured output schema, citation and abstention rules,
-scoped original comment, and the five retrieved passages. Do not include
+frozen human-approved single question, and the five retrieved passages. Do not include
 completed development reference defenses or other benchmark cases as few-shot
 examples. Any later few-shot prompt is a separately named secondary condition
 and cannot replace or retroactively modify the primary baseline.
@@ -453,7 +464,7 @@ that are not repeated in every paragraph. Show the same heading path to the
 target as source metadata. Exclude repeated page headers, footers, page
 numbers, and generic document boilerplate from indexed text.
 
-Use only the exact scoped original comment text as the primary BM25 query. Do
+Use only the exact frozen single question as the primary BM25 query. Do
 not include the official individual or general responses, reviewed citations,
 evidence summary, reference defense, curator labels, or model-generated query
 expansion. The separate high-recall curation search may use curator-only
@@ -465,25 +476,29 @@ plain candidate applies Unicode normalization, lowercasing, and
 punctuation-aware token splitting without stemming or stopword removal. The
 normalized-English candidate adds English stemming and a versioned English
 stopword list that explicitly retains negations such as `no`, `not`, and
-`without`. Select using direct-support evidence coverage at five; if results
+`without`. Select using support-unit retrieval recall at five; if results
 are effectively tied, prefer the simpler plain candidate. Save the tokenizer
 configuration, vocabulary, stemmer package and version when used, and exact
 stopword list with the index artifacts.
 
-Define evidence coverage at five as the fraction of curator-approved
-direct-support evidence records whose exact canonical anchors are contained in
-the five retrieved leaf sections or table units. Context-only records do not
-count, and semantic similarity without anchor overlap is not a hit. Also report
-complete-case coverage at five: the count and fraction of cases for which all
-approved direct-support evidence records are present in the top five. Preserve
-raw numerators, denominators, per-case results, and the matched anchor IDs.
+Define retrieval recall at five over the distinct reference supporting citation
+units actually returned to the target in its five-passage context. A searched
+file, corpus membership or a hit elsewhere in the document is not a retrieval hit.
+Match frozen document/extraction/section-or-table identities and their canonical
+anchors, not titles or semantic similarity. A fragment cannot claim a whole section
+solely by inheriting its parent ID: required reference anchors must be present in
+the returned material; Task 10 freezes the deterministic projection for fallback
+fragments. Keep section and table units distinct and deduplicate repeated hits.
+The metric definitions below own support/context handling and final-answer scoring.
 
-Save the top 20 ranked BM25 results and scores for each query as diagnostic
-artifacts, while exposing only ranks one through five to the target model.
-Report evidence-coverage curves at `1`, `3`, `5`, `10`, and `20`, but retain
-coverage at five as the primary retrieval metric. Use the deeper list only to
-distinguish evidence that was missed entirely from evidence ranked below the
-target cutoff; it does not expand target context.
+Save the top 20 ranked results/scores as diagnostics; only ranks 1–5 reach the target.
+Report recall at 1/3/5/10/20, with recall at 5 primary. Deeper-list recall is diagnostic,
+not credit for material the target saw. If future multi-query retrieval is approved,
+log and score the union actually returned within that condition's fixed budget;
+this does not authorize query expansion in the current single-query baseline.
+Report complete-case recall, raw hits/denominators and per-case results. When a
+reference pool exceeds the unit budget, report its achievable recall ceiling;
+do not silently increase the budget or treat a ceiling as reasoning failure.
 
 Use BM25S's maintained default Lucene-style scoring method and default scoring
 parameters. Record the exact BM25S version, method, and parameters with the
@@ -540,11 +555,14 @@ not remove the need to record runtime, structured-output failures, and human
 comparison. A later target-model comparison may test other model sizes or
 families against the same frozen benchmark without changing the reference cases.
 
-The canonical case preserves the exact original comment text or an explicitly
-identified source span with its provenance. Task 07's reviewed question and
-material-concerns records are curator-only authoring aids. The target model
-receives the scoped original comment, not those aids, the official response,
-curation drafts, reviewed answer logic, or reference defense.
+The canonical case preserves the exact original comment and its provenance,
+alongside the frozen human-approved single question. The target, primary retriever,
+human evaluator and automated judge receive that same scoped question. The original
+comment remains available for authoring/provenance checks, not additional unasked
+requirements in answer scoring. Do not expose official responses, reference answers,
+reviewed claims/citations, relevance labels or curator rationales to the target.
+Existing multi-concern MVP records remain unchanged until explicitly migrated;
+do not mix question versions across target and judge inputs.
 
 ## Execution sequence
 
@@ -571,9 +589,9 @@ negative results, and validation evidence remain in the completed task records.
 
 1. **Task 07 — Pilot reference-case authoring.** Screen at least 50 accepted
    comment-rooted cases with complete response context through human-only review,
-   then take a small varied subset through separate Label Studio projects for
-   comment questions, response
-   assertions, evidence, answer logic, and defenses. For those later authoring
+   then take a small varied subset through reviews for
+   one scoped question, claims/relevance, evidence, and a combined reference answer
+   with its reasoning (07E absorbs 07F). For those later authoring
    stages, Codex proposes bounded batches in separate tasks; the curator reviews
    each stage. A later bounded local-model replay compares proposal quality. The
    [Task 07 umbrella](../../tasks/sprint2/07_pilot_reference_case_authoring.md)
@@ -588,7 +606,7 @@ negative results, and validation evidence remain in the completed task records.
    decisions, validate duplicate candidates, and publish the cross-split
    leakage audit.
 3. **Task 09 — Build and freeze human evaluation.** Implement the staged,
-   blinded evidence-support, responsiveness, and reference-coverage forms and
+   blinded grounded-correctness and answer-adequacy forms and
    anchored `0`/`1`/`2` rubric. Pin exports and forms to the accepted Task 03
    extraction, accepted review registry, and Task 08 case/split versions; link
    requested render cache separately.
@@ -605,12 +623,15 @@ negative results, and validation evidence remain in the completed task records.
    deterministic source-label rendering, output-length pilot, and development
    stability check without exposing curator-only or QA metadata.
 6. **Task 12 — Calibrate the automated judge.** Pin and verify the same
-    identity chain. Run the three staged Gemma 3 12B judge calls against locked
+    identity chain. Run two staged Gemma 3 12B judge calls against locked
     human development scores without raw Final EIR response text, then freeze
     the judge or retain it as diagnostic-only under the accepted gate.
+    Consult the [judge learning notes](../llm_judge_learning_notes.md) when
+    designing development checks for evidence sensitivity, presentation
+    invariance, reference incompleteness, and disagreement analysis.
 7. **Task 13 — Run the locked test and close Sprint 2.** Verify the complete
     identity chain before execution. Run the primary baseline first, then the
-    pre-registered `A` and `A+B` oracle diagnostics; human-review every test
+    pre-registered evidence-only `A` oracle diagnostic; human-review every test
     prediction, preserve automated scores separately, analyze errors by stage,
     and make the second-project decision.
 
@@ -628,90 +649,135 @@ converter produces benchmark JSONL pinned to accepted artifact identities. Raw
 PDFs, converted text, renders, indices, local models, and runs remain under
 `ER_COMMONS_DATA_ROOT`, not Git.
 
-## Human evaluation boundary
+## Benchmark evaluation boundary
 
-Define and freeze the human evaluation contract before implementing benchmark
-retrieval or target generation. Keep three review dimensions separate:
+Accepted revision 2026-09-29: two automatic citation checks and two human/LLM
+answer judgments replace the former three-dimension support/responsiveness/
+reference-coverage plan. Dataset authoring reviews are separate from these scores.
+Freeze the detailed evaluation contract in Task 09 before benchmark execution.
 
-1. **Evidence support:** at the statement level, determine whether the cited
-   Draft EIR evidence directly supports the generated statement and identify
-   substantive unsupported statements.
-2. **Responsiveness:** at the case level, determine whether the defense answers
-   the original scoped comment without changing or evading the issue.
-3. **Reference coverage:** at the case level, compare with the reviewed
-   reference defense and determine whether the generated defense captures the
-   important Draft-EIR-supported answer. Do not create a separate
-   material-concerns field for this purpose.
+### Automatic citation metrics
 
-Allow the target output schema to return either `answered` with separate
-citations, claims and final answer or `insufficient_evidence` with no substantive
-defense claims. Treat abstention as structurally valid but not successful:
-evidence support is not applicable, responsiveness is `0`, and reference
-coverage is `0`. Report abstentions separately. Attribute an abstention to a
-retrieval limitation when the required reviewed evidence was absent from the
-top-five context, and to a generation limitation when sufficient reviewed
-evidence was present but the target still abstained.
+Use sets of canonical section/table units within each case; keep invalid citation
+attempts in a separate set:
 
-Treat output-schema validity, citation syntax, evidence-ID existence,
-allowed-corpus membership, and mechanical citation resolution as deterministic
-checks rather than human scores. Preserve the three human dimensions
-separately even if a later report also presents an overall summary.
+- `S`: reviewed support units; `C`: reviewed context-only units, disjoint from `S`.
+  A unit used as support anywhere in the reviewed case belongs to `S`.
+- `R`: units actually returned to the target within the recorded retrieval budget.
+- `A`: units explicitly cited by the final model output, not everything retrieved.
+  The structured citation list declares sources used by the answer; repeated IDs
+  count once. No sentence-level or claim-to-citation output map is required.
+- `U`: distinct invalid/unresolvable citation attempts, represented by stable raw
+  identifier tokens. They cannot match support/context units.
 
-Use an anchored `0`/`1`/`2` human rubric. Score evidence support for each
-generated statement: `2` when fully supported by its cited evidence, `1` when
-partially supported, overstated, or requiring qualification, and `0` when
-unsupported, contradicted, or paired with irrelevant evidence. Score
-responsiveness per case: `2` when the defense directly and adequately addresses
-the comment, `1` when it does so only partially or indirectly, and `0` when it
-does not address or materially misframes the comment. Score reference coverage
-per case: `2` when the defense captures the important supported answer, `1`
-when it captures some but omits an important part, and `0` when it misses the
-central supported answer.
+**Retrieval recall** is `|R ∩ S| / |S|`. It measures whether supporting sources
+reached the model, including results across queries only in a separately approved
+multi-query condition. Searching a document does not count as retrieving every
+reference unit inside it. Keep the existing top-five baseline and report deeper
+ranked results as diagnostics only.
 
-Report statement-level counts and all three dimensions separately. Do not use
-a composite score as the primary result; with a 15-case test set, retain raw
-counts and per-case records alongside any summary statistics.
+**Final-citation recall** is `|A ∩ S| / |S|`.
+**Final-citation precision** is `|A ∩ S| / (|A \ C| + |U|)`.
+**Final-citation F1** is `2 × precision × recall / (precision + recall)`,
+using the final-citation metrics above, not the retrieved-unit set `R`.
+Known context citations are neutral: they neither satisfy required recall nor
+count as false positives. Valid but unmatched citations stay in the precision denominator; invalid attempts
+enter through `U` and are flagged by mechanical validation, never silently
+discarded to improve precision. Deduplicate
+invalid repeated identifiers as well. If `S` is nonempty but the scored final
+citation set is empty, define precision/recall/F1 as `0`. If `S` is empty, required
+citation metrics are not applicable; report that case separately. F1 is `0` when
+precision and recall are both `0`. Record numerators, denominators, optional-context
+counts and per-case scores; aggregate as separate macro/micro reports with explicit
+eligible case counts rather than a single blended benchmark score.
 
-Stage human evaluation to reduce reference-answer bias. First run mechanical
-validation. Next score evidence support while showing each generated statement,
-its cited evidence, and requested review-cache links but hiding the reviewed
-evidence summary and reference defense. Then score responsiveness from the
-original comment and complete generated defense while the reference remains
-hidden. Only after those decisions are saved should the interface reveal the
-reviewed evidence summary and reference defense for reference-coverage
-scoring. Preserve the saved result and timestamp from each stage rather than
-allowing later reference exposure to silently rewrite earlier judgments.
+These are reference-set matching metrics, not proof of correctness. Alternative
+valid evidence missing from the authored reference can lower measured precision;
+preserve it for human error analysis without silently editing the frozen test
+reference. Likewise, all right citations can accompany a reversed conclusion or
+unsupported inference. Automatic citation scores do not establish logical use.
+Canonical-ID/anchor projection, schema validity, allowed corpus and citation
+resolution remain deterministic checks independent of the two judgments below.
 
-Blind the human evaluator to target-model identity and size, experiment labels
-that reveal the condition, automated-judge scores and explanations, and
-aggregate results from previously evaluated cases until the human record is
-locked. Reveal model and judge metadata only afterward. When comparing multiple
-target models, present predictions in randomized order under anonymous run IDs
-and record the randomization seed and concealed mapping in the run artifacts.
+### Human answer judgments
 
-Mirror the human stages with three separate structured automated-judge calls.
-The evidence-support call receives generated statements and their cited
-evidence but no reviewed reference. The responsiveness call receives the
-original comment and generated defense but no reviewed reference. The
-reference-coverage call receives the comment, generated defense, reviewed
-evidence summary, and reference defense. Use the same anchored `0`/`1`/`2`
-definitions as the human rubric and retain criterion-level explanations as
-audit evidence. Do not use a single all-information call whose access to the
-reference could influence support or responsiveness judgments.
+Score both dimensions per complete answer on an anchored `0`/`1`/`2` rubric.
+Statement-level observations remain diagnostic explanations, not a third score.
 
-Calibrate each judge dimension against the locked human development records.
-The provisional usability gate is at least 80 percent exact agreement, no
-severe endpoint disagreement (`0` versus `2` in either direction), and 100
-percent flag recall for human-scored `0` records. Calculate evidence-support
-agreement across scored statements and responsiveness and reference-coverage
-agreement across development cases. Report raw numerators, denominators, the
-full confusion matrix, and every disagreement alongside percentages.
+1. **Grounded correctness:** do the cited sources justify the claims, conclusion
+   and visible reasoning, with their essential qualifications? `2`: supported,
+   logically justified and appropriately qualified; `1`: partly supported or
+   contains a material overstatement/unsupported step; `0`: central conclusion
+   contradicted, unsupported, or not established by the cited material. Do not
+   infer hidden reasoning or trust a citation merely because its ID matches.
+2. **Answer adequacy:** does the whole answer address the exact scoped question
+   and include the essential findings/conditions needed for a complete answer?
+   `2`: direct and substantively complete; `1`: partial, indirect or missing an
+   important element; `0`: misses or materially misframes the central question.
+   The reviewed reference guides substantive expectations, not wording, order,
+   length or exhaustive citation reuse. Accept valid alternative explanations.
 
-Judge prompts or schemas may be revised only from development evidence. If the
-judge still fails after documented development-only revision, do not treat it
-as trusted triage: freeze the target system, retain human evaluation as
-authoritative, and report judge results as diagnostic. Passing this gate does
-not replace the already required human review of every locked-test prediction.
+One omission can affect both dimensions for different reasons: removing a critical
+condition can make the conclusion unsupported and the answer incomplete. Explain
+both judgments rather than forcing mutually exclusive error categories. Neither
+judgment requires every reference citation to appear in the answer.
+
+Target output remains `answered` with separate citations, claims and final answer,
+or `insufficient_evidence` with no substantive defense claims. On the answerable
+benchmark, abstention has grounded correctness not applicable and adequacy `0`;
+report it separately. Automatic retrieval/citation metrics still reflect what was
+actually returned/cited. Attribute abstention to retrieval or generation limits
+using the recorded evidence context; do not call unsupported absence claims a
+successful abstention.
+
+Stage human review to limit reference-answer bias. First run mechanical checks
+and automatic citation metrics. Score grounded correctness from the scoped
+question, generated claims/answer and the actual cited source text, with requested
+source-cache access; hide the authored reference, support/context gold labels and
+reference-matching scores. Save that judgment before revealing the reference
+answer and reviewed source pool for answer adequacy. Use the same scoped question
+in both stages. Preserve each decision/timestamp; no reference-based overwrite of
+the earlier judgment. Display automatic metrics only after both human judgments
+are locked to avoid anchoring the answer scores to citation overlap.
+
+Blind reviewers to target identity/size, experiment/oracle labels, automated judge
+scores and aggregate results. Randomize anonymous predictions when comparing models
+and retain the seed and concealed mapping. Report the two answer scores separately
+from both citation checks, with raw counts/per-case results for the 15-case test set.
+
+### Automated judge and calibration
+
+Mirror the human stages in **two separate structured judge calls**:
+
+- Grounded correctness: scoped question, generated claims/answer and cited source
+  text; no reviewed reference answer, gold citation levels or matching scores.
+- Answer adequacy: the same question and generated answer, reviewed reference
+  answer and supporting/context source pool. No raw official response and no
+  target-model metadata. Judge essential substance, not similarity to the reference.
+
+Use the same rubric as human reviewers and keep dimension-specific explanations.
+The reference answer contains its explanation and limits; no separately labeled
+outline, answer-logic map or material-concerns record is required. Do not collapse
+both calls into one all-information call that exposes the reference to grounding.
+
+Calibrate each dimension against locked human development judgments, both at the
+case level. Retain the provisional gate: at least 80 percent exact agreement, no
+severe endpoint disagreement (`0` versus `2`), and 100 percent flag recall for human-scored `0`
+records. If a denominator is empty, report not applicable rather than claiming
+perfect agreement/recall; resolve gate applicability in Task 09/12 before adoption.
+Report confusion matrices, raw numerators/denominators and every disagreement.
+
+Add bounded, human-verified development challenge pairs: correct citations with
+reversed conclusions, essential conditions removed, or irrelevant explanations;
+paraphrases and alternative valid arguments should not be penalized for style.
+These test visible evidence use and answer quality, not hidden chain-of-thought.
+Challenge checks complement natural-output calibration; do not replace it or
+manufacture test cases from the locked test split.
+
+Revise judge prompts/schemas only using development evidence. If calibration fails,
+retain human evaluation as authoritative and judge scores as diagnostic. Passing
+the gate never replaces human review of every locked-test prediction. The known
+reference incompleteness and accepted MVP noise remain explicit evaluation limits.
 
 ## Completion gate
 

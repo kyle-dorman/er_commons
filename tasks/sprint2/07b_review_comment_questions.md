@@ -106,6 +106,115 @@ Kyle accepted all four planning choices on 2026-09-24:
 4. Use O-Joint-19 for the one-case trial. Develop and test its UI before Kyle's
    review; the remaining seven stay unpopulated until explicit UI approval.
 
+## Repeatable process from the September 24 run
+
+This note reconstructs what happened in this chat and its saved artifacts; it
+is not a complete execution transcript. The [reusable drafting prompt](../../docs/prompts/task07b_comment_concerns_v1.md)
+consolidates the existing prompt wording, rather than replacing the historical
+files. It is labeled a reconstruction and has not been used to regenerate these
+reviews. This section describes the original run, not later pilot reselection:
+current routing in [07D](07d_discover_and_review_evidence.md) records I-CJ-4's
+subsequent restoration and required catch-up.
+
+### What we actually did
+
+1. **Prepare bounded inputs.** The coordinating chat read the task contracts,
+   agreed on the minimal form with Kyle, and selected O-Joint-19 for the trial.
+   It prepared `comment_input.json`, `drafting_prompt.md`, and
+   `packet_manifest.json` in a new external directory. Inputs retained exact
+   original text, stable comment ID/label, text hash, whole-comment source
+   spans/pages, and source warnings. The coordinator used the accepted 07A
+   selection and repaired source inventory; the drafting packet omitted their
+   substantive screening and response context.
+2. **Draft in a separate user-started task.** Kyle started the drafting task and
+   returned its saved `proposal.json`. The prompt permitted only the adjacent
+   comment input as substantive material: no official individual/general
+   responses, response summaries, screening summaries or selection topics,
+   evidence conclusions, repository histories, source PDFs, external research,
+   other comments, or prior reviewed example. Text quoted by the commenter
+   remained allowed. The model produced ordered concern strings and an optional
+   ambiguity note, copied identity fields, and assigned no human status.
+3. **Separate integration and review roles.** The coordinator validated and
+   imported proposals, built the form, and handled exports. Bounded helper
+   agents reviewed the plan, packet, adapter, proposal fidelity, and later
+   prefill defect; their checks did not constitute human approval. The
+   coordinator's broader context was not the intended drafting source. Kyle
+   alone decided whether a list was faithful and complete and whether the UI
+   was acceptable.
+4. **Trial, then expand.** The one-case UI showed exact original text and an
+   immutable initial proposal beside an editable numbered list, an explicit
+   `approved` / `unclear` / `needs_context` choice, and an optional note. Kyle
+   approved the UI and the unchanged O-Joint-19 list. Only then did the
+   coordinator prepare seven independent packets and a batch prompt for
+   another user-started drafting task. The seven per-case prompts share the
+   same wording apart from case identity/version; the batch prompt explicitly
+   prohibited borrowing context from another comment or the reviewed pilot.
+5. **Check before and after human review.** Checks covered packet/prompt hashes,
+   exact source text and IDs, proposal bindings, material concern coverage and
+   unsupported additions, unique imported cases, and unchanged screening
+   projects. UI checks exercised editing, save/reload, statuses, and export.
+   Final normalization compared source/proposal data against trusted packets,
+   required saved reviewer/annotation identities and explicit statuses, and
+   rejected empty or improperly numbered approved lists. Native exports and
+   separate live reads agreed. Whole-comment spans were retained; individual
+   concern offsets were not annotated. Seven cases were approved; I-CJ-4 was
+   unclear. All eight exported lists matched their initial proposal text.
+
+### Decisions and revisions that mattered
+
+A distinct concern is a material issue that can be addressed separately, not
+simply a sentence or background fact. Preserve the comment's order, combine
+repetition, and use questions, concerns, or requests as appropriate. An ask and
+its supporting reason stay together unless they introduce independently
+addressable issues. Kyle considered splitting O-Joint-19's population-growth
+feasibility ask from the argument about neighboring cities' housing capacity,
+then retained them together. No wording revision resulted from that discussion.
+
+Do not resolve uncertainty from responses or outside knowledge. M-OSEC-273's
+missing antecedent for “However” and absence of an explicit requested action
+were recorded in `draft_note`. We added display of nonempty draft notes to the
+unchanged-proposal panel, without assigning a review status. Kyle later approved
+that case. A drafting note is a review aid, not an automatic unresolved outcome.
+
+Human review checked completeness, no invented asks, retained qualifications and
+remedies, grouping, and clarity—not factual truth or response adequacy. Kyle
+found the trial difficult but the interface adequate. For I-CJ-4, he questioned
+whether the list retained enough detail, then marked it unclear and chose to
+skip it in this run. Suggested elaboration was not applied. The original comment
+remains target-model input; this reviewed list is a curator aid, not a substitute.
+
+The batch exposed a UI defect: stored predictions were present, but the normal
+labeling queue filtered out differing per-case prediction versions. We introduced
+one shared display version while preserving per-case proposal provenance,
+verified all seven actual queue responses, and restored only an exactly empty
+postponed draft from its proposal after backing it up. This changed display and
+prefill handling, not the authored concern lists. The native form can save an
+empty Approved list; the export validator, rather than the UI, rejects it.
+
+### Repeat guidance and limits
+
+For later authorized cases, reuse the consolidated prompt in a newly versioned
+packet and save the filled prompt used. Keep drafting separate from the broader
+coordinating chat; treat each batch comment independently. Preserve prior
+proposals and labels, and publish revisions additively. Test prefill in the actual
+labeling queue as well as save/reload/export before handing over a new UI. Do not
+replay historical import/cleanup drivers over human reviews. Only approved
+outcomes advance; unclear or needs-context outcomes retain their partial work.
+
+These are repeatability recommendations derived from the run, not a claim that
+we controlled every model input. Written context restrictions and returned
+completion reports do not prove clean inherited context. Exact model/settings
+were unavailable: all eight saved proposals record `model: null`; do not infer
+temperature, seed, or reasoning effort. Those limitations do not prevent repeating
+the practical drafting-and-human-review procedure.
+
+Historical prompt locations, relative to the external Task 07 artifact root:
+`07b/o_joint_19_trial_v1/drafting/drafting_prompt.md` and
+`07b/remaining_seven_20260924_v1/{batch_prompt.md,<comment_label>/drafting_prompt.md}`.
+The [final reviewed export](#final-reviewed-export) preserves the original
+proposals and final decisions; no generation or label change was performed to
+write this note.
+
 ## Research / learning checkpoint
 
 Consulted maintainer documentation during planning:

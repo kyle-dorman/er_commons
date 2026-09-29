@@ -2,6 +2,9 @@
 
 Status: **Complete: seven outcomes exported and validated; six approved cases and one explicit unclear stop.**
 
+For reuse, see the [process note](#repeatable-authoring-process-from-this-chat)
+and [combined drafting prompt](../../docs/prompts/task07c1_claim_relevance_v1.md).
+
 ## Abstract and goal
 
 Replace the original 07C review workflow with one integrated step: a model
@@ -487,6 +490,87 @@ Independent final review passed 64 checks: all seven normalized rebuilds match,
 and the earlier completed native exports and old project settings are unchanged.
 `git diff --check` passed. This artifact-only closeout required no code changes;
 the earlier 102-test implementation validation remains the applicable result.
+
+## Repeatable authoring process from this chat
+
+Recorded on 2026-09-28 from this conversation and its saved artifacts. This is
+a practical account of the September 25 workflow, not a model execution ledger.
+The [reusable prompt](../../docs/prompts/task07c1_claim_relevance_v1.md) consolidates
+the instructions for a future run; it is not the exact historical prompt or a
+newly tested generation run. [Original 07C](07c_review_response_assertions.md#historical-process-extraction-then-grouping)
+owns the historical extraction/grouping procedure; its earlier instructions
+must not silently override this replacement's all-claims policy.
+
+### What we actually did
+
+1. **Reused sources, not just the previous claim list.** We took the sealed 07C
+   packets with the original comment, final 07B concerns, complete recursively
+   linked responses, passage IDs, quotations/citations, supplemental footnotes
+   and source warnings. We also read the final 07C review and its proposals to
+   preserve prior edits. The input paths are listed above. Prior approved wording
+   was a starting point; it was not an approved relevance decision.
+2. **Drafted combined proposals in Codex.** We first developed O-Joint-19, then
+   expanded after Kyle reviewed the UI. Three agents drafted bounded pairs:
+   I-EA-2/I-CF-4, PC-LM-2/SA-Caltrans-33, and M-OSEC-273/O-GGBA-2. Each reread
+   the full source and proposed readable claims, exact quotes, relevance labels,
+   targets, short rationales and passage-level coverage. There was no separate
+   paid API run or live prediction service in Label Studio.
+3. **Checked the drafts before human review.** Different agents checked the
+   source coverage, fidelity and proposed relationships; the lead integrated
+   findings and ran the adapter checks. Review found a lost possibility qualifier
+   in I-CF-4: “expensive” became “can be very expensive” in a preserved revision.
+   PC-LM-2's previously deleted no-recommendation statement was explicitly
+   presented as a new, unapproved restoration. Neither checking nor unchanged
+   prior wording counted as Kyle's approval.
+4. **Imported suggestions for one combined human decision.** Code verified
+   source bindings, quote matches, passage coverage accounting and relationship
+   graphs, then converted the authored JSON into native fixed-slot predictions.
+   It did not generate the claim wording or relevance judgments. Kyle reviewed
+   wording, labels and targets together, with full sources and model rationale
+   available. There was no additional answer-requirements or relevance-only round.
+5. **Validated the saved decisions.** Code exported and normalized the native
+   annotations. Kyle's changes stayed separate from initial proposals. Unclear
+   cases remained stops. His I-CF-4 relabeling left a stale target; the lead
+   announced and recorded target-only cleanup separately from his judgment.
+   Exact outcomes and correction history are in the final handoff above.
+
+### Decisions that made this procedure different
+
+- **Inventory first, no relevance filter.** Keep every substantive argument in
+  the complete response closure, including unrelated general-response material.
+  Map repeated arguments to existing claims; explain headers or other excluded
+  non-substantive material in coverage notes. Passage accounting checks help
+  detect gaps but do not prove semantic completeness.
+- **Readable arguments, with relationship-driven splits.** Keep an argument's
+  quantities, reasons and qualifications together when they share a relationship.
+  Split when parts require different labels or targets. No fixed claim count or
+  one-claim-per-number rule. Preserve negation, attribution, scope and uncertainty;
+  report what the response says, without establishing truth or adequacy.
+- **Explicit relationships.** Direct claims address reviewed Q concerns;
+  supporting claims link to C claims along a path reaching a direct claim.
+  Shared subject matter alone does not establish either. Not relevant retains a
+  claim outside the comment's scope; removal marks an extraction mistake or
+  duplicate. Unclear preserves an unresolved relationship without a forced link.
+- **Review burden shaped presentation.** Kyle found O-Joint-19 a difficult
+  question and objected to I-CF-4's 27-item workload. We retained the complete
+  inventory but reordered that form: direct, supporting, then not relevant,
+  followed by blank additions. Stable IDs/links did not change. Shorter cases
+  used fewer slots in a separate project. Empty addition slots need no action.
+
+### Reusing it
+
+Use the consolidated prompt for drafting and independent checking, then the
+existing adapter and human-review workflow. Present relevant proposals first
+from the outset in future runs; historically we added that ordering only after
+Kyle's feedback on I-CF-4. Recheck targets whenever labels change. These are
+instructions for reuse, not claims that every historical case followed an
+identical sequence or had the same layout.
+
+The work used Codex's existing app allowance. Exact model/settings were not
+recorded, and inherited conversation context was not fully controlled. The
+Label Studio model-version string names the proposal workflow, not the engine.
+This recipe supports repeating the approach; it does not promise identical
+wording. No new generation, label changes or evidence work accompanied this note.
 
 ### Takeaway from downstream evidence review (2026-09-28)
 

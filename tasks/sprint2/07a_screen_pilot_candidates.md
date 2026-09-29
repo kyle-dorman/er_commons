@@ -8,7 +8,9 @@ Prepare a coverage-oriented sample of 50 comment-rooted cases from the accepted
 Task 05H inventory for Kyle to review directly in Label Studio. Identify 6–10
 promising cases for the rebuttal-authoring pilot. This is a human-only pilot-fit
 screen, not Task 08 eligibility or an automated filter of the whole inventory.
-There is no Codex proposal or model-rating step in 07A. The
+There was no model-generated fit-label step. Codex later used substantive
+judgment to select examples from Kyle’s Great cases; see the
+[process note](#process-note-how-this-batch-was-actually-run). The
 [Task 07 umbrella](07_pilot_reference_case_authoring.md) owns later authoring stages.
 
 ## Inputs and review unit
@@ -95,7 +97,8 @@ the final 6–10 remains Great or OK; selection is separate from its fit rating.
 
 Sampling and the approved 50-case import are complete. The user approved the
 one-case UI and authorized importing all 50 comments. Existing global projects
-and subsequent human decisions must be preserved. The overall workflow is:
+and subsequent human decisions must be preserved. The original planned workflow
+is below; the process note distinguishes actual execution from this plan:
 
 1. Pin the inputs, inspect available sampling metadata, and save the sample and
    compact sampling settings under `ER_COMMONS_DATA_ROOT`.
@@ -115,8 +118,9 @@ Keep records proportional to the MVP: one sample/settings record, a mapping from
 Label Studio task IDs to comment and related source IDs, versioned human exports,
 selected case IDs, and a short coverage/fit-count summary. Bind decisions to the
 input and form versions and retain reviewer/time metadata from the export.
-No per-case prose rationale, elaborate activity logs, Codex packet, prompt,
-proposal schema, or model-version tracking is needed for 07A. Generated records
+Human screening required no per-case prose rationale, elaborate activity logs,
+Codex rating packet, or model-rating prompt. The separate judgment-based example
+selection is documented in the process note and reusable prompt below. Generated records
 stay outside Git per the [artifact contract](../../docs/data_artifacts.md).
 
 ## Research / learning checkpoint
@@ -164,8 +168,9 @@ comment links, and all 17 appendix families with recorded citation routes.
 There are 25 cases with main-report citations in the comment/direct-response
 context. Appendix counts are 1–3 each; sparse groups prevent equal coverage.
 General-response counts are 2–3 except General Response 4 (6), due to overlapping
-coverage and challenge choices. General Response 2 has no accepted comment
-links; General Response 9 is outside Volume 4. F1 remains a warned Final-EIR
+coverage and challenge choices. General Response 2 had no accepted comment-rooted incoming links in the sampling
+view (its text nevertheless names comments); General Response 9’s subject
+was routed to Volume 5, Chapter 16. F1 remains a warned Final-EIR
 substitution, not verified Draft evidence. No missing relationships were invented.
 
 Sampling used accepted bounded views for general-response coverage. Saved review
@@ -325,3 +330,99 @@ all eight Great, four distinct designated GRs, two full-context main-only cases,
 and two distinct appendix targets. No source, labels, or projects were modified.
 Task 07A is complete. Next: revise [07B](07b_review_comment_questions.md) for
 these eight cases before implementing its comment-question review.
+
+
+## Process note: how this batch was actually run
+
+This retrospective covers the 2026-09-23–24 screening and initial eight-case
+selection in this chat. It does not replace later pilot inclusion decisions
+recorded in [07D](07d_discover_and_review_evidence.md). Inputs, counts and the
+original eight IDs are in the outcomes above; this note explains the decisions.
+
+### Sampling, screening and responsibilities
+
+1. **Kyle set the scope.** Start from comments because many comments can share a
+   response. Use 50 unique comments: 40 for coverage, 10 for difficult cases.
+   Aim for 2–3 per general response, broad/even appendix coverage, and extra main
+   report coverage. Keep the complete linked response context, not artificial
+   one-comment/one-response pairs. This was a purposive pilot, not a random
+   estimate of suitability across the inventory.
+2. **Codex translated those goals into code settings.** The saved sampler used
+   accepted 05H units, relationships, views and reference outcomes. It prioritized
+   GR coverage, rare appendices, main-report coverage and submission diversity,
+   with deterministic tie-breaking. Exact targets and seed are in the saved
+   `selection_manifest.json` and `select_sample.py`, not an implicit model choice.
+   Citation balancing used comments plus direct responses; inherited GR citations
+   were counted separately. Challenge slots used recorded reference/evidence
+   warnings, not fit labels. Code preserved IDs/text, expanded recorded response
+   context, and checked counts/hashes. Sparse coverage was reported, not invented.
+3. **Codex built and tested one UI case; Kyle approved expansion.** The trial used
+   I-CJ-4 in an isolated Label Studio instance, preserving global projects. Codex
+   tested rating/reason behavior and export, then cleared test annotations. Kyle
+   approved the interface before the other 49 were imported. A five-case human
+   calibration was proposed in the plan; this chat does not establish that it
+   happened. The documented path was one UI trial, then the full human review.
+4. **Kyle supplied every screening label.** Great meant a manageable substantive
+   concern with a plausible evidence path; OK needed more work; Skip excluded it
+   from this initial rebuttal pilot. Kyle rejected separate response flags:
+   *any stated document change*, including minor corrections, and citation of an
+   unavailable external document became skip reasons. Skip reasons were optional,
+   fixed, multi-select, with Other and no typing. Visual requirements could emerge
+   later; a warning alone was not an automatic decision. Codex answered specific
+   interpretation questions but did not prefill ratings. Kyle completed 20 Great,
+   6 OK and 24 Skip; code exported and checked the saved decisions against live
+   tasks and preserved a portable copy keyed by comment ID.
+5. **A discovered linking gap delayed example selection.** O-Joint-74 named three
+   individual responses missing from its context. Investigation found a plural/list
+   parser gap, not a general inability to link individual responses. The separate
+   07A.1 task repaired it and migrated all 50 human decisions to project 2. This
+   chat then used that verified handoff; it did not rerun screening. New context
+   was retained without resetting labels or assuming Kyle re-reviewed every
+   changed case.
+
+### How the eight examples were chosen
+
+Kyle narrowed the original 6–10 target to **eight Great cases: four different
+GRs, two main-only, and two different appendices**. Codex filtered the verified
+human export, inspected comment/response text and citation/context metadata, and
+used substantive judgment about manageable scope, clear concerns and topic
+variety. A second agent compared the non-GR candidates; the lead chose the final
+set and wrote short reasons. This was not a deterministic ranking or a second
+set of screening labels. Code checked eight unique Great IDs and the allocation.
+Kyle accepted the presented selection and asked to close and commit 07A; there
+was no separate selection-rating exercise.
+
+Ambiguities were resolved explicitly: GR8 also brought GR7, which stayed in the
+context; it occupied one GR slot. “Main-only” meant the full recorded citation
+context was main-only, with no GR links. “Uses appendices” allowed main citations
+as well; H and D supplied the two distinct appendix slots, also without GR links.
+Citation categories did not certify evidence sufficiency. The chosen eight and
+reasons remain in the saved handoff above.
+
+During screening, Kyle proposed future auto-skips for GR6 and references to
+**Final EIR** Chapters 14–16. Codex agreed these could be conservative pilot
+filters: GR6 described removal of the GHG-1 threshold/mitigation requirements;
+14–15 contain revisions, while 16 concerns heights/towers and Modified
+Alternative 1. No automated filter was implemented. A chapter citation alone
+was not verified to mean that each referring comment caused a change, and the
+chat does not establish how Kyle applied these suggestions case by case.
+
+### Repeat procedure and lessons
+
+For a later batch, agree the unit, quotas and label definitions first; pin the
+accepted source/graph and use a fresh output directory. Inspect the saved sampler
+and settings before adapting them: they are batch-specific scripts, not a general
+maintained command. Check actual links and report coverage shortages. Trial one
+representative UI case, then obtain approval before populating the batch. Keep
+compute light after the reported computer disruption; its cause was not proven.
+The brief UI simplification was wrong-chat feedback and was reverted, not a
+new design requirement. Source-page links and listed report references should
+not be described as clickable links to cited report destinations.
+
+Export and verify human decisions before selection or migration. Use the
+[reusable example-selection prompt](../../docs/prompts/task07a_select_pilot_examples_v1.md)
+for the substantive Codex choice, with the next batch’s actual quotas and files.
+It is a prompt distilled now from this process, not an exact historical prompt.
+Check the resulting IDs/allocation with code and present reasons and overlaps to
+Kyle. Preserve labels when cases are omitted or context changes. Great is a
+pilot-fit judgment, not a guarantee of success in later question/evidence review.
