@@ -31,7 +31,8 @@ Do not subdivide general-response or appendix groups by comment source. Within
 a tier, use the saved deterministic tie-break: lowest general-response number,
 then natural appendix order. Keep all original links as provenance even though
 the comment has only one review-group assignment. The tie-break is not a quality
-ranking, and review order within a group remains to be specified in Task 08.
+ranking. Task 08A saves a model-proposed quality order within each group; human
+selection remains separate.
 
 | Group type | Nonempty groups | Candidate comments | Maximum selections |
 | --- | ---: | ---: | ---: |
@@ -117,8 +118,50 @@ Any later regrouping must be explicit.
 The rationale is practical coverage with bounded review effort: compare related
 questions, favor good examples over filling quotas, and prevent repeat labeling.
 This is purposive human selection, not a representative sample or a measured
-acceptance-rate estimate. Task 08 starts in a new chat with planning: define its
-umbrella contract and bounded subtask contracts before implementation. Keep later
-subtasks provisional and activate only the first, following `tasks/README.md`.
-The first execution stage should use these groups for question review; this
-decision does not itself create review tasks or select questions.
+acceptance-rate estimate. The [Task 08 umbrella](../../tasks/sprint2/08_curate_grouped_benchmark.md)
+owns the drafted bounded contracts. Only 08A is the active next contract; later
+stages are provisional until first-use review. Execution and selection have not
+started.
+
+
+## Accepted execution plan amendment — 2026-09-30
+
+Kyle approved a rolling, single-group workflow: save a ranking, select candidates,
+then separately rewrite and review question wording, review claims, review
+evidence, and approve answers. Take one group through authoring before the next
+by default; no up-front 35-candidate requirement remains. Selection can use the
+complete response context and records first-pass human eligibility. Wording
+proposals and approval use only the original comment and comment-source warnings
+in a fresh chat; exclude response-derived ranking reasons and prior answers.
+
+Astra ranks candidates within a group for clear, faithful questions and substantive
+rebuttals, deprioritizing rant-like or ambiguous asks, weak referrals, and material
+revision dependence. Save all candidate IDs, source-bound reasons, flags, prompt,
+model, and input version. This fixed ranking can be revisited; a model rerun is
+not presumed deterministic. Ranking does not reject candidates or assign
+eligibility. The health-risk exception and all original provenance remain intact.
+
+All labeling takes place in separate single-group, single-stage chats/projects,
+not the main coordination chat. Each stage establishes a shared versioned
+interface and data contract once, then batch chats supply data and use that
+existing template. Template changes are explicit revisions with a decision about
+whether earlier batches need follow-up. Answers and clustering use chat with
+versioned saved decisions rather than mandatory Label Studio forms.
+
+The six approved pilot comments reenter the new process in their exclusive
+groups, under the same three-selection limit and all new human gates. Preserve
+sealed Task 07 records; new Task 08 decisions do not migrate those records.
+Verify group membership and resolve any mismatch explicitly before changing the
+starting pool. The two previously stopped cases remain excluded.
+
+Allow downstream attrition without automatic backfilling. Defer clustering until
+all group authoring finishes, then review model-suggested similarities and
+relationships across groups in chat, one at a time. Retain deterministic
+relationship/duplicate checks, human edge decisions, and the leakage audit.
+Three selections per group does not imply three independent cases.
+
+Twenty-five is a flexible benchmark target, not a ceiling or a quota. Preserve
+all accepted cases and agree final size and development/test allocation after
+clustering, before final serialization. The previous exact 10/15 allocation is
+no longer mandatory. Confirmed clusters must still remain intact; an infeasible
+agreed allocation returns for a decision rather than weakening that rule.

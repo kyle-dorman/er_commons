@@ -22,10 +22,10 @@ are not additional corpus documents; retain them only as source-recovery or QA
 aids if needed.
 
 Freeze the official landing-page and file URLs, access timestamps, checksums,
-byte sizes, MIME types, and PDF page counts before annotation. Candidate
-inventory must identify at least 35 plausible cases before full annotation
-begins, leaving room for later evidence review, exclusions, and cluster-safe
-splitting while preserving the minimum 25 accepted cases.
+byte sizes, MIME types, and PDF page counts before annotation. Task 08 uses
+rolling single-group authoring, with 25 accepted cases as a flexible target.
+There is no up-front 35-candidate gate; retain normal attrition and agree final
+size and cluster-preserving split after all group batches finish.
 
 ### Canonical extraction boundary
 
@@ -170,8 +170,11 @@ specific integrity concern or separately approved archival boundary.
 Begin question selection with the exclusive groups in
 [Decision 005](../decisions/005_task08_grouped_question_selection.md). Kyle reviews
 until he finds up to three reasonable questions per group, with fewer permitted
-when suitable candidates run out. This bounded, purposive selection does not
-change the subsequent eligibility, clustering, or final split requirements.
+when suitable candidates run out. This bounded, purposive selection retains
+the subsequent human eligibility and cluster-integrity requirements. The
+2026-09-30 amendment makes the final size and split flexible, with explicit
+agreement before freezing. See the [Task 08 umbrella](../../tasks/sprint2/08_curate_grouped_benchmark.md)
+for reusable single-group stages and isolated batch chats.
 
 Human reviewers alone determine candidate eligibility. Deterministic checks
 may flag language, source references, or missing links for reviewer attention,
@@ -189,15 +192,19 @@ hide the multiple asks in a compound sentence. Prefer filtering to salvaging.
 Do not remove a difficult qualification merely to make the case answerable.
 Preserve the original comment, the exact question, source IDs and the rewrite/skip
 reason. Freeze that same question as retrieval, generation and evaluation input.
-This prospective rule does not rewrite the sealed six-case 07D MVP: any later
-question migration requires an explicit versioned human decision, not inferred
-scope changes or relabeling of its 31 claims.
+The six pilot comments reenter this process with new Task 08 decisions, including
+selection and separate comment-only wording review. Their sealed Task 07
+questions, claims, and answers remain unchanged; no old approval substitutes
+for a current gate.
 
 Use a two-pass single-curator workflow because this sprint has one available
 human reviewer. In the first pass, the curator reviews the resolved
 comment-response pair, including linked general responses, and assigns
-provisional eligibility with a reason code. In the later evidence-verification
-pass, the curator reviews the original comment, resolved response, exact Draft
+provisional eligibility with a reason code during candidate selection. Question
+rewriting and exact wording approval follow in a separate comment-only task.
+Astra may rank original candidates for question/response quality beforehand,
+but that saved advice neither selects nor rejects cases. In the later
+evidence-verification pass, the curator reviews the original comment, resolved response, exact Draft
 EIR evidence spans, requested review-cache renders, source-usability status,
 and relevant cross-references, then reapplies the eligibility criteria. A case
 becomes accepted only after passing both reviews.
@@ -218,16 +225,17 @@ claiming reviewer independence. Report this as repeated single-curator review,
 not inter-reviewer agreement. Model eligibility QA remains out of scope for
 Sprint 2 and cannot substitute for either human pass.
 
-During accepted-case review, build split-clustering candidates
-deterministically from commenter-letter membership, explicit response and
-general-response links, Task 05 cross-references among curator-only response
+After all group authoring batches finish, build split-clustering candidates
+across the accepted pool deterministically from commenter-letter membership,
+explicit response and general-response links, Task 05 cross-references among curator-only response
 units, and duplicate or near-duplicate source text. Links from an official
 response reference to a Task 03 Draft EIR target are excluded from automatic
 cluster edges. The curator does not manually compare every inventory pair. For
-each general-response link attached to a provisionally accepted case, the
-review form asks whether the linked general response contributes substantively
-to the defense or is merely administrative. Confirmed substantive links create
-clustering edges; administrative links remain recorded but do not join cases.
+each general-response link attached to an accepted case, the dedicated
+clustering chat asks whether the linked general response contributes substantively
+to the defense or is merely administrative. Astra also proposes source-grounded
+similarities and groupings across groups; Kyle reviews suggestions one at a time.
+Confirmed substantive links create clustering edges; administrative links remain recorded but do not join cases.
 The human curator owns this classification, while code owns candidate-link
 enumeration and connected-component construction.
 
@@ -261,14 +269,16 @@ development/test boundary and listing every warning and curator disposition.
 This fixture validates candidate enumeration only; it does not replace human
 authority over substantive clustering edges.
 
-Never split a confirmed cluster. Select 25 cases from the larger accepted pool
-so whole clusters produce exactly 10 development and 15 test cases, preferring
-broader issue, source-document, and commenter diversity when several valid
-allocations exist. Generate the proposed selection and split with a
-deterministic algorithm, recorded objective, and seed, then require curator
-review before locking it. If no exact cluster-preserving allocation exists,
-stop for a new decision rather than weakening the cluster rules or silently
-changing the split sizes.
+Never split a confirmed cluster. Preserve the full accepted pool and use 25
+as a flexible target, not a ceiling. After clustering, agree the final benchmark
+size and development/test allocation with Kyle; the earlier exact 10/15 split
+is no longer mandatory. Prefer broader issue, source-document, and commenter
+diversity when several valid allocations exist. Generate the proposed selection
+and split with a deterministic algorithm, recorded objective, and seed, then
+require curator review before locking it. If the agreed allocation cannot
+preserve whole clusters, return for a new decision rather than weakening cluster
+rules or silently changing sizes. Do not automatically refill groups after
+attrition or discard accepted cases merely to reach 25.
 
 Keep test locking lightweight for the MVP. Save and hash the accepted cases,
 split manifest, and frozen retrieval, prompt, model, and judge configurations
@@ -431,7 +441,7 @@ and cannot replace or retroactively modify the primary baseline.
 
 Run the target at temperature `0` with a fixed seed where supported and record
 the model digest, prompt hash, schema version, context, and runtime settings.
-Generate three baseline repeats for each of the 10 development cases and
+Generate three baseline repeats for each case in the Task 08 development split and
 compare them mechanically before human review. Human-review repeats only when
 they differ substantively. If differences are limited to harmless formatting,
 use one generation per locked-test condition. If claims, citations,
@@ -508,7 +518,7 @@ do not silently increase the budget or treat a ceiling as reasoning failure.
 
 Use BM25S's maintained default Lucene-style scoring method and default scoring
 parameters. Record the exact BM25S version, method, and parameters with the
-index, but do not run a parameter sweep on the 10 development cases. Restrict
+index, but do not run a parameter sweep on the development cases. Restrict
 development comparison to the already defined retrieval-unit fallback when
 needed and the plain-versus-normalized-English preprocessing pilot.
 
@@ -590,8 +600,9 @@ do not mix question versions across target and judge inputs.
   owns the sole immutable curator-only response inventory and its
   [Task 07/08 handoff](../specs/task05h_final_result.json).
 
-All of these tasks are complete. No later task is active. Exact identities,
-negative results, and validation evidence remain in the completed task records.
+All of these tasks are complete. Task 07 is also closed. Task 08 contracts are
+drafted, with only 08A active as the next contract; execution has not started.
+Exact identities, negative results, and validation evidence remain in the completed task records.
 
 ### Remaining task sequence
 
@@ -605,15 +616,19 @@ negative results, and validation evidence remain in the completed task records.
    chose to proceed to Task 08 without another pilot round or full retrospective. The
    [Task 07 umbrella](../../tasks/sprint2/07_pilot_reference_case_authoring.md)
    records the closed pilot's outcomes and handoff.
-2. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Identify at
-   least 35 plausible cases, finish two-pass single-curator review, accept at
-   least 25 cases, and materialize the deterministic 10-development/15-test
-   split. Build cluster edges only from commenter membership, Task 05
-   response-unit relationships, confirmed duplicates, and reviewed substantive
-   themes. Task 03 section adjacency, official-response-to-Draft-target links,
-   and shared Task 03 targets are warnings, never automatic edges. Preserve
-   decisions, validate duplicate candidates, and publish the cross-split
-   leakage audit.
+2. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Follow the
+   [umbrella and reusable subtasks](../../tasks/sprint2/08_curate_grouped_benchmark.md):
+   rank one group, select up to three candidates with first-pass human eligibility,
+   separately rewrite/review question wording, review claims and evidence with
+   second-pass eligibility, and approve answers. Use separate group/stage chats
+   and shared versioned review templates. After all groups finish, review cluster
+   suggestions in chat, including cross-group relationships. Preserve the full
+   accepted pool; agree final size and development/test allocation before
+   deterministic serialization. Twenty-five is a flexible target. Build cluster
+   edges only from commenter membership, Task 05 response-unit relationships,
+   confirmed duplicates, and reviewed substantive themes. Task 03 adjacency,
+   official-response-to-Draft-target links, and shared Task 03 targets are warnings,
+   never automatic edges. Publish the cross-split leakage audit.
 3. **Task 09 — Build and freeze human evaluation.** Implement the staged,
    blinded grounded-correctness and answer-adequacy forms and
    anchored `0`/`1`/`2` rubric. Pin exports and forms to the accepted Task 03
@@ -752,7 +767,8 @@ are locked to avoid anchoring the answer scores to citation overlap.
 Blind reviewers to target identity/size, experiment/oracle labels, automated judge
 scores and aggregate results. Randomize anonymous predictions when comparing models
 and retain the seed and concealed mapping. Report the two answer scores separately
-from both citation checks, with raw counts/per-case results for the 15-case test set.
+from both citation checks, with raw counts/per-case results for the test set
+whose size is frozen in Task 08.
 
 ### Automated judge and calibration
 
@@ -790,6 +806,6 @@ reference incompleteness and accepted MVP noise remain explicit evaluation limit
 
 ## Completion gate
 
-Sprint 2 is ready for a second-project decision only after a locked 15-case
-test run is reproducible, citations resolve, judge-to-human audit agreement is
-reported, and the error analysis identifies the limiting stage.
+Sprint 2 is ready for a second-project decision only after the Task 08-agreed
+locked test run is reproducible, citations resolve, judge-to-human audit
+agreement is reported, and the error analysis identifies the limiting stage.

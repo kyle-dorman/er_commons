@@ -34,14 +34,19 @@ all claims, citation pools and review histories. Separate 07F is superseded.
 The [benchmark evaluation plan](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
 uses automatic retrieval/final-citation metrics plus grounded correctness and
 answer adequacy. 07G is closed by user decision without a full retrospective or
-another pilot round. See the [TODO](todo.md) for Task 08 planning and subtask contracts.
+another pilot round. The [Task 08 contracts](../tasks/sprint2/08_curate_grouped_benchmark.md) are
+drafted; only 08A is the active next contract and execution has not started.
+See the [TODO](todo.md) for the current queue.
 The consolidated [comment and response human review process](response_comment_human_review_process.md)
 owns reusable workflow guidance for Task 08 preparation; Task 07 outcomes retain
 historical evidence and case-specific decisions.
 
 ## Read for the next phase
 
-1. [Decision 005](decisions/005_task08_grouped_question_selection.md) for the
+1. [Task 08 umbrella](../tasks/sprint2/08_curate_grouped_benchmark.md) and
+   [08A ranking contract](../tasks/sprint2/08a_rank_group_candidates.md) for the
+   rolling single-group workflow, isolated review chats, and shared templates.
+   [Decision 005](decisions/005_task08_grouped_question_selection.md) for the
    accepted Task 08 question-selection plan: exclusive groups and up to three
    human-selected questions per group. [07G](../tasks/sprint2/07g_assess_pilot_and_local_replay.md)
    records the decision to proceed; the [07E outcome](../tasks/sprint2/07e_review_answer_logic.md#final-outcome-and-six-case-handoff)
@@ -67,7 +72,7 @@ historical evidence and case-specific decisions.
    input; the [05H outcome](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
    preserves the predecessor and inherited limitations.
 5. Read [task shape](../tasks/README.md) and the [documentation guide](documentation.md)
-   before writing the bounded Task 08 contract. The [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md)
+   when activating or revising a Task 08 stage contract. The [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md)
    preserves the completed pilot's selection contract.
 
 ## Document roles

@@ -1,7 +1,7 @@
 # Comment and Response Human Review Process
 
 Status: **Current workflow guidance for preparing Task 08 review.** This
-consolidates the reusable Task 07 lessons and Kyle's 2026-09-29 direction. Task
+consolidates the reusable Task 07 lessons and Kyle's 2026-09-30 execution plan. Task
 08 contracts may refine the operational details; this document does not establish
 case eligibility, benchmark splits, or permission to run a benchmark.
 
@@ -14,8 +14,9 @@ next authoring stage. Astra
 (`gpt-6-astra`) supplies all model-assisted dataset-label proposals and
 revisions. It never accepts a label automatically. Preserve stages designated
 human-only, including pilot-fit screening and Task 08 eligibility decisions.
-Question selection and approval are human review gates; Astra's question
-wording, if used, is only a proposal.
+Question selection and approval are separate human review gates. Astra first
+proposes a saved within-group ranking, and later proposes question wording for
+selected comments; neither is an accepted label.
 
 Keep the original comment, response records, sources, proposed labels, human
 edits, and final dispositions distinguishable. A response's assertion is not
@@ -25,12 +26,29 @@ check IDs, hashes, source anchors, and record closure, but it does not make
 semantic review decisions.
 
 The six approved Task 07 answers, their reviews, question scopes, 31 claims,
-source ratings, and accepted MVP limitations remain sealed. This process does
-not authorize migrating or reopening them. Historical Task 07 task records own
+source ratings, and accepted MVP limitations remain sealed. Their six original
+comments reenter Task 08 with fresh selection and review decisions; no historical
+approval carries forward automatically. Historical Task 07 task records own
 case-specific findings and exact artifact evidence; this document carries
 forward reusable procedure only.
 
-## 1. Organize and review questions
+## Batch and interface boundary
+
+The [Task 08 umbrella](../tasks/sprint2/08_curate_grouped_benchmark.md) owns
+reusable stage contracts. Work within one group at each authoring stage and use
+a separate, self-contained chat per group/stage; keep labeling out of the main
+coordination chat. A saved approved handoff, not full conversation history,
+supplies the next stage. Proceed in rolling groups without a 35-candidate gate.
+
+Prepare and qualify one shared versioned Label Studio interface per applicable
+stage, including input, proposal, annotation, and export contracts. Each later
+batch creates a separate project using that configuration and supplies data.
+Do not let batch chats customize template code or field meanings silently.
+Revise shared interfaces explicitly, test queue/save/export behavior, and decide
+whether affected earlier batches require follow-up. Answer review and later
+all-group clustering stay in chat with versioned approval records.
+
+## 1. Rank and select candidates, then review question wording
 
 ### Group candidates for human comparison
 
@@ -42,6 +60,12 @@ main-report and no-recorded-citation comments in the final source groups. Do not
 subdivide general-response or appendix groups by source. Each comment appears
 once; retain all underlying response and citation links as provenance.
 
+Astra first reads the group's original comments and complete linked responses,
+then saves an ordered candidate list with source-bound quality reasons and flags.
+Prefer clear questions and substantive rebuttals; deprioritize rant-like asks,
+weak responses, and revision dependence without automatic eligibility decisions.
+Saved rankings are revisitable artifacts, not a promise of identical model reruns.
+
 Kyle reviews within each group until he finds up to three reasonable questions.
 He can skip weaker candidates and stop after selecting three; do not fill a quota
 with poor questions. Exhausted groups may yield fewer. Save selections, skips,
@@ -52,12 +76,21 @@ These groups organize review; they do not determine eligibility or create
 benchmark clusters. Verify response links and complete linked-response context
 before relying on a group assignment.
 
-### Human decision and frozen question
+### Selection and first eligibility pass
 
-Use linked response context when comparing candidates for suitability. For
-question drafting and wording approval, show only the original comment, its
-source warnings, and any proposed focused question. Astra and the human reviewer
-must interpret the question from the comment itself; do not use the official
+Use original comments and complete linked response context when comparing
+candidates. Record human selection separately from first-pass provisional
+eligibility and its reason. Do not rewrite questions during selection. A selected
+comment may still fail wording or evidence review; do not automatically refill
+its group when it drops out.
+
+### Separate wording task and frozen question
+
+After selection, use a fresh wording chat. For both Astra's actual input packet
+and the human wording-review display, include only the original comment, its
+comment-source warnings, and any proposed focused question. Exclude response
+text, response-based ranking reasons, and prior pilot answers. Astra and the
+human reviewer must interpret the question from the comment itself; do not use the official
 response to resolve ambiguous intent or supply a missing ask.
 One comment yields at most one independently answerable question. Keep the
 comment's central issue, scope, uncertainty, attribution, and material
@@ -65,8 +98,10 @@ qualifications. Rewrite or simplify only when straightforward; if doing so
 would split independent asks, invent an ask, or remove a difficult qualification,
 exclude the comment rather than force a question.
 
-When Astra proposes a rewrite, display it beside the original. The human must
-approve the exact rewritten wording, edit it, or reject it before it advances.
+Astra proposes reasonable, consistent wording after selection; retain original
+wording when already suitable and explain that choice. Display the proposal
+beside the original. The human must approve the exact rewritten wording, edit
+it, or reject it before it advances.
 The approved question is then frozen and reused unchanged for evidence
 discovery, target generation, and both evaluation-judge stages. Preserve the
 original comment and any rewrite/skip reason. A reviewed question is guidance
@@ -140,6 +175,12 @@ search gaps. State what was not established and why. A gap in a bounded search
 does not prove that evidence is absent from the full corpus. A case that lacks
 adequate support may stop even when every citation identity validates.
 
+At the end of evidence review, conduct the second human eligibility pass using
+the original comment, frozen question, resolved response, exact evidence,
+source usability, and relevant cross-references. Avoid emphasizing the first
+pass rationale before the new decision. Record its own reason and input version;
+this is repeated single-curator review, not independent agreement.
+
 ## 4. Draft and revise the proposed rebuttal
 
 Follow the current [Task 07E authoring prompt](prompts/task07e_reference_answer_authoring_v2.md)
@@ -195,6 +236,15 @@ proposal counts, saved revisions, corrections, unresolved dispositions, and
 their denominators instead. Task 08 separately owns eligibility, clustering,
 split selection, and its documented attrition waterfall; successful authoring
 does not establish any of those decisions.
+
+## After all group batches
+
+After all groups have terminal authoring dispositions, review proposed clusters
+across the accepted pool in dedicated chats, one suggestion at a time. Model
+similarity suggestions do not create edges. Retain human relationship decisions,
+duplicate checks, and a split-leakage audit; shared evidence alone is not an edge.
+Agree final size and development/test allocation before serialization. Twenty-five
+is a flexible target; do not truncate a larger accepted pool or force weak cases.
 
 ## Task 07 learning records
 
