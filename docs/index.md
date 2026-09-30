@@ -34,7 +34,7 @@ all claims, citation pools and review histories. Separate 07F is superseded.
 The [benchmark evaluation plan](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
 uses automatic retrieval/final-citation metrics plus grounded correctness and
 answer adequacy. 07G is closed by user decision without a full retrospective or
-another pilot round. See the [TODO](todo.md) for Task 08 question selection.
+another pilot round. See the [TODO](todo.md) for Task 08 planning and subtask contracts.
 The consolidated [comment and response human review process](response_comment_human_review_process.md)
 owns reusable workflow guidance for Task 08 preparation; Task 07 outcomes retain
 historical evidence and case-specific decisions.

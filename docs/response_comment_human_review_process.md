@@ -35,8 +35,9 @@ forward reusable procedure only.
 ### Group candidates for human comparison
 
 Use the exclusive groups accepted in
-[Decision 005](decisions/005_task08_grouped_question_selection.md): general
-response first, otherwise cited appendix, otherwise comment source. Combine
+[Decision 005](decisions/005_task08_grouped_question_selection.md): the four named
+health-risk table-analysis candidates first, otherwise general response,
+otherwise cited appendix, otherwise comment source. Combine
 main-report and no-recorded-citation comments in the final source groups. Do not
 subdivide general-response or appendix groups by source. Each comment appears
 once; retain all underlying response and citation links as provenance.

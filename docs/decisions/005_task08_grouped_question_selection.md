@@ -1,6 +1,6 @@
 # Decision 005: Grouped question selection for Task 08
 
-Status: **Accepted by Kyle on 2026-09-29; selection has not started.**
+Status: **Accepted by Kyle on 2026-09-29; amended 2026-09-30; selection has not started.**
 
 ## Decision
 
@@ -21,9 +21,10 @@ automatically or require review of every candidate first.
 
 Each comment appears in exactly one group, in this priority order:
 
-1. Linked eligible general response.
-2. Otherwise, cited appendix.
-3. Otherwise, comment source, combining main-report citations and comments with
+1. Explicitly named health-risk table-analysis priority group below.
+2. Otherwise, linked eligible general response.
+3. Otherwise, cited appendix.
+4. Otherwise, comment source, combining main-report citations and comments with
    no recorded citation into the same source groups.
 
 Do not subdivide general-response or appendix groups by comment source. Within
@@ -34,15 +35,50 @@ ranking, and review order within a group remains to be specified in Task 08.
 
 | Group type | Nonempty groups | Candidate comments | Maximum selections |
 | --- | ---: | ---: | ---: |
+| Health-risk table analysis | 1 | 4 | 3 |
 | General response | 5 | 101 | 15 |
-| Appendix | 11 | 66 | 22 |
+| Appendix | 11 | 63 | 20 |
 | Comment source | 25 | 438 | 58 |
-| Total | 41 | 605 | 95 |
+| Total | 42 | 606 | 96 |
 
-Ten groups have one candidate, eight have two, and 23 have at least three.
-Thus 95 is the starting pool's selection ceiling, not an expected yield or a
+Eleven groups have one candidate, eight have two, and 23 have at least three.
+Thus 96 is the starting pool's selection ceiling, not an expected yield or a
 new final benchmark size. The sprint's later eligibility, evidence review,
 clustering, and split requirements remain separate.
+
+## Health-risk table-analysis priority group
+
+On 2026-09-30, Kyle requested a separate labeling group for these candidates:
+
+| Comment | Review lead |
+| --- | --- |
+| M-OSEC-241 | Combined health risks from existing sources and project emissions; G2 receptor maxima and contributing sources |
+| M-OSEC-243 | Additional mitigation or land-use placement where risks are elevated; receptor results and filtration assumptions |
+| M-OSEC-244 | Exposure of future residents, including children and seniors; overlaps with 243 |
+| O-Joint-44 | Highway 101/Caltrain exposure, setbacks and barriers; cumulative receptor results in G2 |
+
+Review this group before the ordinary metadata groups, with the same ceiling of
+three reasonable questions. These are possible table-analysis cases, not proven
+CSV-tool requirements; do not add calculations absent from the original comment.
+Move 241, 243 and 244 out of the G2 group; M-OSEC-245 remains there. Restore
+O-Joint-44 as an explicit exception to the linked-response revision filter,
+retaining its original flags. Each comment still appears in exactly one group.
+No other filtered comments are restored by this amendment.
+
+O-Joint-44's flag was traced before retaining this exception: O-Joint-44 links
+to RA-Caltrain-9, which links to RA-Caltrain-8. The latter corrects Caltrain
+service at Bayshore in Table 4.8-3 (Draft EIR page 4.8-14) from 60-minute to
+30-minute intervals. It states that this correction does not change the analysis
+or conclusions. O-Joint-44 itself does not announce a revision, and the flag is
+not a GHG-analysis change. Kyle retained it because the transit-frequency
+correction is incidental to its health-risk rebuttal.
+
+The supporting table/citation analysis is saved under
+`pipelines/brisbane_baylands/task_08_preparation/long_tables_20260930/`, relative
+to `ER_COMMONS_DATA_ROOT`. Its `long_tables_report.html`, `report_data.json`,
+`unit_texts.jsonl`, and `manifest.json` retain the inventory, citing units, source
+text, and analysis boundaries. Parsed row counts include headers; appendix
+parser groups need not equal whole printed tables.
 
 ## Starting pool and limits
 
@@ -67,19 +103,22 @@ faithful, independently answerable question under the
 Relative to `ER_COMMONS_DATA_ROOT`, the accepted starting grouping is:
 
 ```text
-pipelines/brisbane_baylands/task_08_preparation/exclusive_groups_20260929T230754Z/
+pipelines/brisbane_baylands/task_08_preparation/exclusive_groups_20260930T160957Z/
 ```
 
-`groups.json` owns the 605 exact comment assignments; `summary.json` owns the
-counts, and `manifest.json` binds the preceding filtered pool and output hashes.
+`groups.json` owns the 606 exact comment assignments; `summary.json` owns the
+counts, and `manifest.json` binds the prior grouping, exception, and output hashes.
 The `groups.json` SHA-256 is
-`b3ff269c9819bdef665aa0258988cc5e656c92522c0e38b3c4025bdc9c0f2bb6`.
+`fb24092981fdb14d910b5a0485095ff45c5b25cfef5670712ea96809f753d632`.
 Its upstream planning records retain response-filter explanations and flags.
-Preserve this starting version; any later regrouping must be explicit.
+The original `exclusive_groups_20260929T230754Z` version remains preserved.
+Any later regrouping must be explicit.
 
 The rationale is practical coverage with bounded review effort: compare related
 questions, favor good examples over filling quotas, and prevent repeat labeling.
 This is purposive human selection, not a representative sample or a measured
-acceptance-rate estimate. The immediate next step is a bounded Task 08
-question-review contract and interface using these groups; this decision records
-the plan and does not itself create review tasks or select questions.
+acceptance-rate estimate. Task 08 starts in a new chat with planning: define its
+umbrella contract and bounded subtask contracts before implementation. Keep later
+subtasks provisional and activate only the first, following `tasks/README.md`.
+The first execution stage should use these groups for question review; this
+decision does not itself create review tasks or select questions.

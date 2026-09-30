@@ -8,7 +8,7 @@ is the current input; historical releases and inherited limitations are preserve
 [Task 07](../tasks/sprint2/07_pilot_reference_case_authoring.md) is closed,
 including 07G's closure by user decision. See the [index](index.md) for entry links.
 
-## Next: Task 08 grouped question selection
+## Next: Task 08 planning and subtask contracts
 
 [Combined 07E](../tasks/sprint2/07e_review_answer_logic.md#final-outcome-and-six-case-handoff)
 is closed: six approved answers, preserved chat histories, 31 unchanged claims
@@ -18,10 +18,15 @@ retains inherited warnings and source limits. Separate 07F is superseded.
 [07G](../tasks/sprint2/07g_assess_pilot_and_local_replay.md) is closed by Kyle's
 decision to proceed without a full retrospective or another pilot round.
 [Decision 005](decisions/005_task08_grouped_question_selection.md) records the
-accepted starting plan: 41 exclusive groups, human review until up to three
-reasonable questions are selected per group, and no pressure to fill weak groups.
-Write the bounded Task 08 question-review contract before implementation; no new
-review tasks or question selections have been created.
+accepted starting plan: 42 exclusive groups, including the four-candidate
+health-risk table-analysis priority group, and human review until up to three
+reasonable questions are selected per group, with no pressure to fill weak groups.
+Start in a new chat with planning: write the Task 08 umbrella and bounded subtask
+contracts, using the sprint's eligibility, clustering, and split requirements.
+Keep later subtasks provisional and activate only the first, as described in
+[task shape](../tasks/README.md). No implementation, review tasks, or question
+selections have started. Decision 005 also records why O-Joint-44's incidental
+linked transit-frequency correction does not disqualify it from the priority group.
 
 Use Astra (`gpt-6-astra`) for model-assisted dataset-label authoring,
 with human review; retain human-only stages. The [authoring prompt](prompts/task07e_reference_answer_authoring_v2.md)
