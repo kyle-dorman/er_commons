@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task08E exact saved human eligibility review; no later-stage release",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "qualification_only",
+    "records",
+    "pending_task_ids",
+    "project_id",
+    "reviewer_id",
+    "export_lineage",
+    "native_export_sha256",
+    "advancing_case_ids",
+    "advancing_claim_ids",
+    "allowed_next_stage",
+    "eligibility"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "er_commons.task08e.eligibility_export.v2"
+    },
+    "qualification_only": {
+      "const": false
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "schema_version",
+          "qualification_only",
+          "case_id",
+          "human_decision",
+          "evidence_export_sha256",
+          "native_annotation",
+          "annotation_sha256",
+          "task_sha256",
+          "export_lineage",
+          "form_sha256",
+          "advancing_claim_ids",
+          "allowed_next_stage"
+        ],
+        "properties": {
+          "schema_version": {
+            "const": "er_commons.task08e.eligibility_decision.v2"
+          },
+          "qualification_only": {
+            "const": false
+          },
+          "advancing_claim_ids": {
+            "const": []
+          },
+          "allowed_next_stage": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    "pending_task_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "project_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "reviewer_id": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "export_lineage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "native_export_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "advancing_case_ids": {
+      "const": []
+    },
+    "advancing_claim_ids": {
+      "const": []
+    },
+    "allowed_next_stage": {
+      "type": "null"
+    },
+    "eligibility": {
+      "const": "human_review"
+    }
+  }
+}

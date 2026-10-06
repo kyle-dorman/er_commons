@@ -1,0 +1,80 @@
+{
+  "schema_version": "task08a.remaining_groups.result.v2",
+  "status": "complete",
+  "counts": {
+    "accepted_candidates": 606,
+    "accepted_groups": 42,
+    "blocked_groups": 0,
+    "new_deterministic_groups": 23,
+    "new_model_ranked_groups": 18,
+    "preserved_groups": 1
+  },
+  "grouping_sha256": "fb24092981fdb14d910b5a0485095ff45c5b25cfef5670712ea96809f753d632",
+  "shared_interfaces": {
+    "new_handoff": "task08a.handoff.v2",
+    "new_proposal": "task08a.proposal.v2",
+    "new_ranking": "task08a.ranking.v2",
+    "preserved_ranking": "task08a.ranking.v1",
+    "source_packet": "task08a.ranking.v1"
+  },
+  "qualification": {
+    "focused_tests_passed": 33,
+    "historical_failures": 3,
+    "new_failures": 0,
+    "repository_tests_passed": 3087,
+    "repository_tests_skipped": 1
+  },
+  "next_action": "Separate request for human 08B selection; qualify v2 intake and page-context rendering first. No selection or eligibility inferred.",
+  "candidate_counts": {
+    "preserved": 4,
+    "new_model_ranked": 559,
+    "new_deterministic": 43,
+    "blocked": 0
+  },
+  "artifacts": {
+    "handoff_index": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/preparation_20260930_v2/handoff_index.json",
+      "sha256": "0287489eddf59982c0ecce1e03205984d11dfcad06584c2c2194f7f5f8bd325a"
+    },
+    "progress": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/preparation_20260930_v2/progress.json",
+      "sha256": "3910a9000a9173a54ccacbe1666bb2e2edca8f688486a491675044df2204fd4e"
+    },
+    "qualification": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/preparation_20260930_v2/qualification.json",
+      "sha256": "6bf46a4632f5f01a69c31c304f76356686b6c0335b66b6cf3d294f2e2b0757f9"
+    },
+    "interface_review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/preparation_20260930_v2/independent_review.json",
+      "sha256": "7b9fab5949af07a038fe16e29f3661fdbc9424d9026a56a1928148985710db3c"
+    },
+    "final_independent_review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/preparation_20260930_v2/final_independent_review.json",
+      "sha256": "d5623b6906ad01dcd4bde5d5a6df70586ee84f46fb867177abf7ca966a1dde50"
+    },
+    "model_dispatches": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/preparation_20260930_v2/model_dispatches.json",
+      "sha256": "4e3e10a985875daeea519eb08660e7d3061de16e42b54b5fc112e08bc65f433a"
+    },
+    "repository_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/preparation_20260930_v2/make_check.log",
+      "sha256": "2240146544389453df30413ae1c89a3083a6471fc14c3f67a130c76860ae98f5"
+    },
+    "register_snapshot": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/preparation_20260930_v2/batch_register_final.json",
+      "sha256": "165ebbc10e11e9240ca8661db2263b0752cd615e5d80b238aaf4f897c5f3a3e4"
+    }
+  },
+  "preserved_handoff": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/health_risk/08a/ranking_v1/handoff.json",
+  "new_handoff_pattern": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/<group-slug>/08a/ranking_v2/handoff.json",
+  "authorization_boundaries": {
+    "selection": "not_started_for_new_groups",
+    "eligibility": "not_decided",
+    "label_studio_projects_created": 0,
+    "chats_created": 0,
+    "sealed_upstream_changes": 0,
+    "commits": 0,
+    "pushes": 0,
+    "concurrent_health_risk_08e": "preserved"
+  }
+}

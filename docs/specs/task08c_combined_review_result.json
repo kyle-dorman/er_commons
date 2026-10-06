@@ -1,0 +1,1492 @@
+{
+  "approved": 53,
+  "artifacts": {
+    "C011_answer_scope_note": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C011_answer_scope_note_v1.json",
+      "sha256": "0c7f6914e589cb2ccbc630716fc22db46177acfda0590f4bd5332c4f70383027"
+    },
+    "C013_deferral_discussion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C013_deferral_discussion_v1.json",
+      "sha256": "d8ec6873144a0d5df9c5cec50e2e36d30339eed6367c2c9744fa22c9eac377ae"
+    },
+    "C013_dispersal_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/draft_dispersal_check_C013_v1/result.json",
+      "sha256": "756e8b2f441723ebccd8cb98c30e49cd8667f7c660a7ef33d4894ab41236f21a"
+    },
+    "C013_occurrence_rating_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C013_occurrence_rating_check_v1/result.json",
+      "sha256": "203ef12bb5a4dce572d32f63f7e94f27160f8e66492cc3aa6c710bac6727d65c"
+    },
+    "C014_f1_growth_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C014_report_answerability_check_v1/f1_growth_check.json",
+      "sha256": "499636d2c6d38f42b81445d5f25d892f46a9540ae84f50cb4c186ca21809d5c1"
+    },
+    "C014_report_answerability": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C014_report_answerability_check_v1/assessment.json",
+      "sha256": "22e84ec8197f89afa3d6b4c95f87a7fddc0afb950e977505501e1b8552ebf2e4"
+    },
+    "C015_roundabout_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C015_roundabout_check_v1/result.json",
+      "sha256": "49bbcfbd020141fba0aab7c67f7ff5ebbad30bf8dcceb530267b9b36ba773c69"
+    },
+    "C017_adjacent_context": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C017_adjacent_context_v1.json",
+      "sha256": "7d5a207a478af9c8111a3c86570d2118a41141dcf920a580ae67b5d9047e4d45"
+    },
+    "C017_expanded_context": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C017_expanded_context_v1/packet.json",
+      "sha256": "119d2a33ad7a97a2d58044a2e000e204dbaaf3e21cdedd4fabdc3b2747309196"
+    },
+    "C017_next_step_context_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C017_next_step_context_requirement_v3.json",
+      "sha256": "3fd519c2887b9d3a194645116382841e25de231a1caa1a9d18e1b7cf25a2d426"
+    },
+    "C019_adjacent_context": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C019_adjacent_context_v1.json",
+      "sha256": "78c090d89dc86e5667b3a17b233a8490e00e7b85a8e30576a4849d76a61deb54"
+    },
+    "C019_next_step_context_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C019_next_step_context_requirement_v1.json",
+      "sha256": "d4dc771a1d0b807306931f993085583451cdc9ae04e081b55fbf1fddfb84e6ee"
+    },
+    "C019_report_context": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C019_report_context_v1/result.json",
+      "sha256": "9770d0d0b787f049887f93fa2f3b230f9f9add02ffb38bfdd68c67659572497a"
+    },
+    "C020_k3_question_scope": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C020_k3_question_scope_v1/result.json",
+      "sha256": "ee264cf41d47ff5b108b6d7053e9cb2bcd344c1e2eb5583c8a6e889345e9a3b8"
+    },
+    "C020_monitoring_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C020_monitoring_check_v1/result.json",
+      "sha256": "e8f875ed520087c94001ba9bd0649dcc2b4b6df5b701f35dae26c44289201542"
+    },
+    "C020_monitoring_scope": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C020_monitoring_scope_v1/result.json",
+      "sha256": "fc5d553929b2af8c87175c75f54a587f3a737e0452b7e5435dc21098b51c5ffc"
+    },
+    "C020_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C020_next_step_scope_requirement_v1.json",
+      "sha256": "d98f49e7fcc93b1d3b3b15a2f13d0c2a01f97cdfe3d85054c8b7964df998ac48"
+    },
+    "C021_HAZ1a_source": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C021_HAZ1a_source_v1.json",
+      "sha256": "c2d4b0a39fb8f23d1318e36ab450ffea3b425b1fe8315e3d99ffc7d4924649c0"
+    },
+    "C021_K3_combined_plan_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C021_K3_combined_plan_check_v1.json",
+      "sha256": "8967795363568cc8d06c42049e893d2ab432632e335480d3fed750e65ac3a88b"
+    },
+    "C021_approved_plan_identity_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C021_approved_plan_identity_check_v1/result.json",
+      "sha256": "6dd837bf073b819a5cd5fed0c561b6b9cb90849281733aaa1d573d6f5c83e54a"
+    },
+    "C021_download_notes_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C021_download_notes_check_v1.json",
+      "sha256": "45860f635c6a4654a9f7175b9ecf2bb335175b9299f8f1ad0e0b57584d09f0a7"
+    },
+    "C021_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C021_next_step_scope_requirement_v1.json",
+      "sha256": "31b0f4ac5f45fadb86fde182cf5558163ac6c6b2f966823c9e25c564aa80c15a"
+    },
+    "C021_public_review_evidence_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C021_public_review_evidence_check_v1.json",
+      "sha256": "6a4af6ebfd729d931e79fb181a95be66ef5dd4aec39a18938649bba63c85ad13"
+    },
+    "C021_volume_ii_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C021_volume_ii_check_v1.json",
+      "sha256": "8906b7e3e84624524afedbf582a72696bd6fb94f8f0ac6df7c3816bfed94258d"
+    },
+    "C022_draft_supply_documents_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C022_draft_supply_documents_check_v1.json",
+      "sha256": "6e52ae1806921daa5d42c652fba0877a41e6cf62eac921c4c415e339a65bd8d2"
+    },
+    "C022_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C022_next_step_scope_requirement_v1.json",
+      "sha256": "1ba12608498809a552e4ea6257e606a2219868a2de9e66adcfacead1815a459b"
+    },
+    "C022_user_revision_history": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C022_user_revision_history_v1.json",
+      "sha256": "b54a15fa3593b67eb3283857132cb74820b1a873398f7be89c31c8d5b777b6e4"
+    },
+    "C023_methods_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C023_methods_check_v1.json",
+      "sha256": "5b7b170e54cedfabc1a115e22404c295c77161bb95baf535db31edc21377fa97"
+    },
+    "C023_other_studies_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C023_other_studies_check_v1.json",
+      "sha256": "250a96d1deda7048dbb3b484ee2f4698cf181ed5e52b22c218716d7afdc9d682"
+    },
+    "C023_statistics_use_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C023_statistics_use_check_v1.json",
+      "sha256": "e37f598f35ef08739a0cdd90a7e68bff9122534a9a500cfdcb957c0d0b720927"
+    },
+    "C024_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C024_next_step_scope_requirement_v1.json",
+      "sha256": "d61f098b10b1eeae9c4703068b842caa3ae44117b742e866ed401961758074c7"
+    },
+    "C024_tribal_input_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C024_tribal_input_check_v1.json",
+      "sha256": "1d11fcfb805d2ed6a0d7c874fe646bee980662ee43dab771b50eb1056b3b531d"
+    },
+    "C026_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C026_next_step_scope_requirement_v1.json",
+      "sha256": "cbd54fdcf92571864c7fef604b8c4ac7f6a7dfc574947152a42e26169aca99d6"
+    },
+    "C026_user_revision_history": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C026_user_revision_history_v1.json",
+      "sha256": "35eac198a66f68a795eab47db7318c1cd917ead211da7dd7dd6cb3b6c6b28d93"
+    },
+    "C033_adjacent_context": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C033_adjacent_context_v1.json",
+      "sha256": "d0f98b2c3d92d3285101d49e8a3fb763e3a3979e1356e6c97d2501c2f619a094"
+    },
+    "C033_building_context_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C033_building_context_check_v1.json",
+      "sha256": "447f66a3c07e60ee09d466cd69d41dfd5b68df29cdc6f886f5dde8dffe604aea"
+    },
+    "C033_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C033_next_step_scope_requirement_v1.json",
+      "sha256": "a3d66ecd1700d11f2753a1744725ee84aafcb187dcc8a130ca37a60c95329b29"
+    },
+    "C035_measure_scope_note": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C035_measure_scope_note_v1.json",
+      "sha256": "360c1ca7ae1ae1872121c8953d71a305b3f5982404b07aabeb88a4a2efcc3c0a"
+    },
+    "C035_monitoring_defense_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C035_monitoring_defense_check_v1.json",
+      "sha256": "882ddbedc39b073e03d9fd7e80ad5c3f7fb336194ec2bc43ba623c818e5093e5"
+    },
+    "C035_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C035_next_step_scope_requirement_v1.json",
+      "sha256": "3d1b681a41090f6ee4d91e899d81d6db0be0c0b7c5e80babf42652a01fd6e2a9"
+    },
+    "C037_daylighting_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C037_daylighting_check_v1.json",
+      "sha256": "c2eec9a121c946f92102848a1d3c0e0b812fb1d7d8dc936b688c90c064621520"
+    },
+    "C037_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C037_next_step_scope_requirement_v1.json",
+      "sha256": "511056c2653a61864fc1678222040e524429de038d7877ce4927efa8a16a3b5d"
+    },
+    "C038_vegetation_source_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C038_vegetation_source_check_v2.json",
+      "sha256": "35db8950a18b1e57b8d9d0758662713417abfc240077ebedf29c7ed691d58a69"
+    },
+    "C039_biology_citability_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C039_biology_citability_check_v1.json",
+      "sha256": "62514b2535c7b0929c0663e112c74b0972b7d90931abd684f14d77d3dd0ea052"
+    },
+    "C039_design_citability_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C039_design_citability_check_v1.json",
+      "sha256": "220f6afaa7170671055a4c5f8079da87a6d86680c45ceca6c5a4eb6379936718"
+    },
+    "C039_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C039_next_step_scope_requirement_v1.json",
+      "sha256": "997d7d65ea5f8bbb66d0b3fb27ab5b096b6b86187190218c2a07a1e6995204f6"
+    },
+    "C040_narrowing_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C040_narrowing_check_v1.json",
+      "sha256": "be5b803434243a48fe94d933f539a620db94fb2b3949d6312a70b6aa0aa4a701"
+    },
+    "C040_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C040_next_step_scope_requirement_v1.json",
+      "sha256": "f8d10be22b6297e04ccf8d923eecbec9a855153f06cbef9bf829ac2afde3689b"
+    },
+    "C040_ratio_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C040_ratio_check_v1.json",
+      "sha256": "9ef9bd533b54dfdd37f587f6bec3a886a88b2a1109a74abefa3a287980ba5bef"
+    },
+    "C041_controls_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C041_controls_check_v1.json",
+      "sha256": "98cb4114987a8526b8f58c30d02f5a71e99d2377c36307ea11e0942e79933619"
+    },
+    "C041_feeding_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C041_feeding_check_v1.json",
+      "sha256": "0384568734e9734e8f38b69caa5b5c6e50e78a6df6ebb57b32dd74bfd54a29ab"
+    },
+    "C041_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C041_next_step_scope_requirement_v1.json",
+      "sha256": "472d2f436242159f083a84c816258b073d07068260f702821231f4dd6e79a15a"
+    },
+    "C042_citability_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C042_citability_check_v2.json",
+      "sha256": "1da896c303f88a2c7f42e09b581bb0099f37c253bfd15378ff44f854309e4c4a"
+    },
+    "C042_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C042_next_step_scope_requirement_v1.json",
+      "sha256": "007fa05087abaf4bfd4ea14dbf4e8f6d506aa40c9a3d29fb8ce332124ff61358"
+    },
+    "C043_citability_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C043_citability_check_v2.json",
+      "sha256": "4ba106820dc1d604734d7ecfed0d3494af904744d00cb1bb9d3a77ae4798b3c0"
+    },
+    "C043_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C043_next_step_scope_requirement_v1.json",
+      "sha256": "6ad5c596404c85bda077d3ac78914f9c9c1426be9fa08b831764c18c1bea322e"
+    },
+    "C044_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C044_next_step_scope_requirement_v1.json",
+      "sha256": "3a0901a0483304cffad847474f0f039db731e763f10a4fb573adaa77762549cd"
+    },
+    "C045_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C045_next_step_scope_requirement_v1.json",
+      "sha256": "1440201ae88d37dcc6ba53f03292d24c3fa287fafeac2361e4f98cb9103349dc"
+    },
+    "C045_supplemental_PCMS_context": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C045_supplemental_PCMS_context_v1.json",
+      "sha256": "efb2abfb2c09e8e002debbe051a2b5f913936a1f7cabc190713dfe600b33953a"
+    },
+    "C046_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C046_next_step_scope_requirement_v1.json",
+      "sha256": "68d911a4457fc88e3d9a8da4381a105adf9b705a3e195fefb54e0b810dd8ee3b"
+    },
+    "C047_citability_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C047_citability_check_v1.json",
+      "sha256": "23d554b6b70bb45c7357339cb44457bdf0953660e775b2ced1e9c4a522878706"
+    },
+    "C047_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C047_next_step_scope_requirement_v1.json",
+      "sha256": "953717c71d8477d725dc9aeb87a0725278fbdc15a9a4f87252e4208d918e190a"
+    },
+    "C048_capacity_note": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C048_capacity_note_v1.json",
+      "sha256": "0e4c6a3e8e46f79c040fc71f378ed546a7b3548a6901bb9914a87325edb81f82"
+    },
+    "C048_citability_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C048_citability_check_v2.json",
+      "sha256": "25e4ce1ce694078fd52b23a04ff13a96637c1c920df53dd8d15e9fb26a97bea3"
+    },
+    "C048_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C048_next_step_scope_requirement_v1.json",
+      "sha256": "ec7a195afe2e72168f7e8940c01485278afe43f35e6d537ce53f63d3436f7f05"
+    },
+    "C049_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C049_next_step_scope_requirement_v1.json",
+      "sha256": "fc65880c7bff4c84963ff7b0f5113f1fa2d2da9bb090e9bc9491ffb4cc3ee6fb"
+    },
+    "C050_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C050_next_step_scope_requirement_v1.json",
+      "sha256": "7416d4336809a3e1eb409535ec27b0bece3cc10ee257120248a0804135c6c1c8"
+    },
+    "C051_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C051_next_step_scope_requirement_v1.json",
+      "sha256": "3a7818b6849d1b93416294ff8dc101593b50309cd8b8cd2e2962f39f40ea3b93"
+    },
+    "C052_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C052_next_step_scope_requirement_v1.json",
+      "sha256": "36d232dfedc3a1498733dd5f3a3f035c1cd66c9dd7f9aec152bd9b79fbf65777"
+    },
+    "C053_monitoring_accountability_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C053_monitoring_accountability_check_v1.json",
+      "sha256": "860db1d22bf04662134b1f8f1932f4dd508ffa20fad0c277775e0060f87d1d1f"
+    },
+    "C053_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C053_next_step_scope_requirement_v1.json",
+      "sha256": "9381126bc6ba3f64f4fe0bec1e914e49265446d419209e24a58d19d345020fa5"
+    },
+    "C054_VMT_defense_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C054_VMT_defense_check_v1.json",
+      "sha256": "5d827d68bb44ec2706a21ec5602724e527f52d87420458fae1729383c257475a"
+    },
+    "C054_intent_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C054_intent_check_v1.json",
+      "sha256": "cc1ab96182f6730822458bf850948918389c88894d52c074a6a8a38f086166a2"
+    },
+    "C054_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C054_next_step_scope_requirement_v1.json",
+      "sha256": "70491befe82057708dd5ca98b1d21e6a7004fd062e2be7916c36ab72854de2c9"
+    },
+    "C054_preferred_alternative_context": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C054_preferred_alternative_context_v1.json",
+      "sha256": "24c39703068c6485e125137800e1d3579e49b1a33db8fe69bc2effec46b532c6"
+    },
+    "C055_agreement_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C055_agreement_check_v1.json",
+      "sha256": "98186f9feb50329c5ccf8f4cbc43e2baa841ee5c84b3d06ac5c5936217b18541"
+    },
+    "C055_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C055_next_step_scope_requirement_v1.json",
+      "sha256": "0b2f83db1e39b6f7db459c8cffe9f349e3fc6b426c426142357fdc3aee795240"
+    },
+    "C056_answer_direction_note": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C056_answer_direction_note_v1.json",
+      "sha256": "1ce11bf2c1ea98f8e8cef983babe8767a9707ccd6a49387c7b9a73d1c084100a"
+    },
+    "C056_flood_scope_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C056_flood_scope_check_v1.json",
+      "sha256": "376f1f3fdd0fc8758a0fc6884c2a0fe0e5da6aa8992a2f09bce2d06190dce576"
+    },
+    "C056_next_step_scope_requirement": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C056_next_step_scope_requirement_v1.json",
+      "sha256": "e0aec8fe6806445839203584a043b27604e865ff92ae6ba0d3a3662c68efefa7"
+    },
+    "C057_overlap_note": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C057_overlap_note_v1.json",
+      "sha256": "810b5a574f2f434de1107e5c687db4b94ea554a066531860ee329ea579017e84"
+    },
+    "appendix_c_feasibility": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/appendix_c_check_C011_v1/assessment.json",
+      "sha256": "132aba9191a079e2fedf96e69cba04d185e62877838f2326e7db1c5ac3e43eda"
+    },
+    "completion_receipt": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/review_pass_completion_v1.json",
+      "sha256": "d8b38b0b124325a051829fe9adab1219fe17ff3b9f1869f22bed1a0741102d6d"
+    },
+    "continuation_validation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/validation_v2.json",
+      "sha256": "811d9bb1fcadca3b486b8a66721a1bda27d71f6e4d1b86398091d05a7a497f63"
+    },
+    "current_journal": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v287.json",
+      "sha256": "2e897666d76f4274aba7b690df580c366f90d2420a31817ca0199342790ed6c2"
+    },
+    "current_response_assessment": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/response_coverage_check_C057_v1/result.json",
+      "sha256": "180c93b45de8efe72c9365e3b199bc930f9d883da73d44a01be2ec95f59a1cf5"
+    },
+    "current_response_packet": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/response_coverage_check_C057_v1/packet.json",
+      "sha256": "4b8bf617d1f573be78125096c0153b372a0b258fabdfa3c51b9bf3d8c942054a"
+    },
+    "current_response_units": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/response_coverage_check_C057_v1/response_units.json",
+      "sha256": "84ce4d2f61e41d786f514d981b82589cfc52e370f84285ee06ce135244e7086e"
+    },
+    "downstream_bindings": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/historical_downstream_bindings_v1.json",
+      "sha256": "b6c429c6f740897f2f89c6f03a7e32aa22a5bf7aca99d399ee14f2260893f6eb"
+    },
+    "draft_dispersal_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/draft_dispersal_check_C012_v1/result.json",
+      "sha256": "17ba1c0f6b5573e17eb5b964e8fb302e139d5f1d111bc1fd4a5994385af7cade"
+    },
+    "final_decisions_export": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/decisions_final_v1.json",
+      "sha256": "b2ffc82e0e4603a0d02da0dcde1e8ed9d19f0313c8dbbd6047d5eb0556facd35"
+    },
+    "historical_questions": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/input_v3/historical_health_questions.json",
+      "sha256": "5140b880b40d5d4c1326c7142ba33c297b469d9b18aa621eaa6fbb2c35d31fff"
+    },
+    "initial_journal": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v000.json",
+      "sha256": "68e78de7f1dc9c3dbfe298f71ffecaa26e2712519c6c5515efd0beeda14ce749"
+    },
+    "input_completion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/input_v3/completion.json",
+      "sha256": "c4e358d10e47fb44294d4054d8c8f61bc5a3d189275f8bea92cbf55c8e3e5f49"
+    },
+    "packet": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/input_v3/comment_only.json",
+      "sha256": "98a9a23cb1b67c9ef6d4acb891d262934df913e7f4b746153c546ccc83b89f69"
+    },
+    "presentation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C057_display_v1.md",
+      "sha256": "e3df3ed508cfddac9fc5c4aba42f9189fae0eb08d1f32e332bf0cb5fdf1115ee"
+    },
+    "process": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/process.md",
+      "sha256": "58346ac4afa7092bdde1d1a7e699c5524774ffd56d161720d857375427cb70ce"
+    },
+    "progress": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/progress_v287.json",
+      "sha256": "b2ffc82e0e4603a0d02da0dcde1e8ed9d19f0313c8dbbd6047d5eb0556facd35"
+    },
+    "prompt": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/prompt.md",
+      "sha256": "cc643c66eccbd41fb8ef7f2e2dd95aea2d4f833626fdd6bd0ace0e52d3f6fd7d"
+    },
+    "reconciliation_hold": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C002_reconciliation_hold_v2.json",
+      "sha256": "e019717fe12b3b0b69b72e46941c6807f90c2672649f3e353396d088c457c486"
+    },
+    "report_context_amendment": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/report_context_amendment_v1.json",
+      "sha256": "772f9a3e4df7e9b22d794d4c9009f4c0f65022164c885e097650280ffe6a21d6"
+    },
+    "response_display_amendment": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/response_display_amendment_v1.json",
+      "sha256": "6eab645ab6f08aeef8dc6eee6682afc7152d6ee5844e1b09a7679ca8ca932817"
+    },
+    "restricted_provenance": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/input_v3/restricted_provenance.json",
+      "sha256": "295a2ef17dc61bf07329672904e2e966bcc77847c7e5ca05c5be1c94d32cc4a8"
+    },
+    "revision_provenance": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/C057_astra_run_v1.json",
+      "sha256": "a587acf340e50c806ff275e476b61df4227724e17f8e68d396cca60200126aa5"
+    },
+    "supporting_review_inventory": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/supporting_review_inventory_v1.json",
+      "sha256": "1b34bff59f2c5fab03c27feea1f2c13acfb9b041529c7f1c2b01a9f8a4e8865e"
+    },
+    "task_closeout": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/task08c_closeout_v1.json",
+      "sha256": "c994d8dade86b75a56bce14d9c0056966a5d9224b6d676d49aa00c88ec16d725"
+    },
+    "validation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/validation_v1.json",
+      "sha256": "5fbf9580c83953f9078b781a7347efe93c68b169183f1728d719a743073c0aeb"
+    },
+    "validator": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/chat_validator.py",
+      "sha256": "07bdb0db50f62135ec9a833d3779cf3eda8180e3d20cc38c9c48655d12fef44d"
+    },
+    "workflow_request": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/workflow_request.txt",
+      "sha256": "661aad57417a562c7bbf1d950f719f6de8d3a7920d82190a4d2b043b785b6dcd"
+    }
+  },
+  "authoritative_input": "input_v3",
+  "checkpoint": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/checkpoint_v203.json",
+    "sha256": "66d42aedd68ebfd82624cddbdb687a536819ab6f398177c70918cfaedde0d5d0"
+  },
+  "comment_label": null,
+  "completed_on": "2026-10-05",
+  "deferred": 4,
+  "display_version": null,
+  "excluded": 0,
+  "health_risk_revisited": 2,
+  "journal_chain": [
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v000.json",
+      "sha256": "68e78de7f1dc9c3dbfe298f71ffecaa26e2712519c6c5515efd0beeda14ce749"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v001.json",
+      "sha256": "4e144ff146781472dc953bdee564207a02cebfce468061f1aa225877b3370299"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v002.json",
+      "sha256": "d1d9261ec80895ea272f7ea77e6e12e521ea4d4e670b77d74bc9d8c29013e564"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v003.json",
+      "sha256": "bb4ef54f0a871bec1e6b83e57cc34971a6a5c8943add8c98ce757a7b2dfc9939"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v004.json",
+      "sha256": "aba6bc56cd86a7b2c76234e6ad7cbedd6e8417ad79ab021a548febd248d3601d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v005.json",
+      "sha256": "71c69449f4a96d4bd7c586a93c6153102837ed4e2d4df714cb85feb9d11591e2"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v006.json",
+      "sha256": "ab67b0edb90fc7974881bbca20669f0d3fbd51bb695690bf0b672e8db42df7b9"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v007.json",
+      "sha256": "7ab737993647ab69bf4db0e125a2860fb70c0d0d0cd81f8a5a00dbdcad84c505"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v008.json",
+      "sha256": "96a058c457936a5187365951eef3fd302847c27669dbfb105ef4cd94a60574dd"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v009.json",
+      "sha256": "00e337cc7dac5e55674d71968cb4929a38aa1c8505bdd75bc29b8c83c16eeeb4"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v010.json",
+      "sha256": "afc20aa744a5b8411bc8f878de4c494bc8c162efe52a511e8384d81c898d099b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v011.json",
+      "sha256": "bdd6617ee81e343e5e543c76bfcf5eea200df10afe1a3bcdddd9f5057f599c5a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v012.json",
+      "sha256": "c1c4ab89ac528533e02c1c40952cf6ff2c28d60213764122cd430e6f816a94e6"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v013.json",
+      "sha256": "ee985cb513a6a57dc895ed7c5687c5a3f5ac2ce5451fc9c1ffe24873e41746b9"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v014.json",
+      "sha256": "482bb6217e3d5abe01e5efd97396584a0d2ec24c2f5d97e3f80df8945091bbd1"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v015.json",
+      "sha256": "46d8ac87d160fc839b6e122d9544dcee339f8b6f24429b736989dedf88370505"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v016.json",
+      "sha256": "815bb1f56c258a8fe443a29ca9bc8c76fac1cf06ffa646cf4c99e804aa0c1b72"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v017.json",
+      "sha256": "10cea57cdfbb6244057397b6dcfd98dc1727bcdc673dc7f5a5fdfdbe7af7a82e"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v018.json",
+      "sha256": "92720fd36b034698e46aef0e1a5f6f75ee23620a7e3e71a4de8319977bc652f8"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v019.json",
+      "sha256": "d6ccb843fa9bdf0afeedd600420f0649d308bac893caa3f6fae12caeb6e4efdb"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v020.json",
+      "sha256": "530c97a345b5d07b0930a179875b4a1c8dcd03bed1f4492dca80a209fbb802f6"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v021.json",
+      "sha256": "968436d6b7f486935f6319a832067421cce2925eaa64b891e4a9baa7b38e9957"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v022.json",
+      "sha256": "6ae97485f27b43eecce5a9e9220fb778f310733dbeaf340814e36c54e41890b7"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v023.json",
+      "sha256": "6275b7da4581b1d2eff0e071214b804dd8c36c241ad558da6eefb613bf28cacd"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v024.json",
+      "sha256": "da99a374ec5b365f326a4eaebdab5d90d5e95d55f383a5d065b46f3ba9ad6de9"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v025.json",
+      "sha256": "4fe265d6ef5061197c29f1c4c81e2935ab9d8e141eeb2677008addbd93c64d47"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v026.json",
+      "sha256": "1cae8227eac5de70d70008c5cd9c0c43af7ddccd96ea5dea76bb7b64036ab6f7"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v027.json",
+      "sha256": "e418fc92c97e9402f01f533affdbc677009f634ac17c3d433fe093e74e1fef53"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v028.json",
+      "sha256": "c27956f99c4984df6562c1bccb30bf3b9969c8c2e848966b0c52a3b352e71b6d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v029.json",
+      "sha256": "bdf2289f9fdb7d6a0c10cd39796f28fef25a2662dba37356d5954bc726c5517c"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v030.json",
+      "sha256": "5aec36fb23fa30dadee9207477f79e98ad3843f77f793d292f5a0ca6d77d66ff"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v031.json",
+      "sha256": "bc350580780fb2176e01df0e88a75b0b6b4b2503cec851eef371012fbb9a266d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v032.json",
+      "sha256": "1793e43c3b5f75aa2899a4e13f8b681e606ab2d41245d01b218b2e6cf3f519f9"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v033.json",
+      "sha256": "eb6c765587480dba7d5cb44a61674438746ffd06542b3ef2ad57e52fe359375d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v034.json",
+      "sha256": "07666793920e87d2abe735c6cee59da35814b1e4df5f28b19dbe69dabada4139"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v035.json",
+      "sha256": "899ef355d22ec337b4b8f115b183908dadc904953d0db71b6657f09746ff372b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v036.json",
+      "sha256": "504cf39d81beb8009ea1a04457a07d1f63d63d190575cf9216fc203b4bbf6a9f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v037.json",
+      "sha256": "b1a1c15655e9458a6bec6ee9485c86c6abbf18d19081867fb7d9e6ef58be2db6"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v038.json",
+      "sha256": "94f8106aa7b8e55a6552e23d7d0d35e6f106194518261073a01e5e47afcfcd8b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v039.json",
+      "sha256": "6dc2915ae457b14ecd079c564fc171ee132a4f74f101f07bdf0411f90a70c6a2"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v040.json",
+      "sha256": "7d7ba5371250e69657a02399423d391968f55dc850699d93f12169639e57510a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v041.json",
+      "sha256": "ec71e101af0ed2c1908b420420b53960c56909e9e674c1584e6b10440ee1bf87"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v042.json",
+      "sha256": "a3746b441181af1c353dd8bd855c6d6b3c943fcb602bb479eae4f8005d6892f6"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v043.json",
+      "sha256": "db79925354f5801818998b6be7848896bb5c5e6a053612f9086284d53f3abd9e"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v044.json",
+      "sha256": "2850a8b0549ae0beb39360ab241d265b87f28d9574d8d809dca170fca0f5134b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v045.json",
+      "sha256": "42da85e953bece54ef38db84e22bd67fe4dcd257cf3e5e0aadef2683332b5200"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v046.json",
+      "sha256": "425ebc914600f7798ef4ff3f6696543a1eab85a04ab112e9d43b0a08acbcefba"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v047.json",
+      "sha256": "845c2a5028146b4424a16f9e9b429cdf7608cb7357f1327b80e8a459c033cddb"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v048.json",
+      "sha256": "f051aa76bef240316e88bad2926e8c4ab1ebfd018ea18ceedf8cf68ee21da016"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v049.json",
+      "sha256": "7b016d5edf9db80be218a2a486aa7c8e4713c8b91ec7680dead098feced4e384"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v050.json",
+      "sha256": "2dd01e041dfcc0964d530619ba1c636edbf85552e03024666ce0207618dfd2e8"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v051.json",
+      "sha256": "ab8d0b196245ecc050f22ac067f67e7f7232d5f2197b2f6ea5b7e679bd668a9d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v052.json",
+      "sha256": "dfeec1da4011bf975fa5d00621a1ae9281017809e8417be29b2bb99f7a026b8b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v053.json",
+      "sha256": "c819e5bfb03563e7971ccb9150d6de1c07cb5414ee8430e9096c0c8e6d708d6e"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v054.json",
+      "sha256": "2248c900759ee01a695326c00cee3cc0388a5e077a768445986b4d0fb44fbeff"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v055.json",
+      "sha256": "585e5ca598338ea6b41425fca4631d3618bcb1db9cbaaa2947e9a3dfb2d885cb"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v056.json",
+      "sha256": "180bf1b814b90a674cf07ce0aae7c4c5a73abc7b6d209ad24ba1005b124eacbc"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v057.json",
+      "sha256": "5ad44fb554964505a9ed034157b675363ccaa7f45e033742b364659c2b390123"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v058.json",
+      "sha256": "f8eeee87db7b10ab9412b20a13da90d6736900744533c81c45a2965e34ef6a2b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v059.json",
+      "sha256": "392f40a9a3ebf76d26a6879baf5b9bfe4b3d078c1be1ece77eedf623fe199a70"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v060.json",
+      "sha256": "652f49a1c83c977ab00a6ec1c8220daa4a7d807fd9c7ad0e7c9ad98db99f0c07"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v061.json",
+      "sha256": "65de99a5ddef387b2d331c17f3765230cb6ffa02e1bfc1f89fbe72caaa938e09"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v062.json",
+      "sha256": "cf7cbe75e1792713134f04474dc58633aaa18d570f2ff3e6ce5639fdac4963eb"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v063.json",
+      "sha256": "bd9880ec219eede3a06845617bc971ca58ab4c48418a874d4f9bff97f35839f4"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v064.json",
+      "sha256": "958552a3665311c25870d974f32f82727dccf519886587132183806020176aeb"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v065.json",
+      "sha256": "110ae4176fced4ab7f7a06a850468548731bfeeaf7376ac71d74d20d73a62196"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v066.json",
+      "sha256": "6fbb2f15b480591ebc9d768bbd0db7b62cc45306186190a7b8ad9197ead164c0"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v067.json",
+      "sha256": "d91f07ac1361fb905da3420f788a7434a4d51fe5d3f815fae36b143535fa6b6e"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v068.json",
+      "sha256": "6a4a670ec44d90b521535dd6a7d053faa99cf0f7004f6a262b5a916487a15bbc"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v069.json",
+      "sha256": "4c6a0fbfc2b437bd4c0b2c5c7530d20a80d666dd891882739a5158297067d30a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v070.json",
+      "sha256": "a873889c4ab309f7cbc1050085e72232f44316d062636d19a70922ab108857c1"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v071.json",
+      "sha256": "acd42604a8da59de73d5eb0afd08a55dfe3510ff85063b22141ac823cdc3b623"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v072.json",
+      "sha256": "2a8f3bdf70f5cc377d705e2265fa96897382455559dc05c8ed63d12c765e7473"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v073.json",
+      "sha256": "b3eb2d065c7a149d61ec509b4146994e87057e043f1646f3ec42c62e0dbc463b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v074.json",
+      "sha256": "ef1e85fa85e405691824152d4f83358110e1eb6f45677e927b20f92e526114af"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v075.json",
+      "sha256": "618e14c2dbf0514cf05932021b01c21f7bb0ba4a680526d4f84064c5d15ccdcd"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v076.json",
+      "sha256": "f24024f9aef0adab678ce728afc6601068d6b46fccb30b24a7dc833ad197f4a4"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v077.json",
+      "sha256": "f078e2d2404e50b962913343ea8f2329b02ce2d33bd58d96f6b540df41ce959b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v078.json",
+      "sha256": "7801f439b10e0ad66952f256669dff190915c8ec3b0f6996ade06c56c414bfde"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v079.json",
+      "sha256": "1d4b088beef1024f75d615074cd2b2450f54b192e4d3992e63270533d8065565"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v080.json",
+      "sha256": "9153688f0c8c54f1066c82317766de9383e8b90189e53edf1d256686f0695a4a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v081.json",
+      "sha256": "d3b4bca611b755987a79303b38909fdf3b5b8f29247b0d6c7cbbc62f82283b1e"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v082.json",
+      "sha256": "4e94505ef8b80c081585acd0ada3d77dbfc4be1ef637be9597941c56cf246c2d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v083.json",
+      "sha256": "1a1df4992181bc1a70a1a94b46eb4de4ea016e2707f547acdd4bad4f0d020a40"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v084.json",
+      "sha256": "a9ddd3639847aca29d7fda996f790a9fd6b1044b2ca5a5071f6ca42c01bbb19f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v085.json",
+      "sha256": "10e0046204fde83cc2b2d4f1da045371b3ce48bb8c6fc4ba82df72fd8c93ae3d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v086.json",
+      "sha256": "0b41ee57dd24a8b7182453fe362b58cfdcb684e33863a6881ae183e4416415f7"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v087.json",
+      "sha256": "9e4f8a0ba68b6ed18f52ae09ba6054e2d4e1036753c7fee0b615f6f976e08e56"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v088.json",
+      "sha256": "84df94e5a1c260e7f64d30e0e629c4f8666ca7db37f385c962d652a226844c3d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v089.json",
+      "sha256": "784ad52160f8ed58aaf8b5436ca7cf9e5f26343657961e41b6399b8ffd24cc48"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v090.json",
+      "sha256": "2d4bb59b8a13085b7c6bdb67af250e31c0980895c45bea666827f1460a6abae5"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v091.json",
+      "sha256": "c10e01d2b332762835a05a94a5362bf311bb18def823654a6b906aafa4e12f2a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v092.json",
+      "sha256": "fd938fe8e1aba69bc5a19e1fbcef6ab266b0468f4f96777c8511e8bb44bc6d92"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v093.json",
+      "sha256": "26092130d1af75c53fe87efeb219a3edbf06c395af1b926317e1b831f8d810fe"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v094.json",
+      "sha256": "b17d4bf2809999331dfddce4add509681b917dc9678933d3fe905302a8246343"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v095.json",
+      "sha256": "e74adcc327fa844ab275083091649f9821115e3ab21f28b0e094d276afe8d395"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v096.json",
+      "sha256": "1d7340ae06afd3c20b72032d8bdd4d43af01b7dce356ef9325c4e05eebe6028c"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v097.json",
+      "sha256": "6153242ad86edd5e776e3c1e01c2d1d60bc94628b87d7e9e59ce573b432378ff"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v098.json",
+      "sha256": "3e91be0f40d3e162189a4591586d3625dd039d83b0bfa2c83e2b4b33a3a3b273"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v099.json",
+      "sha256": "fe22d9ff6122a3c4f28a0037040b4ff97dbd48e8b73cda71157239e1757f004a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v100.json",
+      "sha256": "d67f0333861500e2e637cb6d4460d8fffd42f0524fc510c8b73ab266a095b3cf"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v101.json",
+      "sha256": "b9965f7018813b48f0a63666a238e6d38a72a6eebc1d4ca0218f061ea04a4b71"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v102.json",
+      "sha256": "092296e30ab379cf8106204a343490201ec5f1fc5a2980c306bdbf7ba1842802"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v103.json",
+      "sha256": "8970032e4689886ec0d9ea7871022a3a0b3e08851e4dfd5b5fac76b878a2744c"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v104.json",
+      "sha256": "2d82e177280df5fa7b042bf6d71195b9ab43370a604d10bae3e2687131e4c048"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v105.json",
+      "sha256": "7fda377617561db35b14c276e7b2abff9ad9e56bc962f9c91812165fbf63b563"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v106.json",
+      "sha256": "f22d7cdd7576a8800255b5113fc0bfeb7f08b45c330d98d4463a5b570e7f0f66"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v107.json",
+      "sha256": "d42f070a0472d2e5ca0ef094f4a83693778a7b3a8e79e843d40c39142391e0ba"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v108.json",
+      "sha256": "93df0fcebb08cdf2aeb7b98ac0a1d8255d1244e310bcd7ffbd5db8bfe7f568ee"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v109.json",
+      "sha256": "5ff6ea19664da0fa16ea17a578acec70bcf55662ae347b3246c1544823fea563"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v110.json",
+      "sha256": "70848108a8e0768cd6529e1c654148bdc6b70d2125823b328cc4aef62e6e8941"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v111.json",
+      "sha256": "d683d8ed6ffb0f02c2b14e3ff90fe3dcd2b0cefa6b1c67859fa1f365bbac67da"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v112.json",
+      "sha256": "9f3b5e12500d89e2e377ab1cbe9e3e9ccd0654f8e0505045aa852fc07414d341"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v113.json",
+      "sha256": "8254f7f1e5c4640532dc2339e3b65c243ff76b7b7c4f755dfa3bf253b565b1f2"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v114.json",
+      "sha256": "90ab74b812155162ec61fca9483fa0ff49a58ee62ef71dce65456965a8fb231a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v115.json",
+      "sha256": "1a2d8773122d289fd721dddd6fcab4141ab939fe0613f268cae2e3d3f76cb7ab"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v116.json",
+      "sha256": "7437d5a19476047150c03f93212cbf8fecd829e5a36ade76e2b2e30a37acf6ac"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v117.json",
+      "sha256": "6ab4ee2976e77e170384606738781667532bfa0754efac25e5b3b3935527d615"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v118.json",
+      "sha256": "3fb3ed5a4559ff84a50677df4a4c782d4688045a668eff8f6ad755404d4fd18c"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v119.json",
+      "sha256": "6830e46b4e81bac8d973abc2816504998c03252d7bd2c17116095147df9c5d37"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v120.json",
+      "sha256": "b32260b0276ed858f887a7e9a960b1e8aaf96842538fd7b588b6ef53e814a543"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v121.json",
+      "sha256": "b37ffbc48a312826fb69630c547cbab5c7d6daed320e92bcfb82370d0fc4cd63"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v122.json",
+      "sha256": "b0002042d7cc8f9163af2982541cade34b42d76bb14b99b50ebf366141a9e48c"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v123.json",
+      "sha256": "51667254d97d3ccb9a4263f6bfc12292cc20644726494d42bf37e0471a115a70"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v124.json",
+      "sha256": "0306d6ca0b7ab7ca1d38c9c2196455f9d0fc54177892e82bbd05563be1bca27f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v125.json",
+      "sha256": "f27e04244b42856b76f6836bdb966ae0f0b84e6dbe598b91674780a38ef6b247"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v126.json",
+      "sha256": "cd69a79ba8a5b7a27e571a1ae182e26e2425f9046426e52c72f4f840ffa44a50"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v127.json",
+      "sha256": "ff095a1308d88100a95312267dad9d216a878f36aa131ec45059797c8ed8da52"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v128.json",
+      "sha256": "95e9bf50d887f9fd9e961d281e1843e84be60e47f597727cddead027a4737011"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v129.json",
+      "sha256": "c92ee9cdd20869484ec5c71c35fa1d96689abf5f1102cf76919d01399a0f6cd9"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v130.json",
+      "sha256": "126641964c84fba227769b1c6367c7430969bfbcd13df684675b45e8f5929711"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v131.json",
+      "sha256": "9589e6a03643402e8686c2e5fe49db18cffd8c5a3cec608671c12975124925d5"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v132.json",
+      "sha256": "d14c09cc4a9ac18acca6f124c73a58f7e2648080150922fa14d9c98e0314e28f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v133.json",
+      "sha256": "b7d1f79a06cbc9f58de95921421f0ebd02e80489227cdb6f93a53ad10947cdff"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v134.json",
+      "sha256": "0980bd2bcf4a2e7770eef6ed4931a968d7ecbdd36fa3d862b3bfcac620dce449"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v135.json",
+      "sha256": "1f8576c77c3e3a1775ba3bde3abd23cd59401893ce113fa326ded818329d4903"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v136.json",
+      "sha256": "bbe64317f4f9f95aad1d72a05eb3c2294126d83844697d70c35b2f439d275ec4"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v137.json",
+      "sha256": "2abfd5305f8c56ca482c4c76df57a7449598ee29cce92d79ab1ab747f0f05cda"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v138.json",
+      "sha256": "2da4faf59e44d005f1251318a6601cfffcd067f0ca3b8e3f99a1dd042622cef2"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v139.json",
+      "sha256": "b4365057a84681e068481a5e918ce7dd49f77a866b7ffcc53c176a92ee77f7b8"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v140.json",
+      "sha256": "319df12042c47d8009971fb48eb9afa4a5f33129cda1d43b1995f7421021f96c"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v141.json",
+      "sha256": "420b3a8f9f28795b32741a4a8b2fb138e9d6c2be5cf968590a1f73d441f7288e"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v142.json",
+      "sha256": "4ed4d13f4fce8d70d588c30317a2db1c95d0322f70acd4dc43511a2a199c696d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v143.json",
+      "sha256": "93900a97fdb015f30e67e0a24d1f86545dee922e312bfdbbde8a950d7c9ffefd"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v144.json",
+      "sha256": "46a5a3ad9d99b20e6b22d78a28d27b814575ff72f2d122c24806c5453cc3aa96"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v145.json",
+      "sha256": "6754652fce29e7bb47f622c58f26353f6876f4e49c16fb1a35853d4aa8629760"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v146.json",
+      "sha256": "a056baae6f2d6d928d913ac89025d32b05f947df403567df80c4eb7b41d6ddd2"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v147.json",
+      "sha256": "c49e671e6192dc07ecb4aab536fa04dbd71b42161e9084289b8976e8b93e52ef"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v148.json",
+      "sha256": "427ad6a6a1b99a5dc6b2b26628ec140315601e83b1e1229a6aaf30715c4878ea"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v149.json",
+      "sha256": "a31ba08d0c448dfcf47869cc141678471770f738e674464c6a138b1c017d1d9a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v150.json",
+      "sha256": "7bc1de698897664d4e72ee026bffb1bc8ed1186224421b54a6c09882f3294fdc"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v151.json",
+      "sha256": "b8c64519b6977acf423119825fa43893b92fdf4e973877261a12134357d804de"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v152.json",
+      "sha256": "f83182554e3920c92d44303ddf70aec3108441d3f16b92d7b0ee559b2f077620"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v153.json",
+      "sha256": "2b1e09f110cebc9eb0cabc3e502747a71470f147b87cda125980370f1de8a1b8"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v154.json",
+      "sha256": "ec98e16793626683189fe3aaf5589fb7cf5ab4cefa94ecda993ef13497ff4d06"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v155.json",
+      "sha256": "42d59d1a544672e7b47b4d23126111c4809c7b42308be8eb3daffbeb847fb128"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v156.json",
+      "sha256": "2b36e45050fa4924e88b78c2ed1007306d586640e0225748b1d680d170a11060"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v157.json",
+      "sha256": "19e6daeb0c6bbe547781ec446650fc0899ccdfef348a8560baee4eb9c574ac53"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v158.json",
+      "sha256": "e4b3531933e28214228bd023b27db0c512a4963b3200d44a7c2923deb2e87954"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v159.json",
+      "sha256": "2f4bf978b7b142177f8836f98bd550d649c57c078ac3dc6463e21520e3b535de"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v160.json",
+      "sha256": "0bb3f7397281da0d518db143aa1d0c669899f26fa92f03c85e2c3d3df41aa8ce"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v161.json",
+      "sha256": "46f31029b5c0e6f2b0adefa82b6fb811e05cc9c1e0e68bf087c16c6000beb0e2"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v162.json",
+      "sha256": "147002fdaad6e0d18e666e0d967533575364ef0c296213df74391cb89cbab912"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v163.json",
+      "sha256": "d04c45eac879307884e56b357c085d48ff470a8015722fdec8ab9b66729ec655"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v164.json",
+      "sha256": "4c228b3a48fae5cc91ceb47f02716fe4bd160d281d9e3fb724f208de9846e28d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v165.json",
+      "sha256": "40bbb276d202c664b9289e9a6b126acab2dab08c718d671406ce5741d02558df"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v166.json",
+      "sha256": "3fc797e93182798dd856d40e320cbef74746d19395765a39e1c792eddcaf95db"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v167.json",
+      "sha256": "cdc01b1fe7d3b5299d2532ffb87187bcfb845d9e704207b239b0889bd258f927"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v168.json",
+      "sha256": "3ff6ecb03b8a16fd9b7998837378a895ccb40c0854d03ca63741a348eaf10aff"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v169.json",
+      "sha256": "88dd0090149a6bf3b09ecef5e5c3195e9b23beabc47bd479f9b9bb89e8673869"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v170.json",
+      "sha256": "3f7614f9d232ed906dca6ce23c869577d39b76c29fc998675d9b297ca4218e0e"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v171.json",
+      "sha256": "388875a711b035193132f89ec7ea0f5061f3546e2c63610c1a40c88534161691"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v172.json",
+      "sha256": "03577d8109732a0d769558e1c4275609faf8d192cee7e2472e4566560eaee422"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v173.json",
+      "sha256": "eac196047fd371f0107b32088cf760b2f1fd0bcdc481b962f36cef4676e5c636"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v174.json",
+      "sha256": "15ec63d9346154a7d242b4c51f2f707a70de36d5f1fb3d538177045e1246491a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v175.json",
+      "sha256": "1b40c5e919a525fdf198623b9cbaea5023d01c834d63872b859ee43303f39a53"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v176.json",
+      "sha256": "481f76ca14e78860ecf27794b85be140dd5cd414a8b1ff11ce5f9bf887a1fc47"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v177.json",
+      "sha256": "b17a769eb1f39a02d5bbb1a52aef869c6dbda9ba60066799b9824c3b3f7f173b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v178.json",
+      "sha256": "34c730d376da2b46887f265d485c6af2a7b22a16fac671b1876e0a3fd1add12f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v179.json",
+      "sha256": "88004749613aad2dff3633d2ca08ccb506aeedb71b06ceada86fab94e48150d4"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v182.json",
+      "sha256": "42bb893686e37af9555770e14d5081c80fc4c1dd8ec45cd2d7a199aff95cabf5"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v185.json",
+      "sha256": "14a0869a287cd3778b460bd599f7f3d1d032bb7cf96d4ef2fc5c216f0002c456"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v186.json",
+      "sha256": "baa110c1a3cb983843439e3f6cb0b91fdab0553b3b1037cc9f89a8e400743d01"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v187.json",
+      "sha256": "085bcd9b62b3669644f2fa6bea381da65b96517d94de3990bd711efc8c69e007"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v188.json",
+      "sha256": "e08df91108a13a1c11373bed874fb38ae211cae0449d482a1ddac8fb29cc617f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v189.json",
+      "sha256": "d13e9383e2e66a8c4f8b68bff445f41f53622ff058a81c396e87e17f4b371944"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v190.json",
+      "sha256": "ac21963dda9e0c4f32b4ce9979ae9e4df2142ffd46edffee65f4442f8e8317ea"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v191.json",
+      "sha256": "c8d4b79043d19355ce3d8244c730cb38a16d119d147580452582ccdca786e21b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v193.json",
+      "sha256": "baecec058a90b4c5a8ffb1a0108dfc727e93e261601eece089c16a75a8d9a441"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v194.json",
+      "sha256": "9c0cc91048af5bc70fefe5d57a7a37ec70b78cf60cc98508e43804c8a1ac7bc6"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v196.json",
+      "sha256": "1bfc997a7d3dd3d47aef9afd1d5dbc32b255aa27533b8352dae676b75f695c19"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v199.json",
+      "sha256": "ac63fa55ad390dcde8902234f12cce7309ee84a311dd3c4121a5c1ffd63dffa0"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v201.json",
+      "sha256": "2b21c33d7c70eb9a3680736966cc2c7dd76c1ff46dde914c6ae05e6dbe7d4672"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v202.json",
+      "sha256": "73ae35dcc76843d7235ee42ae032a93641ca82ea18190f310d1e1d932653b661"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v204.json",
+      "sha256": "e312a020cba9e35a76a9aeda8c36ef1f81e2266f8f51521d38603dfeae87d474"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v205.json",
+      "sha256": "beea92bec93f02ea9d2117f693042a8038ef0ec2bd8acdbef7443ce264a7fe6f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v207.json",
+      "sha256": "7abc1505964b48b20060ce03bd8f305c4e4e3494aa8b2265d906e9c14c4f9fb7"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v208.json",
+      "sha256": "1579c5c1e3cc3877935434febd038707ee5ea38c4221531076066177e9d7f626"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v209.json",
+      "sha256": "3716d5b523dae045a66cb2cb1e54a0784143364acd11f313a60721af3a8d6a5f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v210.json",
+      "sha256": "312dadcd3dc85dc44a22fb8973ca690bcd1a053197e09bdd32ef0d38de9ea0f4"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v212.json",
+      "sha256": "6a8d83a0dfb89cb4b04548a5bcdc13faf0b847b1a3644c791027c6e91a107ccd"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v215.json",
+      "sha256": "37f6b43fdd51a3f4d3587744eb9cf9b17607699893b6a1f76c195d3d7d77c214"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v216.json",
+      "sha256": "cfcb8f949c5f708e329d5d555ec3156edf5cdd4b5e065df399bffe5227570769"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v217.json",
+      "sha256": "4aef9575dbc1f62ba0b01243ba209ff06a127913f0d0701a562d2e24ef7bd1b2"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v218.json",
+      "sha256": "6682da05a203dacd72337411c2480b52808dfa8fe8badf3b9e15cd0197e19cf3"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v222.json",
+      "sha256": "8ff20c6709ee0053d7ec9b9e849ac3547403fc9141cac98fe8ccb78659f1708a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v223.json",
+      "sha256": "34841dd41c502ae3aea4892334ddc76892ee897bce6ebdeb6c300bf659259720"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v225.json",
+      "sha256": "d90abe6493ec5b2e36f57f0ee380a94c3932940fb2a02349a4d6af22c55fe5e1"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v226.json",
+      "sha256": "110a2735bf6945c9440b2c77bc7eb9f08905e372946d6bbfa6dc4628c9e31614"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v227.json",
+      "sha256": "d64afed6cffa002e5563e00cc69639c04ade5dee20c5a9da20b44a6c41b72500"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v229.json",
+      "sha256": "3201f8ca4d616edd42efe9a8ab400af3755f94d8b29d0285d14e21a88da7a17d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v230.json",
+      "sha256": "8c07795ff8d32a783aabf0af4a4d3dda5674f3a42922ae2aa7973bac26d1e013"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v231.json",
+      "sha256": "1cb0e39228d42c70f6065560636a6ca0f9ded491371f6a4664c0c0d0bd9c551b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v232.json",
+      "sha256": "94e327c0fcc0d7002a4e93de7c1ad4321ce37b9696876d113b046d2edb8d7562"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v233.json",
+      "sha256": "2bd44d13167734a55f9e73d641540f90858c484941af0a4fd5b52eb57cb3ebf5"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v234.json",
+      "sha256": "dd756b01f622e45e5439d8710fd79a1b1c93673c807d04db62567b2a3d63a33e"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v237.json",
+      "sha256": "eee3d9d81861c7d47374850529b066cd8b90cd81ed75d34fad9c639a2706d4e3"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v238.json",
+      "sha256": "2adf030276dc8f95c7c54034beac42884f9b404d3fc8641f67c534f5d51db8e7"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v239.json",
+      "sha256": "5b8f4f129e18ace9bb145d77878c8f6961fc020eccef36ebeae246bb4f65a1ee"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v240.json",
+      "sha256": "9a861007937c5e746b9b5c8914699acc606a4361e383256f020d56580b1b26cc"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v242.json",
+      "sha256": "9046f75f895694cd4b7496340aa6d2107106d5d4380d335327850573f0de252b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v243.json",
+      "sha256": "387d76ae13e078b8fb4eb84f0bd9204d75435a66332b45ae8ba5dc36d1a1abdf"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v244.json",
+      "sha256": "6330dbfd2892c0215d52dc209c9d38a96ae318624a2f7f75dc19a67a90e46ef2"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v245.json",
+      "sha256": "c82daa3b4f5cfffa49333aed48385fc991f9a6e9a937cb22ea936290b2396822"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v246.json",
+      "sha256": "ff8efabc3385d3b9a397c4ff05366f3aedc765b73b5310d137edfe4ada154e64"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v248.json",
+      "sha256": "d2ac08be71c96843701a97b429c93300156e93a689b8c9fc7dc695177773ffed"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v249.json",
+      "sha256": "1c1140f54086e37a91900ec90683487d11397b5a4fdb2e92d8f4fc4f62561b10"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v250.json",
+      "sha256": "5628bb3acfce47170429c776b621383fee9f5a5266f406f196190c7d07457211"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v252.json",
+      "sha256": "534e9c14f88351b2ebb0c3cc68bf17de03997f404d00931eabd3392b492076fb"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v253.json",
+      "sha256": "52062fbbf55f2afd40cfde214e964bb62768918633d9020763954c08842dfd46"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v254.json",
+      "sha256": "7048fd7dbfb780a95b4af772712cac8b329a71ab0e2dba4b0199b06ae37c024b"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v256.json",
+      "sha256": "d70f0b1f12eecd44f75918a33c7fe526c2d5afc36ac4db0826437f5c29d18f94"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v257.json",
+      "sha256": "d83b45357e8270912ecb27c7294f8bd522898576724747ff35943abaf6810a31"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v258.json",
+      "sha256": "59c40090f8c4c7146ac53e5e9862ad33f77649dfa61e0db2a58011357bf6ff5d"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v260.json",
+      "sha256": "79f42645860a1c2ab635891cdcf3428a2c9612aff03578719badbac2c29c1622"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v261.json",
+      "sha256": "feccc444a16dc13e7a4453ef12ef6f49e17a630cc8309e343ddf642693ea57b2"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v262.json",
+      "sha256": "160c659402fe967d3c4646aab7b5c11b8a0affcfb9eb4fd8c09ef10b02be65b3"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v264.json",
+      "sha256": "95b7e6421513fb9ab74dcb791eb2e8c495422eaa82321139d41422fc1c632d04"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v265.json",
+      "sha256": "18ede51c7ec344e4d28812fba5b76a6a04dc5e367055a3ffcc4456ccd5e7edf4"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v267.json",
+      "sha256": "1cbfe6dad45a720314fbd0afe2363c1ad186b330bbd80720f789d01f43869505"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v268.json",
+      "sha256": "2edee76a87ebee4458d72fe749905bdde27ba94c1feb58099be50faad0f5dfd5"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v270.json",
+      "sha256": "ec9ebc35882198ee9f2fdf2967c0e33e21890e412ef154ef5738e645829da17f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v271.json",
+      "sha256": "7973cbbe005c0429bed4460f8e99f7a3dfdf6b888fd1906c3b289080e347a881"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v272.json",
+      "sha256": "0a36a2248cb36a9b58677d07bd91e5da7a1a6bbea5b12eb301a290d22184d428"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v274.json",
+      "sha256": "24e7128280a49803e129c59317fa619963514b8aa82f0ee516858e009707859f"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v275.json",
+      "sha256": "fa2eb2262d7da806f8eee76093d5ee6648eb121c7555ae3bccfe007f37758dfa"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v276.json",
+      "sha256": "061bad34ffb14c6f16c683fafc4782bdc77184d60d7ea66def61f761bfe2b130"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v277.json",
+      "sha256": "d77be774ab0512799d35a6b30d8b983ae355bef8e550dcf88968a4feaade29a9"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v279.json",
+      "sha256": "ce7d2471e022bc5428315114174df65c857de03c729db1dc14a3a5e89c77d5fa"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v281.json",
+      "sha256": "f8cc0424974fbc04a4f887f0cc95d5a16b5911d8c22b78a03c4cdf8075eed982"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v282.json",
+      "sha256": "e0e07f135594bda9e02192cfa599418592d53aa90ae1da1d45f20885fb506d87"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v284.json",
+      "sha256": "2d7bfe57ea52f5bc24715cd5883684985a0aaf9134c9068fefb7d65764265f06"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v285.json",
+      "sha256": "e3793f865110a0877eec4a3bda7af55ff7dc1024f18a9ee3b55ae08ee37b0354"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v286.json",
+      "sha256": "d4cb1ac502ff9543ed7d95574f18e894bb2d7da4a61e2427008e260929067e4a"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08c_combined_20261001_v1/journal_v287.json",
+      "sha256": "2e897666d76f4274aba7b690df580c366f90d2420a31817ca0199342790ed6c2"
+    }
+  ],
+  "next_action": "Task08C done. Await direction for next task;53approved eligible for later intake subject to saved scope/context and historical reconciliation requirements. Four deferred cases do not advance.",
+  "order": "unchanged selected_candidates.csv and summary.selected_cases",
+  "pending": 0,
+  "preservation": {
+    "commits": 0,
+    "historical_health_approvals": "unchanged",
+    "later_stages_started": false,
+    "new_codex_chats": 0,
+    "new_projects": 0,
+    "pushes": 0
+  },
+  "process_revision": "task08c.combined_chat_review.v1",
+  "queue_position": null,
+  "schema_version": "task08c.combined_review_result.v1",
+  "selected": 57,
+  "similarity_filter_applied": false,
+  "status": "review_pass_complete",
+  "task_status": "done"
+}

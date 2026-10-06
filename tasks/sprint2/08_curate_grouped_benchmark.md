@@ -1,12 +1,40 @@
 # Task 08 — Curate the benchmark through isolated group batches
 
-Status: **Contracts drafted; execution not started. Only 08A is the active next
-contract. 08B–08H are provisional until their first-use readiness review.**
+Status: **Task 08 remains in progress. All-group 08B is complete and Task 08C
+is done: 57 selected comments reviewed, 53 approved and four deferred. Historical
+health-risk 08C–08F work is preserved; this combined closeout starts no later stage.**
+
+The [08C outcome](08c_review_group_questions.md#combined-pass-outcome) and
+[validated result](../../docs/specs/task08c_combined_review_result.json) own exact
+versions, decisions, citation clues and reconciliation requirements. C013, C023,
+C038 and C057 do not advance unless explicitly reopened; these recorded deferrals
+do not block completion of Task 08C.
+
+## Current 08D chat workflow — 2026-10-05
+
+The [08D contract](08d_review_group_claims.md) replaces per-group Label Studio
+review for the new combined pass with two chats: complete batch preparation of
+all 53 current approved questions, then human review of one prepared claim at a
+time. Group membership remains provenance only. The review template repeats all
+question, target-claim and source context. Historical health-risk work and its
+reconciliation holds are preserved. The practice is stopped; updating the contract
+does not start batch preparation, production labeling, new chats or later stages.
+
+## Current 08C presentation amendment — 2026-10-01
+
+Kyle authorized one combined 57-comment wording queue in saved export order,
+including both health-risk questions. The [combined process](../../docs/specs/task08c_combined_chat_review_v1.md)
+supersedes separate-group presentation and the historical three-comment limit
+for this pass. Require an explicit disposition before each next question. Keep
+original group membership as provenance, do not remove similarity candidates,
+and preserve historical approvals and downstream work. New health-risk wording
+creates a separate version and a later reconciliation hold. No other stage,
+project, chat, commit or push is authorized by this amendment.
 
 ## Abstract
 
 Turn the accepted exclusive groups into human-approved reference cases through
-repeatable, single-group review stages. Separate candidate selection from
+repeatable stages across all participating batches, with question-by-question chat review at 08E. Separate candidate selection from
 question rewriting, reuse versioned review interfaces, and keep labeling out of
 the main coordination chat. After all groups finish, review cross-group clusters
 and agree the final benchmark size and split before serialization. This task
@@ -18,7 +46,7 @@ Writing these contracts does not start implementation, projects, or labeling.
 Produce an auditable benchmark from faithful questions, substantive rebuttals,
 and usable original Draft EIR evidence. Aim for 25 accepted cases without
 forcing that yield or discarding good cases merely to reach 25. Keep human
-selection, two-pass eligibility, evidence acceptance, and answer approval
+selection, evidence-based eligibility, evidence acceptance, and answer approval
 explicit. Let cases drop without automatic backfilling.
 
 ## Inputs
@@ -61,17 +89,32 @@ Reference sealed upstream material in place; do not modify or copy its releases.
 
 | Contract | Unit and completion product |
 | --- | --- |
-| [08A — Rank candidates](08a_rank_group_candidates.md) | One group's saved source-bound order and ranking reasons. |
-| [08B — Select candidates](08b_select_group_candidates.md) | One group's human selections, first eligibility pass, skips, and stopping point. |
-| [08C — Review question wording](08c_review_group_questions.md) | Selected comments rewritten from comment-only inputs and exact wording approved. |
+| [08A — Rank candidates](08a_rank_group_candidates.md) | One group's saved order with exact source/input bindings; no generated ranking explanations for future groups. |
+| [08B — Select candidates](08b_select_group_candidates.md) | One group's human selections and reasons, reviewed dispositions, full-inventory reconciliation, and chat completion confirmation. |
+| [08C — Review question wording](08c_review_group_questions.md) | **Done:** 53 approved, four deferred; all 57 decisions and exact wording preserved under the combined process amendments. |
 | [08D — Review claims](08d_review_group_claims.md) | Approved response assertions and direct/supporting relationships. |
-| [08E — Review evidence](08e_review_group_evidence.md) | Reviewed support/context sources and second human eligibility decisions. |
+| [08E — Review evidence](08e_review_group_evidence.md) | Reviewed support/context sources and evidence-based human eligibility decisions. |
 | [08F — Review answers](08f_review_group_answers.md) | Exact reference answers approved in a dedicated chat. |
 | [08G — Review clusters](08g_review_case_clusters.md) | All-group relationship review in chat after all authoring batches finish. |
 | [08H — Serialize and freeze](08h_serialize_and_freeze_benchmark.md) | Agreed final size/split, verified exports, leakage audit, and release. |
 
-Start with the health-risk group, taking it through 08A–08F before starting the
-next group by default. A group yielding no advancing cases records a zero-case
+Complete one numbered task across all participating batches before moving to the
+next: 08B, then 08C, then 08D, then 08E, then 08F. This 2026-10-01
+amendment supersedes the former group-through-08F default and preserves completed
+health-risk work. A subsequent explicit 2026-10-01 exception authorizes only
+C001/M-OSEC-241 and C002/O-Joint-44 to continue through
+[08F](08f_review_group_answers.md) in the existing chat after saved-export validation
+and one export-bound human eligibility decision per case. It authorizes no other
+group, project rebuild, relabeling, backfill, or 08G/08H.
+The [current 08E plan](08e_review_group_evidence.md) prepares research in batch,
+then reviews one question at a time in chat without source deduplication. The explicit 08A preparation
+exception permits all remaining groups to prepare saved handoffs ahead of review,
+with deterministic comment-ID order and no model invocation for groups of at most
+three candidates. Preserve valid completed handoffs and all later human gates.
+The separately authorized 08B setup exception permits one blank project per
+remaining group after shared intake qualification, ahead of human selections;
+see the [setup result](../../docs/specs/task08b_remaining_groups_result.json).
+A group yielding no advancing cases records a zero-case
 handoff; its downstream stages are not applicable, not missing approvals. The
 batch register accounts for every group and every selected case before 08G.
 No requirement to review all 606 candidates or identify 35 before authoring.
@@ -81,7 +124,7 @@ that deferral separately from rejection or eligibility exclusion; it is a
 terminal disposition for this pass, not resolution of the underlying question.
 Record deferred counts and reasons, and require an explicit revision to reopen.
 
-Contracts describe reusable stages; they are not duplicated 42 times. Each
+Contracts describe reusable stages; they are not duplicated 42 times. Except for the planned cross-batch 08E review, each
 execution chat handles one stage for one group, for example “Health-risk group —
 08C question wording.” Prepare a self-contained handoff with the contract,
 allowed inputs, exact versions, pending decisions, and intended output location.
@@ -91,16 +134,18 @@ questions, not candidate labeling or answer approval.
 
 A batch can close while the stage remains available for other groups. Before a
 stage's first use, revise its provisional contract from the accepted preceding
-batch, qualify its interface, and activate that bounded execution. Do not wait
-for all groups to finish 08A before activating 08B for the first group. Later
-batches reuse qualified stages; the active queue identifies the current group
-and stage rather than implying every stage is globally complete.
+batch, qualify its interface, and activate that bounded execution. Under the current task-by-task sequence, reconcile every participating batch's
+completion, stop or explicit deferral before advancing to the next task. Later
+batches reuse qualified stages; the queue names the active stage and pending
+batches. Earlier authorized health-risk progress is retained, not repeated.
 
 ## Shared review and versioning contract
 
-08A is model-assisted prioritization, not eligibility classification. 08B–08E
-use shared stage-specific Label Studio configurations. 08F and 08G use chat
-presentation and saved-decision schemas. Astra (`gpt-6-astra`) supplies all
+08A is model-assisted prioritization, not eligibility classification. 08B, 08D
+and 08E use shared stage-specific Label Studio configurations. 08C uses
+[`task08c.chat_review.v1`](../../docs/specs/task08c_chat_review_v1.md): source-only
+chat iteration and explicit approval of exact displayed versions. 08F and 08G
+also use chat presentation and saved-decision schemas. Astra (`gpt-6-astra`) supplies all
 model-assisted ranking, wording, claims, evidence, answers, and cluster
 suggestions; humans own selections, eligibility, and acceptance. Record actual
 model identity rather than attributing an unavailable or different model to Astra.
@@ -112,7 +157,9 @@ Each stage has two bounded parts:
    adapt a shared template, input/output schema, prompt, and validator. Check
    actual queue behavior, proposal prefilling where applicable, saved human
    edits, and export against representative source-free fixtures.
-2. **Execute per group:** bind input versions, generate data/proposals, validate,
+2. **Execute with group identities retained:** 08E may pool source review under
+   its named revision; other stages retain per-group execution. Bind input
+   versions, generate data/proposals, validate,
    create a separate project from the existing stage template where applicable,
    obtain human decisions, and export only approved advancing records.
 
@@ -123,10 +170,24 @@ lengths and record counts are data, not reasons for a new template. Reject
 empty approvals, stale versions, unresolved IDs, or exports different from the
 content displayed. Keep proposals separate from human annotations.
 
+The shared `task08b.selection.v2` form implements `task08.selection_gate.v2`: explicit
+selection with a reason is the sole 08B human gate to 08C. Its source display
+contains original comments and complete linked responses, with existing warnings,
+ranking reasons, source limitations, and exceptions preserved in underlying
+provenance rather than displayed panels or newly generated narratives. No separate
+provisional-eligibility or stopping control remains. Reconcile saved annotations
+against the full inventory after chat confirmation of review completion; unanswered
+candidates remain unreviewed. Preserve all reviewed dispositions and the maximum
+of three selections, allow fewer, and never infer selection from rank. Record both
+template and process revision in the batch register and coordination handoff.
+
 The question-wording chat receives original comments and comment-source warnings
 only: no response text, response-based ranking rationale, prior answer, or
 claims. Keep restricted provenance in a separate record outside that model
-packet. Subsequent stages consume the same frozen human-approved question.
+packet. Preserve chat proposal versions and verbatim feedback; null proposals
+remain unresolved until human disposition. Flag user-added intent unsupported by
+the comment. Freeze only exact displayed versions explicitly approved in chat.
+Subsequent stages consume the same frozen human-approved question.
 Any material question revision creates a new version and invalidates dependent
 approvals for explicit re-review; no silent downstream scope changes.
 
@@ -168,7 +229,7 @@ contracts using real batch outcomes. This drafting turn implements nothing.
   qualification checks must exercise real queue/save/export behavior before use.
 - Verify at most three selections per group, one case per original comment,
   exact approved question reuse, and explicit reasons for stops and exclusions.
-- Check both human eligibility passes, approved claims, resolvable evidence,
+- Check explicit 08B selection and 08E human eligibility, approved claims, resolvable evidence,
   and explicit answer-version approval before final case acceptance.
 - After all batches, validate cluster candidate checks and human decisions;
   never split confirmed clusters. 08H must record the agreed allocation before
@@ -207,5 +268,24 @@ in the umbrella chat and no per-group bespoke review implementations.
 
 ## Outcome
 
-Not executed. Contracts only; add bounded batch and final outcome references as
-execution occurs, without turning this router into a per-candidate ledger.
+The health-risk group completed [08A](08a_rank_group_candidates.md#outcome--health-risk-group-only)
+on 2026-09-30. Its validated four-candidate ranking and source packet are ready
+for 08B. Health-risk 08B is now complete: M-OSEC-241 and O-Joint-44 selected,
+M-OSEC-243 and M-OSEC-244 excluded, all four reviewed. The shared v2 interface
+remains reusable; see the [completion and handoff](../../docs/specs/task08b_health_risk_result.json).
+Health-risk 08C is complete with two explicitly approved frozen questions under
+`task08c.chat_review.v1`; see its [completion record](../../docs/specs/task08c_health_risk_result.json).
+Prior proposals and Label Studio preparation remain preserved. Health-risk 08D
+has a qualified shared interface and a pending two-case claim-review project; see
+its [readiness record](../../docs/specs/task08d_health_risk_result.json). The remaining
+groups are unprocessed; no 08E work is authorized.
+
+## 08B all-selected closeout amendment — 2026-10-01
+
+Kyle confirmed all groups finished and accepted every saved Selected candidate,
+including groups above the original maximum. The
+[all-group export](../../docs/specs/task08b_all_groups_export_result.json) records
+57 selections across 28 groups, native skips and untouched candidates separately.
+This changes the closeout policy only: preserve prior health-risk work, require
+qualified v3 handoff intake before remaining-group 08C, and keep later approval
+and eligibility gates unchanged.

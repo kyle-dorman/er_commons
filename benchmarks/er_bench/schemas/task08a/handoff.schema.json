@@ -1,0 +1,61 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "group",
+    "inventory_id",
+    "candidate_count",
+    "proposed_order",
+    "next_stage",
+    "human_selection",
+    "human_eligibility",
+    "ranking_is_advisory",
+    "selection_template",
+    "wording_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "task08a.handoff.v1"
+    },
+    "group": {
+      "type": "string",
+      "minLength": 1
+    },
+    "inventory_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "proposed_order": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "next_stage": {
+      "const": "08B"
+    },
+    "human_selection": {
+      "const": "pending"
+    },
+    "human_eligibility": {
+      "const": "pending"
+    },
+    "ranking_is_advisory": {
+      "const": true
+    },
+    "selection_template": {
+      "const": "08B first-use qualification required"
+    },
+    "wording_boundary": {
+      "const": "Do not use response-containing packet as comment-only 08C input"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

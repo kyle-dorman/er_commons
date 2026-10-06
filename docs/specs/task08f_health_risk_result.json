@@ -1,0 +1,78 @@
+{
+  "schema_version": "task08f.health_risk_result.v1",
+  "status": "complete",
+  "scope": [
+    "M-OSEC-241",
+    "O-Joint-44"
+  ],
+  "case_ids": [
+    "C001",
+    "C002"
+  ],
+  "case_states": {
+    "C001": "approved_answer_v1",
+    "C002": "approved_answer_v4"
+  },
+  "process_revision": "task08f.chat_review.v1",
+  "prompt_version": "task08f.reference_answer.v2",
+  "handoff": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08f/chat_review_v1/exports/approved_v1/handoff.json",
+    "sha256": "6fb398735126e0f6d37064212e93de576e7e3275ef9b5c1d9264cad693949c73"
+  },
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08f/chat_review_v1/exports/approved_v1/completion_v2.json",
+    "sha256": "deacee8affb29b92c6c3f083ed662fc2736b91bb1ea1322adf1bf90e01990119"
+  },
+  "approved_answers": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08f/chat_review_v1/exports/approved_v1/approved_answers.json",
+    "sha256": "988da48e01565a16d56bc92ab6ed625292fb1189f16d095dac4c215501126a25"
+  },
+  "approvals": [
+    {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08f/chat_review_v1/C001/approval_v1/decision.json",
+      "sha256": "d21cf8dc54d07c7af722affa8e16b0f8a5efdaa899c99eb42ee1eff8b17dad47"
+    },
+    {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08f/chat_review_v1/C002/approval_v1/decision.json",
+      "sha256": "7ef7a2b6ebd464724921e7b9a6fe2790273546d4b8c85dcad030c6d2f6d444d6"
+    }
+  ],
+  "eligibility": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08f/chat_review_v1/eligibility_v1/decisions.json",
+    "sha256": "c5263b28470e160fbd775fdd41b0d3680a08b41005ad037406a203c4d8c03f04"
+  },
+  "upstream": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/exports/investigation_v1/handoff.json",
+    "sha256": "afba5a60922b569cbf2dc2fcdde62f5ba94704cc82ed5ef8208486a92fa3dbec"
+  },
+  "evidence_export": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08e/citation_first_v1/exports/review_20261001_v1/validated_export.json",
+    "sha256": "6aa32c1c21978a5d03eb0c19e7750d0c1a6e61d97a8bc013d0e208f8c4e90cc7"
+  },
+  "validation": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08f/chat_review_v1/exports/approved_v1/validation.json",
+    "sha256": "1446353145340e508c61c67b496faf4eb7038103458f97b5840492ad5abcbd68"
+  },
+  "counts": {
+    "approved_answers": 2,
+    "stopped_cases": 0,
+    "pending_answers": 0,
+    "approved_claims": 20,
+    "retained_not_relevant_claims": 11,
+    "unresolved_question_parts": 8,
+    "saved_citation_tasks": 43,
+    "explicit_relationships": 106,
+    "unreviewed_proposed_relationships": 7,
+    "answer_citations": 9
+  },
+  "batch_register": {
+    "path": "pipelines/brisbane_baylands/task_08/batch_register.json",
+    "sha256": "6f3d8ab7bc8d8079ed48f0e0a2d9da84c8f0e33d2d6cf15599ea117a8cc2244a"
+  },
+  "allowed_next_stage": null,
+  "next_action": "Health-risk 08F complete. Preserve this handoff; do not start08G/08H or other groups without separate authorization.",
+  "independent_closeout_review": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08f/chat_review_v1/closeout_review_v1.json",
+    "sha256": "cb3dd54e1423849c24d801c969a5c6122471ffad97ff230c0224e4bf2e141b51"
+  }
+}

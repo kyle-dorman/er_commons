@@ -1,0 +1,40 @@
+{
+  "schema_version": "task08b.similarity_review_result.v1",
+  "status": "advisory_complete_no_selection_changes",
+  "source_selection": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_exports_20261001_v1/summary.json",
+    "sha256": "f521676693f234f162b4e35d7efb7c3f066074d9e63b2a576c3cbf66c1c5879b"
+  },
+  "coverage": {
+    "comments_read": 57,
+    "groups_with_selected": 28,
+    "within_group_pairs": 53,
+    "cross_group_pairs": 1543,
+    "all_pairs_enumerated": 1596,
+    "exact_duplicate_sets": 0
+  },
+  "proposed_filter": {
+    "conditional_labels": [
+      "M-CSSC-38"
+    ],
+    "retained_representatives": [
+      "O-Joint-54"
+    ],
+    "current_selected_count": 57,
+    "count_if_conditional_filter_approved": 56,
+    "unconditional_filters": [],
+    "applied": false
+  },
+  "artifacts": {
+    "review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/similarity_review_20261001_v1/review.json",
+      "sha256": "afd72bd1846d1d4ee84d52052907ead3e03a0021acb0bab96fde214a3cb74609"
+    },
+    "readable_report": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/similarity_review_20261001_v1/review.html",
+      "sha256": "7e8004fcba6273f8c79ed913dcf81766d1338c275a53e021847a98896b1fe9c4"
+    }
+  },
+  "validation": "57 source identities/hashes verified;53 within-group and1543 cross-group pairs enumerated; independent full-source within/cross/challenge reads agree on conditional nature. Exact text/whitespace check found no duplicates.",
+  "next_action": "User may approve conditional removal of M-CSSC-38 while preserving overall rail-noise protection scope in O-Joint-54; otherwise retain57. No deletion or final08G graph applied."
+}

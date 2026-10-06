@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "task08d.chat_review.v1"
+    },
+    "queue_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "chat_reference": {
+            "type": "string",
+            "minLength": 1
+          },
+          "timestamp": {
+            "type": "string",
+            "minLength": 1
+          },
+          "event_sha256": {
+            "type": "string",
+            "minLength": 1
+          },
+          "previous_sha256": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "card_sha256": {
+            "type": "string",
+            "minLength": 1
+          },
+          "feedback": {
+            "type": "string",
+            "minLength": 1
+          },
+          "decision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "case_sha256": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "explicit": {
+            "const": true
+          },
+          "links_confirmed": {
+            "type": "boolean"
+          },
+          "gaps_status": {
+            "enum": [
+              "resolved",
+              "unresolved",
+              "not-applicable"
+            ]
+          },
+          "gaps_resolution": {
+            "type": "string"
+          },
+          "replaces": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "claims": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "question_parts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "case_id",
+          "actor",
+          "chat_reference",
+          "timestamp",
+          "sequence",
+          "previous_sha256",
+          "event_sha256"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "properties": {
+              "kind": {
+                "const": "display"
+              }
+            },
+            "required": [
+              "claim_id",
+              "card_sha256"
+            ]
+          },
+          {
+            "properties": {
+              "kind": {
+                "const": "decision"
+              }
+            },
+            "required": [
+              "claim_id",
+              "card_sha256",
+              "feedback",
+              "decision",
+              "explicit"
+            ]
+          },
+          {
+            "properties": {
+              "kind": {
+                "const": "revise"
+              }
+            },
+            "required": [
+              "replaces",
+              "claims",
+              "feedback"
+            ]
+          },
+          {
+            "properties": {
+              "kind": {
+                "const": "case_decision"
+              }
+            },
+            "required": [
+              "case_sha256",
+              "feedback",
+              "decision",
+              "explicit"
+            ]
+          },
+          {
+            "properties": {
+              "kind": {
+                "const": "discussion"
+              }
+            },
+            "required": [
+              "feedback"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "queue_sha256",
+    "events"
+  ],
+  "additionalProperties": false
+}

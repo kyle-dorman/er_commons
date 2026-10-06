@@ -1,0 +1,59 @@
+{
+  "approved_claims": 1,
+  "artifacts": {
+    "authorization": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_chat_trial_20261005_v1/authorization_v1.json",
+      "sha256": "5fc228321d5dad8510ea9237a9026f1d0f0ef6c0c3dba306bf9024a39a348108"
+    },
+    "input": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_chat_trial_20261005_v1/input_v1.json",
+      "sha256": "3528b9e833eedcc416516a50ee3f2ce823f8d7f3389f01e9c3355e2cc48c8a98"
+    },
+    "inventory": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_chat_trial_20261005_v1/inventory_v1.json",
+      "sha256": "71e196aab3a4cdee2dd4fa1c81e586e46e9fc02f2e91c137769e0024401cdc32"
+    },
+    "model_run": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_chat_trial_20261005_v1/run_v1.json",
+      "sha256": "3c310430acc674944380a0b61db69f2629e5b6a8e1c99e4665704d9b66113e64"
+    },
+    "proposal": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_chat_trial_20261005_v1/proposal_v1.json",
+      "sha256": "79accda7593c1e9ba6bd3859daed1c0f30a3a41c02bcbd0c6fc552f28668fdb7"
+    }
+  },
+  "case_id": "C056",
+  "checkpoint": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_chat_trial_20261005_v1/checkpoint_v2.json",
+    "sha256": "c2314946d9d092392b466cc326e85387203862109753e40e2151a61280de98d3"
+  },
+  "claim_position": 2,
+  "display_version": "C056-A002-v1",
+  "event_chain": [
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_chat_trial_20261005_v1/events_v1.json",
+      "sha256": "dd683d9615d9c8519e76ecb64bf6d0394032283c4f282d4042a76864c262a890"
+    },
+    {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_chat_trial_20261005_v1/events_v2.json",
+      "sha256": "8e48a5a2e245955c546f88018abc0dbeda38fa1aeff958f15a233ab114976206"
+    }
+  ],
+  "events": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_chat_trial_20261005_v1/events_v2.json",
+    "sha256": "8e48a5a2e245955c546f88018abc0dbeda38fa1aeff958f15a233ab114976206"
+  },
+  "later_stage_handoff": false,
+  "production_export_qualified": false,
+  "proposed_claims": 9,
+  "question": {
+    "display_version": "C056-v4",
+    "question_id": "task08c-combined_20261001_v1-C056-18b5e8d3b0bf385e8ee8679b34a214371c0686fcb99b49f7468ab90eb86f98da",
+    "question_version": "18b5e8d3b0bf385e8ee8679b34a214371c0686fcb99b49f7468ab90eb86f98da",
+    "text": "Should the Baylands project be required to prepare a City-approved master storm drainage plan before detailed design to identify improvements that reduce existing flooding along Bayshore Boulevard and Industrial Way?",
+    "text_sha256": "df01e34bfbfe716f45d672c210adcda7eed1b9862cf22e2852c56af7bfbf29dc"
+  },
+  "schema": "task08d.chat_trial_result.v1",
+  "status": "awaiting_claim_feedback",
+  "validation": "Question hash/identity, exact source quotation substrings, span membership, unique claim IDs and acyclic support paths to direct claims verified. Semantic decisions pending."
+}

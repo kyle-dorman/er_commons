@@ -1,0 +1,51 @@
+<View>
+  <Style>
+    .selection-sources {display:grid;grid-template-columns:minmax(260px,1fr) minmax(400px,2fr);gap:24px}
+    .selection-sources .source-pane {max-height:660px;overflow:auto;padding:16px;border:1px solid #ccd6df;border-radius:8px}
+    .source-unit {border-bottom:1px solid #dbe3e8;padding-bottom:12px;margin-bottom:16px}
+    .source-unit pre,.source-supplement pre {font-family:inherit;font-size:15px;line-height:1.55}
+    .selection-decisions {background:#f2f6fa;padding:20px;border-radius:8px;margin-top:20px}
+    @media(max-width:950px){.selection-sources{grid-template-columns:1fr}}
+  </Style>
+  <Header value="$title"/>
+  <Text name="review_context" value="$comment_label"/>
+  <Header size="5" value="Read the original comment and complete linked responses. Rank is advice only. Select up to three; fewer are welcome. Do not rewrite the question here."/>
+  <View className="selection-sources">
+    <View><Header value="Original comment" size="4"/><View className="source-pane"><HyperText inline="true" selectionEnabled="false" name="comment_source" value="$comment_html"/></View></View>
+    <View><Header value="Complete linked responses and source supplements" size="4"/><View className="source-pane"><HyperText inline="true" selectionEnabled="false" name="response_source" value="$response_html"/></View></View>
+  </View>
+  <HyperText inline="true" selectionEnabled="false" name="warnings" value="$warnings_html"/>
+  <HyperText inline="true" selectionEnabled="false" name="advisory" value="$advisory_html"/>
+  <View className="selection-decisions">
+    <Header size="4" value="1. Your selection decision"/>
+    <Choices name="selection" toName="review_context" choice="single-radio" required="true">
+      <Choice value="Selected"/><Choice value="Reviewed skip"/><Choice value="Excluded"/><Choice value="Unresolved"/>
+    </Choices>
+    <Header size="5" value="Selection reason"/>
+    <Choices name="selection_reason" toName="review_context" choice="single-radio" required="true">
+      <Choice value="Clear scoped concern"/><Choice value="Weaker candidate"/><Choice value="Multiple independent asks"/><Choice value="Ambiguous concern"/><Choice value="Source or eligibility concern"/><Choice value="Other"/>
+    </Choices>
+    <Header size="4" value="2. Separate first-pass provisional eligibility"/>
+    <Header size="5" value="Can the original scoped concern be answered from usable original Draft EIR evidence? Exclude material dependence on later revisions, new Final EIR analysis, external evidence, mitigation changes, unusable content, or unavailable visuals. An incidental revision is not automatic exclusion. This is provisional, before wording and evidence review."/>
+    <Choices name="eligibility" toName="review_context" choice="single-radio" required="true">
+      <Choice value="Provisionally eligible"/><Choice value="Ineligible"/><Choice value="Unresolved"/><Choice value="Not assessed"/>
+    </Choices>
+    <Header size="5" value="Eligibility reason"/>
+    <Choices name="eligibility_reason" toName="review_context" choice="single-radio" required="true">
+      <Choice value="Original Draft EIR basis appears usable"/><Choice value="Incidental revision exception"/><Choice value="Material later revision"/><Choice value="New Final EIR analysis"/><Choice value="External evidence dependence"/><Choice value="Mitigation change"/><Choice value="Unusable source"/><Choice value="Unavailable visual evidence"/><Choice value="Needs further review"/><Choice value="Not assessed"/><Choice value="Other"/>
+    </Choices>
+    <Header size="5" value="Notes (explain any Other choice; otherwise optional)"/>
+    <TextArea name="notes" toName="review_context" rows="3" editable="true" maxSubmissions="1"/>
+    <Header size="4" value="3. Continue or stop this group"/>
+    <Choices name="review_progress" toName="review_context" choice="single-radio" required="true">
+      <Choice value="Continue"/><Choice value="Stop here"/>
+    </Choices>
+    <View visibleWhen="choice-selected" whenTagName="review_progress" whenChoiceValue="Stop here">
+      <Header size="5" value="Stopping reason"/>
+      <Choices name="stop_reason" toName="review_context" choice="single-radio" required="true">
+        <Choice value="Enough candidates"/><Choice value="No more suitable candidates"/><Choice value="Unresolved decisions remain"/><Choice value="Other"/>
+      </Choices>
+    </View>
+    <Header size="5" value="Submit saves your decisions. After Stop here or your third selection, exit the queue even if Label Studio opens another candidate. Reviewed skip is a saved decision; native Skip/Postpone is not. Unseen candidates stay unreviewed. No automatic backfilling."/>
+  </View>
+</View>

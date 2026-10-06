@@ -1,0 +1,81 @@
+{
+  "schema_version": "task08a.health_risk.result.v1",
+  "status": "complete_with_recorded_repository_test_limit",
+  "completed_at": "2026-09-30T17:08:07.804286+00:00",
+  "stage": "08A",
+  "group": "Health-risk table analysis",
+  "attempt": 1,
+  "model": "gpt-6-astra",
+  "prompt_version": "task08a.ranking.v1",
+  "proposal_version": 1,
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_08/health_risk/08a/ranking_v1",
+  "handoff": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08a/ranking_v1/handoff.json",
+    "sha256": "9dd6bc2e4daac1e18c0af35271cd2adda001f54f209b07233ec6d64d89916b0f"
+  },
+  "manifest": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08a/ranking_v1/manifest.json",
+    "sha256": "ded1d24b329766da77c7c3d11ab7d752964408ed68d4a01c9923272a3a3edcab"
+  },
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08a/ranking_v1/completion.json",
+    "sha256": "74d5d0afffafe6049f15dad9c31787d99327bd63e890404558a29abf50c03335"
+  },
+  "input": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08a/ranking_v1/input.json",
+    "sha256": "a01672362fee93c187ca9ddeeba712d19a0dbf500a4633481864bb89966e8c00"
+  },
+  "proposal": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08a/ranking_v1/proposal.json",
+    "sha256": "af932b477de0b453ec85be3c1bb154c8f2421c4b73651c8e1496356cab3c2cd0"
+  },
+  "grouping_sha256": "fb24092981fdb14d910b5a0485095ff45c5b25cfef5670712ea96809f753d632",
+  "inventory_id": "inventoryv1-8b566f29a89653e202c67c1aa3c83616d03ce40ae9f9fe70c8329ca00a1e6696",
+  "proposed_order": [
+    "M-OSEC-241",
+    "O-Joint-44",
+    "M-OSEC-243",
+    "M-OSEC-244"
+  ],
+  "candidate_count": 4,
+  "source_unit_count": 11,
+  "source_supplement_count": 4,
+  "reference_outcome_count": 7,
+  "human_selection": "pending",
+  "human_eligibility": "pending",
+  "question_rewriting": "not_started",
+  "label_studio_project": "not_created",
+  "other_groups_processed": 0,
+  "reviews": {
+    "source_audit": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08a/work_20260930/audit.json",
+      "sha256": "881615cf09e18ba444008f982a8479223abc378987eedc6c97a82a164fa7d68a"
+    },
+    "model_reading": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08a/work_20260930/model_review_receipt.json",
+      "sha256": "4938474b252c5c92106330510d4e838f564a4cf47cdcbbc4618626a2789fdcef"
+    },
+    "implementation": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08a/work_20260930/implementation_review.json",
+      "sha256": "5f0e46524203ec3eef337258acd43198685732ef52b7c1df3aa0d77a50dd114b"
+    },
+    "repository_validation": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08a/work_20260930/repository_validation.json",
+      "sha256": "ecea47df59aa44e79bb0b3ea9fe04b19b921ec535df4499d61446af4c6dd2369"
+    }
+  },
+  "limitations": [
+    "O-Joint-44 actual_revision retained with accepted incidental service-frequency exception",
+    "Possible table analysis only; no calculation invented or verified",
+    "Inherited sampled review and incomplete citation metadata retained",
+    "Mitigation-list and roadway-screen unit discrepancies retained",
+    "Filtration/maintenance, freight, response scope and 243/244 overlap require later review",
+    "Three historical Task06G commit-pin test failures; 08A artifact validation and targeted tests pass"
+  ],
+  "next_action": "Separate health-risk 08B first-use preparation and interface qualification, then human selection; 08B not started",
+  "source_provenance": "Accepted 07A.1 inventory and 06H handoff referenced in input.json; source access/terms remain governed by Task02 source release visible_terms_note.md. No new retrieval or licensing determination.",
+  "batch_register": {
+    "path": "pipelines/brisbane_baylands/task_08/batch_register.json",
+    "sha256": "4e6cbf889ac0964cf27cd392ff81efac02aef041b0e67284b8110e6825b34707"
+  }
+}

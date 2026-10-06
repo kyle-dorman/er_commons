@@ -1,0 +1,46 @@
+{
+  "counts": {
+    "advancing_claims": 385,
+    "advancing_relationships": {
+      "direct": 172,
+      "supporting": 213
+    },
+    "case_dispositions": {
+      "hold": 3,
+      "investigate": 50
+    },
+    "cases": 53,
+    "claim_decisions": {
+      "approve": 635,
+      "reject": 6
+    },
+    "claims": 641,
+    "held_cases": [
+      "C014",
+      "C020",
+      "C024"
+    ],
+    "journal_events": 1456
+  },
+  "eligibility": "not determined",
+  "handoff": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_combined_20261005_v1/human_review/exports/review_v1/handoff.json",
+    "sha256": "b23bbe5f62a98e972580d4fd00232c647b842bfd16e8177f803b4e43b66a062e"
+  },
+  "historical_and_practice_approvals_imported": false,
+  "later_stages_started": false,
+  "next_action": "Await separate authorization for later stages; consume entire sealed handoff with required context and all holds. No pending 08D review decisions.",
+  "phase_a_complete": true,
+  "phase_b_complete": true,
+  "preparation_result_preserved": "docs/specs/task08d_combined_preparation_result.json",
+  "required_context": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_combined_20261005_v1/human_review/exports/review_v1/required_context.json",
+    "sha256": "c4ef476eca051e45393f8e7912897b0d2b173a98309452e517cd29ceecfeaf8e"
+  },
+  "schema_version": "task08d.combined_review_result.v1",
+  "status": "review complete; investigation only",
+  "validation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_combined_20261005_v1/human_review/exports/review_v1/validation.json",
+    "sha256": "ec5e48ec6623977ba9293c4c5471205221385f92860cee70847d8340dd11e0fc"
+  }
+}

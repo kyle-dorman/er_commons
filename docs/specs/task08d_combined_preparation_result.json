@@ -1,0 +1,56 @@
+{
+  "advancing_claims": 0,
+  "assertion_count": 641,
+  "authoritative_08c_result": {
+    "path": "/Users/kyledorman/Documents/er_commons/docs/specs/task08c_combined_review_result.json",
+    "sha256": "6b621c46477d0a229cfb94354d3c25e10b151d89df178d10eb4bf4ea733d6b2a"
+  },
+  "case_count": 53,
+  "cases_with_unresolved_scope": 29,
+  "cases_without_direct_claims": [
+    "C014",
+    "C020",
+    "C026"
+  ],
+  "claim_count": 641,
+  "deferred_cases": [
+    "C013",
+    "C023",
+    "C038",
+    "C057"
+  ],
+  "handoff": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_combined_20261005_v1/prepared_v1/handoff.json",
+    "sha256": "1c9349302bc9417c135e6832dcd86239a81d963dde4d23c77331a2b940de39df"
+  },
+  "human_claim_decisions": 0,
+  "next_action": "User starts separate Phase B human-review chat using this result. Verify handoff; load prepared cards. Do not begin 08E or later stages.",
+  "phase_a_complete": true,
+  "phase_b_complete": false,
+  "preservation": {
+    "commits": 0,
+    "historical_health_risk_work": "unchanged; reconciliation holds carried",
+    "new_codex_chats": 0,
+    "new_projects": 0,
+    "practice_approvals_imported": false,
+    "pushes": 0
+  },
+  "relationships": {
+    "direct": 175,
+    "not-relevant": 262,
+    "supporting": 203,
+    "unclear": 1
+  },
+  "resume": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_combined_20261005_v1/prepared_v1/RESUME.md",
+    "sha256": "629a73ec243d5ad8329bba914ed33da1c88bf8fb79808baa147b35196ea61192"
+  },
+  "schema_version": "task08d.combined_preparation_result.v1",
+  "status": "prepared, awaiting human review",
+  "unresolved_preparation_defects": [],
+  "unresolved_question_parts": 52,
+  "validation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08d_combined_20261005_v1/review/final_validation.json",
+    "sha256": "bcdd11bd72363c6fe5b70645aa43f8a493ee89146b998206ad27d8aa02604191"
+  }
+}

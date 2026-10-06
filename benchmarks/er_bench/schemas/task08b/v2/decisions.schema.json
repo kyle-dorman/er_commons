@@ -1,0 +1,359 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "task08b.selection.v2"
+    },
+    "namespace": {
+      "enum": [
+        "synthetic",
+        "dataset"
+      ]
+    },
+    "group": {
+      "type": "string"
+    },
+    "input_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "proposal_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "project_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "export_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "status": {
+      "enum": [
+        "awaiting_finish_confirmation",
+        "pending_saved_review",
+        "complete"
+      ]
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "comment_id": {
+            "type": "string"
+          },
+          "comment_label": {
+            "type": "string"
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "input_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "proposal_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "task_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "state": {
+            "enum": [
+              "reviewed",
+              "unreviewed",
+              "pending_draft",
+              "pending_cancelled"
+            ]
+          },
+          "decision": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "selection": {
+                    "enum": [
+                      "Excluded",
+                      "Reviewed skip",
+                      "Selected",
+                      "Unresolved"
+                    ]
+                  },
+                  "selection_reason": {
+                    "enum": [
+                      "Ambiguous concern",
+                      "Clear scoped concern",
+                      "Multiple independent asks",
+                      "Other",
+                      "Source or eligibility concern",
+                      "Weaker candidate"
+                    ]
+                  },
+                  "notes": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "selection",
+                  "selection_reason"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provenance": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "annotation_id": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "reviewer": {
+                    "type": [
+                      "integer",
+                      "object"
+                    ]
+                  },
+                  "created_at": {
+                    "type": "string"
+                  },
+                  "updated_at": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "annotation_id",
+                  "reviewer",
+                  "created_at",
+                  "updated_at"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "comment_id",
+          "comment_label",
+          "rank",
+          "input_sha256",
+          "proposal_sha256",
+          "task_id",
+          "state",
+          "decision",
+          "provenance"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "native_tasks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "selected_comment_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 3,
+      "uniqueItems": true
+    },
+    "advancing_comment_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "reviewed_ranks": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "uniqueItems": true
+    },
+    "last_reviewed_position": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "untouched_comment_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "candidates": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reviewed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "selected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "advancing": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reviewed_skips": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "excluded": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unresolved": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unreviewed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pending": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "candidates",
+        "reviewed",
+        "selected",
+        "advancing",
+        "reviewed_skips",
+        "excluded",
+        "unresolved",
+        "unreviewed",
+        "pending"
+      ],
+      "additionalProperties": false
+    },
+    "template_version": {
+      "const": "task08b.selection.v2"
+    },
+    "process_revision": {
+      "const": "task08.selection_gate.v2"
+    },
+    "finish_confirmation": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schema_version": {
+              "const": "task08b.finish.v2"
+            },
+            "template_version": {
+              "const": "task08b.selection.v2"
+            },
+            "process_revision": {
+              "const": "task08.selection_gate.v2"
+            },
+            "project_id": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "input_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "proposal_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "export_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "finished": {
+              "const": true
+            },
+            "reviewer": {
+              "type": "string",
+              "minLength": 1
+            },
+            "confirmed_at": {
+              "type": "string",
+              "minLength": 1
+            },
+            "chat_reference": {
+              "type": "string",
+              "minLength": 1
+            },
+            "statement": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "schema_version",
+            "template_version",
+            "process_revision",
+            "project_id",
+            "input_sha256",
+            "proposal_sha256",
+            "export_sha256",
+            "finished",
+            "reviewer",
+            "confirmed_at",
+            "chat_reference",
+            "statement"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "namespace",
+    "group",
+    "input_sha256",
+    "proposal_sha256",
+    "project_id",
+    "export_sha256",
+    "status",
+    "records",
+    "native_tasks",
+    "selected_comment_ids",
+    "advancing_comment_ids",
+    "reviewed_ranks",
+    "last_reviewed_position",
+    "untouched_comment_ids",
+    "counts",
+    "template_version",
+    "process_revision",
+    "finish_confirmation"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

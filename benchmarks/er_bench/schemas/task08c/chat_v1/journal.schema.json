@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "process_revision",
+    "namespace",
+    "packet_sha256",
+    "proposal_sha256",
+    "prompt_sha256",
+    "model",
+    "previous_snapshot_sha256",
+    "events"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "task08c.chat_review.v1"
+    },
+    "process_revision": {
+      "const": "task08c.chat_review.v1"
+    },
+    "namespace": {
+      "enum": [
+        "dataset",
+        "synthetic"
+      ]
+    },
+    "packet_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "proposal_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "prompt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "model": {
+      "const": "gpt-6-astra"
+    },
+    "previous_snapshot_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event_id",
+              "neutral_id",
+              "chat_reference",
+              "timestamp",
+              "kind",
+              "display_version",
+              "question",
+              "question_sha256",
+              "origin",
+              "unsupported_content",
+              "source_support_note",
+              "support_resolution"
+            ],
+            "properties": {
+              "event_id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "neutral_id": {
+                "type": "string",
+                "pattern": "^C00[1-3]$"
+              },
+              "chat_reference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "timestamp": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "const": "display"
+              },
+              "display_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "question": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "question_sha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "origin": {
+                "enum": [
+                  "original_proposal",
+                  "revision"
+                ]
+              },
+              "unsupported_content": {
+                "type": "boolean"
+              },
+              "source_support_note": {
+                "type": "string"
+              },
+              "support_resolution": {
+                "enum": [
+                  "none",
+                  "removed_unsupported_content",
+                  "declined_unsupported_clarification"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event_id",
+              "neutral_id",
+              "chat_reference",
+              "timestamp",
+              "kind",
+              "actor",
+              "statement",
+              "unsupported_content",
+              "display_version"
+            ],
+            "properties": {
+              "event_id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "neutral_id": {
+                "type": "string",
+                "pattern": "^C00[1-3]$"
+              },
+              "chat_reference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "timestamp": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "const": "feedback"
+              },
+              "actor": {
+                "const": "Kyle"
+              },
+              "statement": {
+                "type": "string",
+                "minLength": 1
+              },
+              "unsupported_content": {
+                "type": "boolean"
+              },
+              "display_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event_id",
+              "neutral_id",
+              "chat_reference",
+              "timestamp",
+              "kind",
+              "actor",
+              "statement",
+              "display_version",
+              "decision",
+              "explicit_approval",
+              "approved_question",
+              "approved_question_sha256"
+            ],
+            "properties": {
+              "event_id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "neutral_id": {
+                "type": "string",
+                "pattern": "^C00[1-3]$"
+              },
+              "chat_reference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "timestamp": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "const": "disposition"
+              },
+              "actor": {
+                "const": "Kyle"
+              },
+              "statement": {
+                "type": "string",
+                "minLength": 1
+              },
+              "display_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "decision": {
+                "enum": [
+                  "approve",
+                  "exclude",
+                  "unresolved"
+                ]
+              },
+              "explicit_approval": {
+                "type": "boolean"
+              },
+              "approved_question": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "approved_question_sha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "task08d.proposal.v1"
+    },
+    "model": {
+      "const": "gpt-6-astra"
+    },
+    "packet_sha256": {
+      "type": "string",
+      "minLength": 1
+    },
+    "inventory_sha256": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "claim_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "passage_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "assertion_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "relationship": {
+                  "enum": [
+                    "direct",
+                    "supporting",
+                    "not-relevant",
+                    "unclear"
+                  ]
+                },
+                "targets": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "claim_id",
+                "text",
+                "passage_ids",
+                "assertion_ids",
+                "relationship",
+                "targets",
+                "rationale"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "question_parts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "part_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "claim_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "status": {
+                  "enum": [
+                    "addressed",
+                    "unanswered",
+                    "unclear"
+                  ]
+                },
+                "essential": {
+                  "type": "boolean"
+                },
+                "explanation": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "part_id",
+                "text",
+                "claim_ids",
+                "status",
+                "essential",
+                "explanation"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "case_id",
+          "claims",
+          "question_parts"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "model",
+    "packet_sha256",
+    "inventory_sha256",
+    "cases"
+  ],
+  "additionalProperties": false
+}

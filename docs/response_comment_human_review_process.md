@@ -34,18 +34,31 @@ forward reusable procedure only.
 
 ## Batch and interface boundary
 
+For the authorized 2026-10-01 combined 08C pass, the
+[combined review contract](specs/task08c_combined_chat_review_v1.md) overrides
+separate-group presentation: all 57 selections, saved order, one active question,
+and fresh explicit decisions including the two historical health-risk cases.
+
+
 The [Task 08 umbrella](../tasks/sprint2/08_curate_grouped_benchmark.md) owns
 reusable stage contracts. Work within one group at each authoring stage and use
 a separate, self-contained chat per group/stage; keep labeling out of the main
 coordination chat. A saved approved handoff, not full conversation history,
-supplies the next stage. Proceed in rolling groups without a 35-candidate gate.
+supplies the next stage. Complete each task across participating batches before
+advancing to the next, preserving completed health-risk work. The current
+[08E task](../tasks/sprint2/08e_review_group_evidence.md) prepares question-wide
+research in batch, then reviews one question at a time in chat without source
+deduplication. Preserve independent evidence decisions and separate human
+eligibility; no second aggregate claim-adequacy pass. No 35-candidate gate applies.
 
-Prepare and qualify one shared versioned Label Studio interface per applicable
-stage, including input, proposal, annotation, and export contracts. Each later
-batch creates a separate project using that configuration and supplies data.
+Prepare and qualify one shared versioned interface per applicable stage, including
+input, proposal, decision and export contracts. 08C uses the
+[shared chat process](specs/task08c_chat_review_v1.md), not a mandatory Label Studio
+project. Label Studio stages create separate projects using their shared configuration.
 Do not let batch chats customize template code or field meanings silently.
 Revise shared interfaces explicitly, test queue/save/export behavior, and decide
-whether affected earlier batches require follow-up. Answer review and later
+whether affected earlier batches require follow-up. 08C chat qualification checks
+version displays, feedback, explicit approval and exact export. Answer review and later
 all-group clustering stay in chat with versioned approval records.
 
 ## 1. Rank and select candidates, then review question wording
@@ -60,33 +73,60 @@ main-report and no-recorded-citation comments in the final source groups. Do not
 subdivide general-response or appendix groups by source. Each comment appears
 once; retain all underlying response and citation links as provenance.
 
+08A may prepare all remaining accepted groups ahead of human review using
+separate saved handoffs. For groups with at most three candidates, prepare complete
+source context in stable comment-ID order with no model invocation; record
+“ranking not needed—group has at most three candidates.” Human selection remains
+required even for these small groups. Separately authorized 08B batch setup may
+prepare blank projects ahead of review; it does not select candidates or close
+groups. The [shared intake revision](specs/task08b_intake_v2.md) preserves
+historical v1 and both v2 handoff paths. For larger groups,
 Astra first reads the group's original comments and complete linked responses,
-then saves an ordered candidate list with source-bound quality reasons and flags.
+then saves an ordered candidate list with exact input bindings and inherited
+flags. Future 08A batches do not generate ranking explanations, explanatory
+quote anchors, or narrative source warnings/review limitations; retain original
+source context and provenance. The completed health-risk v1 packet is preserved.
 Prefer clear questions and substantive rebuttals; deprioritize rant-like asks,
 weak responses, and revision dependence without automatic eligibility decisions.
 Saved rankings are revisitable artifacts, not a promise of identical model reruns.
 
-Kyle reviews within each group until he finds up to three reasonable questions.
-He can skip weaker candidates and stop after selecting three; do not fill a quota
-with poor questions. Exhausted groups may yield fewer. Save selections, skips,
-and the stopping point; unseen candidates remain unreviewed. Decision 005 owns
-the starting assignments, tie-breaks, counts, and prioritization limits.
+The original review guidance suggested up to three candidates per group. Kyle's
+2026-10-01 all-group completion instruction supersedes that ceiling for closeout:
+retain every saved Selected candidate. Native Label Studio skips remain distinct
+from form Reviewed skip or Excluded records; untouched candidates stay unreviewed.
+The export-bound `task08.selection_closeout.v1` process records that explicit
+completion and policy amendment without changing native annotations.
 
 These groups organize review; they do not determine eligibility or create
 benchmark clusters. Verify response links and complete linked-response context
 before relying on a group assignment.
 
-### Selection and first eligibility pass
+### Selection as the 08B human gate
 
 Use original comments and complete linked response context when comparing
-candidates. Record human selection separately from first-pass provisional
-eligibility and its reason. Do not rewrite questions during selection. A selected
+candidates. Under `task08.selection_gate.v2`, the shared `task08b.selection.v2`
+form records only selection and selection reason. Explicit selection with a reason
+is the sole 08B human gate to 08C; eligibility concerns can go in that reason.
+Do not rewrite questions during selection or prefill decisions. Display only the
+original comment and complete linked responses as source content: remove source
+warning/review-limitation panels, advisory ranking reasons, and the source-bound
+ranking record. Retain existing provenance, including all limitations and the
+O-Joint-44 incidental-revision exception, in underlying artifacts; do not generate
+replacement narratives or rerun 08A. Keep response context and selection reasons
+outside the later comment-only wording packet. Preserve reviewed skips, exclusions,
+unresolved decisions, and unanswered candidates distinctly. The 2026-10-01
+closeout retains all saved Selected records without a per-group cap; fewer,
+including zero, are acceptable. A selected
 comment may still fail wording or evidence review; do not automatically refill
 its group when it drops out.
 
 ### Separate wording task and frozen question
 
-After selection, use a fresh wording chat. For both Astra's actual input packet
+After selection, use an isolated wording-review chat for the selected batch.
+Work through one comment at a time: show only that original and its current
+question, iterate until an explicit disposition, then move down the queue in
+the same chat. A human may explicitly leave a case unresolved. Preserve all
+versions and feedback in the group journal. For both Astra's actual input packet
 and the human wording-review display, include only the original comment, its
 comment-source warnings, and any proposed focused question. Exclude response
 text, response-based ranking reasons, and prior pilot answers. Astra and the
@@ -96,19 +136,64 @@ One comment yields at most one independently answerable question. Keep the
 comment's central issue, scope, uncertainty, attribution, and material
 qualifications. Rewrite or simplify only when straightforward; if doing so
 would split independent asks, invent an ask, or remove a difficult qualification,
-exclude the comment rather than force a question.
+leave the proposal unresolved, explain the obstacle and discuss it with the user
+before recording any disposition. Do not force a question or automatically exclude.
 
 Astra proposes reasonable, consistent wording after selection; retain original
 wording when already suitable and explain that choice. Display the proposal
-beside the original. The human must approve the exact rewritten wording, edit
-it, or reject it before it advances.
+with the original in a separately identified per-comment chat block. Preserve
+each displayed version and verbatim human feedback. A human may approve, exclude
+or leave a case unresolved. Freeze only after explicit approval of the exact
+displayed version; feedback or requested edits alone are not approval. A later
+revision requires fresh approval. Flag user clarification beyond the source and
+do not silently incorporate unsupported intent. Existing proposals and source
+bindings remain preserved when changing review interfaces.
 The approved question is then frozen and reused unchanged for evidence
 discovery, target generation, and both evaluation-judge stages. Preserve the
 original comment and any rewrite/skip reason. A reviewed question is guidance
 for authoring; it is not a finding that the commenter is factually correct or
 that the official response answers the concern.
 
+### Learning: recommendation-shaped comments
+
+The health-risk 08C review showed that a recommendation can support a faithful
+question even when the initial model proposal is unresolved. First identify whether
+the commenter is asking for information, challenging a conclusion, or recommending
+an action. For a recommendation, ask whether the project or EIR would adopt or
+include the recommended action, preserving its stated purpose and qualifications.
+Do not presume that the action was omitted or rejected, or ask why it was rejected,
+unless the original comment supports that framing. A claimed benefit remains the
+commenter's intended benefit, not an established result.
+
+Several measures may elaborate one explicitly linked recommendation, but shared
+subject matter alone does not make independent asks a single question. Retain a
+package only when the source supports that relationship and it can be answered as
+one recommendation without hiding separate decisions. Otherwise leave the proposal
+unresolved and discuss it. A successful human revision is a lesson to try this
+framing, not evidence that every multi-ask comment can be made to fit.
+
+Reusable prompt instruction:
+
+> If the comment recommends an action, consider “Would the project/EIR include
+> [the recommended action], with the aim of [the stated purpose]?” Preserve all
+> material conditions, scope, uncertainty and attribution. Use only details in the
+> original comment. Do not invent a rejection, an explanation request or a proven
+> benefit. Do not bundle independent asks merely to obtain one question.
+
+This learning belongs to question review (Task 07B / 08C); Task 07C reviews
+response claims. It changes no sealed pilot or approved health-risk wording.
+The [prospective v2 wording prompt](prompts/task08c_chat_review_v2.md) incorporates
+it for future use; the completed batch retains its pinned v1 prompt.
+
 ## 2. Review response claims and relationships
+
+For the new Task 08 combined pass, the [08D contract](../tasks/sprint2/08d_review_group_claims.md)
+owns a two-phase chat flow: prepare and validate all claims and reasoning first,
+then review one precomputed claim at a time in a separate chat. Each card repeats
+the approved question, full claim, full supporting target when applicable,
+relationship rationale, response passage and supplied references. The new flow
+supersedes mandatory Label Studio/per-group presentation for this pass; historical
+reviews remain intact. Practice decisions never become production approvals.
 
 Use the complete linked response closure as the source for claim extraction.
 Inventory substantive claims before relevance filtering so unrelated response
@@ -175,11 +260,11 @@ search gaps. State what was not established and why. A gap in a bounded search
 does not prove that evidence is absent from the full corpus. A case that lacks
 adequate support may stop even when every citation identity validates.
 
-At the end of evidence review, conduct the second human eligibility pass using
-the original comment, frozen question, resolved response, exact evidence,
-source usability, and relevant cross-references. Avoid emphasizing the first
-pass rationale before the new decision. Record its own reason and input version;
-this is repeated single-curator review, not independent agreement.
+At the end of evidence review, conduct the evidence-based human eligibility
+review using the original comment, frozen question, resolved response, exact
+evidence, source usability, and relevant cross-references. Record its own reason
+and input version. Earlier selection does not establish eligibility. This is
+single-curator review, not independent agreement.
 
 ## 4. Draft and revise the proposed rebuttal
 

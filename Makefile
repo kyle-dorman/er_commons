@@ -163,3 +163,153 @@ test: check-env
 check: format-check lint type test
 
 fix: lint-fix format
+
+# Task 08A consumes exactly one accepted group; output paths must be fresh.
+.PHONY: prepare-group-ranking publish-group-ranking validate-group-ranking
+prepare-group-ranking: check-env
+	@test -n "$(GROUPING_DIR)" -a -n "$(GROUPING_SHA256)" -a -n "$(GROUP)" -a -n "$(RANKING_INPUT)" || (echo "Set GROUPING_DIR, GROUPING_SHA256, GROUP, RANKING_INPUT"; exit 1)
+	uv run python -m er_commons.group_ranking prepare \
+		--data-root "$(ER_COMMONS_DATA_ROOT)" \
+		--inventory-result docs/specs/task07a1_final_result.json \
+		--grouping-directory "$(GROUPING_DIR)" --grouping-sha256 "$(GROUPING_SHA256)" \
+		--group "$(GROUP)" --output "$(RANKING_INPUT)" $(if $(SOURCE_SUPPLEMENTS),--source-supplements "$(SOURCE_SUPPLEMENTS)",)
+
+publish-group-ranking: check-env
+	@test -n "$(RANKING_INPUT)" -a -n "$(RANKING_PROPOSAL)" -a -n "$(RANKING_OUTPUT)" || (echo "Set RANKING_INPUT, RANKING_PROPOSAL, RANKING_OUTPUT"; exit 1)
+	uv run python -m er_commons.group_ranking publish \
+		--input "$(RANKING_INPUT)" --proposal "$(RANKING_PROPOSAL)" \
+		--prompt docs/prompts/task08a_ranking_v1.md --spec docs/specs/task08a_ranking_v1.md \
+		--output "$(RANKING_OUTPUT)"
+
+validate-group-ranking: check-env
+	@test -n "$(RANKING_OUTPUT)" || (echo "Set RANKING_OUTPUT"; exit 1)
+	uv run python -m er_commons.group_ranking validate --output "$(RANKING_OUTPUT)"
+
+# Task 08B creates blank queues; accepted decisions require a saved human export.
+.PHONY: prepare-group-selection export-group-selection
+prepare-group-selection: check-env
+	@test -n "$(RANKING_OUTPUT)" -a -n "$(RANKING_RESULT)" -a -n "$(SELECTION_OUTPUT)" || (echo "Set RANKING_OUTPUT, RANKING_RESULT, SELECTION_OUTPUT"; exit 1)
+	uv run python -m er_commons.group_selection prepare \
+		--ranking-root "$(RANKING_OUTPUT)" --result "$(RANKING_RESULT)" \
+		--data-root "$(ER_COMMONS_DATA_ROOT)" --output "$(SELECTION_OUTPUT)"
+
+export-group-selection: check-env
+	@test -n "$(SELECTION_OUTPUT)" -a -n "$(NATIVE_EXPORT)" -a -n "$(PROJECT_ID)" -a -n "$(DECISIONS_OUTPUT)" || (echo "Set SELECTION_OUTPUT, NATIVE_EXPORT, PROJECT_ID, DECISIONS_OUTPUT"; exit 1)
+	uv run python -m er_commons.group_selection export \
+		--prepared "$(SELECTION_OUTPUT)" --native-export "$(NATIVE_EXPORT)" \
+		--project-id "$(PROJECT_ID)" --output "$(DECISIONS_OUTPUT)" \
+		$(if $(FINISH_CONFIRMATION),--finish-confirmation "$(FINISH_CONFIRMATION)",)
+
+# Task 08C separates restricted extraction, comment-only review and saved decisions.
+.PHONY: prepare-wording-input prepare-group-wording export-group-wording
+prepare-wording-input: check-env
+	@test -n "$(SELECTION_HANDOFF)" -a -n "$(HANDOFF_SHA256)" -a -n "$(WORDING_INPUT)" -a -n "$(COMMENT_IDS)" || (echo "Set SELECTION_HANDOFF, HANDOFF_SHA256, WORDING_INPUT, COMMENT_IDS"; exit 1)
+	uv run python -m er_commons.group_wording_input \
+		--handoff "$(SELECTION_HANDOFF)" --expected-handoff-sha256 "$(HANDOFF_SHA256)" \
+		--data-root "$(ER_COMMONS_DATA_ROOT)" --output "$(WORDING_INPUT)" \
+		$(foreach id,$(COMMENT_IDS),--comment-id "$(id)")
+
+prepare-group-wording: check-env
+	@test -n "$(WORDING_PACKET)" -a -n "$(WORDING_PROPOSAL)" -a -n "$(WORDING_OUTPUT)" || (echo "Set WORDING_PACKET, WORDING_PROPOSAL, WORDING_OUTPUT"; exit 1)
+	uv run python -m er_commons.group_wording prepare \
+		--packet "$(WORDING_PACKET)" --proposal "$(WORDING_PROPOSAL)" \
+		--output "$(WORDING_OUTPUT)" --namespace dataset
+
+export-group-wording: check-env
+	@test -n "$(WORDING_OUTPUT)" -a -n "$(NATIVE_EXPORT)" -a -n "$(PROJECT_ID)" -a -n "$(REVIEWER_ID)" -a -n "$(DECISIONS_OUTPUT)" || (echo "Set WORDING_OUTPUT, NATIVE_EXPORT, PROJECT_ID, REVIEWER_ID, DECISIONS_OUTPUT"; exit 1)
+	uv run python -m er_commons.group_wording export \
+		--prepared "$(WORDING_OUTPUT)" --native-export "$(NATIVE_EXPORT)" \
+		--project-id "$(PROJECT_ID)" --reviewer-id "$(REVIEWER_ID)" --output "$(DECISIONS_OUTPUT)"
+
+# Current Task 08C uses explicit version-bound chat decisions.
+.PHONY: validate-wording-chat export-wording-chat
+validate-wording-chat: check-env
+	@test -n "$(CHAT_JOURNAL)" -a -n "$(WORDING_PACKET)" -a -n "$(WORDING_PROPOSAL)" || (echo "Set CHAT_JOURNAL, WORDING_PACKET, WORDING_PROPOSAL"; exit 1)
+	uv run python -m er_commons.group_wording_chat validate \
+		--journal "$(CHAT_JOURNAL)" --packet "$(WORDING_PACKET)" --proposal "$(WORDING_PROPOSAL)" \
+		--prompt docs/prompts/task08c_chat_review_v1.md $(if $(CHAT_PREVIOUS),--previous "$(CHAT_PREVIOUS)",)
+
+export-wording-chat: check-env
+	@test -n "$(CHAT_JOURNAL)" -a -n "$(WORDING_PACKET)" -a -n "$(WORDING_PROPOSAL)" -a -n "$(DECISIONS_OUTPUT)" || (echo "Set CHAT_JOURNAL, WORDING_PACKET, WORDING_PROPOSAL, DECISIONS_OUTPUT"; exit 1)
+	uv run python -m er_commons.group_wording_chat export \
+		--journal "$(CHAT_JOURNAL)" --packet "$(WORDING_PACKET)" --proposal "$(WORDING_PROPOSAL)" \
+		--prompt docs/prompts/task08c_chat_review_v1.md --output "$(DECISIONS_OUTPUT)" \
+		$(if $(CHAT_PREVIOUS),--previous "$(CHAT_PREVIOUS)",)
+
+# Task 08D separates response proposals from exact saved human approvals.
+.PHONY: prepare-group-claims export-group-claims
+prepare-group-claims:
+	uv run python -m er_commons.group_claims_workflow prepare \
+		--packet "$(CLAIM_PACKET)" --proposal "$(CLAIM_PROPOSAL)" --output "$(CLAIM_PREPARED)"
+
+export-group-claims:
+	uv run python -m er_commons.group_claims_workflow export \
+		--prepared "$(CLAIM_PREPARED)" --native "$(NATIVE_EXPORT)" \
+		--identity "$(PROJECT_IDENTITY)" --current-project "$(CURRENT_PROJECT)" \
+		--reviewer-id "$(REVIEWER_ID)" --output "$(CLAIM_EXPORT)" \
+		$(if $(CLAIM_AUTHORIZATION),--authorization "$(CLAIM_AUTHORIZATION)",)
+
+# Task 08A v2: shared order-only ranking and deterministic small-group bypass.
+.PHONY: prepare-group-ranking-v2 prepare-small-group-order-v2 publish-group-ranking-v2 validate-group-ranking-v2
+prepare-group-ranking-v2: check-env
+	uv run python -m er_commons.group_ranking_v2 prepare \
+		--data-root "$(ER_COMMONS_DATA_ROOT)" --inventory-result docs/specs/task07a1_final_result.json \
+		--grouping-directory "$(GROUPING_DIR)" --grouping-sha256 "$(GROUPING_SHA256)" \
+		--group "$(GROUP)" --output "$(RANKING_INPUT)"
+
+prepare-small-group-order-v2: check-env
+	uv run python -m er_commons.group_ranking_v2 prepare-small-order \
+		--input "$(RANKING_INPUT)" --prompt docs/prompts/task08a_ranking_v2.md \
+		--output "$(RANKING_PROPOSAL)"
+
+publish-group-ranking-v2: check-env
+	uv run python -m er_commons.group_ranking_v2 publish \
+		--input "$(RANKING_INPUT)" --proposal "$(RANKING_PROPOSAL)" \
+		--prompt docs/prompts/task08a_ranking_v2.md --spec docs/specs/task08a_ranking_v2.md \
+		--output "$(RANKING_OUTPUT)"
+
+validate-group-ranking-v2: check-env
+	uv run python -m er_commons.group_ranking_v2 validate --output "$(RANKING_OUTPUT)"
+
+# Task 08B setup only: no human selections or downstream authoring.
+.PHONY: prepare-group-selection-batch
+prepare-group-selection-batch: check-env
+	@test -n "$(HANDOFF_INDEX)" -a -n "$(RANKING_RESULT)" -a -n "$(SETUP_OUTPUT)" -a -n "$(BATCH_REGISTER)" -a -n "$(LABEL_STUDIO_URL)" -a -n "$(LABEL_STUDIO_CREDENTIALS)"
+	uv run python -m er_commons.group_selection_batch \
+		--index "$(HANDOFF_INDEX)" --completion "$(RANKING_RESULT)" \
+		--data-root "$(ER_COMMONS_DATA_ROOT)" --output "$(SETUP_OUTPUT)" \
+		--register "$(BATCH_REGISTER)" --url "$(LABEL_STUDIO_URL)" \
+		--credentials "$(LABEL_STUDIO_CREDENTIALS)"
+
+# Combined Task 08C keeps full immutable predecessor chains and lazy proposals.
+.PHONY: validate-combined-wording-chat export-combined-wording-chat
+validate-combined-wording-chat: check-env
+	uv run python -m er_commons.group_wording_combined_chat validate \
+		--journal "$(CHAT_JOURNAL)" --packet "$(WORDING_PACKET)" --prompt "$(CHAT_PROMPT)" \
+		$(foreach snapshot,$(CHAT_PREDECESSORS),--previous "$(snapshot)")
+
+export-combined-wording-chat: check-env
+	uv run python -m er_commons.group_wording_combined_chat export \
+		--journal "$(CHAT_JOURNAL)" --packet "$(WORDING_PACKET)" --prompt "$(CHAT_PROMPT)" \
+		$(foreach snapshot,$(CHAT_PREDECESSORS),--previous "$(snapshot)") \
+		--output "$(DECISIONS_OUTPUT)"
+
+# Combined Task 08D: source preparation and saved chat events have separate gates.
+.PHONY: prepare-combined-claim-input assemble-combined-claims claim-chat
+prepare-combined-claim-input: check-env
+	@test -n "$(CLAIM_INPUT)"
+	uv run python -m er_commons.group_claims_combined_input \
+		--result docs/specs/task08c_combined_review_result.json \
+		--data-root "$(ER_COMMONS_DATA_ROOT)" --output "$(CLAIM_INPUT)"
+
+assemble-combined-claims:
+	@test -n "$(CLAIM_BATCH)" -a -n "$(CLAIM_PREPARED)"
+	uv run python -m er_commons.group_claims_batch \
+		--root "$(CLAIM_BATCH)" --output "$(CLAIM_PREPARED)"
+
+claim-chat:
+	@test -n "$(CLAIM_QUEUE_REFERENCE)" -a -n "$(CLAIM_JOURNAL)" -a -n "$(CLAIM_ACTION)"
+	uv run python -m er_commons.group_claims_chat_cli "$(CLAIM_ACTION)" \
+		--queue-reference "$(CLAIM_QUEUE_REFERENCE)" --journal "$(CLAIM_JOURNAL)" \
+		$(if $(CLAIM_EVENT),--event "$(CLAIM_EVENT)",) \
+		$(if $(CLAIM_EXPORT),--output "$(CLAIM_EXPORT)",)

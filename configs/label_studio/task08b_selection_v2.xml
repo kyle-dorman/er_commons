@@ -1,0 +1,30 @@
+<View>
+  <Style>
+    .selection-sources {display:grid;grid-template-columns:minmax(260px,1fr) minmax(400px,2fr);gap:24px}
+    .selection-sources .source-pane {max-height:660px;overflow:auto;padding:16px;border:1px solid #ccd6df;border-radius:8px}
+    .source-unit {border-bottom:1px solid #dbe3e8;padding-bottom:12px;margin-bottom:16px}
+    .source-unit pre,.source-supplement pre {font-family:inherit;font-size:15px;line-height:1.55}
+    .selection-decisions {background:#f2f6fa;padding:20px;border-radius:8px;margin-top:20px}
+    @media(max-width:950px){.selection-sources{grid-template-columns:1fr}}
+  </Style>
+  <Header value="$title"/>
+  <Text name="review_context" value="$comment_label"/>
+  <Header size="5" value="Read the original comment and complete linked responses. Select up to three candidates; fewer are welcome."/>
+  <View className="selection-sources">
+    <View><Header value="Original comment" size="4"/><View className="source-pane"><HyperText inline="true" selectionEnabled="false" name="comment_source" value="$comment_html"/></View></View>
+    <View><Header value="Complete linked responses" size="4"/><View className="source-pane"><HyperText inline="true" selectionEnabled="false" name="response_source" value="$response_html"/></View></View>
+  </View>
+  <View className="selection-decisions">
+    <Header size="4" value="Your selection decision"/>
+    <Choices name="selection" toName="review_context" choice="single-radio" required="true">
+      <Choice value="Selected"/><Choice value="Reviewed skip"/><Choice value="Excluded"/><Choice value="Unresolved"/>
+    </Choices>
+    <Header size="5" value="Selection reason"/>
+    <Choices name="selection_reason" toName="review_context" choice="single-radio" required="true">
+      <Choice value="Clear scoped concern"/><Choice value="Weaker candidate"/><Choice value="Multiple independent asks"/><Choice value="Ambiguous concern"/><Choice value="Source or eligibility concern"/><Choice value="Other"/>
+    </Choices>
+    <Header size="5" value="Notes (optional; explain Other here)"/>
+    <TextArea name="notes" toName="review_context" rows="3" editable="true" maxSubmissions="1"/>
+    <Header size="5" value="Submit saves this decision. Leave unanswered candidates untouched. When you request export in chat, confirm that you have finished reviewing."/>
+  </View>
+</View>

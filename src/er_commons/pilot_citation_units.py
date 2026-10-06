@@ -186,6 +186,22 @@ def validate_units(candidates: list[dict[str, Any]], data_root: Path) -> None:
         unit = candidate.get("citation_unit")
         if (
             isinstance(unit, dict)
+            and unit.get("schema_version") == "er_commons.task08e.audited_section_unit.v1"
+        ):
+            from er_commons.group_evidence_units import validate_audited_section
+
+            validate_audited_section(candidate, candidates, data_root)
+            continue
+        if (
+            isinstance(unit, dict)
+            and unit.get("schema_version") == "er_commons.task08e.table_family_unit.v1"
+        ):
+            from er_commons.group_evidence_units import validate_table_family
+
+            validate_table_family(candidate, data_root)
+            continue
+        if (
+            isinstance(unit, dict)
             and unit.get("schema_version") == "er_commons.task07d.citation_unit.v4"
         ):
             from er_commons.pilot_citation_visual_sections import validate_visual_units

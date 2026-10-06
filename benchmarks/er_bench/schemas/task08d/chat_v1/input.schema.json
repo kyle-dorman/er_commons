@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "task08d.input.v1"
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "text_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "question_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "question_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "approval": {
+                "type": "object"
+              },
+              "comment_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "original_comment_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "comment_text_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "text",
+              "text_sha256",
+              "question_id",
+              "question_version",
+              "approval",
+              "comment_id",
+              "original_comment_sha256",
+              "comment_text_sha256"
+            ],
+            "additionalProperties": true
+          },
+          "original_comment": {
+            "type": "object"
+          },
+          "responses": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "passages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "passage_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "unit_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "start": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "end": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "passage_id",
+                "unit_id",
+                "start",
+                "end",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "closure": {
+            "type": "object"
+          },
+          "supplements": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "outcomes": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "warnings": {},
+          "authorized_context": {
+            "type": "object"
+          },
+          "selected_response_closure": {
+            "type": "object"
+          },
+          "supplemental_closures": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "case_id",
+          "question",
+          "original_comment",
+          "responses",
+          "passages",
+          "closure",
+          "supplements",
+          "outcomes",
+          "warnings",
+          "authorized_context",
+          "selected_response_closure",
+          "supplemental_closures"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "inventory_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "limitations": {},
+    "historical_task06g_commit_pin_failures": {
+      "const": 3
+    }
+  },
+  "required": [
+    "schema_version",
+    "cases"
+  ],
+  "additionalProperties": false,
+  "$id": "urn:er_commons:task08d:combined_input:v1",
+  "description": "Combined chat profile of the retained task08d.input.v1 source-span contract; historical v1 schemas are unchanged."
+}

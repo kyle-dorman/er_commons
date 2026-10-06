@@ -1,0 +1,133 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "group",
+    "inventory_id",
+    "candidates",
+    "source_units",
+    "edges",
+    "outcomes",
+    "limitations",
+    "inventory_handoff",
+    "input_bindings",
+    "preparation",
+    "source_supplements"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "task08a.ranking.v1"
+    },
+    "group": {
+      "type": "object"
+    },
+    "inventory_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1
+    },
+    "source_units": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "minItems": 0
+    },
+    "outcomes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "minItems": 0
+    },
+    "limitations": {
+      "type": "object"
+    },
+    "inventory_handoff": {
+      "type": "object"
+    },
+    "input_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "preparation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data_root",
+        "inventory_result",
+        "grouping_directory",
+        "grouping_sha256",
+        "group",
+        "source_supplements"
+      ],
+      "properties": {
+        "data_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inventory_result": {
+          "type": "string",
+          "minLength": 1
+        },
+        "grouping_directory": {
+          "type": "string",
+          "minLength": 1
+        },
+        "grouping_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "group": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_supplements": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source_supplements": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "task08d.claim_review.v1"
+    },
+    "project_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "reviewer_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "export_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state": {
+            "enum": [
+              "unreviewed",
+              "pending_draft",
+              "pending_cancelled",
+              "ready",
+              "unresolved",
+              "stop",
+              "incomplete"
+            ]
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "approved_claims": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "case_id",
+          "state",
+          "claims",
+          "approved_claims",
+          "errors"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "native_tasks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "advancing_case_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "status": {
+      "enum": [
+        "complete",
+        "incomplete"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "reviewer_id",
+    "export_sha256",
+    "records",
+    "native_tasks",
+    "advancing_case_ids",
+    "status"
+  ],
+  "additionalProperties": false
+}

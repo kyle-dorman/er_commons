@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "task08d.policy_authorization.v1"
+    },
+    "policy_revision": {
+      "const": "task08d.investigation.v1"
+    },
+    "actor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "native_export_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "interpretation": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_revision",
+    "actor",
+    "statement",
+    "project_id",
+    "native_export_sha256",
+    "interpretation"
+  ]
+}

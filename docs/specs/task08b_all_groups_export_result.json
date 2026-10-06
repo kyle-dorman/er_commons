@@ -1,0 +1,92 @@
+{
+  "schema_version": "task08b.all_groups_export_result.v1",
+  "status": "complete",
+  "process_revision": "task08.selection_closeout.v1",
+  "template_version": "task08b.selection.v2",
+  "handoff_version": "task08b.handoff.v3",
+  "counts": {
+    "advancing": 57,
+    "cancelled_annotations": 46,
+    "candidates": 606,
+    "draft_only": 0,
+    "excluded": 91,
+    "native_skipped": 46,
+    "reviewed": 150,
+    "reviewed_skips": 2,
+    "saved_decisions_with_drafts": 0,
+    "selected": 57,
+    "tasks_with_drafts": 0,
+    "unresolved": 0,
+    "unreviewed": 410
+  },
+  "groups": 42,
+  "groups_with_selected": 28,
+  "groups_with_zero_selected": 14,
+  "new_selected": 55,
+  "preserved_health_risk_selected": 2,
+  "former_cap_exceeded_groups": {
+    "GENERAL RESPONSE 8": 4,
+    "M-CSSC": 4,
+    "O-JOINT": 5,
+    "SA-CALTRANS": 6
+  },
+  "nonselected_incomplete_reason_diagnostics": 3,
+  "artifacts": {
+    "summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_exports_20261001_v1/summary.json",
+      "sha256": "f521676693f234f162b4e35d7efb7c3f066074d9e63b2a576c3cbf66c1c5879b"
+    },
+    "readable_summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_exports_20261001_v1/summary.md",
+      "sha256": "75dc32bfbaab34b88039f690fc70120cd9a09a8c3f485a713e35635bee776548"
+    },
+    "selected_candidates": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_exports_20261001_v1/selected_candidates.csv",
+      "sha256": "c5d8d3821e57597e674475e2b89762fb24db44e34a67234454e2d3b675bc8d64"
+    },
+    "independent_review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_exports_20261001_v1/independent_review.json",
+      "sha256": "196a4fdd408fc3aa5dae61aa564ceb344a8c287fb577792aff9cb741bf29f4ef"
+    },
+    "register_snapshot": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_exports_20261001_v1/batch_register_after.json",
+      "sha256": "95d2ea1bf1a64e211ef4fc043a6ea916558bbab8ad27a2f2920c534f89e60c0a"
+    },
+    "normalizer": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_exports_20261001_v1/closeout_normalizer.py",
+      "sha256": "ebd5e31e343da6d4ef83c34d7ca8cfe427905eb9a5eea7fceaee171d61b3a209"
+    },
+    "repository_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_exports_20261001_v1/make_check_final.log",
+      "sha256": "db21907f052a2030114dafc2861b58f9f3289f6d0bff6f3857f10b420fa90ff5"
+    },
+    "focused_tests": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_exports_20261001_v1/focused_tests.log",
+      "sha256": "687ac793fd2cf9e138bd32d45f2d32066bdaa5fef0e8a7a2bee0cdf4f3b5ebb5"
+    }
+  },
+  "validation": {
+    "independent_review": "passed",
+    "artifact_references_checked": 546,
+    "focused_tests_passed": 96,
+    "repository_tests_passed": 3162,
+    "repository_tests_skipped": 1,
+    "historical_task06g_failures": 3,
+    "new_failures": 0,
+    "static_checks": "passed",
+    "git_diff_check": "passed"
+  },
+  "human_completion": "Explicit all-group user statement saved verbatim and bound to each exact full-inventory export; all saved Selected accepted without per-group cap.",
+  "dispositions": "Native Skip records remain native_skipped; unanswered remain unreviewed; no draft choice promoted or reason fabricated.",
+  "preservation": {
+    "health_risk_historical_exports": "unchanged",
+    "all_other_stage_register_rows": "unchanged",
+    "native_annotations_modified": 0,
+    "new_projects": 0,
+    "new_codex_chats": 0,
+    "08c_started": false,
+    "commits": 0,
+    "pushes": 0
+  },
+  "next_action": "Separately authorized08C preparation for55 remaining-group candidates, after qualifying v3 closeout handoffs and groups larger than three. Preserve health-risk downstream progress."
+}

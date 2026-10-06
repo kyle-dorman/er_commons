@@ -39,3 +39,44 @@ uses explicit logical-to-physical membership; an F1 replacement or wrapper renam
 does not make the other documents fresh conversion outputs. Original task-named
 configs, schema literals, seals, identities, and human decisions remain historical
 contracts. A historical reader does not require old implementation files to exist.
+
+## Task 08A saved preparation
+
+New groups use `make prepare-group-ranking-v2`, then either
+`make prepare-small-group-order-v2` for at most three candidates or a separately
+recorded Astra order for larger groups, followed by
+`make publish-group-ranking-v2` and `make validate-group-ranking-v2`.
+Set `GROUPING_DIR`, `GROUPING_SHA256`, `GROUP`, `RANKING_INPUT`,
+`RANKING_PROPOSAL` and a fresh `RANKING_OUTPUT` as applicable.
+The [shared v2 specification](specs/task08a_ranking_v2.md) owns exact formats.
+Historical `validate-group-ranking` remains the v1 validation route.
+Preparation does not start human selection or later authoring stages.
+
+## Task 08B batch setup
+
+`make prepare-group-selection-batch` prepares separate blank review projects from
+the verified 08A index. Required variables and restart behavior are in the
+[shared intake revision](specs/task08b_intake_v2.md). It preserves completed and
+compatible projects, reports blocked groups independently, and saves a compact
+link/status index. This command does not select candidates or advance 08C.
+
+## Combined Task 08C review
+
+Use `make validate-combined-wording-chat` and `make export-combined-wording-chat`
+with the pinned packet/prompt and full predecessor chain specified in the
+[combined review process](specs/task08c_combined_chat_review_v1.md). The
+[current checkpoint](specs/task08c_combined_review_result.json) identifies exact
+files. Historical per-group commands retain their original semantics.
+
+## Combined Task 08D preparation and chat
+
+`make prepare-combined-claim-input CLAIM_INPUT=...` verifies the final combined
+08C result into a fresh input directory. After separately recorded Astra proposals,
+`make assemble-combined-claims CLAIM_BATCH=... CLAIM_PREPARED=...` prepares the
+combined queue; independent review and publication remain separate gates.
+
+Use `make claim-chat` with `CLAIM_ACTION=validate|next|record|export`,
+`CLAIM_QUEUE_REFERENCE` and `CLAIM_JOURNAL`. Recording additionally requires
+`CLAIM_EVENT`; export requires a fresh `CLAIM_EXPORT`. The
+[production chat specification](specs/task08d_combined_chat_review_v1.md) owns
+exact events and resumption. A preparation request does not authorize human review.

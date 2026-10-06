@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task08B blank ordered queue v1",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "data"
+    ],
+    "properties": {
+      "data": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "group",
+          "comment_id",
+          "comment_label",
+          "title",
+          "comment_html",
+          "response_html",
+          "warnings_html",
+          "advisory_html",
+          "original_comment",
+          "response_context",
+          "advisory",
+          "source_warnings",
+          "form_version",
+          "namespace",
+          "rank",
+          "candidate_count",
+          "comment_source_warnings",
+          "input_sha256",
+          "proposal_sha256"
+        ],
+        "properties": {
+          "group": {
+            "type": "string",
+            "minLength": 1
+          },
+          "comment_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "comment_label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "comment_html": {
+            "type": "string",
+            "minLength": 1
+          },
+          "response_html": {
+            "type": "string",
+            "minLength": 1
+          },
+          "warnings_html": {
+            "type": "string",
+            "minLength": 1
+          },
+          "advisory_html": {
+            "type": "string",
+            "minLength": 1
+          },
+          "original_comment": {
+            "type": "object"
+          },
+          "response_context": {
+            "type": "object"
+          },
+          "advisory": {
+            "type": "object"
+          },
+          "source_warnings": {
+            "type": "object"
+          },
+          "form_version": {
+            "const": "task08b.selection.v1"
+          },
+          "namespace": {
+            "enum": [
+              "dataset",
+              "synthetic"
+            ]
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "candidate_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "comment_source_warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "input_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "proposal_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

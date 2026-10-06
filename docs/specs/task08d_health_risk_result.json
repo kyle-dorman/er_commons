@@ -1,0 +1,329 @@
+{
+  "advancement_scope": "08E_investigation_only",
+  "artifacts": {
+    "coverage_review": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/reviews/coverage_v1.json",
+      "sha256": "36d153abcd99d52d285db309b50337efbeb38931d4b8b45aaa68ad445e9e2f66"
+    },
+    "finish_confirmation": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/review_capture_v3/finish_confirmation.json",
+      "sha256": "2fe0095fdfa06ab7e3d6737979da7931a51bbd1f2b5ad4a375079e4df12ddaf2"
+    },
+    "independent_export_review": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08d_claim_review_v2/independent_review.json",
+      "sha256": "4b4a5aa62872a68b2683cc478ae7da632958469a6467a1e08f1bdfa171321c12"
+    },
+    "initial_native_export": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/project/verified_export.json",
+      "sha256": "cf60f649a88db8636a1a8a3c0e6fe40988c7172569fd4c85c77f7c2fe24d6065"
+    },
+    "inventory": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/drafting_v2/inventory.json",
+      "sha256": "936fa268705d5bde4c24239e0435e8dd87ccc20734131a16391cc86cf0fe424f"
+    },
+    "latest_capture_validation": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/review_capture_v3/validation.json",
+      "sha256": "f3cfbc5a68464d3731895bf76323a1bef6ee51b48953ed1ccb1cb9ff66b4e8bf"
+    },
+    "latest_native_capture": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/review_capture_v3/native_export.json",
+      "sha256": "374a8c34fd87cec62c6554b004bcc1711035304cdc5c6f72c773ad66aef718b5"
+    },
+    "packet": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/input_v3/packet.json",
+      "sha256": "7fd5972534aec4ee48681e0619f66ca4befa3312a0268d5693245778d321b6a4"
+    },
+    "policy_authorization": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/exports/investigation_v1/policy_authorization.json",
+      "sha256": "e850331e0742c3f514748a681f3df28e6b4f3760a1c8cec4ef6a881678875830"
+    },
+    "policy_qualification": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08d_investigation_v1/qualification.json",
+      "sha256": "4a5bc4b2c6bd01859de6e9953ec42d051520e545e0c91721a55f28f7a39326b7"
+    },
+    "predecessor_native_export": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/predecessor_native_export.json",
+      "sha256": "5d074f93499c85c4e96ffc1dfbc5e52ea59e204d7849a7f5980d92b7dc0722e8"
+    },
+    "predecessor_project": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/predecessor_project.json",
+      "sha256": "487c78f3d39a132f84c05a3402c1d9655d00abc2311bfb8c4d29c97f69c656a5"
+    },
+    "prepared_manifest": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/prepared_investigation_v1/manifest.json",
+      "sha256": "200e9a148fb902d5822da8c26c2391d49d9559e5ddb0bfa7e5ba9f34df40daa8"
+    },
+    "prior_saved_capture_independent_review": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/review_capture_v2/independent_review.json",
+      "sha256": "50dffedb2713c36d34d89e0b7a31ee7431d5253babd1ffe02f5782fb40d93fca"
+    },
+    "prior_saved_export_independent_review": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/review_capture_v1/independent_review.json",
+      "sha256": "2b2c4f271bb5784e56c8465495f274bcf355f70b3f2e55e4aeadf8515427522a"
+    },
+    "project_identity": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/project/identity.json",
+      "sha256": "3838752debd3f4ace3e47dd779728a201a67f613cf769c2686f0fd940e831cd6"
+    },
+    "project_verification": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/project/browser_verification.json",
+      "sha256": "3483592f668419dd40714b81e81e262d2f039bd8ce2d73e5a634261aa79b23ce"
+    },
+    "proposal": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/drafting_v2/proposal.json",
+      "sha256": "8a5fdd16b059e0427c8fd867ed5653d708927a48c6b9fc9a2d37a6c14b5df52d"
+    },
+    "qualification": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08d_claim_review_v2/qualification.json",
+      "sha256": "182bb29c193ba1261a305b0cff60526f92f24b2fbc820e807bb3dcb0021e101e"
+    },
+    "relationship_review": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/reviews/relationships_v1.json",
+      "sha256": "a9bbb425453868e1647c1b5f30f04b215658e19f13150f1ae8be0df3813bdfd0"
+    },
+    "revision": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/drafting_v2/revision_note.json",
+      "sha256": "eb6b5927bcc44b74172ab2d295664e089958c1112f1d41afc42b9eeba77bfaab"
+    },
+    "revision_acceptance": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/reviews/revision_acceptance.json",
+      "sha256": "41f9b7440b93ae172330496257cf0cbc29d638fa7f963975a8644160d83e7f5b"
+    },
+    "saved_decisions": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/exports/investigation_v1/decisions.json",
+      "sha256": "70382de903af056e7cf4fc38b059332d69ec9a6179f283a634188041c110467c"
+    },
+    "saved_export_completion": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/exports/investigation_v1/completion.json",
+      "sha256": "0bf7852b85db4ed0f756b08426bb24235ef7036ac61deae727cb4c5181288bac"
+    },
+    "saved_export_handoff": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/exports/investigation_v1/handoff.json",
+      "sha256": "afba5a60922b569cbf2dc2fcdde62f5ba94704cc82ed5ef8208486a92fa3dbec"
+    },
+    "saved_export_independent_review": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/investigation_policy_v1/independent_review.json",
+      "sha256": "e6662df60c82a7e804acc8b73fffc793d2d8268e9887d1c763d3058cdc13f100"
+    },
+    "saved_export_validation": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/investigation_policy_v1/validation.json",
+      "sha256": "b4e914a9f73c1880566b73d11e7f08a3664b0bc0d449c8da96ff0f68ee027316"
+    },
+    "saved_native_export": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/exports/investigation_v1/native_export.json",
+      "sha256": "374a8c34fd87cec62c6554b004bcc1711035304cdc5c6f72c773ad66aef718b5"
+    },
+    "source_manifest": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/input_v3/manifest.json",
+      "sha256": "951154341036dbaaad8918a33b7c9856c2397468289f78c0daa2db60ebd79e92"
+    },
+    "source_validation": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/input_v3/validation.json",
+      "sha256": "2b38fb80c31a37e175a627465d17430420be05858b9d5473b65b342f7e1a5681"
+    }
+  },
+  "authorized_comments": [
+    "M-OSEC-241",
+    "O-Joint-44"
+  ],
+  "batch_register": {
+    "path": "pipelines/brisbane_baylands/task_08/batch_register.json",
+    "sha256": "25af9b3739ab8ca705304c0f2277279164e387a2b8f7f4594e30afb99e4a59de"
+  },
+  "boundaries": {
+    "08e_started": false,
+    "eligibility": "remains_at_08E",
+    "frozen_questions_unchanged": true,
+    "historical_case_claims_labels_answers_excluded": true,
+    "other_groups_processed": false,
+    "sealed_upstream_unchanged": true
+  },
+  "cases": [
+    {
+      "approved_claims": 6,
+      "case_id": "C001",
+      "comment_label": "M-OSEC-241",
+      "eligibility": "undecided",
+      "errors": [],
+      "proposal_relationships": {
+        "direct": 4,
+        "not-relevant": 1,
+        "supporting": 1
+      },
+      "proposed_claims": 6,
+      "question_id": "task08c-C001-66e388d94f8151e227c38b692a3a9257b867015052f0e452ff0e03bd27e5ab5b",
+      "question_parts": [
+        {
+          "essential": true,
+          "part_id": "P001",
+          "status": "unclear"
+        },
+        {
+          "essential": true,
+          "part_id": "P002",
+          "status": "unclear"
+        }
+      ],
+      "question_text_sha256": "26c727ae52ece439e98492efa0eacca62342281cc30b69984b5c62411ffe6595",
+      "question_version": "66e388d94f8151e227c38b692a3a9257b867015052f0e452ff0e03bd27e5ab5b",
+      "saved_claim_approvals": 6,
+      "saved_relationships": {
+        "direct": 4,
+        "supporting": 2
+      },
+      "scope_unresolved": true,
+      "state": "ready_for_investigation"
+    },
+    {
+      "approved_claims": 14,
+      "case_id": "C002",
+      "comment_label": "O-Joint-44",
+      "eligibility": "undecided",
+      "errors": [],
+      "proposal_relationships": {
+        "direct": 3,
+        "not-relevant": 11,
+        "supporting": 11
+      },
+      "proposed_claims": 25,
+      "question_id": "task08c-C002-6dfe3dae33575049bbcf38d172c0e863f56e139d21a4b7e267ec56d7e754e495",
+      "question_parts": [
+        {
+          "essential": true,
+          "part_id": "P001",
+          "status": "unclear"
+        },
+        {
+          "essential": true,
+          "part_id": "P002",
+          "status": "unclear"
+        },
+        {
+          "essential": true,
+          "part_id": "P003",
+          "status": "unclear"
+        },
+        {
+          "essential": true,
+          "part_id": "P004",
+          "status": "unclear"
+        },
+        {
+          "essential": true,
+          "part_id": "P005",
+          "status": "unanswered"
+        },
+        {
+          "essential": true,
+          "part_id": "P006",
+          "status": "unanswered"
+        }
+      ],
+      "question_text_sha256": "b2560320d3963b4f81391cb93152ad018e6c489aacd2257852d8e9dab8a0f717",
+      "question_version": "6dfe3dae33575049bbcf38d172c0e863f56e139d21a4b7e267ec56d7e754e495",
+      "saved_claim_approvals": 25,
+      "saved_relationships": {
+        "direct": 4,
+        "not-relevant": 11,
+        "supporting": 10
+      },
+      "scope_unresolved": true,
+      "state": "ready_for_investigation"
+    }
+  ],
+  "claim_review_complete": true,
+  "coordination_handoff": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/coordination_investigation_v1.json",
+    "sha256": "a7808882a5fa319e4be0cf757adf79474e352b5237ec09da681be602d59d4830"
+  },
+  "counts": {
+    "advancing_claims": 20,
+    "cases": 2,
+    "direct": 8,
+    "investigation_cases": 2,
+    "retained_not_relevant": 11,
+    "saved_claim_approvals": 31,
+    "submitted_reviews": 2,
+    "supporting": 12,
+    "unresolved_question_parts": 8,
+    "unresolved_scope_cases": 2
+  },
+  "eligibility": "undecided",
+  "group": "Health-risk table analysis",
+  "historical_task06g_commit_pin_failures": 3,
+  "interface_preparation": "complete",
+  "latest_export_attempt": {
+    "completion": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/exports/investigation_v1/completion.json",
+      "sha256": "0bf7852b85db4ed0f756b08426bb24235ef7036ac61deae727cb4c5181288bac"
+    },
+    "status": "complete_investigation_only"
+  },
+  "model": "gpt-6-astra",
+  "next_action": "Health-risk 08E may investigate only the 20 approved direct/supporting claims for C001/C002. Preserve all eight unresolved question parts and approved support chains. Adapt qualified 08E intake to this explicit policy before live work; human evidence/eligibility decisions remain required, no 08F or predetermined rebuttal.",
+  "policy_revision": "task08d.investigation.v1",
+  "preparation_completion": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/preparation_completion.json",
+    "sha256": "08d799c4243a416c25e6a6e937897424575e4b058d849001bfe3cc30882bbf00"
+  },
+  "prior_batch_impact": "Project47 has zero submitted annotations and one preserved unsaved draft. No migration; new decisions blank.",
+  "prior_handoff": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/coordination_handoff.json",
+    "sha256": "1c8924ec7ce19d9fdd12f7d9e130ee83264902eca6fc38db21339ba6ec084054"
+  },
+  "prior_readiness": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v1/readiness.json",
+    "sha256": "35f26b85d0440ca0dfa10e117cf5f310639a68a5f90fa017b5604bbb006db83e"
+  },
+  "project_id": 49,
+  "prompt_version": "task08d.claim_review.v1",
+  "proposal_relationship_counts": {
+    "direct": 7,
+    "not_relevant": 12,
+    "supporting": 12
+  },
+  "question_scope_resolved": false,
+  "review_url": "http://127.0.0.1:8097/projects/49/data?tab=48&labeling=1",
+  "schema_version": "task08d.readiness.v2",
+  "source_binding_policy": "Existing claims retain immutable proposal passage IDs; unbound additions stay held.",
+  "stage": "08D",
+  "status": "claims_complete_investigation_only",
+  "supersedes_project_id": 47,
+  "targeted_tests_passed": 89,
+  "template_version": "task08d.claim_review.v2",
+  "upstream_08c_handoff": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08c/chat_review_v1/exports/review_v1/handoff.json",
+    "sha256": "3668198d11d1f343739c2ec4119a17a7a43cd450f162092b49db153353ad73db"
+  },
+  "validation": {
+    "approved_claims": 20,
+    "direct": 8,
+    "export_completion_hashes_verified": true,
+    "failures": 3,
+    "format": "passed",
+    "full_check_log": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08d_investigation_v1/make_check.log",
+      "sha256": "13001172628b88c12278d3cdec98798ec3cfbc6976664c2197d608628fb571ab"
+    },
+    "historical_task06g_commit_pin_failures_only": true,
+    "limitations": [
+      "Investigation only; eligibility and answer adequacy undecided.",
+      "Approval preserves reviewed relevance; it does not establish truth, evidence support or successful rebuttal."
+    ],
+    "lint": "passed",
+    "native_annotations_unchanged": true,
+    "passed": 3033,
+    "prepared_tasks_and_form_identical": true,
+    "qualification": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08d_investigation_v1/qualification.json",
+      "sha256": "4a5bc4b2c6bd01859de6e9953ec42d051520e545e0c91721a55f28f7a39326b7"
+    },
+    "retained_not_relevant": 11,
+    "skipped": 1,
+    "status": "passed_with_historical_failures",
+    "supporting": 12,
+    "targeted_tests_passed": 88,
+    "types": "passed",
+    "unresolved_question_parts": 8
+  }
+}

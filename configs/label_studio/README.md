@@ -387,3 +387,66 @@ QA only. Earlier QA and human prototype projects remain preserved.
 See the [queue handoff](../../docs/specs/task07d_remaining_result.json),
 [07D task](../../tasks/sprint2/07d_discover_and_review_evidence.md) and
 [record contract](../../docs/specs/evidence_review_v1.md) before changes.
+
+
+## Task 08B shared candidate selection
+
+`task08b_selection_v2.xml` is the current qualified shared form; the
+[selection contract](../../docs/specs/task08b_selection_v2.md) owns selection-only
+advancement, schemas and export validation. Use health-risk
+[project 41](http://127.0.0.1:8097/projects/41/data?tab=40&labeling=1).
+Health-risk project 41 is complete: M-OSEC-241 and O-Joint-44 selected, 243/244
+excluded; see the [validated result](../../docs/specs/task08b_health_risk_result.json).
+Project 39 is superseded; it has no submitted annotations and its one unsaved
+draft remains preserved without migration. Projects 37, 38 and 40 are synthetic
+software qualification, not human dataset reviews.
+
+Read the original comment and scroll through complete linked responses. Save a
+selection and reason; notes are optional except for Other. Source/eligibility
+concerns may go in the reason or notes. The maximum is three selections, and fewer
+are welcome. No eligibility or stopping field appears. Leave unanswered candidates
+untouched. When requesting export, confirm in chat that you have finished.
+Selection is the only 08B human label gate; evidence-based eligibility remains at
+08E. All removed warning/ranking material remains in the
+underlying provenance; no new narrative or reranking was generated.
+
+## Task 08C wording review
+
+`task08c_wording_v1.xml` is the preserved historical comment-only wording form.
+Current 08C review uses [versioned chat review](../../docs/specs/task08c_chat_review_v1.md);
+this form is no longer required and project 44 is not the chat approval authority. It shows the
+original comment, applicable existing comment-source warnings, editable proposal,
+and explicit approval/rejection/unresolved controls. The
+[shared specification](../../docs/specs/task08c_wording_v1.md) owns preparation,
+qualification and exact saved-text export. Predictions prefill wording only;
+never prefill a human decision. Synthetic projects remain separate from dataset
+review, and no dataset question freezes until the curator saves its approval.
+
+## Task 08D health-risk claim review
+
+[Project 49 — health-risk claims](http://127.0.0.1:8097/projects/49/data?tab=48&labeling=1)
+is prepared for M-OSEC-241 and O-Joint-44 only. Shared
+[`task08d.claim_review.v2`](../../docs/specs/task08d_claim_review_v2.md) keeps
+frozen questions unchanged and shows direct claims first. Review each current
+claim's text, quoted source, relationship, target and explanation, then choose
+Approve, Reject or Unresolved. Approving means faithful response assertion and
+relevance, not truth or evidence support. Leave unused addition cards blank.
+
+Use the question-parts panel to inspect unanswered scope. Mark the whole case
+Ready only after resolving essential gaps and confirming the current links after
+all edits; otherwise save Unresolved or Stop with a note. All unresolved claims
+hold the case. Click outside an edited text box before Submit/Update so the native
+form registers the edit; wait for save completion. Native autofocus may leave the
+claims pane scrolled down: scroll it to the first claim to begin. The source and
+claim panes scroll separately. Tell this chat when saved decisions are ready for
+export. Projects 45/46 contain only synthetic qualification decisions.
+
+V2 removes the source-passage ID input and enlarges claim/explanation editors.
+Exact source anchors remain fixed in trusted records. Project 47 and its unsaved
+draft are preserved without migration; project 48 is source-free v2 qualification.
+
+Task 08E source-free qualification uses `group_evidence.claim_form` around the
+maintained evidence controls and a separate `group_evidence.eligibility_form`.
+Generated form snapshots are versioned and hashed in the external qualification
+run. See [08E preparation](../../docs/specs/task08e_evidence_review_v1.md).
+These synthetic projects never constitute health-risk evidence or human approval.

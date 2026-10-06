@@ -1,0 +1,144 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "input_sha256",
+    "prompt_version",
+    "prompt_sha256",
+    "model",
+    "proposal_version",
+    "reranking_reason",
+    "tie_groups",
+    "ranking"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "task08a.proposal.v1"
+    },
+    "input_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "prompt_version": {
+      "const": "task08a.ranking.v1"
+    },
+    "prompt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "model": {
+      "const": "gpt-6-astra"
+    },
+    "proposal_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "reranking_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tie_groups": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 2
+      },
+      "minItems": 0
+    },
+    "ranking": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "comment_id",
+          "rank",
+          "question_quality",
+          "response_quality",
+          "question_anchors",
+          "response_anchors",
+          "concerns"
+        ],
+        "properties": {
+          "comment_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "question_quality": {
+            "type": "string",
+            "minLength": 1
+          },
+          "response_quality": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question_anchors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "unit_id",
+                "quote"
+              ],
+              "properties": {
+                "unit_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "quote": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "response_anchors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "unit_id",
+                "quote"
+              ],
+              "properties": {
+                "unit_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "quote": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "concerns": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          }
+        }
+      },
+      "minItems": 1
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

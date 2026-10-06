@@ -1,0 +1,130 @@
+{
+  "accepted_selection_export": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/exports/review_v1/decisions.json",
+    "sha256": "1ef95d348e819682abcf58d378bf0b83bc8cae2071dbcd06b1ea1aff45da65af"
+  },
+  "attempt": 2,
+  "batch_register": {
+    "path": "pipelines/brisbane_baylands/task_08/batch_register.json",
+    "sha256": "86e12f603862d7932d9d9a2b7daf72156361a056365e0ed099e8ed85d465f57a"
+  },
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/exports/review_v1/completion.json",
+    "sha256": "e8074b12f0c44310284dc43632534d34b08ce1f48e49263aeed3cdafb4ebe27e"
+  },
+  "coordination_readiness": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/coordination_readiness.json",
+    "sha256": "781dd41c31ed28fc5dc77db225ac31346c7c8e5cea0b5abdef72a9eb4e45d2fc"
+  },
+  "counts": {
+    "advancing": 2,
+    "candidates": 4,
+    "excluded": 2,
+    "pending": 0,
+    "reviewed": 4,
+    "reviewed_skips": 0,
+    "selected": 2,
+    "unresolved": 0,
+    "unreviewed": 0
+  },
+  "excluded_comments": [
+    "M-OSEC-243",
+    "M-OSEC-244"
+  ],
+  "final_validation": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/exports/review_v1/validation.json",
+    "sha256": "a405126f3fde6c1bdec4e4d8248777ab2c2535d658bb9fd72d561ea64322e03a"
+  },
+  "finish_confirmation": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/exports/review_v1/finish_confirmation.json",
+    "sha256": "8fd0152544995f30bd229c968c0449cad1a11e21b0a309f9706982e92dc4d863"
+  },
+  "group": "Health-risk table analysis",
+  "handoff": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/exports/review_v1/handoff.json",
+    "sha256": "d175333c74ea2a0db28d3070526525e902b0aac2a68c12d6f75924fa446511a3"
+  },
+  "human_annotations": 4,
+  "human_drafts": 0,
+  "human_selection": "complete",
+  "later_evidence_eligibility": "required_at_08E",
+  "manifest": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/exports/review_v1/manifest.json",
+    "sha256": "c85afb023cc8adc8e818b9a7f2ef3e7b9e1410c62264b8bfd6bdaba3ced40601"
+  },
+  "migration": "none",
+  "next_action": "Coordination may request separate health-risk 08C first-use preparation for these two selected IDs only. 08C has not started.",
+  "other_groups_processed": 0,
+  "predecessor_unsaved_drafts_preserved": 1,
+  "predictions": 0,
+  "prepared_manifest": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/prepared/manifest.json",
+    "sha256": "5cc4f58b5ece7d2fa2bd16c73c8a2a23c1d3eb1be00d7d5580cdf4ba2a162352"
+  },
+  "process_revision": "task08.selection_gate.v2",
+  "project_id": 41,
+  "qualification_project_id": 40,
+  "readiness": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/readiness.json",
+    "sha256": "7a59a71ab6a2936c6c67146a5147504967bd9bced12d9c15228e2781231368bf"
+  },
+  "review_url": "http://127.0.0.1:8097/projects/41/data?tab=40&labeling=1",
+  "saved_advisory_order": [
+    "M-OSEC-241",
+    "O-Joint-44",
+    "M-OSEC-243",
+    "M-OSEC-244"
+  ],
+  "schema_version": "task08b.health_risk.result.v2",
+  "selected_comments": [
+    "M-OSEC-241",
+    "O-Joint-44"
+  ],
+  "selection_is_only_08b_gate": true,
+  "stage": "08B",
+  "status": "complete_with_recorded_repository_test_limit",
+  "superseded_project_id": 39,
+  "task08c": "not_started",
+  "task_ids": [
+    218,
+    219,
+    220,
+    221
+  ],
+  "template_version": "task08b.selection.v2",
+  "unreviewed_comments": [],
+  "validation": {
+    "accepted_selection_export": "validated_complete",
+    "format_lint_types": "passed",
+    "human_project_verification": {
+      "path": "pipelines/brisbane_baylands/task_08/health_risk/08b/selection_v2/project/verification.json",
+      "sha256": "73e0adb45337bbaf8a17f5c1310bbaba33d7eae565a39258b485c920e3a6f7cd"
+    },
+    "make_check_log": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08b_selection_v2/make_check.log",
+      "sha256": "a8ece7b7521e422e91e6f805f6a853bbf723d48ae95d0bb7462d2da80dd5ede7"
+    },
+    "make_fix": "passed",
+    "make_fix_log": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08b_selection_v2/make_fix.log",
+      "sha256": "0068bd22197340c8fbb26438668b3a7a7415c974b4ff780bf5c44eb5aba357d3"
+    },
+    "repository_tests": {
+      "failed": 3,
+      "limitation": "Same three historical Task06G commit-pin failures recorded in 08A and 08B v1",
+      "passed": 2887,
+      "skipped": 1
+    },
+    "repository_tests_scope": "Recorded shared-v2 qualification; not rerun in export-only completion.",
+    "shared_qualification": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08b_selection_v2/qualification.json",
+      "sha256": "a94968e18fe32e0fb815e8f73caa5951a521aa7a94629da137a691aa32d41462"
+    },
+    "targeted_tests": {
+      "failed": 0,
+      "passed": 81
+    },
+    "upstream": "existing 08A identities verified; no reranking or proposal regeneration"
+  },
+  "view_id": 40
+}

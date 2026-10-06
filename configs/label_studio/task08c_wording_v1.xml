@@ -1,0 +1,20 @@
+<View>
+  <Header value="Review question wording"/>
+  <Header size="5" value="Preserve the original meaning, scope and qualifications. Approve only the exact saved wording."/>
+  <View style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+    <View>
+      <Header value="Original comment" size="4"/>
+      <Text name="comment" value="$original_comment"/>
+      <HyperText name="warnings" value="$warnings_html" selectionEnabled="false"/>
+    </View>
+    <View>
+      <Header value="Proposed question — edit as needed" size="4"/>
+      <TextArea name="question" toName="comment" rows="10" editable="true" transcription="true" showSubmitButton="false" maxSubmissions="1"/>
+      <Choices name="decision" toName="comment" choice="single-radio" required="true">
+        <Choice value="Approve exact wording"/><Choice value="Reject"/><Choice value="Unresolved"/>
+      </Choices>
+      <Header size="5" value="Note (optional for approval; explain Reject or Unresolved)"/>
+      <TextArea name="note" toName="comment" rows="2" editable="true" maxSubmissions="1"/>
+    </View>
+  </View>
+</View>

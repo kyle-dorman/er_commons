@@ -24,8 +24,9 @@ release is possible by explicit agreement after reviewing the actual pool.
 - [Sprint benchmark boundary](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md),
   [artifact contract](../../docs/data_artifacts.md),
   [architecture](../../docs/architecture.md), and current source/inventory seals.
-- All selection, skip, stopping-point, question, claim, evidence, eligibility,
-  answer, and clustering decisions; approved versions; warnings and exclusions.
+- All selection, skip, review-completion confirmation, question, claim, evidence,
+  eligibility, answer, and clustering decisions; approved versions; warnings and
+  exclusions.
 
 ## Outputs
 
@@ -58,13 +59,14 @@ proposal's initial size into an accepted policy without human agreement.
    cases stopped downstream. Assemble only approved current versions. Preserve
    all partial-work and exclusion history separately from accepted cases.
 2. Derive the audit waterfall from source inventory, prepared pool and group
-   assignments, reviewed selections/skips/unseen candidates, first-pass
-   eligibility, question approval, claims, evidence and second-pass eligibility,
+   assignments, reviewed selections/skips/unseen candidates, question approval,
+   claims, evidence and evidence-based eligibility,
    approved answers, accepted pool, and final selection. Report explicitly
    deferred unresolved cases separately from exclusions. Do not count unseen
    candidates as rejections or purposive browsing as an unbiased acceptance rate.
-3. Validate exact one-comment/one-question identity and both human eligibility
-   passes, approved answers, source usability, evidence and cluster closure.
+3. Validate exact one-comment/one-question identity, explicit human selection
+   and evidence-based eligibility, approved answers, source usability, evidence
+   and cluster closure.
    Reentering pilot cases must have fresh Task 08 review records; their historical
    Task 07 labels remain preserved and cannot substitute for current approvals.
 4. Show the pool size, cluster sizes, coverage, and feasible allocations. Use 25
@@ -117,8 +119,9 @@ logic. Reconcile findings before presenting the final freeze decision.
 
 - The user has approved final size, development/test allocation, and exact release
   selection; no rigid 25-case or 10/15 gate is imposed.
-- Every included case passed the current authoring and two human eligibility
-  reviews, and every confirmed cluster remains wholly within a split.
+- Every included case passed current authoring, explicit selection and
+  evidence-based eligibility review; every confirmed cluster remains wholly
+  within a split.
 - Attrition and accepted-but-unselected cases are auditable, including the six
   reentered pilot cases' current dispositions and preserved historical identity.
 - The release verifies and can be consumed without reconstructing chat history;

@@ -1,0 +1,96 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "input_sha256",
+    "prompt_version",
+    "prompt_sha256",
+    "model",
+    "proposal_version",
+    "reranking_reason",
+    "tie_groups",
+    "ranking",
+    "preparation_mode",
+    "ranking_not_needed_reason"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "task08a.proposal.v2"
+    },
+    "input_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "prompt_version": {
+      "const": "task08a.ranking.v2"
+    },
+    "prompt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "model": {
+      "enum": [
+        "gpt-6-astra",
+        null
+      ]
+    },
+    "proposal_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "reranking_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tie_groups": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 2
+      },
+      "minItems": 0
+    },
+    "ranking": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "comment_id",
+          "rank"
+        ],
+        "properties": {
+          "comment_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "preparation_mode": {
+      "enum": [
+        "deterministic",
+        "model_ranked"
+      ]
+    },
+    "ranking_not_needed_reason": {
+      "enum": [
+        null,
+        "ranking not needed—group has at most three candidates"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

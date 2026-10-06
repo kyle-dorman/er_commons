@@ -179,6 +179,40 @@ owns replay namespaces and attempt history; the
 [06H outcome](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
 owns the accepted replacement handoff and sampled-review limitations.
 
+## Task 08 group artifacts
+
+The authorized combined 08C pass uses the separate
+`task_08/08c_combined_20261001_v1/` namespace with immutable input completion,
+restricted provenance, historical bindings, numbered journal snapshots and
+progress checkpoints. It does not replace historical per-group records; see the
+[combined review contract](specs/task08c_combined_chat_review_v1.md).
+
+
+Task 08 uses `pipelines/brisbane_baylands/task_08/<group>/<stage>/` beneath the
+configured data root. Each saved ranking has a fresh no-clobber directory with
+its input packet, advisory proposal, handoff, validation, versioned interface
+snapshots, manifest and completion. Working drafts stay distinct from completed
+packets. The compact batch register references completed packets and pending
+next stages; it does not assign human labels. Upstream releases remain in place.
+
+Remaining-group 08A preparation uses fresh `<group>/08a/ranking_v2/` outputs
+and a separate `preparation_20260930_v2/` progress ledger and qualification receipts.
+Each group transitions through pending/running to completed or blocked, independent
+of the others. Small-group manifests distinguish deterministic preparation with
+no model invocation from Astra-ranked groups. Source-page supplements preserve
+exact page text separately from original source units. Register merges preserve
+preceding bytes and all concurrent non-08A rows; health-risk v1 remains sealed.
+
+
+08B v2 uses a fresh `<group>/08b/selection_v2/` directory for trusted prepared
+inputs/interface snapshots, project receipts, verification and later versioned
+native exports. Shared synthetic qualification is under
+`task_08/qualification/08b_selection_v2/`, outside dataset annotations. V1 remains
+preserved; v2 also retains a predecessor snapshot, supersession record and later
+export-bound chat confirmation. The mutable
+batch register preserves its preceding bytes before updates; sealed 08A and
+historical review artifacts remain unchanged.
+
 ## Git policy
 
 ### Tracked and external files
@@ -213,3 +247,70 @@ write a compact adjacent manifest or summary containing, at minimum:
 
 The manifest is the project-owned explanation of what happened. It lets a later
 learner inspect and rerun work without trusting hidden local state.
+
+## Task 08C wording artifacts
+
+First-use health-risk artifacts use `task_08/health_risk/08c/wording_v1/`.
+Comment-only model packets and imported review tasks remain separate from the
+restricted source mapping and upstream references. Shared source-free UI
+qualification uses `task_08/qualification/08c_wording_v1/`. Proposals and native
+exports are versioned and no-clobber; only explicitly approved exact saved text
+can enter the eventual frozen handoff. A pending review receipt is not completion.
+
+Chat review uses a fresh `task_08/health_risk/08c/chat_review_v1/` namespace and
+references the original `wording_v1/` packet/proposal in place. Save immutable
+journal snapshots, displayed versions, verbatim feedback, explicit decisions and
+validated exports. The current handoff records `task08c.chat_review.v1`. Preserve
+previous batch-register bytes and existing project artifacts; workflow amendment
+does not migrate or fabricate human approvals.
+
+## Task 08D claim artifacts
+
+Health-risk first use is under `task_08/health_risk/08d/claims_v1/`. The active
+source packet is `input_v3/packet.json`; earlier preparation revisions remain
+preserved and unused. Separate two-pass inventories, proposal revisions,
+independent reviews, trusted prepared tasks, project receipts and pending-review
+handoffs retain exact source and question bindings. No saved human approval is
+inferred from a prepared project. Qualification fixtures and their automated
+annotations live separately under `task_08/qualification/08d_claim_review_v1/`.
+Only a validated saved human export can publish advancing claims; unresolved
+scope and all other dispositions remain in the stage history.
+
+The v2 interface replacement uses `task_08/health_risk/08d/claims_v2/`, referencing
+unchanged v1 source/inventory/proposal files. It preserves the prior project and
+unsaved draft without migration. Separate `qualification/08d_claim_review_v2/`
+records verify the removed source-ID control, larger editors and fixed source
+bindings. Prior readiness and batch-register bytes remain preserved.
+
+## Task 08E evidence artifacts
+
+Shared synthetic qualification and the read-only upstream audit live in fresh
+`task_08/qualification/08e_*` directories, outside health-risk dataset decisions.
+Preserve invented canonical inputs, prepared task/form snapshots, project IDs,
+browser evidence, native annotations/exports, validators and independent reviews.
+Simulated advance labels always export zero advancing claims and no next stage.
+Qualification is not a health-risk evidence packet or eligibility decision.
+Live `health_risk/08e/investigation_v1/` artifacts bind the accepted 08D
+`claims_v2/exports/investigation_v1/handoff.json`. Preserve the exact input closure,
+source-only search receipts, Astra prompts/proposals and amendments, every hit
+and reference disposition, fresh render/association audits, assembled canonical
+packets, blank native project snapshots and subsequent saved decisions. The batch
+register is updated only after saving its previous bytes. Investigation does not
+establish source support or eligibility; eligibility tasks bind saved evidence.
+See the [08E task](../tasks/sprint2/08e_review_group_evidence.md) for readiness.
+
+Remaining-group 08B setup uses `task_08/selection_setup_20260930_v2/` for its
+compact review index, per-group project receipts and preserved register snapshots.
+Trusted queues remain under each `<group>/08b/selection_v2/prepared/`; the shared
+intake revision qualifies in `task_08/qualification/08b_intake_v2/`. Synthetic
+annotations stay separate from dataset projects. Setup receipts indicate readiness
+only, retaining full source and template identities for later confirmed exports.
+
+Combined Task 08D preparation stores fresh `input/` packets and separate context
+notes, per-case `cases/` model inventories/proposals/invocation receipts,
+independent `review/` findings, and a checksummed prepared queue beneath the
+explicitly named Task 08 batch root. The preparation handoff seals blank decisions;
+a subsequent `human_review/events.jsonl` is an append-only writable journal outside
+that seal. Preserve earlier model revisions and all historical health-risk/practice
+artifacts. The [chat specification](specs/task08d_combined_chat_review_v1.md)
+owns startup, mutation checks and export gates.

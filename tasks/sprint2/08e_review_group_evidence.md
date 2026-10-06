@@ -1,135 +1,123 @@
-# Task 08E — Review one group's evidence and eligibility
+# Task 08E — Research evidence and review each question in chat
 
-Status: **Provisional contract; execution has not started.** Revise from the first
-accepted 08D batch before activation. This reusable task runs separately for each
-group; finishing one batch does not close the stage for all groups.
-
-## Abstract
-
-Discover and review Draft EIR evidence for the approved claims in one group's
-cases, then conduct the second human eligibility review. Reuse a shared,
-versioned review interface while preserving exact sources, bounded search gaps,
-and human decisions. Valid citations alone do not establish a valid rebuttal.
+Status: **Plan updated 2026-10-06; combined-pass execution not started.**
+This update authorizes documentation only. Research and implementation await an
+explicit start request. Parent: [Task 08](08_curate_grouped_benchmark.md).
 
 ## Goal
 
-Produce a source-grounded, human-reviewed evidence handoff for each surviving
-case, or an explicit stop with its reason and preserved partial work.
+Prepare evidence for every released question in one batch, then review one
+question at a time in chat, with targeted additional research as needed.
+Investigate the question itself as well as the approved response claims: the
+response and claim list may omit important facts, context or reasoning.
+Produce a reviewed evidence handoff, not a draft answer.
 
-## Inputs
+## Inputs and boundaries
 
-- [Task 08 umbrella](08_curate_grouped_benchmark.md) and the named group's
-  accepted [08D claims handoff](08d_review_group_claims.md).
-- [Human review process](../../docs/response_comment_human_review_process.md),
-  [sprint eligibility and evidence boundaries](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md),
-  [artifact contract](../../docs/data_artifacts.md), and
-  [architecture](../../docs/architecture.md) before changing maintained helpers.
-- Exact original comments, frozen questions, complete linked responses, reviewed
-  direct/supporting claims, first-pass eligibility records, accepted extraction,
-  source-usability registry, and response-inventory identities.
-- [07D search protocol](../../docs/specs/task07d_search_protocol_v1.md),
-  [claim search prompt](../../docs/prompts/task07d_claim_citation_search_v1.md),
-  [export contract](../../docs/specs/evidence_review_v1.md), and
-  [maintainer guide](../../docs/task07d_maintainer_guide.md), as reusable precedent.
+- Verify the [combined 08D result](../../docs/specs/task08d_combined_review_result.json)
+  and its complete sealed handoff, including required context and supplemental
+  inventory. Preserve frozen questions, claim versions, support chains, source
+  bindings, citation leads, exclusions, unresolved gaps and reconciliation holds.
+- The initial research queue contains the 50 investigate cases in saved order.
+  C014, C020 and C024 remain held; the four 08C deferrals stay outside the queue.
+  Reopening a held case requires an explicit decision.
+- Use eligible Draft EIR material and appendices under the
+  [sprint evidence boundaries](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md).
+  Responses supply claims and leads, not evidence. Preserve the 08D Modified
+  Alternative 1/Chapter 16 exclusions, explicit exceptions and required rechecks.
+- Keep each question's research and review self-contained. Do not deduplicate
+  sources within or across questions or build a pooled source-review queue.
+  The same source may appear wherever relevant; decisions stay question-specific.
+- Preserve historical work separately; do not import its approvals. Prior
+  workflows and outcomes are in the [historical record](08e_historical_workflows.md).
+  This task supersedes the shared-source/Label Studio plan for the combined pass.
 
-## Outputs
+## Phase A — batch research before human review
 
-- A versioned, per-group evidence-search packet with query receipts, candidate
-  dispositions, exact canonical anchors, warnings, and bounded search gaps.
-- A separate Label Studio project using the shared 08E template; validated
-  decisions exported against the exact proposal and template versions.
-- Reviewed evidence records and case-level support/context citation lists,
-  including source summaries, discovery provenance, and rejected candidates.
-- Second-pass human eligibility records and an immutable batch handoff for 08F,
-  with stopped/unresolved cases accounted for and no automatic replacements.
+1. **Plan each question's search.** Cover all five tracks: direct citations for
+   approved claims; known question gaps; relevant definitions/acronyms/methods;
+   broader context omitted from the response or claims; and counterevidence.
+   Use the original comment, full question and required 08D notes to identify
+   assumptions, alternative explanations and potentially missing information.
+2. **Search beyond the supplied references and claim wording.** Resolve citation
+   leads, search the eligible corpus independently, and inspect surrounding
+   sections, technical appendices, assumptions and relevant cross-references.
+   Seek both confirming and conflicting material. Finding apparent support is
+   not a stopping rule; every track must receive a recorded search or a reason
+   it does not apply.
+3. **Keep research bounded and restartable.** Save each case's search plan and
+   effort budget before execution, with follow-up allowance for each track.
+   Set these by question complexity rather than inheriting the old claim-only
+   query caps. Record actual queries, inspected hits, dispositions, failures,
+   budget stops and remaining leads. Expand a budget through a saved, justified
+   revision; never imply an exhaustive search or hide an unsearched track.
+4. **Prepare source-grounded findings.** Use Astra for advisory research/proposals
+   with exact inputs and model provenance saved. Retain exact passages or complete
+   table families, document/edition, printed and PDF pages, canonical anchors,
+   captions, notes and material limitations. Verify table content against renders;
+   distinguish agent checks from any still-required human usability check.
+5. **Assemble one review packet per question.** Group evidence logically with the
+   claims or question parts it bears on. Propose Support, Partial, Context,
+   Not support or Contradicts with a concise reason. Save gap findings,
+   definitions and broader context independently when no approved claim fits;
+   never force them into a claim link or silently rewrite the claim list.
+6. **Validate and publish the batch.** Check coverage, exact source bindings,
+   exclusions and material counterevidence independently. Save a checksummed
+   “prepared, awaiting human review” handoff with packets, search receipts,
+   unresolved issues and resume position. All human decisions start blank.
+   Finish the batch before starting routine question-by-question review; identify
+   any blocked case explicitly rather than silently omitting it.
 
-Generated records remain under `ER_COMMONS_DATA_ROOT`; only maintained templates,
-small schemas, prompts, fixtures, and helpers belong in Git. The umbrella owns
-batch identity, manifests, model provenance, and no-clobber requirements.
+## Phase B — one question at a time in chat
 
-## Research / learning checkpoint
+Present the full exact approved question and a readable evidence overview:
 
-Before first-stage setup, inspect the maintained 07D boundaries and official
-[Label Studio labeling configuration](https://labelstud.io/guide/setup),
-[task import](https://labelstud.io/guide/tasks), and
-[annotation export](https://labelstud.io/guide/export) guidance. Explain how
-stable source IDs, reviewed relationships, and a real save/export test prevent
-plausible-looking but unusable review data. Record verified sources and the
-chosen adapter boundary; do not rebuild the evidence workflow without cause.
+- **Evidence for the claims:** exact claim wording grouped with its citations,
+  key source excerpts, proposed relationships and limitations.
+- **Evidence beyond the claims:** findings for gaps, definitions, methods and
+  missing context, with citations and a clear explanation of their relevance.
+- **Problems still open:** counterevidence, inconsistencies, unanswered question
+  parts and claims for which the bounded search found no suitable citation.
 
-## Plan / spec requirement
+Use clear document titles and page references. Keep full passages/table families
+available in the saved packet and show them when needed for interpretation or
+on request. Separate verbatim text from summaries. “No citation found” describes
+search results, not proof that evidence does not exist.
 
-Write a brief setup spec before implementation, then use the accepted setup for
-ordinary batches. The spec defines the shared versioned 08E template, schemas,
-search budget and expansion/stopping rules, evidence aggregation, and export
-validation. Review it before generating live proposals.
+Discuss feedback and run targeted additional searches when requested or needed
+by the discussion. Save the purpose and scope before searching, then show what
+changed and what remains unresolved. Do not rerun the whole batch. Wait for
+explicit acceptance, rejection or deferral of displayed findings/relationships;
+acceptance never covers hidden material. Reopen affected decisions after edits.
 
-1. Start a separate 08E chat for one named group. Load only its approved packet
-   and required stage instructions; do not inherit the main planning chat or
-   unrelated groups' labels. Six reentering pilot cases use fresh Task 08 inputs
-   and decisions; sealed Task 07 labels are not defaults.
-2. Resolve explicit response references and run bounded curator search over
-   usable sources for each approved claim. Seek core/questioned passages,
-   supporting material, counterevidence, and limiting conditions. Preserve
-   explicit-reference, lexical, and any permitted graph-search provenance.
-3. Use Astra (`gpt-6-astra`) for proposals. Restrict selected evidence IDs to
-   supplied canonical candidates; preserve subject, units, dates, and exact
-   scope. Allow `insufficient_evidence`. Do not introduce a source-count cap
-   that hides relevant counterevidence or confuse search gaps with absence.
-4. Show full citable units and focused summaries with source anchors. Human
-   review decides each claim-source relationship and its support/context role.
-   Deduplicate case citations by canonical section/table identity, retaining
-   support over context across reviewed uses without losing relationship history.
-5. Conduct the second human eligibility pass using original comment, complete
-   response, evidence, usability information, and relevant cross-references.
-   Where practical, do not emphasize first-pass rationale before the decision.
-   Exclude cases materially dependent on later revisions, new Final-EIR analysis,
-   external evidence, mitigation changes, unusable text, or unavailable visuals.
-   Required tables must have a canonical structured/text representation and
-   human usability verification against the corresponding render, including
-   each required family member. The health-risk group does not itself authorize
-   CSV tools or calculations absent from the original question.
-6. Validate and save decisions before advancing. Changes to approved question
-   or claims return to the owning stage as explicit revisions and invalidate
-   affected downstream approvals. Do not silently repair scope in evidence review.
+After each interaction, save exact displayed versions, verbatim feedback,
+decisions, source/claim bindings and queue position. At the end of the question,
+show remaining gaps and obtain an explicit case disposition: advance to 08F,
+hold or stop, with evidence-based human eligibility and its reasons. Bind it to
+the current reviewed evidence. No second claim-by-claim aggregate-support pass;
+answer composition and adequacy remain for separately authorized 08F.
 
-Create/adapt the shared template once, prove real queue/save/export behavior,
-and then create each group's project from it using data only. Any interface or
-schema change is a named shared revision with an explicit decision about earlier
-batches; batch chats must not write bespoke template code.
+## Implementation, validation and completion
 
-## Review pass
+Before live research, inspect maintained Task07D/08E search, canonical-source and
+rendering helpers and the 08D chat journal/export pattern. Reuse those boundaries;
+version the broader research prompt, per-question packet and chat decision/export
+contract. Older search prompts and Label Studio exporters are historical
+precedent, not the current execution contract. Keep artifacts under
+`ER_COMMONS_DATA_ROOT` per the [artifact contract](../../docs/data_artifacts.md).
 
-Use bounded independent reviews for source/anchor closure, support/context
-semantics, and maintainability of any adapted helpers. Integrate findings before
-human review begins. Human semantic and eligibility decisions remain human-only.
+Qualify save/reload/resume and export with separate synthetic cases: gap-only
+findings, definitions, conflicting evidence, missing citations, table families,
+scoped batch approvals, follow-up research, edits and stale decisions. Independently
+review search coverage and export fidelity. Reject missing bindings, lost context,
+unsupported summaries and model proposals mistaken for human decisions.
+Run focused tests and `make fix` / `make check` for implementation; document
+historical failures separately. For documentation only, check links and
+`git diff --check`.
 
-## Validation
-
-- Verify upstream identity closure, selected case/claim membership, exact question
-  versions, complete response closure, and canonical evidence ID resolution.
-- Exercise the actual Label Studio queue and export with a representative record;
-  check saved roles, edits, nonempty approvals, and version bindings.
-- Check excluded/unresolved claims do not advance, all source gaps are reported,
-  and both eligibility passes exist for every accepted evidence handoff.
-- Run focused tests and `make fix` / `make check` for implementation changes;
-  inspect the diff and run `git diff --check` for docs-only updates.
-
-## Acceptance criteria
-
-- Every input case has a saved advance, stop, or unresolved disposition.
-- All advancing cases have explicit human evidence and second-pass eligibility
-  decisions; exact sources and approval versions resolve mechanically.
-- No context-only evidence substitutes for required support; counterevidence and
-  limits remain visible in the handoff.
-- The accepted batch can restart or feed 08F without relying on chat memory.
-
-## Non-goals
-
-Answer drafting, whole-pool clustering, target retrieval or benchmark runs,
-automated eligibility, reopening sealed pilot results, or filling lost selections.
-
-## Outcome
-
-Not started. On execution, record setup qualification once and link per-group
-completion manifests, counts, exclusions, learning, checks, and the 08F handoff.
+Completion requires every input case to have an explicit disposition, all accepted
+findings/relationships bound to reviewed versions, and a validated handoff retaining
+all searches, prior versions, rejected findings, unresolved issues and eligibility
+decisions. No automatic advancement, question/claim rewriting, source correction,
+new calculations, external-evidence expansion, answer drafting, new projects/chats,
+commit or push is authorized by this plan.

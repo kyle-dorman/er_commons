@@ -23,7 +23,9 @@ aids if needed.
 
 Freeze the official landing-page and file URLs, access timestamps, checksums,
 byte sizes, MIME types, and PDF page counts before annotation. Task 08 uses
-rolling single-group authoring, with 25 accepted cases as a flexible target.
+task-by-task authoring across all participating batches, with 25 accepted cases
+as a flexible target. The [08E plan](../../tasks/sprint2/08e_review_group_evidence.md) prepares research
+in batch and reviews each question in chat, without source deduplication.
 There is no up-front 35-candidate gate; retain normal attrition and agree final
 size and cluster-preserving split after all group batches finish.
 
@@ -174,7 +176,11 @@ when suitable candidates run out. This bounded, purposive selection retains
 the subsequent human eligibility and cluster-integrity requirements. The
 2026-09-30 amendment makes the final size and split flexible, with explicit
 agreement before freezing. See the [Task 08 umbrella](../../tasks/sprint2/08_curate_grouped_benchmark.md)
-for reusable single-group stages and isolated batch chats.
+for reusable stages, context boundaries and question-by-question 08E chat review.
+08A preparation may cover all remaining accepted groups ahead of review under
+the explicit preparation amendment. Groups with at most three candidates use
+stable comment-ID order without model ranking; larger groups use saved advisory
+Astra order. This does not advance selection, authoring or eligibility gates.
 
 Human reviewers alone determine candidate eligibility. Deterministic checks
 may flag language, source references, or missing links for reviewer attention,
@@ -187,8 +193,9 @@ For the next authoring pass, one original comment yields at most one case with
 one independently answerable, human-approved question. Distill or rewrite only
 when the question faithfully preserves the comment's central issue, scope and
 qualifications. If it contains multiple independent asks that cannot naturally
-be expressed as one question, skip it; do not split it into several cases or
-hide the multiple asks in a compound sentence. Prefer filtering to salvaging.
+be expressed as one question, leave the proposal unresolved and discuss the
+obstacle before the human decides. Do not split it into several cases or hide
+the multiple asks in a compound sentence. No automatic exclusion or forced rewrite.
 Do not remove a difficult qualification merely to make the case answerable.
 Preserve the original comment, the exact question, source IDs and the rewrite/skip
 reason. Freeze that same question as retrieval, generation and evaluation input.
@@ -197,17 +204,25 @@ selection and separate comment-only wording review. Their sealed Task 07
 questions, claims, and answers remain unchanged; no old approval substitutes
 for a current gate.
 
-Use a two-pass single-curator workflow because this sprint has one available
-human reviewer. In the first pass, the curator reviews the resolved
-comment-response pair, including linked general responses, and assigns
-provisional eligibility with a reason code during candidate selection. Question
-rewriting and exact wording approval follow in a separate comment-only task.
-Astra may rank original candidates for question/response quality beforehand,
-but that saved advice neither selects nor rejects cases. In the later
-evidence-verification pass, the curator reviews the original comment, resolved response, exact Draft
-EIR evidence spans, requested review-cache renders, source-usability status,
-and relevant cross-references, then reapplies the eligibility criteria. A case
-becomes accepted only after passing both reviews.
+Use the shared `task08.selection_gate.v2` process. During 08B, the curator
+reviews the original comment and complete linked responses and saves a selection
+decision and reason; explicit selection is the sole 08B human gate to 08C.
+Eligibility concerns may go in the reason, without a separate provisional label.
+The `task08b.selection.v2` form omits warning, advisory-reason and ranking-record
+panels while underlying artifacts retain all source limitations and exceptions.
+It has no stopping control: confirm review completion in chat at export and
+reconcile saved annotations against the full inventory, leaving unanswered
+candidates unreviewed. Preserve skips, exclusions, unresolved decisions and
+reasons; at most three selections are permitted, and fewer are welcome.
+Question rewriting and exact wording approval follow in a separate comment-only
+chat using [task08c.chat_review.v1](../specs/task08c_chat_review_v1.md). Preserve
+displayed versions and feedback; a null proposal remains unresolved pending human
+discussion. Only explicit approval of the exact displayed version can freeze text.
+Flag unsupported user-added intent; no automatic exclusions or backfill. Astra may rank original candidates beforehand, but saved advice neither
+selects nor rejects cases. At 08E, the curator conducts evidence-based eligibility
+review using the original comment, resolved response, exact Draft EIR evidence,
+requested review-cache renders, source usability and relevant cross-references.
+Selection alone never establishes final eligibility or acceptance.
 
 Preserve every screening, evidence-verification, acceptance, and selection
 decision as a versioned record rather than overwriting earlier
@@ -215,15 +230,15 @@ dispositions. Each decision records the stable source or case ID, review stage,
 disposition, reason code, reviewer, timestamp, and the input artifact version
 that was reviewed. Produce an annotation attrition waterfall with raw counts at
 each stage—from the complete response inventory through plausible candidates,
-first-pass eligibility, evidence verification, accepted cases, and final split
+explicit selection, question/claim review, evidence-based eligibility, accepted
+cases, and final split
 selection—and report exclusions by reason code. The waterfall is an audit
 summary derived from the decision records, not a separately maintained count.
 
-Where practical, the second-pass interface should not emphasize the first-pass
-rationale until the verification decision is made, reducing anchoring without
-claiming reviewer independence. Report this as repeated single-curator review,
-not inter-reviewer agreement. Model eligibility QA remains out of scope for
-Sprint 2 and cannot substitute for either human pass.
+Selection reasons remain provenance and do not substitute for the later
+evidence-based decision. Report this as single-curator review, not inter-reviewer
+agreement. Model eligibility QA remains out of scope for Sprint 2 and cannot
+substitute for human eligibility review.
 
 After all group authoring batches finish, build split-clustering candidates
 across the accepted pool deterministically from commenter-letter membership,
@@ -297,7 +312,7 @@ ratings, but only the human disposition counts. Preserve selection coverage,
 ranking or priority groups, reasons, and counts. Select a small, varied set of
 great fits (initial target 6–10) for exploratory authoring; expand the screened
 batch if it yields too few. Pilot fit does not establish Task 08 eligibility or
-replace its complete two-pass review.
+replace its fresh selection, authoring and evidence-based eligibility reviews.
 
 Each selected case then passes through four authoring reviews:
 
@@ -601,7 +616,8 @@ do not mix question versions across target and judge inputs.
   [Task 07/08 handoff](../specs/task05h_final_result.json).
 
 All of these tasks are complete. Task 07 is also closed. Task 08 contracts are
-drafted, with only 08A active as the next contract; execution has not started.
+drafted; health-risk 08A is complete, and shared 08B v2 revision and health-risk
+review are active. Human selection and later groups have not started.
 Exact identities, negative results, and validation evidence remain in the completed task records.
 
 ### Remaining task sequence
@@ -618,10 +634,11 @@ Exact identities, negative results, and validation evidence remain in the comple
    records the closed pilot's outcomes and handoff.
 2. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Follow the
    [umbrella and reusable subtasks](../../tasks/sprint2/08_curate_grouped_benchmark.md):
-   rank one group, select up to three candidates with first-pass human eligibility,
-   separately rewrite/review question wording, review claims and evidence with
-   second-pass eligibility, and approve answers. Use separate group/stage chats
-   and shared versioned review templates. After all groups finish, review cluster
+   complete each task across participating batches before advancing: select up to
+   three candidates per group with explicit decisions and reasons, then review
+   questions, claims, evidence with separate human eligibility, and answers.
+   Follow each current stage contract for context boundaries; 08E uses batch
+   research and question-by-question chat review without source deduplication. After all groups finish, review cluster
    suggestions in chat, including cross-group relationships. Preserve the full
    accepted pool; agree final size and development/test allocation before
    deterministic serialization. Twenty-five is a flexible target. Build cluster

@@ -226,6 +226,34 @@ sampled-review, and text-only figure limitations; see the
 [Task 05H summary](specs/task05h_final_summary.md). A link or accepted inventory
 membership does not establish case eligibility or evidence sufficiency.
 
+`group_ranking` is the Task 08A adapter. It checks accepted grouping and inventory
+bindings, reuses directed response closure, retains original text and flags, and
+seals an advisory order. Preparation, proposal validation and saved-handoff
+validation are separate commands; no human decisions or Label Studio projects
+are created. The [ranking contract](specs/task08a_ranking_v1.md) owns the shared
+format and first-use qualification. Historical v1 code and schemas remain
+unchanged for its sealed validation path. `group_ranking_v2` owns the simplified
+order-only proposal and explicit deterministic bypass for at most three candidates.
+Its source adapter retains accepted general-response membership provenance and
+complete linked closure; separately bound page context preserves omitted footnotes.
+08B uses qualified version dispatch through `task08b.intake.v2`; no dummy v1
+rationale fields are permitted. `group_selection_batch` handles create-only
+native project setup, exact input checks and guarded register updates. The
+[intake specification](specs/task08b_intake_v2.md) owns historical compatibility
+and source-page display; human gates remain in the selection process.
+
+`group_selection` is the Task 08B adapter: it revalidates the sealed ranking,
+prepares a blank ordered queue with exact source display, and keeps original
+comments separate from response and advisory context. `group_selection_export`
+validates native saved decisions against trusted rebuilt tasks, including all
+untouched candidates, the historical selection ceiling and export-bound chat completion.
+`group_selection_closeout` separately implements the explicit 2026-10-01
+all-selected closeout: no cap, native skips retained without blocking completion,
+and full inventory/source checks. Historical replay and project forms remain unchanged.
+Selection is the sole 08B label gate; evidence-based eligibility remains later. The
+shared [selection contract](specs/task08b_selection_v2.md) owns the form, reasons and
+qualification boundary. API operations stay in each external execution record.
+
 ## Review boundary
 
 Human review consumes published evidence through `human_review_support`.
@@ -382,3 +410,80 @@ modules. `pilot_case_export` owns verified file I/O and publication around the p
 aggregator, replacing machine-specific one-off orchestration as the maintained
 entrypoint. `ReviewValidationError` exposes rejected parsed judgments for audit;
 only a manifest-bound explicit disposition can accept its exact warning signature.
+
+## Task 08C comment-only wording
+
+The [combined pass](specs/task08c_combined_chat_review_v1.md) uses
+`group_wording_combined` for v3 closeout verification and an ordered 57-comment
+safe packet, and `group_wording_combined_chat` for sequential versioned decisions.
+Historical v1 group validators and artifacts retain their original semantics.
+Proposals are generated only when their question becomes active.
+
+
+`group_wording_input` owns deterministic extraction and restricted provenance
+separation. `group_wording_chat` owns versioned chat-event replay and exact
+approved-text export under [task08c.chat_review.v1](specs/task08c_chat_review_v1.md).
+Use plain JSON events and existing schema/hash helpers; feedback and displayed
+proposals remain distinct from explicit human decisions. No response context enters
+drafting/review inputs. `group_wording` and `group_wording_export` preserve the
+historical qualified Label Studio path; it is no longer the required 08C workflow.
+
+`group_claims_input` verifies frozen 08C questions and independently reconciles
+complete response closure. `group_claims_inventory` checks two-pass accounting;
+`group_claims` builds the shared native claim form and trusted no-clobber review
+packet. `group_claims_export` validates exact saved claims and current direct
+support targets; `group_claims_workflow` binds publication to imported task IDs
+and the current project form. Semantic approval remains human-only. See the
+[08D interface](specs/task08d_claim_review_v2.md) for holds and relationship rules.
+
+Claim-review v2 removes editable source-ID controls; the exporter derives each
+existing claim's exact anchors from trusted proposal data. Unbound additions
+remain held for source-bound re-review. The v1 normalizer remains available for
+preserved exports; mixed-version queues are rejected.
+
+## Task 08E evidence interfaces
+
+`group_evidence` adds qualification-only version bindings, summary editing and
+an explicit case eligibility form around maintained `pilot_evidence` native
+controls and normalization. `group_evidence_fixtures` writes invented canonical
+sections/tables in a fresh external directory. It cannot load a live handoff or
+publish advancing claims. Source-unit validation and citation aggregation remain
+owned by the maintained 07D modules; no historical disposition or case acceptance
+is a default. The [08E specification](specs/task08e_evidence_review_v1.md) separates
+qualified shared behavior from prospective live-loader gates. An accepted 08D
+replacement and fresh binding verification are required before live activation.
+
+The [investigation revision](specs/task08e_investigation_v1.md) adds
+`group_evidence_live`: it replays the accepted investigation-only 08D export,
+preserves approved support chains and unresolved scope, and binds native evidence
+and later eligibility exports to exact tasks, forms and reviewers. All downstream
+advancement lists remain empty. `group_evidence_units` handles freshly audited
+canonical table families and parsed narrative boundaries, including notes split
+across sections. It checks unchanged record snapshots, extraction and page
+identities, every continuation member, render bindings and complete narrative
+coverage. Ordinary and visual units continue using maintained 07D helpers.
+
+Live native storage `task08e.packet_reference.v1` carries checksum-bound external
+packet references. The live exporter verifies compact native identities before
+hydrating temporary full packets for maintained normalization, retaining both
+identities. This avoids duplicating large canonical packets in browser state while
+keeping complete visible source units. Caches are call-local and do not bypass
+future file checks.
+
+The [citation-first revision](specs/task08e_citation_first_v1.md) adds
+`group_evidence_citation_review` over the same exact source packets. It transposes
+claim proposals into citation tasks with independent approved-claim relationships,
+including optional additional links. Its exporter retains unreviewed pairs,
+source limits and human native records without inventing aggregate claim outcomes.
+It uses the shared source renderer and compact transport. Citation exports have
+their own version and must not be coerced into legacy claim-review records;
+future eligibility preparation must bind this exact saved export directly.
+
+The [combined 08D chat path](specs/task08d_combined_chat_review_v1.md) adds
+`group_claims_combined_input` for verified frozen-question/source intake,
+`group_claims_batch` for deterministic assembly and sealed preparation,
+`group_claims_chat` for exact cards and append-only decisions, and
+`group_claims_chat_cli` for file-backed resumption. Two-pass model inventories
+remain independent of human decisions. Revisions invalidate dependent approvals;
+the exporter requires a separate version-bound case disposition and preserves
+unanswered scope. Historical native interfaces retain their existing semantics.

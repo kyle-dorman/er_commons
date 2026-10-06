@@ -1,0 +1,152 @@
+{
+  "schema_version": "task08b.remaining_groups.result.v1",
+  "status": "prepared_awaiting_human_review",
+  "counts": {
+    "already_completed": 1,
+    "blocked": 0,
+    "newly_created": 41,
+    "reused": 0,
+    "accepted_groups": 42,
+    "accepted_candidates": 606,
+    "remaining_candidates": 602,
+    "model_ranked_new_groups": 18,
+    "deterministic_new_groups": 23
+  },
+  "shared_interfaces": {
+    "intake_revision": "task08b.intake.v2",
+    "template_version": "task08b.selection.v2",
+    "process_revision": "task08.selection_gate.v2",
+    "accepted_ranking_versions": [
+      "task08a.ranking.v1",
+      "task08a.ranking.v2"
+    ],
+    "new_proposal": "task08a.proposal.v2",
+    "new_handoff": "task08a.handoff.v2"
+  },
+  "project_ids": {
+    "new": [
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103
+    ],
+    "already_completed": 41,
+    "superseded_preserved": 39,
+    "reused": []
+  },
+  "invalid_handoffs": [],
+  "qualification": {
+    "focused_tests_passed": 122,
+    "repository_tests_passed": 3111,
+    "repository_tests_skipped": 1,
+    "historical_task06g_failures": 3,
+    "new_failures": 0,
+    "independent_validation": "passed",
+    "native_browser_qualification": "passed"
+  },
+  "preservation": {
+    "historical_health_risk_replay": "byte_identical",
+    "health_risk_saved_annotations_unchanged": 4,
+    "health_risk_v1_draft_preserved": 1,
+    "preexisting_register_rows_preserved": 48,
+    "new_register_rows_awaiting_review": 41
+  },
+  "artifacts": {
+    "review_index": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_setup_20260930_v2/index.md",
+      "sha256": "184aec1f77b36da74759838f9bc5a15e6d4fe9fc29d3eadd867cb3b792ad2bac"
+    },
+    "machine_index": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_setup_20260930_v2/index.json",
+      "sha256": "32c84700960ba98b87be3efe599276008afad150dd117d5cd35fbfe28b692840"
+    },
+    "independent_review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_setup_20260930_v2/final_independent_review.json",
+      "sha256": "38878092c6bbc11110ba93a7ff9749c33231eb8f41907742bf95c4535477facf"
+    },
+    "browser_verification": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_setup_20260930_v2/browser_verification.json",
+      "sha256": "6fc64ba41c812ed27e0d180bd465d8a9c3ac044cf3c46cc1484a762599645364"
+    },
+    "qualification": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/qualification/08b_intake_v2/qualification_summary.json",
+      "sha256": "122adabaef7396f08c95f8daa6cc1895f1ad8405043f489b4287cb0f3e40f56f"
+    },
+    "upstream_handoff_index": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/preparation_20260930_v2/handoff_index.json",
+      "sha256": "0287489eddf59982c0ecce1e03205984d11dfcad06584c2c2194f7f5f8bd325a"
+    },
+    "upstream_completion": {
+      "path": "/Users/kyledorman/Documents/er_commons/docs/specs/task08a_remaining_groups_result.json",
+      "sha256": "456b54231cc92544e2125f6e05ccea349e1c016eb620a55cbfc1d9014150bc04"
+    },
+    "register_snapshot": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_setup_20260930_v2/batch_register_after.json",
+      "sha256": "0f25b5728a47a8bfdf52a6f367065549f2b3832b51c174562e31dc3997597a66"
+    },
+    "repository_check": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/qualification/08b_intake_v2/make_check_release.log",
+      "sha256": "929801308a884bb3b5e65efce8258d38f797a49a0319ae43ad9ec69d3322a550"
+    },
+    "setup_log": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_setup_20260930_v2/setup.log",
+      "sha256": "9b99e1ccbdcffc93070238859afe3670c6739fe84b2598b1a1c5231f04ca13e5"
+    }
+  },
+  "restart": {
+    "command": "make prepare-group-selection-batch",
+    "output": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/selection_setup_20260930_v2",
+    "behavior": "Reuse same saved receipts and existing native projects; never reset or duplicate. Invalid groups remain separate and ready groups continue.",
+    "initial_empty_projects_recovered": 27
+  },
+  "next_action": "Kyle may review individual projects using the saved index. Keep unanswered candidates unreviewed; maximum three selections, fewer welcome. Future exports require full-inventory reconciliation and explicit group-completion confirmation. Eligibility remains at 08E.",
+  "authorization_boundaries": {
+    "dataset_annotations_created": 0,
+    "dataset_drafts_created": 0,
+    "prefilled_selections": 0,
+    "rerankings": 0,
+    "08c_started": false,
+    "sealed_upstream_changes": 0,
+    "codex_chats_created": 0,
+    "commits": 0,
+    "pushes": 0,
+    "concurrent_health_risk_08e": "preserved"
+  }
+}

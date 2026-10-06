@@ -1,0 +1,92 @@
+{
+  "schema_version": "task08e.preparation_result.v1",
+  "status": "qualified_source_free_only",
+  "group": "Health-risk table analysis",
+  "authorized_comments": [
+    "M-OSEC-241",
+    "O-Joint-44"
+  ],
+  "live_execution_ready": false,
+  "live_evidence_proposals_generated": false,
+  "advancing_case_ids": [],
+  "advancing_claim_ids": [],
+  "allowed_next_stage": null,
+  "upstream_coordination": {
+    "path": "pipelines/brisbane_baylands/task_08/health_risk/08d/claims_v2/coordination_review_v2.json",
+    "sha256": "4935e678c940dd60f996156de7b5e3e00b13394f2fcead2447e0126c82d3d578"
+  },
+  "newer_validated_08d_found": false,
+  "upstream_blockers": [
+    "M-OSEC-241 A005 lacks valid question-part targets; A006 depends on this repair.",
+    "Both cases lack final case status, current relationship confirmation and explicit question-gap disposition/resolution."
+  ],
+  "activation_work_remaining": [
+    "Accepted replacement 08D handoff required.",
+    "Finalize live acceptance/source-binding and publication adapter against released cases; reverify full selection/question/claim/response/source closure.",
+    "Human evidence and eligibility review remain future live work, never inferred from fixture results."
+  ],
+  "versions": {
+    "search_prompt": "task08e.claim_citation_search.v1",
+    "evidence_template": "task08e.evidence_review.v1",
+    "eligibility_template": "task08e.eligibility_review.v1",
+    "export_schema": "er_commons.task08e.qualification_export.v1"
+  },
+  "qualification_projects": {
+    "claims": 50,
+    "extended_claims": 52,
+    "eligibility": 53
+  },
+  "diagnostic_projects": [
+    51
+  ],
+  "artifacts": {
+    "upstream_audit": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08e_upstream_audit_v1/audit.json",
+      "sha256": "e975ab54b55ac835f3530d63b43974be86217ec74cbe1ed49b54dc2fbf639a1b"
+    },
+    "independent_code_review": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08e_upstream_audit_v1/review.json",
+      "sha256": "a39dee5b6f4cb3720ef39125336b15be36a4592b0dfc6c182330a05cf8584e55"
+    },
+    "qualification": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08e_evidence_v1/qualification.json",
+      "sha256": "6cdd8989014e7437330edb3d58e34a35780538481204de7b63f6f569948f3ff7"
+    },
+    "independent_export_review": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08e_evidence_v1/independent_export_review.json",
+      "sha256": "c1a9238cc7aeeb81a6d5f08bef38f16b8e5d81ea816efc481a161584a9f8108a"
+    },
+    "adversarial_review": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08e_evidence_v1/adversarial_review.json",
+      "sha256": "f30f21793a1a0f7fea5ac5ccbbcf9d780a8fffcf3b722681a964b243795f7364"
+    },
+    "validation": {
+      "path": "pipelines/brisbane_baylands/task_08/qualification/08e_preparation_validation_v1/validation.json",
+      "sha256": "d1f8476c2437854240737b540ef2cd5f52cc772006caa07686a3aa5ec6d487a8"
+    }
+  },
+  "validation": {
+    "focused_passed": 13,
+    "full_passed": 3010,
+    "skipped": 1,
+    "historical_task06g_commit_pin_failures": 3,
+    "format": "passed",
+    "lint": "passed",
+    "types": "passed"
+  },
+  "preservation": {
+    "upstream_hashes_unchanged": true,
+    "newer_handoff_scan_rechecked": true,
+    "historical_case_decisions_imported": false,
+    "frozen_questions_or_approved_claims_changed": false,
+    "other_groups_processed": false,
+    "other_chats_created": false,
+    "08f_started": false,
+    "backfill_performed": false
+  },
+  "limitations": [
+    "No real health-risk sources, evidence proposals, human dataset labels, eligibility decisions, or 08F work.",
+    "Qualification represents supported, context, unresolved, conflicting, untouched, zero-hit, shared-source, long-context and table controls; it does not establish actual evidence sufficiency.",
+    "Live handoff publication and provenance adapter remain required after accepted 08D replacement."
+  ]
+}
