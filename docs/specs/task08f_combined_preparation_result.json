@@ -1,0 +1,122 @@
+{
+  "schema_version": "task08f.combined_preparation_result.v1",
+  "status": "prepared, awaiting human review",
+  "phase": "A",
+  "eligible_cases": 49,
+  "validated_proposals": 49,
+  "blocked_case_ids": [],
+  "ordered_case_ids": [
+    "C001",
+    "C002",
+    "C003",
+    "C004",
+    "C005",
+    "C006",
+    "C007",
+    "C008",
+    "C009",
+    "C010",
+    "C011",
+    "C012",
+    "C014",
+    "C016",
+    "C017",
+    "C018",
+    "C019",
+    "C020",
+    "C021",
+    "C022",
+    "C024",
+    "C025",
+    "C026",
+    "C027",
+    "C028",
+    "C029",
+    "C030",
+    "C031",
+    "C032",
+    "C034",
+    "C035",
+    "C036",
+    "C037",
+    "C040",
+    "C041",
+    "C042",
+    "C043",
+    "C044",
+    "C045",
+    "C046",
+    "C048",
+    "C049",
+    "C050",
+    "C051",
+    "C052",
+    "C053",
+    "C054",
+    "C055",
+    "C056"
+  ],
+  "model": "gpt-6-astra",
+  "model_attempts": 54,
+  "preserved_failed_attempts": 5,
+  "repaired_case_ids": [
+    "C008",
+    "C009",
+    "C020",
+    "C027",
+    "C055"
+  ],
+  "handoff": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1/handoff.json",
+    "sha256": "ba6217ee5a641802d41c08b95aacc7557cc9fd6974c124b27fb95c55545dea46"
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1/completion.json",
+    "sha256": "2a4fb06713b1fc6de421c630e70188528e7a2924db1138e024a51b0ce3b50a51"
+  },
+  "validation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1/batch_validation.json",
+    "sha256": "fce4dd50e9cea3db533ce305960e09d7ab108e2ef560d1aa46c5cae7a50451d9"
+  },
+  "independent_audit": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1_independent_audit_v2.json",
+    "sha256": "563d9dc4d13f7ea1b2b1d4ae38a9ced12b7013d4d4498da1588e57d3118b831f"
+  },
+  "readable_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1/review.md",
+    "sha256": "fc48310e0741bc220f209af0ff6433b61f9cd8310d1ce6bce3585ccf4ffad5f4"
+  },
+  "review_instructions": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1/REVIEW_INSTRUCTIONS.md",
+    "sha256": "037d4a3a949116266f22bf008d66ed6e78e8ef70f09f078bd24c8a03c14be907"
+  },
+  "advisory_notes": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1/advisory_review_notes.json",
+    "sha256": "9d6e0230a0bcc35855fc1e4753591ebc8e9227c3b7a1275cb457ba388d718b3e"
+  },
+  "intake": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1/intake.json",
+    "sha256": "d18da1efe65ea2ca098d5ebf3ac433aee7723586976fc1c0e32337191c823083"
+  },
+  "qualification": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1/qualification.json",
+    "sha256": "f033592cc873cfc22b9c37aa9e5ed36372e6f903b8bd6f41274cbd2625464ce9"
+  },
+  "upstream_reverification": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_preparation_20261008_v1/upstream_reverification.json",
+    "sha256": "ef67db38280253158bc27e29511ecc6b38cfd71f488ced8c898e71f9ed34b4ac"
+  },
+  "human_answer_approvals": null,
+  "final_dispositions": null,
+  "phase_b_started": false,
+  "resume_case_id": "C001",
+  "next_stage": null,
+  "validation_limits": [
+    "Mechanical validation and model source-grounding notes are not human answer approval.",
+    "51 focused tests passed. Integration make check reported 3343 passed, 1 skipped, and 3 previously recorded Task06G repository-base-commit pin failures.",
+    "The CLI fixes the requested model but does not separately report a backend model identifier."
+  ],
+  "no_new_chats_or_projects": true,
+  "no_benchmark_or_judge_runs": true,
+  "no_commits_or_pushes": true
+}

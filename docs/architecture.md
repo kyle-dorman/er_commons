@@ -441,7 +441,40 @@ existing claim's exact anchors from trusted proposal data. Unbound additions
 remain held for source-bound re-review. The v1 normalizer remains available for
 preserved exports; mixed-version queues are rejected.
 
+## Task 08F preparation interfaces
+
+`group_answer_intake` verifies the consolidated 08E seal and dependency closure,
+resolves current scoped approvals, and validates canonical source units before
+building isolated source-only inputs. `group_answer_records` checks structured
+points, citation membership, exact excerpt locators and qualification attachments;
+its readable display is the same answer, not a second prose artifact.
+`group_answer_batch` records ephemeral Astra calls and immutable attempts, resumes
+without overwriting successful versions, and publishes completion last after all
+cases have proposals or explicit blockers. Mechanical checks and advisory model
+notes never establish human approval. The [08F contract](../tasks/sprint2/08f_review_group_answers.md)
+owns the separate later human review boundary.
+
+`pilot_citation_wsa_boundary` provides a source-specific C022 Appendix P Section 8
+audit. It retains the canonical section identity and every member while recognizing
+three internal statutory callouts; exact source hashes and rendered-page evidence
+constrain the exception. It grants no human evidence or answer approval.
+
 ## Task 08E evidence interfaces
+
+For the combined pass, `group_evidence_batch` verifies the full sealed 08D intake;
+`group_evidence_research` validates independent question packets and five-track
+plans; `group_evidence_discovery` saves query intent before maintained retrieval
+and wraps canonical section assembly. `group_evidence_chat` records exact displays,
+version-bound decisions and restart checkpoints; preparation exports stay blank.
+`group_evidence_publication` requires raw-receipt fidelity, accepted source bindings,
+complete table families and independent coverage review before sealing all cases.
+`group_evidence_extension` binds explicit research-only reopening, preserves
+historical claim decisions, and composes separately sealed batches in upstream
+order without rewriting the original preparation. Combined verification checks
+both child seals and exact case-row fidelity.
+These modules reuse the maintained source and journal boundaries below. The
+[current research contract](specs/task08e_batch_research_v1.md) supersedes historical
+claim-only and native-project workflows for this pass.
 
 `group_evidence` adds qualification-only version bindings, summary editing and
 an explicit case eligibility form around maintained `pilot_evidence` native

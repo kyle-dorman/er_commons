@@ -184,7 +184,8 @@ def test_explicit_cross_section_notes_and_source_ownership(family):
         units.build_candidate(ref, data_root=root, metadata=candidate)
 
 
-def test_audited_paragraph_heading_retains_narrative_and_requires_excluded_family(family):
+@pytest.fixture
+def audited_section_family(family):
     candidate, root = family
     directory = root / "fixture2"
     blocks = [json.loads(line) for line in (directory / "blocks.jsonl").read_text().splitlines()]
@@ -220,6 +221,13 @@ def test_audited_paragraph_heading_retains_narrative_and_requires_excluded_famil
         "sha256": hashlib.sha256((directory / "narrative.json").read_bytes()).hexdigest(),
     }
     result = units.build_candidate(narrative_ref, data_root=root, metadata=candidate)
+    return result, table_candidate, root
+
+
+def test_audited_paragraph_heading_retains_narrative_and_requires_excluded_family(
+    audited_section_family,
+):
+    result, table_candidate, root = audited_section_family
     units.validate_audited_section(result, [result, table_candidate], root)
     assert result["anchors"][0]["record"]["block_type"] == "paragraph"
     for field, value in (("extraction_id", "wrong-extraction"), ("physical_pages", [999])):
@@ -274,3 +282,39 @@ def test_canonical_metadata_and_family_closure_cannot_be_redefined_by_receipt(fa
         evidence.validate_candidates(
             {"schema_version": evidence.SECTION_SCHEMA, "candidates": [candidate]}, root
         )
+
+
+def test_audited_section_accepts_independent_repeated_complete_families(audited_section_family):
+    """Repeated displays retain all occurrences and the same canonical source binding."""
+    section, family, root = audited_section_family
+    repeated = copy.deepcopy(family)
+    repeated["occurrence_id"] = "another-finding"
+    repeated["title"] = "Separate display title"
+    repeated["anchors"][0]["display_note"] = "Independent occurrence"
+    candidates = [section, family, repeated]
+    before = copy.deepcopy(candidates)
+    units.validate_audited_section(section, candidates, root)
+    assert candidates == before
+
+
+@pytest.mark.parametrize(
+    "mutation", ["source_pdf", "source_sha", "edition", "unit", "anchor", "cell"]
+)
+def test_audited_section_rejects_conflicting_repeated_family(audited_section_family, mutation):
+    """One valid occurrence cannot conceal a conflicting second family occurrence."""
+    section, family, root = audited_section_family
+    repeated = copy.deepcopy(family)
+    if mutation == "source_pdf":
+        repeated["source_pdf_path"] = "different.pdf"
+    elif mutation == "source_sha":
+        repeated["source_sha256"] = "0" * 64
+    elif mutation == "edition":
+        repeated["edition"] = "conflicting edition"
+    elif mutation == "unit":
+        repeated["citation_unit"]["member_record_ids"] = ["b1", "t1", "note"]
+    elif mutation == "anchor":
+        repeated["anchors"][0]["path"] = "foreign/blocks.jsonl"
+    else:
+        repeated["anchors"][1]["record"]["cells"][0]["text"] = "changed"
+    with pytest.raises(ValueError):
+        units.validate_audited_section(section, [section, family, repeated], root)

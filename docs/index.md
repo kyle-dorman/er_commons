@@ -5,116 +5,46 @@ project docs.
 
 ## Current status
 
-Sprint 2 is active. Tasks 02–06 are complete, including the repaired
-[Task 06H handoff](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
-and the preserved [Task 05H response inventory](specs/task05h_final_result.json).
-The [05H summary](specs/task05h_final_summary.md) owns review coverage and
-inherited limits. The [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
-is closed, with six approved reference answers and a recorded Task 08 handoff. The
-[07A sample](../tasks/sprint2/07a_screen_pilot_candidates.md#sampling-outcome)
-contains 50 selected comments with completed, verified human labels.
-[Task 07A.1](../tasks/sprint2/07a1_repair_response_list_links.md) repaired explicit
-response-list links, published the [replacement inventory](specs/task07a1_final_result.json),
-and verified all 50 decisions in a separate review project. Task 07A is complete
-with [eight selected Great cases](../tasks/sprint2/07a_screen_pilot_candidates.md#eight-case-selection-and-07b-handoff).
-Task 07B is complete: seven approved cases and one unclear case (I-CJ-4), with
-all eight outcomes exported and validated. Task 07C is complete: seven approved
-cases and 31 reviewed response argument blocks, with a validated export.
-Task 07C.1 is complete: its validated replacement retains 57 claims across six
-approved cases and one unclear stop (I-EA-2). The 31 direct/supporting claims from
-approved cases are candidates for Task 07D. Prior reviews remain preserved.
-Task 07D is complete, including the required
-[code-quality gate](specs/task07d_code_quality_result.json). Its maintained exporter
-reproduces the [sealed six-case output](specs/task07d_final_result.json) byte-for-byte:
-31 claims and 84 citations, with accepted MVP limitations preserved. The
-[maintainer guide](task07d_maintainer_guide.md) owns replay and code boundaries.
-07E is closed: six answers approved through combined answer/reasoning review
-in chat, with the [sealed handoff](specs/task07e_final_result.json) preserving
-all claims, citation pools and review histories. Separate 07F is superseded.
-The [benchmark evaluation plan](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
-uses automatic retrieval/final-citation metrics plus grounded correctness and
-answer adequacy. 07G is closed by user decision without a full retrospective or
-another pilot round. The health-risk group completed 08A with a
-[validated ranking handoff](specs/task08a_health_risk_result.json). The shared
-[08B selection interface](specs/task08b_selection_v2.md) is qualified and its
-[health-risk batch](specs/task08b_health_risk_result.json) is complete: two selected,
-two excluded, with a validated coordination handoff.
-Health-risk [08C](../tasks/sprint2/08c_review_group_questions.md#final-health-risk-outcome)
-is complete: both questions are explicitly approved and frozen under the shared
-[chat-review process](specs/task08c_chat_review_v1.md). The
-[completion record](specs/task08c_health_risk_result.json) binds the final handoff.
-Original proposals and Label Studio preparation are preserved.
-Health-risk [08D](../tasks/sprint2/08d_review_group_claims.md) now has a qualified
-shared interface and [completed claim reviews](specs/task08d_health_risk_result.json):
-20 claims released for 08E investigation only, preserving unresolved question scope
-and approved support chains. Eligibility is separately recorded below.
-Health-risk [08E](../tasks/sprint2/08e_review_group_evidence.md) has a
-[validated saved export](specs/task08e_health_risk_investigation_result.json):
-43 citation tasks, 106 explicit relationships and seven unanswered proposed links
-preserved. Health-risk [08F](../tasks/sprint2/08f_review_group_answers.md) is
-[complete](specs/task08f_health_risk_result.json) for its preserved input lineage:
-C001 answer v1 and C002 answer v4 are approved with export-bound eligibility and
-exact version history. Prompt v2 prohibits response-derived answer content.
-Unresolved upstream scope remains preserved; this closeout starts no 08G/08H.
-No repeated evidence review or aggregate-support labeling is required. The current [08E plan](../tasks/sprint2/08e_review_group_evidence.md) uses batch
-research and question-by-question chat review without source deduplication;
-implementation and execution await authorization. Historical work stays preserved.
-All remaining groups completed [08A preparation](specs/task08a_remaining_groups_result.json):
-18 Astra-ranked and 23 deterministic handoffs, with health-risk v1 preserved.
-All 42 groups retain their full candidate inventories. The
-[remaining-group 08B setup](specs/task08b_remaining_groups_result.json) created
-41 blank review projects after [v2 intake qualification](specs/task08b_intake_v2.md).
-The [all-group export](specs/task08b_all_groups_export_result.json) now retains
-all 57 saved Selected candidates (55 new plus two health-risk), with all 42 groups
-explicitly closed. The amended closeout allows more than three per group;
-[Task 08C](../tasks/sprint2/08c_review_group_questions.md#combined-pass-outcome)
-is done: all 57 selections reviewed in saved order, with 53 approved and four
-deferred, including fresh decisions for both health-risk cases.
-[Task 08D](../tasks/sprint2/08d_review_group_claims.md#combined-production-review-outcome) is complete:
-all 53 cases and 641 claims have saved human decisions in the
-[validated production handoff](specs/task08d_combined_review_result.json).
-Fifty cases retain 385 direct/supporting claims for later investigation; three
-cases are held. Required context, citation clues, exclusions, unresolved gaps and
-historical reconciliation holds travel with the sealed supplemental inventory.
-Later stages require separate authorization; 08E has not started for this pass.
-See the [TODO](todo.md) for the current queue.
-The consolidated [comment and response human review process](response_comment_human_review_process.md)
-owns reusable workflow guidance for Task 08 preparation; Task 07 outcomes retain
-historical evidence and case-specific decisions.
+Sprint 2: Tasks 02–08 are complete. The [08H release](specs/task08h_final_result.json)
+freezes **49 approved cases: 19 development / 30 test**. The
+[08H outcome](../tasks/sprint2/08h_serialize_and_freeze_benchmark.md) owns source,
+role-separation and validation limits; [08G](specs/task08g_topic_review_result.json)
+owns accepted topic balancing and shared-evidence overlap. Historical artifacts
+remain preserved.
 
-## Read for the next phase
+Task 09 plans are ready. [09A](../tasks/sprint2/09a_create_synthetic_challenges.md)
+is the active entry contract; 09B–09G are provisional. No Task 09 implementation
+or model runs have started. The [TODO](todo.md) owns status and the next action.
 
-1. [Task 08 umbrella](../tasks/sprint2/08_curate_grouped_benchmark.md) and
-   [08A ranking contract](../tasks/sprint2/08a_rank_group_candidates.md) for the
-   task-by-task workflow across batches, isolated review contexts, and shared templates.
-   [Decision 005](decisions/005_task08_grouped_question_selection.md) for the
-   accepted Task 08 question-selection plan: exclusive groups and the amended
-   all-selected closeout without the historical three-candidate cap. [07G](../tasks/sprint2/07g_assess_pilot_and_local_replay.md)
-   records the decision to proceed; the [07E outcome](../tasks/sprint2/07e_review_answer_logic.md#final-outcome-and-six-case-handoff)
-   preserves the sealed pilot. Apply the
-   [current benchmark evaluation contract](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary).
-2. [Task 07D](../tasks/sprint2/07d_discover_and_review_evidence.md) for the completed
-   evidence handoff and preserved discovery procedure, the [search protocol](specs/task07d_search_protocol_v1.md)
-   and [per-claim agent prompt](prompts/task07d_claim_citation_search_v1.md) for
-   repeatable evidence discovery, and [Task 07C.1](../tasks/sprint2/07c1_review_claims_and_relevance.md#final-reviewed-export-and-replacement-handoff)
-   for the accepted combined-review replacement, [07C](../tasks/sprint2/07c_review_response_assertions.md#final-reviewed-export-and-learning)
-   for the completed seven-case export and review lessons, and
-   [07B](../tasks/sprint2/07b_review_comment_questions.md#final-reviewed-export)
-   for the completed review handoff, [07A](../tasks/sprint2/07a_screen_pilot_candidates.md)
-   for the selected-case handoff, and [07A.1](../tasks/sprint2/07a1_repair_response_list_links.md)
-   for the accepted replacement and verified migration.
-3. [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md)
-   for the closed pilot's outcomes and [Sprint 2 plan](sprints/sprint2_brisbane_draft_eir_defense.md)
-   for later eligibility/evaluation boundaries.
-   Use the [human review process](response_comment_human_review_process.md) for
-   consolidated Task 07 learning and the prospective Task 08 question/claim/
-   evidence/answer review sequence.
-4. [Replacement result](specs/task07a1_final_result.json) for the current Task 07/08
-   input; the [05H outcome](../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
-   preserves the predecessor and inherited limitations.
-5. Read [task shape](../tasks/README.md) and the [documentation guide](documentation.md)
-   when activating or revising a Task 08 stage contract. The [07A plan](../tasks/sprint2/07a_screen_pilot_candidates.md)
-   preserves the completed pilot's selection contract.
+## Read for Task 09
+
+1. [Task 09 umbrella](../tasks/sprint2/09_build_evaluation_and_qualify_judges.md),
+   then [09A synthetic challenges](../tasks/sprint2/09a_create_synthetic_challenges.md).
+   The umbrella links all seven contracts; do not read every historical task.
+2. [08H release pointer](specs/task08h_final_result.json) and
+   [08H outcome](../tasks/sprint2/08h_serialize_and_freeze_benchmark.md) for exact
+   source/case/split identities and target/reference separation.
+3. [Decision 006](decisions/006_structured_answers_four_part_evaluation.md) and the
+   [sprint evaluation boundary](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
+   for the authoritative four results and judge visibility. The
+   [remaining sequence](sprints/sprint2_brisbane_draft_eir_defense.md#remaining-task-sequence)
+   keeps core judge work in 09 and later integration in 12.
+4. [Architecture](architecture.md) and [artifact contract](data_artifacts.md)
+   before implementation; [task shape](../tasks/README.md) and
+   [documentation guide](documentation.md) for contract changes.
+
+## Historical entry points
+
+- [Task 08 umbrella](../tasks/sprint2/08_curate_grouped_benchmark.md) and
+  [08F result](specs/task08f_combined_review_result.json) for authoring approvals.
+- [Task 07 umbrella](../tasks/sprint2/07_pilot_reference_case_authoring.md),
+  [07E result](specs/task07e_final_result.json), and
+  [07D maintainer guide](task07d_maintainer_guide.md) for pilot/replay evidence.
+- [Current response inventory](specs/task07a1_final_result.json),
+  [06H handoff](../tasks/sprint2/06h_review_and_accept_replacement_handoff.md), and
+  [05H summary](specs/task05h_final_summary.md) for upstream review limits.
+- [Human review process](response_comment_human_review_process.md) for historical
+  authoring workflow, not an additional Task 09 labeling requirement.
 
 ## Document roles
 
@@ -134,8 +64,8 @@ historical evidence and case-specific decisions.
   editing rules.
 - [`docs/todo.md`](todo.md): current queue and next action.
 - [`docs/backlog.md`](backlog.md): unselected future ideas only.
-- [LLM judge learning notes](llm_judge_learning_notes.md): questions and
-  proposed development checks for future Tasks 09/12; the sprint plan owns
+- [LLM judge learning notes](llm_judge_learning_notes.md): supporting checks for
+  Task 09 judge development and Task 12 integration; the sprint plan owns
   the evaluation contract.
 - [`tasks/`](../tasks/): detailed task contracts, validation, and outcomes.
 

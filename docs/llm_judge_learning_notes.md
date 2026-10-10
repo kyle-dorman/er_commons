@@ -7,10 +7,19 @@ Recorded 2026-09-25 after discussing Li et al.,
 These are design questions and proposed development experiments for Tasks 09
 and 12, not a new evaluation contract or authorization to run a judge. The
 [Sprint 2 evaluation boundary](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
-continues to own the rubric, staged information access, calibration gate, and
-required human test review.
+continues to own the rubric, staged information access, judge input boundaries and labeling budget.
 
-## Current plan amendment (2026-09-29)
+## Current decision — 2026-10-08
+
+[Decision 006](decisions/006_structured_answers_four_part_evaluation.md) supersedes
+conflicting suggestions below: two automatic results and two separate LLM answer
+judgments, one structured cited reference answer, and no mandatory labeling after
+08F. Human calibration is optional and separately authorized; without it report
+uncalibrated automated judgments. Earlier calibration ideas are possible future
+experiments, not prerequisites. Grounding includes the question but hides the
+reference; adequacy adds the reference and accepts substantively valid alternatives.
+
+## Earlier plan amendment (2026-09-29)
 
 The adopted plan now separates automatic retrieval recall and final-citation
 precision/recall/F1 from two answer judgments: grounded correctness and answer

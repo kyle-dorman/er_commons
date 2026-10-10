@@ -390,3 +390,40 @@ def test_audited_multiple_tables(audited_multi_table, mutation):
             validate_units(candidates, root)
     else:
         validate_units(candidates, root)
+
+
+def test_repeated_complete_table_occurrences_remain_separate(audited_multi_table):
+    """Multiple findings may display the same complete companion table independently."""
+    candidates, root = audited_multi_table
+    repeated = copy.deepcopy(candidates[1])
+    candidates[1]["occurrence_id"] = "finding-one-table"
+    repeated["occurrence_id"] = "finding-two-table"
+    repeated["title"] = "Independent display title"
+    repeated["anchors"][0]["display_note"] = "Separate occurrence metadata"
+    candidates.append(repeated)
+    original = copy.deepcopy(candidates)
+    validate_units(candidates, root)
+    assert candidates == original
+    assert len(candidates) == 4
+
+
+@pytest.mark.parametrize(
+    "mutation", ["membership", "section_binding", "anchor_path", "source_hash", "cell"]
+)
+def test_repeated_table_conflicting_bindings_rejected(audited_multi_table, mutation):
+    """One valid companion must not hide a conflicting occurrence with its table ID."""
+    candidates, root = audited_multi_table
+    repeated = copy.deepcopy(candidates[1])
+    if mutation == "membership":
+        repeated["citation_unit"]["member_record_ids"].pop()
+    elif mutation == "section_binding":
+        repeated["citation_unit"]["section_record"]["path"] = "other/sections.jsonl"
+    elif mutation == "anchor_path":
+        repeated["anchors"][1]["path"] = "other/tables.jsonl"
+    elif mutation == "source_hash":
+        repeated["source_sha256"] = "0" * 64
+    else:
+        repeated["anchors"][1]["record"]["cells"][0]["text"] = "Altered value"
+    candidates.append(repeated)
+    with pytest.raises(ValueError, match="complete separately cited table"):
+        validate_units(candidates, root)

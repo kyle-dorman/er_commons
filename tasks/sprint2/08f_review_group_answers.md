@@ -1,175 +1,380 @@
-# Task 08F — Review one group's reference answers in chat
+# Task 08F — Approve structured, cited reference answers
 
-Status: **Health-risk batch complete: C001 answer v1 and C002 answer v4 approved.** The 2026-10-01 user instruction is an exception to
-all-batch sequencing for this already-reviewed group. Continue in this chat;
-no additional chat, project or relabeling is authorized.
+Status: **Complete — 49 approved answers, zero pending decisions.** The
+[consolidated reviewed result](../../docs/specs/task08f_combined_review_result.json)
+is the current authority after Phase B and both bounded evidence reviews.
+Earlier preparation and review seals remain historical inputs. This closeout
+starts no 08G/08H, benchmark or judge runs and includes no commits or pushes.
+The earlier two-case [health-risk outcome](08f_historical_health_risk.md) remains
+preserved separately.
 
-## Abstract
+## Goal and scope
 
-Draft and review concise evidence-grounded answers to the exact frozen questions.
-Combine answer and reasoning review in ordinary chat, retaining proposal versions,
-feedback and explicit approval of the exact displayed answer. Evidence may support,
-limit, contradict or fail to establish a response claim; a rebuttal is not required.
+Finalize one structured, cited reference answer for each of the **49 eligible
+cases** in the completed 53-case 08E pass, or retain an explicit human stop, hold
+or deferral. Reuse the approved 08E questions, answer framings and citation roles;
+do not restart their evidence review. Follow saved batch order, beginning at C001.
+C015, C033, C039 and C047 are skipped. C013, C023, C038 and C057 remain deferred
+outside the batch. Do not backfill or reopen them automatically.
 
-## Goal
+[Decision 006](../../docs/decisions/006_structured_answers_four_part_evaluation.md)
+and the [evaluation boundary](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
+require four separate results: automatic retrieval recall; automatic final-citation
+precision/recall/F1; LLM grounded correctness; and LLM answer adequacy. 08F authors
+the reference package for those checks, not model predictions or judge scores.
 
-Approve one faithful reference answer per eligible case, or preserve its human
-stop, hold or unresolved disposition. Retain unresolved question scope without
-requiring it to be relabeled resolved before using accepted investigation results.
+## Inputs and authoritative versions
 
-## Inputs
-
-- [Task 08 umbrella](08_curate_grouped_benchmark.md),
-  [08D contract](08d_review_group_claims.md),
-  [08E contract](08e_review_group_evidence.md) and
-  [citation-first interface](../../docs/specs/task08e_citation_first_v1.md).
-- The current saved records in Label Studio project 105, exported and validated
-  against the trusted `health_risk/08e/citation_first_v1/` inputs under Task 08's
-  external artifact root. The preparation result predates completed labeling;
-  pending counts in that historical snapshot are not current decisions.
-- Frozen M-OSEC-241 C001-v2 and O-Joint-44 C002-v2 questions, all 20 approved
-  claims, 11 not-relevant claims, eight unresolved question parts and approved
-  version-bound support chains, including C001 A006 → A005 → A004.
-- Exact saved citation–claim relationships, notes, unresolved links, source
-  warnings, full canonical evidence and provenance; the single evidence-based
-  human eligibility decision for each case bound to that exact export.
-- [Chat specification](../../docs/specs/task08f_chat_review_v1.md),
-  [authoring prompt](../../docs/prompts/task08f_reference_answer_v2.md),
-  [human review process](../../docs/response_comment_human_review_process.md),
-  [sprint boundary](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md), and
+- The [consolidated 08E result](../../docs/specs/task08e_combined_review_result.json),
+  its handoff, completion inventory, validation, dependency bindings and independent
+  audit. Verify checksums and exact file closure before using the handoff.
+- The per-case current authority: original checkpoint for 44 cases, and approved
+  scope overlay for the nine later revisions. Resolve exact final question,
+  approval scope, eligibility, displayed framing, amendments and citation roles.
+  Only 49 of the 53 cases are eligible for authoring.
+- Complete reviewed source text, passages/tables, evidence occurrences, prior
+  displays, source-edition limits, required rechecks, exclusions and historical
+  reconciliation holds. Keep historical claim decisions unchanged, including
+  C014/C020/C024's separate research-supplement findings.
+- [Chat/recording contract v2](../../docs/specs/task08f_chat_review_v2.md),
+  [authoring prompt v3](../../docs/prompts/task08f_reference_answer_v3.md), and
   [artifact contract](../../docs/data_artifacts.md).
 
-The current specification and prompt supersede the older two-pass eligibility
-wording and full claim-list presentation in provisional 08F. They supersede
-rebuttal-first presentation guidance for this task without rewriting historical
-07E or sealed upstream records. Planned shared-source v2 is future pooled review;
-it does not require rebuilding project 105 or relabeling completed work.
+C005 and C048 require their exact display-plus-amendment composites. Later human
+role decisions override earlier proposals. Pending research in a scope-overlay
+checkpoint is not newly approved evidence and is not automatically a reason to
+repeat the completed scope review. Conversely, a hash-valid source outside the
+approved scope is not silently available as approved answer support.
 
-## Outputs
+The live project-105 export and old two-case versions belong only to the historical
+health-risk lineage. Do not import its approvals or use it as current intake.
+There is no second eligibility vote when the existing decision binds the unchanged
+current input; missing or stale bindings must be resolved explicitly.
 
-- A validated current evidence export and checked eligibility bindings, with a
-  concise human eligibility request if any required decision is absent or stale.
-- Versioned proposals, revisions, verbatim relevant feedback, explicit approval
-  or disposition records, and separate answer/citation/claim identities.
-- A validated group checkpoint or final authoring handoff, batch-register update
-  with predecessor preserved, and validation record retaining inherited limits.
+## One structured answer to review
 
-## Research / learning checkpoint
+Show the exact question, then one readable list containing:
 
-The [07E prompt](../../docs/prompts/task07e_reference_answer_authoring_v2.md)
-and [08C chat specification](../../docs/specs/task08c_chat_review_v1.md) supply
-version-binding precedent, not case answers. Official
-[JSON Schema object guidance](https://json-schema.org/understanding-json-schema/reference/object)
-was checked on 2026-10-01: required fields and closed objects make missing or
-unexpected decision fields detectable. Structural validation does not establish
-human intent, evidence adequacy or eligibility. Exact displayed bytes and the
-actual approval statement must therefore remain linked in the review record.
-Keep process and source-audit history outside the answer unless a substantive
-source limitation changes the conclusion.
+1. **Conclusion:** the direct answer, with citations establishing it.
+2. **Essential supporting points:** the facts and visible reasoning necessary to
+   explain that answer, each with citations. State how premises justify the
+   conclusion; a list of individually true facts is not enough.
+3. **Material qualifications:** cited conditions or limits attached to the
+   conclusion or supporting point they constrain.
+4. **Optional context:** separately labeled cited background, if useful.
 
-## Plan / spec requirement
+Use a few coherent sentences, not a fixed number of bullets or atomized fact
+inventory. Attach multiple citations when a point requires combined support.
+Clearly distinguish direct support, necessary supporting evidence and required
+qualifications from optional context. Do not pad the citation list for diversity.
+Keep complete passages and tables available for inspection.
 
-Use `task08f.chat_review.v1` and current prompt `task08f.reference_answer.v2`.
+This single structured answer is both the reference answer and its adequacy guide.
+There is no parallel flowing-text answer, duplicate claim list, separately approved
+outline or additional point-labeling pass. Point identifiers and citation links
+are recordkeeping, not extra human judgments. Display source title/edition,
+section/table and pages with relevant excerpts where useful; keep raw IDs and
+provenance hashes out of the readable answer.
 
-1. Export live project 105 into a fresh no-clobber namespace; preserve native
-   annotations, task/form/reviewer bindings, all saved relationships and notes.
-   Validate source, claim and question identities and reconcile unresolved links.
-   Do not invent aggregate support judgments to fit an older export schema.
-2. Inspect saved human eligibility records for exact export binding. If missing,
-   stale or incomplete, present the remaining decision concisely with material
-   source limitations and wait before drafting that case. One human eligibility
-   decision per case is sufficient; 08B selection is not a second eligibility pass.
-3. Start C001, then C002 after an explicit disposition or deferral of C001. Use
-   Astra (`gpt-6-astra`) for every draft and revision and save actual invocation,
-   prompt, input and output identities. Present frozen question, concise proposed
-   answer, then the citations needed to assess it. No renewed claim inventory review.
-4. Review answer and reasoning together. Discuss ambiguity about partial support
-   while drafting and revising. Preserve contradiction, uncertainty and limits;
-   neither blank links nor approved chains imply full support. Do not force a
-   defense, change frozen questions or revise approved claims silently.
-5. Save exact displayed versions and feedback. Human approval binds to the shown
-   answer and its rendered citations; any later edit requires a new display and
-   approval. Silence, process discussion and a revision request are not approval.
-6. Validate current approvals and dispositions, save a checkpoint or final group
-   handoff, and update the register. A pending eligibility or answer decision must
-   remain visibly pending. Do not start 08G/08H or automatically replace stopped cases.
+### Citation count and target granularity
 
-## Source boundary — mandatory for every answer and revision
+Do not impose a one-citation-per-point limit. Use one citation when sufficient;
+allow multiple when they jointly establish the point or its necessary qualification.
+Avoid redundant citations and do not split a coherent argument just to meet a cap.
 
-Official responses and approved response claims identify what to investigate; they
-cannot supply answer facts, reasoning or conclusions. Every substantive answer
-statement must be independently grounded in actual reviewed DEIR evidence. Approval
-of a claim or relationship is not a substitute for source content. Attribution to
-“the response” is not an exception. Never fill a gap using response-only assertions,
-including assertions about mitigation necessity or tree-barrier effectiveness.
-Check source grounding during drafting without adding a human evidence pass.
+Link to the smallest stable, meaningful canonical section, subsection or complete
+table, identified by document/edition, stable unit ID and page/anchor locations.
+Do not use an entire chapter when an appropriate subsection exists. Preserve table
+continuations, captions, notes and necessary surrounding context. Existing sealed
+units remain unchanged; do not invent new citation identities during authoring.
 
-## Review pass
+Keep the relevant supporting excerpt or table cells alongside that broader target
+as a locator and explanation, not a replacement citation identity. Automatic
+citation matching operates on canonical section/table units, not exact sentence
+matches. Grounding checks the actual content and qualifications; a matching unit
+ID alone does not establish support. These bindings must permit deterministic
+link rendering and source verification.
 
-Check faithful question scope, meaningful source qualifications, exact approval
-bindings and preservation of all input records. This is a bounded integrity and
-answer review, not another claim-by-claim evidence review or final aggregate-support
-labeling step. Human review retains semantic and eligibility authority.
+## What the evaluation needs from 08F
 
-## Validation
+Grounding judges the model's actual answer against its actual citations in the
+question's scope, without seeing our reference. Adequacy adds this structured
+reference and checks correct, sufficient substance rather than matching wording,
+point count or citation IDs. A valid alternative argument can receive full credit.
 
-- Reconcile the live export with exact saved annotations and all supplied input
-  identities. Preserve 20 approved and 11 not-relevant claims, all eight unresolved
-  question parts, original notes and links, and every approved target version.
-- Confirm each drafted case has a current export-bound human eligibility decision.
-  Do not require resolution of accepted unresolved scope or two eligibility passes.
-- Check nonempty answers, citation membership, exact displayed-text hashes,
-  predecessor versions, verbatim feedback and human approval targets. Reject stale
-  approvals, altered source bindings and silent answer edits.
-- Inspect Markdown/diffs and run `git diff --check` for docs. If helpers change,
-  use appropriate focused checks and `make fix` / `make check`; never claim a
-  carried-forward test result was rerun. Preserve the three historical Task06G
-  commit-pin failures separately from any new failures:
-  `test_collection_generator_preserves_historical_v38_owner_packet`,
-  `test_task06g_v38_generation_remains_immutable_after_finalization_amendment`, and
-  `test_task06g_templates_are_executable_and_source_free`.
+Both are **whole-answer 0/1/2 scores**, not all-or-nothing checks or a fraction of
+bullets. Automated point-level explanations provide interpretability, not a fifth
+score. During authoring, make the essential reasoning and scope clear enough to
+distinguish a central failure from a secondary defect without adding numeric
+point weights or labeling hypothetical model mistakes:
 
-## Acceptance criteria
+- Grounding **2**: substantive assertions, conclusion and necessary qualifications
+  are supported. **1**: a material supporting assertion is unsupported/overstated,
+  but the remaining cited evidence independently justifies the conclusion.
+  **0**: the central conclusion or a premise necessary to establish it is
+  unsupported or contradicted by the cited evidence.
+- Adequacy **2**: substantively correct and sufficiently complete; optional
+  context may be absent. **1**: the conclusion is correct but an essential
+  explanation, condition or question component is missing. **0**: the central
+  question is unanswered, materially misframed or answered incorrectly.
 
-Only currently eligible cases with explicit approval of exact displayed answers
-enter the accepted pool. Each selected case retains an approved answer, human
-stop, hold or unresolved disposition; unresolved cases keep the batch open unless
-Kyle explicitly defers them. An approved qualified answer need not resolve every
-upstream question-gap label. All versions, support chains, evidence judgments,
-warnings and provenance remain recoverable without reconstructing chat context.
+One error may affect both dimensions. A missing condition can turn a supported
+claim into an overstatement and make the answer incomplete. A merely omitted
+additional point does not make other supported statements ungrounded. A correct
+conclusion with missing essential explanation generally earns adequacy 1.
 
-## Non-goals
+A wrong citation for the central premise with no other cited support can earn
+grounding 0 even if the conclusion happens to be true. A secondary wrong citation
+with independently sufficient remaining support generally earns 1. The judge must
+not repair the answer by substituting the source it should have cited. A different
+valid supporting citation from our reference can earn grounding 2 even when it
+loses automatic reference-match credit. Importance, not bullet count, controls.
 
-Other groups, new chats, project rebuilding, relabeling, backfill, new claim-wide
-or aggregate-support review, automatic eligibility, hidden chain-of-thought
-collection, new evidence discovery, question/claim changes, sealed upstream edits,
-benchmark execution, clustering, split assignment, or starting 08G/08H.
+## Execution — batch preparation, then human chat review
 
-## Outcome — health-risk complete
+The user specified this two-phase workflow on 2026-10-08. Prepare the complete
+eligible batch first; do not alternate initial model drafting and human approval
+case by case. This contract update does not launch either phase or create a chat.
+The second phase is a human chat pass, not necessarily a newly created chat.
 
-Kyle approved C001 answer v1 unchanged and C002 answer v4 after source-only
-revision. The [completion record](../../docs/specs/task08f_health_risk_result.json)
-binds `chat_review_v1/exports/approved_v1/`: two exact approved answers, their
-rendered citations, eligibility decisions, full proposal/feedback history and
-validated input references. Nine case-specific final citations are retained.
-No 08G/08H or other-group execution follows from this bounded completion.
+### Phase A — batch model preparation
 
-Both eligibility decisions bind the actual project 105 export: 43 saved tasks,
-106 explicit relationships and seven unanswered proposed links. All 20 approved
-claims, 11 not-relevant claims, eight unresolved question parts and approved
-version-bound support chains remain intact. Answer approval does not resolve
-those upstream gaps or create an aggregate-support label. C001's exploratory
-appendix calculations remain outside its approved answer/citation pool.
+1. Verify the current 08E handoff and create a fresh no-clobber preparation
+   namespace outside all existing seals. Bind all 49 eligible cases to their
+   exact current question, approved framing, evidence scope and eligibility.
+2. Qualify required save/reload/export glue with synthetic inputs before live use.
+   Check interruption recovery, failed attempts, per-case isolation and blank
+   human decisions. No implemented v2 validator is claimed by this documentation.
+3. Run Astra (`gpt-6-astra`) across the eligible batch using prompt v3, with an
+   isolated input and output per case. Bounded concurrent invocations are allowed;
+   never pool source decisions or mix case evidence. Each invocation produces one
+   structured proposed answer. Save actual model/invocation, prompt, exact inputs,
+   raw output, citation bindings and readable proposed review display.
+4. Reuse approved 08E framings and mark substantive changes. Check every conclusion,
+   premise, qualification and citation against the reviewed source text. Record
+   mechanical validation separately from advisory source-grounding checks; neither
+   establishes human approval. Official responses and claims are not evidence.
+5. Save per-case status and retry history so the job can resume without overwriting
+   completed versions or hiding failures. Any model repair is a new bound version.
+   Account for every eligible case with a validated proposal or an explicit blocked
+   record and reason. Missing support is not permission to invent an answer, change
+   the question or automatically stop the case on the user's behalf.
+6. Publish a checksummed **prepared, awaiting human review** handoff only after
+   the whole batch is accounted for. Include ordered case records, proposal/display
+   versions, complete source references, validation, unresolved issues, invocation
+   receipts and resume instructions. Explicitly report any blocked cases; they are
+   not completed answers. Carry 08E eligibility as input provenance while leaving
+   all new 08F answer approvals and final dispositions blank. Preparation alone
+   does not complete 08F.
 
-The C002 revision exposed an important boundary: official-response claims can
-guide investigation but cannot supply answer content, even with attribution.
-Prompt v2 makes that rule explicit. Astra's final C002 draft used a source-only
-view excluding response text and claim wording. A focused C001 check found no
-response-only content; its approved version remains unchanged. Earlier C002
-proposals remain unapproved and preserved.
+### Phase B — question-by-question human review in chat
 
-Validation checks exact answer/display/approval identities, eligibility and
-citation membership, retained scope and history. Documentation links and
-`git diff --check` pass. No package code changed and the full suite was not
-rerun. The three historical Task06G commit-pin failures remain recorded in the
-completion validation, separate from current checks.
+1. Verify the saved Phase A handoff and begin at C001 in saved order. Use the
+   prepared proposals; do not rerun initial authoring for every case. Keep the
+   human journal and later revisions outside the sealed preparation directory.
+2. Show the exact current question, structured answer and citations, optional
+   context and material remaining gaps as a readable list. A prepared display is
+   only a proposal; record an actual display event when it is shown to the user.
+3. Discuss one question at a time. Use Astra for targeted answer revisions needed
+   by feedback, saving exact predecessor/input/output bindings. Do not rerun the
+   full batch or restart completed evidence review. Material evidence or question
+   changes require an explicitly authorized bounded reopening.
+4. Obtain explicit approval of the exact structured answer and rendered citations,
+   or an explicit stop, hold or deferral. Reformatting, successful validation and
+   prior 08E approval do not silently approve the new final answer. Save verbatim
+   feedback, exact displays, decisions and resume position after each interaction.
+   Keep valid inherited eligibility; ask again only if its binding becomes stale.
+5. Validate current approvals, citation links, input bindings and full case
+   accounting. Publish the final reviewed handoff with dispositions and resume
+   state. Pending human decisions stay pending. No 08G/08H, judge runs or benchmark
+   execution follows automatically.
+
+## Outputs and validation
+
+Retain exact question, input/eligibility identities, structured answer and rendered
+display, point-to-citation links, source occurrences and full-source references,
+required/context roles, predecessor versions, actual model provenance, verbatim
+feedback and explicit display-bound approvals. Derive the case citation pool from
+links while retaining occurrence identities; evaluation canonical-unit aggregation
+does not erase review provenance. No hidden or unreviewed source is promoted.
+
+Verify source membership/resolution, qualification attachments, point identity,
+nonempty substantive content, citations on all substantive points, exact display
+hashes and approval targets, saved order and complete case accounting. Mechanical
+checks cannot establish semantic support or human approval. A central inference
+still needs evidence-based review even if every link resolves.
+
+Retain source limitations and unresolved issues honestly. Explicitly stopped or
+deferred cases are not automatically replaced. An unresolved live decision keeps
+the pass pending until the user disposes of it. Preserve all original artifacts.
+
+For documentation changes check local links and `git diff --check`. For later
+helper implementation use focused qualification and repository `make fix` /
+`make check`; separate existing failures from new results. Do not claim historic
+checks were rerun. No full test suite is needed for this documentation-only update.
+
+## Completion and labeling budget
+
+08F is the last planned substantive case-labeling pass. Approve essential points,
+material qualifications and citations as part of the answer itself. Later work
+serializes these records and produces automated diagnostics without a new gold
+labeling task. Separate cluster/split decisions remain planned.
+
+Judge calibration or manual prediction labeling requires separate authorization.
+Without actual human calibration, report uncalibrated automated judgments; reference
+answer approval does not validate the judge. This contract does not run either
+judge or replace the later evaluation implementation/freeze task.
+
+## Learning note
+
+Separating the answer's evidence support from its completeness prevents citation
+matches from masquerading as correctness. One structured cited artifact makes
+both checks inspectable without maintaining parallel annotations. Decision 006
+records the research precedents and limits. Historical work is available in the
+[health-risk record](08f_historical_health_risk.md); its approvals remain unchanged.
+
+## Phase A execution plan — 2026-10-08
+
+Verify the consolidated 08E seal and dependency closure, resolve each current
+approval scope, then qualify isolated intake, answer validation and restartable
+recording against synthetic failures before live use. Run independent ephemeral
+Astra invocations in saved order with bounded concurrency. Save all attempts and
+exact source-only inputs. Publish completion last only after every eligible case
+has a validated proposal or an explicit blocked record; all 08F decisions stay null.
+
+The maintained runner follows [OpenAI noninteractive-mode guidance](https://learn.chatgpt.com/docs/non-interactive-mode):
+structured output and event logs provide inspectable execution receipts, while
+ephemeral calls avoid persistent chats. JSON validity cannot establish source
+support; separate advisory checks and later explicit human review retain that
+boundary. This research concerns execution tooling only and adds no case evidence.
+
+## Phase A outcome — 2026-10-08
+
+All **49 eligible cases** now have validated structured proposals in saved order.
+There are **zero blocked cases**. The [preparation result](../../docs/specs/task08f_combined_preparation_result.json)
+binds the sealed handoff, readable review, exact completion inventory, validation
+and independent audit. Phase B has not started; all new answer approvals and final
+dispositions remain null. Existing 08E eligibility remains provenance.
+
+The fresh external namespace is `task_08/08f_preparation_20261008_v1/`. Intake
+verification covered the exact 57-file 08E inventory, 84 dependencies, 995 canonical
+source occurrences and 18 source PDF/manifest hashes. Only 237 approved citation
+occurrences entered the 49 isolated inputs. All nine overlays and the C005/C048
+amendments remain bound. C002's undisplayed S011 was excluded from model evidence
+with a recorded scope audit; its historical source remains preserved. Complete
+table cell grids, captions and notes survive input projection.
+
+Astra was invoked 54 times with `gpt-6-astra`, high reasoning effort, no tools and
+ephemeral sessions: 49 initial calls plus five targeted repairs. C008, C009, C020,
+C027 and C055 initially had invalid qualification targets; second attempts passed.
+Every failed output and diagnostic remains preserved beside its bound replacement.
+The CLI records the configured model but does not separately expose a backend
+model identifier; no stronger backend-identity verification is claimed.
+
+The narrow maintained helpers are `group_answer_intake`, `group_answer_records`
+and `group_answer_batch`. Their qualified behavior includes exact scope isolation,
+source-unit validation, multi-citation points, exact substring locators, full table
+grids, null decisions, no-clobber attempt history, interruption recovery and
+completion-last publication. `make run-answer-preparation`,
+`make seal-answer-preparation` and `make verify-answer-preparation` accept
+`ANSWER_BATCH`; completed preparation is immutable.
+
+Validation: `make fix` passed. The integration `make check` passed formatting,
+lint and types and reported 3,343 tests passed, one skipped and the same three
+historical Task06G repository-base-commit pin failures recorded upstream. After
+the bounded recording/rendering review fixes, all **51 focused tests** passed,
+with lint, formatting and type checks passing. Live batch validation rechecked
+every proposal, exact question, citation role, excerpt, qualification attachment,
+rendered display, raw output and full attempt history. Upstream checksums were
+reverified after execution. Mechanical success and advisory source-grounding notes
+are not semantic approval or calibrated judge results.
+
+For later human review, use the exact handoff in the result pointer and start at
+C001. `REVIEW_INSTRUCTIONS.md` and `review.md` are inside the seal. Record actual
+displays, feedback and any revisions in a separate namespace; reuse these saved
+proposals. No Phase B decisions, 08G/08H work, benchmark/judge runs, new chats or
+projects, commits or pushes were performed.
+
+## C022 bounded Appendix P reopening — 2026-10-09
+
+The user authorized resolving the saved Water Supply Assessment citation blocker
+and preparing any resulting C022 revision. Preserve the sealed 49-case batch and
+all 08E decisions. Inspect the original PDF, qualify a source-specific citation
+boundary adapter, then use Astra for one targeted proposal with exact predecessor
+and feedback bindings. New evidence roles and the revised answer remain proposals;
+this authorization does not approve either or start the ordered Phase B pass.
+
+The canonical Section 8 already contains its full text. Its internal statutory
+callout labels trigger the generic next-heading validator. A narrowly audited
+adapter preserves the existing section identity and all 25 member blocks, verifies
+the following Section 9 boundary and binds rendered PDF evidence. It pins the
+accepted canonical/PDF hashes and rejects omissions, rewritten content, wrong
+boundaries and stale bindings. Generated records live outside all prior seals.
+
+
+The [supplement pointer](../../docs/specs/task08f_c022_wsa_reopening_result.json)
+binds the completed C022 revision and exact inventory. Astra made two attempts;
+the first failed a qualification-attachment check and remains preserved. The
+second changes that attachment only and passes validation. The answer now cites
+Appendix P directly for its stated service commitment, possible reassessment and
+conditional five-year construction/progress provision. It retains the nonbinding
+letter and approved-assessment distinctions. Three distinct citation sections and
+ten point-to-citation uses appear in the revised proposal.
+
+All 106 focused tests and repository formatting, lint and type checks passed.
+Independent source/code/answer review found no material issues. Both original
+08E and 08F seals reverified unchanged. New evidence approval, answer approval,
+disposition and expanded-scope eligibility remain null; prior eligibility remains
+provenance. Ordered review still resumes at C001, consulting this supplement at
+C022. Nearby Section 9 and context-search findings remain unpromoted; no chronology
+or current contractual status is inferred. No judge runs, commits or pushes.
+
+The learning is that block styling and semantic section ownership can differ:
+statutory callout labels should not truncate their containing section. The
+source-specific adapter preserves the benchmark's stable section identity and
+complete text without weakening the generic validator or editing canonical data.
+
+## Consolidated Phase B closeout
+
+All 49 eligible cases received explicit human approval in saved order. The
+approved C022 Appendix P replacement is included. The original completed Phase B
+export remains sealed as `08f_reviewed_20261009_v2`; the current consolidated
+export is `08f_reviewed_20261009_v3`, bound by the
+[reviewed result](../../docs/specs/task08f_combined_review_result.json).
+
+The ten-case additional evidence review produced seven approved replacements:
+C002 v6, C016 v4, C028 v4, C032 v4, C036 v4, C043 v3 and C056 v3. C024, C004 and
+C018 retained their answers. The six G.3/Appendix O reviews all ended with explicit
+no-change decisions. Those scope-specific decisions do not reverse separately
+approved additions, including C002's Frontage Road and G.2 context. The suggested
+shoreline wind-recreation question remains discussion only and was not added.
+
+Consolidation copies 42 unchanged case records byte-for-byte and binds the seven
+replacement answers to their exact saved Astra proposals, effective inputs,
+actual amendment displays and verbatim human approvals. C032 uses its corrected
+page-label input; the original model input and correction receipt remain saved.
+Current human decisions are separate from historical preparation placeholders.
+No answer text, question or citation role is changed during consolidation.
+
+The final export retains the original four 08E skips and four earlier deferrals
+outside the 49-case batch. It preserves all original versions, failed attempts,
+source-edition restrictions and unresolved source relationships. In particular,
+G.3 scenario/receptor correspondence and C018 traffic-input correspondence were
+not established by similar numbers or dates. Human no-change decisions do not
+convert those research limits into new evidence.
+
+Validation covers the predecessor's exact completion inventory, all 49 structured
+answers using the maintained validator, current question/input/citation bindings,
+explicit approvals and saved order. A separate independent provenance audit is
+bound in the final handoff. The seal is published last over the exact managed-file
+inventory; supplement journals and all historical attempts remain referenced in
+place with checksums. The generated combined readable answer file is a reference
+rendering, not a newly claimed human display. Unavailable chat IDs and timestamps
+remain null. Mechanical validation and reference approval do not establish judge
+calibration or eliminate source limitations.
+
+The learning is to consolidate **approval-bound versions**, not simply the newest
+file. This preserves rejected or superseded attempts without promoting them and
+allows a later consumer to verify the exact current answer alongside its history.
+No additional substantive human labeling is pending. Later stages require their
+own authorization.

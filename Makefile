@@ -313,3 +313,17 @@ claim-chat:
 		--queue-reference "$(CLAIM_QUEUE_REFERENCE)" --journal "$(CLAIM_JOURNAL)" \
 		$(if $(CLAIM_EVENT),--event "$(CLAIM_EVENT)",) \
 		$(if $(CLAIM_EXPORT),--output "$(CLAIM_EXPORT)",)
+
+# Task 08F preparation only; a sealed batch is never mutated by these commands.
+.PHONY: run-answer-preparation seal-answer-preparation verify-answer-preparation
+run-answer-preparation: check-env
+	@test -n "$(ANSWER_BATCH)"
+	uv run python -m er_commons.group_answer_batch run "$(ANSWER_BATCH)"
+
+seal-answer-preparation: check-env
+	@test -n "$(ANSWER_BATCH)"
+	uv run python -m er_commons.group_answer_batch seal "$(ANSWER_BATCH)"
+
+verify-answer-preparation: check-env
+	@test -n "$(ANSWER_BATCH)"
+	uv run python -m er_commons.group_answer_batch verify "$(ANSWER_BATCH)"

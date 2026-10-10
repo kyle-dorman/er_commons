@@ -19,3 +19,7 @@ work and task files for detailed execution context.
 - [005: Grouped question selection for Task 08](005_task08_grouped_question_selection.md)
   — exclusive review groups, up to three human-selected questions per group,
   and a quality-first stopping rule.
+
+- [006: Structured answers and four-part evaluation](006_structured_answers_four_part_evaluation.md)
+  — one cited reference format, two automatic results, two LLM judgments, and
+  no mandatory substantive labeling pass after 08F.

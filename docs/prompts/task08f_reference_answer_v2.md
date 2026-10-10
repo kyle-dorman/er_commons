@@ -1,5 +1,7 @@
 # Task 08F reference-answer prompt v2
 
+Historical health-risk version. For new combined-batch work use [prompt v3](task08f_reference_answer_v3.md).
+
 Prompt: `task08f.reference_answer.v2`. Owner:
 [08F](../../tasks/sprint2/08f_review_group_answers.md); recording and presentation:
 [chat review v1](../specs/task08f_chat_review_v1.md).

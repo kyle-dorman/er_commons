@@ -1,0 +1,30 @@
+{
+  "approved_claims": 385,
+  "beyond_claim_findings": 331,
+  "cases": 50,
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08e_combined_20261006_v1/completion.json",
+    "sha256": "193775ae128b66f1f25ac8a5c630dc614f293daeb1f1690e800031b7b77ab5be"
+  },
+  "deferred_case_ids": [
+    "C013",
+    "C023",
+    "C038",
+    "C057"
+  ],
+  "handoff": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08e_combined_20261006_v1/prepared_handoff.json",
+    "sha256": "5380ea3d3a3e1d9b511d3f5c68ff7f36a99b71dd497ed9a170f56df978484031"
+  },
+  "held_case_ids": [
+    "C014",
+    "C020",
+    "C024"
+  ],
+  "human_decisions": 0,
+  "next_action": "Separate question-by-question human review chat",
+  "query_receipts": 1083,
+  "schema_version": "task08e.prepared_result.v1",
+  "source_occurrences": 983,
+  "status": "prepared, awaiting human review"
+}

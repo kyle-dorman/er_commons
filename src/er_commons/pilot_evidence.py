@@ -181,6 +181,10 @@ def _source_content_html(candidate: dict[str, Any], alias: str) -> str:
         narrative_html = "".join(
             "<pre>" + esc(text_by_id[segment["record_id"]]) + "</pre>"
             if segment["kind"] == "text"
+            else _table_html(
+                table_records[segment["record_id"]], candidate.get("presentation_header_rows", 0)
+            )
+            if segment["kind"] == "table"
             else '<p><a target="_blank" href="'
             + esc(segment["pdf_url"], quote=True)
             + '">'
@@ -188,6 +192,8 @@ def _source_content_html(candidate: dict[str, Any], alias: str) -> str:
             + "</a></p>"
             for segment in candidate["display_segments"]
         )
+        if any(segment["kind"] == "table" for segment in candidate["display_segments"]):
+            table_html = ""
     link = candidate.get("pdf_url", candidate["source_url"])
     if not link.startswith(("http://", "https://")):
         raise ValueError("Source links require HTTP URLs")

@@ -49,7 +49,12 @@ advancing to the next, preserving completed health-risk work. The current
 [08E task](../tasks/sprint2/08e_review_group_evidence.md) prepares question-wide
 research in batch, then reviews one question at a time in chat without source
 deduplication. Preserve independent evidence decisions and separate human
-eligibility; no second aggregate claim-adequacy pass. No 35-candidate gate applies.
+eligibility; no second aggregate claim-adequacy pass. For this combined pass,
+the user authorized argument-led whole-question reviews, explicit wording
+revisions and citable answer framings during 08E; its task and
+[chat-contract amendment](specs/task08e_chat_review_v1.md#authorized-phase-b-workflow-amendment)
+own that exception to the original stage separation. Later answer authoring
+must preserve those scoped approvals. No 35-candidate gate applies.
 
 Prepare and qualify one shared versioned interface per applicable stage, including
 input, proposal, decision and export contracts. 08C uses the

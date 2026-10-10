@@ -1,0 +1,48 @@
+{
+  "schema_version": "task08e.consolidated_review_result.v1",
+  "status": "human_evidence_review_complete",
+  "cases": 53,
+  "approved_eligible": 49,
+  "skipped_case_ids": [
+    "C015",
+    "C033",
+    "C039",
+    "C047"
+  ],
+  "deferred_case_ids": [
+    "C013",
+    "C023",
+    "C038",
+    "C057"
+  ],
+  "revised_case_ids": [
+    "C005",
+    "C026",
+    "C001",
+    "C008",
+    "C034",
+    "C048",
+    "C009",
+    "C003",
+    "C053"
+  ],
+  "handoff": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08e_human_review_20261007_v1/final_review_20261008_v1/handoff.json",
+    "sha256": "e65ba3ab20c919c3f7fe2779ca9d2a8b1e3f5639e6e8ef5053549cf75241a468"
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08e_human_review_20261007_v1/final_review_20261008_v1/completion.json",
+    "sha256": "ab086a5f6fe483953df1458a266f75674dea4d7495b9ddf9d6154e8128a99ec0"
+  },
+  "validation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08e_human_review_20261007_v1/final_review_20261008_v1/validation.json",
+    "sha256": "bcfa618f0d0411fd92a510e00940b900761eadf833974413059264e86de00731"
+  },
+  "independent_audit": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08e_human_review_20261007_v1/final_review_20261008_v1_independent_audit.json",
+    "sha256": "2a629f34974eae8c179fa9d7c72b5912596442622d057f475d5531f2e58bc1fb"
+  },
+  "resume_case_id": null,
+  "next_stage": null,
+  "08f_started": false
+}

@@ -1,5 +1,26 @@
 # Task 08F chat review v1
 
+Historical health-risk version. For new combined-batch work use [chat v2](task08f_chat_review_v2.md).
+
+## Accepted format amendment — 2026-10-08
+
+[Decision 006](../decisions/006_structured_answers_four_part_evaluation.md)
+owns the next combined-batch answer format and evaluation design. Produce one
+structured reference answer: cited conclusion, cited essential supporting points,
+and cited material qualifications attached to the relevant points; optional
+context stays separate. Do not produce a parallel prose answer, duplicate claims
+list or separate essential-points labeling artifact. Approve the full structured
+answer and rendered citations together, reusing the substantive approved 08E
+framings and preserving exact versions. This is the last planned substantive
+case-labeling pass; automated diagnostics require no new gold labels.
+
+The historical health-risk execution instructions and outcomes below remain
+preserved. Their project-105 intake, two-case scope and old prompt are not the
+current 49-case intake. Before executing that pass, finish adapting the bounded
+08F intake/export contract to the consolidated 08E result and this format. This
+documentation amendment does not start drafting or authorize model execution.
+
+
 Process: `task08f.chat_review.v1`. Owner:
 [08F](../../tasks/sprint2/08f_review_group_answers.md). Prompt:
 [task08f.reference_answer.v2](../prompts/task08f_reference_answer_v2.md).

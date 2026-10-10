@@ -98,6 +98,7 @@ benchmarks/er_bench/
   inputs/
   splits/
   runs/
+  releases/                 # frozen role-separated benchmark releases
 ```
 
 Task 05's Final EIR Volume 4 inventory uses separate working, pilot, and final
@@ -284,6 +285,20 @@ bindings. Prior readiness and batch-register bytes remain preserved.
 
 ## Task 08E evidence artifacts
 
+The original 50-case Phase A run uses `task_08/08e_combined_20261006_v1/`.
+The authorized C014/C020/C024 supplement uses `task_08/08e_supplement_20261007_v1/`;
+its authorization and frozen inputs preserve the historical holds and claims.
+The combined 53-case handoff uses `task_08/08e_combined_53_20261007_v1/` and
+references both separately sealed components without modifying either.
+Each case retains its exact input, five-track plan and budget revisions, planned
+queries and raw receipts, source occurrences, Astra provenance, research packet,
+table-render checks and independent coverage/export review. The preparation
+completion seals each component only after all its cases validate. Human journals
+begin empty and later review must live outside that preparation seal. This path
+does not reuse historical human decisions or create a shared source queue.
+See the [current packet contract](specs/task08e_batch_research_v1.md) and
+[chat contract](specs/task08e_chat_review_v1.md).
+
 Shared synthetic qualification and the read-only upstream audit live in fresh
 `task_08/qualification/08e_*` directories, outside health-risk dataset decisions.
 Preserve invented canonical inputs, prepared task/form snapshots, project IDs,
@@ -314,3 +329,49 @@ a subsequent `human_review/events.jsonl` is an append-only writable journal outs
 that seal. Preserve earlier model revisions and all historical health-risk/practice
 artifacts. The [chat specification](specs/task08d_combined_chat_review_v1.md)
 owns startup, mutation checks and export gates.
+
+## Task 08F preparation artifacts
+
+Combined Phase A uses a fresh `task_08/08f_preparation_20261008_v1/` namespace.
+Its frozen intake and per-case prompts contain only current approved evidence
+scopes, retaining complete canonical text and table cells. Numbered attempt
+directories retain exact invocation, raw output, process/event logs, validation,
+short excerpt locators and proposed displays, including failures and retries.
+The ordered handoff and readable review material are sealed by an exact
+completion-last file inventory. Existing 08E eligibility is provenance; all new
+08F approvals and final dispositions remain null. Later human display events,
+feedback and revisions must live outside this preparation seal. Synthetic
+qualification stays under `task_08/qualification/08f_*`.
+
+
+## Task 08F reviewed artifacts
+
+The current combined human-reviewed export is
+`task_08/08f_reviewed_20261009_v3/`, designated by
+[the reviewed result](specs/task08f_combined_review_result.json). It consolidates
+49 approved answers and the explicitly approved bounded supplements. Earlier
+preparation and reviewed exports remain immutable. The final handoff binds exact
+case records, human decisions, source inputs, supplemental history inventories,
+validation and independent audit; completion is written last over the exact file
+inventory. Generated combined answer rendering does not claim a new chat display.
+Future consumers must use this designated handoff rather than infer authority from
+filenames or historical preparation placeholders.
+
+
+## Task 08 frozen benchmark release
+
+The [Task 08 final result](specs/task08h_final_result.json) designates
+`benchmarks/er_bench/releases/task08_20261009_v1/`. It freezes all 49 approved
+cases and the approved 19/30 allocation. `target/` contains only exact questions
+and case IDs. `curator/` retains answers, citations, approvals, source-comment
+mapping and attrition. `corpus/` binds the full 35-document accepted source set
+and usability/edition provenance for a later retrieval builder; it is not a
+case-specific gold-source list or a target prompt payload.
+
+`handoff.json` and completion-last `completion.json` bind the exact file set,
+validation and independent audit. The included `provenance/verify_release.py`
+checks the frozen release and dependencies through the repository's `uv` runtime.
+This is an artifact-specific verification snapshot, not a new production CLI.
+Keep source artifacts in place and preserve source terms; local release does not
+imply public redistribution permission. Later loaders must enforce the declared
+role boundary; directory separation alone is not filesystem access control.

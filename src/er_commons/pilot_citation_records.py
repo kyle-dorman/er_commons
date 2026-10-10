@@ -84,3 +84,31 @@ def section_breadcrumb(section: Record, sections: RecordIndex, blocks: RecordInd
         for identity in section["section_path_ids"]
         if sections[identity].get("heading_block_id") in blocks
     ]
+
+
+def canonical_table_binding(candidate: dict[str, Any]) -> dict[str, Any]:
+    """Compare canonical table bindings while allowing separate display occurrences."""
+    anchor_fields = (
+        "path",
+        "record_id_field",
+        "record_id",
+        "record",
+        "text_field",
+        "start",
+        "end",
+        "quote",
+    )
+    return {
+        **{
+            key: candidate.get(key)
+            for key in ("source_id", "source_pdf_path", "source_sha256", "edition")
+        },
+        "unit": {
+            key: value
+            for key, value in candidate["citation_unit"].items()
+            if key != "citation_label"
+        },
+        "anchors": [
+            {key: anchor.get(key) for key in anchor_fields} for anchor in candidate["anchors"]
+        ],
+    }

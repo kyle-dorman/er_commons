@@ -7,6 +7,7 @@ from typing import Any
 from er_commons.pilot_citation_records import (
     block_anchor,
     bound_bytes,
+    canonical_table_binding,
     index_records,
     next_body_heading,
     section_breadcrumb,
@@ -351,14 +352,17 @@ def validate_audited_section(
             if c.get("citation_unit", {}).get("schema_version") == VERSION
             and c["citation_unit"]["receipt_ref"] == ref
         ]
-        if len(matches) != 1:
-            raise ValueError("Narrative exclusion requires one separately displayed audited family")
-        validate_table_family(matches[0], data_root)
-        if (
-            matches[0]["source_id"] != candidate["source_id"]
-            or matches[0]["citation_unit"]["section_id"] != section["id"]
-        ):
-            raise ValueError("Foreign table-family exclusion")
+        if not matches:
+            raise ValueError("Narrative exclusion requires a separately displayed audited family")
+        for match in matches:
+            validate_table_family(match, data_root)
+            if (
+                match["source_id"] != candidate["source_id"]
+                or match["citation_unit"]["section_id"] != section["id"]
+            ):
+                raise ValueError("Foreign table-family exclusion")
+            if canonical_table_binding(match) != canonical_table_binding(matches[0]):
+                raise ValueError("Conflicting repeated audited table-family binding")
         removed = set(matches[0]["citation_unit"]["member_record_ids"]) & set(members)
         if omitted & removed:
             raise ValueError("Overlapping table exclusions")

@@ -7,6 +7,7 @@ from typing import Any
 from er_commons.pilot_citation_records import (
     block_anchor,
     bound_bytes,
+    canonical_table_binding,
     index_records,
     next_body_heading,
     section_breadcrumb,
@@ -112,9 +113,14 @@ def _validate_section_membership(
             and c["citation_unit"]["kind"] == "table"
         ]
         if (
-            len(matches) != 1
+            not matches
             or exclusion["kind"] != "table"
-            or matches[0]["citation_unit"]["member_record_ids"] != exclusion["member_record_ids"]
+            or any(
+                match["citation_unit"]["member_record_ids"] != exclusion["member_record_ids"]
+                or match["citation_unit"]["section_record"] != unit["section_record"]
+                or canonical_table_binding(match) != canonical_table_binding(matches[0])
+                for match in matches
+            )
         ):
             raise ValueError("Section omission needs a complete separately cited table")
         removed.extend(exclusion["member_record_ids"])
@@ -186,6 +192,14 @@ def validate_units(candidates: list[dict[str, Any]], data_root: Path) -> None:
         unit = candidate.get("citation_unit")
         if (
             isinstance(unit, dict)
+            and unit.get("schema_version") == "er_commons.task08e.mixed_section_unit.v1"
+        ):
+            from er_commons.group_evidence_mixed import validate_mixed_section
+
+            validate_mixed_section(candidate, data_root)
+            continue
+        if (
+            isinstance(unit, dict)
             and unit.get("schema_version") == "er_commons.task08e.audited_section_unit.v1"
         ):
             from er_commons.group_evidence_units import validate_audited_section
@@ -215,6 +229,14 @@ def validate_units(candidates: list[dict[str, Any]], data_root: Path) -> None:
             from er_commons.pilot_citation_boundary_overrides import validate_reviewed_boundary
 
             validate_reviewed_boundary(candidate, data_root)
+            continue
+        if (
+            isinstance(unit, dict)
+            and unit.get("schema_version") == "er_commons.task08f.wsa_section_unit.v1"
+        ):
+            from er_commons.pilot_citation_wsa_boundary import validate_wsa_boundary
+
+            validate_wsa_boundary(candidate, data_root)
             continue
         if not isinstance(unit, dict) or unit.get("schema_version") not in {
             "er_commons.task07d.citation_unit.v1",

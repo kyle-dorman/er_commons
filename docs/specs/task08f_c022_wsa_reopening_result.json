@@ -1,0 +1,43 @@
+{
+  "schema_version": "task08f.c022_wsa_reopening_result.v1",
+  "status": "prepared, awaiting human review",
+  "case_id": "C022",
+  "predecessor_batch_pointer": "docs/specs/task08f_combined_preparation_result.json",
+  "handoff": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_c022_wsa_reopening_20261009_v1/handoff.json",
+    "sha256": "0602065ba19b7d56d3bbb78ca88da3cc5727de65c648c935f40ca4bf071df662"
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_c022_wsa_reopening_20261009_v1/completion.json",
+    "sha256": "2cfef8f4468ea91797a754498b0901073938bf19e7bdf1e3657d950ee1fc98c9"
+  },
+  "readable_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_c022_wsa_reopening_20261009_v1/review.md",
+    "sha256": "57d0b41511455aea3057cb9955ad3b25f23da808cf1d2d4f842575398ff5fbeb"
+  },
+  "validation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_c022_wsa_reopening_20261009_v1/validation.json",
+    "sha256": "281bf6339f1f5655a88d2e2316d5634738c1baab17a31dee9a9a2f0c686dfbd3"
+  },
+  "independent_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_c022_wsa_reopening_20261009_v1/independent_review.json",
+    "sha256": "48f5fedff6a29a9decfd284349234329d13bfc769c85f941b7d83ab4aef0f8ae"
+  },
+  "source_candidate": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_c022_wsa_reopening_20261009_v1/source_candidate.json",
+    "sha256": "e839477780e2b545ace7e4791daabcbb37d0c5bff0596f3736886c6e1f94f118"
+  },
+  "new_evidence_approval": null,
+  "human_answer_approval": null,
+  "final_disposition": null,
+  "expanded_scope_eligibility": null,
+  "resume_case_id": "C001",
+  "citation_uses": 10,
+  "distinct_citation_occurrences": 3,
+  "distinct_canonical_targets": 3,
+  "model": "gpt-6-astra",
+  "model_attempts": 2,
+  "preserved_failed_attempts": 1,
+  "review_instructions": "Preserve original saved batch order; when reaching C022, review this source-bound supplement and complete revised answer alongside the predecessor. No approvals or queue advancement inferred.",
+  "next_stage": null
+}

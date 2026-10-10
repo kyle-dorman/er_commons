@@ -1,0 +1,68 @@
+{
+  "contract": "task08f.combined_review_result.v1",
+  "status": "complete",
+  "phase": "B",
+  "case_count": 49,
+  "approved_count": 49,
+  "pending_count": 0,
+  "approved_replacement_count_since_predecessor": 7,
+  "unchanged_case_count": 42,
+  "handoff": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_reviewed_20261009_v3/handoff.json",
+    "sha256": "1dc8180f05f9f3a715431671e2704c7feffd99605f360b806f8a9ca4d7961826"
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_reviewed_20261009_v3/completion.json",
+    "sha256": "1bf3b5276068bf3efbfc13a32587dca706e2865a09efb487a4889aef9861e0d9"
+  },
+  "validation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_reviewed_20261009_v3/validation.json",
+    "sha256": "b1592e8ac6f5902c51e297bb08f8ef5581d44688f2a4d7aab2fc1d8fe4c9d49d"
+  },
+  "independent_audit": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_reviewed_20261009_v3/independent_audit.json",
+    "sha256": "7ef9bf7d43ec2cf6350b0cb944788af706f38e242c6dd4cefa99ceebbffde6ca"
+  },
+  "summary": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_reviewed_20261009_v3/SUMMARY.md",
+    "sha256": "07614b96808d3abd95fd2a8fcde23552b9d6a359c66e09e5fa68727f7503b36d"
+  },
+  "readable_answers": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_reviewed_20261009_v3/review.md",
+    "sha256": "734e1ca48ebff4c8cb21642770ff198c70b5f4ad7cb213393e063c478b86bc6b"
+  },
+  "predecessor_handoff": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_reviewed_20261009_v2/handoff.json",
+    "sha256": "867a6270ba4e73825e87203f8d8ff3b17f8448b430c7dcd4ee60438414bc1560"
+  },
+  "additional_review_outcomes": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_additional_evidence_review_20261009_v1/approved_outcomes.json",
+    "sha256": "3ede10eb1b6e3ce5ca570f20d7b10b9bdd91485dcc9491fd3808e41d15ca68d0"
+  },
+  "g3_o_review_outcomes": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08f_g3_o_review_20261009_v1/approved_outcomes.json",
+    "sha256": "7534b2121cea2aacaaf76997ab89fb81a3a46cd169ef49413cd8152b0ca1752c"
+  },
+  "seal_inventory_file_count": 58,
+  "inherited_outside_batch_dispositions": {
+    "08e_skipped": [
+      "C015",
+      "C033",
+      "C039",
+      "C047"
+    ],
+    "earlier_deferred": [
+      "C013",
+      "C023",
+      "C038",
+      "C057"
+    ]
+  },
+  "next_stage": null,
+  "scope": "08F review and consolidation complete. No 08G/08H, benchmark/judge execution, new chats/projects, commits or pushes.",
+  "limitations": [
+    "Reference rendering is not a new human display; exact historical displays and explicit amendment approvals remain bound.",
+    "Mechanical validity and human reference approval do not establish judge calibration.",
+    "Inherited source restrictions and unresolved evidence relationships remain preserved."
+  ]
+}

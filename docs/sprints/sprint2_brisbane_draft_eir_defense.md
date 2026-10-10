@@ -23,11 +23,11 @@ aids if needed.
 
 Freeze the official landing-page and file URLs, access timestamps, checksums,
 byte sizes, MIME types, and PDF page counts before annotation. Task 08 uses
-task-by-task authoring across all participating batches, with 25 accepted cases
-as a flexible target. The [08E plan](../../tasks/sprint2/08e_review_group_evidence.md) prepares research
+task-by-task authoring across all participating batches; the accepted release
+retains 49 cases with 19 development and 30 test cases. The [08E plan](../../tasks/sprint2/08e_review_group_evidence.md) prepares research
 in batch and reviews each question in chat, without source deduplication.
 There is no up-front 35-candidate gate; retain normal attrition and agree final
-size and cluster-preserving split after all group batches finish.
+size and topic-balanced split after all group batches finish.
 
 ### Canonical extraction boundary
 
@@ -171,9 +171,9 @@ specific integrity concern or separately approved archival boundary.
 
 Begin question selection with the exclusive groups in
 [Decision 005](../decisions/005_task08_grouped_question_selection.md). Kyle reviews
-until he finds up to three reasonable questions per group, with fewer permitted
-when suitable candidates run out. This bounded, purposive selection retains
-the subsequent human eligibility and cluster-integrity requirements. The
+under the amended all-selected 08B policy, which permits more than three
+questions per group. This purposive selection retains the subsequent human
+eligibility requirements. The
 2026-09-30 amendment makes the final size and split flexible, with explicit
 agreement before freezing. See the [Task 08 umbrella](../../tasks/sprint2/08_curate_grouped_benchmark.md)
 for reusable stages, context boundaries and question-by-question 08E chat review.
@@ -240,60 +240,33 @@ evidence-based decision. Report this as single-curator review, not inter-reviewe
 agreement. Model eligibility QA remains out of scope for Sprint 2 and cannot
 substitute for human eligibility review.
 
-After all group authoring batches finish, build split-clustering candidates
-across the accepted pool deterministically from commenter-letter membership,
-explicit response and general-response links, Task 05 cross-references among curator-only response
-units, and duplicate or near-duplicate source text. Links from an official
-response reference to a Task 03 Draft EIR target are excluded from automatic
-cluster edges. The curator does not manually compare every inventory pair. For
-each general-response link attached to an accepted case, the dedicated
-clustering chat asks whether the linked general response contributes substantively
-to the defense or is merely administrative. Astra also proposes source-grounded
-similarities and groupings across groups; Kyle reviews suggestions one at a time.
-Confirmed substantive links create clustering edges; administrative links remain recorded but do not join cases.
-The human curator owns this classification, while code owns candidate-link
-enumeration and connected-component construction.
+Accepted 2026-10-09 amendment: Kyle approved retaining all 49 reviewed cases
+separately and distributing related topics across a 19-development / 30-test
+split. The whole question pool and the closest answers were reviewed; none were
+identified as needing merger. Thirteen overlapping topic families guide coverage.
+C002 remains in test, as does every appendix cited by only one case. Citation
+balancing uses distinct cited section/table units per answer, including optional
+context. This counting choice does not change support/context scoring roles.
 
-Shared Draft EIR evidence or source-section overlap creates a cluster-review
-warning but not an automatic edge. Broad sections may support distinct issues,
-so the curator confirms whether the cases are substantively duplicative before
-they are joined. Preserve the overlap signal and disposition for audit even
-when no edge is created.
+The [08G contract](../../tasks/sprint2/08g_review_case_clusters.md) owns the bounded
+similarity review and its limitations; [08H](../../tasks/sprint2/08h_serialize_and_freeze_benchmark.md)
+owns exact approved allocation and final publication. The user's amendment
+supersedes mandatory relationship enumeration, duplicate fixtures, Astra cluster
+proposals and keep-together connected components for this release. Those
+provisional procedures were not performed; their contracts remain preserved as
+history. No exhaustive semantic-independence claim follows from this review.
 
-Keep the project's graph roles distinct:
+Shared sections and related reasoning may cross development/test. The strongest
+recorded overlaps include drainage/flooding, bicycle safety and traffic diversion.
+Topic balancing improves coverage but can test application of familiar evidence
+to different questions; it is not an unseen-topic or unseen-evidence evaluation.
+Preserve these limitations in the release and downstream reports. Later discovery
+of duplication requires a named revision, not an implicit split change.
 
-- Task 03 owns the canonical Draft EIR cross-reference graph.
-- Task 05 owns the curator-only comment, individual-response, and
-  general-response relationship graph plus links from official response
-  references to Task 03 targets.
-- Task 07 may add a curator-search traversal/index view over the accepted Task
-  03 graph if pilot evidence gaps warrant it.
-- Task 08 owns the case-clustering graph.
-
-Draft EIR section adjacency, a shared Task 03 target, or traversal proximity
-must never become an automatic Task 08 clustering edge.
-
-Before freezing the split, validate duplicate and near-duplicate candidate
-generation against a small deterministic fixture containing representative
-positive and negative pairs. Cover exact duplicates, harmless formatting or
-preamble changes, paraphrased duplicates, and distinct issues that share
-boilerplate. Report misses and false-positive candidates; do not select a fuzzy
-threshold by intuition alone. Also produce a split-leakage audit showing that
-no confirmed relationship or duplicate-cluster edge crosses the proposed
-development/test boundary and listing every warning and curator disposition.
-This fixture validates candidate enumeration only; it does not replace human
-authority over substantive clustering edges.
-
-Never split a confirmed cluster. Preserve the full accepted pool and use 25
-as a flexible target, not a ceiling. After clustering, agree the final benchmark
-size and development/test allocation with Kyle; the earlier exact 10/15 split
-is no longer mandatory. Prefer broader issue, source-document, and commenter
-diversity when several valid allocations exist. Generate the proposed selection
-and split with a deterministic algorithm, recorded objective, and seed, then
-require curator review before locking it. If the agreed allocation cannot
-preserve whole clusters, return for a new decision rather than weakening cluster
-rules or silently changing sizes. Do not automatically refill groups after
-attrition or discard accepted cases merely to reach 25.
+Task 03 source cross-references and Task 05 curator-only response relationships
+remain separate provenance structures. Neither shared targets nor graph proximity
+creates an automatic Task 08 dependency or merger. No new authoring or evidence
+approval is inferred from the allocation decision.
 
 Keep test locking lightweight for the MVP. Save and hash the accepted cases,
 split manifest, and frozen retrieval, prompt, model, and judge configurations
@@ -329,8 +302,8 @@ Each selected case then passes through four authoring reviews:
 
 The final answer and reviewed source pool provide the reference for later answer
 adequacy judgments. They are not exposed to the target and do not establish truth
-merely by being authored. Retain exact source provenance without adding mandatory
-claim-to-citation mapping fields.
+merely by being authored. Retain exact source provenance and point-to-citation
+links in the structured answer under Decision 006; no duplicate claim inventory.
 For each stage, prepare a bounded input batch and prompt for a separate Codex
 task. The user starts that task through existing app access. Small code helpers
 validate and import its proposals, export human annotations, and prepare only
@@ -360,7 +333,7 @@ Contextual spans may remain in the curation packet to explain terminology,
 scope, or cross-references, but they do not count as reference evidence and
 cannot independently justify a claim. Every substantive step in the
 curator-approved answer logic and reference defense must be supported by the
-reviewed evidence, without requiring explicit claim-to-citation output links. Retrieval coverage metrics score only
+reviewed evidence, with explicit point-to-citation output links under Decision 006. Retrieval coverage metrics score only
 against curator-approved direct-support spans, not contextual material.
 
 Represent evidence hierarchically rather than treating a PDF page as the
@@ -383,9 +356,9 @@ classification, discovery provenance, and curator disposition. A record may
 combine multiple blocks within one semantic evidence unit without weakening
 their exact source traceability.
 
-Require curation and target models to return separate citation and claim lists,
-followed by a final answer, using only citation IDs supplied in their respective
-inputs. Do not require statement-to-evidence mappings. Deduplicate reference
+Require curation and target models to return one structured answer with explicit
+point-to-citation links, using only citation IDs supplied in their respective
+inputs. No duplicate claims list or parallel prose answer is required. Deduplicate reference
 citations within each case by canonical section/table identity and retain
 `support` over `context` across reviewed uses. Direct and supporting claim roles
 do not create different citation levels. Context-only citations remain optional
@@ -576,16 +549,15 @@ Kyle then closed 07G and accepted grouped Task 08 question selection without
 another pilot round or a full retrospective. No LLM judge is
 part of Task 07. Use pinned
 `qwen3:4b-instruct-2507-q4_K_M` as the intentionally small initial target
-baseline in later tasks. Use pinned `gemma3:12b` as the later local judge
-candidate; compare
-`gemma3:4b` on the same human-scored development records only if a smaller,
-faster judge is useful, and adopt it only if calibration shows little material
-loss.
+baseline in later tasks. Use `gemma3:12b` through Ollama as the initial local judge
+candidate, subject to Task 09B qualification and exact digest pinning. Any smaller-judge comparison is optional development work; it does
+not authorize a new human-labeling pass. Under Decision 006, report uncalibrated
+automated judgments unless a separate human calibration is actually completed.
 
 Resolve and record the exact local-model digest for every local run rather than
 relying on mutable tags. Local inference avoids per-token API charges but does
-not remove the need to record runtime, structured-output failures, and human
-comparison. A later target-model comparison may test other model sizes or
+not remove the need to record runtime, structured-output failures, and evaluation
+limitations. A later target-model comparison may test other model sizes or
 families against the same frozen benchmark without changing the reference cases.
 
 The canonical case preserves the exact original comment and its provenance,
@@ -615,10 +587,11 @@ do not mix question versions across target and judge inputs.
   owns the sole immutable curator-only response inventory and its
   [Task 07/08 handoff](../specs/task05h_final_result.json).
 
-All of these tasks are complete. Task 07 is also closed. Task 08 contracts are
-drafted; health-risk 08A is complete, and shared 08B v2 revision and health-risk
-review are active. Human selection and later groups have not started.
-Exact identities, negative results, and validation evidence remain in the completed task records.
+All of these tasks and Tasks 07–08 are complete. The
+[frozen Task 08 release](../specs/task08h_final_result.json) contains the approved
+49-case pool and exact 19/30 allocation.
+Exact identities, negative results and validation evidence remain in the numbered
+task records. Later tasks require separate authorization.
 
 ### Remaining task sequence
 
@@ -632,49 +605,66 @@ Exact identities, negative results, and validation evidence remain in the comple
    chose to proceed to Task 08 without another pilot round or full retrospective. The
    [Task 07 umbrella](../../tasks/sprint2/07_pilot_reference_case_authoring.md)
    records the closed pilot's outcomes and handoff.
-2. **Task 08 — Curate, cluster, split, and freeze the benchmark.** Follow the
-   [umbrella and reusable subtasks](../../tasks/sprint2/08_curate_grouped_benchmark.md):
-   complete each task across participating batches before advancing: select up to
-   three candidates per group with explicit decisions and reasons, then review
-   questions, claims, evidence with separate human eligibility, and answers.
-   Follow each current stage contract for context boundaries; 08E uses batch
-   research and question-by-question chat review without source deduplication. After all groups finish, review cluster
-   suggestions in chat, including cross-group relationships. Preserve the full
-   accepted pool; agree final size and development/test allocation before
-   deterministic serialization. Twenty-five is a flexible target. Build cluster
-   edges only from commenter membership, Task 05 response-unit relationships,
-   confirmed duplicates, and reviewed substantive themes. Task 03 adjacency,
-   official-response-to-Draft-target links, and shared Task 03 targets are warnings,
-   never automatic edges. Publish the cross-split leakage audit.
-3. **Task 09 — Build and freeze human evaluation.** Implement the staged,
-   blinded grounded-correctness and answer-adequacy forms and
-   anchored `0`/`1`/`2` rubric. Pin exports and forms to the accepted Task 03
-   extraction, accepted review registry, and Task 08 case/split versions; link
-   requested render cache separately.
-4. **Task 10 — Build and freeze BM25 retrieval.** Build units from accepted
-   hierarchy and accepted-review-registry body content and tables. Analyze leaf-section
-   lengths, choose whole sections or a documented contiguous fallback that
-   never spans excluded content, run the lexical preprocessing pilot, freeze
-   the index, and report development-only evidence-coverage curves. Do not
-   graph-expand benchmark retrieval unless a later explicit decision adds that
-   condition.
+2. **Task 08 — Curate, balance, split and freeze the benchmark.** The
+   [umbrella](../../tasks/sprint2/08_curate_grouped_benchmark.md) routes completed
+   authoring and the amended 08G/08H closeout. Retain all 49 approved cases in the
+   exact approved 19/30 allocation. Validate provenance, source and role separation,
+   approved split membership and documented overlap limits before sealing. No
+   retrieval, generation or judge run belongs to this task.
+3. **Task 09 — Build evaluation and qualify the judge with synthetic answers.**
+   Move core judge implementation and qualification here from Task 12. Implement
+   Decision 006's automatic retrieval/final-citation metrics and separate grounded
+   correctness/adequacy calls with anchored `0`/`1`/`2` scores. Bind inputs and outputs
+   to the accepted extraction, review registry and frozen Task 08 release. Begin
+   with Astra synthetic-answer creation from development cases, independently of
+   later retriever/target implementation. The
+   [Task 09 umbrella](../../tasks/sprint2/09_build_evaluation_and_qualify_judges.md)
+   owns the seven written contracts: 09A synthesis, 09B runner/local qualification,
+   09C packets, 09D automatic metrics, separate 09E grounding and 09F adequacy
+   implementations, then 09G challenge/freeze. 09A is the active entry; later
+   contracts are provisional, and this planning update does not start execution. Target evaluation/judge completion October 12–14.
+   Use one judge candidate, bounded prompt revisions and saved disagreements;
+   freeze the configuration and disclose known weaknesses. Synthetic agreement is
+   not human calibration; retain uncalibrated automated-judgment reporting.
+4. **Task 10 — Build and freeze BM25 retrieval and evidence presentation.** Build
+   units from accepted hierarchy and accepted-review-registry body content and
+   tables. Analyze lengths, choose whole sections or a documented contiguous
+   fallback that never spans excluded content, run the lexical preprocessing pilot,
+   freeze the index, and report development-only evidence-coverage curves. Pass
+   the top five results directly to the target with actual section/table content,
+   citation IDs, document titles and heading paths; retain table headers, units
+   and footnotes. No generated section summaries or model result-selection call.
+   Agentic search remains a later separately scoped condition.
 5. **Task 11 — Build and freeze target generation.** Pin the full extraction,
    usability, case, split, index, prompt, model, and schema identity chain.
    Implement the zero-shot Qwen3 4B prompt, abstention and citation validation,
    deterministic source-label rendering, output-length pilot, and development
-   stability check without exposing curator-only or QA metadata.
-6. **Task 12 — Calibrate the automated judge.** Pin and verify the same
-    identity chain. Run two staged Gemma 3 12B judge calls against locked
-    human development scores without raw Final EIR response text, then freeze
-    the judge or retain it as diagnostic-only under the accepted gate.
-    Consult the [judge learning notes](../llm_judge_learning_notes.md) when
-    designing development checks for evidence sensitivity, presentation
-    invariance, reference incompleteness, and disagreement analysis.
+   stability check without exposing curator-only or QA metadata. Timebox this
+   work to three days around one baseline, not open-ended model optimization.
+6. **Task 12 — Verify end-to-end evaluation integration.** Apply the existing
+   evaluator and judge to real development target outputs, verify the complete
+   identity chain and input separation, and confirm the final configuration freeze.
+   This is a small integration check, not a second judge-development project.
+   Record any substantive fixes and repeat affected development checks before
+   test use. No additional full labeling pass is required.
 7. **Task 13 — Run the locked test and close Sprint 2.** Verify the complete
-    identity chain before execution. Run the primary baseline first, then the
-    pre-registered evidence-only `A` oracle diagnostic; human-review every test
-    prediction, preserve automated scores separately, analyze errors by stage,
-    and make the second-project decision.
+   identity chain before execution. Run the primary baseline first, then the
+   pre-registered evidence-only `A` oracle diagnostic; preserve all four results
+   separately, report automated-judge limitations, analyze errors by stage,
+   and make the second-project decision.
+
+### Task 09 synthetic challenge scope
+
+[09A](../../tasks/sprint2/09a_create_synthetic_challenges.md) owns the complete
+perturbation catalog, record schema requirements, bounded alternative-argument
+discovery, restartable generation plan and coverage acceptance. Use only the
+19 development cases; retain positive invariance checks, meaningful partial-credit
+and central failures, and as many applicable perturbations as useful without
+contrived combinations or a fixed eight-variant cap. Preserve exact edits,
+intended effects, proposed G/A scores and evidence-based justifications separately
+from judge-visible answers. These are model-proposed expectations, not human gold.
+09A reserves final-check variants before any prototype/prompt tuning; 09G reports
+uncalibrated agreement, errors and known limitations without touching test cases.
 
 ## UI and artifact boundary
 
@@ -692,10 +682,22 @@ PDFs, converted text, renders, indices, local models, and runs remain under
 
 ## Benchmark evaluation boundary
 
-Accepted revision 2026-09-29: two automatic citation checks and two human/LLM
-answer judgments replace the former three-dimension support/responsiveness/
-reference-coverage plan. Dataset authoring reviews are separate from these scores.
-Freeze the detailed evaluation contract in Task 09 before benchmark execution.
+Accepted revision 2026-10-08: [Decision 006](../decisions/006_structured_answers_four_part_evaluation.md)
+locks four separate results: automatic retrieval recall, automatic final-citation
+precision/recall/F1, LLM grounded correctness and LLM answer adequacy. Use one
+structured, cited reference answer, approved in 08F, as both the answer and the
+adequacy guide. No duplicate prose answer or later essential-points labeling.
+Task 09 implements and freezes this design before benchmark execution.
+
+### Structured answer output
+
+For `answered`, return a direct conclusion, essential supporting points and
+material qualifications attached to the points they constrain, each with citation
+links. Optional context is separate. Derive the citation set from those links;
+do not require a duplicate model claims list or flowing-text answer. The reference
+and target use this general structure, not identical point counts or wording.
+Use `insufficient_evidence` for abstention; unsupported substantive assertions
+cannot be shielded from grounding evaluation by an abstention status.
 
 ### Automatic citation metrics
 
@@ -706,8 +708,8 @@ attempts in a separate set:
   A unit used as support anywhere in the reviewed case belongs to `S`.
 - `R`: units actually returned to the target within the recorded retrieval budget.
 - `A`: units explicitly cited by the final model output, not everything retrieved.
-  The structured citation list declares sources used by the answer; repeated IDs
-  count once. No sentence-level or claim-to-citation output map is required.
+  Point-to-citation links declare sources used by the structured answer; repeated
+  IDs count once for these metrics while their individual links remain auditable.
 - `U`: distinct invalid/unresolvable citation attempts, represented by stable raw
   identifier tokens. They cannot match support/context units.
 
@@ -726,7 +728,8 @@ count as false positives. Valid but unmatched citations stay in the precision de
 enter through `U` and are flagged by mechanical validation, never silently
 discarded to improve precision. Deduplicate
 invalid repeated identifiers as well. If `S` is nonempty but the scored final
-citation set is empty, define precision/recall/F1 as `0`. If `S` is empty, required
+citation set is empty (`A \ C` and `U` both empty, including context-only
+output), define precision/recall/F1 as `0`. If `S` is empty, required
 citation metrics are not applicable; report that case separately. F1 is `0` when
 precision and recall are both `0`. Record numerators, denominators, optional-context
 counts and per-case scores; aggregate as separate macro/micro reports with explicit
@@ -734,13 +737,13 @@ eligible case counts rather than a single blended benchmark score.
 
 These are reference-set matching metrics, not proof of correctness. Alternative
 valid evidence missing from the authored reference can lower measured precision;
-preserve it for human error analysis without silently editing the frozen test
-reference. Likewise, all right citations can accompany a reversed conclusion or
+preserve it for error analysis or separately authorized human review without
+silently editing the frozen test reference. Likewise, all right citations can accompany a reversed conclusion or
 unsupported inference. Automatic citation scores do not establish logical use.
 Canonical-ID/anchor projection, schema validity, allowed corpus and citation
 resolution remain deterministic checks independent of the two judgments below.
 
-### Human answer judgments
+### LLM answer judgments
 
 Score both dimensions per complete answer on an anchored `0`/`1`/`2` rubric.
 Statement-level observations remain diagnostic explanations, not a third score.
@@ -753,76 +756,75 @@ Statement-level observations remain diagnostic explanations, not a third score.
    infer hidden reasoning or trust a citation merely because its ID matches.
 2. **Answer adequacy:** does the whole answer address the exact scoped question
    and include the essential findings/conditions needed for a complete answer?
-   `2`: direct and substantively complete; `1`: partial, indirect or missing an
+   `2`: substantively correct, direct and complete; `1`: partial, indirect or missing an
    important element; `0`: misses or materially misframes the central question.
    The reviewed reference guides substantive expectations, not wording, order,
    length or exhaustive citation reuse. Accept valid alternative explanations.
+
+These are whole-answer partial-credit scores, not fractions of correct points.
+A wrong central citation with no remaining cited justification can earn grounding
+0 even for a true conclusion; an unsupported secondary point generally earns 1
+when the remaining citations independently establish the conclusion. Never repair
+the answer by substituting the source it should have cited. A correct conclusion
+missing essential explanation generally earns adequacy 1; missing optional context
+has no penalty. Follow [Decision 006](../decisions/006_structured_answers_four_part_evaluation.md#partial-credit-and-wrong-citations).
+Report mean scores and 0/1/2 distributions with applicable denominators.
 
 One omission can affect both dimensions for different reasons: removing a critical
 condition can make the conclusion unsupported and the answer incomplete. Explain
 both judgments rather than forcing mutually exclusive error categories. Neither
 judgment requires every reference citation to appear in the answer.
 
-Target output remains `answered` with separate citations, claims and final answer,
-or `insufficient_evidence` with no substantive defense claims. On the answerable
+Target output follows the structured format above. On the answerable
 benchmark, abstention has grounded correctness not applicable and adequacy `0`;
 report it separately. Automatic retrieval/citation metrics still reflect what was
 actually returned/cited. Attribute abstention to retrieval or generation limits
 using the recorded evidence context; do not call unsupported absence claims a
 successful abstention.
 
-Stage human review to limit reference-answer bias. First run mechanical checks
-and automatic citation metrics. Score grounded correctness from the scoped
-question, generated claims/answer and the actual cited source text, with requested
-source-cache access; hide the authored reference, support/context gold labels and
-reference-matching scores. Save that judgment before revealing the reference
-answer and reviewed source pool for answer adequacy. Use the same scoped question
-in both stages. Preserve each decision/timestamp; no reference-based overwrite of
-the earlier judgment. Display automatic metrics only after both human judgments
-are locked to avoid anchoring the answer scores to citation overlap.
+### Two judge calls and diagnostic output
 
-Blind reviewers to target identity/size, experiment/oracle labels, automated judge
-scores and aggregate results. Randomize anonymous predictions when comparing models
-and retain the seed and concealed mapping. Report the two answer scores separately
-from both citation checks, with raw counts/per-case results for the test set
-whose size is frozen in Task 08.
+Grounded correctness receives the scoped question, model structured answer and
+actual cited passages. Hide the reference answer, gold support/context roles,
+citation matching scores and target identity. The question is necessary to check
+application to the right scenario; this is not an essential-point coverage check.
+Save this judgment independently before revealing reference material.
 
-### Automated judge and calibration
+Answer adequacy receives the same question and model answer, structured reference
+answer and reviewed source pool, plus the model's cited evidence for assessing
+alternatives. Check essential substance and necessary qualifications, not wording,
+point count or exhaustive citation reuse. Neither judge may use official-response
+claims as evidence. Do not overwrite the grounding result with reference-based
+judgments. Keep automatic matching scores and target identity hidden from both.
 
-Mirror the human stages in **two separate structured judge calls**:
+Both dimensions can fail for the same false explanation. A true but incomplete
+answer can pass grounding and fail adequacy. Missing scope conditions can affect
+both; merely missing an additional useful point does not make an otherwise
+supported assertion ungrounded. Statement-level diagnostics identify exact model
+points, source passages, unsupported or contradicted steps, and omitted material
+qualifications. Adequacy also identifies missing essential reference points.
+These are automated explanations, not further gold labels or primary scores.
 
-- Grounded correctness: scoped question, generated claims/answer and cited source
-  text; no reviewed reference answer, gold citation levels or matching scores.
-- Answer adequacy: the same question and generated answer, reviewed reference
-  answer and supporting/context source pool. No raw official response and no
-  target-model metadata. Judge essential substance, not similarity to the reference.
+### Judge qualification and labeling budget
 
-Use the same rubric as human reviewers and keep dimension-specific explanations.
-The reference answer contains its explanation and limits; no separately labeled
-outline, answer-logic map or material-concerns record is required. Do not collapse
-both calls into one all-information call that exposes the reference to grounding.
+08F is the last planned substantive case-labeling pass. No mandatory human
+prediction-labeling or human calibration pass follows it. The earlier 80-percent
+agreement/endpoint/flag-recall gate and mandatory human review of all test outputs
+are superseded by Decision 006, not silently considered satisfied.
 
-Calibrate each dimension against locked human development judgments, both at the
-case level. Retain the provisional gate: at least 80 percent exact agreement, no
-severe endpoint disagreement (`0` versus `2`), and 100 percent flag recall for human-scored `0`
-records. If a denominator is empty, report not applicable rather than claiming
-perfect agreement/recall; resolve gate applicability in Task 09/12 before adoption.
-Report confusion matrices, raw numerators/denominators and every disagreement.
-
-Add bounded, human-verified development challenge pairs: correct citations with
-reversed conclusions, essential conditions removed, or irrelevant explanations;
-paraphrases and alternative valid arguments should not be penalized for style.
-These test visible evidence use and answer quality, not hidden chain-of-thought.
-Challenge checks complement natural-output calibration; do not replace it or
-manufacture test cases from the locked test split.
-
-Revise judge prompts/schemas only using development evidence. If calibration fails,
-retain human evaluation as authoritative and judge scores as diagnostic. Passing
-the gate never replaces human review of every locked-test prediction. The known
-reference incompleteness and accepted MVP noise remain explicit evaluation limits.
+Without separately authorized human calibration, report the two judge scores as
+**uncalibrated automated judgments**. Pin model, prompts, schemas and exact inputs;
+run bounded automated development checks for evidence sensitivity, reversed
+conclusions, dropped conditions and valid paraphrases. Such checks do not measure
+human agreement. Do not tune on locked-test outputs. Preserve every judgment and
+its dimension-specific evidence explanation, uncertainty and execution failures.
+Any future human calibration requires separate authorization and its own real
+labels before agreement statistics can be reported. Reference incompleteness and
+judge error remain explicit limits; reference-answer approval is not judge validation.
 
 ## Completion gate
 
 Sprint 2 is ready for a second-project decision only after the Task 08-agreed
-locked test run is reproducible, citations resolve, judge-to-human audit
-agreement is reported, and the error analysis identifies the limiting stage.
+locked test run is reproducible, citations resolve, automated-judge qualification
+and its uncalibrated status (unless separately calibrated) are reported, and error
+analysis identifies the limiting stage.
