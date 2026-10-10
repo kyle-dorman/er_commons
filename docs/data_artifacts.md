@@ -400,3 +400,20 @@ its exact file inventory: request, native request/raw response when available,
 Inspect log, validation result and wall timing. An incomplete attempt is evidence,
 not reusable success. Never place reserved final-check or benchmark test content
 in these qualification packets.
+
+## Task 09C evidence packets
+
+Explicit development selections are published under an external `task_09/09c_*`
+namespace with deterministic `packets.json`, separate selection `provenance.json`
+and a compact no-clobber `completion.json`. Each packet separates model-visible
+`payload` from raw identity mappings and diagnostics. Publish only `payload` to
+the model through the request adapter; file placement alone is not access control.
+The manifest binds the frozen release, reservation, corpus, selected source/answer
+inputs and outputs. Identical preparation can be repeated without modifying files;
+changed inputs require a fresh output directory. Publication checks all three
+planned files before writing, refuses unrelated directory entries, and supports
+exact partial resumes. This is a single-writer workflow, not a multi-file
+transaction or concurrent writer protocol. No source assembly or upstream
+payload is rewritten. Qualification output does not certify context fit or judge
+accuracy. The [09C outcome](../tasks/sprint2/09c_build_judge_evidence_packets.md#outcome)
+owns the bounded executed selection and remaining runtime work.

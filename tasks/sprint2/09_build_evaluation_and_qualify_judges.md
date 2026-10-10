@@ -1,10 +1,11 @@
 # Task 09 — Build evaluation and qualify two judges
 
-Status: **09A and 09B complete with limitations; 09C–09G provisional.**
+Status: **09A–09C complete with limitations; 09D–09G provisional.**
 Reconcile later contracts with preceding outcomes before activation. The October 9
 execution authorization covered 09A, including its full Astra authoring batch.
 The October 10 request authorized 09B after runner/model/runtime discussion:
-Inspect AI, local Ollama and a bounded two-model qualification.
+Inspect AI, local Ollama and a bounded two-model qualification. The later October
+10 request authorized 09C packet construction and offline validation only.
 
 ## Abstract
 
@@ -45,7 +46,7 @@ October 12–14 evaluation window; dates are planning targets, not execution cla
 
 Use the listed order as the default queue. Independent implementation can be
 scoped later; dependencies do not require unnecessary new serial approvals once
-execution is authorized. 09A and 09B are closed. 09C–09G remain unstarted.
+execution is authorized. 09A–09C are closed. 09D–09G remain unstarted.
 
 ## Outputs and boundaries
 
@@ -113,4 +114,9 @@ inapplicable combinations remain explicit. Synthetic proposals are uncalibrated.
 [result](../../docs/specs/task09b_final_result.json) select Inspect/native Ollama
 with Qwen F16 at 48K as the operational default and Gemma BF16 as an alternative.
 Both prototypes showed semantic failures; no accurate judge is established.
-09C–09G remain unstarted and require contract refresh before authorization.
+[09C outcome](09c_build_judge_evidence_packets.md#outcome) and
+[result](../../docs/specs/task09c_final_result.json) provide strict separate packets,
+explicit unresolved citations and a 48K preflight adapter, verified with fixtures
+and 12 bounded offline development packets. No judge calls occurred; exact
+runtime token counting remains the consuming judge's responsibility.
+09D–09G remain unstarted and require contract refresh before execution.

@@ -1,0 +1,104 @@
+{
+  "schema_version": "task09c.final_result.v1",
+  "status": "complete_with_limitations",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09c_20261010_v1",
+  "summary": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09c_20261010_v1/summary.json",
+    "sha256": "cb37630fad03fdddea11fcd6c2a7c65d20504bee49a16a056dee56be6f8e4522",
+    "byte_size": 3835
+  },
+  "packet_completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09c_20261010_v1/packets/completion.json",
+    "sha256": "6739ff181bafb9ceea63ea565d2a1a5b74c4a3187fe8a9ef8317d760712fdff8",
+    "byte_size": 2017
+  },
+  "schemas": {
+    "grounding": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09c_20261010_v1/grounding.schema.json",
+      "sha256": "5fdaef5b9ae7e0c8e56e9120af280679242f678ef41e839fa34625f965ecdb41",
+      "byte_size": 7199
+    },
+    "adequacy": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09c_20261010_v1/adequacy.schema.json",
+      "sha256": "534017c7b859f429c679eb85e0cd8e8806307efeac0774502a6f6b46a39fd16c",
+      "byte_size": 7279
+    }
+  },
+  "check_log": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09c_20261010_v1/make_check.log",
+    "sha256": "751b1c362e9b6e34721175d59d839e40228dde558726758dbfed4498f0fe3c33",
+    "byte_size": 35125
+  },
+  "validation": {
+    "focused_passed": 95,
+    "new_tests_passed": 46,
+    "full_passed": 3508,
+    "skipped": 1,
+    "historical_failures": 3,
+    "regressions": 0,
+    "format_lint_types": "passed",
+    "make_fix": "passed",
+    "make_check": "fails_only_three_historical_task06g_tests",
+    "historical_files_unchanged_from": "c2dba5f"
+  },
+  "boundaries": {
+    "development_cases": 19,
+    "test_cases": 30,
+    "development_variants": 423,
+    "reserved_final_checks": 118,
+    "exclusions": 5,
+    "reserved_answer_payloads_parsed": false,
+    "test_content_parsed": false,
+    "model_calls": 0,
+    "target_runs": 0,
+    "test_evaluations": 0,
+    "downloads": 0,
+    "external_source_dispatch": 0,
+    "commits": 0,
+    "pushes": 0
+  },
+  "context": {
+    "allocation": 49152,
+    "output_reserve": 1500,
+    "published_status": "context_unverified",
+    "exact_runtime_counter_implemented": false,
+    "overflow_boundary_fixture_verified": true,
+    "truncation": false,
+    "summarization": false
+  },
+  "limitations": [
+    "Exact full-request runtime token counter remains the consuming judge task responsibility; no readiness claimed for published packets.",
+    "Source completeness relies on existing verified assembled source units, with inherited text-only figure and extraction limitations.",
+    "Bounded12-packet serialization validation is not broad challenge evaluation or semantic accuracy proof."
+  ],
+  "next_step": "Refresh09D when separately authorized;09D-09G remain unstarted.",
+  "code_quality_pass": {
+    "status": "complete",
+    "summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09c_20261010_code_quality_v1/summary.json",
+      "sha256": "c41f0ba79412c6f5a6d9165cc088adc0010189127f8c07c75ac8aa3d36daddc8",
+      "byte_size": 2059
+    },
+    "validation": {
+      "focused_passed": 122,
+      "added_regression_tests": 27,
+      "full_passed": 3535,
+      "skipped": 1,
+      "historical_task06g_failures": 3,
+      "new_failures": 0,
+      "format_lint_types": "passed",
+      "make_fix": "passed",
+      "git_diff_check": "passed",
+      "independent_review": "accepted"
+    },
+    "model_calls": 0
+  },
+  "closeout": {
+    "user_approved": true,
+    "task_closed": true,
+    "local_commit_authorized": true,
+    "push_authorized": false,
+    "next_task": "09D remains provisional and unstarted"
+  },
+  "commit_count_scope": "Implementation and quality-pass execution before separately authorized local closeout commit."
+}

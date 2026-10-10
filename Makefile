@@ -364,3 +364,13 @@ run-judge-qualification: check-env
 		--context "$(QUALIFICATION_CONTEXT)" \
 		--max-tokens $(or $(QUALIFICATION_MAX_TOKENS),1500) \
 		--timeout $(or $(QUALIFICATION_TIMEOUT),300)
+
+# Task 09C deterministic packet construction; explicit selections, no model calls.
+.PHONY: prepare-judge-packets
+prepare-judge-packets: check-env
+	@test -n "$(JUDGE_PACKETS)" -a -n "$(JUDGE_SELECTIONS)" || { \
+		echo 'Set JUDGE_PACKETS and JUDGE_SELECTIONS (--variant-id ID / --control-case ID).' >&2; exit 2; }
+	uv run python -m er_commons.judge_packet_publication \
+		--result docs/specs/task09a_final_result.json \
+		--release docs/specs/task08h_final_result.json \
+		--output "$(JUDGE_PACKETS)" $(JUDGE_SELECTIONS)

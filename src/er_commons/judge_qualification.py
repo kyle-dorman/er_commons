@@ -82,6 +82,11 @@ def write_new(path: Path, value: Any) -> None:
 
 def messages(packet: dict[str, Any]) -> list[dict[str, str]]:
     """Pass only an explicit dimension payload, never selection metadata."""
+    if packet.get("schema_version") == "task09c.judge_packet.v1":
+        raise ValueError(
+            "09C packets require judge_packet_requests.prepare_request with context preflight; "
+            "the 09B prototype runner is not an accepted judge"
+        )
     dimension = packet["dimension"]
     payload = packet["payload"]
     allowed = {"question", "answer", "evidence"}

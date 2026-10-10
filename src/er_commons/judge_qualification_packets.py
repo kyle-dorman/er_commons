@@ -61,7 +61,7 @@ def selected_rows(path: Path, allowed: set[str]) -> dict[str, dict[str, Any]]:
     return rows
 
 
-def _answer(answer: dict[str, Any], citations: dict[str, str]) -> dict[str, Any]:
+def project_answer(answer: dict[str, Any], citations: dict[str, str]) -> dict[str, Any]:
     """Allowlist substantive answer fields and consistently anonymize all point links."""
     points = [
         answer["conclusion"],
@@ -100,7 +100,7 @@ def _answer(answer: dict[str, Any], citations: dict[str, str]) -> dict[str, Any]
     return result
 
 
-def _canonical_target(target: dict[str, Any]) -> dict[str, Any]:
+def project_target(target: dict[str, Any]) -> dict[str, Any]:
     """Keep readable source locators, excluding review receipts and extraction internals."""
     result = {
         key: copy.deepcopy(target[key])
@@ -162,7 +162,7 @@ def project_payload(
             if key in source
         }
         if "canonical_target" in row:
-            row["canonical_target"] = _canonical_target(row["canonical_target"])
+            row["canonical_target"] = project_target(row["canonical_target"])
         identity = stable_json_sha256(row)
         if identity not in seen:
             seen[identity] = f"S{len(sources) + 1}"
@@ -173,11 +173,11 @@ def project_payload(
         citations[citation] = f"U{len(citations) + 1}"
     result = {
         "question": packet["question"],
-        "answer": _answer(answer, citations),
+        "answer": project_answer(answer, citations),
         "evidence": sources,
     }
     if dimension == "adequacy":
-        result["reference_answer"] = _answer(packet["reference_answer"], citations)
+        result["reference_answer"] = project_answer(packet["reference_answer"], citations)
     return result
 
 

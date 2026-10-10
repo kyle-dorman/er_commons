@@ -18,8 +18,11 @@ sealed in the [09A handoff](specs/task09a_final_result.json). [09B is complete](
 with an Inspect/Ollama integration, a measured model comparison and explicit
 semantic limitations. [Its result](specs/task09b_final_result.json) recommends
 Qwen 9B F16 at 48K for judge development and Qwen 0.8B for fast integration
-smoke checks; 09C–09G remain provisional and unstarted. The [TODO](todo.md) owns
-the next action.
+smoke checks. [09C is complete](../tasks/sprint2/09c_build_judge_evidence_packets.md)
+with separate deterministic evidence packets and explicit context diagnostics;
+[its result](specs/task09c_final_result.json) records offline validation and the
+remaining exact-token-counter requirement. 09D–09G remain provisional and
+unstarted. The [TODO](todo.md) owns the next action.
 
 ## Read for Task 09
 

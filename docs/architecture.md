@@ -562,3 +562,27 @@ packets. Changed inputs/settings require a fresh run directory. HTTP clients
 ignore environment proxies; live loaded context and model identity are verified.
 Automatic semantic retries are forbidden; operational retry bounds are owned by the
 [09B contract](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md).
+
+## Task 09C judge packet boundary
+
+`judge_packets` projects complete sealed source units into strict, separate
+model payloads. Raw substantive types are checked before IDs are anonymized,
+and known-source assembly errors retain their source locator. It reuses 09B's
+answer/locator projection, preserves full source
+text and table structure, and keeps raw citation/point mappings and input hashes
+outside model inputs. Unknown candidate citations get explicit unresolved entries;
+missing known-source content raises an infrastructure/input error. It performs
+no retrieval, citation repair, semantic scoring or source summarization.
+
+`judge_packet_publication` verifies frozen development membership, reservation,
+corpus/source identity and selected answer/reference bindings before publishing
+explicitly selected variants or controls. It uses metadata-first 09B JSONL routing
+to avoid decoding reserved rows. `judge_packet_requests` emits plain Inspect
+samples, checks payload integrity, and reuses 09B's native Ollama request assembly.
+Complete requests remain
+blocked as `context_unverified` without an exact model-bound token counter;
+`context_overflow` blocks dispatch at 49,152 input/output tokens with a 1,500-token
+output reserve. Future judge tasks own their prompts, counters and scoring.
+The old qualification runner rejects 09C packets rather than applying its
+prototype rubrics. See [09C](../tasks/sprint2/09c_build_judge_evidence_packets.md)
+for usage, validation and limits.
