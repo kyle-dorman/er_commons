@@ -417,3 +417,14 @@ transaction or concurrent writer protocol. No source assembly or upstream
 payload is rewritten. Qualification output does not certify context fit or judge
 accuracy. The [09C outcome](../tasks/sprint2/09c_build_judge_evidence_packets.md#outcome)
 owns the bounded executed selection and remaining runtime work.
+
+## Task 09D offline metric qualification
+
+Inspect `.eval` logs and validation receipts belong in an explicit external
+`task_09/09d_*` namespace. The log retains saved-answer samples, restricted source
+mappings/reference roles, raw citation attempts, metric records and separate
+aggregates. It is restricted evaluation evidence, never a model-input packet.
+Invented fixture receipts remain visibly labeled and cannot establish actual
+baseline retrieval performance. Small source-free fixtures live in tests; all
+run outputs stay outside Git. The [09D result](specs/task09d_final_result.json)
+binds the completed offline qualification and validation logs.

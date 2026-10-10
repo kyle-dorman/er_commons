@@ -38,9 +38,19 @@ packets, explicit unresolved citations, strict model-input boundaries and a
 source-content checks; no inference ran. Final request counts remain
 `context_unverified` until the consuming judge supplies an exact runtime counter.
 
-**No task is active.** The 09C code-quality follow-up is complete; see its outcome.
-Next is a separately authorized 09D contract refresh.
-09D–09G remain unstarted. [Decision 006](decisions/006_structured_answers_four_part_evaluation.md)
+## Task 09D — closed with limitations
+
+[09D outcome](../tasks/sprint2/09d_implement_automatic_metrics.md) and
+[result](specs/task09d_final_result.json) provide exact automatic metrics through
+Inspect with canonical identity matching, explicit eligible counts and offline
+integration tests. Task 10 must qualify actual retrieval mappings and delivery
+receipts; fixture receipts are not baseline results. The bounded code-quality
+pass strengthens validation and supports distinct saved variants of one case;
+see the outcome for verification and accepted closeout.
+
+**No task is active.** Refresh provisional 09E from the completed 09B–09D
+interfaces before a separately authorized start. 09E–09G and Task 10 remain
+unstarted. [Decision 006](decisions/006_structured_answers_four_part_evaluation.md)
 continues to govern separate judge visibility and the four evaluation results.
 
 ## Task 09 subqueue
@@ -50,7 +60,7 @@ continues to govern separate judge visibility and the four evaluation results.
 | [09A — Synthetic challenges](../tasks/sprint2/09a_create_synthetic_challenges.md) | Complete with limitations | Broad applicable perturbations, exact edits, proposed G/A expectations, evidence and coverage |
 | [09B — Harness/local inference](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md) | Complete with limitations | Inspect/Ollama integration, candidate qualification and measured runtime |
 | [09C — Evidence packets](../tasks/sprint2/09c_build_judge_evidence_packets.md) | Complete with limitations | Separate validated inputs and explicit context diagnostics |
-| [09D — Automatic metrics](../tasks/sprint2/09d_implement_automatic_metrics.md) | Provisional | Retrieval and citation scoring with explicit denominators |
+| [09D — Automatic metrics](../tasks/sprint2/09d_implement_automatic_metrics.md) | Complete with limitations | Inspect metrics, canonical identities and Task 10 receipt interface |
 | [09E — Grounding judge](../tasks/sprint2/09e_implement_grounding_judge.md) | Provisional | Independent reference-blind judge |
 | [09F — Adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) | Provisional | Independent reference-aware judge |
 | [09G — Challenge/freeze](../tasks/sprint2/09g_challenge_and_freeze_judges.md) | Provisional | Bounded revisions, comparison report and frozen configurations |

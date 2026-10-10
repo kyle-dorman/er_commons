@@ -374,3 +374,11 @@ prepare-judge-packets: check-env
 		--result docs/specs/task09a_final_result.json \
 		--release docs/specs/task08h_final_result.json \
 		--output "$(JUDGE_PACKETS)" $(JUDGE_SELECTIONS)
+
+# Task 09D saved-answer metrics; Inspect owns execution and logs, no inference.
+.PHONY: evaluate-automatic-metrics
+evaluate-automatic-metrics: check-env
+	@test -n "$(METRIC_SAMPLES)" -a -n "$(METRIC_LOG_DIR)" || { \
+		echo 'Set METRIC_SAMPLES (prepared JSON array) and METRIC_LOG_DIR (external directory).' >&2; exit 2; }
+	uv run python -m er_commons.automatic_metric_inspect \
+		"$(METRIC_SAMPLES)" --log-dir "$(METRIC_LOG_DIR)"

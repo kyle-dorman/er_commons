@@ -1,11 +1,14 @@
 # Task 09 — Build evaluation and qualify two judges
 
-Status: **09A–09C complete with limitations; 09D–09G provisional.**
+Status: **09A–09D complete with limitations;
+09E–09G provisional.**
 Reconcile later contracts with preceding outcomes before activation. The October 9
 execution authorization covered 09A, including its full Astra authoring batch.
 The October 10 request authorized 09B after runner/model/runtime discussion:
 Inspect AI, local Ollama and a bounded two-model qualification. The later October
 10 request authorized 09C packet construction and offline validation only.
+The subsequent 09D start request authorized automatic metrics and offline Inspect
+qualification, without inference or later-task work.
 
 ## Abstract
 
@@ -46,7 +49,7 @@ October 12–14 evaluation window; dates are planning targets, not execution cla
 
 Use the listed order as the default queue. Independent implementation can be
 scoped later; dependencies do not require unnecessary new serial approvals once
-execution is authorized. 09A–09C are closed. 09D–09G remain unstarted.
+execution is authorized. 09A–09D are complete. 09E–09G remain unstarted.
 
 ## Outputs and boundaries
 
@@ -119,4 +122,8 @@ Both prototypes showed semantic failures; no accurate judge is established.
 explicit unresolved citations and a 48K preflight adapter, verified with fixtures
 and 12 bounded offline development packets. No judge calls occurred; exact
 runtime token counting remains the consuming judge's responsibility.
-09D–09G remain unstarted and require contract refresh before execution.
+[09D outcome](09d_implement_automatic_metrics.md#outcome) and
+[result](../../docs/specs/task09d_final_result.json) provide exact automatic metrics,
+offline Inspect integration and a canonical retrieval-receipt contract.
+Task 10/12 must qualify production mappings and delivery. 09E–09G remain unstarted
+and require contract refresh before execution.

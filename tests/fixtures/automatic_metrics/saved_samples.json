@@ -1,0 +1,321 @@
+[
+  {
+    "case_id": "perfect-missing-retrieval",
+    "sources": [
+      {
+        "occurrence_id": "O1",
+        "source_id": "invented-doc",
+        "extraction_id": "invented-extraction",
+        "canonical_target": {
+          "unit_id": "section-1",
+          "unit_type": "section",
+          "document_id": "invented-extraction/document/invented-doc"
+        },
+        "approved_roles": [
+          "required_support"
+        ],
+        "title": "Identical display heading"
+      }
+    ],
+    "saved_answer": {
+      "status": "answered",
+      "conclusion": {
+        "point_id": "P1",
+        "text": "Invented saved answer.",
+        "citation_ids": [
+          "O1"
+        ]
+      },
+      "supporting_points": [],
+      "qualifications": [],
+      "optional_context": []
+    },
+    "scope": "invented_fixture"
+  },
+  {
+    "case_id": "partial-empty-retrieval",
+    "sources": [
+      {
+        "occurrence_id": "O1",
+        "source_id": "invented-doc",
+        "extraction_id": "invented-extraction",
+        "canonical_target": {
+          "unit_id": "section-1",
+          "unit_type": "section",
+          "document_id": "invented-extraction/document/invented-doc"
+        },
+        "approved_roles": [
+          "required_support"
+        ],
+        "title": "Identical display heading"
+      },
+      {
+        "occurrence_id": "O2",
+        "source_id": "invented-doc",
+        "extraction_id": "invented-extraction",
+        "canonical_target": {
+          "unit_id": "section-2",
+          "unit_type": "section",
+          "document_id": "invented-extraction/document/invented-doc"
+        },
+        "approved_roles": [
+          "required_support"
+        ],
+        "title": "Identical display heading"
+      },
+      {
+        "occurrence_id": "O3",
+        "source_id": "invented-doc",
+        "extraction_id": "invented-extraction",
+        "canonical_target": {
+          "unit_id": "section-3",
+          "unit_type": "section",
+          "document_id": "invented-extraction/document/invented-doc"
+        },
+        "approved_roles": [
+          "required_support"
+        ],
+        "title": "Identical display heading"
+      },
+      {
+        "occurrence_id": "O4",
+        "source_id": "invented-doc",
+        "extraction_id": "invented-extraction",
+        "canonical_target": {
+          "unit_id": "section-4",
+          "unit_type": "section",
+          "document_id": "invented-extraction/document/invented-doc"
+        },
+        "approved_roles": [
+          "optional_context"
+        ],
+        "title": "Identical display heading"
+      },
+      {
+        "occurrence_id": "O5",
+        "source_id": "invented-doc",
+        "extraction_id": "invented-extraction",
+        "canonical_target": {
+          "unit_id": "section-5",
+          "unit_type": "section",
+          "document_id": "invented-extraction/document/invented-doc"
+        },
+        "approved_roles": [],
+        "title": "Identical display heading"
+      }
+    ],
+    "saved_answer": {
+      "status": "answered",
+      "conclusion": {
+        "point_id": "P1",
+        "text": "Invented saved answer.",
+        "citation_ids": [
+          "O1",
+          "O1",
+          "O4",
+          "O5",
+          "unknown",
+          "unknown"
+        ]
+      },
+      "supporting_points": [],
+      "qualifications": [],
+      "optional_context": []
+    },
+    "retrieval_receipt": {
+      "schema_version": "task09d.retrieval_receipt.v1",
+      "condition": "single_query_top5",
+      "unit_budget": 5,
+      "invented": true,
+      "provenance": "Invented fixture; never target-run evidence",
+      "hits": [],
+      "required_anchor_ids": [],
+      "search_record_mapping": [],
+      "ranked_depth": 0,
+      "ranking_exhausted": true
+    },
+    "scope": "invented_fixture"
+  },
+  {
+    "case_id": "perfect-delivered-retrieval",
+    "sources": [
+      {
+        "occurrence_id": "O1",
+        "source_id": "invented-doc",
+        "extraction_id": "invented-extraction",
+        "canonical_target": {
+          "unit_id": "section-1",
+          "unit_type": "section",
+          "document_id": "invented-extraction/document/invented-doc"
+        },
+        "approved_roles": [
+          "required_support"
+        ],
+        "title": "Identical display heading"
+      },
+      {
+        "occurrence_id": "O2",
+        "source_id": "invented-doc",
+        "extraction_id": "invented-extraction",
+        "canonical_target": {
+          "unit_id": "section-2",
+          "unit_type": "section",
+          "document_id": "invented-extraction/document/invented-doc"
+        },
+        "approved_roles": [
+          "required_support"
+        ],
+        "title": "Identical display heading"
+      }
+    ],
+    "saved_answer": {
+      "status": "answered",
+      "conclusion": {
+        "point_id": "P1",
+        "text": "Invented saved answer.",
+        "citation_ids": [
+          "O1",
+          "O2"
+        ]
+      },
+      "supporting_points": [],
+      "qualifications": [],
+      "optional_context": []
+    },
+    "retrieval_receipt": {
+      "schema_version": "task09d.retrieval_receipt.v1",
+      "condition": "single_query_top5",
+      "unit_budget": 5,
+      "invented": true,
+      "provenance": "Invented fixture; never target-run evidence",
+      "hits": [
+        {
+          "rank": 1,
+          "canonical_unit": [
+            "invented-doc",
+            "invented-extraction",
+            "section",
+            "section-1"
+          ],
+          "delivered": true,
+          "search_record_id": "search-1",
+          "delivered_anchor_ids": [
+            "anchor-1"
+          ],
+          "anchor_ids": [
+            "anchor-1"
+          ]
+        },
+        {
+          "rank": 2,
+          "canonical_unit": [
+            "invented-doc",
+            "invented-extraction",
+            "section",
+            "section-2"
+          ],
+          "delivered": true,
+          "search_record_id": "search-2",
+          "delivered_anchor_ids": [
+            "anchor-2"
+          ],
+          "anchor_ids": [
+            "anchor-2"
+          ]
+        }
+      ],
+      "required_anchor_ids": [
+        {
+          "canonical_unit": [
+            "invented-doc",
+            "invented-extraction",
+            "section",
+            "section-1"
+          ],
+          "anchor_ids": [
+            "anchor-1"
+          ]
+        },
+        {
+          "canonical_unit": [
+            "invented-doc",
+            "invented-extraction",
+            "section",
+            "section-2"
+          ],
+          "anchor_ids": [
+            "anchor-2"
+          ]
+        }
+      ],
+      "search_record_mapping": [
+        {
+          "search_record_id": "search-1",
+          "canonical_unit": [
+            "invented-doc",
+            "invented-extraction",
+            "section",
+            "section-1"
+          ]
+        },
+        {
+          "search_record_id": "search-2",
+          "canonical_unit": [
+            "invented-doc",
+            "invented-extraction",
+            "section",
+            "section-2"
+          ]
+        }
+      ],
+      "ranked_depth": 2,
+      "ranking_exhausted": true
+    },
+    "scope": "invented_fixture"
+  },
+  {
+    "case_id": "empty-support-not-applicable",
+    "sources": [
+      {
+        "occurrence_id": "O4",
+        "source_id": "invented-doc",
+        "extraction_id": "invented-extraction",
+        "canonical_target": {
+          "unit_id": "section-4",
+          "unit_type": "section",
+          "document_id": "invented-extraction/document/invented-doc"
+        },
+        "approved_roles": [
+          "optional_context"
+        ],
+        "title": "Identical display heading"
+      }
+    ],
+    "saved_answer": {
+      "status": "answered",
+      "conclusion": {
+        "point_id": "P1",
+        "text": "Invented saved answer.",
+        "citation_ids": [
+          "O4"
+        ]
+      },
+      "supporting_points": [],
+      "qualifications": [],
+      "optional_context": []
+    },
+    "retrieval_receipt": {
+      "schema_version": "task09d.retrieval_receipt.v1",
+      "condition": "single_query_top5",
+      "unit_budget": 5,
+      "invented": true,
+      "provenance": "Invented fixture; never target-run evidence",
+      "hits": [],
+      "required_anchor_ids": [],
+      "search_record_mapping": [],
+      "ranked_depth": 0,
+      "ranking_exhausted": true
+    },
+    "scope": "invented_fixture"
+  }
+]

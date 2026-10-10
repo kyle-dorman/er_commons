@@ -586,3 +586,19 @@ output reserve. Future judge tasks own their prompts, counters and scoring.
 The old qualification runner rejects 09C packets rather than applying its
 prototype rubrics. See [09C](../tasks/sprint2/09c_build_judge_evidence_packets.md)
 for usage, validation and limits.
+
+## Task 09D automatic metric boundary
+
+`automatic_metric_inputs` resolves verified occurrence locators to the existing
+source/extraction/kind/unit identity, preserves malformed/invalid attempts, and
+checks explicit receipt mappings and anchor completeness. `automatic_metrics`
+owns pure set arithmetic and aggregation. `automatic_metric_inspect` provides
+saved-answer solvers and two thin scorers; Inspect owns execution, sample records,
+logs and metric reporting. It has no inference path or separate evaluation runner.
+
+Prepared inputs are restricted scoring metadata, never judge payloads. The entrypoint
+accepts an explicit prepared sample array; callers remain responsible for verified
+development selection through existing release routing. It does not discover or
+load benchmark partitions. Task 10 supplies qualified search-record/fragment maps
+and delivery receipts. See the [metric and receipt contract](specs/task09d_automatic_metrics_v1.md)
+for nullable status, exact counts and primary versus diagnostic retrieval.

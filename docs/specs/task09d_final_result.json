@@ -1,0 +1,134 @@
+{
+  "artifacts": {
+    "focused_tests.log": {
+      "byte_size": 99,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/focused_tests.log",
+      "sha256": "5c8567687932f4fcadc8b673cf2c375ed26086872d422e31f56b786c02edb5a0"
+    },
+    "make_check.log": {
+      "byte_size": 35365,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/make_check.log",
+      "sha256": "b035b878d1823afbb55f9233e4f786156a06463724e9a9044fc4918e4b6e1197"
+    },
+    "make_fix.log": {
+      "byte_size": 91,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/make_fix.log",
+      "sha256": "5cf0cc7ea3de386cb6361998bfe95ddeacd98732c401d49e2f09244aa72e7ce4"
+    },
+    "metric_record.schema.json": {
+      "byte_size": 6901,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/metric_record.schema.json",
+      "sha256": "0feca83338986ba1999d8d2312a18d4ce67efcd401520bebf0438ff7b5de52bc"
+    },
+    "metric_summary.schema.json": {
+      "byte_size": 988,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/metric_summary.schema.json",
+      "sha256": "a87c82573b923a718a1f951d29623c1b0eda88923568cf0a3d494da06ca0f9e9"
+    },
+    "qualification.json": {
+      "byte_size": 2125,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/qualification.json",
+      "sha256": "cc6244074332705ba76f6033ec1228ccd256cac7d982c6c9baab4dd077898061"
+    },
+    "review.json": {
+      "byte_size": 548,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/review.json",
+      "sha256": "a8026a7497422a5259002f87f54dd81f5032a70afadd8b2ca198163c71b6e545"
+    },
+    "saved_sample.schema.json": {
+      "byte_size": 1717,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/saved_sample.schema.json",
+      "sha256": "4f2a9b9dfd9340a61cf18c100d51622f470f87db4f86ab0812e82901f72af69a"
+    },
+    "validation.json": {
+      "byte_size": 684,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/validation.json",
+      "sha256": "4a74f4eeca6289181d3cbb768c388edbd81307a5bede1427b7acf9a67cb47af8"
+    }
+  },
+  "boundaries": {
+    "broad_challenge_runs": 0,
+    "commits": 0,
+    "development_cases": 19,
+    "development_variants": 423,
+    "downloads": 0,
+    "exclusions": 5,
+    "later_tasks_started": [],
+    "model_calls": 0,
+    "pushes": 0,
+    "real_answer_payloads_opened": 0,
+    "reserved_answer_payloads_opened": 0,
+    "reserved_final_checks": 118,
+    "test_cases": 30,
+    "test_questions_or_references_opened": 0
+  },
+  "inspect_log": {
+    "byte_size": 16647,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/final_inspect/2026-10-10T20-09-52-00-00_task09d-automatic-metrics_5vsEzUiJeSPFtt4uFDqVWs.eval",
+    "sha256": "57ffc0cace25406e289873497623a91088471813c4324d0885dd16beb9ffb134"
+  },
+  "limitations": [
+    "Invented fixture receipts are not target-run retrieval evidence.",
+    "Task 10 must qualify canonical anchor inventories, fragment mappings and actual delivery; Task 12 verifies the production chain.",
+    "Prepared-input callers must verify source seals and development selection through existing release routing; no general corpus/release loader was added.",
+    "Automatic reference-set matching does not establish semantic correctness or adequacy."
+  ],
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1",
+  "next_step": "Refresh provisional 09E from accepted 09B-09D outcomes when separately authorized; 09E-09G and Task 10 remain unstarted.",
+  "schema_version": "task09d.final_result.v1",
+  "status": "complete_with_limitations",
+  "summary": {
+    "byte_size": 7165,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_v1/summary.json",
+    "sha256": "1e4548b433d332b71ddde3e56cebda0118a3a1683bdf2839c074b6dc755aac1f"
+  },
+  "validation": {
+    "focused_passed": 45,
+    "format_lint_types": "passed",
+    "full_passed": 3580,
+    "git_diff_check": "passed",
+    "historical_files_unchanged_from": "756f6d3",
+    "historical_task06g_failures": [
+      "tests/test_task06g_collection_generation.py::test_collection_generator_preserves_historical_v38_owner_packet",
+      "tests/test_task06g_generation.py::test_task06g_v38_generation_remains_immutable_after_finalization_amendment",
+      "tests/test_task06g_generation.py::test_task06g_templates_are_executable_and_source_free"
+    ],
+    "independent_review": "accepted",
+    "make_check": "fails_only_three_historical_task06g_tests",
+    "make_fix": "passed",
+    "regressions": 0,
+    "skipped": 1
+  },
+  "code_quality_pass": {
+    "status": "complete",
+    "summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09d_20261010_code_quality_v1/summary.json",
+      "sha256": "69a009aae3dbcad0766cd1f130634a5ac766246c74216140c20583c63ad43e63",
+      "byte_size": 5449
+    },
+    "validation": {
+      "focused_passed": 103,
+      "added_regressions": 58,
+      "full_passed": 3638,
+      "skipped": 1,
+      "historical_task06g_failures": 3,
+      "regressions": 0,
+      "make_fix": "passed",
+      "format_lint_types": "passed",
+      "make_check": "fails_only_three_historical_task06g_tests",
+      "git_diff_check": "passed",
+      "independent_review": "accepted"
+    },
+    "model_calls": 0,
+    "metric_records_unchanged": true,
+    "aggregates_unchanged": true
+  },
+  "closeout": {
+    "user_approved": true,
+    "task_closed": true,
+    "local_commit_authorized": true,
+    "push_authorized": false,
+    "next_task": "09E remains provisional and unstarted"
+  },
+  "commit_count_scope": "Implementation and quality-pass execution before separately authorized local closeout commit."
+}

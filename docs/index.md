@@ -21,8 +21,10 @@ Qwen 9B F16 at 48K for judge development and Qwen 0.8B for fast integration
 smoke checks. [09C is complete](../tasks/sprint2/09c_build_judge_evidence_packets.md)
 with separate deterministic evidence packets and explicit context diagnostics;
 [its result](specs/task09c_final_result.json) records offline validation and the
-remaining exact-token-counter requirement. 09D–09G remain provisional and
-unstarted. The [TODO](todo.md) owns the next action.
+remaining exact-token-counter requirement. [09D is complete](../tasks/sprint2/09d_implement_automatic_metrics.md) with offline
+Inspect metrics, canonical-ID matching and an explicit Task 10 receipt contract;
+[its result](specs/task09d_final_result.json) records fixture validation and limits. 09E–09G remain
+provisional and unstarted. The [TODO](todo.md) owns the next action.
 
 ## Read for Task 09
 
