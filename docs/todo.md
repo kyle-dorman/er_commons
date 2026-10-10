@@ -16,27 +16,30 @@ and accepted cross-split evidence overlap. [08H](../tasks/sprint2/08h_serialize_
 owns release validation, role separation, accounting and source limitations.
 All prior artifacts remain preserved.
 
-## Next entry: Task 09B — refresh before activation
+## Task 09B — complete with limitations
 
-[09A is complete](../tasks/sprint2/09a_create_synthetic_challenges.md): all 19
-cases produced 546 variants plus unchanged controls. The
-[sealed handoff](specs/task09a_final_result.json) contains 541 comparison-eligible
-variants: 423 for development and 118 reserved final checks. Five uncertain
-proposals are retained but excluded; 43 category combinations were inapplicable.
+[09A](../tasks/sprint2/09a_create_synthetic_challenges.md) sealed 546 variants:
+423 development, 118 reserved final checks and five exclusions, plus unchanged
+controls. Preserve those partitions and the frozen 19-development/30-test split.
 
-Refresh [provisional 09B](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md)
-from this handoff before requesting execution authorization. No judge, target or
-test run has started. Preserve the reserved variants, frozen 19/30 benchmark split
-and source limitations. Synthetic proposals are not human labels.
-[Decision 006](decisions/006_structured_answers_four_part_evaluation.md) governs
-metrics, rubrics and separate judge information boundaries.
+[09B outcome](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md) and
+[result](specs/task09b_final_result.json) select Inspect with native local Ollama.
+Qwen 9B F16 at 48K is selected for the first accuracy evaluation; Qwen 0.8B
+is for fast live integration checks only. Gemma and Nemotron remain tested
+alternatives; Ornith is set aside. All tested models exhibited semantic failures
+and are not accepted judges. See the outcome for measurements and limitations.
+
+**No task is active.** When authorized, refresh 09C from the sealed 09A handoff and
+09B's context/input limitations. Do not activate 09C–09G automatically.
+[Decision 006](decisions/006_structured_answers_four_part_evaluation.md) continues
+to govern separate judge visibility and the four evaluation results.
 
 ## Task 09 subqueue
 
 | Task | Status | Deliverable |
 | --- | --- | --- |
 | [09A — Synthetic challenges](../tasks/sprint2/09a_create_synthetic_challenges.md) | Complete with limitations | Broad applicable perturbations, exact edits, proposed G/A expectations, evidence and coverage |
-| [09B — Harness/local inference](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md) | Provisional | Runner decision, local candidate qualification and measured runtime |
+| [09B — Harness/local inference](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md) | Complete with limitations | Inspect/Ollama integration, candidate qualification and measured runtime |
 | [09C — Evidence packets](../tasks/sprint2/09c_build_judge_evidence_packets.md) | Provisional | Separate validated grounding/adequacy inputs |
 | [09D — Automatic metrics](../tasks/sprint2/09d_implement_automatic_metrics.md) | Provisional | Retrieval and citation scoring with explicit denominators |
 | [09E — Grounding judge](../tasks/sprint2/09e_implement_grounding_judge.md) | Provisional | Independent reference-blind judge |

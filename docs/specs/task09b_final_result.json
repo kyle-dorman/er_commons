@@ -1,0 +1,303 @@
+{
+  "schema_version": "task09b.final_result.v1",
+  "status": "complete_with_limitations",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_v1",
+  "namespace_completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_v1/completion.json",
+    "sha256": "65169ebc2f5646612f30ab012f4c203c40e228ce5cb16e6d6495f5f39cf26d29",
+    "byte_size": 78072
+  },
+  "namespace_inventory_verified": true,
+  "artifacts": {
+    "summary.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_v1/summary.json",
+      "sha256": "99b2b3090b1a5268c187cda64717b45b436d08b441af02bd5edbe0b42577bf4f",
+      "byte_size": 28182
+    },
+    "validation.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_v1/validation.json",
+      "sha256": "705152d5295cb8504e27251e30b9031972231ddffafcda6a9eb0ae14136f6985",
+      "byte_size": 912
+    },
+    "review.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_v1/review.json",
+      "sha256": "1ecb747d6b28b87f5cb3968b8da07e960ad7ab4b0b5ca63be10c275aee2fe2b7",
+      "byte_size": 1117
+    }
+  },
+  "packet_completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_v1/qualification_packets_v2/completion.json",
+    "sha256": "ad08aac35c31cab699969cc400c2ad81224f148e643c3d85c8e58358924eb50d",
+    "byte_size": 1207
+  },
+  "upstream": {
+    "path": "/Users/kyledorman/Documents/er_commons/docs/specs/task09a_final_result.json",
+    "sha256": "d92b7e30c36da1a536528fcd4b1899acab10c87fcd3ff1986724aef484e1f466",
+    "byte_size": 5530
+  },
+  "runner": {
+    "framework": "Inspect AI 0.3.278",
+    "transport": "HTTPX 0.28.1 native Ollama API",
+    "runtime": "Ollama 0.40.2",
+    "backend": "llamacpp/Metal",
+    "container": false,
+    "judge_tools": false
+  },
+  "selected_setup": {
+    "development_default": "Qwen3.5 9B F16; original tag qwen3.5:9b-bf16; compatibility-converted and pinned",
+    "alternative": "Gemma 4 12B BF16",
+    "context": 49152,
+    "max_output_tokens": 1500,
+    "timeout_seconds": 300,
+    "temperature": 0,
+    "seed": 42,
+    "thinking": false,
+    "kv_cache": "f16",
+    "concurrent_requests": 1,
+    "loaded_models": 1,
+    "truncate": false,
+    "shift": false,
+    "reason": "Both completed operational probes; Qwen uses less reported loaded memory and is faster on tested packet shapes. This does not select or certify accurate semantic judges."
+  },
+  "model_identities": {
+    "development_default": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_v1/setup/er09b-qwen-f16-48k_v1_identity.json",
+      "sha256": "bdb93c2e449faf1bd5526f4370e1a053bd3633b8d688e9561139c697d3e594b0",
+      "byte_size": 28582
+    },
+    "alternative": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_v1/setup/er09b-gemma-bf16-48k_v1_identity.json",
+      "sha256": "a1175e37acba8f474ac1d0e039bb9992c2078a68c0662216275217023d85a2fe",
+      "byte_size": 28398
+    }
+  },
+  "boundaries": {
+    "development_cases": 19,
+    "test_cases": 30,
+    "development_variants": 423,
+    "reserved_final_check_variants": 118,
+    "excluded_variants": 5,
+    "test_or_reserved_model_inputs": 0,
+    "later_tasks_started": []
+  },
+  "qualification_is_accuracy_proof": false,
+  "duration_estimate": {
+    "qwen": {
+      "answer_pairs": 442,
+      "calls": 884,
+      "equal_size_bin_hours": 14.818042162724623,
+      "size_scenarios": {
+        "short": {
+          "pair_seconds_excluding_recorded_load": 43.84732674895956,
+          "hours_for442pairs": 5.383477339733368,
+          "contexts": [
+            49152,
+            49152
+          ]
+        },
+        "typical": {
+          "pair_seconds_excluding_recorded_load": 78.90513083498197,
+          "hours_for442pairs": 9.6877966191839,
+          "contexts": [
+            32768,
+            32768
+          ]
+        },
+        "large": {
+          "pair_seconds_excluding_recorded_load": 239.3173509170221,
+          "hours_for442pairs": 29.382852529256606,
+          "contexts": [
+            49152,
+            49152
+          ]
+        }
+      },
+      "interpretation": "Illustrative serial extrapolation, not a population-weighted forecast or confidence interval. Add actual cold starts, retries and future prompt/output changes. Excludes 118 reserved and 5 excluded variants."
+    },
+    "gemma": {
+      "answer_pairs": 442,
+      "calls": 884,
+      "equal_size_bin_hours": 28.083672371446838,
+      "size_scenarios": {
+        "short": {
+          "pair_seconds_excluding_recorded_load": 60.32705487588992,
+          "hours_for442pairs": 7.4068217375398175,
+          "contexts": [
+            49152,
+            49152
+          ]
+        },
+        "typical": {
+          "pair_seconds_excluding_recorded_load": 119.92283704298215,
+          "hours_for442pairs": 14.72385943694392,
+          "contexts": [
+            49152,
+            49152
+          ]
+        },
+        "large": {
+          "pair_seconds_excluding_recorded_load": 505.9574872929511,
+          "hours_for442pairs": 62.12033593985677,
+          "contexts": [
+            49152,
+            49152
+          ]
+        }
+      },
+      "interpretation": "Illustrative serial extrapolation, not a population-weighted forecast or confidence interval. Add actual cold starts, retries and future prompt/output changes. Excludes 118 reserved and 5 excluded variants."
+    }
+  },
+  "validation_summary": {
+    "focused_passed": 30,
+    "full_passed": 3443,
+    "skipped": 1,
+    "preexisting_failures": 3,
+    "format_lint_types": "passed",
+    "independent_review": "accepted"
+  },
+  "limitations": [
+    "Qwen assigns 2 to grounding contrast with unsupported feeding-ban/MPOA/fine claims.",
+    "Gemma assigns 2 to same contrast although its rationale says 1.",
+    "Gemma assigns 2 to adequacy contrast replacing responsible associations with exclusive city animal-control authority; Qwen assigns 0.",
+    "These two contrasts are diagnostic examples with synthetic proposals, not an accuracy benchmark. No prompt tuning performed.",
+    "32K failed on 35057/36437-token Qwen inputs without truncation; 48K succeeded.",
+    "Qwen tag saysBF16 but actual GGUF reportsF16. First smoke call triggered compatibility conversion and is excluded from comparison; 7 subsequent preflight attempts blocked digest drift without native calls.",
+    "Qwen typical measurements use32K while short repeats and large use48K; not a fully fixed-context speed comparison.",
+    "Qwen short repeats match across 32K/48K; only Gemma repeats hold context fixed.",
+    "Restart interruption is after request persistence before provider I/O, not interrupted active generation.",
+    "Thinking disabled and model-specific inherited sampling defaults retained; results are not each model capability ceiling.",
+    "Memory observations include swap on a shared 36 GiB Mac; no isolated hardware performance claim.",
+    "No 8-bit or 4-bit fallback tested; no hosted or paid model inference used."
+  ],
+  "target_runs": 0,
+  "test_evaluations": 0,
+  "commits": 0,
+  "pushes": 0,
+  "next_step": "When authorized, refresh provisional 09C from the 09A handoff and 09B limitations; 09C\u201309G remain unstarted.",
+  "additional_comparison": {
+    "status": "complete_with_limitations",
+    "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_additional_models_v1",
+    "namespace_completion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_additional_models_v1/completion.json",
+      "sha256": "763d8de39540349619f9abd883f6ed0a5c9d86c05a6c0062244883d7e2a80081",
+      "byte_size": 53915
+    },
+    "namespace_inventory_verified": true,
+    "previous_result": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_additional_models_v1/setup/previous_result.json",
+      "sha256": "a341904cf4f254c600f166283a7113152b489eb26c07edccb804beb0fc51e6ca",
+      "byte_size": 7393
+    },
+    "artifacts": {
+      "summary.json": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_additional_models_v1/summary.json",
+        "sha256": "eedd53203c90b2c2c6476088cfcfc761c51594535f47b438e3912a1f843bc637",
+        "byte_size": 95514
+      },
+      "review.json": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_additional_models_v1/review.json",
+        "sha256": "c72d8eb7d123102c1d1c9274a415056f68bcde7c1b76d8310a2172bd401707a6",
+        "byte_size": 781
+      },
+      "validation.json": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_additional_models_v1/validation.json",
+        "sha256": "6209976048ad3120d67d5f274554901174c64078e3f48569c91d3e8a4933e0fb",
+        "byte_size": 792
+      }
+    },
+    "models": {
+      "ornith": "Ornith1.5 9B Q4_K_M",
+      "nemotron": "Nemotron3Nano4B F16 (tag4b-bf16)"
+    },
+    "calls": 20,
+    "successes": 19,
+    "failures": {
+      "ornith_q07": "output_limit at1500tokens; no score"
+    },
+    "context": 49152,
+    "nemotron_884call_estimate_hours": 11.972149376470194,
+    "ornith_duration_estimate": null,
+    "default_changed": false,
+    "limitations": [
+      "Ornith q02 and q04 detect contrast defects; exact0/1rubricdependent",
+      "Ornith q05 falsely rejects explicitly supported macroinvertebrate productivity claim",
+      "Nemotron q02 and q04 miss unsupported claims and substituted responsible authority",
+      "Different model precisions; not overall accuracy benchmark",
+      "Ornith not fully operationally qualified under unchanged1500token output cap"
+    ]
+  },
+  "ornith_concise_probe": {
+    "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_ornith_concise_v1",
+    "completion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_ornith_concise_v1/completion.json",
+      "sha256": "878ec36c72b2d8ff4a751cbcf3a7ae5f962c231c2aed20444376a9c39028aeb5",
+      "byte_size": 4471
+    },
+    "summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_ornith_concise_v1/summary.json",
+      "sha256": "643d9c8d341aeb3a8bbd1a8eb1d8d6e2c72a81b1cf7f8f070905f00601d6be1d",
+      "byte_size": 957
+    },
+    "namespace_verified": true,
+    "gate_passed": false,
+    "large_packet_run": false,
+    "production_prompt_changed": false
+  },
+  "small_qwen_probe": {
+    "status": "complete_with_semantic_limitations",
+    "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_qwen_small_v1",
+    "completion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_qwen_small_v1/completion.json",
+      "sha256": "300986d782dab66fe664fddf7254209dcc3472cdbb8c054950e98e3bbeeb5ff6",
+      "byte_size": 36700
+    },
+    "summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_qwen_small_v1/summary.json",
+      "sha256": "51c8fd44a94abf580de4686aed92d8309b08bd1095868f31c6932bb73dbfc213",
+      "byte_size": 7116
+    },
+    "review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_qwen_small_v1/review.json",
+      "sha256": "6ef7ce77e1ed1ce5d27fb9418bec43821963664369ce2b769ab15891fce8ab8b",
+      "byte_size": 590
+    },
+    "namespace_verified": true,
+    "model": "Qwen3.5 0.8B F16",
+    "alias": "er09b-qwen-small-48k:v2",
+    "identity": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_qwen_small_v1/setup/er09b-qwen-small-48k_v2_identity.json",
+      "sha256": "82bc2df4ec2388919ea0b91f885be70140fda88a05896a600454737174479ee9",
+      "byte_size": 28372
+    },
+    "approved_role": "Fast live integration smoke checks only",
+    "judge_development_default_changed": false,
+    "elapsed_base_seconds": 78.80822424893267,
+    "semantic_limitations": "All8scores1; misses deliberate defects and gives inconsistent rationales"
+  },
+  "current_model_roles": {
+    "judge_development_baseline": "Qwen3.5 9B F16; accuracy remains unqualified",
+    "fast_integration_smoke": "Qwen3.5 0.8B F16; do not use for semantic decisions",
+    "ornith": "Set aside at user request; evidence and local files preserved"
+  },
+  "code_quality_pass": {
+    "status": "complete",
+    "summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09b_20261010_code_quality_v1/summary.json",
+      "sha256": "9ee53ee9edc951e56302115c59bf41f96072393cf01bdfaf31363edf78767bc0",
+      "byte_size": 3008
+    },
+    "focused_tests_passed": 49,
+    "full_tests_passed": 3462,
+    "known_preexisting_failures": 3,
+    "independent_review": "accepted",
+    "new_model_calls": 0
+  },
+  "commit_count_scope": "Qualification execution before separately authorized local closeout commit.",
+  "closeout": {
+    "user_approved": true,
+    "task_closed": true,
+    "local_commit_authorized": true,
+    "push_authorized": false,
+    "next_task": "09C remains provisional and unstarted"
+  }
+}

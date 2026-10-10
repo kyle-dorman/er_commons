@@ -14,8 +14,12 @@ remain preserved.
 
 [09A](../tasks/sprint2/09a_create_synthetic_challenges.md) is complete: all 19
 development cases, 546 synthetic variants and a reserved final-check subset are
-sealed in the [09A handoff](specs/task09a_final_result.json). 09B–09G remain
-provisional and unstarted. The [TODO](todo.md) owns the next action.
+sealed in the [09A handoff](specs/task09a_final_result.json). [09B is complete](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md)
+with an Inspect/Ollama integration, a measured model comparison and explicit
+semantic limitations. [Its result](specs/task09b_final_result.json) recommends
+Qwen 9B F16 at 48K for judge development and Qwen 0.8B for fast integration
+smoke checks; 09C–09G remain provisional and unstarted. The [TODO](todo.md) owns
+the next action.
 
 ## Read for Task 09
 

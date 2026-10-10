@@ -1,8 +1,10 @@
 # Task 09 — Build evaluation and qualify two judges
 
-Status: **09A complete with limitations; 09B–09G provisional and unstarted.**
+Status: **09A and 09B complete with limitations; 09C–09G provisional.**
 Reconcile later contracts with preceding outcomes before activation. The October 9
-execution authorization covers 09A only, including its full Astra authoring batch.
+execution authorization covered 09A, including its full Astra authoring batch.
+The October 10 request authorized 09B after runner/model/runtime discussion:
+Inspect AI, local Ollama and a bounded two-model qualification.
 
 ## Abstract
 
@@ -43,7 +45,7 @@ October 12–14 evaluation window; dates are planning targets, not execution cla
 
 Use the listed order as the default queue. Independent implementation can be
 scoped later; dependencies do not require unnecessary new serial approvals once
-execution is authorized. 09A is closed; no later subtask is authorized for execution.
+execution is authorized. 09A and 09B are closed. 09C–09G remain unstarted.
 
 ## Outputs and boundaries
 
@@ -56,11 +58,11 @@ keep semantic prompts, evidence visibility and results separate. No judge sees
 Astra's proposed expectations, automatic scores, target identity or official
 response content. Grounding also must not see references or gold evidence roles.
 
-`gemma3:12b` through Ollama is the existing local candidate, not an established
-judge. 09B decides the runner after examining Inspect AI and a narrow project
-runner; Harbor is considered without assuming it is needed. Model substitution
-requires an explicit recorded decision. One candidate and bounded prompt revisions
-are the initial scope; no ensemble or broad model sweep.
+09B selects Inspect AI with a narrow native Ollama adapter, without containers
+or judge tools. The user authorized comparison of Gemma 4 12B and Qwen3.5 9B,
+starting at released 16-bit precision where feasible. Model substitutions require
+an explicit recorded decision. See 09B for exact format/backend identities and
+measured limitations. No ensemble or broad model sweep.
 
 ## Research / learning checkpoint
 
@@ -107,4 +109,8 @@ request. Task 12 later checks actual target-output integration; Task 13 runs tes
 cases, 546 variants, 19 controls; 541 comparison-eligible variants split into 423
 development and 118 reserved final checks. Five review exclusions and 43
 inapplicable combinations remain explicit. Synthetic proposals are uncalibrated.
-09B–09G have not started; refresh 09B before its separate execution authorization.
+[09B outcome](09b_choose_harness_and_qualify_local_judge.md#outcome) and
+[result](../../docs/specs/task09b_final_result.json) select Inspect/native Ollama
+with Qwen F16 at 48K as the operational default and Gemma BF16 as an alternative.
+Both prototypes showed semantic failures; no accurate judge is established.
+09C–09G remain unstarted and require contract refresh before authorization.

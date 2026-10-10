@@ -538,3 +538,27 @@ they must not forward complete synthetic records, whose IDs and provenance can
 reveal perturbation categories. Consistently anonymize category-bearing point IDs
 and qualification attachment links as well as outer variant IDs. Ambiguous expectations and duplicate variants
 are retained but excluded from comparison and final-check reservation pools.
+
+## Task 09B qualification boundary
+
+`judge_qualification_packets` makes a bounded, checksum-bound development-only
+projection from the sealed 09A handoff. It separates model payloads from selection
+provenance and expectations; grounding receives only cited sources, while adequacy
+also receives the reference and reviewed sources. This temporary qualification
+projection is not the general 09C packet subsystem.
+
+`judge_qualification` uses Inspect AI for saved-answer Tasks, scoring and evaluation
+logs. Its small custom scorer calls local Ollama's native API through HTTPX,
+because Ollama 0.40.2's OpenAI compatibility route does not forward the explicit
+no-truncation/context-shift flags. Native requests and raw HTTP responses are saved
+separately from Inspect logs. No target generation, tools or containers are involved.
+Prototype rubrics are not the accepted 09E/09F judges; structured output and
+successful inference do not establish judgment accuracy.
+
+Each invocation binds exact packets, implementation, prompts/schema, model digest
+and settings. Numbered attempts preserve failures. Resume reuses checksum-verified successes
+and retains permanent/exhausted failures without blocking later unfinished
+packets. Changed inputs/settings require a fresh run directory. HTTP clients
+ignore environment proxies; live loaded context and model identity are verified.
+Automatic semantic retries are forbidden; operational retry bounds are owned by the
+[09B contract](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md).

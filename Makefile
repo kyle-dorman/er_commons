@@ -343,3 +343,24 @@ publish-synthetic-answers: check-env
 verify-synthetic-answers: check-env
 	@test -n "$(SYNTHETIC_BATCH)"
 	uv run python -m er_commons.synthetic_publication verify "$(SYNTHETIC_BATCH)"
+
+# Task 09B infrastructure qualification only, not the later semantic judges.
+.PHONY: prepare-judge-qualification run-judge-qualification
+prepare-judge-qualification: check-env
+	@test -n "$(QUALIFICATION_PACKETS)" || { \
+		echo 'Set QUALIFICATION_PACKETS to the output directory for prepared packets.' >&2; exit 2; }
+	uv run python -m er_commons.judge_qualification_packets prepare \
+		--result docs/specs/task09a_final_result.json --output "$(QUALIFICATION_PACKETS)"
+
+run-judge-qualification: check-env
+	@test -n "$(QUALIFICATION_PACKETS)" -a -n "$(QUALIFICATION_OUTPUT)" \
+		-a -n "$(QUALIFICATION_MODEL)" -a -n "$(QUALIFICATION_IDENTITY)" \
+		-a -n "$(QUALIFICATION_CONTEXT)" || { \
+		echo 'Set QUALIFICATION_PACKETS (JSON file), QUALIFICATION_OUTPUT (run directory),' >&2; \
+		echo 'QUALIFICATION_MODEL, QUALIFICATION_IDENTITY (JSON file), and QUALIFICATION_CONTEXT.' >&2; exit 2; }
+	uv run python -m er_commons.judge_qualification run \
+		--packets "$(QUALIFICATION_PACKETS)" --output "$(QUALIFICATION_OUTPUT)" \
+		--model "$(QUALIFICATION_MODEL)" --identity "$(QUALIFICATION_IDENTITY)" \
+		--context "$(QUALIFICATION_CONTEXT)" \
+		--max-tokens $(or $(QUALIFICATION_MAX_TOKENS),1500) \
+		--timeout $(or $(QUALIFICATION_TIMEOUT),300)

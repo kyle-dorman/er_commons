@@ -388,3 +388,15 @@ separate JSONL files. Completion seals the exact inventory. Reserved final-check
 IDs are a within-development synthetic partition, not a benchmark split change.
 The [09A task](../tasks/sprint2/09a_create_synthetic_challenges.md) owns the executed
 namespace, result pointer, model identity limits and remaining coverage gaps.
+
+## Task 09B local qualification
+
+Qualification receipts live in an explicit `task_09/09b_*` namespace on the artifact
+volume. Model weights may remain in the local Ollama cache; identity records bind
+their exact digest, format, precision and runtime rather than copying weights into
+Git. Preserve setup/download logs, packet/provenance seals and every numbered
+attempt, including failures and interrupted attempts. Each completed attempt seals
+its exact file inventory: request, native request/raw response when available,
+Inspect log, validation result and wall timing. An incomplete attempt is evidence,
+not reusable success. Never place reserved final-check or benchmark test content
+in these qualification packets.
