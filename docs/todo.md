@@ -16,25 +16,26 @@ and accepted cross-split evidence overlap. [08H](../tasks/sprint2/08h_serialize_
 owns release validation, role separation, accounting and source limitations.
 All prior artifacts remain preserved.
 
-## Active entry: Task 09A — synthetic development answers
+## Next entry: Task 09B — refresh before activation
 
-Start with the [Task 09 umbrella](../tasks/sprint2/09_build_evaluation_and_qualify_judges.md)
-and [09A contract](../tasks/sprint2/09a_create_synthetic_challenges.md).
-Task plans are written; implementation and model execution have not started.
-The current request is planning-only. Once 09A execution is authorized, prepare
-and qualify intake/schema/prompt, then run restartable Astra generation across
-all 19 development cases. No further Task 08 labeling or split work is needed.
+[09A is complete](../tasks/sprint2/09a_create_synthetic_challenges.md): all 19
+cases produced 546 variants plus unchanged controls. The
+[sealed handoff](specs/task09a_final_result.json) contains 541 comparison-eligible
+variants: 423 for development and 118 reserved final checks. Five uncertain
+proposals are retained but excluded; 43 category combinations were inapplicable.
 
-Use only development cases for synthesis, prototypes, prompt changes and judge
-qualification. Preserve the 30-case test set and Task 08 seals. Synthetic proposed
-scores are not human labels. [Decision 006](decisions/006_structured_answers_four_part_evaluation.md)
-continues to govern metrics, rubrics and separate judge information boundaries.
+Refresh [provisional 09B](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md)
+from this handoff before requesting execution authorization. No judge, target or
+test run has started. Preserve the reserved variants, frozen 19/30 benchmark split
+and source limitations. Synthetic proposals are not human labels.
+[Decision 006](decisions/006_structured_answers_four_part_evaluation.md) governs
+metrics, rubrics and separate judge information boundaries.
 
 ## Task 09 subqueue
 
 | Task | Status | Deliverable |
 | --- | --- | --- |
-| [09A — Synthetic challenges](../tasks/sprint2/09a_create_synthetic_challenges.md) | Active entry; not executed | Broad applicable perturbations, exact edits, proposed G/A expectations, evidence and coverage |
+| [09A — Synthetic challenges](../tasks/sprint2/09a_create_synthetic_challenges.md) | Complete with limitations | Broad applicable perturbations, exact edits, proposed G/A expectations, evidence and coverage |
 | [09B — Harness/local inference](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md) | Provisional | Runner decision, local candidate qualification and measured runtime |
 | [09C — Evidence packets](../tasks/sprint2/09c_build_judge_evidence_packets.md) | Provisional | Separate validated grounding/adequacy inputs |
 | [09D — Automatic metrics](../tasks/sprint2/09d_implement_automatic_metrics.md) | Provisional | Retrieval and citation scoring with explicit denominators |
@@ -43,8 +44,8 @@ continues to govern metrics, rubrics and separate judge information boundaries.
 | [09G — Challenge/freeze](../tasks/sprint2/09g_challenge_and_freeze_judges.md) | Provisional | Bounded revisions, comparison report and frozen configurations |
 
 Refresh each provisional contract from preceding accepted outcomes before
-activation. The intended synthesis kickoff is October 9; evaluation/judge work
-is targeted for October 12–14. These are planning targets, not completed runs.
+activation. Synthesis is complete; evaluation/judge work
+is targeted for October 12–14. These remain planning targets.
 
 ## Remaining queue
 

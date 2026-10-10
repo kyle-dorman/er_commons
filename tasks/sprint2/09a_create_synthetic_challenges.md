@@ -1,9 +1,10 @@
 # Task 09A — Create synthetic development answer challenges
 
-Status: **Active entry contract; ready for implementation/execution authorization.**
-This planning request does not itself start implementation or Astra runs. Once
-09A execution is authorized, qualify and run the bounded workflow without adding
-another mandatory per-variant human approval step.
+Status: **Complete with explicit limitations — all 19 development cases published.**
+The authorized Astra batch, independent review, reservation and checksum verification
+are complete. Five uncertain/redundant proposals remain preserved but excluded.
+Tasks 09B–09G and judge/target/test runs were not started. The October 10 follow-up
+authorizes a local commit of completed 09A work; no push is authorized.
 
 ## Abstract
 
@@ -232,7 +233,140 @@ installation, target generation, held-out test inspection, reference amendment,
 new source extraction, public redistribution, exhaustive alternative-argument
 research, or a new review UI. No additional compulsory human labeling campaign.
 
+## Maintained implementation and restart interface
+
+The `synthetic_intake`, `synthetic_records`, `synthetic_batch` and
+`synthetic_publication` package modules separate release verification, record
+validation, authoring attempts and publication. The tracked
+[output schema](../../docs/specs/task09a_output.schema.json),
+[prompt](../../docs/specs/task09a_generation_prompt.md) and
+[catalog](../../docs/specs/task09a_perturbations.json) own the authoring contract.
+No runtime dependency or evaluation harness was added.
+
+For an existing prepared, unsealed run use:
+
+```bash
+make run-synthetic-answers SYNTHETIC_BATCH="$ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_09/<run>/<batch>" SYNTHETIC_WORKERS=1
+make publish-synthetic-answers SYNTHETIC_BATCH="<batch>" SYNTHETIC_REVIEW="<bound-review.json>"
+make verify-synthetic-answers SYNTHETIC_BATCH="<batch>"
+```
+
+Preparation requires a fresh directory and verified `prepare_intake` output;
+`python -m er_commons.synthetic_batch prepare <batch> --intake <intake.json>`
+copies the exact prompt/schema/catalog and binds owned code. Changed identities
+require a new preparation namespace. Completed cases are reused only after
+checksum verification. Infrastructure attempts retain identical prompts and
+permit two retries with 10/30-second backoff; one corrective authoring revision
+may address schema or semantic findings. A tiny interruption between terminal
+receipt and receipt checksum fails closed for explicit recovery; it cannot
+promote an unsealed success. Publication requires a review binding the current
+configuration and every successful raw output.
+
 ## Outcome
 
-Not started. Record namespace, model/prompt/schema identities, coverage and skipped
-reasons, source verification limits, validation and the exact 09B/09C handoff.
+The [final result pointer](../../docs/specs/task09a_final_result.json) binds the
+sealed external namespace `pipelines/brisbane_baylands/task_09/09a_20261009_v1/`
+and its `batch_v2/published/` handoff. All **19 development cases** completed on
+their first full-batch attempts: **546 variants and 19 unchanged controls**.
+No infrastructure retries, corrective authoring attempts or failed cases remain.
+The two-case serial smoke produced eight separately preserved qualification
+variants; these are not included in the 546 or reused across changed identities.
+
+### Coverage and review
+
+All **589 case/category combinations** have explicit accounting: **541 generated
+and comparison-eligible, 43 inapplicable, five ambiguous after review**. All 31
+categories have usable examples somewhere in the batch; this does not claim every
+category applies to every case. There are no exact duplicate variants and no
+model-declared unresolved expectations. Independent review nevertheless excluded
+five records, retaining their original scores and justifications:
+
+- C014 P08: occurrence aliases of the same canonical table are not a meaningful
+  alternative passage.
+- C014 F01 and C054 F01: invented process/funding obligations may materially
+  change adequacy despite the proposed A2.
+- C019 F02: the conclusion has independent support, making proposed G0 versus G1
+  uncertain.
+- C045 F05: the materiality of an exact-versus-approximate acreage change is uncertain.
+
+Skipped combinations: P07 optional-context removal (8), P08 alternative passage
+(5), P09 alternative argument (12), O01 essential omission (1), O02 multipart
+answer (13), F05 certainty (2), F09 unresolved-evidence claim (1), C01 irrelevant
+real citation (1). Each reason is preserved in `coverage.jsonl`. Alternative
+discovery inspected supplied complete canonical source units; no supplemental
+corpus pass occurred. Skips are bounded authoring outcomes, not exhaustive absence
+claims; C050 in particular did not exhaust partial-subclaim alternatives.
+
+| Case | Variants | Case | Variants | Case | Variants |
+| --- | ---: | --- | ---: | --- | ---: |
+| C001 | 28 | C006 | 27 | C007 | 30 |
+| C008 | 30 | C014 | 29 | C017 | 29 |
+| C019 | 28 | C027 | 28 | C028 | 29 |
+| C029 | 28 | C036 | 30 | C037 | 30 |
+| C041 | 29 | C042 | 29 | C045 | 28 |
+| C050 | 27 | C051 | 29 | C054 | 28 |
+| C056 | 30 | | | | |
+
+Raw proposed G/A counts, including excluded proposals: 0/0 159; 0/1 7; 0/2 54;
+1/1 22; 1/2 61; 2/0 19; 2/1 29; 2/2 176; N/A/0 19. These are model proposals,
+not calibrated labels or measured judge results. Every variant passed schema,
+identity, exact-edit reconstruction and literal source/locator validation.
+Independent agents reviewed all case/category dispositions and alternatives plus
+**218 variants spanning all 31 categories**. Semantic review was sampled; exact
+source matching alone does not establish score correctness.
+
+### Publication and validation
+
+The authoring route requested `gpt-6-astra`, high reasoning, through the existing
+Codex CLI, with tools disabled and source-only inputs. Serial smoke qualified the
+route before three isolated full-batch workers were used. Invocation, raw output,
+settings, prompt/schema/code hashes and attempt receipts are preserved. The CLI
+did not independently report a backend model identity; that field remains null.
+No test questions/references or official-response prose entered authoring.
+
+`answers.jsonl`, `expectations.jsonl` and `edits.jsonl` separate full answers,
+proposed scores/evidence and reconstructable changes. `controls.jsonl` preserves
+the unchanged substantive projection, and `exact_reference_controls.json`
+preserves original references. `discovery.jsonl` and `coverage.jsonl` own search
+and applicability details. `representative_records.json` in the outer namespace
+contains 13 development-only examples; it is not a judge-ready packet.
+
+Reservation seed `task09a-final-check-v1` holds out **118 eligible variants** across
+categories and proposed G/A strata, leaving **423 development variants**. Five
+review exclusions are in neither population. There were zero prior judge exposures.
+Consumers must honor `comparison_eligible` and `reservation.json`; the original
+`agreement_eligible` field preserves authoring validation status. Later 09C must
+strip metadata and anonymize category-bearing point IDs and qualification links.
+The within-development reservation does not change the frozen benchmark split.
+
+- `make fix`: passed; format, lint and type checks passed.
+- Focused Task 09A tests: **42 passed**.
+- `make check`: **3,413 passed, one skipped, three pre-existing failures** in Task
+  06G historical commit-pin tests. Independent comparison verified those tests,
+  recipes and relevant code unchanged; `qualification/baseline_failure_review.json`
+  records the evidence. Historical pins were not rewritten.
+- Actual completed-batch restart: all 19 cases reused, zero model calls, exact
+  inventory unchanged.
+- Batch seal and outer 416-file namespace inventory verified. Frozen release
+  identities and all 85 release files remained unchanged. The test split was
+  verified by metadata/checksums, without parsing test content for authoring.
+- No judge, benchmark target or test evaluation ran. Generation and validation
+  used planning commit `36f17c6` plus the preserved implementation snapshots.
+  That execution made no commit or push; the subsequent October 10 follow-up
+  separately authorizes committing the completed implementation and documentation.
+
+### Learning and next step
+
+The implementation uses the existing JSON Schema dependency and narrow plain-file
+helpers rather than choosing an evaluation harness. Controlled edits make intended
+changes inspectable; positive invariance and partial-credit examples expose
+weaknesses that central failures alone miss. Literal evidence resolution and
+semantic judgment remain separate, consistent with
+[Anthropic's evaluation guidance](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents).
+Independent review caught uncertainty and alias-only evidence that mechanical
+checks cannot resolve. Synthetic agreement cannot establish human agreement or
+reliability on naturally generated answers.
+
+Next: refresh provisional **09B** from this handoff, then obtain its execution
+authorization. Use development-only examples, preserve the 118 reserved IDs, and
+carry source-edition and review limitations forward. No 09B work has begun.

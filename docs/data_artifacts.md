@@ -375,3 +375,16 @@ This is an artifact-specific verification snapshot, not a new production CLI.
 Keep source artifacts in place and preserve source terms; local release does not
 imply public redistribution permission. Later loaders must enforce the declared
 role boundary; directory separation alone is not filesystem access control.
+
+## Task 09A synthetic challenges
+
+Versioned runs live under `pipelines/brisbane_baylands/task_09/`. Each run retains
+verified development intake, restricted exact reference controls, prompt/schema
+and configuration copies, source-only per-case inputs, immutable numbered model
+attempts, validation and independent review. Failed attempts remain evidence;
+only checksum-valid outputs from the same configuration may be reused.
+Published answers, proposed expectations, reconstructable edits and coverage are
+separate JSONL files. Completion seals the exact inventory. Reserved final-check
+IDs are a within-development synthetic partition, not a benchmark split change.
+The [09A task](../tasks/sprint2/09a_create_synthetic_challenges.md) owns the executed
+namespace, result pointer, model identity limits and remaining coverage gaps.

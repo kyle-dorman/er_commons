@@ -327,3 +327,19 @@ seal-answer-preparation: check-env
 verify-answer-preparation: check-env
 	@test -n "$(ANSWER_BATCH)"
 	uv run python -m er_commons.group_answer_batch verify "$(ANSWER_BATCH)"
+
+# Task 09A source-only synthetic authoring; no judge or target execution.
+.PHONY: run-synthetic-answers publish-synthetic-answers verify-synthetic-answers
+run-synthetic-answers: check-env
+	@test -n "$(SYNTHETIC_BATCH)"
+	uv run python -m er_commons.synthetic_batch run "$(SYNTHETIC_BATCH)" \
+		--workers $(or $(SYNTHETIC_WORKERS),1)
+
+publish-synthetic-answers: check-env
+	@test -n "$(SYNTHETIC_BATCH)" -a -n "$(SYNTHETIC_REVIEW)"
+	uv run python -m er_commons.synthetic_publication publish "$(SYNTHETIC_BATCH)" \
+		--review "$(SYNTHETIC_REVIEW)"
+
+verify-synthetic-answers: check-env
+	@test -n "$(SYNTHETIC_BATCH)"
+	uv run python -m er_commons.synthetic_publication verify "$(SYNTHETIC_BATCH)"

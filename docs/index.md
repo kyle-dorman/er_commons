@@ -12,9 +12,10 @@ role-separation and validation limits; [08G](specs/task08g_topic_review_result.j
 owns accepted topic balancing and shared-evidence overlap. Historical artifacts
 remain preserved.
 
-Task 09 plans are ready. [09A](../tasks/sprint2/09a_create_synthetic_challenges.md)
-is the active entry contract; 09B–09G are provisional. No Task 09 implementation
-or model runs have started. The [TODO](todo.md) owns status and the next action.
+[09A](../tasks/sprint2/09a_create_synthetic_challenges.md) is complete: all 19
+development cases, 546 synthetic variants and a reserved final-check subset are
+sealed in the [09A handoff](specs/task09a_final_result.json). 09B–09G remain
+provisional and unstarted. The [TODO](todo.md) owns the next action.
 
 ## Read for Task 09
 

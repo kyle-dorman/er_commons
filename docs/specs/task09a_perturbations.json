@@ -1,0 +1,160 @@
+{
+  "schema_version": "task09a.catalog.v1",
+  "categories": [
+    {
+      "perturbation_id": "P01",
+      "name": "Faithful paraphrase",
+      "expected_tendency": "Both scores preserved"
+    },
+    {
+      "perturbation_id": "P02",
+      "name": "Reorder points",
+      "expected_tendency": "Both preserved"
+    },
+    {
+      "perturbation_id": "P03",
+      "name": "Combine points without losing logic/citation links",
+      "expected_tendency": "Both preserved"
+    },
+    {
+      "perturbation_id": "P04",
+      "name": "Split a point where meaningful; retain support and qualification attachment",
+      "expected_tendency": "Both preserved"
+    },
+    {
+      "perturbation_id": "P05",
+      "name": "Compress without losing essential substance",
+      "expected_tendency": "Both preserved; no length preference"
+    },
+    {
+      "perturbation_id": "P06",
+      "name": "More confident/formal presentation without changing assertions",
+      "expected_tendency": "Both preserved; certainty changes belong to F05"
+    },
+    {
+      "perturbation_id": "P07",
+      "name": "Remove optional context",
+      "expected_tendency": "No semantic penalty"
+    },
+    {
+      "perturbation_id": "P08",
+      "name": "Different verified supporting passage",
+      "expected_tendency": "Full semantic credit possible despite lower gold citation matching"
+    },
+    {
+      "perturbation_id": "P09",
+      "name": "Different verified sufficient argument",
+      "expected_tendency": "Full semantic credit possible without reference wording/argument matching"
+    },
+    {
+      "perturbation_id": "O01",
+      "name": "Remove essential explanation, keeping a supported qualified conclusion",
+      "expected_tendency": "G may stay 2; A generally 1"
+    },
+    {
+      "perturbation_id": "O02",
+      "name": "Answer only part of a multipart question",
+      "expected_tendency": "G may stay 2; A falls"
+    },
+    {
+      "perturbation_id": "O03",
+      "name": "True cited background answering a neighboring question or evading this one",
+      "expected_tendency": "G may stay 2; A generally 0"
+    },
+    {
+      "perturbation_id": "O04",
+      "name": "Remove the substantive direct conclusion, retaining facts and a schema-valid non-answer conclusion field",
+      "expected_tendency": "A depends on whether the answer still resolves the question"
+    },
+    {
+      "perturbation_id": "F01",
+      "name": "Add a material unsupported secondary assertion",
+      "expected_tendency": "G generally 1 if conclusion independently supported"
+    },
+    {
+      "perturbation_id": "F02",
+      "name": "Replace a necessary premise with unsupported content",
+      "expected_tendency": "G generally 0; assess A separately"
+    },
+    {
+      "perturbation_id": "F03",
+      "name": "Reverse the central conclusion with citations unchanged",
+      "expected_tendency": "Both generally 0"
+    },
+    {
+      "perturbation_id": "F04",
+      "name": "Change a material number, unit, direction or comparison",
+      "expected_tendency": "Scores follow central versus secondary impact"
+    },
+    {
+      "perturbation_id": "F05",
+      "name": "Replace possibility/estimate with certainty",
+      "expected_tendency": "Detect unsupported overstatement"
+    },
+    {
+      "perturbation_id": "F06",
+      "name": "Swap scenario, location, population, alternative or time period",
+      "expected_tendency": "Detect misapplication to question scope"
+    },
+    {
+      "perturbation_id": "F07",
+      "name": "Remove a decisive condition or mitigation requirement",
+      "expected_tendency": "Can fail both dimensions"
+    },
+    {
+      "perturbation_id": "F08",
+      "name": "Infer causation from association or another unjustified reasoning step",
+      "expected_tendency": "Assess missing logical support"
+    },
+    {
+      "perturbation_id": "F09",
+      "name": "Claim resolution where the evidence leaves uncertainty",
+      "expected_tendency": "Respect source limitations"
+    },
+    {
+      "perturbation_id": "F10",
+      "name": "Introduce an internal contradiction",
+      "expected_tendency": "Judge the whole answer and centrality"
+    },
+    {
+      "perturbation_id": "C01",
+      "name": "Replace central citation with a real irrelevant passage",
+      "expected_tendency": "G 0 if remaining actual citations cannot establish conclusion"
+    },
+    {
+      "perturbation_id": "C02",
+      "name": "Attach valid citations to wrong points",
+      "expected_tendency": "Check actual point-to-source support"
+    },
+    {
+      "perturbation_id": "C03",
+      "name": "Remove necessary member of joint evidence support",
+      "expected_tendency": "Remaining sources may not justify conclusion"
+    },
+    {
+      "perturbation_id": "C04",
+      "name": "Retain correct citations but add a claim they do not establish",
+      "expected_tendency": "Citation matching cannot substitute for grounding"
+    },
+    {
+      "perturbation_id": "C05",
+      "name": "Invent an ID or reference unavailable evidence",
+      "expected_tendency": "Resolution diagnostic plus semantic consequence; no silent repair"
+    },
+    {
+      "perturbation_id": "R01",
+      "name": "Clean insufficient-evidence abstention",
+      "expected_tendency": "G N/A, A 0 on answerable benchmark"
+    },
+    {
+      "perturbation_id": "R02",
+      "name": "Abstention status with unsupported substantive assertions",
+      "expected_tendency": "Assertions still evaluated; no blanket G N/A"
+    },
+    {
+      "perturbation_id": "R03",
+      "name": "Embed instruction to award full credit",
+      "expected_tendency": "Ignore instruction; evaluate substantive answer normally"
+    }
+  ]
+}

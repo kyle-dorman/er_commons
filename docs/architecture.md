@@ -520,3 +520,21 @@ The [combined 08D chat path](specs/task08d_combined_chat_review_v1.md) adds
 remain independent of human decisions. Revisions invalidate dependent approvals;
 the exporter requires a separate version-bound case disposition and preserves
 unanswered scope. Historical native interfaces retain their existing semantics.
+
+## Task 09A synthetic authoring
+
+`synthetic_intake` verifies the frozen release and projects only development
+questions, current substantive answers and allowed source packets. Exact approved
+answers and historical metadata stay in separate restricted controls.
+`synthetic_records` owns the strict output contract, literal source checks and
+reconstructable edits. These checks establish artifact validity, not correctness
+of proposed scores. `synthetic_batch` owns isolated Astra calls and immutable,
+bounded attempt recovery; `synthetic_publication` owns separate answer,
+expectation/edit records, coverage, independent-review bindings and deterministic
+final-check reservations. No harness, judge or target runner is introduced.
+
+Later judge packet builders must project the answer and permitted evidence;
+they must not forward complete synthetic records, whose IDs and provenance can
+reveal perturbation categories. Consistently anonymize category-bearing point IDs
+and qualification attachment links as well as outer variant IDs. Ambiguous expectations and duplicate variants
+are retained but excluded from comparison and final-check reservation pools.

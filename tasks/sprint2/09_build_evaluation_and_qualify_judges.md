@@ -1,8 +1,8 @@
 # Task 09 — Build evaluation and qualify two judges
 
-Status: **Planning complete; 09A is the active entry contract, execution not started.**
-09B–09G are provisional and must be reconciled with preceding outcomes before
-activation. This request authorizes task plans, not model runs or implementation.
+Status: **09A complete with limitations; 09B–09G provisional and unstarted.**
+Reconcile later contracts with preceding outcomes before activation. The October 9
+execution authorization covers 09A only, including its full Astra authoring batch.
 
 ## Abstract
 
@@ -43,7 +43,7 @@ October 12–14 evaluation window; dates are planning targets, not execution cla
 
 Use the listed order as the default queue. Independent implementation can be
 scoped later; dependencies do not require unnecessary new serial approvals once
-execution is authorized. Only 09A is currently active for preparation.
+execution is authorized. 09A is closed; no later subtask is authorized for execution.
 
 ## Outputs and boundaries
 
@@ -102,5 +102,9 @@ request. Task 12 later checks actual target-output integration; Task 13 runs tes
 
 ## Outcome
 
-Plans written; execution not started. Record subtask outcomes and final freeze
-here when completed, with precise links and remaining limitations.
+[09A outcome](09a_create_synthetic_challenges.md#outcome) and
+[sealed result](../../docs/specs/task09a_final_result.json): all 19 development
+cases, 546 variants, 19 controls; 541 comparison-eligible variants split into 423
+development and 118 reserved final checks. Five review exclusions and 43
+inapplicable combinations remain explicit. Synthetic proposals are uncalibrated.
+09B–09G have not started; refresh 09B before its separate execution authorization.

@@ -1,0 +1,123 @@
+{
+  "schema_version": "task09a.final_result.v1",
+  "status": "complete_with_limitations",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1",
+  "batch_completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/completion.json",
+    "sha256": "3bfabea9aeae6dc6ff384fa33b389a5e869bffe365314eefbae6a3a5ce28f18e",
+    "byte_size": 36158
+  },
+  "namespace_completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/completion.json",
+    "sha256": "1244969806cebc0ece7864427f2b4283b6a857398d2a71d6e3b3f6edee8196f8",
+    "byte_size": 62882
+  },
+  "artifacts": {
+    "summary.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/summary.json",
+      "sha256": "498fbabedd2cb34f40951d2525f2ac1335bdb9461e6fde93ef2750eaeb0fbf8c",
+      "byte_size": 7289
+    },
+    "answers.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/answers.jsonl",
+      "sha256": "ecb2d8740c0cc95fedc0dc1d58813be6278c1b94a6efaef59839e656ed3d2a5c",
+      "byte_size": 1342542
+    },
+    "expectations.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/expectations.jsonl",
+      "sha256": "ece6f917a0b0fbccc655a5f66328fde4093bbfd0880263c6f23e96c621fdc357",
+      "byte_size": 1716180
+    },
+    "edits.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/edits.jsonl",
+      "sha256": "f72f66b6aa552dbf6f6f43439194a232ad8335cdbd53a6c5ed1aa0768e5d01a8",
+      "byte_size": 4537446
+    },
+    "coverage.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/coverage.jsonl",
+      "sha256": "d7ba338daa2dd48c11974c203658f0e4ba7008537af164765caef6e5d29c98f3",
+      "byte_size": 195187
+    },
+    "controls.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/controls.jsonl",
+      "sha256": "b4708118a200d481b722e97a58c8db39eab7fe44cb8d78790d6e0e7b8269052a",
+      "byte_size": 117626
+    },
+    "discovery.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/discovery.jsonl",
+      "sha256": "b57262786301cbed658c07cdbdf3d5bb8edd048a68c160dca6e9b46011979021",
+      "byte_size": 50582
+    },
+    "reservation.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/reservation.json",
+      "sha256": "7eb361531cffed9ea2687aa8c4279c186dd867ee9df7fbfde79630c3d36e7d94",
+      "byte_size": 15091
+    },
+    "independent_review.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/independent_review.json",
+      "sha256": "8b84578cf4a9c96edf97aa4bda7931654581ee110c5313bb8dbaab8b8163919a",
+      "byte_size": 22069
+    }
+  },
+  "representative_records": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/representative_records.json",
+    "sha256": "bc54918b731693c71d56507ae97e57f1141f1264f24b32da4480066806a88094",
+    "byte_size": 213312
+  },
+  "validation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/qualification/closeout_checks.json",
+    "sha256": "5d7ee7e6dbc7f98fbd3cbc42e1967584fe1ec035cdef5ff2bae737957907565f",
+    "byte_size": 786
+  },
+  "final_verification": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/qualification/final_verification.json",
+    "sha256": "b6121d351cc4f63d9ade724905e59f62a7379058ad9091445abcd92193433510",
+    "byte_size": 496
+  },
+  "counts": {
+    "case_count": 19,
+    "variant_count": 546,
+    "control_count": 19,
+    "coverage_rows": 589,
+    "comparison_eligible_variants": 541,
+    "reserved_final_checks": 118,
+    "reviewed_uncertain_variants": 5,
+    "duplicate_variants": 0,
+    "unresolved_variants": 0
+  },
+  "development_variants": 423,
+  "coverage_dispositions": {
+    "ambiguous": 5,
+    "generated": 541,
+    "inapplicable": 43
+  },
+  "failed_cases": [],
+  "review_sample": {
+    "variants": 218,
+    "categories": 31,
+    "cases": 19
+  },
+  "validation_summary": {
+    "focused_passed": 42,
+    "full_passed": 3413,
+    "skipped": 1,
+    "preexisting_failures": 3,
+    "format_lint_types": "passed",
+    "resume_model_calls": 0,
+    "inventories": "verified"
+  },
+  "limitations": [
+    "Synthetic score proposals are uncalibrated, not human labels.",
+    "Five review exclusions retain original scores; comparison_eligible and reservation define usable population.",
+    "Discovery bounded to source packets;43 category skips are not exhaustive corpus-wide absence claims.",
+    "Semantic review sampled218variants; exact quote/locator checks applied throughout.",
+    "Actual CLI requested gpt-6-astra; backend model identity not independently reported."
+  ],
+  "judge_runs": 0,
+  "target_runs": 0,
+  "test_evaluations": 0,
+  "commits": 0,
+  "pushes": 0,
+  "next_step": "Refresh provisional09B from09A handoff; separate authorization required before execution.",
+  "commit_count_scope": "Original generation/publication execution, before the separately authorized October10 local commit."
+}
