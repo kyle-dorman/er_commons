@@ -1,0 +1,102 @@
+{
+  "schema_version": "task09e.development_subsets.v1",
+  "status": "question_membership_fixed_answer_manifest_pending",
+  "purpose": "Nested tuning panels for grounding prompt development; not benchmark resplits or held-out validation.",
+  "panels": {
+    "dev3": {
+      "case_ids": [
+        "C041",
+        "C037",
+        "C014"
+      ],
+      "question_count": 3,
+      "planned_answers_per_question": 4,
+      "planned_answer_samples": 12
+    },
+    "dev6": {
+      "case_ids": [
+        "C041",
+        "C037",
+        "C014",
+        "C001",
+        "C019",
+        "C056"
+      ],
+      "question_count": 6,
+      "contains": "dev3",
+      "planned_answers_per_question": 4,
+      "planned_answer_samples": 24
+    }
+  },
+  "selection_rationale": {
+    "C041": "Previously exercised short control; habitat access/animal controls.",
+    "C037": "Previously exercised typical control; wetland mitigation.",
+    "C014": "Previously exercised large control; table-bearing evidence.",
+    "C001": "Health risk; multiple required sections and main/appendix sources.",
+    "C019": "Groundwater/review; appendix-only evidence with optional context.",
+    "C056": "Drainage/flooding; main/appendix evidence with optional context."
+  },
+  "bindings": {
+    "task09a_result": {
+      "path": "docs/specs/task09a_final_result.json",
+      "sha256": "d92b7e30c36da1a536528fcd4b1899acab10c87fcd3ff1986724aef484e1f466"
+    },
+    "development_summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/summary.json",
+      "sha256": "498fbabedd2cb34f40951d2525f2ac1335bdb9461e6fde93ef2750eaeb0fbf8c",
+      "byte_size": 7289
+    },
+    "reservation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a_20261009_v1/batch_v2/published/reservation.json",
+      "sha256": "7eb361531cffed9ea2687aa8c4279c186dd867ee9df7fbfde79630c3d36e7d94",
+      "byte_size": 15091
+    },
+    "approved_split_proposal": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08h_split_exploration_20261009_v3/proposal.json",
+      "sha256": "4813225342ee3e7cdec582895e6cd8a9213103bca1cea5d4e6dd2846f77fa220",
+      "byte_size": 89567
+    },
+    "split_approval": {
+      "byte_size": 1348,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_08/08h_approved_split_20261009_v1/approval.json",
+      "sha256": "91665127c03a2cfb0c95f9dd3c28c48406ad6279bd807e4015f78d08d6cd1c1f"
+    }
+  },
+  "frozen_populations": {
+    "development_questions": 19,
+    "test_questions": 30,
+    "development_variants": 423,
+    "reserved_final_checks": 118,
+    "exclusions": 5
+  },
+  "answer_selection": {
+    "stage": "During 09E Stage 0, before first inference",
+    "slots": [
+      "unchanged approved control",
+      "eligible proposed grounding-0 variant",
+      "eligible proposed grounding-1 variant",
+      "eligible edge variant selected for panel coverage"
+    ],
+    "tie_break": "Lexicographic variant ID after satisfying slot, excluding previously selected IDs; verify selected semantics and record fallback gaps before inference.",
+    "exact_variant_ids": null,
+    "freeze_across_models_and_prompts": true,
+    "expectations": "Restricted synthetic proposals, never grader input or calibrated gold.",
+    "distinct_answers_per_question": 4
+  },
+  "model_sequence": [
+    "Qwen3.5 0.8B F16",
+    "Qwen3.5 9B F16"
+  ],
+  "user_review_stops": [
+    "After small-Qwen dev6 or early model/infrastructure limitation, before larger-model stage",
+    "After larger-Qwen dev6, before full19 on either model"
+  ],
+  "planning_access": {
+    "only_development_metadata_used": true,
+    "answer_or_expectation_payloads_read": false,
+    "mixed_split_proposal_parsed_in_memory": true,
+    "question_values_exposed_or_used": false,
+    "model_calls": 0,
+    "limitation": "Complete approved split proposal was JSON-decoded for metadata extraction; test-question fields were present in memory, though no question values were exposed or used."
+  }
+}

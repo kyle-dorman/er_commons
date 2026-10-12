@@ -76,11 +76,13 @@ def prepare(root: Path, intake: dict[str, Any], spec_root: Path, *, smoke: bool 
         or not set(ids) <= set(allowed)
     ):
         raise ValueError("Cases must be unique safe development IDs")
+    staged = intake.get("annotation_version") == "task09a2.stage_expectations.v1"
+    prefix = "task09a2" if staged else "task09a"
     root.mkdir(parents=True, exist_ok=False)
     save(root / "intake.json", intake)
     for source, target in (
-        ("task09a_output.schema.json", "output_schema.json"),
-        ("task09a_generation_prompt.md", "prompt_template.md"),
+        (f"{prefix}_output.schema.json", "output_schema.json"),
+        (f"{prefix}_generation_prompt.md", "prompt_template.md"),
         ("task09a_perturbations.json", "catalog.json"),
     ):
         publish_bytes_no_clobber(root / target, (spec_root / source).read_bytes())
@@ -88,7 +90,7 @@ def prepare(root: Path, intake: dict[str, Any], spec_root: Path, *, smoke: bool 
     if executable is None:
         raise ValueError("Established codex authoring executable is unavailable")
     version = subprocess.run([executable, "--version"], capture_output=True, text=True, check=True)
-    config = {
+    config: dict[str, Any] = {
         "schema_version": "task09a.run.v1",
         "model": MODEL,
         "reasoning_effort": "high",
@@ -98,7 +100,7 @@ def prepare(root: Path, intake: dict[str, Any], spec_root: Path, *, smoke: bool 
         "max_infrastructure_retries": 2,
         "backoff_seconds": [10, 30],
         "max_semantic_corrections": 1,
-        "timeout_seconds": 1200,
+        "timeout_seconds": 3600 if staged else 1200,
         "smoke": smoke,
         "reservation_seed": "task09a-final-check-v1",
         "code_bindings": [
@@ -108,14 +110,37 @@ def prepare(root: Path, intake: dict[str, Any], spec_root: Path, *, smoke: bool 
                 Path(__file__).with_name("synthetic_records.py"),
                 Path(__file__).with_name("synthetic_intake.py"),
                 Path(__file__).with_name("group_answer_batch.py"),
+                spec_root / f"{prefix}_output.schema.json",
             ]
         ],
     }
+    if staged:
+        config["annotation_version"] = intake["annotation_version"]
+        config["code_bindings"].extend(
+            {"path": str(p.resolve()), "sha256": sha256_file(p)}
+            for p in [
+                Path(__file__).with_name("synthetic_stage_expectations.py"),
+                Path(__file__).with_name("synthetic_regeneration.py"),
+            ]
+        )
     save(root / "config.json", config)
     ids = []
     for original in intake["cases"]:
         packet = dict(original)
-        packet["requested_categories"] = ["P01", "O01", "F03", "C05"] if smoke else list(CATEGORIES)
+        if staged:
+            categories = list(packet["regeneration_slots"])
+            packet["requested_categories"] = (
+                [c for c in categories if c in {"P01", "O01", "F03", "C05", "R01", "R02"}]
+                if smoke
+                else categories
+            )
+            packet["regeneration_slots"] = {
+                c: packet["regeneration_slots"][c] for c in packet["requested_categories"]
+            }
+        else:
+            packet["requested_categories"] = (
+                ["P01", "O01", "F03", "C05"] if smoke else list(CATEGORIES)
+            )
         case_id = packet["case_id"]
         ids.append(case_id)
         save(root / "cases" / case_id / "input.json", packet)
@@ -277,7 +302,12 @@ def run_case(
             "reason": None,
         }
         try:
-            code = executor(arguments, prompt, attempt)
+            if executor is execute_codex:
+                code = execute_codex(
+                    arguments, prompt, attempt, timeout_seconds=config["timeout_seconds"]
+                )
+            else:
+                code = executor(arguments, prompt, attempt)
             save(attempt / "process.json", {"returncode": code, "ended_at": now()})
             if code:
                 raise RuntimeError(f"Astra process exit {code}; see stderr.txt and stdout.jsonl")

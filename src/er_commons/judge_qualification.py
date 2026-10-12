@@ -246,7 +246,13 @@ async def check_loaded_model(settings: dict[str, Any], directory: Path) -> bool:
 
 
 async def call_native_judge(
-    request: dict[str, Any], directory: Path, captured: dict[str, Any]
+    request: dict[str, Any],
+    directory: Path,
+    captured: dict[str, Any],
+    *,
+    output_validator: Callable[[dict[str, Any], dict[str, Any]], dict[str, Any]] = (
+        validate_native_output
+    ),
 ) -> None:
     """Retain raw output even when postflight or judgment validation subsequently fails."""
     settings = request["settings"]
@@ -274,7 +280,7 @@ async def call_native_judge(
     elif not isinstance(output, dict):
         captured.update(status="malformed", error="Expected a native response JSON object")
     else:
-        captured.update(validate_native_output(output, settings))
+        captured.update(output_validator(output, settings))
 
 
 def provider_failure(error: Exception) -> dict[str, Any]:

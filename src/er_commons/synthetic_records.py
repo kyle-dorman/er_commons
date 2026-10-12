@@ -10,6 +10,8 @@ from typing import Any
 
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 
+from er_commons.synthetic_stage_expectations import ANNOTATION_VERSION, validate_stage_expectations
+
 SPEC_ROOT = Path(__file__).resolve().parents[2] / "docs" / "specs"
 CATEGORIES = tuple(
     [f"P{i:02d}" for i in range(1, 10)]
@@ -20,9 +22,14 @@ CATEGORIES = tuple(
 )
 
 
-def output_schema() -> dict[str, Any]:
+def output_schema(annotation_version: str | None = None) -> dict[str, Any]:
     """Read the tracked strict structured-output schema."""
-    return json.loads((SPEC_ROOT / "task09a_output.schema.json").read_text())  # type: ignore[no-any-return]
+    name = (
+        "task09a2_output.schema.json"
+        if annotation_version == ANNOTATION_VERSION
+        else "task09a_output.schema.json"
+    )
+    return json.loads((SPEC_ROOT / name).read_text())  # type: ignore[no-any-return]
 
 
 def _digest(value: Any) -> str:
@@ -77,13 +84,16 @@ def validate_proposal(proposal: Any, packet: dict[str, Any]) -> dict[str, Any]:
     """Validate identities, accounting, edit reconstruction and literal evidence."""
     errors = [
         f"{list(e.absolute_path)}: {e.message}"
-        for e in Draft202012Validator(output_schema()).iter_errors(proposal)
+        for e in Draft202012Validator(output_schema(packet.get("annotation_version"))).iter_errors(
+            proposal
+        )
     ]
     diagnostics: list[dict[str, Any]] = []
     if errors:
         return {"valid": False, "errors": errors, "diagnostics": diagnostics}
     if proposal["case_id"] != packet["case_id"]:
         errors.append("case_id differs from dev packet")
+    staged = packet.get("annotation_version") == ANNOTATION_VERSION
     requested = set(packet.get("requested_categories", CATEGORIES))
     coverage = proposal["coverage"]
     if len(coverage) != len(requested) or {c["perturbation_id"] for c in coverage} != requested:
@@ -155,6 +165,11 @@ def validate_proposal(proposal: Any, packet: dict[str, Any]) -> dict[str, Any]:
             and not answer["optional_context"]
             and not answer["conclusion"]["citation_ids"]
         )
+        if staged:
+            clean = expectation["grounding"]["clean_abstention"] is True
+            errors.extend(
+                f"{prefix}: {error}" for error in validate_stage_expectations(variant, sources)
+            )
         if category == "R01" and expectation["verification_status"] == "model_verified":
             if (
                 not clean
@@ -169,7 +184,11 @@ def validate_proposal(proposal: Any, packet: dict[str, Any]) -> dict[str, Any]:
             if expectation["verification_status"] == "model_verified":
                 if value["score"] is None and not (dimension == "grounding" and clean):
                     errors.append(f"{prefix}: verified expectation has unresolved score")
-                if not value["evidence"] and not clean:
+                if (
+                    not value["evidence"]
+                    and not clean
+                    and not (staged and dimension == "grounding")
+                ):
                     errors.append(f"{prefix}: verified expectation lacks {dimension} evidence")
             for evidence in value["evidence"]:
                 source = sources.get(evidence["citation_id"])
@@ -207,8 +226,8 @@ def validate_proposal(proposal: Any, packet: dict[str, Any]) -> dict[str, Any]:
             errors.append(f"{c['perturbation_id']}: generated without variant")
         if c["disposition"] not in {"generated", "ambiguous"} and count:
             errors.append(f"{c['perturbation_id']}: variants contradict disposition")
-        if count > 2:
-            errors.append(f"{c['perturbation_id']}: more than two initial variants")
+        if count > (1 if staged else 2):
+            errors.append(f"{c['perturbation_id']}: too many initial variants")
         if not c["reason"].strip():
             errors.append(f"{c['perturbation_id']}: disposition needs reason")
     return {
@@ -237,13 +256,22 @@ def materialize_records(
         "reference_binding": packet.get("reference_binding"),
         "provenance": provenance,
     }
+    if packet.get("annotation_version") == ANNOTATION_VERSION:
+        binding["annotation_version"] = ANNOTATION_VERSION
     answers, expectations, edits = [], [], []
     for index, variant in enumerate(proposal["variants"]):
+        version_prefix = (
+            "task09a2-" if packet.get("annotation_version") == ANNOTATION_VERSION else ""
+        )
         variant_id = (
-            f"{packet['case_id']}-{variant['perturbation_id']}-{index + 1:02d}"
+            f"{version_prefix}{packet['case_id']}-{variant['perturbation_id']}-{index + 1:02d}"
             f"-{_digest(variant)[:12]}"
         )
         shared = {**binding, "variant_id": variant_id}
+        if packet.get("annotation_version") == ANNOTATION_VERSION:
+            shared["predecessor_development_variant_id"] = packet["regeneration_slots"][
+                variant["perturbation_id"]
+            ]
         answers.append({**shared, "answer": variant["answer"]})
         expectations.append(
             {

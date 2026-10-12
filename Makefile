@@ -382,3 +382,63 @@ evaluate-automatic-metrics: check-env
 		echo 'Set METRIC_SAMPLES (prepared JSON array) and METRIC_LOG_DIR (external directory).' >&2; exit 2; }
 	uv run python -m er_commons.automatic_metric_inspect \
 		"$(METRIC_SAMPLES)" --log-dir "$(METRIC_LOG_DIR)"
+
+# Task 09E frozen panels and offline context-gate recording; no inference fallback.
+.PHONY: prepare-grounding-panel preflight-grounding-panel
+prepare-grounding-panel: check-env
+	@test -n "$(GROUNDING_PANEL_DIR)"
+	uv run python -m er_commons.grounding_panel \
+		--subsets docs/specs/task09e_development_subsets_v1.json \
+		--result docs/specs/task09a_final_result.json \
+		--release docs/specs/task08h_final_result.json --output "$(GROUNDING_PANEL_DIR)"
+
+preflight-grounding-panel: check-env
+	@test -n "$(GROUNDING_MANIFEST)" -a -n "$(GROUNDING_PANEL)" \
+		-a -n "$(GROUNDING_SETTINGS)" -a -n "$(GROUNDING_OUTPUT)"
+	uv run python -m er_commons.grounding_preflight \
+		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
+		--settings "$(GROUNDING_SETTINGS)" --output "$(GROUNDING_OUTPUT)"
+
+# Task 09E authorized live panel: attach to the qualified existing local service.
+.PHONY: evaluate-grounding-panel
+evaluate-grounding-panel: check-env
+	@test -n "$(GROUNDING_MANIFEST)" -a -n "$(GROUNDING_PANEL)" \
+		-a -n "$(GROUNDING_SETTINGS)" -a -n "$(GROUNDING_COUNTER_CONFIG)" \
+		-a -n "$(GROUNDING_OUTPUT)"
+	uv run python -m er_commons.grounding_run \
+		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
+		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
+		--output "$(GROUNDING_OUTPUT)"
+
+
+.PHONY: evaluate-staged-grounding-panel
+evaluate-staged-grounding-panel: check-env
+	uv run python -m er_commons.grounding_run --pipeline staged \
+		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
+		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
+		--output "$(GROUNDING_OUTPUT)"
+
+# Answer-only abstention experiment; no point or conclusion calls.
+.PHONY: evaluate-abstention-panel
+evaluate-abstention-panel: check-env
+	uv run python -m er_commons.grounding_run --pipeline abstention \
+		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
+		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
+		--output "$(GROUNDING_OUTPUT)"
+
+# Prompt comparison on saved points only; no abstention/conclusion generation.
+.PHONY: evaluate-grounding-points
+evaluate-grounding-points: check-env
+	uv run python -m er_commons.grounding_run --pipeline points \
+		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
+		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
+		--output "$(GROUNDING_OUTPUT)"
+
+# Combined 09A.3 eligible development variants with restricted stage diagnostics.
+.PHONY: evaluate-grounding-dataset-panel
+evaluate-grounding-dataset-panel: check-env
+	uv run python -m er_commons.grounding_run --dataset-version 09a3 \
+		--pipeline staged_with_abstention \
+		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
+		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
+		--output "$(GROUNDING_OUTPUT)"

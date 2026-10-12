@@ -144,7 +144,9 @@ def invocation_arguments(root: Path, attempt: Path) -> list[str]:
     ]
 
 
-def execute_codex(arguments: list[str], prompt: str, attempt: Path) -> int:
+def execute_codex(
+    arguments: list[str], prompt: str, attempt: Path, *, timeout_seconds: int = 1200
+) -> int:
     """Stream process receipts to disk; preserve partial output on failure or timeout."""
     with (
         (attempt / "stdout.jsonl").open("xb") as stdout,
@@ -158,7 +160,7 @@ def execute_codex(arguments: list[str], prompt: str, attempt: Path) -> int:
             start_new_session=True,
         )
         try:
-            process.communicate(input=prompt.encode(), timeout=1200)
+            process.communicate(input=prompt.encode(), timeout=timeout_seconds)
         except BaseException:
             try:
                 os.killpg(process.pid, signal.SIGKILL)

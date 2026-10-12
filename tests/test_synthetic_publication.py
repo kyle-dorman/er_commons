@@ -238,3 +238,46 @@ def test_invalid_exclusions_fail_before_publication(
     with pytest.raises(ValueError, match="exclusion"):
         publication.publish(root, review)
     assert not (root / "published").exists()
+
+
+def test_inherited_partition_preserves_external_reservation(tmp_path: Path) -> None:
+    """Fresh IDs stay development-only; skipped slots and external reservations remain explicit."""
+    batch.save(tmp_path / "config.json", {"smoke": False})
+    batch.save(
+        tmp_path / "cases/C001/input.json",
+        {"regeneration_slots": {"P01": "old-dev-1", "P02": "old-dev-2"}},
+    )
+    inherited = {
+        "development_slot_ids": ["old-dev-1", "old-dev-2"],
+        "preserved_final_check_variant_ids": ["old-reserved"],
+        "preserved_excluded_variant_ids": ["old-excluded"],
+        "predecessor_reservation": {"path": "metadata-only", "sha256": "fixed"},
+    }
+    records = [
+        {
+            "variant_id": "new-id",
+            "case_id": "C001",
+            "perturbation_id": "P01",
+            "predecessor_development_variant_id": "old-dev-1",
+            "comparison_eligible": True,
+        }
+    ]
+    coverage = [
+        {
+            "case_id": "C001",
+            "perturbation_id": c,
+            "disposition": d,
+            "reason": "Explicit disposition",
+        }
+        for c, d in [("P01", "generated"), ("P02", "inapplicable")]
+    ]
+    reservation, slots = publication.inherited_partition(tmp_path, records, coverage, inherited)
+    assert reservation["final_check_variant_ids"] == []
+    assert reservation["preserved_external_final_check_variant_ids"] == ["old-reserved"]
+    assert reservation["development_variant_ids"] == ["new-id"]
+    assert slots[1]["variant_id"] is None
+    with pytest.raises(ValueError, match="Incomplete"):
+        publication.inherited_partition(tmp_path, records, coverage[:1], inherited)
+    records[0]["predecessor_development_variant_id"] = "old-reserved"
+    with pytest.raises(ValueError, match="Absent"):
+        publication.inherited_partition(tmp_path, records, coverage, inherited)

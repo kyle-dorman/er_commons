@@ -3,6 +3,23 @@
 This is a parking lot for unselected future ideas. It does not define active
 scope, replace a numbered task, or record a completed experiment.
 
+## Judge experiments to consider
+
+These are proposed tests, not authorization to revise prompts or run inference.
+Use development-only inputs, keep expectations hidden, and compare one change
+at a time with the preserved [09E baseline](specs/task09e_09a3_qwen9b_v1.md).
+
+- **09E-I01 — Certainty and qualification examples (may/will).** Test whether an
+  explicit rule plus paired examples reduces acceptance of claims that strengthen
+  source certainty. Evidence “Trapping may be necessary” does not by itself support
+  “Trapping will be necessary”; it does support “Trapping may be needed.” Judge the
+  meaning and combined cited evidence, not a keyword mismatch: another passage
+  could establish the stronger claim. Measure corrected false acceptances,
+  regressions on supported paraphrases, and valid-output coverage separately.
+  Keep this experiment separate from changes to evidence quotation.
+
+## Other ideas
+
 - Consider additional environmental-review datasets only after the first CEQA
   benchmark has a documented data and evaluation contract.
 - Revision-family benchmark tasks: link a public comment, draft, and final

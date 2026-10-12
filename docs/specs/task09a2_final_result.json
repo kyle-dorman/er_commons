@@ -1,0 +1,229 @@
+{
+  "schema_version": "task09a2.final_result.v1",
+  "annotation_version": "task09a2.stage_expectations.v1",
+  "status": "complete_with_limitations",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1",
+  "predecessor_result": {
+    "path": "/Users/kyledorman/Documents/er_commons/docs/specs/task09a_final_result.json",
+    "sha256": "d92b7e30c36da1a536528fcd4b1899acab10c87fcd3ff1986724aef484e1f466",
+    "byte_size": 5530
+  },
+  "batch_completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/completion.json",
+    "sha256": "c8123481db3ec7c4e5b551f4e66549d7254b0466b9fdc72d154edf1f703208a8",
+    "byte_size": 36298
+  },
+  "namespace_completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/completion.json",
+    "sha256": "bf87c03036432232017014a3d228bfb6356bbe39ff04fa178bfc0211f7a1c842",
+    "byte_size": 70448
+  },
+  "artifacts": {
+    "summary.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/summary.json",
+      "sha256": "7293bd29d96cf9e35ace4bcf632b15b6793ed7d2a9e238ffd40e10a2d39e3dcd",
+      "byte_size": 7317
+    },
+    "answers.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/answers.jsonl",
+      "sha256": "98676d824c07be3d39ebb005a0ba05626f215719d1fe6acb5a2c001045753c6b",
+      "byte_size": 1043816
+    },
+    "expectations.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/expectations.jsonl",
+      "sha256": "46f529401bef58abf8e81ef8e9ee7bdac31766cbb6fa5d6e5d81a18fbf2acdba",
+      "byte_size": 2289191
+    },
+    "edits.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/edits.jsonl",
+      "sha256": "7529b9b3e682ef6ed03762a52d9ea42d387f6a6d3e7aaa3d07feb5a457363e55",
+      "byte_size": 3458940
+    },
+    "controls.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/controls.jsonl",
+      "sha256": "b4708118a200d481b722e97a58c8db39eab7fe44cb8d78790d6e0e7b8269052a",
+      "byte_size": 117626
+    },
+    "coverage.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/coverage.jsonl",
+      "sha256": "8abceae2263eda62d0bd4c655867ab84ea5d36e213dc0ecdbd86da69578a2aa0",
+      "byte_size": 141091
+    },
+    "discovery.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/discovery.jsonl",
+      "sha256": "ec28453bbbb1a5608fdf84802265f2646365434664439933fa271f661dc4e644",
+      "byte_size": 30724
+    },
+    "development_slots.jsonl": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/development_slots.jsonl",
+      "sha256": "cee7d399846abc75dab92b6109a04338d9cd9e9c97945c2c6505a1bddcc8289e",
+      "byte_size": 132478
+    },
+    "reservation.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/reservation.json",
+      "sha256": "43ea7f8066878a4308560c0b8a2596358614c065abd99bd297d57619ccd1ffce",
+      "byte_size": 19023
+    },
+    "independent_review.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/batch_v2/published/independent_review.json",
+      "sha256": "3e1d2c1986dcbdd4216dfe9d4dc00c4e656a12c70f6a713bd68977f6de2f5599",
+      "byte_size": 30270
+    }
+  },
+  "validation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/qualification/software_validation_extended.json",
+    "sha256": "53d83a68104c43f871fa7f0706d1873d0d91be2eda47e4d2c68d469cc8fd4678",
+    "byte_size": 2875
+  },
+  "final_verification": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/qualification/final_verification.json",
+    "sha256": "83dee826406fbfd502da7d9b271ae927bc8575db1b7cb8f0f76bbf10a15891fe",
+    "byte_size": 10232
+  },
+  "replay_verification": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/qualification/replay_verification.json",
+    "sha256": "c605eba017baca8df5dacd697bb75c860c9e547de5b19201eaaeff55e484f8a5",
+    "byte_size": 22352
+  },
+  "timeout_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09a2_20261011_v1/qualification/timeout_review.json",
+    "sha256": "c2841e84087f82b1231cb31fb65a7089d288cbc54f07ccfe869716bd9fadcc04",
+    "byte_size": 2707
+  },
+  "counts": {
+    "case_count": 19,
+    "variant_count": 419,
+    "control_count": 19,
+    "requested_development_slots": 423,
+    "point_expectation_count": 1107,
+    "comparison_eligible_variants": 407,
+    "unresolved_variants": 0,
+    "duplicate_variants": 0,
+    "reviewed_uncertain_variants": 12,
+    "preserved_external_final_checks": 118
+  },
+  "coverage_dispositions": {
+    "ambiguous": 12,
+    "generated": 407,
+    "inapplicable": 4
+  },
+  "failed_cases": [],
+  "stage_counts": {
+    "all_proposals": {
+      "adequacy": {
+        "0": 125,
+        "1": 80,
+        "2": 214
+      },
+      "clean_abstention": {
+        "False": 404,
+        "True": 15
+      },
+      "conclusion_supported": {
+        "False": 98,
+        "None": 15,
+        "True": 306
+      },
+      "grounding": {
+        "0": 98,
+        "1": 139,
+        "2": 167,
+        "None": 15
+      },
+      "insufficient_evidence_response": {
+        "False": 369,
+        "True": 50
+      },
+      "not_supported": {
+        "False": 182,
+        "True": 237
+      },
+      "point_expectations": 1107,
+      "point_supported": {
+        "False": 206,
+        "True": 901
+      },
+      "variants": 419
+    },
+    "comparison_eligible": {
+      "adequacy": {
+        "0": 124,
+        "1": 78,
+        "2": 205
+      },
+      "clean_abstention": {
+        "False": 392,
+        "True": 15
+      },
+      "conclusion_supported": {
+        "False": 98,
+        "None": 15,
+        "True": 294
+      },
+      "grounding": {
+        "0": 98,
+        "1": 127,
+        "2": 167,
+        "None": 15
+      },
+      "insufficient_evidence_response": {
+        "False": 357,
+        "True": 50
+      },
+      "not_supported": {
+        "False": 182,
+        "True": 225
+      },
+      "point_expectations": 1056,
+      "point_supported": {
+        "False": 194,
+        "True": 862
+      },
+      "variants": 407
+    }
+  },
+  "review_sample": {
+    "cases": 19,
+    "variants": 232,
+    "point_expectations": 632,
+    "categories": 31
+  },
+  "schema_changes": [
+    "Separate grounding.point_expectations for every non-conclusion point: supported boolean or explicit unresolved null, rationale, source evidence, exact unsupported assertion spans and reasons.",
+    "Grounding clean_abstention, conclusion_supported and unsupported_premise_point_ids reuse existing conclusion rationale/evidence fields.",
+    "Grounding not_supported identifies any unsupported substantive content; insufficient_evidence_response separately identifies explicit insufficient-evidence language.",
+    "Fresh variant IDs bind predecessor development slots; expectation fields never enter model-visible answers."
+  ],
+  "validation_summary": {
+    "focused_passed": 73,
+    "full_passed": 3897,
+    "skipped": 1,
+    "preexisting_failures": 3,
+    "format_lint_types": "passed",
+    "resume_model_calls": 0,
+    "batch_and_namespace_inventories": "verified"
+  },
+  "limitations": [
+    "Uncalibrated synthetic model proposals; no human score validation or judge reliability claim.",
+    "Literal locator validation establishes resolution, not semantic correctness.",
+    "Backend model may not be independently reported; exact CLI invocation retained.",
+    "Shared canonical evidence is permitted:15 cross-split overlapping pairs; no independence or zero-leakage claim.",
+    "Question review was bounded; no exhaustive paraphrase or response-link graph audit performed.",
+    "Accepted source usability and qualified Final F.1 edition limitations retained.",
+    "This is local reference packaging, not public source redistribution or a new license grant.",
+    "Retrieval, generation and judge configurations are not frozen by this release; later tasks own them.",
+    "Fresh development-only generation; prior reserved payloads were not read or regenerated, and no new final-check split was created.",
+    "Independent semantic review is sampled; every recorded proposal has deterministic structural, literal-span and score-consistency checks.",
+    "Review exclusions retain original proposed labels and scores; use comparison_eligible and reservation metadata when selecting records.",
+    "Early smoke and stopped timeout attempts are retained outside the published full batch."
+  ],
+  "prior_reserved_variants_regenerated": 0,
+  "prior_excluded_ids_preserved": 5,
+  "reserved_test_payloads_read": false,
+  "judge_runs": 0,
+  "target_runs": 0,
+  "test_evaluations": 0,
+  "commits": 0,
+  "pushes": 0,
+  "next_step": "Review the proposed expectations and retained exclusions before separately authorizing downstream judge use; existing 09E run state remains unchanged."
+}

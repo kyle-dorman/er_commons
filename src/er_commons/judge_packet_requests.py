@@ -57,11 +57,38 @@ def prepare_request(
     The counter must apply the pinned model's actual chat template, including any
     model-visible schema and special tokens. No character heuristic substitutes
     for it. Unknown counts and overflows are explicit non-dispatch results.
-    09E/09F own the future prompt, scoring and runtime counter integration.
+    The fixed 48K allocation supports the original 1500-token reserve and the
+    explicitly selected 3000-token experiment. Packet defaults remain unchanged;
+    actual request settings determine the preflight input budget.
     """
+    return prepare_content_request(
+        packet_content(packet),
+        system_prompt=system_prompt,
+        response_schema=response_schema,
+        settings=settings,
+        count_tokens=count_tokens,
+        counter_model_digest=counter_model_digest,
+    )
+
+
+def prepare_content_request(
+    content: str,
+    *,
+    system_prompt: str,
+    response_schema: dict[str, Any],
+    settings: dict[str, Any],
+    count_tokens: Callable[[dict[str, Any]], int] | None = None,
+    counter_model_digest: str | None = None,
+) -> dict[str, Any]:
+    """Preflight an already validated stage payload through the same exact request gate."""
+    if not isinstance(content, str) or not content.strip():
+        raise ValueError("The consuming stage must supply nonempty serialized content")
     validate_settings(settings)
-    if settings["context"] != CONTEXT_TOKENS or settings["max_tokens"] != OUTPUT_RESERVE:
-        raise ValueError("09C requires measured 48K allocation and 1500-token output reserve")
+    output_reserve = settings["max_tokens"]
+    if settings["context"] != CONTEXT_TOKENS or output_reserve not in (OUTPUT_RESERVE, 3000):
+        raise ValueError(
+            "09C requires measured 48K allocation and a 1500- or 3000-token output reserve"
+        )
     if not system_prompt.strip():
         raise ValueError("The consuming judge must supply its own system prompt")
     request = native_request(
@@ -69,7 +96,7 @@ def prepare_request(
             "settings": settings,
             "messages": [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": packet_content(packet)},
+                {"role": "user", "content": content},
             ],
             "schema": copy.deepcopy(response_schema),
         }
@@ -79,8 +106,8 @@ def prepare_request(
         "request_sha256": stable_json_sha256(request),
         "model_digest": settings["identity"]["digest"],
         "context_tokens": CONTEXT_TOKENS,
-        "output_reserve": OUTPUT_RESERVE,
-        "input_budget": CONTEXT_TOKENS - OUTPUT_RESERVE,
+        "output_reserve": output_reserve,
+        "input_budget": CONTEXT_TOKENS - output_reserve,
         "input_tokens": None,
         "overflow_tokens": None,
         "dispatch_allowed": False,
@@ -91,7 +118,7 @@ def prepare_request(
         count = count_tokens(copy.deepcopy(request))
         if type(count) is not int or count <= 0:
             raise ValueError("Exact full-request token count must be a positive integer")
-        overflow = max(0, count + OUTPUT_RESERVE - CONTEXT_TOKENS)
+        overflow = max(0, count + output_reserve - CONTEXT_TOKENS)
         diagnostic.update(
             status="context_overflow" if overflow else "ready",
             input_tokens=count,

@@ -581,8 +581,9 @@ to avoid decoding reserved rows. `judge_packet_requests` emits plain Inspect
 samples, checks payload integrity, and reuses 09B's native Ollama request assembly.
 Complete requests remain
 blocked as `context_unverified` without an exact model-bound token counter;
-`context_overflow` blocks dispatch at 49,152 input/output tokens with a 1,500-token
-output reserve. Future judge tasks own their prompts, counters and scoring.
+`context_overflow` blocks dispatch at 49,152 input/output tokens. Request preflight
+uses the explicit supported output reserve (1,500 or the authorized 3,000-token
+experiment); frozen packet diagnostics retain their original 1,500-token default. Future judge tasks own their prompts, counters and scoring.
 The old qualification runner rejects 09C packets rather than applying its
 prototype rubrics. See [09C](../tasks/sprint2/09c_build_judge_evidence_packets.md)
 for usage, validation and limits.
@@ -602,3 +603,81 @@ development selection through existing release routing. It does not discover or
 load benchmark partitions. Task 10 supplies qualified search-record/fragment maps
 and delivery receipts. See the [metric and receipt contract](specs/task09d_automatic_metrics_v1.md)
 for nullable status, exact counts and primary versus diagnostic retrieval.
+
+## Task 09E grounding boundary
+
+`grounding_panel` freezes the explicit nested development panels using 09C source
+verification and metadata-first 09A routing. Restricted expectations remain separate
+from model payloads. `grounding_judge` owns the versioned rubric, strict result schema,
+packet-specific ordered point coverage and source-locator validation. The response
+schema fixes each finding to its actual point ID and fixes the array length;
+already-visible point IDs determine coverage. Answer status and conclusion identity
+also constrain materiality/status eligibility to the existing validator rules;
+other substantive points retain central/secondary choice. No point-level labels
+are inferred from expectations. `grounding_inspect` owns the thin
+saved-answer scorer and custom diagnostic metrics; Inspect owns execution and logs.
+The 09B native transport accepts a consuming judge's output validator while retaining
+its original default for historical qualification.
+
+`grounding_preflight` records the frozen panel's blocked context gate offline.
+`ollama_token_counter` binds the complete native request to an explicitly pinned Qwen
+Ollama renderer and its live child tokenizer, checking process/listener identity
+and asset hashes before and after counting. It owns no service lifecycle.
+`grounding_run` validates matching counter/generation settings and passes the counter
+through existing request preparation into Inspect; a missing or failed counter
+never dispatches. The counter accepts only two exact alias/digest/model-blob tuples: the pinned
+0.8B and 9B models on the same local build. Cross-model combinations are rejected;
+each live request still requires model-specific rendering, tokenization and parity. Fixture counters establish plumbing only. The [09E contract](specs/task09e_grounding_v1.md)
+and [task outcome](../tasks/sprint2/09e_implement_grounding_judge.md) own the
+early small-model review checkpoint and remaining benchmark diagnostics.
+
+
+The alternate `grounding_stages` boundary projects each non-conclusion point with
+its actual evidence, validates binary assessments and builds the full conclusion
+request from original input plus validated predictions. `grounding_staged_inspect`
+owns the Inspect scorer's bounded sequential calls and per-stage receipts. Any
+binary disagreement remains unresolved; an invalid point call skips the dependent
+conclusion. `grounding_run --pipeline staged` selects this fresh-run path while
+preserving the historical single-call evaluator. Both reuse the same native
+transport and exact preflight gate through `judge_packet_requests`. See the
+[staged contract](specs/task09e_staged_grounding_v1.md) for aggregation and limitations.
+
+Task 09E also provides an optional answer-only abstention gate in
+`grounding_abstention` and its standalone Inspect adapter. The
+[abstention contract](specs/task09e_abstention_v1.md) owns visibility, routing and
+experiment limits. `grounding_run --pipeline abstention` performs classification
+only; `staged_with_abstention` enables the gate before existing point/conclusion
+checks. Clean abstention is N/A, ambiguity stays unresolved, and invalid outputs
+remain evaluation failures. Legacy pipeline defaults are unchanged.
+
+## Fresh synthetic point expectations
+
+`synthetic_regeneration` reconstructs only prior development slots from sealed
+reservation metadata and original approved source packets. It does not consume
+old synthetic answers or walk reserved/test payloads. `synthetic_stage_expectations`
+checks point-ID coverage, literal assertion/source spans, point-owned citation
+links and deterministic point/conclusion score consistency. The versioned
+`task09a2` schema and prompt keep labels outside answer content.
+
+`synthetic_batch` freezes the selected schema and code before source-only authoring.
+`synthetic_publication` preserves the external prior reservation and emits a
+predecessor-slot map instead of drawing a new split. Its comparison eligibility
+includes unresolved, duplicate and independent-review exclusions. Point labels
+remain author proposals, not evaluator predictions or human calibration. The
+[09A.2 contract](../tasks/sprint2/09a2_regenerate_point_expectations.md) owns scope
+and the fresh result; existing judge pipelines are not invoked or modified.
+
+For bounded point-prompt comparisons, `grounding_run --pipeline points` reuses the
+staged Inspect adapter while skipping abstention/conclusion calls. It retains
+zero-point samples, emits null answer scores, and aggregates validated point flags
+without answer-level accuracy. The [v2 comparison contract](specs/task09e_point_scope_v2.md)
+owns the frozen inputs and source-review requirements.
+
+The combined 09A.3 panel adapter (`grounding_dataset_panel`) verifies the new
+publication, eligibility and record-specific origins independently of the preserved
+four-answer panel loader. `grounding_run --dataset-version 09a3` selects it;
+`dev6_additions` loads only the additional three cases. Restricted stage expectations
+are canonical-ID-mapped metadata, never model input. Inspect reports stage-level
+agreement and coverage separately from final scores; missing/invalid predictions
+are not false labels. The [combined rerun contract](specs/task09e_09a3_small_v1.md)
+owns authorized counts and experiment bounds.

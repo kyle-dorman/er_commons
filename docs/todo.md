@@ -16,6 +16,21 @@ and accepted cross-split evidence overlap. [08H](../tasks/sprint2/08h_serialize_
 owns release validation, role separation, accounting and source limitations.
 All prior artifacts remain preserved.
 
+## Task 09A.2 — complete with limitations
+
+[09A.3](../tasks/sprint2/09a3_add_clean_abstentions.md) is complete:
+[the combined publication](specs/task09a3_final_result.json) adds 23 varied clean
+abstentions, reaching two per development question (38 total). All 419 original
+records remain unchanged; the combined set has 442 answers / 430 eligible.
+Use this additive version for subsequent development experiments; the bounded 09E rerun is complete.
+
+[09A.2](../tasks/sprint2/09a2_regenerate_point_expectations.md) published fresh
+answers and jointly authored point/conclusion expectations for all 19 development
+cases. The [new result](specs/task09a2_final_result.json) contains 419 variants,
+407 eligible for comparison, twelve review exclusions and four inapplicable slots.
+Review the proposed expectations and exclusions before downstream judge use.
+Prior artifacts and reserved/test boundaries remain unchanged. No judge ran.
+
 ## Task 09B — complete with limitations
 
 [09A](../tasks/sprint2/09a_create_synthetic_challenges.md) sealed 546 variants:
@@ -48,20 +63,28 @@ receipts; fixture receipts are not baseline results. The bounded code-quality
 pass strengthens validation and supports distinct saved variants of one case;
 see the outcome for verification and accepted closeout.
 
-**No task is active.** Refresh provisional 09E from the completed 09B–09D
-interfaces before a separately authorized start. 09E–09G and Task 10 remain
-unstarted. [Decision 006](decisions/006_structured_answers_four_part_evaluation.md)
-continues to govern separate judge visibility and the four evaluation results.
+**Next: [Task 09E.1 — Cloud and decision-model judges](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md), planned for a new implementation chat.**
+Prepare seven model/API conditions with offline tests, separate quotation
+diagnostics, caching/cost verification and a bounded local Clef Dev3 trial.
+Cloud runs follow credential setup and explicit run budgets. No implementation
+has started; Dev6, full-19, 09F–09G and Task 10 remain outside this scope.
+The prior [9B outcome](specs/task09e_09a3_qwen9b_v1.md) and
+[09E result](specs/task09e_final_result.json) remain preserved.
+[Decision 006](decisions/006_structured_answers_four_part_evaluation.md) governs
+separate judge visibility and the four evaluation results.
 
 ## Task 09 subqueue
 
 | Task | Status | Deliverable |
 | --- | --- | --- |
 | [09A — Synthetic challenges](../tasks/sprint2/09a_create_synthetic_challenges.md) | Complete with limitations | Broad applicable perturbations, exact edits, proposed G/A expectations, evidence and coverage |
+| [09A.2 — Development regeneration](../tasks/sprint2/09a2_regenerate_point_expectations.md) | Complete with limitations | Fresh answers with point/conclusion support, not-supported flags and inherited development boundaries |
+| [09A.3 — Abstention supplement](../tasks/sprint2/09a3_add_clean_abstentions.md) | Complete | Two varied clean abstentions per development question; original records unchanged |
 | [09B — Harness/local inference](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md) | Complete with limitations | Inspect/Ollama integration, candidate qualification and measured runtime |
 | [09C — Evidence packets](../tasks/sprint2/09c_build_judge_evidence_packets.md) | Complete with limitations | Separate validated inputs and explicit context diagnostics |
 | [09D — Automatic metrics](../tasks/sprint2/09d_implement_automatic_metrics.md) | Complete with limitations | Inspect metrics, canonical identities and Task 10 receipt interface |
-| [09E — Grounding judge](../tasks/sprint2/09e_implement_grounding_judge.md) | Provisional | Independent reference-blind judge |
+| [09E — Grounding judge](../tasks/sprint2/09e_implement_grounding_judge.md) | 9B Dev3 complete; follow-on 09E.1 planned | Reference-blind judge; fixed dev3/dev6 panels and staged Qwen iteration |
+| [09E.1 — Cloud/decision comparison](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) | Planned; next implementation task | Seven provider conditions, caching/cost audit, offline tests and local Clef Dev3 |
 | [09F — Adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) | Provisional | Independent reference-aware judge |
 | [09G — Challenge/freeze](../tasks/sprint2/09g_challenge_and_freeze_judges.md) | Provisional | Bounded revisions, comparison report and frozen configurations |
 

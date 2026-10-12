@@ -1,7 +1,8 @@
 # Task 09 — Build evaluation and qualify two judges
 
 Status: **09A–09D complete with limitations;
-09E–09G provisional.**
+09E Qwen 9B Dev3 comparison complete; 09E.1 cloud/decision comparison planned;
+09F–09G provisional.**
 Reconcile later contracts with preceding outcomes before activation. The October 9
 execution authorization covered 09A, including its full Astra authoring batch.
 The October 10 request authorized 09B after runner/model/runtime discussion:
@@ -43,13 +44,15 @@ October 12–14 evaluation window; dates are planning targets, not execution cla
 | [09B — Harness and local inference](09b_choose_harness_and_qualify_local_judge.md) | Bounded runner decision and measured local inference qualification | 09A representative packets |
 | [09C — Evidence packets](09c_build_judge_evidence_packets.md) | Validated, separate grounding and adequacy inputs | 09A, 09B |
 | [09D — Automatic metrics](09d_implement_automatic_metrics.md) | Exact retrieval and citation scores with edge-case checks | 09C canonical resolution |
-| [09E — Grounding judge](09e_implement_grounding_judge.md) | Reference-blind grounding prompt, implementation and checks | 09B, 09C |
+| [09E — Grounding judge](09e_implement_grounding_judge.md) | Reference-blind grounding prompt, implementation and checks | 09B–09D |
+| [09E.1 — Cloud/decision comparison](09e1_compare_cloud_and_decision_judges.md) | Seven model/API conditions, cache/cost checks, offline integration and bounded local Dev3 | 09E outcomes, 09A.3 frozen panel |
 | [09F — Adequacy judge](09f_implement_adequacy_judge.md) | Separate reference-aware adequacy prompt, implementation and checks | 09B, 09C; review shared interfaces after 09E |
 | [09G — Challenge and freeze](09g_challenge_and_freeze_judges.md) | Results, bounded revisions and configuration freeze | 09A–09F |
 
 Use the listed order as the default queue. Independent implementation can be
 scoped later; dependencies do not require unnecessary new serial approvals once
-execution is authorized. 09A–09D are complete. 09E–09G remain unstarted.
+execution is authorized. 09A–09D are complete. 09E completed the authorized 9B Dev3 comparison. The follow-on 09E.1 contract is
+ready for a new implementation chat; 09F–09G remain unstarted.
 
 ## Outputs and boundaries
 
@@ -125,5 +128,11 @@ runtime token counting remains the consuming judge's responsibility.
 [09D outcome](09d_implement_automatic_metrics.md#outcome) and
 [result](../../docs/specs/task09d_final_result.json) provide exact automatic metrics,
 offline Inspect integration and a canonical retrieval-receipt contract.
-Task 10/12 must qualify production mappings and delivery. 09E–09G remain unstarted
-and require contract refresh before execution.
+Task 10/12 must qualify production mappings and delivery. The refreshed
+[09E plan](09e_implement_grounding_judge.md) fixes nested dev3/dev6 tuning panels,
+small Qwen before larger Qwen, bounded revisions and user reflection checkpoints.
+The subsequent 09E start authorizes Stage 0 and bounded small-Qwen Stages 1–2,
+subject to exact preflight and an early blocker stop. The later user approval
+authorized the now-completed [fixed-pipeline 9B Dev3 comparison](../../docs/specs/task09e_09a3_qwen9b_v1.md)
+only. Stop for review before 9B Dev6 or full-19. 09F–09G still require contract
+refresh before execution.

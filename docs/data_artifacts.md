@@ -428,3 +428,88 @@ Invented fixture receipts remain visibly labeled and cannot establish actual
 baseline retrieval performance. Small source-free fixtures live in tests; all
 run outputs stay outside Git. The [09D result](specs/task09d_final_result.json)
 binds the completed offline qualification and validation logs.
+
+## Task 09E bounded grounding diagnostics
+
+The external `task_09/09e_20261010_v1/` namespace preserves the incoming planning
+diff, local model-asset audit, frozen 24-answer manifest, grounding packets and
+separate restricted expectations. Dev3 uses exactly 12 of Dev6's 24 answer records.
+Source/answer/packet/expectation hashes and selection gaps belong in the manifest;
+source-linked fallback review belongs beside it. Inspect logs, raw request/attempt
+receipts, validation logs and prompt-cycle reports remain external. A blocked
+preflight log is not a model evaluation. No reserved or test content belongs here.
+
+
+The follow-up `task_09/09e_20261010_counter_integration_v1/` namespace preserves the
+single invented-generation Inspect log, native parity receipts, invented-only
+production-counter probe, independent review and validation. It contains no new
+benchmark evaluations. Counter receipt directories bind the native request hash to
+raw identity/render/tokenize responses and either a verified count or failure.
+Isolated probe manifests reference existing model blobs; runtime processes are
+stopped after probing. The original offline namespace remains unchanged.
+
+
+`task_09/09e_20261010_small_v1/` preserves two exact-input Dev3 prompt cycles,
+Inspect-owned metrics/logs, native requests/results, counter receipts, source review,
+validation and the early model-limit checkpoint. Zero valid judgments is recorded
+separately from semantic zero scores. The unchanged Dev6 panel remains frozen but
+unevaluated; these artifacts do not authorize broader or larger-model execution.
+
+
+`task_09/09e_20261010_output3k_v1/` records the one-variable v2 Dev3 output-length
+comparison (1,500 versus 3,000 tokens), including request equality apart from the
+output cap and per-sample completion/failure transitions. Previous runs remain
+immutable; additional output is not interpreted as a validated judgment.
+
+
+`task_09/09e_20261011_staged_v1/` is the separate point/conclusion experiment.
+It preserves per-stage full native requests, prompt/schema versions, exact token
+receipts, raw/validated outputs and final per-answer decisions inside Inspect logs.
+Point failures, skipped conclusions and unresolved disagreements have separate
+counts. Stage 2 identities include the actual Stage 1 predictions. Prior single-call
+runs remain unchanged, with the same sealed development panel used for comparison.
+
+The Task 09E abstention-only experiment uses the fresh external
+`task_09/09e_20261011_abstention_v1/` namespace and unchanged frozen panel. It stores
+answer-only stage inputs, native requests, exact-token receipts, raw and classified
+outputs, Inspect aggregation, source bindings, independent review and a completion
+inventory. The [09E result pointer](specs/task09e_final_result.json) retains previous
+experiment identities; classifier diagnostics never enter model inputs.
+
+## Task 09A.2 development regeneration
+
+Fresh point-annotated synthesis lives in a new `task_09/09a2_*` namespace. It preserves
+all initial/corrective smoke and full-generation attempts, separate answer and
+expectation JSONL, exact edits, development-slot mappings and source-linked review
+receipts. Prior reserved IDs are recorded only as external metadata; no reserved
+payload is copied, inspected, regenerated or newly annotated. The original 09A
+publication and its result pointer remain unchanged. See the
+[09A.2 task](../tasks/sprint2/09a2_regenerate_point_expectations.md).
+
+The point-scope prompt comparison uses `task_09/09e_20261011_point_scope_v2/`.
+Its paired audit verifies unchanged saved point payloads, schemas and settings
+against v1, with raw diagnostic flags kept separate from validated verdicts.
+
+## Task 09E combined-dataset experiment
+
+`task_09/09e_20261011_09a3_small_v1/` binds the
+[09A.3 publication](specs/task09a3_final_result.json) to all eligible answers for
+six fixed development questions: 69 Dev3 records and 67 additions, yielding 136
+Dev6 records. Its frozen panel preserves combined answer/expectation hashes and
+per-record original-root provenance. Restricted point and conclusion proposals
+stay separate from judge packets. Existing 09E panels and results remain intact.
+
+Inspect owns both live runs and the offline combined aggregation. The combined
+result reuses exact Dev3 records without further generation. Preserve stage
+requests, exact preflights, raw results, validation failures, source-linked reviews,
+Dev3 reflection, source snapshots and the final integrity/completion inventories.
+The [experiment contract](specs/task09e_09a3_small_v1.md) owns scope and outcomes;
+the [result pointer](specs/task09e_final_result.json) binds the review checkpoint.
+
+
+The model comparison uses `task_09/09e_20261011_09a3_qwen9b_v1/` and references the
+exact preserved combined-dataset panel. Its Dev3 artifacts bind the 9B model,
+model-specific token counter, unchanged prompts, stage inputs and native outputs.
+The paired comparison separates gate-driven call differences from matching point
+inputs and records conclusion-input changes from preceding predictions. Prior
+small-model results remain sealed. See the [9B comparison contract](specs/task09e_09a3_qwen9b_v1.md).

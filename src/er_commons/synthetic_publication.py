@@ -127,10 +127,85 @@ def review_exclusions(review: dict[str, Any]) -> dict[tuple[str, int], str]:
     return result
 
 
+def inherited_partition(
+    root: Path,
+    expectations: list[dict[str, Any]],
+    coverage: list[dict[str, Any]],
+    regeneration: dict[str, Any],
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Map only authorized development slots; retain reserved identities externally."""
+    for key in (
+        "development_slot_ids",
+        "preserved_final_check_variant_ids",
+        "preserved_excluded_variant_ids",
+    ):
+        if len(regeneration[key]) != len(set(regeneration[key])):
+            raise ValueError("Duplicate inherited partition identities")
+    allowed = set(regeneration["development_slot_ids"])
+    reserved = set(regeneration["preserved_final_check_variant_ids"])
+    prior_excluded = set(regeneration["preserved_excluded_variant_ids"])
+    if allowed & (reserved | prior_excluded) or reserved & prior_excluded:
+        raise ValueError("Inherited partition identities overlap")
+    if any(r["variant_id"] in allowed | reserved | prior_excluded for r in expectations):
+        raise ValueError("Fresh variant reuses predecessor identity")
+    by_slot = {}
+    for row in expectations:
+        slot = row["predecessor_development_variant_id"]
+        if slot not in allowed or slot in by_slot:
+            raise ValueError("Absent or duplicate predecessor development slot")
+        by_slot[slot] = row
+    slots = []
+    for row in coverage:
+        packet = read(root / "cases" / row["case_id"] / "input.json")
+        slot = packet["regeneration_slots"][row["perturbation_id"]]
+        if slot not in allowed:
+            raise ValueError("Coverage escapes development slots")
+        expectation = by_slot.get(slot)
+        if expectation and (
+            expectation["case_id"] != row["case_id"]
+            or expectation["perturbation_id"] != row["perturbation_id"]
+        ):
+            raise ValueError("Expectation does not match covered case/category")
+        slots.append(
+            {
+                "predecessor_development_variant_id": slot,
+                "case_id": row["case_id"],
+                "perturbation_id": row["perturbation_id"],
+                "variant_id": expectation["variant_id"] if expectation else None,
+                "disposition": row["disposition"],
+                "reason": row["reason"],
+            }
+        )
+    identifiers = [r["predecessor_development_variant_id"] for r in slots]
+    if not set(by_slot) <= set(identifiers):
+        raise ValueError("Expectation lacks coverage accounting")
+    if len(identifiers) != len(set(identifiers)):
+        raise ValueError("Duplicate slot accounting")
+    if not read(root / "config.json")["smoke"] and set(identifiers) != allowed:
+        raise ValueError("Incomplete inherited development slot accounting")
+    return {
+        "method": "Inherited development-only regeneration; no new reservation",
+        "predecessor_reservation": regeneration["predecessor_reservation"],
+        "final_check_variant_ids": [],
+        "preserved_external_final_check_variant_ids": sorted(reserved),
+        "preserved_external_excluded_variant_ids": sorted(prior_excluded),
+        "development_variant_ids": sorted(
+            r["variant_id"] for r in expectations if r["comparison_eligible"]
+        ),
+        "excluded_variant_ids": sorted(
+            r["variant_id"] for r in expectations if not r["comparison_eligible"]
+        ),
+        "judge_exposures_before_reservation": 0,
+        "boundary": "Prior reserved/test payloads untouched; fresh IDs remain development only",
+    }, slots
+
+
 def publish(root: Path, review: Path) -> dict[str, Any]:
     """Publish all case/category dispositions, preserving failed units without claiming coverage."""
     with lock(root):
         prepared = verify_inputs(root)
+        intake = read(root / "intake.json")
+        regeneration = intake.get("regeneration")
         review_record = read(review)
         if review_record.get("status") != "passed":
             raise ValueError("Independent review must pass before publication")
@@ -253,8 +328,15 @@ def publish(root: Path, review: Path) -> dict[str, Any]:
         ids = [a["variant_id"] for a in answers]
         if len(ids) != len(set(ids)):
             raise ValueError("Duplicate variant identities")
-        if not read(root / "config.json")["smoke"] and len(coverage) != 19 * len(CATEGORIES):
+        expected_coverage = (
+            len(regeneration["development_slot_ids"]) if regeneration else 19 * len(CATEGORIES)
+        )
+        if not read(root / "config.json")["smoke"] and len(coverage) != expected_coverage:
             raise ValueError("Full publication needs exactly 19-case catalog accounting")
+        if regeneration:
+            reservation, slot_rows = inherited_partition(root, expectations, coverage, regeneration)
+        else:
+            reservation = reserve(expectations, seed=read(root / "config.json")["reservation_seed"])
         for name, records in (
             ("answers", answers),
             ("expectations", expectations),
@@ -268,7 +350,10 @@ def publish(root: Path, review: Path) -> dict[str, Any]:
             root / "published" / "exact_reference_controls.json",
             read(root / "intake.json")["restricted_controls"],
         )
-        reservation = reserve(expectations, seed=read(root / "config.json")["reservation_seed"])
+        if regeneration:
+            publish_bytes_no_clobber(
+                root / "published" / "development_slots.jsonl", jsonl_bytes(slot_rows)
+            )
         save(root / "published" / "reservation.json", reservation)
         publish_bytes_no_clobber(
             root / "published" / "independent_review.json", review.read_bytes()
@@ -312,6 +397,22 @@ def publish(root: Path, review: Path) -> dict[str, Any]:
             "target_runs": 0,
             "test_evaluations": 0,
         }
+        if regeneration:
+            summary["annotation_version"] = intake["annotation_version"]
+            summary["preserved_external_final_checks"] = len(
+                regeneration["preserved_final_check_variant_ids"]
+            )
+            summary["requested_development_slots"] = expected_coverage
+            summary["point_expectation_count"] = sum(
+                len(e["grounding"]["point_expectations"]) for e in expectations
+            )
+            summary["not_supported_counts"] = dict(
+                Counter(str(e["grounding"]["not_supported"]) for e in expectations)
+            )
+            summary["limitations"].append(
+                "Fresh development-only generation; prior reserved payloads were not read "
+                "or regenerated, and no new final-check split was created."
+            )
         publish_bytes_no_clobber(
             root / "published" / "publication_source.py", Path(__file__).read_bytes()
         )
