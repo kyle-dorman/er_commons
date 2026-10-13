@@ -8,6 +8,7 @@ from typing import Any, Self
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from er_commons.grounding_evidence import source_texts
 from er_commons.judge_packet_requests import packet_content
 from er_commons.judge_packets import (
     Point,
@@ -170,7 +171,7 @@ class ConclusionAssessment(StrictStageModel):
         return self
 
 
-def _payload(packet: dict[str, Any]) -> dict[str, Any]:
+def grounding_payload(packet: dict[str, Any]) -> dict[str, Any]:
     """Accept only a validated reference-blind packet; no outer metadata crosses the boundary."""
     value: dict[str, Any] = json.loads(packet_content(packet))
     if packet["dimension"] != "grounding":
@@ -178,7 +179,7 @@ def _payload(packet: dict[str, Any]) -> dict[str, Any]:
     return value
 
 
-def _point_inputs(payload: dict[str, Any]) -> list[dict[str, Any]]:
+def projected_point_inputs(payload: dict[str, Any]) -> list[dict[str, Any]]:
     """Project saved point order and minimal explicit links without adding evidence sources."""
     answer = payload["answer"]
     all_points = points(answer)
@@ -212,10 +213,10 @@ def _point_inputs(payload: dict[str, Any]) -> list[dict[str, Any]]:
 
 def point_inputs(packet: dict[str, Any]) -> list[dict[str, Any]]:
     """Return every nonempty non-conclusion point, preserving original IDs and linked context."""
-    return _point_inputs(_payload(packet))
+    return projected_point_inputs(grounding_payload(packet))
 
 
-def _checked_point_input(value: dict[str, Any]) -> PointInput:
+def checked_point_input(value: dict[str, Any]) -> PointInput:
     """Reject added sources or hidden fields even when a caller bypasses packet projection."""
     parsed = PointInput.model_validate(value)
     ids = [e.citation_id for e in parsed.evidence]
@@ -231,7 +232,7 @@ def _checked_point_input(value: dict[str, Any]) -> PointInput:
 
 def point_schema(value: dict[str, Any]) -> dict[str, Any]:
     """Bind one point ID and the binary issue-list invariants with decoder-compatible branches."""
-    parsed = _checked_point_input(value)
+    parsed = checked_point_input(value)
     base = PointAssessment.model_json_schema()
     definitions = base.pop("$defs")
     base["properties"]["point_id"]["const"] = parsed.point.point_id
@@ -245,35 +246,31 @@ def point_schema(value: dict[str, Any]) -> dict[str, Any]:
     return {"$defs": definitions, "anyOf": [supported, unsupported]}
 
 
-def _validate_locators(locators: list[Locator], evidence: list[dict[str, Any]]) -> None:
+def validate_locators(locators: list[Locator], evidence: list[dict[str, Any]]) -> None:
     """Check source ownership and literal excerpts; repetition and joint support are allowed."""
     sources = {e["citation_id"]: e for e in evidence}
     for locator in locators:
         source = sources.get(locator.citation_id)
         if not source or source["resolution"] != "resolved":
             raise ValueError("Locator must identify an actual resolved citation in this input")
-        texts = [source["full_source_text"]]
-        for table in source["tables"]:
-            texts.extend(cell["text"] for cell in table["cells"])
-            if table.get("caption"):
-                texts.append(table["caption"])
+        texts = source_texts(source)
         if not locator.excerpt.strip() or not any(locator.excerpt in text for text in texts):
             raise ValueError("Locator excerpt must occur exactly in the actual source")
 
 
 def validate_point(raw: str, value: dict[str, Any]) -> dict[str, Any]:
     """Validate binary support, literal unsupported subclaims and actual point-owned evidence."""
-    parsed = _checked_point_input(value)
+    parsed = checked_point_input(value)
     result = PointAssessment.model_validate_json(raw)
     if result.point_id != parsed.point.point_id:
         raise ValueError("Point assessment must retain the exact target point ID")
     if any(issue.assertion not in parsed.point.text for issue in result.unsupported_assertions):
         raise ValueError("Unsupported assertions must be exact substrings of the target point text")
-    _validate_locators(result.locators, value["evidence"])
+    validate_locators(result.locators, value["evidence"])
     return result.model_dump(mode="json")
 
 
-def _checked_conclusion_input(value: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+def checked_conclusion_input(value: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Validate the original payload and every preceding result without accepting extra metadata."""
     if set(value) != {"question", "answer", "evidence", "point_assessments"}:
         raise ValueError(
@@ -281,7 +278,7 @@ def _checked_conclusion_input(value: dict[str, Any]) -> tuple[dict[str, Any], li
         )
     payload = {key: value[key] for key in ("question", "answer", "evidence")}
     payload = json.loads(serialize_payload(payload, "grounding"))
-    inputs = _point_inputs(payload)
+    inputs = projected_point_inputs(payload)
     results = value["point_assessments"]
     if not isinstance(results, list) or len(results) != len(inputs):
         raise ValueError("Conclusion input requires exactly all point assessments in packet order")
@@ -293,14 +290,14 @@ def _checked_conclusion_input(value: dict[str, Any]) -> tuple[dict[str, Any], li
 
 def conclusion_input(packet: dict[str, Any], point_results: list[dict[str, Any]]) -> dict[str, Any]:
     """Append only validated point predictions to the complete original reference-blind payload."""
-    value = {**_payload(packet), "point_assessments": copy.deepcopy(point_results)}
-    payload, sanitized = _checked_conclusion_input(value)
+    value = {**grounding_payload(packet), "point_assessments": copy.deepcopy(point_results)}
+    payload, sanitized = checked_conclusion_input(value)
     return {**payload, "point_assessments": sanitized}
 
 
 def conclusion_schema(value: dict[str, Any]) -> dict[str, Any]:
     """Require ordered independent reviews and separate clean-abstention eligibility."""
-    payload, predictions = _checked_conclusion_input(value)
+    payload, predictions = checked_conclusion_input(value)
     base = ConclusionAssessment.model_json_schema()
     definitions = base.pop("$defs")
     reviews = base["properties"]["point_reviews"]
@@ -332,7 +329,7 @@ def conclusion_schema(value: dict[str, Any]) -> dict[str, Any]:
 
 def validate_conclusion(raw: str, value: dict[str, Any]) -> dict[str, Any]:
     """Keep independent review disagreement visible rather than silently correcting predictions."""
-    payload, predictions = _checked_conclusion_input(value)
+    payload, predictions = checked_conclusion_input(value)
     result = ConclusionAssessment.model_validate_json(raw)
     if [r.point_id for r in result.point_reviews] != [p["point_id"] for p in predictions]:
         raise ValueError("Conclusion reviews must cover every point exactly once in packet order")
@@ -340,7 +337,7 @@ def validate_conclusion(raw: str, value: dict[str, Any]) -> dict[str, Any]:
         raise ValueError(
             "Clean abstention requires abstained status and no substantive non-conclusion points"
         )
-    _validate_locators(result.locators, payload["evidence"])
+    validate_locators(result.locators, payload["evidence"])
     return result.model_dump(mode="json")
 
 

@@ -1,0 +1,121 @@
+{
+  "schema_version": "task09e1.settings_prompts_models_pointer.v1",
+  "status": "complete_with_limitations",
+  "branch": "codex/task09e1-cloud-decision-judges",
+  "base_commit": "f0c57a0966f851f552b5fc06cf918754e2d5dff7",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1",
+  "result": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/result.json",
+    "sha256": "65dfddca570193347b870ea41b9c0366c50cde33aea77827c6a2e3dc8eecf2b4",
+    "byte_size": 49568
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/completion.json",
+    "sha256": "22e4a5d7d82bc6051185c5de29cf1f4904d8a952ee62a8841adc8b5694a3a2dc",
+    "byte_size": 1451050
+  },
+  "reviews": {
+    "settings_audit.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/settings_audit.json",
+      "sha256": "237357b702d29b26bb4a50f1b2e6986543a3ba82fdbe88b4c0e9fe9e4ef82767",
+      "byte_size": 1928
+    },
+    "prompt_independent_review.md": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/prompt_independent_review.md",
+      "sha256": "2a81c84e9e9a58864ce32595ed5ef378f3826891e8c247dee8828068a4c081fa",
+      "byte_size": 6258
+    },
+    "review_stage_audit.md": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/review_stage_audit.md",
+      "sha256": "e73c5e88cf73a9bb3e55b9a34afd4284dff2e87bfaddce0ac899517e3a2035c7",
+      "byte_size": 2555
+    },
+    "mini_final_review.md": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/mini_final_review.md",
+      "sha256": "e0010ef8c9ed51fd5b14c261cece12c8f5711790bcdc2b5a11cbd1a7ee4ad948",
+      "byte_size": 8070
+    },
+    "gpt54_final_review.md": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/gpt54_final_review.md",
+      "sha256": "88683617dff009b15328e27cd04d471e488a702dbb8cd50472702d4298898bdf",
+      "byte_size": 7603
+    },
+    "final_report_review.md": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/final_report_review.md",
+      "sha256": "92ef74efa4f4ddab9ffae1923748d9b65c3f4100b84e2a86ba83efc2aa7cf6dc",
+      "byte_size": 3762
+    },
+    "preservation_check.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/preservation_check.json",
+      "sha256": "4c787b3803057c86a6a27e35e4c43467f4a361991136210e5a81e7e65e13443d",
+      "byte_size": 1752
+    },
+    "credential_scan.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/credential_scan.json",
+      "sha256": "4b2ed25a332ea105fd4351c79569deec69061ab66b0b6f2ddeb1014369704e4a",
+      "byte_size": 367
+    },
+    "identity_check.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_settings_prompts_models_v1/identity_check.json",
+      "sha256": "bc3ce33665d5b391ee42a93444e8d92ec9aee87418153bdff687f8b27125d59e",
+      "byte_size": 474
+    }
+  },
+  "model_results": {
+    "gpt54": {
+      "population": 69,
+      "statuses": {
+        "not_applicable": 6,
+        "scored": 54,
+        "stage_error": 2,
+        "unresolved_disagreement": 7
+      },
+      "numeric_matching_proposals": 52,
+      "numeric": 54,
+      "model": "gpt-5.4-2026-03-05"
+    },
+    "gpt54mini": {
+      "population": 69,
+      "statuses": {
+        "not_applicable": 6,
+        "scored": 55,
+        "stage_error": 1,
+        "unresolved_disagreement": 7
+      },
+      "numeric_matching_proposals": 44,
+      "numeric": 55,
+      "model": "gpt-5.4-mini-2026-03-17"
+    }
+  },
+  "selected_diagnostic_settings": "medium",
+  "selected_diagnostic_prompt": "combined",
+  "production_promotions": [],
+  "generation_calls": 831,
+  "standard_list_rate_estimate_usd": "4.886704700",
+  "invoice_usd": null,
+  "payer_buckets": {
+    "developer": {
+      "calls": 311,
+      "list_rate_estimate": "3.36529065"
+    },
+    "unreported": {
+      "calls": 1,
+      "list_rate_estimate": "0.00976"
+    },
+    "openai": {
+      "calls": 519,
+      "list_rate_estimate": "1.511654050"
+    }
+  },
+  "validation": {
+    "focused_passed": 181,
+    "make_fix": "passed",
+    "format_lint_types": "passed",
+    "full_passed": 4230,
+    "full_skipped": 1,
+    "historical_task06g_failures": 3,
+    "git_diff_check": "passed"
+  },
+  "prior_artifacts_unchanged": true,
+  "commits_or_pushes": false
+}

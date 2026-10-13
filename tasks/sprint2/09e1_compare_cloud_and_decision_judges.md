@@ -1,15 +1,99 @@
 # Task 09E.1 — Compare cloud and decision-model grounding judges
 
-Status: **Planned; ready for a new implementation chat.** Written October 11,
-2026. This planning turn authorizes no execution. The implementation scope below
-captures the user's requested overnight preparation and bounded local trial;
-cloud trials follow credential setup and an explicit run budget.
+Status: **complete** — closed by the user on October 13, 2026.
 
-The user requested a committed baseline on
-`codex/task09e-grounding-checkpoint`, then an implementation branch
-`codex/task09e1-cloud-decision-judges` from that baseline. Start the new chat on
-the implementation branch. That checkpoint precedes this task's Phase 0 cleanup;
-the cleanup is work for the new chat, not part of preparing the baseline commit.
+Implemented and evaluated the authorized provider comparisons, semantic/quotation
+separation, cache repairs and cost checks. The user selects **GLM Flash**, medium
+reasoning, the simple claims prompt and original conclusion semantics with the
+empty-review clarification. Luna and Haiku remain alternatives. Clef is retired;
+DeepSeek and the rejected semantic appendix are set aside.
+
+The [accepted result](../../docs/specs/task09e1_glm14_conditions_dev6_result.md)
+reports patched full-development GLM original-claims/conclusion/numeric macro-F1
+of **97.50% / 97.57% / 93.46%**. These include targeted repairs with mixed prompt
+provenance, not a fresh uniform full-panel run. Missing/invalid outputs count as
+failures. Remaining semantic errors and disagreements are accepted development
+limitations, not unfinished prompt-tuning work.
+
+[09E.2 cleanup](09e2_cleanup_grounding_judges.md) is complete. Current configurations
+and commands are in the [maintainer guide](../../docs/grounding_judge_guide.md).
+Exact preflight for unused providers, connection pooling and further model tuning
+are deferred rather than closeout requirements. No new inference or dataset
+expansion is part of this closeout. 09F implements adequacy; 09G owns the final
+challenge/freeze. The user now authorizes the local commit/merge and removal of
+the merged parent checkpoint branch.
+
+## Historical planning and experiment updates
+
+The records below retain their original execution boundaries and result links.
+References to paused providers, pending cloud tests or no commits describe those
+historical runs; the current task status and selection are stated above.
+
+
+Completed engineering follow-up: [09E.2 cleanup](09e2_cleanup_grounding_judges.md)
+covers this implementation and inherited Task 09E code. The experiment records
+below remain historical; Clef execution is retired by the user's October 13
+instruction. Use the [maintainer guide](../../docs/grounding_judge_guide.md) for
+current commands. No prior result or artifact is replaced.
+
+Current selection (user, October 13): use GLM for subsequent judge work, retaining the original semantic prompt and empty-list clarification. Set aside the semantic appendix and DeepSeek. This records the selected configuration; no new inference, default code changes or judge-qualification claim follows.
+
+Latest follow-up complete: [fourteen GLM repairs and three-model Dev6 prompt test](../../docs/specs/task09e1_glm14_conditions_dev6_result.md). Thirteen repairs succeed; one remains invalid. Patched full-panel GLM conclusion/numeric macro-F1 is 97.57%/93.46%. The semantic candidate fails the frozen improvement gate for Luna, Haiku and GLM; retain the original semantic prompt and empty-list clarification. No Dev6 expansion, defaults, labels, commits or pushes. DeepSeek remains set aside. [Result pointer](../../docs/specs/task09e1_glm14_conditions_dev6_result.json).
+
+Current follow-up complete with partial DeepSeek coverage: [updated GLM repair and cross-model failure analysis](../../docs/specs/task09e1_fireworks_repair_8192_result.md). All nine GLM retries validate and match labels; updated conclusion/numeric macro-F1 is 95.67%/91.76%. DeepSeek retains 822 valid claims, nine failures and 225 undispatched claims after a second uncertain transport timeout; no conclusions ran. Exact-item analysis distinguishes semantic disagreement from invalid/missing outputs. The [result pointer](../../docs/specs/task09e1_fireworks_repair_8192_result.json) preserves contracts, native audits, overlap/source review and all prior artifacts. No further inference, default promotion, label changes, commits or pushes.
+
+Prior follow-up complete: the [five-conclusion Haiku patch](../../docs/specs/task09e1_haiku_conclusion_patch_result.md) adds five valid, label-matching numeric scores. Patched conclusion/numeric macro-F1 is 96.05%/89.05%. Preserve original comparison and separate mixed-prompt results. No further inference; GLM remains paused.
+
+Prior follow-up complete: the [five-claim Haiku locator diagnostic](../../docs/specs/task09e1_haiku_locator_retry_result.md) produces five valid unsupported judgments with empty locators. Prior full-panel metrics stay frozen; no prompt default change. GLM and cache investigation remain paused.
+
+Status: **Authorized GLM Flash and Haiku comparison complete with limitations.**
+The [result](../../docs/specs/task09e1_glm_haiku_full_dev_result.md) records a complete
+Haiku pass and full GLM claims, with GLM conclusions stopped on HTTP 412. All missing
+outputs remain in coverage-aware metrics. No further inference or default promotion.
+The [new contract](../../docs/specs/task09e1_glm_haiku_full_dev_v1.md) tests each
+provider on the selected simple claims and original conclusion prompts, with
+native medium effort and the same full-development metrics. It separately
+records provider counting and reasoning differences. The
+[validation-error continuation](../../docs/specs/task09e1_glm_json_continuation_v1.md)
+preserves initial strict-parser failures, recovers single GLM JSON wrappers,
+and retains genuine model-output errors as unscored without paid retries.
+No reserved/test use,
+other models, later tasks, commits or pushes.
+
+The prior full-development Luna conclusion comparison is complete.
+The [result](../../docs/specs/task09e1_luna_conclusion_full_dev_result.md) covers
+430 eligible answers and 1,593 valid new generations. Conclusion macro-F1 is
+92.93% original versus 92.97% clarified; the added thirteen questions and claim
+reviews show no gain. Keep the simpler original; no package default or label
+changes. The new contract's explicit full-19 authorization applied only to this
+experiment. That completed run authorized no further inference; the new user request above
+authorizes only the two additional provider comparisons.
+
+The prior Dev6 comparison is complete.
+The [result](../../docs/specs/task09e1_luna_conclusion_evidence_dev6_result.md)
+records 272 valid judgments with 323 frozen original claims. Overall conclusion
+agreement remains 117/124; outside C041 it rises 100/104 to 103/104, and claim
+reviews rise 317/323 to 320/323. The original overall-gain criterion is unmet.
+No default or label changes, commits or pushes follow from the prior result.
+Earlier failed experiments remain preserved.
+See the [Dev6 outcome](../../docs/specs/task09e1_luna_structured_dev6_result.md).
+The user's later instruction explicitly permits this expansion despite the
+[structured pilot's failed criteria](../../docs/specs/task09e1_luna_structured_claims_result.md).
+Historical stop boundaries below describe their respective completed runs.
+The prior
+[cache/pipeline outcome](../../docs/specs/task09e1_luna_cache_pipeline_result.md)
+preserves the cache improvement and full-pipeline prompt arms.
+Both contextual claim additions are set aside; no larger Dev3 pass was triggered.
+Other cloud conditions and exact-counter gaps remain pending; no judge is qualified.
+The October 12 user instruction permits trying unchanged inputs that fit without
+advance exact counting, for local Clef only. See the additive
+[exploratory contract](../../docs/specs/task09e1_clef_exploratory_v1.md).
+Implemented October 11, 2026 on
+`codex/task09e1-cloud-decision-judges` from `f0c57a0`, under the user's explicit
+implementation authorization. The October 11 offline result made no paid calls,
+model downloads, commits or pushes; the separate October 12 trial downloads only Clef.
+See the [result pointer](../../docs/specs/task09e1_final_result.json) and
+[current cloud handoff](../../docs/specs/task09e1_cloud_handoff.md).
 
 ## Abstract
 
@@ -364,7 +448,354 @@ review. Integrate findings; do not delegate the entire ambiguous task to one
 agent. Review the implementation spec before coding and the final diff/results
 before handoff. Explain the important API and caching tradeoffs in plain language.
 
-## Outcome
+## October 11 offline outcome (preserved)
 
-Pending implementation in a new chat. No models, downloads or cloud calls were
-executed while writing this plan.
+Completed the credential-free implementation and independent reviews. Phase 0
+preserves legacy judge behavior; the new version implements seven provider wire
+paths, binary-only observations, quotation diagnostics, exact-preflight guards,
+conservative budgets and Inspect-owned execution. No model has been qualified by
+this work. The local trial stopped at demonstrated endpoint/counting blockers;
+no inference or downloads were needed to establish them.
+
+### Implementation and reviews
+
+- [Phase 0](../../docs/specs/task09e1_phase0.md): unchanged stage-executor body
+  extracted to its own owner; five invented golden scenarios passed before and
+  after, 254 focused regressions passed, and independent review verified AST parity.
+- [Comparison specification](../../docs/specs/task09e1_comparison_v1.md) and
+  [spec review](../../docs/specs/task09e1_spec_review.md): native paired predicates
+  preserve the three-way gate; generation fields are diagnostic; exact ordered
+  binary predictions alone enter conclusion review. Zero-point, disagreement,
+  missing decisions and structural source-identity behavior are preserved.
+- [Provider research](../../docs/specs/task09e1_provider_research.md) and
+  [final review](../../docs/specs/task09e1_final_review.md): all seven configurations
+  are explicit, endpoint-specific schema adaptations are documented, and local
+  strict validation remains authoritative. No new runtime dependency was added.
+- Seven actual Inspect runs with invented provider responses each completed all
+  three stages and scored the invented supported example 2. Network and credential
+  access were forbidden in this fixture execution. These are plumbing results,
+  not model judgments or Dev3 performance.
+
+### Local qualification and offline audit
+
+The unchanged selected panel contains 69 answers (C041 22, C037 27, C014 20),
+166 original non-conclusion points, and a maximum of 304 stage calls. Each
+condition's final audit contains 373 rendered shapes: every gate and point plus
+all-false/all-true synthetic conclusion observations. Those synthetic observations
+are explicitly audit-only; actual execution uses validated model predictions.
+Original source, answer, origin and panel hashes were verified without loading
+expectation files for request construction. All 34,055 previous Task 09 files
+remained byte-identical.
+
+[Clef qualification](../../docs/specs/task09e1_clef_qualification.md) found Ollama
+0.40.2 installed, daemon stopped and Clef absent. The local System One endpoint
+has a 65,536-byte limit and no qualified exact preflight counter. Twenty original
+point payloads alone exceed that ceiling. Final rendering rejects 54 audit shapes:
+20 point calls and 34 alternate conclusion shapes (17 possible conclusion calls).
+Thus 37 of the maximum 304 actual-stage shapes exceed the limit; this is not a
+measured failure count. Largest rendered Clef body: 113,727 bytes. No source
+truncation, point splitting, other-model download or runtime upgrade was attempted.
+
+### Caching and cost findings
+
+Stable evidence precedes changing point text. Adjacent same-stage visible prefixes
+reach roughly 111–115 KB, depending on provider; these are **bytes, not exact token
+counts or eligible cache boundaries**. OpenAI implicit caching's message boundaries
+mean an intra-message shared-evidence prefix alone does not prove savings.
+No native cache hits, writes, latency improvement or billed savings were measured.
+Exact offline request totals and plausible-cache currency estimates remain unknown.
+Dated rates, thresholds, TTL/controls, write premiums and native usage fields are
+recorded for inspection. Full-context worst-case ceilings are available where
+context limits are known; these loose upper bounds are not expected Dev3 spend.
+
+The runner reserves worst-case input/write/output cost before inference, retains
+possibly billed failed reservations, enforces cumulative request/output/wall caps,
+and stops on native count or output-usage mismatches even when semantic output is
+malformed. No automatic retry is enabled. The live CLI refuses an existing run
+namespace; verified receipt reuse is separately tested and never described as a
+provider cache hit. Protocol/cache probes are excluded from evaluation denominators.
+
+### Validation and remaining gates
+
+`make fix` passed. `make check` passed format/lint/types and reported **4,155 passed,
+one skipped, three unchanged historical Task 06G failures**, with no new failures:
+
+- `test_collection_generator_preserves_historical_v38_owner_packet`
+- `test_task06g_v38_generation_remains_immutable_after_finalization_amendment`
+- `test_task06g_templates_are_executable_and_source_free`
+
+The new comparison suite has 227 tests; the final focused selection has 262 passing
+tests. `git diff --check` passed. Final artifacts and their independent integrity
+review are bound by the new result pointer; prior result pointers are unchanged.
+
+OpenAI Responses can perform credentialed exact counting and bounded protocol
+qualification using the [handoff commands](../../docs/specs/task09e1_cloud_handoff.md).
+The other five cloud conditions lack qualified exact preflight (and Decisions'
+endpoint context limit is unresolved). Credentials alone cannot unblock them.
+Cloud testing has therefore **not** produced coverage, confusion counts, model
+comparisons or source-linked model disagreements. The separate post-run analyzer
+implements those reports with all-69 denominators and matched-valid comparisons,
+retaining the proposed-label limitation.
+
+No Clef/cloud inference, reserved/test content, Dev6/full-19 expansion, later-task
+work, commits or pushes occurred. Stop here for credential setup and deliberate
+bounded cloud testing; do not infer authorization to weaken any counting gate.
+
+## October 12 user-authorized local exploratory outcome
+
+The later explicit request authorized trying original fitting Clef inputs without
+exact advance counting, with no truncation. The independently reviewed local-only
+exception leaves cloud/default gates intact. See the additive
+[contract and full outcome](../../docs/specs/task09e1_clef_exploratory_v1.md) and
+[result pointer](../../docs/specs/task09e1_clef_exploratory_result.json).
+
+Downloaded only Clef Flash and completed a three-stage invented native smoke,
+then the unchanged 69-answer Dev3 pass once through Inspect in 915 seconds.
+All 258 dispatched requests returned valid structures; 21 reached stages exceeded
+the byte ceiling and were skipped. Final outcomes: 22 numeric scores, seven
+abstention classifications (including one proposed-label false exemption), 23
+review disagreements, 16 size-blocked answers and one ambiguous gate. Nothing was
+truncated, regenerated, split or retried. The runtime's enforced 16K context did
+not reject any dispatched request; the largest used 10,238 native input tokens.
+
+Local native receipts report 600,847 input tokens and 246,313 cache-read tokens;
+cache writes and latency savings remain unmeasured. This is local prefix reuse,
+not cloud cache evidence or saved-result replay. Model/runtime/code identities
+and all prior artifact hashes remained unchanged. Clef remains unqualified.
+
+Focused tests: 268 passed; independent bounded review selection: 151 passed.
+`make fix` and format/lint/types passed; final `make check` produced 4,191 passed,
+one skipped and only the three historical Task 06G failures. An inference-time
+timing-test failure cleared on the full post-inference rerun without a code change.
+`git diff --check` passed. No paid cloud calls, broader panels, later tasks, commits
+or pushes occurred. Stop after this single trial; truncation was not authorized.
+
+## October 12 authorized Luna generation outcome
+
+The user supplied OpenAI credentials in `.env` and explicitly requested Luna
+generation next. A code-only loader kept key values out of messages and artifacts.
+The account also lists GPT-5.4 and GPT-5.4-mini, requested follow-up candidates;
+no substitution or extra model/provider run occurred.
+
+One smoke exposed and fixed a narrow parser defect rejecting successful
+`error: null` responses. The original response was revalidated offline without
+another generation. Three cache probes then qualified count parity and confirmed
+identical-request reuse. The unchanged 69-answer panel ran once through Inspect:
+298 successful generations, 52 numeric scores, six clean abstentions and 11
+unresolved disagreements, in 1,254 seconds. All input counts matched native usage;
+there were no context, truncation, schema, transport or output-cap failures.
+
+Agreement with proposed labels was 151/166 point decisions, 56/63 conclusions
+and 47/52 numeric scores. The gate made no false exemptions or misses. This is
+better measured coverage than historical Qwen 9B (12 scores, six matching), but
+the model and quotation/observation pipeline both changed. Synthetic proposals
+are not calibrated truth. C041 review inconsistency and quotation defects persist.
+
+Panel reservations stayed at $1.441928950 under the $2 cap. Measured token buckets
+imply $0.233855565 at standard list rates; all 302 generation receipts across
+smoke/cache/panel report OpenAI as payer. No invoice or future-free guarantee is
+inferred. The [full outcome](../../docs/specs/task09e1_luna_generation_v1.md) and
+[result pointer](../../docs/specs/task09e1_luna_generation_result.json) preserve
+cache writes/reads, source-linked review, cost estimates and exact setup commands.
+
+Independent code and artifact reviews passed. Focused provider tests: 109 passed.
+`make fix`, format/lint/types and `git diff --check` passed. Full tests: 4,197
+passed, one skipped and only the three historical Task 06G failures. All prior
+artifacts remained unchanged. No Decisions, other-provider calls, expanded panels,
+prompt tuning, later tasks, commits or pushes occurred. Stop after this trial.
+
+## Shared-evidence prompt caching — authorized follow-up
+
+The subsequent user-authorized [settings, prompt and two-model comparison](../../docs/specs/task09e1_settings_prompts_models_v1.md)
+uses only the inconsistent claims and existing Dev3 panel. Its bounded contract
+superseded the previous stop for those experiments. The newer user request now
+authorizes the [Luna-only cache and complete-pipeline follow-up](../../docs/specs/task09e1_luna_cache_pipeline_v1.md).
+
+- [x] Investigate and improve provider prompt-cache reuse when the cited evidence
+  stays the same but the target claim changes. The Luna shared-evidence probe
+  reported zero cache-read tokens, whereas exact duplicate panel requests reused
+  about 99.7% of input tokens after the first call. Inspect serialized prefix
+  order, changing schema/point IDs, cache settings and native diagnostics before
+  attributing the miss to a specific cause. Keep evidence visibility and judge
+  semantics unchanged; record a bounded before/after comparison of native token
+  buckets and costs in a fresh namespace. Distinguish provider input caching
+  from application-level reuse of completed judgments. The later user request activates this work only in the fresh Luna follow-up
+  namespace; the sealed earlier runs remain unchanged.
+
+## October 12 authorized settings, prompts and two-model outcome
+
+All three requested phases are complete in a fresh external namespace. The
+[full outcome](../../docs/specs/task09e1_settings_prompts_models_result.md) records
+every arm, the negative results, source review, billing limitations and exact
+historical invocations; the [result pointer](../../docs/specs/task09e1_settings_prompts_models_result.json)
+binds the sealed evidence.
+
+On eight inconsistent requests with three fresh repetitions each, medium reasoning
+improved clear-review agreement from 7/12 to 10/12. Temperature zero was more
+consistent but much less aligned with those interpretations (3/12); the no-reasoning
+temperature-one arm stopped after an output-cap failure. Of five frozen prompt
+additions, the combined scope/absence/grammar clarification reached 12/12 clear
+comparisons and seven unanimous claims; the checklist reached 12/12 and six.
+Standalone variants failed the frozen selection rule. A fixed-context conclusion
+check improved one clearer interpretation but left ten of eleven answers unresolved
+in both arms. No prompt or setting was promoted.
+
+Both original-prompt, low-reasoning 69-answer passes finished with exact input
+counts and unchanged panel boundaries. GPT-5.4 produced 54 scores, 52 matching
+proposals; mini produced 55, 44 matching. Each had six clean abstentions and seven
+unresolved disagreements; two GPT-5.4 and one mini outputs failed citation-locator
+validation. GPT-5.4 leads the observed comparison but still accepts cross-citation
+support in a source-reviewed case, even where the proposal agrees. No model is
+qualified. Shared-evidence cache optimization was subsequently completed in the Luna follow-up below.
+
+All 831 generations, including diagnostics and two protocol smokes, imply $4.886705
+at recorded standard rates. Native payer metadata splits into 311 developer,
+519 OpenAI and one unreported response; promotional coverage and invoice totals
+are not inferred. Actual usage stayed within all predeclared bounds. Failed
+count attempts are preserved; a narrow sampling-counter repair dispatched only
+previously unrun trials. No automatic retries, truncation, later-task work,
+expanded datasets, commits or pushes occurred.
+
+Independent settings, prompt, review-stage, model, identity and artifact audits
+completed. Focused tests: 181 passed. `make fix` passed; `make check` reported
+4,230 passed, one skipped and only the three historical Task 06G failures, with
+format/lint/types passing. Prior inventory and all three older sealed namespaces
+remained byte-identical. See the result pointer for final scan and seal evidence.
+
+
+## Completed Luna-only follow-up
+
+The user selected **Luna only for subsequent inference** because of cost and
+authorized cache repair followed by complete-pipeline prompt experiments on the
+eleven original inconsistent answers. Follow the [bounded contract](../../docs/specs/task09e1_luna_cache_pipeline_v1.md):
+cache qualification first, then four prompt combinations with fresh point
+predictions entering fresh conclusions. Other provider implementations and prior
+results remain historical; no further GPT-5.4/mini or other-provider calls.
+
+
+The [full outcome](../../docs/specs/task09e1_luna_cache_pipeline_result.md) and
+[result pointer](../../docs/specs/task09e1_luna_cache_pipeline_result.json) record
+twelve successful cache probes and four complete three-repeat passes of eleven
+original inconsistent answers. Changed-claim cache reads improved from zero to
+1,303 tokens in both tested pairs; full-pipeline cache reads were 75.75% of input.
+Numeric coverage was 18/33 original, 18/33 claims-only, 22/33 both-stage and 26/33
+with the stronger conclusion addition. C/D achieved 15/15 clearer diagnostics
+at both stages, but matched fresh point vectors showed equal numeric coverage
+between arms. D also rejected a nonfactual procedural conclusion once for lacking
+citations. Claims-only is set aside; C remains a development candidate, and D is
+not promoted despite ranking first quantitatively. No default prompt changes.
+
+All 768 Luna generations validated, with a $0.223372 standard-rate estimate and
+complete developer-payer receipts. No invoice or promotional-credit claim.
+Focused tests: 210 passed; make fix passed; make check: 4,259 passed, one skipped,
+three historical Task 06G failures only. Independent code, cache, source, result,
+identity and preservation audits are retained. All 45,712 prior file checks match.
+No later-task work, expanded panel, other model calls, commits or pushes.
+
+## Completed contextual claim interpretation experiment
+
+The user now prioritizes individual claim accuracy and accepts natural summaries
+in question context rather than the strictest possible grammatical reading.
+The [new bounded contract](../../docs/specs/task09e1_luna_context_claims_v1.md)
+authorizes one contextual prompt candidate against the previous combined prompt:
+four distinct troublesome inputs and six controls, nine repetitions per arm.
+A frozen numerical and independent source-review gate controls expansion to two
+fresh claims-only passes over the existing 166 Dev3 claims. No conclusion or
+abstention inference, new model or panel expansion is authorized by this follow-up.
+
+The [pilot outcome](../../docs/specs/task09e1_luna_context_claims_result.md) records
+180 valid Luna generations: contextual instructions improved trouble agreement
+28/36 to 31/36, but grading fell 9/9 to 8/9 and controls fell 53/54 to 52/54.
+The candidate accepted an explicitly overbroad resident pet-policy claim twice.
+The frozen expansion gate failed; no full Dev3 pass, conclusion/gate calls or
+further tuning followed. The appended candidate is set aside without changing
+defaults. Standard-rate estimate: $0.047954555; all native payer fields developer.
+Independent reviews completed; all 48,998 prior inventory checks passed. Focused tests
+210 passed; eight launcher guard tests passed; make fix passed; make check retained
+only the three historical Task 06G failures (4,259 passed, one skipped).
+
+## Completed scope-preserving replacement pilot
+
+The user authorizes replacing the failed broad contextual addition with a rule
+that checks subject, requirement and condition together while preserving explicit
+scope boundaries. Follow the [new contract](../../docs/specs/task09e1_luna_scope_claims_v1.md):
+same ten pilot inputs, nine repetitions per arm, fresh combined-prompt baseline,
+and unchanged source/numeric gate for conditional claims-only Dev3. Preserve the
+previous negative result; no additional conclusion work or default promotion.
+
+The [outcome](../../docs/specs/task09e1_luna_scope_claims_result.md) records another
+180 valid Luna calls. Candidate agreement fell to 79/90 from fresh baseline 83/90:
+trouble 29→26/36 and controls 54→53/54. Stable correct inputs fell 8→5/10. The same
+unsupported universal-policy control was accepted once, and grading regressed.
+The unchanged numerical/source gate denied expansion; no full Dev3 calls or
+prompt promotion. Standard-rate estimate $0.052901555, native payer developer.
+Independent reviews completed; all 49,934 prior checks match. Focused 210 and
+launcher eight tests passed; make fix/check retained 4,259 passed, one skipped,
+three historical Task 06G failures. No package changes, extra models, commits or pushes.
+
+## October 12 research pause
+
+The user requested best-practice research before further experiments. The
+[research synthesis](../../docs/llm_judge_learning_notes.md#research-review--2026-10-12)
+revisits the original EMNLP survey and primary work on contextual judgments,
+factual decomposition, citation verification, rubric design and calibration.
+Three bounded research reviewers examined separate areas; a separate synthesis
+review checks the recommendation and transfer limits.
+
+The proposed next experiment compares direct support judging with a compact
+evidence-linked relationship representation, preserving qualifiers and evaluating
+intermediate fidelity separately. This is a hypothesis, not an adopted protocol
+or a claimed accuracy improvement. Repeated agreement, proposed-label agreement
+and independently established correctness remain distinct. Calibrated abstention
+requires representative independent labels; Decision 006 keeps human calibration
+optional and separately authorized.
+
+No inference, implementation, label change or artifact mutation occurred during
+this research phase. Luna-only, claims-only and existing dataset boundaries remain.
+Further execution needs a bounded experiment contract; neither failed prompt is
+promoted. Documentation diff inspection and `git diff --check` are the validation
+for this documentation-only follow-up.
+
+## Authorized focused structured-explanation pilot
+
+The user now requests the small test. Follow the [bounded contract](../../docs/specs/task09e1_luna_structured_claims_v1.md):
+the same ten development inputs, two Luna prompt arms, five fresh repetitions
+each, no full-panel expansion. Existing judging already operates per claim; this
+candidate exposes claim/evidence interpretation and material mismatch in the
+existing explanation field. No new decomposition stage or package default is
+introduced. Source fidelity, control errors and repeatability remain separate
+from raw agreement with proposed labels.
+
+The [completed outcome](../../docs/specs/task09e1_luna_structured_claims_result.md)
+records 100 valid generations: agreement 44/50 baseline versus 45/50 structured,
+controls 30/30 each, unanimous-correct inputs 7/10 versus 8/10. Grading improves
+3/5 to 5/5, but short-policy S1 regresses 5/5 to 2/5. The candidate fails its
+predeclared gain/nonregression criteria and is set aside, without expansion.
+All candidate explanations use the requested headings and stay below 200 words;
+format compliance does not establish semantic correctness. Total standard-rate
+estimate $0.030897840, with developer-payer receipts and exact native parity.
+Focused 275 and offline guard 11 tests pass; make fix/check retain 4,259 passed,
+one skipped and the three historical Task 06G failures. Prior 50,869 inventory
+checks match. No default changes, additional model runs, commits or pushes.
+
+## Completed user-authorized Dev6 claims comparison
+
+The user explicitly requested expansion despite the failed structured pilot.
+The [new contract](../../docs/specs/task09e1_luna_structured_dev6_v1.md) superseded
+that pilot's stop boundary for two fresh claims-only passes; its failed outcome
+and original criteria remain unchanged. Both arms completed all 323 original
+claim slots, retaining the exact 166 Dev3 payloads and adding 157 from C001/C019/
+C056. No conclusion or abstention inference ran.
+
+The [outcome](../../docs/specs/task09e1_luna_structured_dev6_result.md) records
+313/323 baseline agreement versus 315/323 structured. Added cases tie 153/157;
+non-pilot payload slots tie 290/294. Nine improvements and seven regressions leave
+a net gain of two, which disappears under equal exact-payload-group weighting.
+No default is promoted. Source review retains concrete scope omissions and
+over-rejection of contextually bounded summaries without changing labels.
+
+All 646 generations validated with exact count parity, no replay/retries and
+intact budget caps. Estimated cost $0.312412950, native payer developer. Focused
+281 and offline guard 13 tests pass; make fix/check retain 4,259 passed, one
+skipped and only three historical Task 06G failures. Prior pilot seal and earlier
+preservation audit remain intact. No full-19/test/later-task work, commits or pushes.

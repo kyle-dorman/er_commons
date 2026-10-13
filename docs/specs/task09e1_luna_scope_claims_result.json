@@ -1,0 +1,53 @@
+{
+  "schema_version": "task09e1.scope_claims_pointer.v1",
+  "status": "complete_pilot_failed_expansion_gate",
+  "branch": "codex/task09e1-cloud-decision-judges",
+  "base_commit": "f0c57a0966f851f552b5fc06cf918754e2d5dff7",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_scope_claims_v1",
+  "result": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_scope_claims_v1/result.json",
+    "sha256": "cca953e64119882163da967beb55477827999f1a7348db531437a4aa18ea86f2",
+    "byte_size": 7282
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_scope_claims_v1/completion.json",
+    "sha256": "db376a3a93b4df8848c1054b9d547e6f63888467f465ebb48f585efefcfdb252",
+    "byte_size": 260371
+  },
+  "gate": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_scope_claims_v1/pilot_gate.json",
+    "sha256": "453741fc4412579fb4b8c3e20ca25655b380af5ea540012467cf5999a4f245f4",
+    "byte_size": 1933
+  },
+  "source_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_scope_claims_v1/pilot_source_review.md",
+    "sha256": "855821293ab5068e3db733c0ebe6044fe73a3235186c9931735d0b92a38e6a16",
+    "byte_size": 5254
+  },
+  "independent_results_audit": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_scope_claims_v1/pilot_results_audit.json",
+    "sha256": "816d23d7d1a4c37ec46217963ff619f4cf9a6f8405b598e77bfeeb7fd778b278",
+    "byte_size": 6583
+  },
+  "final_scan": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_scope_claims_v1/final_scan.json",
+    "sha256": "38679bc698615705de249984602fe98c1dd5ace7d30dc476804fb8688f2237dc",
+    "byte_size": 292
+  },
+  "generations": 180,
+  "full_generations": 0,
+  "standard_cost_estimate_usd": "0.052901555",
+  "prompt_promoted": false,
+  "validation": {
+    "focused_passed": 210,
+    "launcher_guards_passed": 8,
+    "make_fix": "passed",
+    "make_check": {
+      "passed": 4259,
+      "skipped": 1,
+      "historical_task06g_failures": 3,
+      "format_lint_types": "passed"
+    },
+    "git_diff_check": "passed"
+  }
+}

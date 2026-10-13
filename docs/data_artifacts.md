@@ -513,3 +513,55 @@ model-specific token counter, unchanged prompts, stage inputs and native outputs
 The paired comparison separates gate-driven call differences from matching point
 inputs and records conclusion-input changes from preceding predictions. Prior
 small-model results remain sealed. See the [9B comparison contract](specs/task09e_09a3_qwen9b_v1.md).
+
+
+## Task 09E.1 comparison preparation
+
+`task_09/09e1_20261011_cloud_decision_v1/` preserves a byte inventory of earlier
+Task 09 artifacts, separate draft/final rendered-request audits, code/configuration
+identities, seven invented Inspect fixture logs and validation evidence. The
+[result pointer](specs/task09e1_final_result.json) identifies the final sealed audit.
+No source answers, expectations or prior experiment artifacts are rewritten.
+Later cloud runs require fresh explicit namespaces with a manifest, Inspect logs,
+create-only native intents/responses/completion receipts and post-run analysis.
+Protocol/cache probes remain separate from the 69-answer evaluation denominator.
+
+`task_09/09e1_20261012_clef_exploratory_v1/` separately records the user-authorized
+uncounted local Clef trial: downloaded/runtime identity, invented native smoke,
+the unchanged Dev3 pass, usage/cache receipts, independent review and preservation
+checks. Its results do not replace the sealed offline preparation or qualify an
+exact token counter. See the [exploratory contract](specs/task09e1_clef_exploratory_v1.md).
+
+`task_09/09e1_20261012_luna_generation_v1/` records the separately authorized
+Responses trial: preserved smoke and offline revalidation, three cache probes,
+one Dev3 pass, exact counts, native receipts, cost/payer diagnostics, post-run
+comparisons and independent review. The dotenv loader contains no secrets, and
+credential scanning includes decoded Inspect logs. See the
+[Luna outcome](specs/task09e1_luna_generation_v1.md) and its result pointer.
+
+`task_09/09e1_20261012_settings_prompts_models_v1/` retains the later authorized
+inconsistent-claim settings and five-prompt experiments, fixed-context review
+check, and original-prompt GPT-5.4/mini Dev3 passes. Initial counting failures and
+the repaired sampling-counter attempts remain separate. Frozen choices, actual
+native requests, diagnostics, cost accounting and independent reviews are bound
+by the [result pointer](specs/task09e1_settings_prompts_models_result.json).
+
+`task_09/09e1_20261012_luna_cache_pipeline_v1/` contains the authorized Luna-only
+cache qualification and four complete-pipeline prompt arms on eleven original
+inconsistent answers, each with three fresh repetitions. Frozen prompts, input
+bindings and shared per-arm budgets precede generation; labels enter only postrun
+analysis. Native receipts distinguish cache reads/writes from saved-response reuse.
+The [outcome](specs/task09e1_luna_cache_pipeline_result.md) owns measurements,
+independent source review and limitations; all earlier namespaces stay sealed.
+
+`task_09/09e1_20261012_luna_context_claims_v1/` preserves a later claims-only pilot:
+ten distinct original inputs, two prompt arms, nine repetitions, and an explicit
+denied expansion gate. The prepared 166-claim inputs were not dispatched. Frozen
+pilot interpretations remain separate from inference payloads. See the
+[pilot outcome](specs/task09e1_luna_context_claims_result.md) for the control
+regressions and preserved negative result.
+
+`task_09/09e1_20261012_luna_scope_claims_v1/` preserves the replacement subject/
+requirement/condition prompt pilot on identical inputs and unchanged thresholds.
+Its [outcome](specs/task09e1_luna_scope_claims_result.md) records a second denied
+expansion gate; both attempted prompts and all prior runs remain separate.

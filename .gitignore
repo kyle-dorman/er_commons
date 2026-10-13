@@ -11,6 +11,7 @@ dist/
 .pytest_cache/
 .ruff_cache/
 .env
+base.env
 
 # Local data and generated artifacts. The canonical root is outside this repo:
 # /Volumes/x10pro/er_commons

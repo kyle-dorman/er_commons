@@ -19,7 +19,9 @@ def put(path: Path, value: Any) -> dict:
     return panel._binding(path)
 
 
-def fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path, Path]:
+def fixture(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, *, full_dev: bool = False
+) -> tuple[Path, Path, Path]:
     """Build 442 invented metadata rows; only 136 eligible six-case answers have payloads."""
     root, base = tmp_path / "combined", tmp_path / "base"
     pub = root / "published"
@@ -28,7 +30,8 @@ def fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path
     source = packet()
     source["reference_answer"]["conclusion"].pop("expected_score")
     source["reference_answer"].pop("synthetic_expectation")
-    for case in panel.DEV6:
+    counts = panel.FULL_DEV_CASE_COUNTS if full_dev else panel.CASE_COUNTS
+    for case in counts:
         put(base / "cases" / case / "input.json", {"case_id": case})
     put(base / "raw.json", {"do_not_decode": "invented provenance"})
     files = [p for p in base.rglob("*.json")]
@@ -44,7 +47,7 @@ def fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path
         "annotation_version": "task09a2.stage_expectations.v1",
     }
     answers, expectations, origins = [], [], []
-    for case, count in panel.CASE_COUNTS.items():
+    for case, count in counts.items():
         for i in range(count):
             key = f"task09a2-{case}-F01-{i}"
             common = {
@@ -69,9 +72,13 @@ def fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path
                 }
             )
             origins.append({"variant_id": key, "root": str(base)})
-    for i in range(306):
+    for i in range(12 if full_dev else 306):
         expectations.append(
-            {"variant_id": f"other-{i}", "case_id": "C006", "comparison_eligible": i < 294}
+            {
+                "variant_id": f"other-{i}",
+                "case_id": "C006",
+                "comparison_eligible": not full_dev and i < 294,
+            }
         )
     for name, rows in [
         ("answers", answers),
@@ -112,7 +119,7 @@ def fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path
     release = tmp_path / "release.json"
     put(release, {"status": "complete", "release_id": "release"})
     monkeypatch.setattr(
-        panel, "_verify_release", lambda value: (tmp_path, {}, list(panel.DEV6), {}, release)
+        panel, "_verify_release", lambda value: (tmp_path, {}, list(counts), {}, release)
     )
     monkeypatch.setattr(panel, "_load_case_input", lambda *args, **kwargs: copy.deepcopy(source))
     return result, release, tmp_path / "frozen"
@@ -192,3 +199,53 @@ def test_restricted_stage_ids_remain_original_on_disk(
     assert original == (output / "restricted_expectations.json").read_bytes()
     expected = json.loads(original)[0]["expectation"]
     assert expected["grounding"]["point_expectations"][0]["point_id"] == "O02-omission"
+
+
+def test_explicit_full_development_freeze_and_default_byte_identity(tmp_path, monkeypatch):
+    """Only opt-in selects all nineteen cases; the default publication remains byte-identical."""
+    result, release, output = fixture(tmp_path, monkeypatch, full_dev=True)
+    original = panel.freeze_dataset_panel(result, release, output)
+    original_bytes = {p.name: p.read_bytes() for p in output.iterdir()}
+    explicit_default = panel.freeze_dataset_panel(result, release, output, full_dev=False)
+    assert explicit_default == original
+    assert {p.name: p.read_bytes() for p in output.iterdir()} == original_bytes
+    assert len(original["samples"]) == 136 and "full_dev" not in original
+    with pytest.raises(ValueError, match="explicitly frozen"):
+        panel.load_dataset_panel_samples(output / "manifest.json", "full_dev")
+    full_output = tmp_path / "full"
+    full = panel.freeze_dataset_panel(result, release, full_output, full_dev=True)
+    assert full["full_dev"] is True
+    assert len(full["samples"]) == 430 and len(full["case_counts"]) == 19
+    assert full["case_counts"] == panel.FULL_DEV_CASE_COUNTS
+    assert full["panels"]["dev6"] == original["panels"]["dev6"]
+    assert full["panels"]["full_dev"][:136] == original["panels"]["dev6"]
+    original_packets = json.loads((output / "packets.json").read_text())
+    full_packets = json.loads((full_output / "packets.json").read_text())
+    assert full_packets[:136] == original_packets
+    samples = panel.load_dataset_panel_samples(full_output / "manifest.json", "full_dev")
+    assert len(samples) == 430
+    assert all(s["scope"] == "development" for s in samples)
+    assert all("expectation" not in json.dumps(s["packet"]) for s in samples)
+    assert len(panel.load_dataset_panel_samples(full_output / "manifest.json", "dev3")) == 69
+
+
+def test_full_development_rejects_release_case_change_before_payloads(tmp_path, monkeypatch):
+    """A changed or incomplete development split cannot unlock additional case inputs."""
+    result, release, output = fixture(tmp_path, monkeypatch, full_dev=True)
+    monkeypatch.setattr(
+        panel, "_verify_release", lambda value: (tmp_path, {}, list(panel.DEV6), {}, release)
+    )
+    monkeypatch.setattr(
+        panel, "selected_rows", lambda *a: pytest.fail("Payload decoded before split guard")
+    )
+    with pytest.raises(ValueError, match="nineteen cases"):
+        panel.freeze_dataset_panel(result, release, output, full_dev=True)
+    assert not output.exists()
+
+
+def test_full_development_requires_boolean_opt_in(tmp_path):
+    """String flags must not accidentally authorize a wider publication."""
+    with pytest.raises(ValueError, match="Boolean"):
+        panel.freeze_dataset_panel(
+            tmp_path / "missing", tmp_path / "missing", tmp_path / "out", full_dev="yes"
+        )

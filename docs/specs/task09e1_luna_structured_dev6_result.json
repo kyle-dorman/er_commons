@@ -1,0 +1,40 @@
+{
+  "schema_version": "task09e1.structured_dev6_pointer.v1",
+  "status": "complete_no_promotion",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_structured_dev6_v1",
+  "result": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_structured_dev6_v1/result.json",
+    "sha256": "12bd3f1c5e8a164144374762a974f2a742fbabec407cb3270d6ce7dd9751c5aa",
+    "byte_size": 2833
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_structured_dev6_v1/completion.json",
+    "sha256": "9565ce355813c056724b7e70c5a7f9ccedd8582c8397bfe0d30b706273f96b6d",
+    "byte_size": 925013
+  },
+  "dev6_analysis": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_structured_dev6_v1/dev6_analysis.json",
+    "sha256": "feca75f9974245f5f9fbff9b43142d6c8ddda0648be2e641c05b131017dc5606",
+    "byte_size": 836497
+  },
+  "source_review_dev3": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_structured_dev6_v1/source_review_dev3.json",
+    "sha256": "f3e2514e6d659ce2b077b30cb5047f3bff64bca4d92e3abe0a408537f0378ae6",
+    "byte_size": 14418
+  },
+  "source_review_added": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_structured_dev6_v1/source_review_added.json",
+    "sha256": "2391c9dd277b0e2bfa712441a205e98a729b52464a95aa091420703453dae872",
+    "byte_size": 17700
+  },
+  "audit": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_structured_dev6_v1/audit.json",
+    "sha256": "394ba4e7d12868cc108283def3530aeb329e9ae8de010190233d52df19fa8c1d",
+    "byte_size": 4215
+  },
+  "final_scan": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_structured_dev6_v1/final_scan.json",
+    "sha256": "191280355420c9008997ede14bc3977b13a73d8cb8acf4e3801d02bb71d64738",
+    "byte_size": 96
+  }
+}

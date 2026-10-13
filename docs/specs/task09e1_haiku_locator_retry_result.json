@@ -1,0 +1,40 @@
+{
+  "status": "complete",
+  "schema_version": "task09e1.haiku_locator_retry_pointer.v1",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_haiku_locator_retry_v1",
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_haiku_locator_retry_v1/completion.json",
+    "sha256": "286af6060169ca14c772f3b9e159e6f0c4714e0adf8e4e67ed4024d06c88b53c",
+    "byte_size": 12871
+  },
+  "result": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_haiku_locator_retry_v1/result.json",
+    "sha256": "b104831a4aedd3a1891ba1094e39b6a62159395382425b1cdfbfafc9456c52c0",
+    "byte_size": 3295
+  },
+  "predispatch_manifest": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_haiku_locator_retry_v1/predispatch_manifest.json",
+    "sha256": "342a9c8eb4bd15896a8e7e465cef96520679df49d403b18f7acc1015e8532825",
+    "byte_size": 173299
+  },
+  "preflight_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_haiku_locator_retry_v1/preflight_review.json",
+    "sha256": "e864f1a2f34e8ff72f1236ff2a9230fbfc004372934ec52b4a0acba1ea5b2837",
+    "byte_size": 13718
+  },
+  "postrun_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_haiku_locator_retry_v1/postrun_review.json",
+    "sha256": "a428838466bdfca1029b4aa4db351371e93429583e63d6a38d2421f5cf181c58",
+    "byte_size": 6462
+  },
+  "final_scan": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_haiku_locator_retry_v1/final_scan.json",
+    "sha256": "5f2697081e6f65252f09adbef74ca09488642fb0254e63eb3d69291150bc67ff",
+    "byte_size": 101
+  },
+  "prior_preservation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_haiku_locator_retry_v1/prior_preservation.json",
+    "sha256": "ac023a817d7c095212934cd8dd98dbb4ca04a3dd6d3eba3a0560d48e158cb64b",
+    "byte_size": 318
+  }
+}

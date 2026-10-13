@@ -16,8 +16,8 @@ from inspect_ai.solver import Generate, Solver, TaskState, solver
 
 from er_commons import grounding_abstention as abstention
 from er_commons.artifact_io import stable_json_sha256
-from er_commons.grounding_inspect import SavedGroundingSample, _observed_token_counts
-from er_commons.grounding_staged_inspect import Counter, _run_stage
+from er_commons.grounding_records import SavedGroundingSample, observed_token_counts
+from er_commons.grounding_stage_runtime import Counter, run_stage
 from er_commons.judge_qualification import write_new
 
 
@@ -52,7 +52,7 @@ def summarize_abstention_records(records: list[dict[str, Any]]) -> dict[str, flo
     for label in ("clean_abstention", "substantive", "ambiguous"):
         summary[label] = sum(r["classification"] == label for r in valid)
     for name, field in (("input", "prompt_eval_count"), ("output", "eval_count")):
-        values = _observed_token_counts(attempts, field)
+        values = observed_token_counts(attempts, field)
         summary[f"native_{name}_tokens"] = sum(values) if values else None
         summary[f"native_{name}_measured_calls"] = len(values)
     summary["exact_input_parity_calls"] = sum(
@@ -120,7 +120,7 @@ def abstention_scorer(
         }
         if not halted:
             payload = abstention.abstention_input(sample.packet)
-            stage = await _run_stage(
+            stage = await run_stage(
                 key="abstention",
                 payload=payload,
                 prompt=abstention.ABSTENTION_PROMPT,

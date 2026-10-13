@@ -1,0 +1,93 @@
+{
+  "abstention": {
+    "compared": 69,
+    "false_exemptions": 0,
+    "false_negative": 0,
+    "false_positive": 0,
+    "misses": 0,
+    "population": 69,
+    "true_negative": 63,
+    "true_positive": 6
+  },
+  "api": "Responses",
+  "automatic_retries": 0,
+  "base_commit": "f0c57a0966f851f552b5fc06cf918754e2d5dff7",
+  "branch": "codex/task09e1-cloud-decision-judges",
+  "completion": {
+    "byte_size": 527437,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_generation_v1/completion.json",
+    "sha256": "2b69aac5bb3c613339f4a94542eaa257cae463362de5ee221159914cc8e428c1"
+  },
+  "conclusion_support": {
+    "compared": 63,
+    "false_negative": 6,
+    "false_positive": 1,
+    "population": 63,
+    "true_negative": 12,
+    "true_positive": 44
+  },
+  "conservative_reserved_total_usd": "1.456444275",
+  "count_calls": 302,
+  "credential_values_exposed": false,
+  "decisions_calls": 0,
+  "elapsed_seconds": 1254.3057902073488,
+  "exact_count_parity": true,
+  "future_promotion_coverage": "not inferred",
+  "invoice_total_usd": null,
+  "model": "gpt-6-luna",
+  "native_usage": {
+    "cache_read_tokens": 30654,
+    "cache_write_tokens": 1513001,
+    "input_tokens": 1581554,
+    "output_tokens": 81268
+  },
+  "numeric_proposal_agreement": {
+    "agree": 47,
+    "compared": 52
+  },
+  "other_provider_calls": 0,
+  "outcomes": {
+    "not_applicable": 6,
+    "scored": 52,
+    "unresolved_disagreement": 11
+  },
+  "panel_generation_calls": 298,
+  "payer_counts": {
+    "openai": 302
+  },
+  "point_support": {
+    "compared": 166,
+    "false_negative": 14,
+    "false_positive": 1,
+    "population": 166,
+    "true_negative": 31,
+    "true_positive": 120
+  },
+  "population": 69,
+  "protocol_generation_calls": 4,
+  "reasoning_effort": "low",
+  "result": {
+    "byte_size": 8390,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_generation_v1/result.json",
+    "sha256": "744b1e6d713678de8bfc156335a10c4808160bd8fa06ec73ff37b89531e7611a"
+  },
+  "schema_version": "task09e1.luna_generation_result.v1",
+  "score_distribution": {
+    "0": 14,
+    "1": 17,
+    "2": 21,
+    "None": 6
+  },
+  "standard_list_price_estimate_total_usd": "0.234519395",
+  "status": "complete_with_limitations",
+  "truncation": false,
+  "validation": {
+    "focused_passed": 109,
+    "format_lint_types": "passed",
+    "full_passed": 4197,
+    "full_skipped": 1,
+    "git_diff_check": "passed",
+    "historical_task06g_failures": 3,
+    "make_fix": "passed"
+  }
+}

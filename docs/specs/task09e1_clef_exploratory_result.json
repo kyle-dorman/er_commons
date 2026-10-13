@@ -1,0 +1,87 @@
+{
+  "automatic_retries": 0,
+  "base_commit": "f0c57a0966f851f552b5fc06cf918754e2d5dff7",
+  "branch": "codex/task09e1-cloud-decision-judges",
+  "completion": {
+    "byte_size": 450135,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_clef_exploratory_v1/completion.json",
+    "sha256": "2330f6f7e73792a2ae7ae8af5b11726d5fac834311547f49e24c6a30aac1952e"
+  },
+  "effective_context_tokens": 16384,
+  "elapsed_seconds": 915.0348739579786,
+  "exact_preflight": false,
+  "identity_unchanged": true,
+  "largest_dispatched_body_bytes": 33929,
+  "largest_native_input_tokens": 10238,
+  "limitations": [
+    "Uncounted local exploration only; no exact-counter qualification.",
+    "Size-selected survivors and23 review disagreements do not qualify a judge.",
+    "Seven abstention classifications include one false exemption against proposed labels.",
+    "Synthetic proposals are uncalibrated; no model-only comparison with historical pipeline.",
+    "Native cache reuse measured; cache-write counts, controlled speed savings and cloud savings unmeasured."
+  ],
+  "model": {
+    "capabilities": [
+      "decision",
+      "vision"
+    ],
+    "details": {
+      "families": null,
+      "family": "",
+      "format": "safetensors",
+      "parameter_size": "",
+      "parent_model": "",
+      "quantization_level": "mxfp8",
+      "runner": "mlx"
+    },
+    "digest": "0a2a05d6a581223a9397e6fd2ea92486d4b1a54ec1125065be0c2170ff97ba75",
+    "model": "clef-flash:latest",
+    "modified_at": "2026-10-12T05:26:26.721597319-07:00",
+    "name": "clef-flash:latest",
+    "size": 12387093750
+  },
+  "native_usage": {
+    "cache_read_tokens": 246313,
+    "cache_write_tokens": null,
+    "input_tokens": 600847,
+    "output_tokens": 0
+  },
+  "outcomes": {
+    "not_applicable": 7,
+    "request_body_overflow": 16,
+    "scored": 22,
+    "unresolved_abstention": 1,
+    "unresolved_disagreement": 23
+  },
+  "oversized_stages_skipped": 21,
+  "paid_cloud_calls": 0,
+  "population": 69,
+  "requests_dispatched": 258,
+  "result": {
+    "byte_size": 9731,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_clef_exploratory_v1/result.json",
+    "sha256": "8cd7474702c8bf8c75f131cc6eb1805c9acc88d465aaa07167bff897ef1b0062"
+  },
+  "runtime_version": {
+    "version": "0.40.2"
+  },
+  "schema_version": "task09e1.clef_exploratory_result.v1",
+  "score_distribution": {
+    "0": 9,
+    "1": 8,
+    "2": 5,
+    "None": 7
+  },
+  "status": "completed_with_limitations",
+  "truncated": false,
+  "validation": {
+    "focused_passed": 268,
+    "format_lint_types": "passed",
+    "full_passed": 4191,
+    "full_skipped": 1,
+    "git_diff_check": "passed",
+    "historical_task06g_failures": 3,
+    "independent_passed": 151,
+    "make_fix": "passed"
+  }
+}

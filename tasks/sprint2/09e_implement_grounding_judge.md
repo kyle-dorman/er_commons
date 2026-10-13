@@ -1,11 +1,27 @@
 # Task 09E — Implement and iterate the grounding judge
 
-Status: **Qwen 9B Dev3 comparison complete; user review required**. The user
-started 09E on October 10 after accepting 09D and the refreshed plan. Execution
-now includes the separately authorized 9B Dev3 comparison, with exact token
-preflight required before inference and user review before 9B Dev6 or full-19.
-The original refreshed planning diff is preserved in the external setup record.
+Status: **complete** — closed by the user on October 13, 2026.
 Parent: [Task 09](09_build_evaluation_and_qualify_judges.md).
+
+The grounding judge implementation, development experiments and independent
+review are complete. [09E.1](09e1_compare_cloud_and_decision_judges.md) completes
+the cloud comparison and GLM selection; [09E.2](09e2_cleanup_grounding_judges.md)
+completes cleanup of both implementations. Use the
+[maintainer guide](../../docs/grounding_judge_guide.md) for current interfaces.
+
+Accepted limitations remain: synthetic labels are development proposals, the
+selected results include disclosed targeted repairs, and some invalid outputs
+and claim/review disagreements remain. Final challenge and configuration freeze
+belong to 09G; they do not keep this implementation task open. The next task is
+the separate 09F adequacy judge, whose provisional contract must be refreshed.
+
+## Historical plan and experiment record
+
+The sections below preserve the original local-model plan and its successive
+outcomes. Historical review stops and model choices have been superseded by the
+accepted cloud comparison and closeout above. No further Qwen expansion is pending.
+The October 13 user instruction authorizes committing this completed work and
+merging it into local main; earlier no-commit boundaries describe their runs.
 
 ## Abstract
 

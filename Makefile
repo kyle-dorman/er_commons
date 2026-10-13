@@ -442,3 +442,28 @@ evaluate-grounding-dataset-panel: check-env
 		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
 		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
 		--output "$(GROUNDING_OUTPUT)"
+
+# Explicit manifest identity enables reusable development panels; omit both for
+# the preserved legacy Dev3 panel. Exact counting remains the default.
+GROUNDING_COMPARISON_ARGS = $(if $(GROUNDING_STAGE_PROMPTS),--stage-prompts "$(GROUNDING_STAGE_PROMPTS)") \
+	$(if $(GROUNDING_COMPARISON_CONFIG),--config "$(GROUNDING_COMPARISON_CONFIG)") \
+	$(if $(GROUNDING_COMPARISON_MANIFEST),--manifest "$(GROUNDING_COMPARISON_MANIFEST)") \
+	$(if $(GROUNDING_COMPARISON_MANIFEST_SHA256),--manifest-sha256 "$(GROUNDING_COMPARISON_MANIFEST_SHA256)") \
+	--panel "$(or $(GROUNDING_COMPARISON_PANEL),dev3)" \
+	--counting-mode "$(or $(GROUNDING_COMPARISON_COUNTING_MODE),exact)"
+
+.PHONY: prepare-grounding-comparison compare-grounding-cloud
+prepare-grounding-comparison: check-env
+	@test -n "$(GROUNDING_COMPARISON_OUTPUT)" || (echo "Set GROUNDING_COMPARISON_OUTPUT to a fresh external directory"; exit 1)
+	uv run --env-file "$(ENV_FILE)" python -m er_commons.grounding_comparison_run --mode prepare \
+		--condition "$(or $(GROUNDING_COMPARISON_CONDITION),fireworks_glm)" $(GROUNDING_COMPARISON_ARGS) \
+		--output "$(GROUNDING_COMPARISON_OUTPUT)"
+
+compare-grounding-cloud: check-env
+	@test -n "$(GROUNDING_COMPARISON_OUTPUT)" -a -n "$(GROUNDING_COMPARISON_CONDITION)" -a -n "$(GROUNDING_COMPARISON_MODE)" || (echo "Set output, condition and mode explicitly"; exit 1)
+	@test -n "$(GROUNDING_CURRENCY_CAP)" -a -n "$(GROUNDING_REQUEST_CAP)" -a -n "$(GROUNDING_OUTPUT_CAP)" -a -n "$(GROUNDING_WALL_SECONDS)" || (echo "Set all four positive run caps"; exit 1)
+	uv run --env-file "$(ENV_FILE)" python -m er_commons.grounding_comparison_run --execute-paid \
+		--mode "$(GROUNDING_COMPARISON_MODE)" --condition "$(GROUNDING_COMPARISON_CONDITION)" $(GROUNDING_COMPARISON_ARGS) \
+		--output "$(GROUNDING_COMPARISON_OUTPUT)" --currency-cap "$(GROUNDING_CURRENCY_CAP)" \
+		--request-cap "$(GROUNDING_REQUEST_CAP)" --output-cap "$(GROUNDING_OUTPUT_CAP)" \
+		--wall-seconds "$(GROUNDING_WALL_SECONDS)"

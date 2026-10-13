@@ -2,14 +2,10 @@
 
 from __future__ import annotations
 
-import asyncio
-import json
 import time
-from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-import httpx
 from inspect_ai import Task, eval
 from inspect_ai.dataset import Sample
 from inspect_ai.log import EvalLog
@@ -19,24 +15,15 @@ from inspect_ai.solver import TaskState
 from er_commons import grounding_abstention as abstention
 from er_commons import grounding_stages as stages
 from er_commons.artifact_io import stable_json_sha256
-from er_commons.grounding_inspect import (
+from er_commons.grounding_inspect import saved_grounding_answer
+from er_commons.grounding_records import (
     SavedGroundingSample,
-    _observed_token_counts,
-    _transient,
-    saved_grounding_answer,
+    observed_token_counts,
     summarize_records,
 )
-from er_commons.grounding_judge import validate_completion
-from er_commons.judge_packet_requests import packet_content, prepare_content_request
-from er_commons.judge_qualification import (
-    IdentityMismatch,
-    call_native_judge,
-    check_live_model,
-    write_new,
-)
-
-Counter = Callable[[dict[str, Any]], int]
-Validator = Callable[[str, dict[str, Any]], dict[str, Any]]
+from er_commons.grounding_stage_runtime import Counter, run_stage
+from er_commons.judge_packet_requests import packet_content
+from er_commons.judge_qualification import write_new
 
 
 def _stage_diagnostics(records: list[dict[str, Any]]) -> dict[str, float | int | None]:
@@ -148,7 +135,7 @@ def summarize_staged_records(records: list[dict[str, Any]]) -> dict[str, float |
     summary["evaluation_failed"] = summary["failed"]
     attempts = [a for stage in calls for a in stage["attempt_records"]]
     for name, field in (("input", "prompt_eval_count"), ("output", "eval_count")):
-        observations = _observed_token_counts(attempts, field)
+        observations = observed_token_counts(attempts, field)
         summary[f"native_{name}_tokens"] = sum(observations) if observations else None
         summary[f"native_{name}_measured_samples"] = len(observations)
     summary.update(_stage_diagnostics(records))
@@ -165,117 +152,6 @@ def staged_grounding_summary() -> Metric:
         )
 
     return compute
-
-
-async def _run_stage(
-    *,
-    key: str,
-    payload: dict[str, Any],
-    prompt: str,
-    version: str,
-    schema: dict[str, Any],
-    validator: Validator,
-    directory: Path,
-    settings: dict[str, Any],
-    count_tokens: Counter | None,
-    counter_model_digest: str | None,
-    fixture: dict[str, Any] | None,
-) -> dict[str, Any]:
-    """Save one stage, preflight each attempt, and never retry semantic failures."""
-    started = time.monotonic()
-    directory.mkdir(parents=True, exist_ok=False)
-    record: dict[str, Any] = {
-        "key": key,
-        "kind": key if key in {"conclusion", "abstention"} else "point",
-        "status": "input_error",
-        "attempts": 0,
-        "attempt_records": [],
-    }
-    write_new(
-        directory / "stage_input.json",
-        {
-            "payload": payload,
-            "prompt": prompt,
-            "prompt_version": version,
-            "schema": schema,
-            "settings_sha256": stable_json_sha256(settings),
-        },
-    )
-    try:
-        for attempt in range(2):
-            prepared = prepare_content_request(
-                json.dumps(payload, ensure_ascii=False, sort_keys=True),
-                system_prompt=prompt,
-                response_schema=schema,
-                settings=settings,
-                count_tokens=count_tokens,
-                counter_model_digest=counter_model_digest,
-            )
-            write_new(directory / f"preflight_{attempt + 1}.json", prepared)
-            record["preflight"] = prepared["diagnostics"]
-            if not prepared["diagnostics"]["dispatch_allowed"]:
-                record["status"] = prepared["diagnostics"]["status"]
-                break
-            attempt_dir = directory / f"attempt_{attempt + 1}"
-            attempt_dir.mkdir()
-            write_new(attempt_dir / "native_request.json", prepared["request"])
-            record["attempts"] += 1
-            captured: dict[str, Any] = {}
-            try:
-                if fixture is not None:
-                    output = fixture[key]
-                    write_new(attempt_dir / "fixture_response.json", output)
-                    captured = {
-                        "output": output,
-                        **(
-                            validate_completion(output, settings)
-                            if isinstance(output, dict)
-                            else {"status": "malformed"}
-                        ),
-                    }
-                else:
-                    await asyncio.to_thread(check_live_model, settings, attempt_dir)
-                    await call_native_judge(
-                        {
-                            "settings": settings,
-                            "messages": prepared["request"]["messages"],
-                            "schema": schema,
-                        },
-                        attempt_dir,
-                        captured,
-                        output_validator=validate_completion,
-                    )
-            except (httpx.HTTPError, OSError, IdentityMismatch, json.JSONDecodeError) as error:
-                captured.update(status="runtime_error", error=repr(error))
-                write_new(attempt_dir / "failure.json", captured)
-                record["attempt_records"].append({"native": captured})
-                record.update(status="runtime_error", native=captured)
-                if not attempt and _transient(error):
-                    continue
-                break
-            record["attempt_records"].append({"native": captured})
-            record.update(status=captured["status"], native=captured)
-            if captured["status"] == "complete":
-                if (
-                    captured["output"]["prompt_eval_count"]
-                    != prepared["diagnostics"]["input_tokens"]
-                ):
-                    record.update(
-                        status="context_counter_mismatch", error="Observed input count differs"
-                    )
-                else:
-                    try:
-                        result = validator(captured["raw_judgment"], payload)
-                    except ValueError as error:
-                        record.update(status="schema_error", error=str(error))
-                    else:
-                        record.update(status="validated", result=result)
-            break
-    except (ValueError, KeyError) as error:
-        record.update(status="input_error", error=str(error))
-    record["elapsed_seconds"] = time.monotonic() - started
-    write_new(directory / "stage_record.json", record)
-    return record
 
 
 @scorer(metrics=[staged_grounding_summary()])
@@ -335,7 +211,7 @@ def staged_grounding_scorer(
             record.update(status="context_counter_mismatch", conclusion_skipped=halted["reason"])
             return _finish_record(record, directory, started)
         if check_abstention:
-            gate = await _run_stage(
+            gate = await run_stage(
                 key="abstention",
                 payload=abstention.abstention_input(sample.packet),
                 prompt=abstention.ABSTENTION_PROMPT,
@@ -357,7 +233,7 @@ def staged_grounding_scorer(
                 return _finish_record(record, directory, started)
         for payload in inputs:
             key = payload["point"]["point_id"]
-            stage = await _run_stage(
+            stage = await run_stage(
                 key=key,
                 payload=payload,
                 prompt=stages.POINT_PROMPT,
@@ -380,7 +256,7 @@ def staged_grounding_scorer(
             record.update(status="points_complete", conclusion_skipped="Points-only mode")
         else:
             payload = stages.conclusion_input(sample.packet, predictions)
-            stage = await _run_stage(
+            stage = await run_stage(
                 key="conclusion",
                 payload=payload,
                 prompt=stages.CONCLUSION_PROMPT,

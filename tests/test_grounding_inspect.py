@@ -417,3 +417,33 @@ def test_resume_rejects_inconsistent_schema_hash_even_with_valid_record_seal(
     rejected = evaluate_grounding_samples([sample()], **kwargs)
     assert rejected[0].status == "error"
     assert len(list((tmp_path / "raw").glob("*/attempt_1"))) == 1
+
+
+@pytest.mark.parametrize("output", [None, [], "not an object", 42])
+def test_nonobject_completion_is_durable_failure_without_retry(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, output: Any
+) -> None:
+    """Malformed native envelopes remain auditable failures instead of crashing Inspect."""
+
+    async def forbidden(*args: Any, **kwargs: Any) -> Any:
+        """Fixture errors must never trigger a real judge call."""
+        raise AssertionError("No model calls authorized")
+
+    monkeypatch.setattr("er_commons.grounding_inspect.call_native_judge", forbidden)
+    logs = evaluate_grounding_samples(
+        [sample()],
+        settings=settings(),
+        artifact_dir=tmp_path / "raw",
+        log_dir=tmp_path / "logs",
+        count_tokens=lambda request: 100,
+        counter_model_digest="fixture-digest",
+        fixture_responses={"fixture": output},
+    )
+    assert logs[0].status == "success"
+    record_path = next((tmp_path / "raw").glob("*/grounding_record.json"))
+    record = json.loads(record_path.read_text())
+    assert record["status"] == "malformed"
+    assert record["score"] is None
+    assert record["attempts"] == 1
+    assert record["native"]["output"] == output
+    assert not record_path.with_name("completion.json").exists()

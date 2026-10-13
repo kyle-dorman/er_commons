@@ -6,8 +6,9 @@ import argparse
 import json
 from pathlib import Path
 
-from er_commons.grounding_inspect import SavedGroundingSample, evaluate_grounding_samples
+from er_commons.grounding_inspect import evaluate_grounding_samples
 from er_commons.grounding_panel import load_panel_samples
+from er_commons.grounding_records import SavedGroundingSample
 
 
 def main() -> None:

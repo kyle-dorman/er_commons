@@ -1,0 +1,48 @@
+{
+  "schema_version": "task09e1.luna_cache_pipeline_pointer.v1",
+  "status": "complete_with_limitations",
+  "branch": "codex/task09e1-cloud-decision-judges",
+  "base_commit": "f0c57a0966f851f552b5fc06cf918754e2d5dff7",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_cache_pipeline_v1",
+  "result": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_cache_pipeline_v1/result.json",
+    "sha256": "3e8350e8c2e8db9bf7b2f342e713dcace09e203552ca5204353278b7abf096a8",
+    "byte_size": 12730
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_cache_pipeline_v1/completion.json",
+    "sha256": "e46b5140d10b6cf8da9678c82006d0946512c70a588631a3da9e788930a63e4f",
+    "byte_size": 1313894
+  },
+  "source_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_cache_pipeline_v1/final_source_review.md",
+    "sha256": "62ebba52c034e1da326dfd8115a8db58ea74f4aebfaf6e28bc660ea11358a249",
+    "byte_size": 8299
+  },
+  "independent_results_audit": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_cache_pipeline_v1/final_results_audit.json",
+    "sha256": "38735002595d57cee240478fa00da6553aba56f76700e09afd5d40aaaf460e38",
+    "byte_size": 10534
+  },
+  "final_scan": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_luna_cache_pipeline_v1/final_scan.json",
+    "sha256": "eb912b67ef6056c589b06db596e4afa8dd4e1486106f41e25c84d5cfe3e19267",
+    "byte_size": 311
+  },
+  "future_inference": "Luna only",
+  "prompt_promoted": null,
+  "standard_cost_estimate_usd": "0.223371925",
+  "generations": 768,
+  "prior_file_checks": 45712,
+  "validation": {
+    "focused_passed": 210,
+    "make_fix": "passed",
+    "make_check": {
+      "passed": 4259,
+      "skipped": 1,
+      "historical_task06g_failures": 3,
+      "format_lint_types": "passed"
+    },
+    "git_diff_check": "passed"
+  }
+}

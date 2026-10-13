@@ -1,0 +1,261 @@
+{
+  "artifacts": {
+    "focused_final.log": {
+      "byte_size": 340,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/focused_final.log",
+      "sha256": "9baa782c4909e93e126dd5a071bf0b423e831319450290ca72a95c02513b477a"
+    },
+    "git_diff_check.log": {
+      "byte_size": 0,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/git_diff_check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "make_check_final.log": {
+      "byte_size": 37525,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/make_check_final.log",
+      "sha256": "9cbd6fe1391632ad30504aa9bdc85be63285e44b974ae4a0f54d1f758685ad05"
+    },
+    "make_fix_final.log": {
+      "byte_size": 91,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/make_fix_final.log",
+      "sha256": "91c41d14fe4a1a41fcc6a91ea3c2d34a20e750ea551766c766381182f2dd197d"
+    },
+    "offline_inspect/completion.json": {
+      "byte_size": 40261,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/offline_inspect/completion.json",
+      "sha256": "1460e1372e83799faefcdc180881cfa058def7672813054b31e64f89b577cbc4"
+    },
+    "offline_inspect/summary.json": {
+      "byte_size": 160217,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/offline_inspect/summary.json",
+      "sha256": "3c59f9fa9d843aa619c5d2905dc0dad9d651abb3aafef907ec3666cf9b4ee95b"
+    },
+    "preservation_check.json": {
+      "byte_size": 112,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/preservation_check.json",
+      "sha256": "6fbceec4ef39d1680bcf713260f150f3fd104e1bd1cc73e824f0473d13738030"
+    },
+    "prior_inventory.json": {
+      "byte_size": 9893046,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/prior_inventory.json",
+      "sha256": "44979f47b85e1aca46bb969ce1f87f36492238598aae386499ceec1e2cf2a1cd"
+    },
+    "readiness_final/completion.json": {
+      "byte_size": 879147,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/readiness_final/completion.json",
+      "sha256": "feb23616dc5ad7d23bb10fd5c81b39e594ee01b427f9bc7b636123e32200badb"
+    },
+    "readiness_final/manifest.json": {
+      "byte_size": 182476,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/readiness_final/manifest.json",
+      "sha256": "fc9e19dd954846bef034b584af9171ce835dd6010280eada97cdd807a9771746"
+    },
+    "review.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1/review.json",
+      "sha256": "8901d0866d18a21f74bb2b9f42860bab1ada23997d579116fb0fa0897e5c958f",
+      "byte_size": 1413
+    }
+  },
+  "boundaries": {
+    "commits": 0,
+    "credential_reads": 0,
+    "dev6_or_full19_execution": false,
+    "invented_fixture_stages": 21,
+    "later_tasks_started": [],
+    "live_inference_calls": 0,
+    "model_downloads": 0,
+    "paid_calls": 0,
+    "prior_files_unchanged": 34055,
+    "pushes": 0,
+    "reserved_or_test_payloads_decoded": false
+  },
+  "branch": "codex/task09e1-cloud-decision-judges",
+  "caching": {
+    "actual_no_cache_cost_usd": null,
+    "full_context_ceilings_usd": {
+      "anthropic_generation": "307.11296",
+      "fireworks_deepseek": "96.3422208",
+      "fireworks_glm": "48.046592",
+      "local_clef": null,
+      "openai_decisions": null,
+      "openai_generation": "88.8072768",
+      "typesafe_jev": "0.817152"
+    },
+    "live_probes": 0,
+    "native_hits_verified": false,
+    "note": "Full-context ceiling is not expected Dev3 spend; implicit message boundaries can limit prefix reuse.",
+    "plausible_cache_savings_usd": null,
+    "prefix_max_bytes": {
+      "anthropic_generation": 115230,
+      "fireworks_deepseek": 114848,
+      "fireworks_glm": 114848,
+      "local_clef": 111097,
+      "openai_decisions": 111050,
+      "openai_generation": 114931,
+      "typesafe_jev": 111097
+    },
+    "prefix_units": "UTF-8 bytes, not tokens"
+  },
+  "conditions": {
+    "anthropic_generation": {
+      "audited_requests": 373,
+      "blockers": [
+        "authoritative_counter_documented_as_estimate",
+        "endpoint_access_unverified"
+      ],
+      "cloud_inference_calls": 0,
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "local_inference_calls": 0,
+      "maximum_inference_stages": 304,
+      "model": "claude-haiku-5-5",
+      "offline_fixture": "passed",
+      "status": "blocked_exact_preflight"
+    },
+    "fireworks_deepseek": {
+      "audited_requests": 373,
+      "blockers": [
+        "exact_render_counter_unqualified",
+        "endpoint_access_unverified"
+      ],
+      "cloud_inference_calls": 0,
+      "endpoint": "https://api.fireworks.ai/inference/v1/chat/completions",
+      "local_inference_calls": 0,
+      "maximum_inference_stages": 304,
+      "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+      "offline_fixture": "passed",
+      "status": "blocked_exact_preflight"
+    },
+    "fireworks_glm": {
+      "audited_requests": 373,
+      "blockers": [
+        "exact_render_counter_unqualified",
+        "endpoint_access_unverified"
+      ],
+      "cloud_inference_calls": 0,
+      "endpoint": "https://api.fireworks.ai/inference/v1/chat/completions",
+      "local_inference_calls": 0,
+      "maximum_inference_stages": 304,
+      "model": "accounts/fireworks/models/glm-5p3-flash",
+      "offline_fixture": "passed",
+      "status": "blocked_exact_preflight"
+    },
+    "local_clef": {
+      "audited_requests": 373,
+      "blockers": [
+        "exact_render_counter_unqualified",
+        "loaded_context_unqualified",
+        "model_digest_unpinned",
+        "runtime_endpoint_unqualified",
+        "20 point requests and 17 possible conclusion requests exceed 65536 bytes; no truncation allowed"
+      ],
+      "cloud_inference_calls": 0,
+      "endpoint": "http://localhost:11434/v1/systemone",
+      "local_inference_calls": 0,
+      "maximum_inference_stages": 304,
+      "model": "clef-flash",
+      "offline_fixture": "passed",
+      "status": "blocked_exact_preflight"
+    },
+    "openai_decisions": {
+      "audited_requests": 373,
+      "blockers": [
+        "decision_counter_unqualified",
+        "decision_context_limit_unqualified",
+        "endpoint_access_unverified"
+      ],
+      "cloud_inference_calls": 0,
+      "endpoint": "https://api.openai.com/v1/decisions",
+      "local_inference_calls": 0,
+      "maximum_inference_stages": 304,
+      "model": "gpt-6-luna",
+      "offline_fixture": "passed",
+      "status": "blocked_exact_preflight"
+    },
+    "openai_generation": {
+      "audited_requests": 373,
+      "blockers": [
+        "credentialed_exact_count_required",
+        "endpoint_access_unverified"
+      ],
+      "cloud_inference_calls": 0,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "local_inference_calls": 0,
+      "maximum_inference_stages": 304,
+      "model": "gpt-6-luna",
+      "offline_fixture": "passed",
+      "status": "credentials_and_protocol_qualification_pending"
+    },
+    "typesafe_jev": {
+      "audited_requests": 373,
+      "blockers": [
+        "exact_render_counter_unqualified",
+        "endpoint_access_unverified"
+      ],
+      "cloud_inference_calls": 0,
+      "endpoint": "https://api.typesafe.ai/v1/systemone",
+      "local_inference_calls": 0,
+      "maximum_inference_stages": 304,
+      "model": "jev-1.13.0",
+      "offline_fixture": "passed",
+      "status": "blocked_exact_preflight"
+    }
+  },
+  "date": "2026-10-11",
+  "handoff": "docs/specs/task09e1_cloud_handoff.md",
+  "limitations": [
+    "Offline fixtures establish mapping and orchestration only, not model accuracy.",
+    "No actual 69-answer model results, cache savings or billed charges.",
+    "Five cloud conditions and local Clef lack qualified exact counting; credentials alone cannot unblock them.",
+    "Live CLI refuses existing run namespaces; uncertain attempts require inspection, never automatic replay.",
+    "Proposed labels are uncalibrated; analysis keeps all-panel and matched-valid denominators separate."
+  ],
+  "local_clef": {
+    "asset_present": false,
+    "daemon": "not running during qualification",
+    "download_bytes": 0,
+    "endpoint_body_limit": 65536,
+    "exact_counter": "unqualified",
+    "inference_calls": 0,
+    "largest_body_bytes": 113727,
+    "overlimit_actual_stage_shapes": 37,
+    "overlimit_audit_shapes": 54,
+    "runtime": "Ollama 0.40.2"
+  },
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261011_cloud_decision_v1",
+  "panel": {
+    "answers": 69,
+    "case_counts": {
+      "C014": 20,
+      "C037": 27,
+      "C041": 22
+    },
+    "conclusion_shapes": "audit-only all-false/all-true; not predictions",
+    "maximum_stage_calls": 304,
+    "original_nonconclusion_points": 166,
+    "rendered_shapes_per_condition": 373
+  },
+  "phase0": {
+    "focused_passed": 254,
+    "golden_scenarios": 5,
+    "independent_review": "passed; extracted AST body unchanged"
+  },
+  "schema_version": "task09e1.final_result.v1",
+  "starting_commit": "f0c57a0966f851f552b5fc06cf918754e2d5dff7",
+  "status": "offline_complete_live_qualification_pending",
+  "validation": {
+    "comparison_tests_passed": 227,
+    "focused_passed": 262,
+    "format_lint_types": "passed",
+    "full_passed": 4155,
+    "git_diff_check": "passed",
+    "historical_failures": [
+      "tests/test_task06g_collection_generation.py::test_collection_generator_preserves_historical_v38_owner_packet",
+      "tests/test_task06g_generation.py::test_task06g_v38_generation_remains_immutable_after_finalization_amendment",
+      "tests/test_task06g_generation.py::test_task06g_templates_are_executable_and_source_free"
+    ],
+    "independent_spec_semantic_provider_reviews": "passed",
+    "new_failures": 0,
+    "skipped": 1,
+    "independent_artifact_review": "passed"
+  }
+}

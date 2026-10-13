@@ -10,6 +10,7 @@ import pytest
 from test_grounding_inspect import completion, sample
 from test_judge_packet_requests import settings
 
+from er_commons import grounding_stage_runtime as runtime
 from er_commons import grounding_staged_inspect as adapter
 
 
@@ -40,7 +41,7 @@ def test_unknown_or_overflow_count_blocks_calls(
     def forbidden(*args: Any, **kwargs: Any) -> None:
         raise AssertionError("No transport allowed")
 
-    monkeypatch.setattr(adapter, "check_live_model", forbidden)
+    monkeypatch.setattr(runtime, "check_live_model", forbidden)
     record = evaluate(tmp_path, None, count_tokens=None if count is None else lambda req: count)
     assert record["status"] == status and record["attempts"] == 0
     assert record["score"] is None and record["conclusion_skipped"]
@@ -154,7 +155,7 @@ def test_single_transient_retry_per_stage(
     """Recount before every retry and preserve all attempted calls in Inspect records."""
     calls = 0
     counts = 0
-    monkeypatch.setattr(adapter, "check_live_model", lambda *args: None)
+    monkeypatch.setattr(runtime, "check_live_model", lambda *args: None)
 
     async def transport(request: dict, directory: Path, captured: dict, **kwargs: Any) -> None:
         nonlocal calls
@@ -163,14 +164,14 @@ def test_single_transient_retry_per_stage(
             raise httpx.ReadTimeout("Invented transient failure")
         key = "P2" if calls == failures + 1 else "conclusion"
         output = responses()["fixture"][key]
-        captured.update(output=output, **adapter.validate_completion(output, settings()))
+        captured.update(output=output, **runtime.validate_completion(output, settings()))
 
     def counter(request: dict) -> int:
         nonlocal counts
         counts += 1
         return 100
 
-    monkeypatch.setattr(adapter, "call_native_judge", transport)
+    monkeypatch.setattr(runtime, "call_native_judge", transport)
     record = evaluate(tmp_path, None, count_tokens=counter)
     assert record["status"] == status and record["attempts"] == attempts
     assert calls == counts == attempts

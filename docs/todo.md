@@ -63,15 +63,22 @@ receipts; fixture receipts are not baseline results. The bounded code-quality
 pass strengthens validation and supports distinct saved variants of one case;
 see the outcome for verification and accepted closeout.
 
-**Next: [Task 09E.1 — Cloud and decision-model judges](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md), planned for a new implementation chat.**
-Prepare seven model/API conditions with offline tests, separate quotation
-diagnostics, caching/cost verification and a bounded local Clef Dev3 trial.
-Cloud runs follow credential setup and explicit run budgets. No implementation
-has started; Dev6, full-19, 09F–09G and Task 10 remain outside this scope.
-The prior [9B outcome](specs/task09e_09a3_qwen9b_v1.md) and
-[09E result](specs/task09e_final_result.json) remain preserved.
-[Decision 006](decisions/006_structured_answers_four_part_evaluation.md) governs
-separate judge visibility and the four evaluation results.
+**09E and 09E.1 are complete; [09E.2 cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md) is also complete.**
+The combined 09E/09E.1 cleanup is complete: Clef execution is retired,
+Ollama/Qwen remains for local integration checks, and maintained cloud judge paths
+have offline regression coverage and independent review. GLM Flash is selected for subsequent judging;
+Luna and Haiku remain alternatives. Keep the simple claims prompt and original
+conclusion semantics with the successful empty-review clarification. The rejected
+semantic appendix and DeepSeek remain set aside.
+
+The [latest comparison](specs/task09e1_glm14_conditions_dev6_result.md) and
+[09E.1 task](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) preserve all
+experiment results, patched metrics and limitations. The
+[maintainer guide](grounding_judge_guide.md) owns current commands. Prior artifacts
+and dataset boundaries remain unchanged; this cleanup does not qualify a judge.
+Next: refresh the provisional [09F adequacy contract](../tasks/sprint2/09f_implement_adequacy_judge.md)
+using the accepted GLM configuration and reusable infrastructure. No 09F execution
+or new inference has started. Reserved/test data remains untouched.
 
 ## Task 09 subqueue
 
@@ -83,8 +90,9 @@ separate judge visibility and the four evaluation results.
 | [09B — Harness/local inference](../tasks/sprint2/09b_choose_harness_and_qualify_local_judge.md) | Complete with limitations | Inspect/Ollama integration, candidate qualification and measured runtime |
 | [09C — Evidence packets](../tasks/sprint2/09c_build_judge_evidence_packets.md) | Complete with limitations | Separate validated inputs and explicit context diagnostics |
 | [09D — Automatic metrics](../tasks/sprint2/09d_implement_automatic_metrics.md) | Complete with limitations | Inspect metrics, canonical identities and Task 10 receipt interface |
-| [09E — Grounding judge](../tasks/sprint2/09e_implement_grounding_judge.md) | 9B Dev3 complete; follow-on 09E.1 planned | Reference-blind judge; fixed dev3/dev6 panels and staged Qwen iteration |
-| [09E.1 — Cloud/decision comparison](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) | Planned; next implementation task | Seven provider conditions, caching/cost audit, offline tests and local Clef Dev3 |
+| [09E — Grounding judge](../tasks/sprint2/09e_implement_grounding_judge.md) | Complete | Reference-blind grounding judge; accepted development results and limitations |
+| [09E.1 — Cloud/decision comparison](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) | Complete | GLM selected; provider comparison, cache repairs and disclosed development limitations |
+| [09E.2 — Code cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md) | Complete | Reusable cloud interfaces, retained local smoke paths, regression tests and independent review |
 | [09F — Adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) | Provisional | Independent reference-aware judge |
 | [09G — Challenge/freeze](../tasks/sprint2/09g_challenge_and_freeze_judges.md) | Provisional | Bounded revisions, comparison report and frozen configurations |
 

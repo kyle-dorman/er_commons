@@ -1,0 +1,284 @@
+{
+  "schema_version": "task09e1.fireworks_repair_8192_pointer.v1",
+  "status": "complete_with_partial_deepseek",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1",
+  "glm_evaluation_complete": true,
+  "deepseek_evaluation_complete": false,
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/completion.json",
+    "sha256": "95c043054be6bf32b31d8f61b107e50c0d1059192b122127bfd1a615724dd287",
+    "byte_size": 1552336
+  },
+  "artifacts": {
+    "result.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/result.json",
+      "sha256": "ab1c16eedf230f58d6a78ee6b8b593647dc197a889d4bb845afd6106fec9b2a6",
+      "byte_size": 9386
+    },
+    "analysis_v2.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/analysis_v2.json",
+      "sha256": "4060ef5d99871e5d59fa7906e2b4c842a865c2fec39ef604193759be7dab0c11",
+      "byte_size": 7821782
+    },
+    "failure_overlap_v3.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/failure_overlap_v3.json",
+      "sha256": "35d470e3329f9baab216715aa7e0a448bdcb0ae548d0f307505595c07a6c10b6",
+      "byte_size": 2030753
+    },
+    "metrics_overlap_independent_audit.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/metrics_overlap_independent_audit.json",
+      "sha256": "e34784fe437e4ee1c834f3f17e1d172c67a628e33159691d7bc540f0e9481d8f",
+      "byte_size": 12550
+    },
+    "final_report_independent_review.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/final_report_independent_review.json",
+      "sha256": "87a215c64606ef9f16a56f72e15d65bfe7962e0d35e364c8031b052624fed554",
+      "byte_size": 4122
+    },
+    "final_source_review_resolution.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/final_source_review_resolution.json",
+      "sha256": "f8633ec2706e7174d0211ea3b7a9557c9311e3cc07f066d96df14f1f16a4dde4",
+      "byte_size": 1318
+    },
+    "deepseek_source_review.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/deepseek_source_review.json",
+      "sha256": "db505a6e3bb15b5a8b96ad3b012f60851faa7cd94e2610fc7096378932e30b4c",
+      "byte_size": 55236
+    },
+    "shared_conclusion_source_review.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/shared_conclusion_source_review.json",
+      "sha256": "72c7f7e5b54ab82da7a1753f93873dfbaa77c34d9d57ac964ce474a4cef90430",
+      "byte_size": 73597
+    },
+    "historical_validation_categories.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/historical_validation_categories.json",
+      "sha256": "c389eee81db1bf1a28339504552616a426bdf9bd904b7d59f8756fbf2975ac2f",
+      "byte_size": 41835
+    },
+    "glm_main_native_audit.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/glm_main_native_audit.json",
+      "sha256": "7afe3f5ca6e6deb803e5f1dd3a041c5675f00d213cded470d845029a253fbb85",
+      "byte_size": 3873
+    },
+    "timeout_continuation/deepseek_main_native_audit.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/timeout_continuation/deepseek_main_native_audit.json",
+      "sha256": "f5309e13e073cb084fff7e2909e6cc447bddd29a4c897994633608a63056a530",
+      "byte_size": 250052
+    },
+    "offline_validation_final.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/offline_validation_final.json",
+      "sha256": "afda9901291f09ea2c7fb256abaab5182fa10c1cfef0671c72223c66aa6e716a",
+      "byte_size": 1111
+    },
+    "final_preservation_verification.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/final_preservation_verification.json",
+      "sha256": "f6e1be2b2d029be4600cecb51a6dbcda1ce5bc64d44ecd21a8345a9bd66a7d73",
+      "byte_size": 1723
+    },
+    "final_scan.json": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09e1_20261012_fireworks_repair_8192_v1/final_scan.json",
+      "sha256": "13ba8b5fc16e6ac8f662c61411413fd4bcc1138a8025ec8dd1a5411f5bb90314",
+      "byte_size": 330
+    }
+  },
+  "contracts": [
+    {
+      "path": "/Users/kyledorman/Documents/er_commons/docs/specs/task09e1_fireworks_repair_8192_v1.md",
+      "sha256": "f0591dbfad9e8bf2b8f25b8472a464a5f4f7c08d94492d341fb5abb77bdf2ccf",
+      "byte_size": 5123
+    },
+    {
+      "path": "/Users/kyledorman/Documents/er_commons/docs/specs/task09e1_deepseek_timeout_continuation_v1.md",
+      "sha256": "65240839b3e5e859afb312c249d3eeb966a03cf5cbf1ce80c5ff2d1a44ec6f4c",
+      "byte_size": 2477
+    }
+  ],
+  "report": {
+    "path": "/Users/kyledorman/Documents/er_commons/docs/specs/task09e1_fireworks_repair_8192_result.md",
+    "sha256": "cc243dd92ae5874e176c4e90f4772ebd17cb6e14685d51d5401bce057a4ac257",
+    "byte_size": 12067
+  },
+  "models": {
+    "luna": {
+      "original_claims": {
+        "planned": 1056,
+        "valid": 1056,
+        "correct": 1012,
+        "coverage_aware_macro_f1": 0.9346166835528538,
+        "full_denominator_accuracy": 0.9583333333333334,
+        "conditional_macro_f1": 0.9346166835528538
+      },
+      "claim_reviews": {
+        "planned": 1056,
+        "valid": 1056,
+        "correct": 1037,
+        "coverage_aware_macro_f1": 0.969577459663296,
+        "full_denominator_accuracy": 0.9820075757575758,
+        "conditional_macro_f1": 0.969577459663296
+      },
+      "conclusion_support": {
+        "planned": 392,
+        "valid": 392,
+        "correct": 370,
+        "coverage_aware_macro_f1": 0.9292998852270864,
+        "full_denominator_accuracy": 0.9438775510204082,
+        "conditional_macro_f1": 0.9292998852270864
+      },
+      "numeric_scores": {
+        "planned": 392,
+        "valid": 350,
+        "correct": 328,
+        "coverage_aware_macro_f1": 0.8850604079666861,
+        "full_denominator_accuracy": 0.8367346938775511,
+        "conditional_macro_f1": 0.9350593325416412
+      },
+      "clean_na": {
+        "correct": 38,
+        "planned": 38
+      }
+    },
+    "haiku_updated": {
+      "original_claims": {
+        "planned": 1056,
+        "valid": 1056,
+        "correct": 1011,
+        "coverage_aware_macro_f1": 0.9322774969466443,
+        "full_denominator_accuracy": 0.9573863636363636,
+        "conditional_macro_f1": 0.9322774969466443
+      },
+      "claim_reviews": {
+        "planned": 1056,
+        "valid": 1048,
+        "correct": 1018,
+        "coverage_aware_macro_f1": 0.9483782646935107,
+        "full_denominator_accuracy": 0.9640151515151515,
+        "conditional_macro_f1": 0.9515863776632112
+      },
+      "conclusion_support": {
+        "planned": 392,
+        "valid": 390,
+        "correct": 379,
+        "coverage_aware_macro_f1": 0.9604669370233205,
+        "full_denominator_accuracy": 0.9668367346938775,
+        "conditional_macro_f1": 0.9621329143533026
+      },
+      "numeric_scores": {
+        "planned": 392,
+        "valid": 354,
+        "correct": 331,
+        "coverage_aware_macro_f1": 0.8905289705979955,
+        "full_denominator_accuracy": 0.8443877551020408,
+        "conditional_macro_f1": 0.934736208117161
+      },
+      "clean_na": {
+        "correct": 38,
+        "planned": 38
+      }
+    },
+    "glm_updated": {
+      "original_claims": {
+        "planned": 1056,
+        "valid": 1051,
+        "correct": 1037,
+        "coverage_aware_macro_f1": 0.9750027484608619,
+        "full_denominator_accuracy": 0.9820075757575758,
+        "conditional_macro_f1": 0.9774211566554953
+      },
+      "claim_reviews": {
+        "planned": 1056,
+        "valid": 1029,
+        "correct": 1007,
+        "coverage_aware_macro_f1": 0.9464492753623188,
+        "full_denominator_accuracy": 0.9535984848484849,
+        "conditional_macro_f1": 0.9623021688159437
+      },
+      "conclusion_support": {
+        "planned": 392,
+        "valid": 367,
+        "correct": 364,
+        "coverage_aware_macro_f1": 0.9567050596462361,
+        "full_denominator_accuracy": 0.9285714285714286,
+        "conditional_macro_f1": 0.9890002297862988
+      },
+      "numeric_scores": {
+        "planned": 392,
+        "valid": 352,
+        "correct": 341,
+        "coverage_aware_macro_f1": 0.9176336142894296,
+        "full_denominator_accuracy": 0.8698979591836735,
+        "conditional_macro_f1": 0.9691907815828862
+      },
+      "clean_na": {
+        "correct": 38,
+        "planned": 38
+      }
+    },
+    "deepseek_partial": {
+      "original_claims": {
+        "planned": 1056,
+        "valid": 822,
+        "correct": 808,
+        "coverage_aware_macro_f1": 0.848282707961088,
+        "full_denominator_accuracy": 0.7651515151515151,
+        "conditional_macro_f1": 0.9714583333333333
+      },
+      "claim_reviews": {
+        "planned": 1056,
+        "valid": 0,
+        "correct": 0,
+        "coverage_aware_macro_f1": 0.0,
+        "full_denominator_accuracy": 0.0,
+        "conditional_macro_f1": null
+      },
+      "conclusion_support": {
+        "planned": 392,
+        "valid": 0,
+        "correct": 0,
+        "coverage_aware_macro_f1": 0.0,
+        "full_denominator_accuracy": 0.0,
+        "conditional_macro_f1": null
+      },
+      "numeric_scores": {
+        "planned": 392,
+        "valid": 0,
+        "correct": 0,
+        "coverage_aware_macro_f1": 0.0,
+        "full_denominator_accuracy": 0.0,
+        "conditional_macro_f1": null
+      },
+      "clean_na": {
+        "correct": 0,
+        "planned": 38
+      }
+    }
+  },
+  "cost_estimates": {
+    "glm": "0.00437090",
+    "deepseek": "1.619348076",
+    "total": "1.623718976",
+    "deepseek_unknown_charges": 2,
+    "deepseek_unknown_reservations": [
+      "0.0146046",
+      "0.0191679"
+    ],
+    "deepseek_cached_input_share": 0.6881066511393511,
+    "not_provider_invoices": true
+  },
+  "validation": {
+    "focused_package_passed": 35,
+    "make_fix": "passed",
+    "make_check_passed": 4324,
+    "make_check_skipped": 1,
+    "make_check_historical_task06g_failures": 3,
+    "final_offline_passed": 22,
+    "independent_arithmetic_checks": 1920,
+    "direct_metric_recomputations": 8,
+    "preserved_prior_files": 26632
+  },
+  "default_promotion": false,
+  "label_changes": false,
+  "reserved_test_payloads_read": false,
+  "commits": 0,
+  "pushes": 0,
+  "next_step": "No more calls are running. DeepSeek remains incomplete; any separately bounded continuation must preserve both uncertain requests, retained outputs, costs and dataset boundaries."
+}

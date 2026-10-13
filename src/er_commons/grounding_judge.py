@@ -8,6 +8,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from er_commons.grounding_evidence import source_texts
+from er_commons.grounding_native import validate_completion as validate_completion
 from er_commons.judge_packet_requests import packet_content
 from er_commons.judge_packets import points
 
@@ -181,13 +183,8 @@ def validate_result(raw: str, packet: dict[str, Any]) -> GroundingResult:
                 raise ValueError("Locator must identify this point's actual citation")
             if source["resolution"] != "resolved":
                 raise ValueError("An unresolved citation cannot supply a source locator")
-            source_texts = [source["full_source_text"]]
-            for table in source["tables"]:
-                source_texts.extend(cell["text"] for cell in table["cells"])
-                if table.get("caption"):
-                    source_texts.append(table["caption"])
             if not locator.excerpt.strip() or not any(
-                locator.excerpt in text for text in source_texts
+                locator.excerpt in text for text in source_texts(source)
             ):
                 raise ValueError("Locator excerpt must occur exactly in the actual source")
     if not substantive:
@@ -201,18 +198,3 @@ def validate_result(raw: str, packet: dict[str, Any]) -> GroundingResult:
         if result.score != implied:
             raise ValueError("Score is inconsistent with finding materiality/status")
     return result
-
-
-def validate_completion(output: dict[str, Any], settings: dict[str, Any]) -> dict[str, Any]:
-    """Validate native completion mechanics independently of the semantic schema."""
-    if output.get("done") is not True or output.get("done_reason") == "length":
-        return {"status": "output_limit", "error": "Incomplete or length-limited result"}
-    count = output.get("prompt_eval_count")
-    if type(count) is not int or count <= 0:
-        return {"status": "context_evidence_missing", "error": "Missing prompt token count"}
-    if count + settings["max_tokens"] > settings["context"]:
-        return {"status": "context_limit", "error": "Native context exceeded"}
-    message = output.get("message")
-    if not isinstance(message, dict) or not isinstance(message.get("content"), str):
-        return {"status": "schema_error", "error": "Missing message.content string"}
-    return {"status": "complete", "raw_judgment": message["content"]}

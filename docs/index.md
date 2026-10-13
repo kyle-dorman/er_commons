@@ -24,16 +24,21 @@ with separate deterministic evidence packets and explicit context diagnostics;
 remaining exact-token-counter requirement. [09D is complete](../tasks/sprint2/09d_implement_automatic_metrics.md) with offline
 Inspect metrics, canonical-ID matching and an explicit Task 10 receipt contract;
 [its result](specs/task09d_final_result.json) records fixture validation and limits.
-[09E](../tasks/sprint2/09e_implement_grounding_judge.md) completed the
-[9B Dev3 comparison](specs/task09e_09a3_qwen9b_v1.md) on the same 69 answers as the
-[small-model experiment](specs/task09e_09a3_small_v1.md). Abstention and point-support
-diagnostics improve, but nonliteral evidence excerpts leave only 12 numeric scores;
-C014 has none. The judge remains unqualified. The [result pointer](specs/task09e_final_result.json)
-preserves all experiments. The next planned task is
-[09E.1 — Cloud and decision-model judges](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md):
-offline integrations, caching/cost checks and a bounded local Clef trial, followed
-by credentialed cloud Dev3 comparisons. Implementation has not started. Dev6,
-full-19 and 09F–09G remain outside this scope.
+[09E](../tasks/sprint2/09e_implement_grounding_judge.md) and
+[09E.1](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) are complete, preserving the
+local/cloud judge development results. The user selects GLM Flash with the simple
+claims prompt, original conclusion semantics and empty-review clarification.
+The [latest comparison](specs/task09e1_glm14_conditions_dev6_result.md) records
+results and limitations; this development selection is not judge qualification.
+Luna and Haiku remain cloud alternatives; Ollama/Qwen remains for local code-path
+checks. Clef execution is retired, with its historical evidence preserved.
+
+**Latest completed checkpoint: [09E.2 — Judge code cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md).**
+This covers both inherited 09E and current 09E.1 code. See the
+[judge maintainer guide](grounding_judge_guide.md) for maintained interfaces.
+No model inference, label changes or reserved/test access belongs to this cleanup.
+Next is a refresh of the provisional 09F adequacy contract; execution has not
+started. Final challenge/freeze remains in 09G.
 
 The latest development synthetic dataset is the [09A.3 additive publication](specs/task09a3_final_result.json):
 442 answers / 430 eligible, including two clean abstentions per question. It

@@ -31,10 +31,36 @@ from er_commons.synthetic_intake import verify_binding
 SCHEMA_VERSION = "task09e.grounding_dataset_panel.v1"
 CASE_COUNTS = dict(zip(DEV6, (22, 27, 20, 23, 22, 22), strict=True))
 PANELS = {"dev3": DEV3, "dev6": DEV6, "dev6_additions": DEV6[len(DEV3) :]}
+FULL_DEV_CASE_COUNTS = {
+    "C001": 23,
+    "C006": 21,
+    "C007": 30,
+    "C008": 19,
+    "C014": 20,
+    "C017": 24,
+    "C019": 22,
+    "C027": 19,
+    "C028": 17,
+    "C029": 25,
+    "C036": 18,
+    "C037": 27,
+    "C041": 22,
+    "C042": 26,
+    "C045": 24,
+    "C050": 24,
+    "C051": 25,
+    "C054": 22,
+    "C056": 22,
+}
+FULL_DEV = (*DEV6, *(case for case in FULL_DEV_CASE_COUNTS if case not in DEV6))
 
 
-def _eligible_metadata(path: Path, allowed: set[str]) -> list[dict[str, Any]]:
-    """Read only routing scalars globally, selecting eligible rows from the six fixed cases."""
+def _eligible_metadata(
+    path: Path, allowed: set[str], *, full_dev: bool = False
+) -> list[dict[str, Any]]:
+    """Read routing scalars globally; decode eligible payloads only after bounded case selection."""
+    cases = FULL_DEV if full_dev else DEV6
+    counts = FULL_DEV_CASE_COUNTS if full_dev else CASE_COUNTS
     rows = []
     seen: set[str] = set()
     eligible = 0
@@ -53,13 +79,13 @@ def _eligible_metadata(path: Path, allowed: set[str]) -> list[dict[str, Any]]:
         if row["comparison_eligible"] != (row["variant_id"] in allowed):
             raise ValueError("Eligibility differs from sealed development reservation")
         eligible += row["comparison_eligible"]
-        if row["case_id"] in DEV6 and row["comparison_eligible"]:
+        if row["case_id"] in cases and row["comparison_eligible"]:
             rows.append(row)
     if len(seen) != 442 or eligible != 430 or not allowed <= seen:
         raise ValueError("Combined dataset must retain 442 variants and 430 eligible proposals")
-    if dict(Counter(r["case_id"] for r in rows)) != CASE_COUNTS:
-        raise ValueError("Fixed six-case eligible counts differ")
-    return sorted(rows, key=lambda r: (DEV6.index(r["case_id"]), r["variant_id"]))
+    if dict(Counter(r["case_id"] for r in rows)) != counts:
+        raise ValueError("Fixed selected-case eligible counts differ")
+    return sorted(rows, key=lambda r: (cases.index(r["case_id"]), r["variant_id"]))
 
 
 def _external_binding(binding: dict[str, Any]) -> Path:
@@ -76,8 +102,12 @@ def _sealed_file(path: Path, root: Path, inventory: dict[str, dict[str, Any]]) -
     return verify_binding(inventory[relative], root)
 
 
-def freeze_dataset_panel(result_path: Path, release_path: Path, output: Path) -> dict[str, Any]:
-    """Bind eligible combined answers, source packets and restricted proposals without inference."""
+def freeze_dataset_panel(
+    result_path: Path, release_path: Path, output: Path, *, full_dev: bool = False
+) -> dict[str, Any]:
+    """Publish six cases by default; explicit full_dev binds all nineteen development cases."""
+    if type(full_dev) is not bool:
+        raise ValueError("full_dev requires an explicit Boolean opt-in")
     result, release = _read(result_path), _read(release_path)
     if (
         result.get("schema_version") != "task09a3.final_result.v1"
@@ -113,12 +143,18 @@ def freeze_dataset_panel(result_path: Path, release_path: Path, output: Path) ->
     ]
     if [len(g) for g in groups] != [430, 12, 0] or len(set(sum(groups, []))) != 442:
         raise ValueError("Combined development reservation differs")
-    selection = _eligible_metadata(expectations_path, set(groups[0]))
+    # Full publication validates the complete development split before selecting payloads.
+    full_release = _verify_release(release) if full_dev else None
+    if full_release is not None and (
+        len(full_release[2]) != 19 or set(full_release[2]) != set(FULL_DEV)
+    ):
+        raise ValueError("Full development membership differs from the sealed nineteen cases")
+    selection = _eligible_metadata(expectations_path, set(groups[0]), full_dev=full_dev)
     ids = {row["variant_id"] for row in selection}
     answers = selected_rows(answers_path, ids)
     expectations = selected_rows(expectations_path, ids)
     origins = selected_rows(origins_path, ids)
-    release_root, release_inventory, dev, allowed, corpus = _verify_release(release)
+    release_root, release_inventory, dev, allowed, corpus = full_release or _verify_release(release)
     if release.get("status") != "complete" or not set(DEV6) <= set(dev):
         raise ValueError("Require unchanged six-case development membership")
     rows, packets, restricted = [], [], []
@@ -185,7 +221,7 @@ def freeze_dataset_panel(result_path: Path, release_path: Path, output: Path) ->
         "packets.json": json_bytes(packets),
         "restricted_expectations.json": json_bytes(restricted),
     }
-    manifest = {
+    manifest: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "status": "frozen",
         "source_result": _binding(result_path),
@@ -200,7 +236,7 @@ def freeze_dataset_panel(result_path: Path, release_path: Path, output: Path) ->
         "selection": "all_comparison_eligible_no_controls",
         "global_variants": 442,
         "global_eligible": 430,
-        "case_counts": CASE_COUNTS,
+        "case_counts": FULL_DEV_CASE_COUNTS if full_dev else CASE_COUNTS,
         "panels": {
             name: [r["sample_id"] for r in rows if r["case_id"] in cases]
             for name, cases in PANELS.items()
@@ -213,6 +249,9 @@ def freeze_dataset_panel(result_path: Path, release_path: Path, output: Path) ->
             "Synthetic stage expectations are diagnostic proposals, not calibrated truth."
         ],
     }
+    if full_dev:
+        manifest["full_dev"] = True
+        manifest["panels"]["full_dev"] = [row["sample_id"] for row in rows]
     files["manifest.json"] = json_bytes(manifest)
     _publish_output(output, files)
     return manifest
@@ -220,16 +259,21 @@ def freeze_dataset_panel(result_path: Path, release_path: Path, output: Path) ->
 
 def load_dataset_panel_samples(manifest_path: Path, panel: str) -> list[dict[str, Any]]:
     """Load only frozen eligible records; stage proposals stay outside model-visible packets."""
-    if panel not in PANELS:
-        raise ValueError("Require dev3, dev6 or dev6_additions")
+    if panel not in {*PANELS, "full_dev"}:
+        raise ValueError("Require dev3, dev6, dev6_additions or explicitly frozen full_dev")
     manifest = _read(manifest_path)
     if manifest.get("schema_version") != SCHEMA_VERSION or manifest.get("status") != "frozen":
         raise ValueError("Require frozen combined dataset panel")
+    full_dev = manifest.get("full_dev", False)
+    if type(full_dev) is not bool or (panel == "full_dev" and not full_dev):
+        raise ValueError("Full development requires an explicitly frozen full_dev panel")
+    counts = FULL_DEV_CASE_COUNTS if full_dev else CASE_COUNTS
+    panels = {**PANELS, "full_dev": FULL_DEV} if full_dev else PANELS
     rows = manifest["samples"]
     ids = [r["sample_id"] for r in rows]
-    if len(ids) != len(set(ids)) or dict(Counter(r["case_id"] for r in rows)) != CASE_COUNTS:
+    if len(ids) != len(set(ids)) or dict(Counter(r["case_id"] for r in rows)) != counts:
         raise ValueError("Frozen selected population differs")
-    for name, cases in PANELS.items():
+    for name, cases in panels.items():
         if manifest["panels"][name] != [r["sample_id"] for r in rows if r["case_id"] in cases]:
             raise ValueError("Panel membership or exact nesting differs")
     root = manifest_path.parent

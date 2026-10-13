@@ -17,8 +17,9 @@ from inspect_ai.log import EvalLog
 
 from er_commons.grounding_abstention_inspect import evaluate_abstention_samples
 from er_commons.grounding_dataset_panel import load_dataset_panel_samples
-from er_commons.grounding_inspect import SavedGroundingSample, evaluate_grounding_samples
+from er_commons.grounding_inspect import evaluate_grounding_samples
 from er_commons.grounding_panel import load_panel_samples
+from er_commons.grounding_records import SavedGroundingSample
 from er_commons.grounding_staged_inspect import evaluate_staged_samples
 from er_commons.judge_qualification import validate_settings
 from er_commons.ollama_token_counter import OllamaCounterConfig, OllamaTokenCounter
