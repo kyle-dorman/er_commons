@@ -1,0 +1,831 @@
+{
+  "aggregate_native_usage_cost_latency": {
+    "billed_cost_usd": null,
+    "cache_read_fraction": 0.9513081625985905,
+    "cache_read_tokens": 5095920,
+    "cache_read_tokens_known_subtotal": 5095920,
+    "cache_read_tokens_unknown_records": 0,
+    "cache_write_tokens": 212330,
+    "cache_write_tokens_known_subtotal": 212330,
+    "cache_write_tokens_unknown_records": 0,
+    "call_elapsed_sum_seconds": 503.73927946202457,
+    "call_latency_max_seconds": 9.66156579204835,
+    "call_latency_median_seconds": 5.197121625067666,
+    "cost_upper_bound_usd": "0.710086250",
+    "cost_upper_bound_usd_known_subtotal": "0.710086250",
+    "cost_upper_bound_usd_unknown_records": 0,
+    "count_responses": 100,
+    "estimated_cost_usd": "0.12284295",
+    "estimated_cost_usd_known_subtotal": "0.12284295",
+    "estimated_cost_usd_unknown_records": 0,
+    "input_tokens": 5356750,
+    "input_tokens_known_subtotal": 5356750,
+    "input_tokens_unknown_records": 0,
+    "ordinary_input_tokens": 48500,
+    "ordinary_input_tokens_known_subtotal": 48500,
+    "ordinary_input_tokens_unknown_records": 0,
+    "output_tokens": 80985,
+    "output_tokens_known_subtotal": 80985,
+    "output_tokens_unknown_records": 0,
+    "records": 100,
+    "saved_receipts_reused": 0
+  },
+  "arms": {
+    "a_nonblank": {
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.951333320923999,
+        "cache_read_tokens": 1277712,
+        "cache_read_tokens_known_subtotal": 1277712,
+        "cache_read_tokens_unknown_records": 0,
+        "cache_write_tokens": 53238,
+        "cache_write_tokens_known_subtotal": 53238,
+        "cache_write_tokens_unknown_records": 0,
+        "call_elapsed_sum_seconds": 134.06545003992505,
+        "call_latency_max_seconds": 8.856188583187759,
+        "call_latency_median_seconds": 6.400420916965231,
+        "cost_upper_bound_usd": "0.179241375",
+        "cost_upper_bound_usd_known_subtotal": "0.179241375",
+        "cost_upper_bound_usd_unknown_records": 0,
+        "count_responses": 25,
+        "estimated_cost_usd": "0.03200137",
+        "estimated_cost_usd_known_subtotal": "0.03200137",
+        "estimated_cost_usd_unknown_records": 0,
+        "input_tokens": 1343075,
+        "input_tokens_known_subtotal": 1343075,
+        "input_tokens_unknown_records": 0,
+        "ordinary_input_tokens": 12125,
+        "ordinary_input_tokens_known_subtotal": 12125,
+        "ordinary_input_tokens_unknown_records": 0,
+        "output_tokens": 22714,
+        "output_tokens_known_subtotal": 22714,
+        "output_tokens_unknown_records": 0,
+        "records": 25,
+        "saved_receipts_reused": 0
+      },
+      "overall": {
+        "accuracy": 0.64,
+        "classes": [
+          0,
+          1,
+          2
+        ],
+        "confusion_matrix": {
+          "0": {
+            "0": 5,
+            "1": 5,
+            "2": 0,
+            "None": 0
+          },
+          "1": {
+            "0": 0,
+            "1": 6,
+            "2": 4,
+            "None": 0
+          },
+          "2": {
+            "0": 0,
+            "1": 0,
+            "2": 5,
+            "None": 0
+          }
+        },
+        "correct": 16,
+        "coverage": 1.0,
+        "eligible": 25,
+        "failed": 0,
+        "failures": [
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "1:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F05",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "2:task09a2-C014-F05-05-e170c2eaabee"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "2:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F05",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "3:task09a2-C014-F05-05-e170c2eaabee"
+          },
+          {
+            "case_id": "C014",
+            "category": "F04",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "3:task09a2-C014-F04-04-6fb51c1be264"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "3:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "4:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F04",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "5:task09a2-C014-F04-04-6fb51c1be264"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "5:task09a2-C014-F10-09-ee6a7a0fb103"
+          }
+        ],
+        "macro_f1": 0.6507936507936508,
+        "per_class": [
+          {
+            "f1": 0.6666666666666666,
+            "failed": 0,
+            "false_negative": 5,
+            "false_positive": 0,
+            "label": 0,
+            "support": 10,
+            "true_positive": 5
+          },
+          {
+            "f1": 0.5714285714285714,
+            "failed": 0,
+            "false_negative": 4,
+            "false_positive": 5,
+            "label": 1,
+            "support": 10,
+            "true_positive": 6
+          },
+          {
+            "f1": 0.7142857142857143,
+            "failed": 0,
+            "false_negative": 0,
+            "false_positive": 4,
+            "label": 2,
+            "support": 5,
+            "true_positive": 5
+          }
+        ],
+        "returned": 25,
+        "valid_only": {
+          "accuracy": 0.64,
+          "denominator": 25,
+          "macro_f1": 0.6507936507936508
+        }
+      },
+      "target": {
+        "blank_explanation_count": 0,
+        "case_id": "C014",
+        "category": "F05",
+        "control": false,
+        "expected_score": 1,
+        "role": "target",
+        "sample_id": "task09a2-C014-F05-05-e170c2eaabee",
+        "score_histogram": {
+          "1": 3,
+          "2": 2
+        },
+        "total": 5,
+        "valid": 5
+      }
+    },
+    "b_consolidated": {
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.9512182425168336,
+        "cache_read_tokens": 1260816,
+        "cache_read_tokens_known_subtotal": 1260816,
+        "cache_read_tokens_unknown_records": 0,
+        "cache_write_tokens": 52534,
+        "cache_write_tokens_known_subtotal": 52534,
+        "cache_write_tokens_unknown_records": 0,
+        "call_elapsed_sum_seconds": 134.73540387768298,
+        "call_latency_max_seconds": 8.42861070879735,
+        "call_latency_median_seconds": 4.674256416037679,
+        "cost_upper_bound_usd": "0.176569875",
+        "cost_upper_bound_usd_known_subtotal": "0.176569875",
+        "cost_upper_bound_usd_unknown_records": 0,
+        "count_responses": 25,
+        "estimated_cost_usd": "0.03127291",
+        "estimated_cost_usd_known_subtotal": "0.03127291",
+        "estimated_cost_usd_unknown_records": 0,
+        "input_tokens": 1325475,
+        "input_tokens_known_subtotal": 1325475,
+        "input_tokens_unknown_records": 0,
+        "ordinary_input_tokens": 12125,
+        "ordinary_input_tokens_known_subtotal": 12125,
+        "ordinary_input_tokens_unknown_records": 0,
+        "output_tokens": 21771,
+        "output_tokens_known_subtotal": 21771,
+        "output_tokens_unknown_records": 0,
+        "records": 25,
+        "saved_receipts_reused": 0
+      },
+      "overall": {
+        "accuracy": 0.8,
+        "classes": [
+          0,
+          1,
+          2
+        ],
+        "confusion_matrix": {
+          "0": {
+            "0": 5,
+            "1": 5,
+            "2": 0,
+            "None": 0
+          },
+          "1": {
+            "0": 0,
+            "1": 10,
+            "2": 0,
+            "None": 0
+          },
+          "2": {
+            "0": 0,
+            "1": 0,
+            "2": 5,
+            "None": 0
+          }
+        },
+        "correct": 20,
+        "coverage": 1.0,
+        "eligible": 25,
+        "failed": 0,
+        "failures": [
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "1:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "2:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "3:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "4:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "5:task09a2-C014-F10-09-ee6a7a0fb103"
+          }
+        ],
+        "macro_f1": 0.8222222222222223,
+        "per_class": [
+          {
+            "f1": 0.6666666666666666,
+            "failed": 0,
+            "false_negative": 5,
+            "false_positive": 0,
+            "label": 0,
+            "support": 10,
+            "true_positive": 5
+          },
+          {
+            "f1": 0.8,
+            "failed": 0,
+            "false_negative": 0,
+            "false_positive": 5,
+            "label": 1,
+            "support": 10,
+            "true_positive": 10
+          },
+          {
+            "f1": 1.0,
+            "failed": 0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "label": 2,
+            "support": 5,
+            "true_positive": 5
+          }
+        ],
+        "returned": 25,
+        "valid_only": {
+          "accuracy": 0.8,
+          "denominator": 25,
+          "macro_f1": 0.8222222222222223
+        }
+      },
+      "target": {
+        "blank_explanation_count": 0,
+        "case_id": "C014",
+        "category": "F05",
+        "control": false,
+        "expected_score": 1,
+        "role": "target",
+        "sample_id": "task09a2-C014-F05-05-e170c2eaabee",
+        "score_histogram": {
+          "1": 5
+        },
+        "total": 5,
+        "valid": 5
+      }
+    },
+    "baseline": {
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.9513158630980136,
+        "cache_read_tokens": 1275120,
+        "cache_read_tokens_known_subtotal": 1275120,
+        "cache_read_tokens_unknown_records": 0,
+        "cache_write_tokens": 53130,
+        "cache_write_tokens_known_subtotal": 53130,
+        "cache_write_tokens_unknown_records": 0,
+        "call_elapsed_sum_seconds": 114.0243987524882,
+        "call_latency_max_seconds": 9.66156579204835,
+        "call_latency_median_seconds": 4.403564624954015,
+        "cost_upper_bound_usd": "0.176408875",
+        "cost_upper_bound_usd_known_subtotal": "0.176408875",
+        "cost_upper_bound_usd_unknown_records": 0,
+        "count_responses": 25,
+        "estimated_cost_usd": "0.02946695",
+        "estimated_cost_usd_known_subtotal": "0.02946695",
+        "estimated_cost_usd_unknown_records": 0,
+        "input_tokens": 1340375,
+        "input_tokens_known_subtotal": 1340375,
+        "input_tokens_unknown_records": 0,
+        "ordinary_input_tokens": 12125,
+        "ordinary_input_tokens_known_subtotal": 12125,
+        "ordinary_input_tokens_unknown_records": 0,
+        "output_tokens": 17724,
+        "output_tokens_known_subtotal": 17724,
+        "output_tokens_unknown_records": 0,
+        "records": 25,
+        "saved_receipts_reused": 0
+      },
+      "overall": {
+        "accuracy": 0.64,
+        "classes": [
+          0,
+          1,
+          2
+        ],
+        "confusion_matrix": {
+          "0": {
+            "0": 5,
+            "1": 5,
+            "2": 0,
+            "None": 0
+          },
+          "1": {
+            "0": 0,
+            "1": 6,
+            "2": 4,
+            "None": 0
+          },
+          "2": {
+            "0": 0,
+            "1": 0,
+            "2": 5,
+            "None": 0
+          }
+        },
+        "correct": 16,
+        "coverage": 1.0,
+        "eligible": 25,
+        "failed": 0,
+        "failures": [
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "1:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F04",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "2:task09a2-C014-F04-04-6fb51c1be264"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "2:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F04",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "3:task09a2-C014-F04-04-6fb51c1be264"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "3:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F04",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "4:task09a2-C014-F04-04-6fb51c1be264"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "4:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F04",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "5:task09a2-C014-F04-04-6fb51c1be264"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "5:task09a2-C014-F10-09-ee6a7a0fb103"
+          }
+        ],
+        "macro_f1": 0.6507936507936508,
+        "per_class": [
+          {
+            "f1": 0.6666666666666666,
+            "failed": 0,
+            "false_negative": 5,
+            "false_positive": 0,
+            "label": 0,
+            "support": 10,
+            "true_positive": 5
+          },
+          {
+            "f1": 0.5714285714285714,
+            "failed": 0,
+            "false_negative": 4,
+            "false_positive": 5,
+            "label": 1,
+            "support": 10,
+            "true_positive": 6
+          },
+          {
+            "f1": 0.7142857142857143,
+            "failed": 0,
+            "false_negative": 0,
+            "false_positive": 4,
+            "label": 2,
+            "support": 5,
+            "true_positive": 5
+          }
+        ],
+        "returned": 25,
+        "valid_only": {
+          "accuracy": 0.64,
+          "denominator": 25,
+          "macro_f1": 0.6507936507936508
+        }
+      },
+      "target": {
+        "blank_explanation_count": 0,
+        "case_id": "C014",
+        "category": "F05",
+        "control": false,
+        "expected_score": 1,
+        "role": "target",
+        "sample_id": "task09a2-C014-F05-05-e170c2eaabee",
+        "score_histogram": {
+          "1": 5
+        },
+        "total": 5,
+        "valid": 5
+      }
+    },
+    "c_issue_example": {
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.9513638640031161,
+        "cache_read_tokens": 1282272,
+        "cache_read_tokens_known_subtotal": 1282272,
+        "cache_read_tokens_unknown_records": 0,
+        "cache_write_tokens": 53428,
+        "cache_write_tokens_known_subtotal": 53428,
+        "cache_write_tokens_unknown_records": 0,
+        "call_elapsed_sum_seconds": 120.91402679192834,
+        "call_latency_max_seconds": 7.899058042094111,
+        "call_latency_median_seconds": 5.97815979202278,
+        "cost_upper_bound_usd": "0.177866125",
+        "cost_upper_bound_usd_known_subtotal": "0.177866125",
+        "cost_upper_bound_usd_unknown_records": 0,
+        "count_responses": 25,
+        "estimated_cost_usd": "0.03010172",
+        "estimated_cost_usd_known_subtotal": "0.03010172",
+        "estimated_cost_usd_unknown_records": 0,
+        "input_tokens": 1347825,
+        "input_tokens_known_subtotal": 1347825,
+        "input_tokens_unknown_records": 0,
+        "ordinary_input_tokens": 12125,
+        "ordinary_input_tokens_known_subtotal": 12125,
+        "ordinary_input_tokens_unknown_records": 0,
+        "output_tokens": 18776,
+        "output_tokens_known_subtotal": 18776,
+        "output_tokens_unknown_records": 0,
+        "records": 25,
+        "saved_receipts_reused": 0
+      },
+      "overall": {
+        "accuracy": 0.72,
+        "classes": [
+          0,
+          1,
+          2
+        ],
+        "confusion_matrix": {
+          "0": {
+            "0": 5,
+            "1": 5,
+            "2": 0,
+            "None": 0
+          },
+          "1": {
+            "0": 0,
+            "1": 8,
+            "2": 2,
+            "None": 0
+          },
+          "2": {
+            "0": 0,
+            "1": 0,
+            "2": 5,
+            "None": 0
+          }
+        },
+        "correct": 18,
+        "coverage": 1.0,
+        "eligible": 25,
+        "failed": 0,
+        "failures": [
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "1:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F04",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "2:task09a2-C014-F04-04-6fb51c1be264"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "2:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "3:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "4:task09a2-C014-F10-09-ee6a7a0fb103"
+          },
+          {
+            "case_id": "C014",
+            "category": "F04",
+            "control": false,
+            "expected_score": 1,
+            "failure_type": "disagreement",
+            "predicted_score": 2,
+            "sample_id": "5:task09a2-C014-F04-04-6fb51c1be264"
+          },
+          {
+            "case_id": "C014",
+            "category": "F10",
+            "control": false,
+            "expected_score": 0,
+            "failure_type": "disagreement",
+            "predicted_score": 1,
+            "sample_id": "5:task09a2-C014-F10-09-ee6a7a0fb103"
+          }
+        ],
+        "macro_f1": 0.7318840579710145,
+        "per_class": [
+          {
+            "f1": 0.6666666666666666,
+            "failed": 0,
+            "false_negative": 5,
+            "false_positive": 0,
+            "label": 0,
+            "support": 10,
+            "true_positive": 5
+          },
+          {
+            "f1": 0.6956521739130435,
+            "failed": 0,
+            "false_negative": 2,
+            "false_positive": 5,
+            "label": 1,
+            "support": 10,
+            "true_positive": 8
+          },
+          {
+            "f1": 0.8333333333333334,
+            "failed": 0,
+            "false_negative": 0,
+            "false_positive": 2,
+            "label": 2,
+            "support": 5,
+            "true_positive": 5
+          }
+        ],
+        "returned": 25,
+        "valid_only": {
+          "accuracy": 0.72,
+          "denominator": 25,
+          "macro_f1": 0.7318840579710145
+        }
+      },
+      "target": {
+        "blank_explanation_count": 0,
+        "case_id": "C014",
+        "category": "F05",
+        "control": false,
+        "expected_score": 1,
+        "role": "target",
+        "sample_id": "task09a2-C014-F05-05-e170c2eaabee",
+        "score_histogram": {
+          "1": 5
+        },
+        "total": 5,
+        "valid": 5
+      }
+    }
+  },
+  "closeout": {
+    "byte_size": 261712,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/closeout.json",
+    "sha256": "3693ee54872876db334465803c281f942b405b09a47b233010a1202547333188"
+  },
+  "execution": {
+    "byte_size": 176,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/execution_complete.json",
+    "sha256": "993a7501f79908bc43f64df1df7115d12c88774786c00b294adab4e0d523bf49"
+  },
+  "interpretation": "All arms, including baseline, were valid. The original failure did not reproduce; this cannot establish a repair advantage.",
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1",
+  "plan": {
+    "byte_size": 6525,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/plan.json",
+    "sha256": "084acbd29c6d60dd220477dd244050413f25f61983a56805c321651a72cc7257"
+  },
+  "preservation": {
+    "byte_size": 362,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/preservation.json",
+    "sha256": "62b9f1839ca3f561f19202f1cb7400dd4682a89a1bb2484637ac693086f0f79a"
+  },
+  "promotion": false,
+  "report": {
+    "byte_size": 272027,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/comparison_report.json",
+    "sha256": "3ef823088eea7ce0e2a35d9e569d20aa2b6822ad9c57042ed0f9eb3a4dbcef3d"
+  },
+  "reviews": {
+    "independent_preflight_review": {
+      "byte_size": 3614,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/independent_preflight_review.json",
+      "sha256": "223afe3feaac24ab33f14a36e7269285cb04f459d2e66df3cc9d38a4435cec37"
+    },
+    "postrun_review": {
+      "byte_size": 3404,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/postrun_review.json",
+      "sha256": "462310313db6dfd581314cf673b3500526dacf73eecde4f89000256778ff3b9e"
+    },
+    "report_code_review": {
+      "byte_size": 2095,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/report_code_review.json",
+      "sha256": "bc17d3b64cd49225900873080c6d9d740cc09911556c089862d64dd273db5f6d"
+    }
+  },
+  "schema_version": "task09f.haiku_nonblank_comparison.v1",
+  "seed_support": {
+    "byte_size": 1420,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/seed_support.json",
+    "sha256": "df7f59085dd3396a94b34cc16d872f9553474e8b818ad68cd8907de6e39df5e7"
+  },
+  "status": "complete_awaiting_user_review",
+  "validation": {
+    "byte_size": 516,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_nonblank_v1/validation.json",
+    "sha256": "d4f2925ee12768ffd4c888426cfd9ce2dc9d5bb9c640a93b1e209a09e3405921"
+  }
+}

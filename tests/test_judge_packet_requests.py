@@ -127,14 +127,6 @@ def test_payload_injection_rejected_before_counter() -> None:
         prepare(value)
 
 
-def test_qualification_runner_cannot_bypass_09c_preflight() -> None:
-    """Published general packets cannot silently run through the old prototype rubric."""
-    from er_commons.judge_qualification import messages
-
-    with pytest.raises(ValueError, match="context preflight"):
-        messages(built())
-
-
 @pytest.mark.parametrize("field", ["applies_to", "citation_locators"])
 def test_null_optional_lists_rejected_by_schema(field: str) -> None:
     """Optional lists may be absent but explicit null must fail clean validation."""

@@ -1,0 +1,87 @@
+{
+  "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1",
+  "changes": {
+    "implementation": false,
+    "labels": false,
+    "prompts": false,
+    "reserved_or_test_access": false
+  },
+  "closeout": {
+    "byte_size": 3930,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/closeout.json",
+    "sha256": "31fc51f063c96eef63753c3da83ea226f6d7dcea4cdd88d9bdf100bcd0a7a13f"
+  },
+  "evidence": {
+    "crossmodel_cases.json": {
+      "byte_size": 39286001,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/crossmodel_cases.json",
+      "sha256": "3971c7a719385f885ea8f5b67c9e6324e4bbd1bdb30af2b06c81989f8c904cad"
+    },
+    "delivery_diagnostics.json": {
+      "byte_size": 183093,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/delivery_diagnostics.json",
+      "sha256": "2bed3d822dfeefa1b1e808b0ffce6da78f74674f0ea57c4d062d07ce0ede142a"
+    },
+    "haiku_longitudinal.json": {
+      "byte_size": 59105,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/haiku_longitudinal.json",
+      "sha256": "5d2f928c8a0914ffe87b22589f8b7587098dacc2dc176dbb00a2182bfd913906"
+    },
+    "independent_synthesis_review.json": {
+      "byte_size": 7068,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/independent_synthesis_review.json",
+      "sha256": "4b795f6fb2ce3a6c0e12f9afe54e54b1bffc96d81571bf34852901102d074d2b"
+    },
+    "placeholder_diagnostics.json": {
+      "byte_size": 1443,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/placeholder_diagnostics.json",
+      "sha256": "d1e1a3992821cb7bdff210b6c54b21589fb0a0557ef580c652001a55d26e1953"
+    },
+    "plan.json": {
+      "byte_size": 1120,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/plan.json",
+      "sha256": "9a7f12c8923c0626f4654ee5d79eb6be331dc8360bc988c84f98510cc7d27cf0"
+    },
+    "preservation_after.json": {
+      "byte_size": 1482,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/preservation_after.json",
+      "sha256": "f4c0c47a7764f192fea83ff1f2fd7faa4acaf619099111d925a1a6f27821c53a"
+    },
+    "quantitative.json": {
+      "byte_size": 13007,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/quantitative.json",
+      "sha256": "666375e20d7e0982e7aa97dc53f940373a9d1a3b627042451233ef5eac023ad5"
+    },
+    "review_c001_c056.json": {
+      "byte_size": 354477,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/review_c001_c056.json",
+      "sha256": "894a1e04a6992c89d3dfe277294d4045c382325d1f1dac3f0d16ebde83170709"
+    },
+    "review_c014_c019.json": {
+      "byte_size": 424770,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/review_c014_c019.json",
+      "sha256": "64a84034c08c63c045e4c96a9616a35467a1299a869c097bc280572d65f80938"
+    },
+    "review_c037_c041.json": {
+      "byte_size": 234521,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_failure_diagnosis_v1/review_c037_c041.json",
+      "sha256": "37c45c9defa87ffa08eb7dff415d2416b8b1fe5a9661136ecc33e24984b02585"
+    }
+  },
+  "next_step": "Discuss a small set of frozen scoring-policy anchors before authorizing another experiment.",
+  "schema_version": "task09f.offline_failure_diagnosis.v1",
+  "status": "complete_pending_user_discussion",
+  "summary": {
+    "answers": 136,
+    "disagreement_answers_reviewed": 48,
+    "disagreements": 147,
+    "estimated_cost_usd": "0",
+    "higher_scores": 122,
+    "invalid": 1,
+    "judgments": 816,
+    "lower_scores": 24,
+    "model_calls": 0,
+    "placeholder_diagnostics": 12,
+    "success_counterexamples_reviewed": 21
+  }
+}

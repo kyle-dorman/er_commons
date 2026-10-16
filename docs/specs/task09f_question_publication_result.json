@@ -1,0 +1,73 @@
+{
+  "approved_split": {
+    "byte_size": 1371,
+    "path": "/Volumes/x10pro/er_commons/benchmarks/er_bench/releases/task09f_20261014_v1/split.json",
+    "sha256": "5a9280fdd70556e3416c2c92a4c5ec2b4d2ce71d641b570e690ea2202126cd4e"
+  },
+  "benchmark_or_judge_runs": 0,
+  "changed_cases": [
+    "C002",
+    "C007"
+  ],
+  "commits": 0,
+  "completion": {
+    "byte_size": 9856,
+    "path": "/Volumes/x10pro/er_commons/benchmarks/er_bench/releases/task09f_20261014_v1/completion.json",
+    "sha256": "aa8023a13d6822b0dc6f2ae8416f117f01115aae1a9d6cd49ecd33f3947a3964"
+  },
+  "counts": {
+    "accepted": 49,
+    "accepted_but_unselected": 0,
+    "development": 19,
+    "pending": 0,
+    "selected": 49,
+    "test": 30
+  },
+  "handoff": {
+    "byte_size": 3416,
+    "path": "/Volumes/x10pro/er_commons/benchmarks/er_bench/releases/task09f_20261014_v1/handoff.json",
+    "sha256": "737c9cbf056156ea4afb848bdb9f2b02242c34b2f38511b4991aebe4b66078d8"
+  },
+  "independent_audit": {
+    "byte_size": 443,
+    "path": "/Volumes/x10pro/er_commons/benchmarks/er_bench/releases/task09f_20261014_v1/provenance/independent_audit.json",
+    "sha256": "662eb0c89bb96b5da96937446be02c0e9d83a1a8136c38786719094451c07555"
+  },
+  "pushes": 0,
+  "readme": {
+    "byte_size": 1265,
+    "path": "/Volumes/x10pro/er_commons/benchmarks/er_bench/releases/task09f_20261014_v1/README.md",
+    "sha256": "420eabcf8f4295d7ae886fcaf1c98ef065b2bbd5798fda6a35658bea203c5f6e"
+  },
+  "release_id": "task09f_20261014_v1",
+  "schema_version": "task09f.question_publication_result.v1",
+  "status": "complete",
+  "target_dev": {
+    "byte_size": 3400,
+    "path": "/Volumes/x10pro/er_commons/benchmarks/er_bench/releases/task09f_20261014_v1/target/dev.jsonl",
+    "sha256": "4438a0524876084eb415f1eb8e229781e019b81bcc9d9aec6ec06ebf27ad293d"
+  },
+  "target_test": {
+    "byte_size": 5242,
+    "path": "/Volumes/x10pro/er_commons/benchmarks/er_bench/releases/task09f_20261014_v1/target/test.jsonl",
+    "sha256": "928e4c96d4da55742c5c0573f1f10c8badebb2ef93c1497a0132ee15bbe5d1d9"
+  },
+  "unchanged_case_count": 47,
+  "validation": {
+    "byte_size": 254,
+    "path": "/Volumes/x10pro/er_commons/benchmarks/er_bench/releases/task09f_20261014_v1/validation.json",
+    "sha256": "37683164d31527f3e036bae0bc18354d9dd322b1b30cb3b629ad1717e039c7f5"
+  },
+  "verification": {
+    "byte_size": 164,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_publication_v1/final_verification.json",
+    "sha256": "56d3395d42f59abae1fb9b124cd519de461d384aa0f4461fb4dbe979200d2131"
+  },
+  "downstream_compatibility_check": {
+    "consumer": "judge_packet_publication._verify_release",
+    "valid": true,
+    "development_ids": 19,
+    "corpus_sources": 35,
+    "synthetic_labels_migrated": false
+  }
+}

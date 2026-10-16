@@ -376,6 +376,14 @@ Keep source artifacts in place and preserve source terms; local release does not
 imply public redistribution permission. Later loaders must enforce the declared
 role boundary; directory separation alone is not filesystem access control.
 
+The current revised question/answer release is selected by the
+[09F v2 publication pointer](specs/task09f_question_publication_v2_result.json).
+It retains the split and corpus and preserves its predecessor releases. The
+release snapshots the [maintained adequacy policy](specs/adequacy_labeling_rules.md)
+for provenance; publication does not migrate synthetic labels, prompts or runtime.
+Case-specific calibration material stays outside that general policy and outside
+judge prompt examples. Authorized design exposure is recorded in release provenance.
+
 ## Task 09A synthetic challenges
 
 Versioned runs live under `pipelines/brisbane_baylands/task_09/`. Each run retains
@@ -565,3 +573,39 @@ regressions and preserved negative result.
 requirement/condition prompt pilot on identical inputs and unchanged thresholds.
 Its [outcome](specs/task09e1_luna_scope_claims_result.md) records a second denied
 expansion gate; both attempted prompts and all prior runs remain separate.
+
+## Task 09F adequacy checkpoint
+
+Fresh Task 09F runs live below `pipelines/brisbane_baylands/task_09/` in separate
+panel, cache-probe and baseline directories. The panel seals selected 09A.3
+packets, separate restricted expectations, exact source/publication bindings,
+fixed variant IDs and execution ceilings. Request audits are offline derivatives.
+Each live namespace records its implementation/configuration identity and four
+caps before dispatch; each attempt retains request, intent, native response and
+completion seal. A saved-receipt replay adds an observation without overwriting
+calls or authorizing new spending. Failed calls remain non-scores in the fixed
+eligible denominator. Prior 09A/09E artifacts and reserved/test partitions remain
+unchanged. See the [09F outcome](../tasks/sprint2/09f_implement_adequacy_judge.md)
+for exact checkpoint identities and measured limits.
+
+Binary adequacy calibration runs use fresh directories under
+`pipelines/brisbane_baylands/task_09/`. Each component saves its selected-input and
+implementation/config bindings, rendered-request audit, separate cache probes,
+Inspect log, immutable request/response receipts, offline replay record and summary.
+Native cache reads and saved-receipt reuse are reported separately. Invalid output
+remains a null decision, never a semantic no. Prior calibration and synthesis
+packages remain immutable; the repository result pointer binds the run report.
+
+
+## Production judge cleanup snapshot
+
+09F.2 stores a checksummed pre-cleanup source archive under
+`pipelines/brisbane_baylands/task_09/09f2_cleanup_20261016/`. It preserves source,
+configs, tests, task records and offline report scripts, including previously
+uncommitted implementations. It excludes credentials and bulk run data. The
+manifest binds each file and the complete archive; `retired_files.json` identifies
+removed executable/config/test files. Existing completed run directories are
+unchanged. Historical replay uses an isolated restored checkout, never the cleaned
+runtime against old source hashes. The [production judge guide](judge_maintainer_guide.md)
+owns current native Inspect commands; older execution descriptions above are
+artifact history.

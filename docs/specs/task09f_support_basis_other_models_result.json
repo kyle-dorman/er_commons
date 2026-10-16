@@ -1,0 +1,70 @@
+{
+  "schema_version": "task09f.support_basis_other_models_result.v1",
+  "status": "complete",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261016_support_basis_other_models_v1",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_support_basis_other_models_v1/completion.json",
+    "sha256": "37e59482a62b5f186fc14be0ce88f30272a47e6de7cdf2a975047895ad6ad83e",
+    "byte_size": 325201
+  },
+  "report": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_support_basis_other_models_v1/report.md",
+    "sha256": "ca3b8bf798ead71bb4d59dce1c0a8b6222bb472ccd347cebb52aa32c1610abe0",
+    "byte_size": 4181
+  },
+  "summary": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_support_basis_other_models_v1/report.json",
+    "sha256": "289182efb2874ff6d8fe4bf755ae2523fa1c90a067abc141a048284a54036b6f",
+    "byte_size": 173219
+  },
+  "independent_review": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_support_basis_other_models_v1/independent_review.md",
+    "sha256": "254f577a82142ed42e24f3c4a1af93debb997026e018d4ac9b6a123992fbe948",
+    "byte_size": 2677
+  },
+  "prompt_version": "task09f.binary_adequacy.support_basis.v6",
+  "accepted_wording": true,
+  "new_models": [
+    "fireworks_glm",
+    "anthropic_generation"
+  ],
+  "pass5": {
+    "fireworks_glm": {
+      "support_correct": {
+        "numerator": 12,
+        "denominator": 12
+      },
+      "valid_output": {
+        "numerator": 12,
+        "denominator": 12
+      }
+    },
+    "anthropic_generation": {
+      "support_correct": {
+        "numerator": 12,
+        "denominator": 12
+      },
+      "valid_output": {
+        "numerator": 12,
+        "denominator": 12
+      }
+    }
+  },
+  "correct_observations": 120,
+  "received_observations": 120,
+  "historical_luna": {
+    "rerun": false,
+    "support_correct_pass5": {
+      "numerator": 11,
+      "denominator": 12
+    },
+    "result_pointer": "docs/specs/task09f_luna_support_basis_result.json"
+  },
+  "generation_calls": 120,
+  "counter_calls": 60,
+  "transport_retries": 0,
+  "offline_replay_reused": 120,
+  "offline_replay_requests": 0,
+  "estimated_cost_usd": "0.021749345",
+  "next_action": "Review completed development calibration before model selection or broader evaluation. No further inference authorized by completion."
+}

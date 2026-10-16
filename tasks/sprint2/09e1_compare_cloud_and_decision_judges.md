@@ -2,6 +2,10 @@
 
 Status: **complete** — closed by the user on October 13, 2026.
 
+For a consolidated account of successful and unsuccessful techniques, start with
+the [grounding experiment record](../../docs/grounding_experiment_record.md).
+The historical entries and linked reports below retain detailed evidence.
+
 Implemented and evaluated the authorized provider comparisons, semantic/quotation
 separation, cache repairs and cost checks. The user selects **GLM Flash**, medium
 reasoning, the simple claims prompt and original conclusion semantics with the

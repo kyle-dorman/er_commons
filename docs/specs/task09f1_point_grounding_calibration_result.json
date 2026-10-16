@@ -1,0 +1,186 @@
+{
+  "schema_version": "task09f1.point_grounding.calibration_result.v1",
+  "status": "complete",
+  "run_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1",
+  "panel": {
+    "release_id": "task09f_20261014_v2",
+    "scope": "locked_36_point_development_calibration",
+    "selection_sha256": "eefb4a409b6c33f0cbe6aa373de9db14817f92727f1896f9f99f276354d4dac7",
+    "completion_sha256": "25e4c454b32f2005d0f5c6e08600dad9d6118fbbbfc6a2a5d3bc8f15b1f6f134",
+    "label_status": "accepted_by_Kyle_for_calibration_2026-10-16",
+    "ownership_fidelity": "verified_against_locked_reviewed_payloads"
+  },
+  "epochs": 3,
+  "planned_judgments": 324,
+  "observed_judgments": 324,
+  "invalid_outputs": 0,
+  "execution_errors": 0,
+  "reported_http_retries": 0,
+  "response_cache_reuse": false,
+  "concurrency": 1,
+  "providers_sequential": true,
+  "conditions": {
+    "fireworks_glm": {
+      "planned": 108,
+      "valid": 108,
+      "correct": 107,
+      "status_counts": {
+        "evaluated": 108
+      },
+      "failure_inclusive_accuracy": 0.9907407407407407,
+      "valid_only_accuracy": 0.9907407407407407,
+      "valid_only_macro_f1": 0.9907016788635385,
+      "confusion_expected_rows_predicted_columns": {
+        "false": {
+          "false": 50,
+          "true": 1
+        },
+        "true": {
+          "false": 0,
+          "true": 57
+        }
+      },
+      "semantic_false_accepts": 1,
+      "semantic_false_rejects": 0,
+      "observed_three_epoch": {
+        "cases": 36,
+        "all_three_correct": 35,
+        "all_three_valid": 36,
+        "all_three_valid_same_label": 35
+      },
+      "estimated_total_usd": 0.045132509999999994,
+      "wall_seconds": 158.0
+    },
+    "openai_generation": {
+      "planned": 108,
+      "valid": 108,
+      "correct": 105,
+      "status_counts": {
+        "evaluated": 108
+      },
+      "failure_inclusive_accuracy": 0.9722222222222222,
+      "valid_only_accuracy": 0.9722222222222222,
+      "valid_only_macro_f1": 0.9721050365906156,
+      "confusion_expected_rows_predicted_columns": {
+        "false": {
+          "false": 49,
+          "true": 2
+        },
+        "true": {
+          "false": 1,
+          "true": 56
+        }
+      },
+      "semantic_false_accepts": 2,
+      "semantic_false_rejects": 1,
+      "observed_three_epoch": {
+        "cases": 36,
+        "all_three_correct": 34,
+        "all_three_valid": 36,
+        "all_three_valid_same_label": 34
+      },
+      "estimated_total_usd": 0.024381925,
+      "wall_seconds": 238.0
+    },
+    "anthropic_generation": {
+      "planned": 108,
+      "valid": 108,
+      "correct": 96,
+      "status_counts": {
+        "evaluated": 108
+      },
+      "failure_inclusive_accuracy": 0.8888888888888888,
+      "valid_only_accuracy": 0.8888888888888888,
+      "valid_only_macro_f1": 0.8875,
+      "confusion_expected_rows_predicted_columns": {
+        "false": {
+          "false": 42,
+          "true": 9
+        },
+        "true": {
+          "false": 3,
+          "true": 54
+        }
+      },
+      "semantic_false_accepts": 9,
+      "semantic_false_rejects": 3,
+      "observed_three_epoch": {
+        "cases": 36,
+        "all_three_correct": 32,
+        "all_three_valid": 36,
+        "all_three_valid_same_label": 36
+      },
+      "estimated_total_usd": 0.055634680000000006,
+      "wall_seconds": 201.0
+    }
+  },
+  "total_estimated_usd": 0.12514911499999998,
+  "artifacts": {
+    "run_manifest": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1/run_manifest.json",
+      "sha256": "81723109d96163aa3acc906287b885a58549aca5af3bb8966ac80ca75d279be3",
+      "byte_size": 5569
+    },
+    "report": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1/analysis/report.json",
+      "sha256": "fc017a2ee481594140cfd0b2203b21dddb4abdf6e0c7033e72201612b4ff8094",
+      "byte_size": 503006
+    },
+    "report_markdown": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1/analysis/report.md",
+      "sha256": "90ce04a495a9a155d806fb2b4c42ad7af1ef727ea4bb9c9a17c74766804f0ec8",
+      "byte_size": 921
+    },
+    "error_review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1/analysis/error_review.md",
+      "sha256": "e087d31e97e6139472f70b870938d6b3aeb96136d36eaaa990ee5fc1df2e18b8",
+      "byte_size": 1661
+    },
+    "independent_audit": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1/analysis/independent_audit.json",
+      "sha256": "2d236d69978af3b1671900ee4f69e9f50ef4d05e51388be3e1c0e9b2f9349ae3",
+      "byte_size": 657
+    },
+    "completion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1/completion.json",
+      "sha256": "2a93f677079c006b49089aa19eec3e46f3a2f03689a9f8e0e8d6f3027ac22403",
+      "byte_size": 3548
+    }
+  },
+  "logs": {
+    "fireworks_glm": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1/fireworks_glm/2026-10-16T16-25-02-00-00_point-grounding-G-fireworks-glm_TbqZ8rCZoq5Jqv9oiTXFG7.eval",
+      "sha256": "7c958f1929aee0990570acc84e65f1b1282b1491f9020ce6c4657fc3b6779eef"
+    },
+    "openai_generation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1/openai_generation/2026-10-16T16-28-11-00-00_point-grounding-G-openai-generation_dN8RKKCTiUJQh6Dintnvme.eval",
+      "sha256": "b884341be669e5ad1c0e80dff403ec85dc286e9dcbc31c4f53cadfaa298b780a"
+    },
+    "anthropic_generation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_native_v1/anthropic_generation/2026-10-16T16-32-43-00-00_point-grounding-G-anthropic-generation_m97stbbJTRZnxatQGucBrj.eval",
+      "sha256": "6441c7d7521f61ff1400f9bb9abd8d5bc26b247d7f739f7311bc37f4a167a7b7"
+    }
+  },
+  "validation": {
+    "make_check": "4835 passed, 1 skipped; format, lint, mypy passed",
+    "analysis_tests": "14 passed including installed provider usage conversion regressions",
+    "analysis_mypy": "passed",
+    "independent_audit": "passed; 324 unique responses, no response-cache reuse, frozen input and score/cost reconciliation"
+  },
+  "limitations": [
+    "Diagnostic correlated development panel; not judge qualification.",
+    "Missing and failed observations stay in primary denominators.",
+    "Costs use logged normalized usage and dated profile rates, not invoices; unreported failed-attempt charges unknown.",
+    "Mechanisms overlap; breakdowns must not be added together.",
+    "Macro F1 and confusion use only valid decisions; absent classes have F1 zero."
+  ],
+  "selection": "none; GLM highest agreement on this calibration panel only",
+  "changes": {
+    "prompt": false,
+    "labels": false,
+    "shared_CS_or_A_code": false,
+    "heldout_access": false,
+    "commits": 0,
+    "pushes": 0
+  }
+}

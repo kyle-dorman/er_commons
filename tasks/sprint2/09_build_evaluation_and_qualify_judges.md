@@ -1,7 +1,7 @@
 # Task 09 — Build evaluation and qualify two judges
 
 Status: **09A–09E complete with recorded limitations; 09E.1 cloud comparison and
-GLM selection complete; 09E.2 cleanup complete; 09F–09G provisional.**
+GLM selection complete; 09E.2 cleanup complete; 09F active; 09F.1 queued; 09G provisional.**
 Reconcile later contracts with preceding outcomes before activation. The October 9
 execution authorization covered 09A, including its full Astra authoring batch.
 The October 10 request authorized 09B after runner/model/runtime discussion:
@@ -47,14 +47,18 @@ October 12–14 evaluation window; dates are planning targets, not execution cla
 | [09E.1 — Cloud/decision comparison](09e1_compare_cloud_and_decision_judges.md) | Completed cloud comparison, GLM selection, cache/cost evidence and limitations | 09E outcomes, 09A.3 frozen panel |
 | [09E.2 — Judge code cleanup](09e2_cleanup_grounding_judges.md) | Completed reusable interfaces, regression tests and independent review | 09E and 09E.1 |
 | [09F — Adequacy judge](09f_implement_adequacy_judge.md) | Separate reference-aware adequacy prompt, implementation and checks | 09B, 09C; review shared interfaces after 09E |
-| [09G — Challenge and freeze](09g_challenge_and_freeze_judges.md) | Results, bounded revisions and configuration freeze | 09A–09F |
+| [09F.1 — No-answer and grounding judges](09f1_revisit_grounding_judge.md) | Independent reviewed sets, small-panel prompt cycles, full-development GLM/Luna/Haiku comparisons and selection | Accepted 09F outcome |
+| [09G — Challenge and freeze](09g_challenge_and_freeze_judges.md) | Results, bounded revisions and configuration freeze | 09A–09F.1 |
 
 Use the listed order as the default queue. Independent implementation can be
 scoped later; dependencies do not require unnecessary new serial approvals once
 execution is authorized. 09A–09E and the 09E.1/09E.2 subtasks are complete.
-GLM is selected for subsequent judge work; accepted development limitations and
-historical comparisons remain preserved. Refresh 09F against these outcomes before
-starting adequacy implementation. 09F–09G remain unstarted.
+09F is complete: Luna is selected for C v8 and Haiku for S v6 through native
+Inspect; the [final handoff](../../docs/specs/task09f_final_result.json) retains
+reviewed development evidence and limitations. Historical grounding selection
+remains unchanged until 09F.1. The separate no-answer/grounding revisit is next;
+09G follows both accepted outcomes. No new provider calls are authorized by
+adequacy closeout.
 
 ## Outputs and boundaries
 

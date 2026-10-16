@@ -1,0 +1,112 @@
+{
+  "schema_version": "task09f1.a_calibration_result.v1",
+  "status": "complete",
+  "run_id": "09f1_a_calibration_v1",
+  "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_v1",
+  "panel": {
+    "selection_id": "09f1_a_calibration_selection_20261016_v1",
+    "selection_sha256": "d472ba9ac4682885df07f637168ce75ca2ce8fd2024e1ecbe64b8151948bc468",
+    "release_id": "task09f_20261014_v2",
+    "label_status": "accepted_and_locked_for_development_calibration",
+    "policy_version": "task09f1.no_answer.rules.v1",
+    "contract_version": "task09f1.no_answer.contract.v1"
+  },
+  "epochs": 3,
+  "max_samples": 1,
+  "max_connections": 1,
+  "planned_generations": 216,
+  "completed_generations": 216,
+  "models": {
+    "glm": {
+      "model": "fireworks/accounts/fireworks/models/glm-5p3-flash",
+      "planned": 72,
+      "persisted": 72,
+      "correct": 72,
+      "valid": 72,
+      "macro_f1_failure_inclusive": 1.0,
+      "all_3_correct": 24,
+      "all_3_valid": 24,
+      "same_label_all_3": 24,
+      "false_abstention": 0,
+      "missed_abstention": 0,
+      "ambiguous_class_error": 0,
+      "output_failures": 0,
+      "execution_errors": 0,
+      "inspect_reported_retries": 0,
+      "estimated_cost_usd": 0.0044523900000000005,
+      "samples_with_cache_reads": 66
+    },
+    "luna": {
+      "model": "openai/gpt-6-luna",
+      "planned": 72,
+      "persisted": 72,
+      "correct": 70,
+      "valid": 72,
+      "macro_f1_failure_inclusive": 0.9606879606879607,
+      "all_3_correct": 23,
+      "all_3_valid": 24,
+      "same_label_all_3": 23,
+      "false_abstention": 0,
+      "missed_abstention": 0,
+      "ambiguous_class_error": 2,
+      "output_failures": 0,
+      "execution_errors": 0,
+      "inspect_reported_retries": 0,
+      "estimated_cost_usd": 0.006018300000000002,
+      "samples_with_cache_reads": 0
+    },
+    "haiku": {
+      "model": "anthropic/claude-haiku-5-5",
+      "planned": 72,
+      "persisted": 72,
+      "correct": 72,
+      "valid": 72,
+      "macro_f1_failure_inclusive": 1.0,
+      "all_3_correct": 24,
+      "all_3_valid": 24,
+      "same_label_all_3": 24,
+      "false_abstention": 0,
+      "missed_abstention": 0,
+      "ambiguous_class_error": 0,
+      "output_failures": 0,
+      "execution_errors": 0,
+      "inspect_reported_retries": 0,
+      "estimated_cost_usd": 0.004960734999999998,
+      "samples_with_cache_reads": 71
+    }
+  },
+  "estimated_total_cost_usd": 0.015431425,
+  "summary": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_v1/summary.json",
+    "sha256": "8cc2a794ddc2ffc14d4b9e63651bb1ad79bc22b7827c0c9ffa3de6f38b15685b",
+    "byte_size": 7952
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_v1/completion.json",
+    "sha256": "850c04c968af8458f00653e3d7bb3a4b4ded0d174b004d16cceeb5fb22fcc806",
+    "byte_size": 2503
+  },
+  "independent_review": {
+    "status": "passed_no_actionable_findings",
+    "reviewer": "independent read-only subagent a_review",
+    "scope": [
+      "216 unique planned judgments and complete epochs",
+      "exact locked prompts, inputs, labels and payload hashes",
+      "unchanged implementation/configuration hashes",
+      "summary accuracy, confusion, all-three metrics, cost and cache reconciliation",
+      "Luna ambiguous-to-substantive disagreement review"
+    ],
+    "model_calls": 0,
+    "artifact_mutations": 0
+  },
+  "prompt_changes": false,
+  "label_changes": false,
+  "model_selected": null,
+  "limitations": [
+    "Small purposive diagnostic panel; correlated cases are not independent population observations.",
+    "No final judge qualification or full-development comparison.",
+    "Configured dated cost rates are estimates, not invoice reconciliation.",
+    "Only Inspect-reported retries are counted; no separate SDK-internal attempt ledger."
+  ],
+  "next_action": "Review before model selection, prompt changes or broader comparison; no additional inference authorized by completion."
+}

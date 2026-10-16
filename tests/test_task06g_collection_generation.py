@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import pytest
+from test_task06g_generation import freeze_task06g_basis
 
 from er_commons.task06g.collection_generation import (
     check_collection_generation,
@@ -28,6 +29,7 @@ def test_collection_generator_preserves_historical_v38_owner_packet(
         return original(path, *args, **kwargs)
 
     monkeypatch.setattr(Path, "open", guarded)
+    freeze_task06g_basis(monkeypatch)
     with pytest.raises(ValueError, match=r"generator differs: .*finaliz"):
         check_collection_generation(RECIPE)
 

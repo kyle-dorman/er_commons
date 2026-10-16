@@ -1,0 +1,54 @@
+{
+  "version": "task09f.final_result.v1",
+  "status": "complete_with_documented_limitations",
+  "accepted_by": "Kyle",
+  "accepted_date": "2026-10-16",
+  "selected_configuration": {
+    "path": "configs/adequacy_selected_v1.json",
+    "sha256": "3476039de76d9359d3858b219af4118bd85e809a688eab0fb30f4cefbe2202d1"
+  },
+  "components": {
+    "C": {
+      "condition_id": "openai_generation",
+      "model": "gpt-6-luna",
+      "prompt_version": "task09f.binary_adequacy.conclusion_comparison_reason.v8",
+      "prompt_sha256": "24800c30edea8824400c3812fcced8f172ce66fc372e3ae4167833f3291e242a",
+      "schema_sha256": "ee6e496c6fbf7040db53b524175a853227e6ee3e077b8fcb723bd4f7e8bbb795"
+    },
+    "S": {
+      "condition_id": "anthropic_generation",
+      "model": "claude-haiku-5-5",
+      "prompt_version": "task09f.binary_adequacy.support_basis.v6",
+      "prompt_sha256": "4d1d2b59cfc38dacc509500e4cbfdc68be20de21377ed7e133fbc4535c7c6266",
+      "schema_sha256": "b0599b17acf702cd323bb9989d04a4cdddaf817d7248d777aef250432b242579"
+    }
+  },
+  "evaluation": "docs/specs/task09f_inspect_full_dev3_result.json",
+  "native_integration": "docs/specs/task09f_inspect_native_result.json",
+  "calibration": "docs/specs/task09f_inspect_calibration_result.json",
+  "label_basis": "independently_reviewed_agent_proposals_not_human_gold",
+  "limitations": [
+    "Known semantic disagreements and imperfect repeatability retained",
+    "Quotation diagnostics are separate from binary correctness and remain fallible",
+    "Inspect-native spending controls are soft; unknown failed-response charges possible",
+    "No held-out judge qualification is claimed"
+  ],
+  "remaining_tasks": {
+    "09F.1": "No-answer and support-point grounding implementation and evaluation",
+    "09G": "Refresh joint challenge/freeze contract from accepted component outcomes",
+    "12": "Routing, joins, aggregate scoring and real-answer composition integration"
+  },
+  "additional_inference_authorized": false,
+  "selection_receipt": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_selection_v1/selection.json",
+    "sha256": "59878ee6ee93bb69d911c9cdff6db8cc1d0703dc717977545fecb2a02a20b48f"
+  },
+  "validation": {
+    "focused_tests_passed": 24,
+    "full_tests_passed": 4843,
+    "full_tests_skipped": 1,
+    "make_fix": "passed",
+    "make_check": "passed",
+    "git_diff_check": "passed"
+  }
+}

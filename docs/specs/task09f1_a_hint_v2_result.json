@@ -1,0 +1,82 @@
+{
+  "schema_version": "task09f1.a_hint_result.v1",
+  "status": "complete",
+  "prompt_version": "task09f1.no_answer.conclusion.v2",
+  "default_prompt_version": "task09f1.no_answer.conclusion.v1",
+  "default_changed": false,
+  "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_hint_v2",
+  "selected_case_labels": {
+    "A-C028-U01": "ambiguous",
+    "A-C028-S04": "substantive",
+    "A-C027-S03": "substantive"
+  },
+  "epochs": 3,
+  "planned_generations": 27,
+  "completed_generations": 27,
+  "models": {
+    "glm": {
+      "model": "fireworks/accounts/fireworks/models/glm-5p3-flash",
+      "correct": 9,
+      "valid": 9,
+      "all_3_correct": 3,
+      "output_failures": 0,
+      "execution_errors": 0,
+      "inspect_reported_retries": 0,
+      "estimated_cost_usd": 0.0009149000000000001,
+      "cache_read_samples": 0
+    },
+    "luna": {
+      "model": "openai/gpt-6-luna",
+      "correct": 9,
+      "valid": 9,
+      "all_3_correct": 3,
+      "output_failures": 0,
+      "execution_errors": 0,
+      "inspect_reported_retries": 0,
+      "estimated_cost_usd": 0.0007329,
+      "cache_read_samples": 0
+    },
+    "haiku": {
+      "model": "anthropic/claude-haiku-5-5",
+      "correct": 9,
+      "valid": 9,
+      "all_3_correct": 3,
+      "output_failures": 0,
+      "execution_errors": 0,
+      "inspect_reported_retries": 0,
+      "estimated_cost_usd": 0.000600445,
+      "cache_read_samples": 8
+    }
+  },
+  "estimated_total_cost_usd": 0.0022482450000000003,
+  "summary": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_hint_v2/summary.json",
+    "sha256": "02bfe2372f288988c702d51c57fbe1ad616342600d2e0fa03870c1d169839fc1",
+    "byte_size": 12252
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_hint_v2/completion.json",
+    "sha256": "b9558c3fcbce4ff0b7c8a6efa29ccf488192f0ca4510a7549fd9b482c8878f11",
+    "byte_size": 2516
+  },
+  "independent_review": {
+    "status": "passed_no_actionable_findings",
+    "reviewer": "independent read-only a_review",
+    "scope": "Exact v2 prompts/version metadata, 27 unique case/epoch observations, locked payloads/labels, unchanged source hashes, all-three outcomes, preserved controls, cost/cache/retry accounting and saved v1 comparison.",
+    "model_calls": 0
+  },
+  "validation": {
+    "focused_tests_passed": 65,
+    "make_check": "passed",
+    "repository_tests_passed": 4839,
+    "repository_tests_skipped": 1
+  },
+  "labels_changed": false,
+  "limits": [
+    "Targeted three-case check selected after observing v1 error.",
+    "Saved v1 comparison, not a fresh randomized paired comparison.",
+    "No clean-abstention cases or remaining A24 cases tested with v2.",
+    "Concrete-recommendation and source-consultation wording not directly tested."
+  ],
+  "outcome": "Luna prior failure improved 1/3 to 3/3; both substantive controls preserved on all models; v2 not promoted by this result."
+}

@@ -13,7 +13,7 @@ from er_commons.judge_packets import (
     SCHEMA_VERSION,
     serialize_payload,
 )
-from er_commons.judge_qualification import native_request, validate_settings
+from er_commons.ollama_request import native_request, validate_settings
 
 if TYPE_CHECKING:
     from inspect_ai.dataset import Sample

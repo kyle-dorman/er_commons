@@ -1,0 +1,393 @@
+{
+  "execution": {
+    "byte_size": 120,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_sampling_format_dev6_v1/execution_complete.json",
+    "sha256": "2568070f6e7792269890c9dd2ee19e1269756ce7b4e8c6ed5c95fb79720913ec"
+  },
+  "historical_sampling_audit": {
+    "byte_size": 802,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_sampling_format_dev6_v1/historical_sampling_audit.json",
+    "sha256": "6ab34529639e037dcc4f31a4381620e5b48778ff786afef5ccfcb111fb100d97"
+  },
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_sampling_format_dev6_v1",
+  "next_step": "User review before semantic rubric changes or further experiments.",
+  "plan": {
+    "byte_size": 1659,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_sampling_format_dev6_v1/experiment_plan.json",
+    "sha256": "0e160f73a6086f5aed01b6bb33ad1914861844bb836a49788d97a09da4d5a135"
+  },
+  "postrun_review": {
+    "byte_size": 28904,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_sampling_format_dev6_v1/independent_postrun_review.json",
+    "sha256": "8836f412e3015545680ea367e9a1c5ff388ef9ea9b5fa985f3bed07dee99f7e5"
+  },
+  "preflight_review": {
+    "byte_size": 4078,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_sampling_format_dev6_v1/independent_preflight_review.json",
+    "sha256": "d1345daa52db45f49b357c7196babe4e021a5e40ebc33dfe8c9c334b7cb320bc"
+  },
+  "promotion": "not_promoted_pending_review",
+  "report": {
+    "byte_size": 1027581,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_sampling_format_dev6_v1/comparison_report.json",
+    "sha256": "e2adf1ab75cd6999c6c79d4f5255bec11ffe67ae40961b2b32d40e7c6af8ad38"
+  },
+  "review_addendum": {
+    "byte_size": 1552,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_sampling_format_dev6_v1/review_addendum.json",
+    "sha256": "90c301f261db7986c3f6a797f6bb637bc8e1e20f027f965337449e55b7bc4f01"
+  },
+  "runs": {
+    "format_r1": {
+      "metrics": {
+        "accuracy": 0.8455882352941176,
+        "classes": [
+          0,
+          1,
+          2
+        ],
+        "confusion_matrix": {
+          "0": {
+            "0": 37,
+            "1": 8,
+            "2": 3,
+            "None": 1
+          },
+          "1": {
+            "0": 0,
+            "1": 18,
+            "2": 6,
+            "None": 1
+          },
+          "2": {
+            "0": 0,
+            "1": 2,
+            "2": 60,
+            "None": 0
+          }
+        },
+        "correct": 115,
+        "coverage": 0.9852941176470589,
+        "eligible": 136,
+        "failed": 2,
+        "macro_f1": 0.8185803112163609,
+        "per_class": [
+          {
+            "f1": 0.8604651162790697,
+            "failed": 1,
+            "false_negative": 12,
+            "false_positive": 0,
+            "label": 0,
+            "support": 49,
+            "true_positive": 37
+          },
+          {
+            "f1": 0.6792452830188679,
+            "failed": 1,
+            "false_negative": 7,
+            "false_positive": 10,
+            "label": 1,
+            "support": 25,
+            "true_positive": 18
+          },
+          {
+            "f1": 0.916030534351145,
+            "failed": 0,
+            "false_negative": 2,
+            "false_positive": 9,
+            "label": 2,
+            "support": 62,
+            "true_positive": 60
+          }
+        ],
+        "returned": 134,
+        "valid_only": {
+          "accuracy": 0.8582089552238806,
+          "denominator": 134,
+          "macro_f1": 0.826308820650985
+        }
+      },
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.6572607628168151,
+        "cache_read_tokens": 1124608,
+        "cache_write_tokens": null,
+        "call_elapsed_sum_seconds": 552.8108158763498,
+        "call_latency_max_seconds": 11.87238149996847,
+        "call_latency_median_seconds": 3.980963500449434,
+        "calls_with_latency": 136,
+        "cost_upper_bound_usd": "0.28425195",
+        "estimated_cost_usd": "0.14929899",
+        "input_tokens": 1711053,
+        "ordinary_input_tokens": 586445,
+        "output_tokens": 55188,
+        "saved_receipts_reused": 0
+      }
+    },
+    "format_r2": {
+      "metrics": {
+        "accuracy": 0.8088235294117647,
+        "classes": [
+          0,
+          1,
+          2
+        ],
+        "confusion_matrix": {
+          "0": {
+            "0": 36,
+            "1": 11,
+            "2": 2,
+            "None": 0
+          },
+          "1": {
+            "0": 0,
+            "1": 14,
+            "2": 9,
+            "None": 2
+          },
+          "2": {
+            "0": 1,
+            "1": 1,
+            "2": 60,
+            "None": 0
+          }
+        },
+        "correct": 110,
+        "coverage": 0.9852941176470589,
+        "eligible": 136,
+        "failed": 2,
+        "macro_f1": 0.7628281830888209,
+        "per_class": [
+          {
+            "f1": 0.8372093023255814,
+            "failed": 0,
+            "false_negative": 13,
+            "false_positive": 1,
+            "label": 0,
+            "support": 49,
+            "true_positive": 36
+          },
+          {
+            "f1": 0.5490196078431373,
+            "failed": 2,
+            "false_negative": 11,
+            "false_positive": 12,
+            "label": 1,
+            "support": 25,
+            "true_positive": 14
+          },
+          {
+            "f1": 0.9022556390977443,
+            "failed": 0,
+            "false_negative": 2,
+            "false_positive": 11,
+            "label": 2,
+            "support": 62,
+            "true_positive": 60
+          }
+        ],
+        "returned": 134,
+        "valid_only": {
+          "accuracy": 0.8208955223880597,
+          "denominator": 134,
+          "macro_f1": 0.770297837617299
+        }
+      },
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.7030501100784137,
+        "cache_read_tokens": 1202956,
+        "cache_write_tokens": null,
+        "call_elapsed_sum_seconds": 556.6027552480809,
+        "call_latency_max_seconds": 15.755080208182335,
+        "call_latency_median_seconds": 3.6334875419270247,
+        "calls_with_latency": 136,
+        "cost_upper_bound_usd": "0.28570695",
+        "estimated_cost_usd": "0.14135223",
+        "input_tokens": 1711053,
+        "ordinary_input_tokens": 508097,
+        "output_tokens": 58098,
+        "saved_receipts_reused": 0
+      }
+    },
+    "sampling_r1": {
+      "metrics": {
+        "accuracy": 0.8014705882352942,
+        "classes": [
+          0,
+          1,
+          2
+        ],
+        "confusion_matrix": {
+          "0": {
+            "0": 34,
+            "1": 11,
+            "2": 1,
+            "None": 3
+          },
+          "1": {
+            "0": 0,
+            "1": 16,
+            "2": 8,
+            "None": 1
+          },
+          "2": {
+            "0": 0,
+            "1": 3,
+            "2": 59,
+            "None": 0
+          }
+        },
+        "correct": 109,
+        "coverage": 0.9705882352941176,
+        "eligible": 136,
+        "failed": 4,
+        "macro_f1": 0.7695958659814082,
+        "per_class": [
+          {
+            "f1": 0.8192771084337349,
+            "failed": 3,
+            "false_negative": 15,
+            "false_positive": 0,
+            "label": 0,
+            "support": 49,
+            "true_positive": 34
+          },
+          {
+            "f1": 0.5818181818181818,
+            "failed": 1,
+            "false_negative": 9,
+            "false_positive": 14,
+            "label": 1,
+            "support": 25,
+            "true_positive": 16
+          },
+          {
+            "f1": 0.9076923076923077,
+            "failed": 0,
+            "false_negative": 3,
+            "false_positive": 9,
+            "label": 2,
+            "support": 62,
+            "true_positive": 59
+          }
+        ],
+        "returned": 132,
+        "valid_only": {
+          "accuracy": 0.8257575757575758,
+          "denominator": 132,
+          "macro_f1": 0.7834283000949668
+        }
+      },
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.5341474137728274,
+        "cache_read_tokens": 885696,
+        "cache_write_tokens": null,
+        "call_elapsed_sum_seconds": 513.4654005782213,
+        "call_latency_max_seconds": 10.736806415952742,
+        "call_latency_median_seconds": 3.333011291571893,
+        "calls_with_latency": 136,
+        "cost_upper_bound_usd": "0.27655085",
+        "estimated_cost_usd": "0.17026733",
+        "input_tokens": 1658149,
+        "ordinary_input_tokens": 772453,
+        "output_tokens": 55657,
+        "saved_receipts_reused": 0
+      }
+    },
+    "sampling_r2": {
+      "metrics": {
+        "accuracy": 0.7941176470588235,
+        "classes": [
+          0,
+          1,
+          2
+        ],
+        "confusion_matrix": {
+          "0": {
+            "0": 34,
+            "1": 12,
+            "2": 1,
+            "None": 2
+          },
+          "1": {
+            "0": 0,
+            "1": 14,
+            "2": 9,
+            "None": 2
+          },
+          "2": {
+            "0": 0,
+            "1": 2,
+            "2": 60,
+            "None": 0
+          }
+        },
+        "correct": 108,
+        "coverage": 0.9705882352941176,
+        "eligible": 136,
+        "failed": 4,
+        "macro_f1": 0.7522233014390323,
+        "per_class": [
+          {
+            "f1": 0.8192771084337349,
+            "failed": 2,
+            "false_negative": 15,
+            "false_positive": 0,
+            "label": 0,
+            "support": 49,
+            "true_positive": 34
+          },
+          {
+            "f1": 0.5283018867924528,
+            "failed": 2,
+            "false_negative": 11,
+            "false_positive": 14,
+            "label": 1,
+            "support": 25,
+            "true_positive": 14
+          },
+          {
+            "f1": 0.9090909090909091,
+            "failed": 0,
+            "false_negative": 2,
+            "false_positive": 10,
+            "label": 2,
+            "support": 62,
+            "true_positive": 60
+          }
+        ],
+        "returned": 132,
+        "valid_only": {
+          "accuracy": 0.8181818181818182,
+          "denominator": 132,
+          "macro_f1": 0.7658722299245175
+        }
+      },
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.6677662863831899,
+        "cache_read_tokens": 1107256,
+        "cache_write_tokens": null,
+        "call_elapsed_sum_seconds": 531.7933877918404,
+        "call_latency_max_seconds": 11.688821958843619,
+        "call_latency_median_seconds": 3.5121575209777802,
+        "calls_with_latency": 136,
+        "cost_upper_bound_usd": "0.27652985",
+        "estimated_cost_usd": "0.14365913",
+        "input_tokens": 1658149,
+        "ordinary_input_tokens": 550893,
+        "output_tokens": 55615,
+        "saved_receipts_reused": 0
+      }
+    }
+  },
+  "schema_version": "task09f.sampling_format_result.v1",
+  "status": "complete_awaiting_user_review",
+  "validation": {
+    "focused_passed": 440,
+    "make_check_passed": 4451,
+    "make_check_skipped": 1
+  }
+}

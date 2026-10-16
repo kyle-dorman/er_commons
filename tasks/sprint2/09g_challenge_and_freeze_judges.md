@@ -1,6 +1,6 @@
 # Task 09G — Challenge and freeze both judges
 
-Status: **provisional; not started**. Refresh from accepted 09A–09F outcomes
+Status: **provisional; not started**. Refresh from accepted 09A–09F.1 outcomes
 before execution. This contract does not itself start evaluation or model calls.
 Parent: [Task 09](09_build_evaluation_and_qualify_judges.md).
 
@@ -22,6 +22,12 @@ Do not turn known weaknesses into an open-ended qualification project.
 - Accepted 09A variants, coverage/skip records, evidence-based proposed G/A
   expectations and uncertainty dispositions, all from the 19 development cases.
 - Accepted 09B runtime/runner qualification, 09C packets and 09D automatic metrics.
+- [09F.1 grounding revisit](09f1_revisit_grounding_judge.md) policy, component datasets and evaluation outcome.
+- Include 09F.1's independently established no-answer classifier and point-only
+  grounding selections in the frozen bundle. Combined routing/reporting and strict
+  joint success belong to [Task 12](12_integrate_evaluation_and_reporting.md), not
+  a prerequisite combined-reporting implementation in judge development. Refresh
+  historical call-count and 0/1/2 assumptions below to the accepted component contracts.
 - [09E grounding](09e_implement_grounding_judge.md) and
   [09F adequacy](09f_implement_adequacy_judge.md) implementations and smoke results.
 - [Decision 006](../../docs/decisions/006_structured_answers_four_part_evaluation.md),

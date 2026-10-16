@@ -1,5 +1,9 @@
 # Task 09E — Implement and iterate the grounding judge
 
+See the [grounding experiment record](../../docs/grounding_experiment_record.md)
+for a consolidated account of local and cloud techniques, negative results and
+lessons across 09E/09E.1. Detailed historical evidence remains below.
+
 Status: **complete** — closed by the user on October 13, 2026.
 Parent: [Task 09](09_build_evaluation_and_qualify_judges.md).
 

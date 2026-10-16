@@ -1,0 +1,28 @@
+{
+  "schema_version": "task09f.binary_glm_result.v1",
+  "status": "complete_with_format_failures",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_glm_v1",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_glm_v1/completion.json",
+    "sha256": "d8e5fb6fc11a3704c0e3b4eae111f23a57aa99ce9825b5c5d999613394543a39",
+    "byte_size": 51107
+  },
+  "report": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_glm_v1/report.md",
+    "sha256": "b94f5af4070b491d5aa99fb4a9c83e60ce8061ecb76483c8572de8fa133ebdb3",
+    "byte_size": 4865
+  },
+  "summary": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_glm_v1/report.json",
+    "sha256": "a4c7d219cbf403ea1ea083e03be5af8f8f67f357af21adbe5d24233bdd904ef5",
+    "byte_size": 4051
+  },
+  "independent_review": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_glm_v1/independent_review.md",
+    "sha256": "5c2f053b7fc6f7fe2ad046bf9738b47d423ad9ff90af9e966d1f1797f71bbb6f",
+    "byte_size": 3878
+  },
+  "provider_calls": 40,
+  "estimated_cost_usd": "0.00762568",
+  "next_action": "Review two formatting failures; no expansion or prompt tuning performed."
+}

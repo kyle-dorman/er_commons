@@ -80,3 +80,12 @@ Use `make claim-chat` with `CLAIM_ACTION=validate|next|record|export`,
 `CLAIM_EVENT`; export requires a fresh `CLAIM_EXPORT`. The
 [production chat specification](specs/task08d_combined_chat_review_v1.md) owns
 exact events and resumption. A preparation request does not authorize human review.
+
+
+## Native judge evaluation
+
+The [production judge guide](judge_maintainer_guide.md) owns current native Inspect
+commands: `make evaluate-no-answer`, `make evaluate-point-grounding`, and
+`make evaluate-adequacy JUDGE_COMPONENT=C|S`. Each requires an explicit external
+`JUDGE_LOG_DIR`; native Inspect options control repetitions and limits. Retired
+09E/09F experiment commands exist only in the historical source snapshot.

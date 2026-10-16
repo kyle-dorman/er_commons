@@ -1,0 +1,111 @@
+{
+  "incremental_cost_usd": "0",
+  "live_prompt_and_default_validation": "unchanged",
+  "model_calls": 0,
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_partial_credit_offline_v1",
+  "new_tokens": 0,
+  "next_step": "Review before revised-prompt inference or essentiality experiment.",
+  "passes": {
+    "format_r1": {
+      "after": {
+        "accuracy": 0.8529411764705882,
+        "correct": 116,
+        "coverage": 1.0,
+        "failed": 0,
+        "macro_f1": 0.8224682471797685,
+        "returned": 136
+      },
+      "before": {
+        "accuracy": 0.8455882352941176,
+        "correct": 115,
+        "coverage": 0.9852941176470589,
+        "failed": 2,
+        "macro_f1": 0.8185803112163609,
+        "returned": 134
+      }
+    },
+    "format_r2": {
+      "after": {
+        "accuracy": 0.8235294117647058,
+        "correct": 112,
+        "coverage": 1.0,
+        "failed": 0,
+        "macro_f1": 0.7810795087763287,
+        "returned": 136
+      },
+      "before": {
+        "accuracy": 0.8088235294117647,
+        "correct": 110,
+        "coverage": 0.9852941176470589,
+        "failed": 2,
+        "macro_f1": 0.7628281830888209,
+        "returned": 134
+      }
+    },
+    "sampling_r1": {
+      "after": {
+        "accuracy": 0.8088235294117647,
+        "correct": 110,
+        "coverage": 0.9852941176470589,
+        "failed": 2,
+        "macro_f1": 0.7744868813987393,
+        "returned": 134
+      },
+      "before": {
+        "accuracy": 0.8014705882352942,
+        "correct": 109,
+        "coverage": 0.9705882352941176,
+        "failed": 4,
+        "macro_f1": 0.7695958659814082,
+        "returned": 132
+      }
+    },
+    "sampling_r2": {
+      "after": {
+        "accuracy": 0.8014705882352942,
+        "correct": 109,
+        "coverage": 0.9852941176470589,
+        "failed": 2,
+        "macro_f1": 0.7579408543263965,
+        "returned": 134
+      },
+      "before": {
+        "accuracy": 0.7941176470588235,
+        "correct": 108,
+        "coverage": 0.9705882352941176,
+        "failed": 4,
+        "macro_f1": 0.7522233014390323,
+        "returned": 132
+      }
+    }
+  },
+  "plan": {
+    "byte_size": 1034,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_partial_credit_offline_v1/plan.json",
+    "sha256": "d77299aaf85b5d26c78501d6099b440d2afb825130eb814bce0e287bbf532845"
+  },
+  "recovered": 8,
+  "recovered_matching_expectations": 5,
+  "report": {
+    "byte_size": 288897,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_partial_credit_offline_v1/report.json",
+    "sha256": "0855b6799d090cebbfadc7f6076259e08316aaad4784c2421b093cd648a41137"
+  },
+  "review": {
+    "byte_size": 6959,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_partial_credit_offline_v1/independent_review.json",
+    "sha256": "c6a04d33ae29ae4365ad95d26d29df16f0b488f57328e78304bbe8d7149b183f"
+  },
+  "schema_version": "task09f.partial_credit_offline_result.v1",
+  "source_seal": {
+    "byte_size": 1034499,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_sampling_format_dev6_v1/closeout.json",
+    "sha256": "d436e64da839f2cc7c088733198050959975d2b8e980bfd5183792a67ae8f9f6"
+  },
+  "status": "complete_awaiting_user_review",
+  "validation": {
+    "focused_passed": 457,
+    "full_passed": 4468,
+    "skipped": 1
+  }
+}

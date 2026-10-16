@@ -1,0 +1,31 @@
+{
+  "schema_version": "task09f.binary_reading_no_repair_result.v1",
+  "status": "complete_with_disclosed_failure",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_reading_no_repair_v1",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_reading_no_repair_v1/completion.json",
+    "sha256": "0ff4951e8e5a726a7566ed3141c4db34ea0c69d8bb655b22d57b671c2a43787a",
+    "byte_size": 44321
+  },
+  "report": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_reading_no_repair_v1/report.md",
+    "sha256": "a1022105dd5c3d28a80346eccd150cb349a406974ab23f63dcafcd3d85886e28",
+    "byte_size": 21248
+  },
+  "summary": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_reading_no_repair_v1/report.json",
+    "sha256": "82f5a9e2469f816799ecc125489ec1581567aede7fe99469cb0ab33117fa768d",
+    "byte_size": 87099
+  },
+  "independent_review": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_reading_no_repair_v1/independent_review.md",
+    "sha256": "0c3deaba2d2e13589a89a4bc76648120dc860cd9b94d46e6543da754cbb3411d",
+    "byte_size": 2552
+  },
+  "generation_calls": 30,
+  "counter_calls": 20,
+  "offline_replay_requests": 0,
+  "offline_replay_reused": 30,
+  "estimated_cost_usd": "0.005998575",
+  "next_action": "Review remaining GLM operation misreading; no prompt promotion or further inference."
+}

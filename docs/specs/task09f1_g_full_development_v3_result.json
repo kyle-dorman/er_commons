@@ -1,0 +1,421 @@
+{
+  "schema_version": "task09f1.g.full_development_result.v1",
+  "status": "complete",
+  "run_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3",
+  "prompt_version": "task09f1.grounding.point.v3",
+  "panel": {
+    "release_id": "task09f_20261014_v2",
+    "scope": "full_611_point_development_comparison",
+    "completion_sha256": "49e5cf7fc1349c1563bcfc535540f6601c45f3e0176540f1bc6fd0075941aee8",
+    "label_status": "independently_reviewed_agent_proposals_not_human_gold",
+    "ownership_fidelity": "verified_against_sealed_reviewed_payloads",
+    "published_candidates": 615,
+    "eligible_candidates": 611,
+    "supported": 247,
+    "unsupported": 364,
+    "excluded_unresolved": [
+      {
+        "sample_id": "G-C001-032",
+        "reason": "Owned sources conflict: cumulative-project discussion says mitigated, cumulative-analysis passage says unmitigated; retain null."
+      },
+      {
+        "sample_id": "G-C017-033",
+        "reason": "Table and first narrative say partial Phase 1 is 2037, closing paragraph assigns partial buildout to 2042; hold unresolved."
+      },
+      {
+        "sample_id": "G-C028-017",
+        "reason": "Threshold-only source names DNL without defining temporal metric; retain ambiguity rather than importing external definition."
+      },
+      {
+        "sample_id": "G-C036-022",
+        "reason": "One source categorically excludes construction while other demands shielding to practical extent; preserve unresolved conflict without invented precedence."
+      }
+    ],
+    "calibration_overlap_count": 36,
+    "calibration_overlap_ids": [
+      "G-C001-035",
+      "G-C001-036",
+      "G-C006-012",
+      "G-C006-013",
+      "G-C007-024",
+      "G-C007-025",
+      "G-C008-011",
+      "G-C008-012",
+      "G-C014-010",
+      "G-C014-011",
+      "G-C017-022",
+      "G-C017-023",
+      "G-C019-001",
+      "G-C019-005",
+      "G-C027-020",
+      "G-C027-024",
+      "G-C028-028",
+      "G-C028-029",
+      "G-C029-014",
+      "G-C029-015",
+      "G-C036-001",
+      "G-C036-004",
+      "G-C037-014",
+      "G-C037-015",
+      "G-C041-002",
+      "G-C041-003",
+      "G-C042-030",
+      "G-C042-033",
+      "G-C045-023",
+      "G-C045-024",
+      "G-C050-002",
+      "G-C051-024",
+      "G-C054-007",
+      "G-C054-008",
+      "G-C056-011",
+      "G-C056-012"
+    ],
+    "calibration_provenance": {
+      "release_id": "task09f_20261014_v2",
+      "scope": "locked_36_point_development_calibration",
+      "selection_sha256": "eefb4a409b6c33f0cbe6aa373de9db14817f92727f1896f9f99f276354d4dac7",
+      "completion_sha256": "25e4c454b32f2005d0f5c6e08600dad9d6118fbbbfc6a2a5d3bc8f15b1f6f134",
+      "label_status": "accepted_by_Kyle_for_calibration_2026-10-16",
+      "ownership_fidelity": "verified_against_locked_reviewed_payloads"
+    }
+  },
+  "sample_count": 611,
+  "epochs": 3,
+  "planned_judgments": 5499,
+  "observed_judgments": 5499,
+  "valid_outputs": 5496,
+  "invalid_outputs": 3,
+  "execution_errors": 0,
+  "reported_http_retries": 0,
+  "response_cache_reuse": false,
+  "concurrency": {
+    "samples": 4,
+    "connections": 4,
+    "providers_sequential": true
+  },
+  "conditions": {
+    "fireworks_glm": {
+      "planned": 1833,
+      "valid": 1830,
+      "correct": 1824,
+      "status_counts": {
+        "evaluated": 1830,
+        "invalid_output": 3
+      },
+      "failure_inclusive_accuracy": 0.9950900163666121,
+      "valid_only_accuracy": 0.9967213114754099,
+      "valid_only_macro_f1": 0.9965923522204332,
+      "semantic_false_accepts": 2,
+      "semantic_false_rejects": 4,
+      "observed_three_epoch": {
+        "cases": 611,
+        "all_three_correct": 607,
+        "all_three_valid": 610,
+        "all_three_valid_same_label": 608
+      },
+      "latency": {
+        "sample_wall_p90_seconds": 1.93762,
+        "timed_samples": 1833,
+        "missing_sample_timestamps": 0,
+        "model_event_p90_seconds": 1.931514,
+        "timed_model_events": 1833,
+        "method": "Nearest rank: sorted durations[ceil(0.90*n)-1]. Sample completed_at minus started_at includes native waiting/retries and scoring; all timed observed samples, including failures. Not total run wall time divided by calls."
+      },
+      "estimated_total_usd": 1.16136086,
+      "wall_seconds": 716.0,
+      "calibration_overlap": {
+        "planned": 108,
+        "valid": 108,
+        "correct": 106,
+        "status_counts": {
+          "evaluated": 108
+        },
+        "failure_inclusive_accuracy": 0.9814814814814815,
+        "valid_only_accuracy": 0.9814814814814815,
+        "valid_coverage": 1.0,
+        "valid_only_macro_f1": 0.9813793103448276,
+        "confusion_expected_rows_predicted_columns": {
+          "false": {
+            "false": 49,
+            "true": 2
+          },
+          "true": {
+            "false": 0,
+            "true": 57
+          }
+        },
+        "semantic_false_accepts": 2,
+        "semantic_false_rejects": 0,
+        "cases": 36,
+        "all_three_correct": 35
+      },
+      "outside_calibration": {
+        "planned": 1725,
+        "valid": 1722,
+        "correct": 1718,
+        "status_counts": {
+          "evaluated": 1722,
+          "invalid_output": 3
+        },
+        "failure_inclusive_accuracy": 0.9959420289855072,
+        "valid_only_accuracy": 0.9976771196283392,
+        "valid_coverage": 0.9982608695652174,
+        "valid_only_macro_f1": 0.997568473179073,
+        "confusion_expected_rows_predicted_columns": {
+          "false": {
+            "false": 1041,
+            "true": 0
+          },
+          "true": {
+            "false": 4,
+            "true": 677
+          }
+        },
+        "semantic_false_accepts": 0,
+        "semantic_false_rejects": 4,
+        "cases": 575,
+        "all_three_correct": 572
+      }
+    },
+    "openai_generation": {
+      "planned": 1833,
+      "valid": 1833,
+      "correct": 1822,
+      "status_counts": {
+        "evaluated": 1833
+      },
+      "failure_inclusive_accuracy": 0.993998908892526,
+      "valid_only_accuracy": 0.993998908892526,
+      "valid_only_macro_f1": 0.993755352146046,
+      "semantic_false_accepts": 0,
+      "semantic_false_rejects": 11,
+      "observed_three_epoch": {
+        "cases": 611,
+        "all_three_correct": 604,
+        "all_three_valid": 611,
+        "all_three_valid_same_label": 604
+      },
+      "latency": {
+        "sample_wall_p90_seconds": 2.866966,
+        "timed_samples": 1833,
+        "missing_sample_timestamps": 0,
+        "model_event_p90_seconds": 2.854787,
+        "timed_model_events": 1833,
+        "method": "Nearest rank: sorted durations[ceil(0.90*n)-1]. Sample completed_at minus started_at includes native waiting/retries and scoring; all timed observed samples, including failures. Not total run wall time divided by calls."
+      },
+      "estimated_total_usd": 0.44425775,
+      "wall_seconds": 1002.0,
+      "calibration_overlap": {
+        "planned": 108,
+        "valid": 108,
+        "correct": 108,
+        "status_counts": {
+          "evaluated": 108
+        },
+        "failure_inclusive_accuracy": 1.0,
+        "valid_only_accuracy": 1.0,
+        "valid_coverage": 1.0,
+        "valid_only_macro_f1": 1.0,
+        "confusion_expected_rows_predicted_columns": {
+          "false": {
+            "false": 51,
+            "true": 0
+          },
+          "true": {
+            "false": 0,
+            "true": 57
+          }
+        },
+        "semantic_false_accepts": 0,
+        "semantic_false_rejects": 0,
+        "cases": 36,
+        "all_three_correct": 36
+      },
+      "outside_calibration": {
+        "planned": 1725,
+        "valid": 1725,
+        "correct": 1714,
+        "status_counts": {
+          "evaluated": 1725
+        },
+        "failure_inclusive_accuracy": 0.9936231884057971,
+        "valid_only_accuracy": 0.9936231884057971,
+        "valid_coverage": 1.0,
+        "valid_only_macro_f1": 0.9933191348077126,
+        "confusion_expected_rows_predicted_columns": {
+          "false": {
+            "false": 1041,
+            "true": 0
+          },
+          "true": {
+            "false": 11,
+            "true": 673
+          }
+        },
+        "semantic_false_accepts": 0,
+        "semantic_false_rejects": 11,
+        "cases": 575,
+        "all_three_correct": 568
+      }
+    },
+    "anthropic_generation": {
+      "planned": 1833,
+      "valid": 1833,
+      "correct": 1819,
+      "status_counts": {
+        "evaluated": 1833
+      },
+      "failure_inclusive_accuracy": 0.9923622476813966,
+      "valid_only_accuracy": 0.9923622476813966,
+      "valid_only_macro_f1": 0.9920611055425623,
+      "semantic_false_accepts": 4,
+      "semantic_false_rejects": 10,
+      "observed_three_epoch": {
+        "cases": 611,
+        "all_three_correct": 605,
+        "all_three_valid": 611,
+        "all_three_valid_same_label": 608
+      },
+      "latency": {
+        "sample_wall_p90_seconds": 2.668517,
+        "timed_samples": 1833,
+        "missing_sample_timestamps": 0,
+        "model_event_p90_seconds": 2.663274,
+        "timed_model_events": 1833,
+        "method": "Nearest rank: sorted durations[ceil(0.90*n)-1]. Sample completed_at minus started_at includes native waiting/retries and scoring; all timed observed samples, including failures. Not total run wall time divided by calls."
+      },
+      "estimated_total_usd": 1.0424613200000001,
+      "wall_seconds": 828.0,
+      "calibration_overlap": {
+        "planned": 108,
+        "valid": 108,
+        "correct": 105,
+        "status_counts": {
+          "evaluated": 108
+        },
+        "failure_inclusive_accuracy": 0.9722222222222222,
+        "valid_only_accuracy": 0.9722222222222222,
+        "valid_coverage": 1.0,
+        "valid_only_macro_f1": 0.9720279720279721,
+        "confusion_expected_rows_predicted_columns": {
+          "false": {
+            "false": 48,
+            "true": 3
+          },
+          "true": {
+            "false": 0,
+            "true": 57
+          }
+        },
+        "semantic_false_accepts": 3,
+        "semantic_false_rejects": 0,
+        "cases": 36,
+        "all_three_correct": 35
+      },
+      "outside_calibration": {
+        "planned": 1725,
+        "valid": 1725,
+        "correct": 1714,
+        "status_counts": {
+          "evaluated": 1725
+        },
+        "failure_inclusive_accuracy": 0.9936231884057971,
+        "valid_only_accuracy": 0.9936231884057971,
+        "valid_coverage": 1.0,
+        "valid_only_macro_f1": 0.9933225861280818,
+        "confusion_expected_rows_predicted_columns": {
+          "false": {
+            "false": 1040,
+            "true": 1
+          },
+          "true": {
+            "false": 10,
+            "true": 674
+          }
+        },
+        "semantic_false_accepts": 1,
+        "semantic_false_rejects": 10,
+        "cases": 575,
+        "all_three_correct": 570
+      }
+    }
+  },
+  "estimated_total_usd": 2.64807993,
+  "logs": {
+    "fireworks_glm": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/fireworks_glm/2026-10-16T18-04-39-00-00_point-grounding-G-fireworks-glm_RZh7varLfM3PCgudcUpi8p.eval",
+      "sha256": "f11d6b3f2156cc22f0782fcb3a44908cc5fc4aa7495fc3a5f500f7c9dab37aa0"
+    },
+    "openai_generation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/openai_generation/2026-10-16T18-16-47-00-00_point-grounding-G-openai-generation_c8HHoTQH86Y6nVYuUa6tzQ.eval",
+      "sha256": "de488ed9c578b2a9e61b4115ec479638609b6abb472a11a69a9b2ca47b19a3e7"
+    },
+    "anthropic_generation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/anthropic_generation/2026-10-16T18-33-41-00-00_point-grounding-G-anthropic-generation_n9ExAqFSjJoM9qL4GdewrV.eval",
+      "sha256": "e5d7e7a3a9bff0ecc9f58c5568ce79166bb0fc98cafe2e0b4f424110cf3a5b60"
+    }
+  },
+  "artifacts": {
+    "manifest": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/run_manifest.json",
+      "sha256": "1470a3717c76b6a8fa83e7d67a5ab9c764e858fff1e6d56bece74297d714f97a",
+      "byte_size": 20230
+    },
+    "exclusions": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/exclusions.json",
+      "sha256": "6f44ec8c2ad49dd56cd877d19187603acc524d36eb5d9aa8fc177fd2e69dfe76",
+      "byte_size": 762
+    },
+    "reporting_revision": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/reporting_revision_v2.json",
+      "sha256": "861645112df7451a653af57863e38a8ffeed65ee7eed48ad5ddcfa2c134a24cd",
+      "byte_size": 965
+    },
+    "report": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/analysis/report.json",
+      "sha256": "bd828d97864de2c81a025564a0f0ad357b25bd46dda4f04135a9e5fdf811830c",
+      "byte_size": 9749598
+    },
+    "report_markdown": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/analysis/report.md",
+      "sha256": "bde7a16ebbcd2f04707ad9b7bd88a5fae616f7144cbf24608efb16f967687391",
+      "byte_size": 1112
+    },
+    "error_review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/analysis/error_review.md",
+      "sha256": "1b87cac2a5b13ae0583769f54b77b9e04ddfe537c4c17977d045437d9d77eb35",
+      "byte_size": 6901
+    },
+    "explanation_review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/analysis/explanation_review.json",
+      "sha256": "b1ffe18ca769c4a20e05a67a34858e215cbcf991f94ad91078297869b41c515e",
+      "byte_size": 52524
+    },
+    "independent_audit": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/analysis/independent_audit.json",
+      "sha256": "a381fda3f93acad8beda620aecdb753ff3aa03dc361dd8ae73ab86a6cbfc02e9",
+      "byte_size": 2620
+    },
+    "completion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_full_development_v3/completion.json",
+      "sha256": "6916178612754109e11089712e2dd5ace4b45a4f230ab01881d01f64fea62262",
+      "byte_size": 14189
+    }
+  },
+  "validation": "4913 passed, 1 skipped; formatting/lint/types passed; independent all5499 accounting audit and34-error source review complete",
+  "interpretation": "GLM leads agreement, all-three consistency and p90 latency; Luna lowest cost and no observed false accepts or invalid outputs. Small score differences and five proposed-label review flags limit selection confidence. No automatic model selection.",
+  "limitations": [
+    "611 binary-labeled development candidates; four unresolved candidates excluded. Full-pool labels are agent proposals, not independently human-adjudicated gold.",
+    "36 cases overlap prompt calibration; remaining 575 are reported separately. All cases share 19 development questions; this is not held-out qualification.",
+    "Missing/invalid/error judgments remain in primary accuracy and all-three denominators.",
+    "Cost uses logged usage and frozen rate cards, not invoices; unreported failed-attempt charges are unknown. Cache discounts depend on run order and provider behavior.",
+    "Latency is nearest-rank p90 of observed sample wall duration, including failures, native waiting/retries and scoring, under the recorded concurrency.",
+    "Brief GLM native dispatch pause for runtime audit retained in timing data.",
+    "Source review covers34 noncorrect observations across13 cases; five case labels/wording flagged for human review without rescoring.",
+    "Native header stores base config; effective task/request settings verified separately. Typed optional defaults normalized only for config comparison."
+  ],
+  "model_selected": null,
+  "defaults_changed": false,
+  "labels_changed": false,
+  "heldout_access": false
+}

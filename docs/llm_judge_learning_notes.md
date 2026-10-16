@@ -1,5 +1,10 @@
 # LLM-as-a-judge: learning notes for future calibration
 
+For completed experiments and their positive and negative results, start with the
+[grounding experiment record](grounding_experiment_record.md). These notes retain
+the research rationale and proposed adaptations; the record distinguishes what
+was actually tested and selected.
+
 Recorded 2026-09-25 after discussing Li et al.,
 [From Generation to Judgment: Opportunities and Challenges of LLM-as-a-judge](https://aclanthology.org/2025.emnlp-main.138.pdf)
 (EMNLP 2025).

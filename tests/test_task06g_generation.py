@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from copy import deepcopy
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -13,6 +15,7 @@ from er_commons.artifact_verification import VerificationBudget
 from er_commons.collection_processing.config import CollectionRunSpec
 from er_commons.document_publication import lineage_preflight
 from er_commons.document_publication.config import DocumentRunSpec
+from er_commons.document_publication.config_generation import task06g_generation
 from er_commons.document_publication.config_generation.task06g_generation import (
     _validate_producer_resolution_pairs,
     check_task06g_generation,
@@ -48,6 +51,30 @@ RECIPE = ROOT / "configs/task06/v1/task06g_generation_v1.json"
 V38_RECIPE = ROOT / "configs/task06/v4/task06g_generation_v1.json"
 
 
+def freeze_task06g_basis(monkeypatch: pytest.MonkeyPatch, commit: str | None = None) -> None:
+    """Isolate historical finalizer checks from the current checkout's unrelated HEAD."""
+    accepted = commit or json.loads(V38_RECIPE.read_bytes())["accepted_repository_commit"]
+
+    def git_head(argv: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+        """Stub only the validator's exact read-only HEAD lookup, preserving other checks."""
+        assert argv == ["git", "rev-parse", "HEAD"]
+        assert kwargs == dict(cwd=ROOT, check=True, text=True, stdout=subprocess.PIPE)
+        return subprocess.CompletedProcess(argv, 0, stdout=accepted + "\n")
+
+    monkeypatch.setattr(
+        task06g_generation, "subprocess", SimpleNamespace(run=git_head, PIPE=subprocess.PIPE)
+    )
+
+
+def test_task06g_generation_rejects_unaccepted_repository_basis(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Keep production's HEAD guard separate from the downstream finalizer drift invariant."""
+    freeze_task06g_basis(monkeypatch, commit="0" * 40)
+    with pytest.raises(ValueError, match="repository base commit differs"):
+        check_task06g_generation(V38_RECIPE)
+
+
 def test_task06g_v38_restores_full_source_free_descendant_graph() -> None:
     """Keep the unsealed v38 packet on the reviewed full execution topology."""
     recipe = json.loads(V38_RECIPE.read_bytes())
@@ -72,8 +99,11 @@ def test_task06g_v38_restores_full_source_free_descendant_graph() -> None:
     assert "replay_v35" in rendered
 
 
-def test_task06g_v38_generation_remains_immutable_after_finalization_amendment() -> None:
+def test_task06g_v38_generation_remains_immutable_after_finalization_amendment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Keep the executed v38 owner packet historical instead of rewriting its identity."""
+    freeze_task06g_basis(monkeypatch)
     with pytest.raises(ValueError, match=r"generator differs: .*finaliz"):
         check_task06g_generation(V38_RECIPE)
 
@@ -138,6 +168,7 @@ def test_task06g_templates_are_executable_and_source_free(monkeypatch: pytest.Mo
         return original(path, *args, **kwargs)
 
     monkeypatch.setattr(Path, "open", guarded)
+    freeze_task06g_basis(monkeypatch)
     with pytest.raises(ValueError, match=r"generator differs: .*finaliz"):
         check_task06g_generation(V38_RECIPE)
     DocumentRunSpec.model_validate_json(

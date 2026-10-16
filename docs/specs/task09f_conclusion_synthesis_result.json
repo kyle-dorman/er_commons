@@ -1,0 +1,567 @@
+{
+  "schema_version": "task09f.conclusion_synthesis_result.v1",
+  "dataset_id": "09f_20261014_conclusion_synthesis_v1",
+  "status": "complete_with_unresolved_slots",
+  "published_date": "2026-10-14",
+  "question_release": "task09f_20261014_v2",
+  "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1",
+  "counts": {
+    "cases": 19,
+    "slots": 399,
+    "unique_examples": 246,
+    "labels": {
+      "no": 164,
+      "yes": 82
+    },
+    "slot_statuses": {
+      "generated": 246,
+      "inapplicable": 145,
+      "unresolved": 8
+    },
+    "duplicate_slots": 0
+  },
+  "by_question": {
+    "C001": {
+      "labels": {
+        "no": 8,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 7,
+        "unresolved": 2
+      },
+      "unique_examples": 12
+    },
+    "C006": {
+      "labels": {
+        "no": 10,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 14,
+        "inapplicable": 7
+      },
+      "unique_examples": 14
+    },
+    "C007": {
+      "labels": {
+        "no": 9,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 13,
+        "inapplicable": 8
+      },
+      "unique_examples": 13
+    },
+    "C008": {
+      "labels": {
+        "no": 8,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 8,
+        "unresolved": 1
+      },
+      "unique_examples": 12
+    },
+    "C014": {
+      "labels": {
+        "no": 8,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 9
+      },
+      "unique_examples": 12
+    },
+    "C017": {
+      "labels": {
+        "no": 11,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 15,
+        "inapplicable": 6
+      },
+      "unique_examples": 15
+    },
+    "C019": {
+      "labels": {
+        "no": 8,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 8,
+        "unresolved": 1
+      },
+      "unique_examples": 12
+    },
+    "C027": {
+      "labels": {
+        "no": 7,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 11,
+        "inapplicable": 10
+      },
+      "unique_examples": 11
+    },
+    "C028": {
+      "labels": {
+        "no": 10,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 14,
+        "inapplicable": 7
+      },
+      "unique_examples": 14
+    },
+    "C029": {
+      "labels": {
+        "no": 8,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 8,
+        "unresolved": 1
+      },
+      "unique_examples": 12
+    },
+    "C036": {
+      "labels": {
+        "no": 12,
+        "yes": 7
+      },
+      "slots": {
+        "generated": 19,
+        "inapplicable": 2
+      },
+      "unique_examples": 19
+    },
+    "C037": {
+      "labels": {
+        "no": 8,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 9
+      },
+      "unique_examples": 12
+    },
+    "C041": {
+      "labels": {
+        "no": 7,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 11,
+        "inapplicable": 10
+      },
+      "unique_examples": 11
+    },
+    "C042": {
+      "labels": {
+        "no": 8,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 7,
+        "unresolved": 2
+      },
+      "unique_examples": 12
+    },
+    "C045": {
+      "labels": {
+        "no": 7,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 11,
+        "inapplicable": 9,
+        "unresolved": 1
+      },
+      "unique_examples": 11
+    },
+    "C050": {
+      "labels": {
+        "no": 9,
+        "yes": 7
+      },
+      "slots": {
+        "generated": 16,
+        "inapplicable": 5
+      },
+      "unique_examples": 16
+    },
+    "C051": {
+      "labels": {
+        "no": 8,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 9
+      },
+      "unique_examples": 12
+    },
+    "C054": {
+      "labels": {
+        "no": 10,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 14,
+        "inapplicable": 7
+      },
+      "unique_examples": 14
+    },
+    "C056": {
+      "labels": {
+        "no": 8,
+        "yes": 4
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 9
+      },
+      "unique_examples": 12
+    }
+  },
+  "by_type": {
+    "A01": {
+      "labels": {
+        "no": 2
+      },
+      "slots": {
+        "generated": 2,
+        "inapplicable": 17
+      }
+    },
+    "A02": {
+      "labels": {
+        "no": 2
+      },
+      "slots": {
+        "generated": 2,
+        "inapplicable": 17
+      }
+    },
+    "A03": {
+      "labels": {
+        "yes": 2
+      },
+      "slots": {
+        "generated": 2,
+        "inapplicable": 17
+      }
+    },
+    "A09": {
+      "labels": {
+        "no": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    },
+    "A10": {
+      "labels": {
+        "no": 2
+      },
+      "slots": {
+        "generated": 2,
+        "inapplicable": 17
+      }
+    },
+    "BASE": {
+      "labels": {
+        "yes": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    },
+    "F03": {
+      "labels": {
+        "no": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    },
+    "F04": {
+      "labels": {
+        "no": 14
+      },
+      "slots": {
+        "generated": 14,
+        "inapplicable": 5
+      }
+    },
+    "F05_F09": {
+      "labels": {
+        "no": 9
+      },
+      "slots": {
+        "generated": 9,
+        "inapplicable": 8,
+        "unresolved": 2
+      }
+    },
+    "F06": {
+      "labels": {
+        "no": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    },
+    "F07": {
+      "labels": {
+        "no": 5
+      },
+      "slots": {
+        "generated": 5,
+        "inapplicable": 8,
+        "unresolved": 6
+      }
+    },
+    "F08": {
+      "labels": {
+        "no": 12
+      },
+      "slots": {
+        "generated": 12,
+        "inapplicable": 7
+      }
+    },
+    "F10": {
+      "labels": {
+        "no": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    },
+    "O02": {
+      "labels": {
+        "no": 4
+      },
+      "slots": {
+        "generated": 4,
+        "inapplicable": 15
+      }
+    },
+    "O03": {
+      "labels": {
+        "no": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    },
+    "O04": {
+      "labels": {
+        "no": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    },
+    "P01": {
+      "labels": {
+        "yes": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    },
+    "P02": {
+      "labels": {
+        "yes": 2
+      },
+      "slots": {
+        "generated": 2,
+        "inapplicable": 17
+      }
+    },
+    "P03_P04": {
+      "labels": {
+        "yes": 2
+      },
+      "slots": {
+        "generated": 2,
+        "inapplicable": 17
+      }
+    },
+    "P05": {
+      "labels": {
+        "yes": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    },
+    "P06": {
+      "labels": {
+        "yes": 19
+      },
+      "slots": {
+        "generated": 19
+      }
+    }
+  },
+  "label_status": "independently_agent_reviewed_proposals_not_human_gold",
+  "input_contract": [
+    "question",
+    "candidate_conclusion",
+    "reference_conclusion"
+  ],
+  "artifacts": {
+    "report": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/README.md",
+      "sha256": "bb434fec4c52ce85b741db5568a2745c218ec9785437df5eec09018cca9b4f54",
+      "byte_size": 13849
+    },
+    "judge_inputs": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/judge_inputs.jsonl",
+      "sha256": "d8776ee756f0ebeba7337c1027ccd6bed42a7592094889f556db1a07dff6b923",
+      "byte_size": 203741
+    },
+    "proposed_labels": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/proposed_labels.jsonl",
+      "sha256": "459b234e17a4d87871ca86679aa73a723b135ea96a8a2dded82c2fe01fdb61ee",
+      "byte_size": 96253
+    },
+    "provenance": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/provenance.jsonl",
+      "sha256": "3cc7ff945c35068d747a3edd7d9a92d4902fdeee6620f89466fc69f1baafb700",
+      "byte_size": 248309
+    },
+    "coverage": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/coverage.jsonl",
+      "sha256": "a1b9a9fb4b7786cca01bd5cdf30bf459dfe9de92694b1e291bef851351c5a1b0",
+      "byte_size": 241622
+    },
+    "coverage_summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/coverage_summary.json",
+      "sha256": "e308243954fc5e2bc996560f43cccc837c41297c7d7dce96c2785aaf85e0de09",
+      "byte_size": 88515
+    },
+    "completion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/completion.json",
+      "sha256": "befca45130970aac200978ab6534614465ecdbc89c94bf6170168b3da5e403b4",
+      "byte_size": 4776
+    },
+    "validation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/validation.json",
+      "sha256": "93d7e32531a5940facde2174a9e985a34ee232d2ea0a074f6188e4c286ed97d4",
+      "byte_size": 529
+    },
+    "independent_audit": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/reviews/final_audit.json",
+      "sha256": "8a46d987bf474a1137d372b0e7ad145a207613726899dfde1e8d570132baca53",
+      "byte_size": 3313
+    },
+    "review_resolution": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/reviews/integration_decisions.json",
+      "sha256": "38d6c4875cf4b212ee7e5bbcbeaeafcac20217261ba7f317aa92acdc67f2971f",
+      "byte_size": 12730
+    },
+    "duplicate_audit": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/candidate_duplicate_audit.json",
+      "sha256": "161a8b630ea38036e1f2b40ae5034db608ac2b28672e68af83a4b445c7215813",
+      "byte_size": 396
+    },
+    "inputs": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1/input_manifest.json",
+      "sha256": "022d18cafe7c4bdde4f22b9b046cf27d6298406a53b45028ee3e00ba11c45ab8",
+      "byte_size": 2931
+    }
+  },
+  "final_verification": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261014_conclusion_synthesis_v1_final_verification.json",
+    "sha256": "ace62e5b3222be24e1c0e2d48d9cc34ba1f1021c1da2a597a375a755b1921147",
+    "byte_size": 385
+  },
+  "unresolved_slots": [
+    {
+      "case_id": "C001",
+      "type": "F05_F09",
+      "reason": "The reference points to coverage qualifications outside the permitted conclusion. Their required uncertainty or conditions cannot be determined here."
+    },
+    {
+      "case_id": "C001",
+      "type": "F07",
+      "reason": "The reference points to coverage qualifications below without stating them. An essential-condition omission cannot be isolated without prohibited fields."
+    },
+    {
+      "case_id": "C008",
+      "type": "F07",
+      "reason": "Removing only the phrase naming the analyzed scenario may leave that scenario implicit in the question and unchanged substantive answer. The permitted inputs do not establish an essential scenario restriction whose mere omission makes this answer materially wrong; do not force a negative label."
+    },
+    {
+      "case_id": "C019",
+      "type": "F07",
+      "reason": "A clean omission can inherit the condition from the question, while an explicit without-trenches assertion changes scenarios. Do not force F07."
+    },
+    {
+      "case_id": "C029",
+      "type": "F07",
+      "reason": "A clean omission of post-five-year contingencies still answers that protection does not end after three years and cites a five-year program. The permitted inputs do not make it clear that further contingency wording is indispensable to this direct answer. The original explicit stopping permission would change, rather than merely omit, the condition."
+    },
+    {
+      "case_id": "C042",
+      "type": "F05_F09",
+      "reason": "The conclusion refers to delivery and facility-capacity qualifications below, but their content is outside the permitted inputs. A targeted certainty mutation cannot identify the missing conditions reliably."
+    },
+    {
+      "case_id": "C042",
+      "type": "F07",
+      "reason": "Essential delivery and facility-capacity qualifications are referenced outside the conclusion; their content cannot be inspected or reconstructed for an omission example."
+    },
+    {
+      "case_id": "C045",
+      "type": "F07",
+      "reason": "Public availability is present in the reference definition, but the suggested even-unavailable answer explicitly expands the definition rather than isolating omission. Merely omitting public-availability wording may still answer why these developed fields qualify; the three fields do not securely establish a failure from that omission alone."
+    }
+  ],
+  "review_findings": {
+    "initial_generated_drafts": 249,
+    "all_slots_independently_reviewed": 399,
+    "slots_flagged_for_revision": 9,
+    "published_unique_candidates": 246,
+    "original_drafts_preserved": true,
+    "replacement_candidates_independently_reviewed_by": "root_integration",
+    "rejected_generated_drafts_now_unresolved": 3
+  },
+  "boundaries": {
+    "provider_api_calls": 0,
+    "judge_runs": 0,
+    "test_semantic_records_read": 0,
+    "reserved_payloads_read": 0,
+    "support_dataset_generated": false,
+    "grounding_started": false,
+    "preexisting_uncommitted_files_byte_unchanged": true,
+    "commits": 0,
+    "pushes": 0
+  },
+  "limitations": [
+    "Proposed labels are not human-approved gold.",
+    "Nine bibliography suffixes removed from reference projection to enforce no-citation input; original text and exact removals preserved.",
+    "C001/C042 qualification text unavailable; related slots unresolved.",
+    "Four further omission slots unresolved after review.",
+    "Exact and normalized candidate-text duplicate checks found none; semantic/category overlap remains, and 19 base questions are not independent synthetic-example samples.",
+    "Inherited source license, edition and shared-evidence limitations remain."
+  ],
+  "next_action": "Stop after publication. Support synthesis, grounding work, prompt tuning and judge runs not performed."
+}

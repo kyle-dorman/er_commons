@@ -76,11 +76,19 @@ The [latest comparison](specs/task09e1_glm14_conditions_dev6_result.md) and
 experiment results, patched metrics and limitations. The
 [maintainer guide](grounding_judge_guide.md) owns current commands. Prior artifacts
 and dataset boundaries remain unchanged; this cleanup does not qualify a judge.
-Next: refresh the provisional [09F adequacy contract](../tasks/sprint2/09f_implement_adequacy_judge.md)
-using the accepted GLM configuration and reusable infrastructure. No 09F execution
-or new inference has started. Reserved/test data remains untouched.
+The [09F adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) and
+[09F.1 A/G judges](../tasks/sprint2/09f1_revisit_grounding_judge.md) are complete, including
+[09F.2 production cleanup](../tasks/sprint2/09f2_cleanup_production_judges.md).
+Selected models are Luna A/G/C and Haiku S.
+
+Prior artifacts, uncommitted work and reserved/test boundaries remain preserved.
 
 ## Task 09 subqueue
+
+**09F, 09F.1 and [09F.2 cleanup](../tasks/sprint2/09f2_cleanup_production_judges.md)
+are complete.** Next: refresh and activate 09G challenge/freeze from the selected
+A/G/S/C handoffs. Native Inspect is the maintained execution path; Fireworks/GLM
+and Ollama remain available. Task 12 owns integration and combined reporting.
 
 | Task | Status | Deliverable |
 | --- | --- | --- |
@@ -93,7 +101,8 @@ or new inference has started. Reserved/test data remains untouched.
 | [09E — Grounding judge](../tasks/sprint2/09e_implement_grounding_judge.md) | Complete | Reference-blind grounding judge; accepted development results and limitations |
 | [09E.1 — Cloud/decision comparison](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) | Complete | GLM selected; provider comparison, cache repairs and disclosed development limitations |
 | [09E.2 — Code cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md) | Complete | Reusable cloud interfaces, retained local smoke paths, regression tests and independent review |
-| [09F — Adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) | Provisional | Independent reference-aware judge |
+| [09F — Adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) | Complete with documented limitations | Luna C v8 / Haiku S v6; native cleanup complete |
+| [09F.1 — No-answer and grounding judges](../tasks/sprint2/09f1_revisit_grounding_judge.md) | Complete with documented limitations | Luna A v2 / G v3; full comparisons, handoffs and native cleanup complete |
 | [09G — Challenge/freeze](../tasks/sprint2/09g_challenge_and_freeze_judges.md) | Provisional | Bounded revisions, comparison report and frozen configurations |
 
 Refresh each provisional contract from preceding accepted outcomes before
@@ -107,7 +116,7 @@ is targeted for October 12–14. These remain planning targets.
 | **09 — Evaluation and synthetic judge qualification** | Astra development challenges first; then automatic metrics, separate grounding/adequacy calls, bounded disagreement analysis and prompt revisions, frozen judge configuration and known limitations. Target completion October 14. |
 | **10 — BM25 retrieval and evidence presentation** | Freeze question-only search and the top five full sections/tables, source labels and heading paths, length handling, and development recall. No model selection of results or generated section summaries. |
 | **11 — Target generation** | One frozen zero-shot target baseline, structured citations/abstention, output-length and stability checks. Three-day working timebox. |
-| **12 — Integration check** | Exercise the existing evaluator/judge on real development target outputs, verify the complete artifact/configuration chain, and confirm the final freeze. Keep this small; substantive fixes must be explicit and rechecked on development data. |
+| **[12 — Integration and reporting](../tasks/sprint2/12_integrate_evaluation_and_reporting.md)** | Integrate frozen no-answer/G/S/C on saved development outputs; define exact joins, combined reporting, denominators and strict all-checks pass before final freeze. |
 | **13 — Locked test and results** | Run the primary baseline followed by the evidence-only oracle; report four separate results, stage-level errors, limitations and the next-project decision. |
 
 Agentic search is a later, separately scoped condition. No new full labeling pass

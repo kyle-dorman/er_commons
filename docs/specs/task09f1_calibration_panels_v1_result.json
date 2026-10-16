@@ -1,0 +1,84 @@
+{
+  "schema_version": "task09f1.calibration_panels.result.v1",
+  "status": "accepted_and_locked_for_development_calibration",
+  "release_id": "task09f_20261014_v2",
+  "panels": {
+    "a": {
+      "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_selection_20261016_v1",
+      "counts": {
+        "clean_abstention": 8,
+        "substantive": 12,
+        "ambiguous": 4
+      },
+      "question_count": 19,
+      "selection": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_selection_20261016_v1/selection.json",
+        "sha256": "d472ba9ac4682885df07f637168ce75ca2ce8fd2024e1ecbe64b8151948bc468",
+        "byte_size": 50673
+      },
+      "review": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_selection_20261016_v1/review.md",
+        "sha256": "4a449c6876a88cb15b838f420c99d73402b56e673bb9eeae4f2860f2561f0df4",
+        "byte_size": 13259
+      },
+      "completion": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_selection_20261016_v1/completion.json",
+        "sha256": "e3560503842695437f50b9a4bca6ef847749e66cb20c284ea42505f15e051694",
+        "byte_size": 11303
+      }
+    },
+    "g": {
+      "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_selection_20261016_v1",
+      "counts": {
+        "cases": 36,
+        "questions": 19,
+        "supported": 19,
+        "unsupported": 17,
+        "contrast_groups": 17
+      },
+      "question_count": 19,
+      "selection": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_selection_20261016_v1/selection.json",
+        "sha256": "eefb4a409b6c33f0cbe6aa373de9db14817f92727f1896f9f99f276354d4dac7",
+        "byte_size": 35102
+      },
+      "review": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_selection_20261016_v1/review.md",
+        "sha256": "c1b4401b3997acd89be92425641b9626c28be1edca020f9737391170da8b392e",
+        "byte_size": 121611
+      },
+      "completion": {
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_calibration_selection_20261016_v1/completion.json",
+        "sha256": "25e4c454b32f2005d0f5c6e08600dad9d6118fbbbfc6a2a5d3bc8f15b1f6f134",
+        "byte_size": 6433
+      }
+    }
+  },
+  "label_status": "agent_reviewed_proposals_not_human_gold",
+  "selection_review": {
+    "reviewer": "parent agent independent of selectors",
+    "a": "Read all24 conclusions and rationales; agrees with labels. One author note concerns intentionally ambiguous text, not competing labels. No reviewer-uncertain cases selected.",
+    "g": "Read all36 points and source-backed review rationales/excerpts; agrees with labels. Selector inspected full owned evidence. Parent separately inspected C051 extra-evidence payload. All unresolved cases excluded."
+  },
+  "validation": {
+    "artifact_hashes_and_sizes": "passed",
+    "payload_integrity_and_exact_fields": "passed",
+    "unique_ids": "passed",
+    "all19_development_questions_per_panel": "passed"
+  },
+  "limitations": [
+    "Purposive diagnostic panels, not prevalence estimates or final model qualification.",
+    "Contrasts share questions/evidence and are correlated.",
+    "Guard and citation-precheck fixtures are separate from semantic panels.",
+    "Remaining candidate pools remain development data."
+  ],
+  "judge_runs": 0,
+  "provider_calls": 0,
+  "policy_prompt_runtime_changes": false,
+  "acceptance": {
+    "accepted_by": "Kyle",
+    "date": "2026-10-16",
+    "scope": "Exact24 A and36 G selected cases and associated labels accepted for calibration; no approval of full candidate pools or authorization for inference.",
+    "change_policy": "Preserve original artifacts; changes require an explicitly versioned panel revision."
+  }
+}

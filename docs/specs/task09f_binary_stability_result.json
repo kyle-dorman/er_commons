@@ -1,0 +1,33 @@
+{
+  "schema_version": "task09f.binary_stability_result.v1",
+  "status": "complete_with_disclosed_failures",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_stability_v1",
+  "repetitions": 3,
+  "prompt_version": "task09f.binary_adequacy.format.v2",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_stability_v1/completion.json",
+    "sha256": "2e09dbcf1dac3bedf2b5be381fa27b354ce1e2ffa14044817623979eae1a660e",
+    "byte_size": 492896
+  },
+  "report": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_stability_v1/report.md",
+    "sha256": "f44fa18ba04ae8b0668a971cda36370e6852f9e0d970fcd979ea48eae27fb026",
+    "byte_size": 17138
+  },
+  "summary": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_stability_v1/report.json",
+    "sha256": "da376deb944b76729f4a4eb4c4cc443781cc61a1c91cac9c11226f630a26c135",
+    "byte_size": 120627
+  },
+  "independent_review": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_stability_v1/independent_review.md",
+    "sha256": "ecaf89808ea5d3b1bb9f7bc3aa9e183d4dfec22f7d59cbb7fc93b646a95cb719",
+    "byte_size": 3362
+  },
+  "estimated_cost_usd": "0.050533090",
+  "generation_calls": 360,
+  "counter_calls": 240,
+  "offline_replay_requests": 0,
+  "offline_replay_reused": 324,
+  "next_action": "Review stability and targeted prompt clarification proposals before further inference. No prompt changes or dataset expansion ran."
+}

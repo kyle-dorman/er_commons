@@ -1,0 +1,429 @@
+{
+  "schema_version": "task09f1.g.haiku_boolean_probe.result.v1",
+  "status": "complete",
+  "run_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_haiku_boolean_probe_v1",
+  "model": "anthropic/claude-haiku-5-5",
+  "sample_ids": [
+    "G-C029-014",
+    "G-C029-015"
+  ],
+  "epochs": 3,
+  "planned_judgments": 24,
+  "observed_judgments": 24,
+  "valid_outputs": 24,
+  "execution_errors": 0,
+  "reported_http_retries": 0,
+  "response_cache_reuse": false,
+  "arms": {
+    "baseline": {
+      "planned": 6,
+      "valid": 6,
+      "correct": 3,
+      "status_counts": {
+        "evaluated": 6
+      },
+      "failure_inclusive_accuracy": 0.5,
+      "valid_only_accuracy": 0.5,
+      "valid_coverage": 1.0,
+      "valid_only_macro_f1": 0.3333333333333333,
+      "confusion_expected_rows_predicted_columns": {
+        "false": {
+          "false": 0,
+          "true": 3
+        },
+        "true": {
+          "false": 0,
+          "true": 3
+        }
+      },
+      "semantic_false_accepts": 3,
+      "semantic_false_rejects": 0,
+      "per_case": {
+        "G-C029-014": {
+          "planned": 3,
+          "valid": 3,
+          "correct": 3,
+          "status_counts": {
+            "evaluated": 3
+          },
+          "failure_inclusive_accuracy": 1.0,
+          "valid_only_accuracy": 1.0,
+          "valid_coverage": 1.0,
+          "valid_only_macro_f1": 0.5,
+          "confusion_expected_rows_predicted_columns": {
+            "false": {
+              "false": 0,
+              "true": 0
+            },
+            "true": {
+              "false": 0,
+              "true": 3
+            }
+          },
+          "semantic_false_accepts": 0,
+          "semantic_false_rejects": 0
+        },
+        "G-C029-015": {
+          "planned": 3,
+          "valid": 3,
+          "correct": 0,
+          "status_counts": {
+            "evaluated": 3
+          },
+          "failure_inclusive_accuracy": 0.0,
+          "valid_only_accuracy": 0.0,
+          "valid_coverage": 1.0,
+          "valid_only_macro_f1": 0.0,
+          "confusion_expected_rows_predicted_columns": {
+            "false": {
+              "false": 0,
+              "true": 3
+            },
+            "true": {
+              "false": 0,
+              "true": 0
+            }
+          },
+          "semantic_false_accepts": 3,
+          "semantic_false_rejects": 0
+        }
+      },
+      "all_three_correct": 1,
+      "all_three_valid": 2,
+      "field_order_counts": {
+        "supported,reason": 6
+      },
+      "estimated_usd": 0.005444425,
+      "native_status": "success",
+      "native_error": null
+    },
+    "polarity": {
+      "planned": 6,
+      "valid": 6,
+      "correct": 3,
+      "status_counts": {
+        "evaluated": 6
+      },
+      "failure_inclusive_accuracy": 0.5,
+      "valid_only_accuracy": 0.5,
+      "valid_coverage": 1.0,
+      "valid_only_macro_f1": 0.3333333333333333,
+      "confusion_expected_rows_predicted_columns": {
+        "false": {
+          "false": 0,
+          "true": 3
+        },
+        "true": {
+          "false": 0,
+          "true": 3
+        }
+      },
+      "semantic_false_accepts": 3,
+      "semantic_false_rejects": 0,
+      "per_case": {
+        "G-C029-014": {
+          "planned": 3,
+          "valid": 3,
+          "correct": 3,
+          "status_counts": {
+            "evaluated": 3
+          },
+          "failure_inclusive_accuracy": 1.0,
+          "valid_only_accuracy": 1.0,
+          "valid_coverage": 1.0,
+          "valid_only_macro_f1": 0.5,
+          "confusion_expected_rows_predicted_columns": {
+            "false": {
+              "false": 0,
+              "true": 0
+            },
+            "true": {
+              "false": 0,
+              "true": 3
+            }
+          },
+          "semantic_false_accepts": 0,
+          "semantic_false_rejects": 0
+        },
+        "G-C029-015": {
+          "planned": 3,
+          "valid": 3,
+          "correct": 0,
+          "status_counts": {
+            "evaluated": 3
+          },
+          "failure_inclusive_accuracy": 0.0,
+          "valid_only_accuracy": 0.0,
+          "valid_coverage": 1.0,
+          "valid_only_macro_f1": 0.0,
+          "confusion_expected_rows_predicted_columns": {
+            "false": {
+              "false": 0,
+              "true": 3
+            },
+            "true": {
+              "false": 0,
+              "true": 0
+            }
+          },
+          "semantic_false_accepts": 3,
+          "semantic_false_rejects": 0
+        }
+      },
+      "all_three_correct": 1,
+      "all_three_valid": 2,
+      "field_order_counts": {
+        "supported,reason": 6
+      },
+      "estimated_usd": 0.005497350000000001,
+      "native_status": "success",
+      "native_error": null
+    },
+    "reason_first": {
+      "planned": 6,
+      "valid": 6,
+      "correct": 5,
+      "status_counts": {
+        "evaluated": 6
+      },
+      "failure_inclusive_accuracy": 0.8333333333333334,
+      "valid_only_accuracy": 0.8333333333333334,
+      "valid_coverage": 1.0,
+      "valid_only_macro_f1": 0.8285714285714285,
+      "confusion_expected_rows_predicted_columns": {
+        "false": {
+          "false": 2,
+          "true": 1
+        },
+        "true": {
+          "false": 0,
+          "true": 3
+        }
+      },
+      "semantic_false_accepts": 1,
+      "semantic_false_rejects": 0,
+      "per_case": {
+        "G-C029-014": {
+          "planned": 3,
+          "valid": 3,
+          "correct": 3,
+          "status_counts": {
+            "evaluated": 3
+          },
+          "failure_inclusive_accuracy": 1.0,
+          "valid_only_accuracy": 1.0,
+          "valid_coverage": 1.0,
+          "valid_only_macro_f1": 0.5,
+          "confusion_expected_rows_predicted_columns": {
+            "false": {
+              "false": 0,
+              "true": 0
+            },
+            "true": {
+              "false": 0,
+              "true": 3
+            }
+          },
+          "semantic_false_accepts": 0,
+          "semantic_false_rejects": 0
+        },
+        "G-C029-015": {
+          "planned": 3,
+          "valid": 3,
+          "correct": 2,
+          "status_counts": {
+            "evaluated": 3
+          },
+          "failure_inclusive_accuracy": 0.6666666666666666,
+          "valid_only_accuracy": 0.6666666666666666,
+          "valid_coverage": 1.0,
+          "valid_only_macro_f1": 0.4,
+          "confusion_expected_rows_predicted_columns": {
+            "false": {
+              "false": 2,
+              "true": 1
+            },
+            "true": {
+              "false": 0,
+              "true": 0
+            }
+          },
+          "semantic_false_accepts": 1,
+          "semantic_false_rejects": 0
+        }
+      },
+      "all_three_correct": 1,
+      "all_three_valid": 2,
+      "field_order_counts": {
+        "reason,supported": 6
+      },
+      "estimated_usd": 0.005539375000000001,
+      "native_status": "success",
+      "native_error": null
+    },
+    "combined": {
+      "planned": 6,
+      "valid": 6,
+      "correct": 6,
+      "status_counts": {
+        "evaluated": 6
+      },
+      "failure_inclusive_accuracy": 1.0,
+      "valid_only_accuracy": 1.0,
+      "valid_coverage": 1.0,
+      "valid_only_macro_f1": 1.0,
+      "confusion_expected_rows_predicted_columns": {
+        "false": {
+          "false": 3,
+          "true": 0
+        },
+        "true": {
+          "false": 0,
+          "true": 3
+        }
+      },
+      "semantic_false_accepts": 0,
+      "semantic_false_rejects": 0,
+      "per_case": {
+        "G-C029-014": {
+          "planned": 3,
+          "valid": 3,
+          "correct": 3,
+          "status_counts": {
+            "evaluated": 3
+          },
+          "failure_inclusive_accuracy": 1.0,
+          "valid_only_accuracy": 1.0,
+          "valid_coverage": 1.0,
+          "valid_only_macro_f1": 0.5,
+          "confusion_expected_rows_predicted_columns": {
+            "false": {
+              "false": 0,
+              "true": 0
+            },
+            "true": {
+              "false": 0,
+              "true": 3
+            }
+          },
+          "semantic_false_accepts": 0,
+          "semantic_false_rejects": 0
+        },
+        "G-C029-015": {
+          "planned": 3,
+          "valid": 3,
+          "correct": 3,
+          "status_counts": {
+            "evaluated": 3
+          },
+          "failure_inclusive_accuracy": 1.0,
+          "valid_only_accuracy": 1.0,
+          "valid_coverage": 1.0,
+          "valid_only_macro_f1": 0.5,
+          "confusion_expected_rows_predicted_columns": {
+            "false": {
+              "false": 3,
+              "true": 0
+            },
+            "true": {
+              "false": 0,
+              "true": 0
+            }
+          },
+          "semantic_false_accepts": 0,
+          "semantic_false_rejects": 0
+        }
+      },
+      "all_three_correct": 2,
+      "all_three_valid": 2,
+      "field_order_counts": {
+        "reason,supported": 6
+      },
+      "estimated_usd": 0.005494300000000001,
+      "native_status": "success",
+      "native_error": null
+    }
+  },
+  "explanation_review": {
+    "baseline": {
+      "observations": 6,
+      "boolean_correct": 3,
+      "boolean_reason_agreement": 5,
+      "boolean_reason_contradictions": 1,
+      "reason_correct": 4,
+      "semantic_misunderstandings": 2
+    },
+    "polarity": {
+      "observations": 6,
+      "boolean_correct": 3,
+      "boolean_reason_agreement": 5,
+      "boolean_reason_contradictions": 1,
+      "reason_correct": 4,
+      "semantic_misunderstandings": 2
+    },
+    "reason_first": {
+      "observations": 6,
+      "boolean_correct": 5,
+      "boolean_reason_agreement": 6,
+      "boolean_reason_contradictions": 0,
+      "reason_correct": 5,
+      "semantic_misunderstandings": 1
+    },
+    "combined": {
+      "observations": 6,
+      "boolean_correct": 6,
+      "boolean_reason_agreement": 6,
+      "boolean_reason_contradictions": 0,
+      "reason_correct": 6,
+      "semantic_misunderstandings": 0
+    }
+  },
+  "estimated_total_usd": 0.02197545,
+  "artifacts": {
+    "manifest": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_haiku_boolean_probe_v1/run_manifest.json",
+      "sha256": "194d03a8df2ffc901dc32c3db9c5149ae8ac65305ca2b3366eecaed3e4ea0dd9",
+      "byte_size": 12957
+    },
+    "report": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_haiku_boolean_probe_v1/analysis/report.json",
+      "sha256": "57d9701cd66c9b03b4150f00ac2eaff728fac41e36b9af9d2dd928df6df9c630",
+      "byte_size": 1663296
+    },
+    "report_markdown": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_haiku_boolean_probe_v1/analysis/report.md",
+      "sha256": "241cb315b4c77fca999d5f63cf8921f1710f6ba396b2ee095a89827206993553",
+      "byte_size": 14851
+    },
+    "error_review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_haiku_boolean_probe_v1/analysis/error_review.md",
+      "sha256": "9aaeb93eb380d22bd544328296dd76da821349b7fb6a9e1e3a4c53ef375ad774",
+      "byte_size": 2215
+    },
+    "explanation_review": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_haiku_boolean_probe_v1/analysis/explanation_review.json",
+      "sha256": "b2fdf768e2728a52f5fb9af1477fc8a6a2d712645daa9d2e27ddb062de4bfc79",
+      "byte_size": 27354
+    },
+    "independent_audit": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_haiku_boolean_probe_v1/analysis/independent_audit.json",
+      "sha256": "4327f0f37660199087f5e3e2ddfd499726908aac314b8a8aaf87e7de6df68baa",
+      "byte_size": 3446
+    },
+    "completion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_g_haiku_boolean_probe_v1/completion.json",
+      "sha256": "37b8fae22ab8dcf1f5087f225eda5e0702f9f66891f12bfacb442a94f2cd0415",
+      "byte_size": 11231
+    }
+  },
+  "validation": "make check: 4881 passed, 1 skipped; formatting/lint/types and independent audit passed",
+  "interpretation": "Explanation-first plus explicit boolean meaning succeeded on both selected cases in all three repetitions. Clarification alone did not improve. Candidate only; existing default unchanged.",
+  "limitations": [
+    "Two selected known-failure development cases, not general or held-out validation.",
+    "Reason-first jointly changes prompt presentation and schema order.",
+    "No internal causal diagnosis is established.",
+    "Cost uses recorded native usage and profile rates, not invoice reconciliation."
+  ],
+  "defaults_changed": false,
+  "heldout_access": false
+}

@@ -10,7 +10,7 @@ import httpx
 import pytest
 
 from er_commons.judge_packet_requests import prepare_request
-from er_commons.judge_qualification import native_request
+from er_commons.ollama_request import native_request
 from er_commons.ollama_token_counter import (
     BINARY_SHA256,
     CONTEXT,

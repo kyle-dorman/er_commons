@@ -1,0 +1,289 @@
+{
+  "aggregate_caps": {
+    "count_requests": 550,
+    "currency": "26.75",
+    "output_tokens": 3379200,
+    "requests": 825,
+    "total_http_requests": 1375,
+    "wall_seconds": 11520
+  },
+  "aggregate_usage_cost_latency_including_probes": {
+    "billed_cost_usd": null,
+    "cache_read_fraction": 0.8713629783118717,
+    "cache_read_tokens": 11121102,
+    "cache_read_tokens_known_subtotal": 11121102,
+    "cache_read_tokens_unknown_records": 0,
+    "cache_write_tokens": null,
+    "cache_write_tokens_known_subtotal": 632557,
+    "cache_write_tokens_unknown_records": 275,
+    "call_elapsed_sum_seconds": 4059.7043293998577,
+    "call_latency_max_seconds": 21.503326333127916,
+    "call_latency_median_seconds": 4.470027167117223,
+    "calls_with_latency": 825,
+    "complete_cost_accounting": true,
+    "cost_upper_bound_usd": "1.883016350",
+    "cost_upper_bound_usd_known_subtotal": "1.883016350",
+    "cost_upper_bound_usd_unknown_records": 0,
+    "durable_intents_without_original_usage": 0,
+    "estimated_cost_usd": "0.588312895",
+    "estimated_cost_usd_known_subtotal": "0.588312895",
+    "estimated_cost_usd_unknown_records": 0,
+    "input_tokens": 12762881,
+    "input_tokens_known_subtotal": 12762881,
+    "input_tokens_unknown_records": 0,
+    "observed_records": 825,
+    "ordinary_input_tokens": 1009222,
+    "ordinary_input_tokens_known_subtotal": 1009222,
+    "ordinary_input_tokens_unknown_records": 0,
+    "output_tokens": 402344,
+    "output_tokens_known_subtotal": 402344,
+    "output_tokens_unknown_records": 0,
+    "possibly_billed_records": 0,
+    "saved_receipts_reused": 0
+  },
+  "cache_qualification": {
+    "byte_size": 7818,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/cache_qualification.json",
+    "sha256": "6f3a1d608706a7bf8abd319b83c1d7a5fa94448c6578da798b159f8d3df5d008"
+  },
+  "closeout": {
+    "byte_size": 2089375,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/closeout.json",
+    "sha256": "bf160fe2e7504afed0bc785d5bc39e3c0567690859ff5071619851268540940c"
+  },
+  "comparison_report": {
+    "byte_size": 2625424,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/comparison_report.json",
+    "sha256": "c465da6935927c414ec31da338f64992f99b8c981a05b9397892f3e99b900171"
+  },
+  "experiment_plan": {
+    "byte_size": 4352,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/experiment_plan.json",
+    "sha256": "0948505b463874d2338ae6d4854f7ac1ea305c0b539084975567a98a5e59bd71"
+  },
+  "generation_requests": 825,
+  "glm_cache_investigation": {
+    "byte_size": 4644,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/glm_cache_investigation.json",
+    "sha256": "cef2a84442cd8846815d274addc24ddd21de8da234f697153e932c5c0f33ddbf"
+  },
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1",
+  "next_step": "User review before promotion, further tuning, expansion or optional experiments.",
+  "panel_manifest": {
+    "byte_size": 191846,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/panel_v2/manifest.json",
+    "sha256": "41842c27b9839e55e7435502e3161945d62e14125aba1972d19dcdb0f54fda5d"
+  },
+  "passes": {
+    "glm_r1": {
+      "accuracy": 0.8088235294117647,
+      "correct": 110,
+      "coverage": 1.0,
+      "eligible": 136,
+      "failed": 0,
+      "macro_f1": 0.7622347506068436,
+      "returned": 136
+    },
+    "glm_r2": {
+      "accuracy": 0.8235294117647058,
+      "correct": 112,
+      "coverage": 1.0,
+      "eligible": 136,
+      "failed": 0,
+      "macro_f1": 0.7853848264286752,
+      "returned": 136
+    },
+    "haiku_r1": {
+      "accuracy": 0.8088235294117647,
+      "correct": 110,
+      "coverage": 1.0,
+      "eligible": 136,
+      "failed": 0,
+      "macro_f1": 0.7687499999999999,
+      "returned": 136
+    },
+    "haiku_r2": {
+      "accuracy": 0.7794117647058824,
+      "correct": 106,
+      "coverage": 0.9926470588235294,
+      "eligible": 136,
+      "failed": 1,
+      "macro_f1": 0.7410009541157082,
+      "returned": 135
+    },
+    "luna_r1": {
+      "accuracy": 0.8529411764705882,
+      "correct": 116,
+      "coverage": 1.0,
+      "eligible": 136,
+      "failed": 0,
+      "macro_f1": 0.8161318318356273,
+      "returned": 136
+    },
+    "luna_r2": {
+      "accuracy": 0.8455882352941176,
+      "correct": 115,
+      "coverage": 1.0,
+      "eligible": 136,
+      "failed": 0,
+      "macro_f1": 0.8054871041879469,
+      "returned": 136
+    }
+  },
+  "per_model_usage_cost_latency_including_probes": {
+    "glm": {
+      "billed_cost_usd": null,
+      "cache_read_fraction": 0.7422394084007806,
+      "cache_read_tokens": 2567680,
+      "cache_read_tokens_known_subtotal": 2567680,
+      "cache_read_tokens_unknown_records": 0,
+      "cache_write_tokens": null,
+      "cache_write_tokens_known_subtotal": 0,
+      "cache_write_tokens_unknown_records": 275,
+      "call_elapsed_sum_seconds": 984.2543221174274,
+      "call_latency_max_seconds": 12.530076292110607,
+      "call_latency_median_seconds": 3.18079233285971,
+      "calls_with_latency": 275,
+      "complete_cost_accounting": true,
+      "cost_upper_bound_usd": "0.56427035",
+      "cost_upper_bound_usd_known_subtotal": "0.56427035",
+      "cost_upper_bound_usd_unknown_records": 0,
+      "durable_intents_without_original_usage": 0,
+      "estimated_cost_usd": "0.25614875",
+      "estimated_cost_usd_known_subtotal": "0.25614875",
+      "estimated_cost_usd_unknown_records": 0,
+      "input_tokens": 3459369,
+      "input_tokens_known_subtotal": 3459369,
+      "input_tokens_unknown_records": 0,
+      "observed_records": 275,
+      "ordinary_input_tokens": 891689,
+      "ordinary_input_tokens_known_subtotal": 891689,
+      "ordinary_input_tokens_unknown_records": 0,
+      "output_tokens": 90730,
+      "output_tokens_known_subtotal": 90730,
+      "output_tokens_unknown_records": 0,
+      "possibly_billed_records": 0,
+      "saved_receipts_reused": 0
+    },
+    "haiku": {
+      "billed_cost_usd": null,
+      "cache_read_fraction": 0.919510483286328,
+      "cache_read_tokens": 5413412,
+      "cache_read_tokens_known_subtotal": 5413412,
+      "cache_read_tokens_unknown_records": 0,
+      "cache_write_tokens": 357156,
+      "cache_write_tokens_known_subtotal": 357156,
+      "cache_write_tokens_unknown_records": 0,
+      "call_elapsed_sum_seconds": 1262.1602273746394,
+      "call_latency_max_seconds": 15.419452958041802,
+      "call_latency_median_seconds": 4.548738416982815,
+      "calls_with_latency": 275,
+      "complete_cost_accounting": true,
+      "cost_upper_bound_usd": "0.831407500",
+      "cost_upper_bound_usd_known_subtotal": "0.831407500",
+      "cost_upper_bound_usd_unknown_records": 0,
+      "durable_intents_without_original_usage": 0,
+      "estimated_cost_usd": "0.205947420",
+      "estimated_cost_usd_known_subtotal": "0.205947420",
+      "estimated_cost_usd_unknown_records": 0,
+      "input_tokens": 5887276,
+      "input_tokens_known_subtotal": 5887276,
+      "input_tokens_unknown_records": 0,
+      "observed_records": 275,
+      "ordinary_input_tokens": 116708,
+      "ordinary_input_tokens_known_subtotal": 116708,
+      "ordinary_input_tokens_unknown_records": 0,
+      "output_tokens": 190996,
+      "output_tokens_known_subtotal": 190996,
+      "output_tokens_unknown_records": 0,
+      "possibly_billed_records": 0,
+      "saved_receipts_reused": 0
+    },
+    "luna": {
+      "billed_cost_usd": null,
+      "cache_read_fraction": 0.9191431739493408,
+      "cache_read_tokens": 3140010,
+      "cache_read_tokens_known_subtotal": 3140010,
+      "cache_read_tokens_unknown_records": 0,
+      "cache_write_tokens": 275401,
+      "cache_write_tokens_known_subtotal": 275401,
+      "cache_write_tokens_unknown_records": 0,
+      "call_elapsed_sum_seconds": 1813.289779907791,
+      "call_latency_max_seconds": 21.503326333127916,
+      "call_latency_median_seconds": 5.716771290870383,
+      "calls_with_latency": 275,
+      "complete_cost_accounting": true,
+      "cost_upper_bound_usd": "0.487338500",
+      "cost_upper_bound_usd_known_subtotal": "0.487338500",
+      "cost_upper_bound_usd_unknown_records": 0,
+      "durable_intents_without_original_usage": 0,
+      "estimated_cost_usd": "0.126216725",
+      "estimated_cost_usd_known_subtotal": "0.126216725",
+      "estimated_cost_usd_unknown_records": 0,
+      "input_tokens": 3416236,
+      "input_tokens_known_subtotal": 3416236,
+      "input_tokens_unknown_records": 0,
+      "observed_records": 275,
+      "ordinary_input_tokens": 825,
+      "ordinary_input_tokens_known_subtotal": 825,
+      "ordinary_input_tokens_unknown_records": 0,
+      "output_tokens": 120618,
+      "output_tokens_known_subtotal": 120618,
+      "output_tokens_unknown_records": 0,
+      "possibly_billed_records": 0,
+      "saved_receipts_reused": 0
+    }
+  },
+  "phase_wall_seconds": 4093.579183333786,
+  "prior_artifact_verification": {
+    "byte_size": 1941,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/prior_artifact_verification.json",
+    "sha256": "717e52a02ba4935c513464b9f8f83662bd04e832227661e9c2ae8b2a41887196"
+  },
+  "promotion": false,
+  "reviews": {
+    "crossmodel_interim_review": {
+      "byte_size": 25845,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/crossmodel_interim_review.json",
+      "sha256": "b7319e721f33191d57e3c714d2771a15f7cd7fd56684d7c78bc91f5afc0f25d1"
+    },
+    "docs_review": {
+      "byte_size": 3148,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/docs_review.json",
+      "sha256": "3e25720a69b3fd6c5018e2ffdb6b7d42b59127efd15536620d74ac3f4ecccf62"
+    },
+    "first_round_semantic_review": {
+      "byte_size": 95418,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/first_round_semantic_review.json",
+      "sha256": "d48d32de88a38d76b03a29736d2db59318376ad00db0d50d14d4400ac70e8bf9"
+    },
+    "glm_semantic_review": {
+      "byte_size": 33710,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/glm_semantic_review.json",
+      "sha256": "3d0aa5ab97dcbc4ea12c7ffb55be6060fa54f804f90fa9aaafc626ddd06eb298"
+    },
+    "independent_postrun_review": {
+      "byte_size": 5961,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/independent_postrun_review.json",
+      "sha256": "0e90b392f777e7cd6e98c513c5b6a9a3dcb557b3e265c05e29ef0304fde6dfb0"
+    },
+    "independent_preflight_review": {
+      "byte_size": 2986,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/independent_preflight_review.json",
+      "sha256": "b50e0a7523a297dec3731fb84fcc39eb08716cae801b3c3be3782f657d3200a2"
+    },
+    "independent_report_code_review": {
+      "byte_size": 1848,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/independent_report_code_review.json",
+      "sha256": "3e7bd2f8928e0f102ac39266067c9268cc0aab09a83d4dc7a25147d7278b94c5"
+    }
+  },
+  "schema_version": "task09f.aligned_models_result.v1",
+  "status": "complete_awaiting_user_review",
+  "successful_count_requests": 550,
+  "validation": {
+    "byte_size": 420,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/validation.json",
+    "sha256": "762a9dab25a20a02896de32273ca3504daf947b2a93cf0af311351b72f036405"
+  }
+}

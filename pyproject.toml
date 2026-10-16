@@ -5,12 +5,14 @@ description = "Small, reproducible glue workflows for environmental-review data 
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "anthropic>=1,<2",
     "beautifulsoup4>=4.13,<5",
     "camelot-py==2.0.0",
     "docling==2.115.0",
     "httpx==0.28.1",
     "inspect-ai==0.3.278",
     "jsonschema>=4.26,<5",
+    "openai>=3.4,<4",
     "opencv-python-headless==5.0.0.93",
     "pikepdf>=10,<11",
     "psutil>=7.2,<8",

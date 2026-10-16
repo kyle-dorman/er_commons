@@ -1,0 +1,414 @@
+{
+  "aggregate_native_usage_cost_latency": {
+    "billed_cost_usd": null,
+    "cache_read_fraction": 0.6998439063505204,
+    "cache_read_tokens": 2503131,
+    "cache_read_tokens_known_subtotal": 2503131,
+    "cache_read_tokens_unknown_records": 0,
+    "cache_write_tokens": 1012674,
+    "cache_write_tokens_known_subtotal": 1012674,
+    "cache_write_tokens_unknown_records": 0,
+    "call_elapsed_sum_seconds": 1161.2383924168535,
+    "call_latency_max_seconds": 18.197733875131235,
+    "call_latency_median_seconds": 7.3037550415610895,
+    "calls_with_latency": 162,
+    "complete_cost_accounting": true,
+    "cost_upper_bound_usd": "0.555626375",
+    "cost_upper_bound_usd_known_subtotal": "0.555626375",
+    "cost_upper_bound_usd_unknown_records": 0,
+    "durable_intents_without_original_usage": 0,
+    "estimated_cost_usd": "0.266243960",
+    "estimated_cost_usd_known_subtotal": "0.266243960",
+    "estimated_cost_usd_unknown_records": 0,
+    "input_tokens": 3576699,
+    "input_tokens_known_subtotal": 3576699,
+    "input_tokens_unknown_records": 0,
+    "observed_records": 162,
+    "ordinary_input_tokens": 60894,
+    "ordinary_input_tokens_known_subtotal": 60894,
+    "ordinary_input_tokens_unknown_records": 0,
+    "output_tokens": 217078,
+    "output_tokens_known_subtotal": 217078,
+    "output_tokens_unknown_records": 0,
+    "possibly_billed_records": 0,
+    "saved_receipts_reused": 0
+  },
+  "closeout": {
+    "byte_size": 419451,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/closeout.json",
+    "sha256": "3b1873351451187cde5ff2c3fe65cb8cc5913fae6066795dd3b33cbe88916b3c"
+  },
+  "count_requests": 162,
+  "external_report": {
+    "byte_size": 1931406,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/report.json",
+    "sha256": "0d0422d5f132660eadce451f0eb51ca894d0ea1cd65d562a714657274986bf93"
+  },
+  "generation_calls": 162,
+  "next_step": "Stop for user review; no automatic promotion or further inference.",
+  "observability_correction": "All54coverageoutputs contain named sections;7literalheuristicmisses omit the pipe before Verdict, not content or truncation.",
+  "plan": {
+    "byte_size": 6532,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/plan.json",
+    "sha256": "868976104f8c27a46d7cb90c1e5d2c27a7ec538f5d1fc80cb090fcc62c2c3298"
+  },
+  "promoted": false,
+  "retention_decision": "retain_consolidated_baseline_no_expansion",
+  "review_evidence": {
+    "independent_preflight_review.json": {
+      "byte_size": 5197,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/independent_preflight_review.json",
+      "sha256": "37ecd34a4638d3f8c6202a480bfb8b2533695922fd0e5368a630247103ac3789"
+    },
+    "observability_review.json": {
+      "byte_size": 16313,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/observability_review.json",
+      "sha256": "1a3d46932def1f2acaa1faf860bd955768311c5f0b8e3d13ed402f2fe01210fb"
+    },
+    "postrun_review.json": {
+      "byte_size": 6715,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/postrun_review.json",
+      "sha256": "b15384d7783261675a012ac694b9228894e2eededc427dd0810c40cd5ba7093b"
+    },
+    "preservation_after.json": {
+      "byte_size": 936,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/preservation_after.json",
+      "sha256": "f7f0243c76fbcd40940e2a90da44df4b7f58eba19487b65727576d338025c43b"
+    },
+    "preservation_before.json": {
+      "byte_size": 936,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/preservation_before.json",
+      "sha256": "f7f0243c76fbcd40940e2a90da44df4b7f58eba19487b65727576d338025c43b"
+    },
+    "qualitative_review.json": {
+      "byte_size": 10850814,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/qualitative_review.json",
+      "sha256": "63c15399e6942f925d10091f7727c485e0e7d7b86d0bd85f4f1038a5c13e097b"
+    },
+    "qualitative_review_plan.json": {
+      "byte_size": 876,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/qualitative_review_plan.json",
+      "sha256": "f3eb878e0c72e80f79b96d9769aae65d466a6deb192556b6df9e6e730a05bff3"
+    },
+    "report_code_review.json": {
+      "byte_size": 1756,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/report_code_review.json",
+      "sha256": "e989bcda65e050f55f519c3b5ab01f23f3e245f81baa3810c873ca7dd8c0cb65"
+    },
+    "validation.json": {
+      "byte_size": 735,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_coverage_small_v1/validation.json",
+      "sha256": "0103020f65464ec150d53282d1ef60ea22c28ec297899769eee48f1d184ba57a"
+    }
+  },
+  "runs": {
+    "baseline_r1": {
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "correct": 2,
+          "coverage": 1.0,
+          "eligible": 2,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "returned": 2
+        },
+        "overall": {
+          "accuracy": 0.3888888888888889,
+          "correct": 7,
+          "coverage": 1.0,
+          "eligible": 18,
+          "failed": 0,
+          "macro_f1": 0.3888888888888889,
+          "returned": 18
+        },
+        "passing_controls": {
+          "accuracy": 0.4,
+          "correct": 4,
+          "coverage": 1.0,
+          "eligible": 10,
+          "failed": 0,
+          "macro_f1": 0.19047619047619047,
+          "returned": 10
+        }
+      },
+      "status_counts": {
+        "validated": 18
+      }
+    },
+    "baseline_r2": {
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "correct": 2,
+          "coverage": 1.0,
+          "eligible": 2,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "returned": 2
+        },
+        "overall": {
+          "accuracy": 0.5,
+          "correct": 9,
+          "coverage": 1.0,
+          "eligible": 18,
+          "failed": 0,
+          "macro_f1": 0.4849673202614379,
+          "returned": 18
+        },
+        "passing_controls": {
+          "accuracy": 0.5,
+          "correct": 5,
+          "coverage": 1.0,
+          "eligible": 10,
+          "failed": 0,
+          "macro_f1": 0.2222222222222222,
+          "returned": 10
+        }
+      },
+      "status_counts": {
+        "validated": 18
+      }
+    },
+    "baseline_r3": {
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "correct": 2,
+          "coverage": 1.0,
+          "eligible": 2,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "returned": 2
+        },
+        "overall": {
+          "accuracy": 0.4444444444444444,
+          "correct": 8,
+          "coverage": 1.0,
+          "eligible": 18,
+          "failed": 0,
+          "macro_f1": 0.37719298245614036,
+          "returned": 18
+        },
+        "passing_controls": {
+          "accuracy": 0.6,
+          "correct": 6,
+          "coverage": 1.0,
+          "eligible": 10,
+          "failed": 0,
+          "macro_f1": 0.25,
+          "returned": 10
+        }
+      },
+      "status_counts": {
+        "validated": 18
+      }
+    },
+    "coverage_r1": {
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "correct": 2,
+          "coverage": 1.0,
+          "eligible": 2,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "returned": 2
+        },
+        "overall": {
+          "accuracy": 0.5,
+          "correct": 9,
+          "coverage": 1.0,
+          "eligible": 18,
+          "failed": 0,
+          "macro_f1": 0.4861111111111111,
+          "returned": 18
+        },
+        "passing_controls": {
+          "accuracy": 0.5,
+          "correct": 5,
+          "coverage": 1.0,
+          "eligible": 10,
+          "failed": 0,
+          "macro_f1": 0.2222222222222222,
+          "returned": 10
+        }
+      },
+      "status_counts": {
+        "validated": 18
+      }
+    },
+    "coverage_r2": {
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "correct": 2,
+          "coverage": 1.0,
+          "eligible": 2,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "returned": 2
+        },
+        "overall": {
+          "accuracy": 0.5,
+          "correct": 9,
+          "coverage": 1.0,
+          "eligible": 18,
+          "failed": 0,
+          "macro_f1": 0.4849673202614379,
+          "returned": 18
+        },
+        "passing_controls": {
+          "accuracy": 0.5,
+          "correct": 5,
+          "coverage": 1.0,
+          "eligible": 10,
+          "failed": 0,
+          "macro_f1": 0.2222222222222222,
+          "returned": 10
+        }
+      },
+      "status_counts": {
+        "validated": 18
+      }
+    },
+    "coverage_r3": {
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "correct": 2,
+          "coverage": 1.0,
+          "eligible": 2,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "returned": 2
+        },
+        "overall": {
+          "accuracy": 0.5555555555555556,
+          "correct": 10,
+          "coverage": 1.0,
+          "eligible": 18,
+          "failed": 0,
+          "macro_f1": 0.5231729055258467,
+          "returned": 18
+        },
+        "passing_controls": {
+          "accuracy": 0.6,
+          "correct": 6,
+          "coverage": 1.0,
+          "eligible": 10,
+          "failed": 0,
+          "macro_f1": 0.25,
+          "returned": 10
+        }
+      },
+      "status_counts": {
+        "validated": 18
+      }
+    },
+    "inventory_r1": {
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "correct": 2,
+          "coverage": 1.0,
+          "eligible": 2,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "returned": 2
+        },
+        "overall": {
+          "accuracy": 0.5555555555555556,
+          "correct": 10,
+          "coverage": 1.0,
+          "eligible": 18,
+          "failed": 0,
+          "macro_f1": 0.5055555555555555,
+          "returned": 18
+        },
+        "passing_controls": {
+          "accuracy": 0.6,
+          "correct": 6,
+          "coverage": 1.0,
+          "eligible": 10,
+          "failed": 0,
+          "macro_f1": 0.25,
+          "returned": 10
+        }
+      },
+      "status_counts": {
+        "validated": 18
+      }
+    },
+    "inventory_r2": {
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "correct": 2,
+          "coverage": 1.0,
+          "eligible": 2,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "returned": 2
+        },
+        "overall": {
+          "accuracy": 0.5,
+          "correct": 9,
+          "coverage": 1.0,
+          "eligible": 18,
+          "failed": 0,
+          "macro_f1": 0.47769360269360267,
+          "returned": 18
+        },
+        "passing_controls": {
+          "accuracy": 0.5,
+          "correct": 5,
+          "coverage": 1.0,
+          "eligible": 10,
+          "failed": 0,
+          "macro_f1": 0.2222222222222222,
+          "returned": 10
+        }
+      },
+      "status_counts": {
+        "validated": 18
+      }
+    },
+    "inventory_r3": {
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "correct": 2,
+          "coverage": 1.0,
+          "eligible": 2,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "returned": 2
+        },
+        "overall": {
+          "accuracy": 0.6111111111111112,
+          "correct": 11,
+          "coverage": 1.0,
+          "eligible": 18,
+          "failed": 0,
+          "macro_f1": 0.51005291005291,
+          "returned": 18
+        },
+        "passing_controls": {
+          "accuracy": 0.8,
+          "correct": 8,
+          "coverage": 1.0,
+          "eligible": 10,
+          "failed": 0,
+          "macro_f1": 0.2962962962962963,
+          "returned": 10
+        }
+      },
+      "status_counts": {
+        "validated": 18
+      }
+    }
+  },
+  "schema_version": "task09f.haiku_coverage_small_result.v1",
+  "status": "complete_awaiting_user_review"
+}

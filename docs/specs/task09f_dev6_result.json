@@ -1,0 +1,30 @@
+{
+  "estimated_cost_usd": "0.16802341",
+  "metrics": {
+    "accuracy": 0.8014705882352942,
+    "correct": 109,
+    "coverage": 0.9632352941176471,
+    "eligible": 136,
+    "failed": 5,
+    "macro_f1": 0.7691664890927855,
+    "returned": 131
+  },
+  "next_step": "Stop for user review before further expansion, repair or tuning.",
+  "panel_manifest": {
+    "byte_size": 191950,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_glm_dev6_v1/panel/manifest.json",
+    "sha256": "018cbae59735c562b9d71d0ae3613be1f459abf6c0fe4f2010e78736335149b0"
+  },
+  "report": {
+    "byte_size": 147718,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_glm_dev6_v1/checkpoint_report.json",
+    "sha256": "e9b7721264f4b733603cedd7070b480b3894143e01386b090c588eb58b5ef4b4"
+  },
+  "schema_version": "task09f.dev6_pointer.v1",
+  "status": "complete_awaiting_user_review",
+  "independent_postrun_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_glm_dev6_v1/independent_postrun_review.json",
+    "sha256": "81396ca406478d33071c5027c265635a5d0ed0d2914fbbb798f6365e8d337948",
+    "byte_size": 1089
+  }
+}

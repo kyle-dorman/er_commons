@@ -1,0 +1,86 @@
+{
+  "schema_version": "task09f.binary_consolidated_pass5_result.v1",
+  "status": "complete_with_disclosed_failures_and_transport_recovery",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v4",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v4/completion.json",
+    "sha256": "1a6a3518f94a2ea04458886babe8c2ac2c3394a9f392bfd6ce153ae7a72050db",
+    "byte_size": 775798
+  },
+  "report": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v4/report.md",
+    "sha256": "bd5a6da286936b83bae15451bba26565ec42cffa3ede1ac6c598125a2c92ad88",
+    "byte_size": 18811
+  },
+  "summary": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v4/report.json",
+    "sha256": "9e91d3ce610f36ef0c7da889c5fb05bcf0c60f000dfed8118c93c0e2569624c4",
+    "byte_size": 1097081
+  },
+  "independent_review": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v4/independent_review.md",
+    "sha256": "a1aa16698cca3a69c325549af1859086ae80c506153fb724bc6e46f0cda77177",
+    "byte_size": 4765
+  },
+  "pass5": {
+    "GLM": {
+      "conclusion": {
+        "numerator": 23,
+        "denominator": 24,
+        "rate": 0.9583333333333334
+      },
+      "support": {
+        "numerator": 12,
+        "denominator": 12,
+        "rate": 1.0
+      },
+      "valid_output": {
+        "numerator": 36,
+        "denominator": 36,
+        "rate": 1.0
+      }
+    },
+    "Luna": {
+      "conclusion": {
+        "numerator": 23,
+        "denominator": 24,
+        "rate": 0.9583333333333334
+      },
+      "support": {
+        "numerator": 9,
+        "denominator": 12,
+        "rate": 0.75
+      },
+      "valid_output": {
+        "numerator": 36,
+        "denominator": 36,
+        "rate": 1.0
+      }
+    },
+    "Haiku": {
+      "conclusion": {
+        "numerator": 24,
+        "denominator": 24,
+        "rate": 1.0
+      },
+      "support": {
+        "numerator": 12,
+        "denominator": 12,
+        "rate": 1.0
+      },
+      "valid_output": {
+        "numerator": 36,
+        "denominator": 36,
+        "rate": 1.0
+      }
+    }
+  },
+  "received_judgments": 540,
+  "generation_attempts": 549,
+  "counter_attempts": 371,
+  "offline_replay_reused": 540,
+  "offline_replay_requests": 0,
+  "known_cost_estimate_usd": "0.093695445",
+  "uncertain_generation_reserved_upper_bound_usd": "0.038942550",
+  "next_action": "Review calibration results; no automatic model promotion, prompt tuning or dataset expansion."
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "task09f.binary_calibration_result.v3",
+  "status": "independently_reviewed_pending_support_user_review",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_contract_calibration_v3",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261014_binary_contract_calibration_v3/completion.json",
+    "sha256": "054b1878194537572e93dfa077e775cd2d8732a57c76cc6c5028196cab353e31",
+    "byte_size": 7840
+  },
+  "counts": {
+    "C_panel": 24,
+    "S_panel": 12,
+    "base_questions": 4,
+    "S_yes": 7,
+    "S_no": 5
+  },
+  "judge_runs": 0,
+  "provider_calls": 0
+}

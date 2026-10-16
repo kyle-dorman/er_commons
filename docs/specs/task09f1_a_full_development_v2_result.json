@@ -1,0 +1,397 @@
+{
+  "schema_version": "task09f1.a_full_development_result.v1",
+  "status": "complete",
+  "run_id": "09f1_a_full_development_v2",
+  "prompt_version": "task09f1.no_answer.conclusion.v2",
+  "panel": {
+    "dataset_id": "09f1_a_candidates_20261016_v1",
+    "completion_sha256": "0bfe0c71d6da9eccb39eb19e5e01842adca686fe76b8aeca3460486414dc73ea",
+    "release_id": "task09f_20261014_v2",
+    "label_status": "agent_reviewed_proposals_not_human_gold",
+    "counts": {
+      "clean_abstention": 97,
+      "substantive": 175,
+      "ambiguous": 38
+    },
+    "candidate_count": 310,
+    "question_count": 19,
+    "uncertain_label_count": 33,
+    "exclusions": [],
+    "policy_version": "task09f1.no_answer.rules.v1",
+    "contract_version": "task09f1.no_answer.contract.v1"
+  },
+  "epochs": 3,
+  "max_samples": 4,
+  "max_connections": 4,
+  "planned_generations": 2790,
+  "completed_generations": 2790,
+  "models": {
+    "glm": {
+      "model": "fireworks/accounts/fireworks/models/glm-5p3-flash",
+      "status": "success",
+      "log_path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_full_development_v2/glm/2026-10-16T16-59-30-00-00_no-answer-A-fireworks-glm_9ZQfNJGLjBX2RTdkkxakss.eval",
+      "partitions": {
+        "all": {
+          "cases": 310,
+          "planned_judgments": 930,
+          "persisted": 930,
+          "correct": 911,
+          "valid": 929,
+          "accuracy_failure_inclusive": 0.9795698924731183,
+          "accuracy_valid_only": 0.9806243272335845,
+          "all_3_correct": 300,
+          "all_3_valid": 309,
+          "stable_cases": 303,
+          "unstable_cases": 6,
+          "unstable_ids": [
+            "A-C006-U02",
+            "A-C014-S06",
+            "A-C014-U02",
+            "A-C029-U01",
+            "A-C041-U02",
+            "A-C042-U02"
+          ],
+          "stable_wrong_cases": 3,
+          "stable_wrong_ids": [
+            "A-C028-S06",
+            "A-C028-U02",
+            "A-C050-S03"
+          ],
+          "incomplete_or_invalid_cases": 1,
+          "incomplete_or_invalid_ids": [
+            "A-C007-A01"
+          ]
+        },
+        "flagged": {
+          "cases": 33,
+          "planned_judgments": 99,
+          "persisted": 99,
+          "correct": 87,
+          "valid": 99,
+          "accuracy_failure_inclusive": 0.8787878787878788,
+          "accuracy_valid_only": 0.8787878787878788,
+          "all_3_correct": 27,
+          "all_3_valid": 33,
+          "stable_cases": 29,
+          "unstable_cases": 4,
+          "unstable_ids": [
+            "A-C006-U02",
+            "A-C014-U02",
+            "A-C041-U02",
+            "A-C042-U02"
+          ],
+          "stable_wrong_cases": 2,
+          "stable_wrong_ids": [
+            "A-C028-U02",
+            "A-C050-S03"
+          ],
+          "incomplete_or_invalid_cases": 0,
+          "incomplete_or_invalid_ids": []
+        },
+        "unflagged": {
+          "cases": 277,
+          "planned_judgments": 831,
+          "persisted": 831,
+          "correct": 824,
+          "valid": 830,
+          "accuracy_failure_inclusive": 0.9915764139590855,
+          "accuracy_valid_only": 0.9927710843373494,
+          "all_3_correct": 273,
+          "all_3_valid": 276,
+          "stable_cases": 274,
+          "unstable_cases": 2,
+          "unstable_ids": [
+            "A-C014-S06",
+            "A-C029-U01"
+          ],
+          "stable_wrong_cases": 1,
+          "stable_wrong_ids": [
+            "A-C028-S06"
+          ],
+          "incomplete_or_invalid_cases": 1,
+          "incomplete_or_invalid_ids": [
+            "A-C007-A01"
+          ]
+        }
+      },
+      "persisted": 930,
+      "missing": 0,
+      "execution_errors": 0,
+      "output_failures": 1,
+      "unscored": 0,
+      "false_abstention": 6,
+      "substantive_false_abstention": 4,
+      "missed_abstention": 0,
+      "ambiguous_class_error": 14,
+      "macro_f1_failure_inclusive": 0.9697431560996378,
+      "macro_f1_valid_only": 0.9703052010128406,
+      "estimated_cost_usd": 0.10346755000000003,
+      "inspect_reported_retries": 0,
+      "cache_read_samples": 0,
+      "model_elapsed_seconds": 266.0,
+      "sample_seconds_mean": 1.124489247311828,
+      "sample_seconds_median": 1.0219999999999998,
+      "sample_seconds_p95_nearest_rank": 2.053,
+      "sample_seconds_max": 4.156
+    },
+    "luna": {
+      "model": "openai/gpt-6-luna",
+      "status": "success",
+      "log_path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_full_development_v2/luna/2026-10-16T17-04-17-00-00_no-answer-A-openai-generation_J85fgNia6o4wBDd6GzVjob.eval",
+      "partitions": {
+        "all": {
+          "cases": 310,
+          "planned_judgments": 930,
+          "persisted": 930,
+          "correct": 914,
+          "valid": 930,
+          "accuracy_failure_inclusive": 0.9827956989247312,
+          "accuracy_valid_only": 0.9827956989247312,
+          "all_3_correct": 302,
+          "all_3_valid": 310,
+          "stable_cases": 305,
+          "unstable_cases": 5,
+          "unstable_ids": [
+            "A-C017-Q02",
+            "A-C028-S03",
+            "A-C029-U02",
+            "A-C050-Q02",
+            "A-C054-Q02"
+          ],
+          "stable_wrong_cases": 3,
+          "stable_wrong_ids": [
+            "A-C028-U02",
+            "A-C041-U02",
+            "A-C050-S03"
+          ],
+          "incomplete_or_invalid_cases": 0,
+          "incomplete_or_invalid_ids": []
+        },
+        "flagged": {
+          "cases": 33,
+          "planned_judgments": 99,
+          "persisted": 99,
+          "correct": 89,
+          "valid": 99,
+          "accuracy_failure_inclusive": 0.898989898989899,
+          "accuracy_valid_only": 0.898989898989899,
+          "all_3_correct": 29,
+          "all_3_valid": 33,
+          "stable_cases": 32,
+          "unstable_cases": 1,
+          "unstable_ids": [
+            "A-C029-U02"
+          ],
+          "stable_wrong_cases": 3,
+          "stable_wrong_ids": [
+            "A-C028-U02",
+            "A-C041-U02",
+            "A-C050-S03"
+          ],
+          "incomplete_or_invalid_cases": 0,
+          "incomplete_or_invalid_ids": []
+        },
+        "unflagged": {
+          "cases": 277,
+          "planned_judgments": 831,
+          "persisted": 831,
+          "correct": 825,
+          "valid": 831,
+          "accuracy_failure_inclusive": 0.9927797833935018,
+          "accuracy_valid_only": 0.9927797833935018,
+          "all_3_correct": 273,
+          "all_3_valid": 277,
+          "stable_cases": 273,
+          "unstable_cases": 4,
+          "unstable_ids": [
+            "A-C017-Q02",
+            "A-C028-S03",
+            "A-C050-Q02",
+            "A-C054-Q02"
+          ],
+          "stable_wrong_cases": 0,
+          "stable_wrong_ids": [],
+          "incomplete_or_invalid_cases": 0,
+          "incomplete_or_invalid_ids": []
+        }
+      },
+      "persisted": 930,
+      "missing": 0,
+      "execution_errors": 0,
+      "output_failures": 0,
+      "unscored": 0,
+      "false_abstention": 0,
+      "substantive_false_abstention": 0,
+      "missed_abstention": 5,
+      "ambiguous_class_error": 11,
+      "macro_f1_failure_inclusive": 0.9757742421666702,
+      "macro_f1_valid_only": 0.9757742421666702,
+      "estimated_cost_usd": 0.08164029999999992,
+      "inspect_reported_retries": 0,
+      "cache_read_samples": 0,
+      "model_elapsed_seconds": 422.0,
+      "sample_seconds_mean": 1.7905655913978495,
+      "sample_seconds_median": 1.695,
+      "sample_seconds_p95_nearest_rank": 2.629,
+      "sample_seconds_max": 6.246
+    },
+    "haiku": {
+      "model": "anthropic/claude-haiku-5-5",
+      "status": "success",
+      "log_path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_full_development_v2/haiku/2026-10-16T17-11-31-00-00_no-answer-A-anthropic-generation_a4uXWJ2wjyC2qkjm7tahw3.eval",
+      "partitions": {
+        "all": {
+          "cases": 310,
+          "planned_judgments": 930,
+          "persisted": 930,
+          "correct": 885,
+          "valid": 930,
+          "accuracy_failure_inclusive": 0.9516129032258065,
+          "accuracy_valid_only": 0.9516129032258065,
+          "all_3_correct": 292,
+          "all_3_valid": 310,
+          "stable_cases": 304,
+          "unstable_cases": 6,
+          "unstable_ids": [
+            "A-C029-S07",
+            "A-C041-S07",
+            "A-C042-S07",
+            "A-C050-Q02",
+            "A-C054-Q02",
+            "A-C056-Q02"
+          ],
+          "stable_wrong_cases": 12,
+          "stable_wrong_ids": [
+            "A-C007-U02",
+            "A-C014-S06",
+            "A-C014-S07",
+            "A-C028-S03",
+            "A-C028-S06",
+            "A-C029-A01",
+            "A-C036-S07",
+            "A-C045-Q02",
+            "A-C050-S03",
+            "A-C050-S07",
+            "A-C051-S07",
+            "A-C056-I01"
+          ],
+          "incomplete_or_invalid_cases": 0,
+          "incomplete_or_invalid_ids": []
+        },
+        "flagged": {
+          "cases": 33,
+          "planned_judgments": 99,
+          "persisted": 99,
+          "correct": 93,
+          "valid": 99,
+          "accuracy_failure_inclusive": 0.9393939393939394,
+          "accuracy_valid_only": 0.9393939393939394,
+          "all_3_correct": 31,
+          "all_3_valid": 33,
+          "stable_cases": 33,
+          "unstable_cases": 0,
+          "unstable_ids": [],
+          "stable_wrong_cases": 2,
+          "stable_wrong_ids": [
+            "A-C007-U02",
+            "A-C050-S03"
+          ],
+          "incomplete_or_invalid_cases": 0,
+          "incomplete_or_invalid_ids": []
+        },
+        "unflagged": {
+          "cases": 277,
+          "planned_judgments": 831,
+          "persisted": 831,
+          "correct": 792,
+          "valid": 831,
+          "accuracy_failure_inclusive": 0.9530685920577617,
+          "accuracy_valid_only": 0.9530685920577617,
+          "all_3_correct": 261,
+          "all_3_valid": 277,
+          "stable_cases": 271,
+          "unstable_cases": 6,
+          "unstable_ids": [
+            "A-C029-S07",
+            "A-C041-S07",
+            "A-C042-S07",
+            "A-C050-Q02",
+            "A-C054-Q02",
+            "A-C056-Q02"
+          ],
+          "stable_wrong_cases": 10,
+          "stable_wrong_ids": [
+            "A-C014-S06",
+            "A-C014-S07",
+            "A-C028-S03",
+            "A-C028-S06",
+            "A-C029-A01",
+            "A-C036-S07",
+            "A-C045-Q02",
+            "A-C050-S07",
+            "A-C051-S07",
+            "A-C056-I01"
+          ],
+          "incomplete_or_invalid_cases": 0,
+          "incomplete_or_invalid_ids": []
+        }
+      },
+      "persisted": 930,
+      "missing": 0,
+      "execution_errors": 0,
+      "output_failures": 0,
+      "unscored": 0,
+      "false_abstention": 3,
+      "substantive_false_abstention": 3,
+      "missed_abstention": 14,
+      "ambiguous_class_error": 34,
+      "macro_f1_failure_inclusive": 0.9332203521742226,
+      "macro_f1_valid_only": 0.9332203521742226,
+      "estimated_cost_usd": 0.06048563999999997,
+      "inspect_reported_retries": 0,
+      "cache_read_samples": 926,
+      "model_elapsed_seconds": 315.0,
+      "sample_seconds_mean": 1.3354225806451612,
+      "sample_seconds_median": 1.1895,
+      "sample_seconds_p95_nearest_rank": 2.551,
+      "sample_seconds_max": 5.682
+    }
+  },
+  "estimated_total_cost_usd": 0.24559348999999991,
+  "summary": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_full_development_v2/summary.json",
+    "sha256": "2fa2fcda86940dba603db5484e1314950a248ef29c53675eb521ad2c236a6669",
+    "byte_size": 83446
+  },
+  "report": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_full_development_v2/report.md",
+    "sha256": "0b048b879a87d6358746954def90b7554c7f5d5e0f5e357e294abe4a1dce6206",
+    "byte_size": 3831
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_full_development_v2/completion.json",
+    "sha256": "0d7cfbc2506a906b40c913e2c57879d7b5bf7e94a46feb9c0afe23a8004e7555",
+    "byte_size": 3256
+  },
+  "independent_review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_full_development_v2/independent_review.json",
+    "sha256": "35619437e2e927bed644c1aeb702cb164afbab83fe55b93c5865f938a3b10df3",
+    "byte_size": 2310
+  },
+  "validation": {
+    "focused_A_tests_passed": 79,
+    "make_check": "passed",
+    "full_tests_passed": 4875,
+    "full_tests_skipped": 1,
+    "format_lint_types": "passed"
+  },
+  "labels_changed": false,
+  "model_selected": null,
+  "held_out_or_reserved_access": false,
+  "limits": [
+    "Development proposal-label agreement, not human gold or held-out qualification.",
+    "33 uncertainty-flagged cases retained and separately reported.",
+    "One GLM invalid output excluded from semantic instability, retained as failure in accuracy/all3.",
+    "Estimated costs use recorded usage and configured dated rates; sample latency includes evaluation overhead."
+  ]
+}

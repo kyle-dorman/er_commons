@@ -1,0 +1,50 @@
+{
+  "schema_version": "task09f.luna_support_basis_result.v1",
+  "status": "complete_with_control_regression_not_promoted",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261015_luna_support_basis_v1",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_luna_support_basis_v1/completion.json",
+    "sha256": "66a7fccfcd53c5cc738da086a9a9cbf56cc87f55f8f4f021eb2ade6a96dffebc",
+    "byte_size": 179815
+  },
+  "report": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_luna_support_basis_v1/report.md",
+    "sha256": "3eaf4a5cb0aebadbbef2e560bc5ddbb51bf71fc7d48cc6023bddfb85963279fa",
+    "byte_size": 2015
+  },
+  "summary": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_luna_support_basis_v1/report.json",
+    "sha256": "d327b81071bec692e6782b63c0c08084dd804e36f569c2e57c588b44e86b9728",
+    "byte_size": 30932
+  },
+  "independent_review": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_luna_support_basis_v1/independent_review.md",
+    "sha256": "b6e95418f3da5c3a2410a6297bd0b52ba0d4183ab03946df427fb29dc3e822c2",
+    "byte_size": 2628
+  },
+  "model": "gpt-6-luna",
+  "prompt_version": "task09f.binary_adequacy.support_basis.v6",
+  "baseline_support_correct_pass5": {
+    "numerator": 9,
+    "denominator": 12
+  },
+  "support_correct_pass5": {
+    "numerator": 11,
+    "denominator": 12
+  },
+  "valid_output_pass5": {
+    "numerator": 12,
+    "denominator": 12
+  },
+  "correct_observations": 58,
+  "received_observations": 60,
+  "regressed_examples": [
+    "S0476"
+  ],
+  "generation_calls": 60,
+  "counter_calls": 60,
+  "offline_replay_reused": 60,
+  "offline_replay_requests": 0,
+  "estimated_cost_usd": "0.006328585",
+  "next_action": "Review improvement and verbatim-repetition regression before promotion or further inference."
+}

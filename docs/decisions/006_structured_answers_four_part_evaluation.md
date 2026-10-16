@@ -7,6 +7,44 @@ no point-to-citation links, and mandatory post-08F human prediction labeling.
 The [Sprint 2 evaluation boundary](../sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
 owns metric formulas and operational evaluation rules.
 
+## Grounding simplification — 2026-10-16
+
+Kyle accepts independent supporting-point grounding, adequacy S and adequacy C.
+Grounding checks each supporting point's factual assertions against its own cited
+passages, including material factual qualifications through an explicit projection.
+Uncited substantive support is not exempt. S receives all original support without
+filtering, source passages or grounding predictions; C's input stays unchanged.
+The replacement answer contract does not require conclusion citations. There is
+no conclusion-grounding call, point re-review or prediction forwarding.
+
+Reporting adds a strict all-checks-pass result: every required point-grounding
+judgment passes, S passes and C passes. Preserve separate component results,
+error/abstention statuses and the four benchmark result dimensions. Empty support
+and unavailable judgments cannot create success. This derived result is not
+another judge or a replacement for diagnostic reporting.
+
+This supersedes the conclusion-grounding and grounding 0/1/2 requirements below
+for the planned replacement; historical contracts/results retain their semantics.
+[09F.1](../../tasks/sprint2/09f1_revisit_grounding_judge.md) owns no-answer and
+grounding policy, component contracts and three-model comparisons.
+[Task 12](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md) owns routing
+integration, combined reporting, denominator policy and real-answer composition
+validation; Task 13 publishes results using that frozen contract. This
+decision does not migrate published references, alter automatic citation metrics,
+change S/C policy or activate runtime work/provider calls.
+
+## Adequacy policy update — 2026-10-14
+
+The maintained [adequacy labeling rules](../specs/adequacy_labeling_rules.md)
+supersede this decision's adequacy scoring, alternative-answer and answer-layout
+language for future implementation and labeling. They require reference-equivalent
+conclusions covering all question parts, independent supporting-reasoning judgments,
+and gated 0/1/2 aggregation. Explicit abstentions skip adequacy judging; reporting
+denominators remain deferred. Context-only citations stay metadata in revised
+answers, and complete-list conclusions use bullets. Grounding and automatic metric
+contracts are unchanged. Prior runs retain their original semantics; runtime
+migration and the new diagnostic/input contract remain separate work.
+
 ## One structured answer, not two authoring products
 
 08F produces one human-approved structured reference answer per eligible case,

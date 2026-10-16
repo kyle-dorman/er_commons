@@ -1,0 +1,44 @@
+{
+  "version": "judge.selected.v1",
+  "selected_by": "Kyle",
+  "provider_profiles": "configs/judge_models_v1.json",
+  "hash_encoding": "stable_json_sha256",
+  "components": {
+    "C": {
+      "condition_id": "openai_generation",
+      "model": "gpt-6-luna",
+      "prompt_version": "task09f.binary_adequacy.conclusion_comparison_reason.v8",
+      "prompt_sha256": "a4ab912653631d6335a47ef611aa365c96f6e19d1162a594903f287d3e7c92d6",
+      "schema_sha256": "0bfe86e86aa4127129e4398f7d2bbc3683b0bbb8d385d40e28696b41cdffc236"
+    },
+    "S": {
+      "condition_id": "anthropic_generation",
+      "model": "claude-haiku-5-5",
+      "prompt_version": "task09f.binary_adequacy.support_basis.v6",
+      "prompt_sha256": "518b7a38e5be9930ea1adc523fc42bd2eec5e6fe650701f3c24719aa1496314f",
+      "schema_sha256": "9261be094262c9d58e4125f5509cee6d02115dac30847fa022548b67fd0e2a56"
+    },
+    "A": {
+      "condition_id": "openai_generation",
+      "model": "gpt-6-luna",
+      "prompt_version": "task09f1.no_answer.conclusion.v2",
+      "prompt_sha256": "23a724a688e4d7e8d25d556be3a2c97fdbbcc8c6b18370acea28d9c6bdfb3140",
+      "schema_sha256": "49cfb28b8cd319f57ba57096c9064bbaab061a39ded269f5c9201f7d8abc1644"
+    },
+    "G": {
+      "condition_id": "openai_generation",
+      "model": "gpt-6-luna",
+      "prompt_version": "task09f1.grounding.point.v3",
+      "prompt_sha256": "8f7e71500fdc3667c745fd71d0ca849b38e30f7941e3fb7e1960fcc9d0946eb6",
+      "schema_sha256": "d7b3a08f10a13df6ec47bc72f8cb95e5e0b34c73758fd4fdcbe3baa1c8214a77"
+    }
+  },
+  "provider_config_sha256": "fd8720aa315dda5465a9ad3b0cf8f51bef3cb427dbecd0842755f6c355681f4a",
+  "selection_sources": [
+    "configs/adequacy_selected_v1.json",
+    "configs/no_answer_selected_v1.json",
+    "configs/point_grounding_selected_v1.json"
+  ],
+  "cleanup_task": "tasks/sprint2/09f2_cleanup_production_judges.md",
+  "qualification": "development_selected_not_held_out_qualified"
+}

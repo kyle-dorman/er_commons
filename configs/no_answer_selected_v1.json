@@ -1,0 +1,21 @@
+{
+  "version": "task09f1.a_selected.v1",
+  "selected_by": "Kyle",
+  "selected_date": "2026-10-16",
+  "component": "A",
+  "status": "selected_for_09g_freeze",
+  "runtime": "er_commons.no_answer_inspect",
+  "provider_profiles": "configs/no_answer_models_v1.json",
+  "condition_id": "openai_generation",
+  "model": "gpt-6-luna",
+  "prompt_version": "task09f1.no_answer.conclusion.v2",
+  "prompt_sha256": "23a724a688e4d7e8d25d556be3a2c97fdbbcc8c6b18370acea28d9c6bdfb3140",
+  "schema_sha256": "49cfb28b8cd319f57ba57096c9064bbaab061a39ded269f5c9201f7d8abc1644",
+  "hash_encoding": "stable_json_sha256 (same as native Inspect task metadata)",
+  "policy_version": "task09f1.no_answer.rules.v1",
+  "contract_version": "task09f1.no_answer.contract.v1",
+  "evidence": "docs/specs/task09f1_a_full_development_v2_result.json",
+  "guard": "er_commons.no_answer.empty_other_prose_guard",
+  "integration_owner": "Task 12",
+  "qualification": "development_selected_not_held_out_qualified"
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": "task09f.full_development_checkpoint_pointer.v1",
+  "status": "interrupted_awaiting_authorized_continuation",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261016_full_development_models_v1",
+  "models": [
+    "openai_generation",
+    "anthropic_generation"
+  ],
+  "planned_observations": 7360,
+  "received_observations": 1194,
+  "generation_attempts": 1195,
+  "pass5": null,
+  "known_cost_usd": "0.373220510",
+  "uncertain_reservation_usd": "0.004470125",
+  "artifacts": {
+    "plan": {
+      "path": "pipelines/brisbane_baylands/task_09/09f_20261016_full_development_models_v1/plan.json",
+      "sha256": "393cff829b022a591706ab91571687b4af1db1dc8829e766ef39f8fe82a2cfcd",
+      "byte_size": 21250493
+    },
+    "report": {
+      "path": "pipelines/brisbane_baylands/task_09/09f_20261016_full_development_models_v1/checkpoint_report.md",
+      "sha256": "8f37d42f682e9ca615abe8e0ce6b24895002d3e7d961b56c79dc926903d203f2",
+      "byte_size": 17624
+    },
+    "metrics": {
+      "path": "pipelines/brisbane_baylands/task_09/09f_20261016_full_development_models_v1/checkpoint_report.json",
+      "sha256": "9db4c6c0c1367907ba3d09969d63fb19d623be327680101b0915582edd3782d1",
+      "byte_size": 15290478
+    },
+    "inventory": {
+      "path": "pipelines/brisbane_baylands/task_09/09f_20261016_full_development_models_v1/checkpoint_inventory.json",
+      "sha256": "45c98c5be15ddabce11add3d34fa88fdf6dbfac64a2a3e794f7347f230105235",
+      "byte_size": 4757165
+    },
+    "review": {
+      "path": "pipelines/brisbane_baylands/task_09/09f_20261016_full_development_models_v1/checkpoint_review.json",
+      "sha256": "07e654b71ee01e45100279c7e486f52c203427ed66c80782ac4d9d13038b35b4",
+      "byte_size": 2129
+    },
+    "execution": {
+      "path": "pipelines/brisbane_baylands/task_09/09f_20261016_full_development_models_v1/execution_completion.json",
+      "sha256": "37db08ef7e0264b8cdfedbb9ed3aed16e01648687551eb85dadb000b20064f07",
+      "byte_size": 610129
+    }
+  }
+}

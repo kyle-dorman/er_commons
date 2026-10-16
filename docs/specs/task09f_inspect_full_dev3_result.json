@@ -1,0 +1,91 @@
+{
+  "version": "task09f.inspect_full_dev3.result.v1",
+  "status": "complete_model_selection_pending",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261016_inspect_full_dev3_v1",
+  "epochs": 3,
+  "planned": 4416,
+  "received": 4416,
+  "valid": 4416,
+  "fresh_generations_only": true,
+  "reuse_prior_responses": false,
+  "report": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_inspect_full_dev3_v1/report.md",
+    "sha256": "52e25df877289dd79698399e35e77e17ccb353a1bbf54fe26a7020c6204faadb"
+  },
+  "summary": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_inspect_full_dev3_v1/report.json",
+    "sha256": "84b1e79b19d6b052f916c272dd935ea0737003b2e1069afa53357d274ea34bc0"
+  },
+  "review": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_inspect_full_dev3_v1/review.json",
+    "sha256": "fb27ef9b078b47c41d9203585bd089557583c653b6cee8a1f2858b25814bcf9c"
+  },
+  "inventory": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_inspect_full_dev3_v1/inventory.json",
+    "sha256": "f91a3ee3fc8ff4e97a64632f7ad186947e1f7d00d5dcf470d73efa68a828b32f"
+  },
+  "models": {
+    "openai_generation:C": {
+      "correct": 735,
+      "total": 738,
+      "macro_f1": 0.9954314626541675,
+      "coverage": 1.0,
+      "pass3": {
+        "k": 3,
+        "denominator": 246,
+        "all_k_correct_count": 244,
+        "all_k_valid_count": 246,
+        "all_k_correct_rate": 0.991869918699187,
+        "all_k_valid_rate": 1.0
+      }
+    },
+    "openai_generation:S": {
+      "correct": 1381,
+      "total": 1470,
+      "macro_f1": 0.9382309491131233,
+      "coverage": 1.0,
+      "pass3": {
+        "k": 3,
+        "denominator": 490,
+        "all_k_correct_count": 444,
+        "all_k_valid_count": 490,
+        "all_k_correct_rate": 0.9061224489795918,
+        "all_k_valid_rate": 1.0
+      }
+    },
+    "anthropic_generation:C": {
+      "correct": 733,
+      "total": 738,
+      "macro_f1": 0.9923545974975292,
+      "coverage": 1.0,
+      "pass3": {
+        "k": 3,
+        "denominator": 246,
+        "all_k_correct_count": 243,
+        "all_k_valid_count": 246,
+        "all_k_correct_rate": 0.9878048780487805,
+        "all_k_valid_rate": 1.0
+      }
+    },
+    "anthropic_generation:S": {
+      "correct": 1427,
+      "total": 1470,
+      "macro_f1": 0.9704363549115359,
+      "coverage": 1.0,
+      "pass3": {
+        "k": 3,
+        "denominator": 490,
+        "all_k_correct_count": 464,
+        "all_k_valid_count": 490,
+        "all_k_correct_rate": 0.9469387755102041,
+        "all_k_valid_rate": 1.0
+      }
+    }
+  },
+  "cost_usd": 1.1905601099999994,
+  "cache_read_observations": 4408,
+  "reported_retries": 0,
+  "label_basis": "published_independently_reviewed_agent_proposals_not_human_gold",
+  "promoted": false,
+  "next_action": "Review model selection and closeout; no prompt tuning or additional inference implied."
+}

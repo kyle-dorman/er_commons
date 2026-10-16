@@ -1,0 +1,32 @@
+{
+  "version": "task09f1.g_selected.v1",
+  "selected_by": "Kyle",
+  "selected_date": "2026-10-16",
+  "component": "G",
+  "status": "selected_for_09g_freeze",
+  "runtime": "er_commons.point_grounding_inspect",
+  "development_entrypoint": "point_grounding_full",
+  "provider_profiles": "configs/point_grounding_models_v1.json",
+  "condition_id": "openai_generation",
+  "model": "gpt-6-luna",
+  "prompt_version": "task09f1.grounding.point.v3",
+  "prompt_sha256": "8f7e71500fdc3667c745fd71d0ca849b38e30f7941e3fb7e1960fcc9d0946eb6",
+  "schema_sha256": "d7b3a08f10a13df6ec47bc72f8cb95e5e0b34c73758fd4fdcbe3baa1c8214a77",
+  "model_config_sha256": "ceb7771d730bef1218e634705dd4272d74cbea95a5f8637a9e231addb56d9ccf",
+  "provider_response_schema_sha256": "11ac03c4885e1f95ec77ca717375ac817d0b871e33019683b82d570f505e0ce0",
+  "provider_response_schema_encoding": "ResponseSchema.model_dump(mode=json, exclude_none=True)",
+  "provider_schema_field_order": [
+    "reason",
+    "supported"
+  ],
+  "hash_encoding": "stable_json_sha256 (same as native Inspect task metadata); evidence_file_sha256 hashes file bytes",
+  "reasoning_effort": "medium",
+  "max_output_tokens": 4096,
+  "policy_version": "task09f1.grounding.rules.v1",
+  "contract_version": "task09f1.grounding.contract.v1",
+  "evidence": "docs/specs/task09f1_g_full_development_v3_result.json",
+  "evidence_file_sha256": "13fe63b64dd677d13849e85d461c044a277c7948a7e2f9a7bb37fc68aa63838c",
+  "selection_rationale": "Kyle selected Luna for valid structured outputs in all 1833 development judgments and lower observed cost than GLM and Haiku.",
+  "integration_owner": "Task 12",
+  "qualification": "development_selected_not_held_out_qualified"
+}

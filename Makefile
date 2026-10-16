@@ -345,25 +345,12 @@ verify-synthetic-answers: check-env
 	uv run python -m er_commons.synthetic_publication verify "$(SYNTHETIC_BATCH)"
 
 # Task 09B infrastructure qualification only, not the later semantic judges.
-.PHONY: prepare-judge-qualification run-judge-qualification
+.PHONY: prepare-judge-qualification
 prepare-judge-qualification: check-env
 	@test -n "$(QUALIFICATION_PACKETS)" || { \
 		echo 'Set QUALIFICATION_PACKETS to the output directory for prepared packets.' >&2; exit 2; }
 	uv run python -m er_commons.judge_qualification_packets prepare \
 		--result docs/specs/task09a_final_result.json --output "$(QUALIFICATION_PACKETS)"
-
-run-judge-qualification: check-env
-	@test -n "$(QUALIFICATION_PACKETS)" -a -n "$(QUALIFICATION_OUTPUT)" \
-		-a -n "$(QUALIFICATION_MODEL)" -a -n "$(QUALIFICATION_IDENTITY)" \
-		-a -n "$(QUALIFICATION_CONTEXT)" || { \
-		echo 'Set QUALIFICATION_PACKETS (JSON file), QUALIFICATION_OUTPUT (run directory),' >&2; \
-		echo 'QUALIFICATION_MODEL, QUALIFICATION_IDENTITY (JSON file), and QUALIFICATION_CONTEXT.' >&2; exit 2; }
-	uv run python -m er_commons.judge_qualification run \
-		--packets "$(QUALIFICATION_PACKETS)" --output "$(QUALIFICATION_OUTPUT)" \
-		--model "$(QUALIFICATION_MODEL)" --identity "$(QUALIFICATION_IDENTITY)" \
-		--context "$(QUALIFICATION_CONTEXT)" \
-		--max-tokens $(or $(QUALIFICATION_MAX_TOKENS),1500) \
-		--timeout $(or $(QUALIFICATION_TIMEOUT),300)
 
 # Task 09C deterministic packet construction; explicit selections, no model calls.
 .PHONY: prepare-judge-packets
@@ -383,87 +370,26 @@ evaluate-automatic-metrics: check-env
 	uv run python -m er_commons.automatic_metric_inspect \
 		"$(METRIC_SAMPLES)" --log-dir "$(METRIC_LOG_DIR)"
 
-# Task 09E frozen panels and offline context-gate recording; no inference fallback.
-.PHONY: prepare-grounding-panel preflight-grounding-panel
-prepare-grounding-panel: check-env
-	@test -n "$(GROUNDING_PANEL_DIR)"
-	uv run python -m er_commons.grounding_panel \
-		--subsets docs/specs/task09e_development_subsets_v1.json \
-		--result docs/specs/task09a_final_result.json \
-		--release docs/specs/task08h_final_result.json --output "$(GROUNDING_PANEL_DIR)"
+# Native Inspect judges: selected configurations, explicit external log location.
+# Inspect CLI options control sample limits, epochs, concurrency and soft budgets.
+JUDGE_EPOCHS ?= 1
+.PHONY: evaluate-no-answer evaluate-point-grounding evaluate-adequacy
+evaluate-no-answer: check-env
+	@test -n "$(JUDGE_LOG_DIR)" || (echo "Set JUDGE_LOG_DIR to an external run directory"; exit 1)
+	uv run --env-file "$(ENV_FILE)" inspect eval src/er_commons/no_answer_inspect.py@no_answer_full \
+		$(if $(JUDGE_CONDITION),-T condition_id=$(JUDGE_CONDITION)) \
+		--epochs $(JUDGE_EPOCHS) --log-dir "$(JUDGE_LOG_DIR)" $(JUDGE_OPTIONS)
 
-preflight-grounding-panel: check-env
-	@test -n "$(GROUNDING_MANIFEST)" -a -n "$(GROUNDING_PANEL)" \
-		-a -n "$(GROUNDING_SETTINGS)" -a -n "$(GROUNDING_OUTPUT)"
-	uv run python -m er_commons.grounding_preflight \
-		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
-		--settings "$(GROUNDING_SETTINGS)" --output "$(GROUNDING_OUTPUT)"
+evaluate-point-grounding: check-env
+	@test -n "$(JUDGE_LOG_DIR)" || (echo "Set JUDGE_LOG_DIR to an external run directory"; exit 1)
+	uv run --env-file "$(ENV_FILE)" inspect eval src/er_commons/point_grounding_inspect.py@point_grounding_full \
+		$(if $(JUDGE_CONDITION),-T condition_id=$(JUDGE_CONDITION)) \
+		--epochs $(JUDGE_EPOCHS) --log-dir "$(JUDGE_LOG_DIR)" $(JUDGE_OPTIONS)
 
-# Task 09E authorized live panel: attach to the qualified existing local service.
-.PHONY: evaluate-grounding-panel
-evaluate-grounding-panel: check-env
-	@test -n "$(GROUNDING_MANIFEST)" -a -n "$(GROUNDING_PANEL)" \
-		-a -n "$(GROUNDING_SETTINGS)" -a -n "$(GROUNDING_COUNTER_CONFIG)" \
-		-a -n "$(GROUNDING_OUTPUT)"
-	uv run python -m er_commons.grounding_run \
-		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
-		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
-		--output "$(GROUNDING_OUTPUT)"
-
-
-.PHONY: evaluate-staged-grounding-panel
-evaluate-staged-grounding-panel: check-env
-	uv run python -m er_commons.grounding_run --pipeline staged \
-		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
-		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
-		--output "$(GROUNDING_OUTPUT)"
-
-# Answer-only abstention experiment; no point or conclusion calls.
-.PHONY: evaluate-abstention-panel
-evaluate-abstention-panel: check-env
-	uv run python -m er_commons.grounding_run --pipeline abstention \
-		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
-		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
-		--output "$(GROUNDING_OUTPUT)"
-
-# Prompt comparison on saved points only; no abstention/conclusion generation.
-.PHONY: evaluate-grounding-points
-evaluate-grounding-points: check-env
-	uv run python -m er_commons.grounding_run --pipeline points \
-		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
-		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
-		--output "$(GROUNDING_OUTPUT)"
-
-# Combined 09A.3 eligible development variants with restricted stage diagnostics.
-.PHONY: evaluate-grounding-dataset-panel
-evaluate-grounding-dataset-panel: check-env
-	uv run python -m er_commons.grounding_run --dataset-version 09a3 \
-		--pipeline staged_with_abstention \
-		--manifest "$(GROUNDING_MANIFEST)" --panel "$(GROUNDING_PANEL)" \
-		--settings "$(GROUNDING_SETTINGS)" --counter-config "$(GROUNDING_COUNTER_CONFIG)" \
-		--output "$(GROUNDING_OUTPUT)"
-
-# Explicit manifest identity enables reusable development panels; omit both for
-# the preserved legacy Dev3 panel. Exact counting remains the default.
-GROUNDING_COMPARISON_ARGS = $(if $(GROUNDING_STAGE_PROMPTS),--stage-prompts "$(GROUNDING_STAGE_PROMPTS)") \
-	$(if $(GROUNDING_COMPARISON_CONFIG),--config "$(GROUNDING_COMPARISON_CONFIG)") \
-	$(if $(GROUNDING_COMPARISON_MANIFEST),--manifest "$(GROUNDING_COMPARISON_MANIFEST)") \
-	$(if $(GROUNDING_COMPARISON_MANIFEST_SHA256),--manifest-sha256 "$(GROUNDING_COMPARISON_MANIFEST_SHA256)") \
-	--panel "$(or $(GROUNDING_COMPARISON_PANEL),dev3)" \
-	--counting-mode "$(or $(GROUNDING_COMPARISON_COUNTING_MODE),exact)"
-
-.PHONY: prepare-grounding-comparison compare-grounding-cloud
-prepare-grounding-comparison: check-env
-	@test -n "$(GROUNDING_COMPARISON_OUTPUT)" || (echo "Set GROUNDING_COMPARISON_OUTPUT to a fresh external directory"; exit 1)
-	uv run --env-file "$(ENV_FILE)" python -m er_commons.grounding_comparison_run --mode prepare \
-		--condition "$(or $(GROUNDING_COMPARISON_CONDITION),fireworks_glm)" $(GROUNDING_COMPARISON_ARGS) \
-		--output "$(GROUNDING_COMPARISON_OUTPUT)"
-
-compare-grounding-cloud: check-env
-	@test -n "$(GROUNDING_COMPARISON_OUTPUT)" -a -n "$(GROUNDING_COMPARISON_CONDITION)" -a -n "$(GROUNDING_COMPARISON_MODE)" || (echo "Set output, condition and mode explicitly"; exit 1)
-	@test -n "$(GROUNDING_CURRENCY_CAP)" -a -n "$(GROUNDING_REQUEST_CAP)" -a -n "$(GROUNDING_OUTPUT_CAP)" -a -n "$(GROUNDING_WALL_SECONDS)" || (echo "Set all four positive run caps"; exit 1)
-	uv run --env-file "$(ENV_FILE)" python -m er_commons.grounding_comparison_run --execute-paid \
-		--mode "$(GROUNDING_COMPARISON_MODE)" --condition "$(GROUNDING_COMPARISON_CONDITION)" $(GROUNDING_COMPARISON_ARGS) \
-		--output "$(GROUNDING_COMPARISON_OUTPUT)" --currency-cap "$(GROUNDING_CURRENCY_CAP)" \
-		--request-cap "$(GROUNDING_REQUEST_CAP)" --output-cap "$(GROUNDING_OUTPUT_CAP)" \
-		--wall-seconds "$(GROUNDING_WALL_SECONDS)"
+evaluate-adequacy: check-env
+	@test -n "$(JUDGE_LOG_DIR)" || (echo "Set JUDGE_LOG_DIR to an external run directory"; exit 1)
+	@test "$(JUDGE_COMPONENT)" = C -o "$(JUDGE_COMPONENT)" = S || (echo "Set JUDGE_COMPONENT=C or S"; exit 1)
+	uv run --env-file "$(ENV_FILE)" inspect eval src/er_commons/adequacy_inspect.py@adequacy \
+		-T component=$(JUDGE_COMPONENT) -T panel=full_development \
+		$(if $(JUDGE_CONDITION),-T condition_id=$(JUDGE_CONDITION)) \
+		--epochs $(JUDGE_EPOCHS) --log-dir "$(JUDGE_LOG_DIR)" $(JUDGE_OPTIONS)

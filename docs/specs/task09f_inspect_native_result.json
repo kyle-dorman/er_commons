@@ -1,0 +1,19 @@
+{
+  "version": "task09f.inspect_native.result.v1",
+  "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_inspect_native_v1",
+  "report": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_inspect_native_v1/report.md",
+  "report_json": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_inspect_native_v1/report.json",
+  "review": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_inspect_native_v1/review.json",
+  "inventory": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261016_inspect_native_v1/inventory.json",
+  "inventory_sha256": "22066e82a499b6bf7a4d73daec4005c043b72f930d3a41bc71ca41504d80b3a5",
+  "report_sha256": "42d9621e59f474bc9929cb5baf13163167cdf9112cbd8db0c80f5b806f86324e",
+  "review_sha256": "5e760e5059e39fda85e65a674c1777e1640d1847ec18332033565dab42266b17",
+  "status": "integration_verified",
+  "live_calls": 12,
+  "provider_cache_checks_passed": 6,
+  "cost_usd": 0.002562035,
+  "full_development_comparison": "paused",
+  "model_selection": null,
+  "prompts": "unchanged C v8 and S v6",
+  "validation": "21 focused tests; make fix; make check (4694 passed,1 skipped); git diff --check; independent review"
+}

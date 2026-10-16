@@ -5,6 +5,25 @@ project docs.
 
 ## Current status
 
+**09F and 09F.1 are complete, including production cleanup.** Kyle selected
+Luna for A v2, G v3 and C v8, and Haiku for S v6.
+[09F.2](../tasks/sprint2/09f2_cleanup_production_judges.md) consolidated native
+Inspect execution and retired exploratory runtimes while retaining Fireworks/GLM
+and Ollama diagnostics. [09G](../tasks/sprint2/09g_challenge_and_freeze_judges.md)
+is next. The [production guide](judge_maintainer_guide.md) owns current use.
+
+Current evidence and selections: [C/S](specs/task09f_final_result.json),
+[A](specs/task09f1_a_inspect_handoff.md), [G](specs/task09f1_point_grounding_handoff.md).
+Full-development labels remain reviewed proposals; no held-out qualification is
+claimed. [Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) owns
+whole-answer routing and combined reporting. Historical runs remain immutable.
+
+The current [question publication](specs/task09f_question_publication_v2_result.json)
+contains 49 cases with the unchanged 19-development/30-test split. See
+[adequacy rules](specs/adequacy_labeling_rules.md),
+[no-answer rules](specs/no_answer_labeling_rules.md), and
+[grounding rules](specs/grounding_labeling_rules.md) for the component semantics.
+
 Sprint 2: Tasks 02–08 are complete. The [08H release](specs/task08h_final_result.json)
 freezes **49 approved cases: 19 development / 30 test**. The
 [08H outcome](../tasks/sprint2/08h_serialize_and_freeze_benchmark.md) owns source,
@@ -33,19 +52,28 @@ results and limitations; this development selection is not judge qualification.
 Luna and Haiku remain cloud alternatives; Ollama/Qwen remains for local code-path
 checks. Clef execution is retired, with its historical evidence preserved.
 
-**Latest completed checkpoint: [09E.2 — Judge code cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md).**
+**[09E.2 — Judge code cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md) is complete.**
 This covers both inherited 09E and current 09E.1 code. See the
 [judge maintainer guide](grounding_judge_guide.md) for maintained interfaces.
 No model inference, label changes or reserved/test access belongs to this cleanup.
-Next is a refresh of the provisional 09F adequacy contract; execution has not
-started. Final challenge/freeze remains in 09G.
+The [09F adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) is complete, including 09F.2 cleanup.
+Its [final handoff](specs/task09f_final_result.json) selects Luna C v8 / Haiku S v6;
+the task preserves earlier experiments and superseded whole-answer work.
 
 The latest development synthetic dataset is the [09A.3 additive publication](specs/task09a3_final_result.json):
 442 answers / 430 eligible, including two clean abstentions per question. It
 preserves all 09A.2 records and exclusions; [the outcome](../tasks/sprint2/09a3_add_clean_abstentions.md)
 explains publication and provenance boundaries. No judge ran for this supplement.
 
+The [published support synthesis](specs/task09f_support_synthesis_result.json)
+contains 490 independently reviewed proposed labels, with 471 eligible for paired
+reference-visibility comparisons. The [calibration panels](specs/task09f_binary_calibration_review.md)
+now select from both published component datasets. The combined prompt comparison is complete; the selected pair is recorded in the final handoff above.
+
 ## Read for Task 09
+
+The [production judge guide](judge_maintainer_guide.md) owns current A/G/S/C
+interfaces, shared provider configuration and offline historical replay.
 
 1. [Task 09 umbrella](../tasks/sprint2/09_build_evaluation_and_qualify_judges.md),
    then [09A synthetic challenges](../tasks/sprint2/09a_create_synthetic_challenges.md).
@@ -96,6 +124,8 @@ explains publication and provenance boundaries. No judge ran for this supplement
 - [LLM judge learning notes](llm_judge_learning_notes.md): supporting checks for
   Task 09 judge development and Task 12 integration; the sprint plan owns
   the evaluation contract.
+- [Grounding experiment record](grounding_experiment_record.md): consolidated
+  09E/09E.1 techniques, successful and negative results, decisions and evidence.
 - [`tasks/`](../tasks/): detailed task contracts, validation, and outcomes.
 
 ## Reading rule

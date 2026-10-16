@@ -1,0 +1,2938 @@
+{
+  "aggregate_native_usage_cost_latency": {
+    "billed_cost_usd": null,
+    "cache_read_fraction": 0.919430376836726,
+    "cache_read_tokens": 10638100,
+    "cache_read_tokens_known_subtotal": 10638100,
+    "cache_read_tokens_unknown_records": 0,
+    "cache_write_tokens": 701612,
+    "cache_write_tokens_known_subtotal": 701612,
+    "cache_write_tokens_unknown_records": 0,
+    "call_elapsed_sum_seconds": 3574.2199502838776,
+    "call_latency_max_seconds": 22.02210041694343,
+    "call_latency_median_seconds": 6.653845208580606,
+    "calls_with_latency": 544,
+    "complete_cost_accounting": true,
+    "cost_upper_bound_usd": "1.762019000",
+    "cost_upper_bound_usd_known_subtotal": "1.762019000",
+    "cost_upper_bound_usd_unknown_records": 0,
+    "durable_intents_without_original_usage": 0,
+    "estimated_cost_usd": "0.532872400",
+    "estimated_cost_usd_known_subtotal": "0.532872400",
+    "estimated_cost_usd_unknown_records": 0,
+    "input_tokens": 11570316,
+    "input_tokens_known_subtotal": 11570316,
+    "input_tokens_unknown_records": 0,
+    "observed_records": 544,
+    "ordinary_input_tokens": 230604,
+    "ordinary_input_tokens_known_subtotal": 230604,
+    "ordinary_input_tokens_unknown_records": 0,
+    "output_tokens": 631459,
+    "output_tokens_known_subtotal": 631459,
+    "output_tokens_unknown_records": 0,
+    "possibly_billed_records": 0,
+    "saved_receipts_reused": 0
+  },
+  "caps": {
+    "currency": "32.00",
+    "output_tokens": 2228224,
+    "requests": 544,
+    "wall_seconds": 4800
+  },
+  "closeout": {
+    "byte_size": 1324939,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/closeout.json",
+    "sha256": "ab6ee177b19a3a89ee24d51afed3d395e4aab19129e05b91a2b08baa84c5a1f4"
+  },
+  "counter_request_cap": 544,
+  "documented_count_requests": 544,
+  "execution": {
+    "byte_size": 178,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/execution_complete.json",
+    "sha256": "5d99693acfe5035e3ee4066b21ab227e16f90bdca87c90e375bbfaf7bbf6bdc9"
+  },
+  "execution_summary": {
+    "currency_reserved": "11.543187000",
+    "elapsed_seconds": 3586.503847333137,
+    "generation_calls": 544,
+    "halt_reason": null,
+    "output_reserved": 2228224,
+    "retries": 0
+  },
+  "external_report": {
+    "byte_size": 2796258,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/report.json",
+    "sha256": "d614656928b75f490e8329147893d2ca8e8b107e7654dd5429108c4245f9f04d"
+  },
+  "external_report_path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/report.json",
+  "generation_calls": 544,
+  "handoff_note": "Compact handoff: paired change lists reduced to counts; full diagnostics and exact case IDs remain in bound external report.",
+  "limitations": [
+    "Six correlated synthetic development question families; expectations are not independent human calibration.",
+    "Two repeats provide limited repeatability evidence; no determinism claim.",
+    "Inventory marker and quote compliance is heuristic, not validation of essentiality or candidate independence.",
+    "Rationale length changes with inventory; compare output tokens and latency alongside scores.",
+    "Native-token cost estimates are not billing statements."
+  ],
+  "next_step": "Stop for user review; no automatic promotion or further experiments.",
+  "paired_arm_comparisons": {
+    "baseline_r1_to_inventory_r1": {
+      "changes": 24,
+      "new_passing_control_failures": 4,
+      "numeric_agreement_fraction_valid_both": 0.8235294117647058,
+      "numeric_score_changes": 24,
+      "observed_both": 136,
+      "outcome_changes": 24,
+      "planned_total": 136,
+      "recovered_passing_controls": 7,
+      "unobserved_on_either_side": 0,
+      "valid_both": 136,
+      "validity_changes": 0
+    },
+    "baseline_r2_to_inventory_r2": {
+      "changes": 26,
+      "new_passing_control_failures": 8,
+      "numeric_agreement_fraction_valid_both": 0.8088235294117647,
+      "numeric_score_changes": 26,
+      "observed_both": 136,
+      "outcome_changes": 26,
+      "planned_total": 136,
+      "recovered_passing_controls": 3,
+      "unobserved_on_either_side": 0,
+      "valid_both": 136,
+      "validity_changes": 0
+    }
+  },
+  "plan": {
+    "byte_size": 9928,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/plan.json",
+    "sha256": "c72a5a93ae82f2531572b614daad7a8a36336ced50acc5055bca81f6f403f0b1"
+  },
+  "promoted": false,
+  "report_script": {
+    "byte_size": 14030,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/report.py",
+    "sha256": "c41ece4d2e25e2013da7ced768ae99f34accd0112f1b36c021f8585cb503b2f7"
+  },
+  "retention_decision": "retain_consolidated_baseline_inventory_not_promoted",
+  "review_evidence": {
+    "independent_preflight_review.json": {
+      "byte_size": 4160,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/independent_preflight_review.json",
+      "sha256": "cb2901f57aadbe2a255efa6f19e6d56acf73f5afdb71b2dc10ea6d83d70b2efd"
+    },
+    "postrun_review.json": {
+      "byte_size": 2826,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/postrun_review.json",
+      "sha256": "b134eed237603cf2669f2ec9707998f17c11f7ee6f8a9b2105cc3495a7ffafe2"
+    },
+    "preservation_after.json": {
+      "byte_size": 686,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/preservation_after.json",
+      "sha256": "093b692d2efbb514ebb0c3db2d26e3d0088e6218419ae5fe14057969303eeae0"
+    },
+    "preservation_before.json": {
+      "byte_size": 726,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/preservation_before.json",
+      "sha256": "bb0213609926bb393f417aa7e6a71462c41198abb59a43facb1a62edf98e9484"
+    },
+    "qualitative_review.json": {
+      "byte_size": 411057,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/qualitative_review.json",
+      "sha256": "ac49981d152cf0da17742b944c8a0d64675604a3848d55d9f3300f1a505a1fe5"
+    },
+    "qualitative_review_plan.json": {
+      "byte_size": 1098,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/qualitative_review_plan.json",
+      "sha256": "6e7330c76103c181d3a81416244cab2e2237249bf6e93380c5c4a34b105fc7b1"
+    },
+    "report_code_review.json": {
+      "byte_size": 1517,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/report_code_review.json",
+      "sha256": "5db53d4a7c794b8e800546e6548f1073478a78a4fba2865dd230d47e59b87b3c"
+    },
+    "validation.json": {
+      "byte_size": 731,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/validation.json",
+      "sha256": "99cb9bb97f47b3a56410c52fdab237eec01dfbc426574aee42fffe1b90356c4d"
+    }
+  },
+  "reviewed_helper": {
+    "byte_size": 15308,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_aligned_models_dev6_v1/build_report.py",
+    "sha256": "7faa222ac34bedfa85249696629b06eecf4bf1d1442b3dcde9bf67f34e5dd583"
+  },
+  "runs": {
+    "baseline_r1": {
+      "estimated_count_requests": 136,
+      "inventory_compliance": {
+        "all_heuristic_checks_pass": 0,
+        "eligible": 136,
+        "meaning": "Literal format and exact-substring heuristic only; independent of schema validity and substantive adequacy.",
+        "per_check_passes": {},
+        "strict_valid_outputs": 136
+      },
+      "manifest": {
+        "byte_size": 619,
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/baseline_r1/manifest.json",
+        "sha256": "cf77cecaa05ee5f71ce985bac7110a4b1858feb48e300a205c1d5f392bf90e00"
+      },
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 12,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "2": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            }
+          },
+          "correct": 12,
+          "coverage": 1.0,
+          "eligible": 12,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "per_class": [
+            {
+              "f1": 1.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 0,
+              "support": 12,
+              "true_positive": 12
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 1,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 2,
+              "support": 0,
+              "true_positive": 0
+            }
+          ],
+          "returned": 12,
+          "valid_only": {
+            "accuracy": 1.0,
+            "denominator": 12,
+            "macro_f1": 0.3333333333333333
+          }
+        },
+        "limitations": [
+          "Agreement with uncalibrated synthetic expectations; one repetition.",
+          "Question-family variants are not independent observations."
+        ],
+        "overall": {
+          "accuracy": 0.7794117647058824,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 37,
+              "1": 12,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 21,
+              "2": 4,
+              "None": 0
+            },
+            "2": {
+              "0": 0,
+              "1": 14,
+              "2": 48,
+              "None": 0
+            }
+          },
+          "correct": 106,
+          "coverage": 1.0,
+          "eligible": 136,
+          "failed": 0,
+          "macro_f1": 0.7619679042567659,
+          "per_class": [
+            {
+              "f1": 0.8604651162790697,
+              "failed": 0,
+              "false_negative": 12,
+              "false_positive": 0,
+              "label": 0,
+              "support": 49,
+              "true_positive": 37
+            },
+            {
+              "f1": 0.5833333333333334,
+              "failed": 0,
+              "false_negative": 4,
+              "false_positive": 26,
+              "label": 1,
+              "support": 25,
+              "true_positive": 21
+            },
+            {
+              "f1": 0.8421052631578947,
+              "failed": 0,
+              "false_negative": 14,
+              "false_positive": 4,
+              "label": 2,
+              "support": 62,
+              "true_positive": 48
+            }
+          ],
+          "returned": 136,
+          "valid_only": {
+            "accuracy": 0.7794117647058824,
+            "denominator": 136,
+            "macro_f1": 0.7619679042567659
+          }
+        },
+        "passing_controls": {
+          "accuracy": 0.7741935483870968,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "2": {
+              "0": 0,
+              "1": 14,
+              "2": 48,
+              "None": 0
+            }
+          },
+          "correct": 48,
+          "coverage": 1.0,
+          "eligible": 62,
+          "failed": 0,
+          "macro_f1": 0.2909090909090909,
+          "per_class": [
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 0,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 14,
+              "label": 1,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.8727272727272727,
+              "failed": 0,
+              "false_negative": 14,
+              "false_positive": 0,
+              "label": 2,
+              "support": 62,
+              "true_positive": 48
+            }
+          ],
+          "returned": 62,
+          "valid_only": {
+            "accuracy": 0.7741935483870968,
+            "denominator": 62,
+            "macro_f1": 0.2909090909090909
+          }
+        },
+        "per_question": {
+          "C001": {
+            "accuracy": 0.6956521739130435,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 3,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 1,
+                "2": 1,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 3,
+                "2": 8,
+                "None": 0
+              }
+            },
+            "correct": 16,
+            "coverage": 1.0,
+            "eligible": 23,
+            "failed": 0,
+            "macro_f1": 0.6152505446623094,
+            "per_class": [
+              {
+                "f1": 0.8235294117647058,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 0,
+                "label": 0,
+                "support": 10,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.2222222222222222,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 6,
+                "label": 1,
+                "support": 2,
+                "true_positive": 1
+              },
+              {
+                "f1": 0.8,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 1,
+                "label": 2,
+                "support": 11,
+                "true_positive": 8
+              }
+            ],
+            "returned": 23,
+            "valid_only": {
+              "accuracy": 0.6956521739130435,
+              "denominator": 23,
+              "macro_f1": 0.6152505446623094
+            }
+          },
+          "C014": {
+            "accuracy": 0.9,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 6,
+                "2": 1,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 0,
+                "2": 5,
+                "None": 0
+              }
+            },
+            "correct": 18,
+            "coverage": 1.0,
+            "eligible": 20,
+            "failed": 0,
+            "macro_f1": 0.8998556998556998,
+            "per_class": [
+              {
+                "f1": 0.9333333333333333,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.8571428571428571,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 1,
+                "label": 1,
+                "support": 7,
+                "true_positive": 6
+              },
+              {
+                "f1": 0.9090909090909091,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 1,
+                "label": 2,
+                "support": 5,
+                "true_positive": 5
+              }
+            ],
+            "returned": 20,
+            "valid_only": {
+              "accuracy": 0.9,
+              "denominator": 20,
+              "macro_f1": 0.8998556998556998
+            }
+          },
+          "C019": {
+            "accuracy": 0.7272727272727273,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 5,
+                "1": 5,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 1,
+                "2": 10,
+                "None": 0
+              }
+            },
+            "correct": 16,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.623015873015873,
+            "per_class": [
+              {
+                "f1": 0.6666666666666666,
+                "failed": 0,
+                "false_negative": 5,
+                "false_positive": 0,
+                "label": 0,
+                "support": 10,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.25,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 6,
+                "label": 1,
+                "support": 1,
+                "true_positive": 1
+              },
+              {
+                "f1": 0.9523809523809523,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 2,
+                "support": 11,
+                "true_positive": 10
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.7272727272727273,
+              "denominator": 22,
+              "macro_f1": 0.623015873015873
+            }
+          },
+          "C037": {
+            "accuracy": 0.7407407407407407,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 6,
+                "1": 2,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 5,
+                "2": 1,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 4,
+                "2": 9,
+                "None": 0
+              }
+            },
+            "correct": 20,
+            "coverage": 1.0,
+            "eligible": 27,
+            "failed": 0,
+            "macro_f1": 0.742662282304226,
+            "per_class": [
+              {
+                "f1": 0.8571428571428571,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 6
+              },
+              {
+                "f1": 0.5882352941176471,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 6,
+                "label": 1,
+                "support": 6,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.782608695652174,
+                "failed": 0,
+                "false_negative": 4,
+                "false_positive": 1,
+                "label": 2,
+                "support": 13,
+                "true_positive": 9
+              }
+            ],
+            "returned": 27,
+            "valid_only": {
+              "accuracy": 0.7407407407407407,
+              "denominator": 27,
+              "macro_f1": 0.742662282304226
+            }
+          },
+          "C041": {
+            "accuracy": 0.8636363636363636,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 5,
+                "1": 0,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 6,
+                "2": 0,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 3,
+                "2": 8,
+                "None": 0
+              }
+            },
+            "correct": 19,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.8807017543859649,
+            "per_class": [
+              {
+                "f1": 1.0,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 0,
+                "label": 0,
+                "support": 5,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.8,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 3,
+                "label": 1,
+                "support": 6,
+                "true_positive": 6
+              },
+              {
+                "f1": 0.8421052631578947,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 0,
+                "label": 2,
+                "support": 11,
+                "true_positive": 8
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.8636363636363636,
+              "denominator": 22,
+              "macro_f1": 0.8807017543859649
+            }
+          },
+          "C056": {
+            "accuracy": 0.7727272727272727,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 2,
+                "2": 1,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 3,
+                "2": 8,
+                "None": 0
+              }
+            },
+            "correct": 17,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.725925925925926,
+            "per_class": [
+              {
+                "f1": 0.9333333333333333,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.4444444444444444,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 4,
+                "label": 1,
+                "support": 3,
+                "true_positive": 2
+              },
+              {
+                "f1": 0.8,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 1,
+                "label": 2,
+                "support": 11,
+                "true_positive": 8
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.7727272727272727,
+              "denominator": 22,
+              "macro_f1": 0.725925925925926
+            }
+          }
+        }
+      },
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.9184218135300664,
+        "cache_read_tokens": 2620510,
+        "cache_read_tokens_known_subtotal": 2620510,
+        "cache_read_tokens_unknown_records": 0,
+        "cache_write_tokens": 175114,
+        "cache_write_tokens_known_subtotal": 175114,
+        "cache_write_tokens_unknown_records": 0,
+        "call_elapsed_sum_seconds": 770.0223259644117,
+        "call_latency_max_seconds": 16.67776170792058,
+        "call_latency_median_seconds": 5.627608833485283,
+        "calls_with_latency": 136,
+        "complete_cost_accounting": true,
+        "cost_upper_bound_usd": "0.419161375",
+        "cost_upper_bound_usd_known_subtotal": "0.419161375",
+        "cost_upper_bound_usd_unknown_records": 0,
+        "durable_intents_without_original_usage": 0,
+        "estimated_cost_usd": "0.116361450",
+        "estimated_cost_usd_known_subtotal": "0.116361450",
+        "estimated_cost_usd_unknown_records": 0,
+        "input_tokens": 2853275,
+        "input_tokens_known_subtotal": 2853275,
+        "input_tokens_unknown_records": 0,
+        "observed_records": 136,
+        "ordinary_input_tokens": 57651,
+        "ordinary_input_tokens_known_subtotal": 57651,
+        "ordinary_input_tokens_unknown_records": 0,
+        "output_tokens": 125004,
+        "output_tokens_known_subtotal": 125004,
+        "output_tokens_unknown_records": 0,
+        "possibly_billed_records": 0,
+        "saved_receipts_reused": 0
+      },
+      "planned": {
+        "arm": "baseline",
+        "name": "baseline_r1",
+        "repeat": 1
+      },
+      "status_counts": {
+        "validated": 136
+      },
+      "summary": {
+        "byte_size": 8269612,
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/baseline_r1/summary.json",
+        "sha256": "fa7ce004cb370acbd6c60cdbf724e39c2da48556098405079168d321f56b4334"
+      }
+    },
+    "baseline_r2": {
+      "estimated_count_requests": 136,
+      "inventory_compliance": {
+        "all_heuristic_checks_pass": 0,
+        "eligible": 136,
+        "meaning": "Literal format and exact-substring heuristic only; independent of schema validity and substantive adequacy.",
+        "per_check_passes": {},
+        "strict_valid_outputs": 136
+      },
+      "manifest": {
+        "byte_size": 619,
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/baseline_r2/manifest.json",
+        "sha256": "ca61004579de49ed94547e500f41fe2076210d79086513f88da6dce81857d954"
+      },
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 12,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "2": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            }
+          },
+          "correct": 12,
+          "coverage": 1.0,
+          "eligible": 12,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "per_class": [
+            {
+              "f1": 1.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 0,
+              "support": 12,
+              "true_positive": 12
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 1,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 2,
+              "support": 0,
+              "true_positive": 0
+            }
+          ],
+          "returned": 12,
+          "valid_only": {
+            "accuracy": 1.0,
+            "denominator": 12,
+            "macro_f1": 0.3333333333333333
+          }
+        },
+        "limitations": [
+          "Agreement with uncalibrated synthetic expectations; one repetition.",
+          "Question-family variants are not independent observations."
+        ],
+        "overall": {
+          "accuracy": 0.7941176470588235,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 36,
+              "1": 13,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 18,
+              "2": 7,
+              "None": 0
+            },
+            "2": {
+              "0": 0,
+              "1": 8,
+              "2": 54,
+              "None": 0
+            }
+          },
+          "correct": 108,
+          "coverage": 1.0,
+          "eligible": 136,
+          "failed": 0,
+          "macro_f1": 0.7625358680057389,
+          "per_class": [
+            {
+              "f1": 0.8470588235294118,
+              "failed": 0,
+              "false_negative": 13,
+              "false_positive": 0,
+              "label": 0,
+              "support": 49,
+              "true_positive": 36
+            },
+            {
+              "f1": 0.5625,
+              "failed": 0,
+              "false_negative": 7,
+              "false_positive": 21,
+              "label": 1,
+              "support": 25,
+              "true_positive": 18
+            },
+            {
+              "f1": 0.8780487804878049,
+              "failed": 0,
+              "false_negative": 8,
+              "false_positive": 7,
+              "label": 2,
+              "support": 62,
+              "true_positive": 54
+            }
+          ],
+          "returned": 136,
+          "valid_only": {
+            "accuracy": 0.7941176470588235,
+            "denominator": 136,
+            "macro_f1": 0.7625358680057389
+          }
+        },
+        "passing_controls": {
+          "accuracy": 0.8709677419354839,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "2": {
+              "0": 0,
+              "1": 8,
+              "2": 54,
+              "None": 0
+            }
+          },
+          "correct": 54,
+          "coverage": 1.0,
+          "eligible": 62,
+          "failed": 0,
+          "macro_f1": 0.3103448275862069,
+          "per_class": [
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 0,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 8,
+              "label": 1,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.9310344827586207,
+              "failed": 0,
+              "false_negative": 8,
+              "false_positive": 0,
+              "label": 2,
+              "support": 62,
+              "true_positive": 54
+            }
+          ],
+          "returned": 62,
+          "valid_only": {
+            "accuracy": 0.8709677419354839,
+            "denominator": 62,
+            "macro_f1": 0.3103448275862069
+          }
+        },
+        "per_question": {
+          "C001": {
+            "accuracy": 0.6956521739130435,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 6,
+                "1": 4,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 1,
+                "2": 1,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 2,
+                "2": 9,
+                "None": 0
+              }
+            },
+            "correct": 16,
+            "coverage": 1.0,
+            "eligible": 23,
+            "failed": 0,
+            "macro_f1": 0.6097883597883598,
+            "per_class": [
+              {
+                "f1": 0.75,
+                "failed": 0,
+                "false_negative": 4,
+                "false_positive": 0,
+                "label": 0,
+                "support": 10,
+                "true_positive": 6
+              },
+              {
+                "f1": 0.2222222222222222,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 6,
+                "label": 1,
+                "support": 2,
+                "true_positive": 1
+              },
+              {
+                "f1": 0.8571428571428571,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 1,
+                "label": 2,
+                "support": 11,
+                "true_positive": 9
+              }
+            ],
+            "returned": 23,
+            "valid_only": {
+              "accuracy": 0.6956521739130435,
+              "denominator": 23,
+              "macro_f1": 0.6097883597883598
+            }
+          },
+          "C014": {
+            "accuracy": 0.85,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 5,
+                "2": 2,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 0,
+                "2": 5,
+                "None": 0
+              }
+            },
+            "correct": 17,
+            "coverage": 1.0,
+            "eligible": 20,
+            "failed": 0,
+            "macro_f1": 0.8452991452991453,
+            "per_class": [
+              {
+                "f1": 0.9333333333333333,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.7692307692307693,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 1,
+                "label": 1,
+                "support": 7,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.8333333333333334,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 2,
+                "label": 2,
+                "support": 5,
+                "true_positive": 5
+              }
+            ],
+            "returned": 20,
+            "valid_only": {
+              "accuracy": 0.85,
+              "denominator": 20,
+              "macro_f1": 0.8452991452991453
+            }
+          },
+          "C019": {
+            "accuracy": 0.7272727272727273,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 5,
+                "1": 5,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 1,
+                "2": 10,
+                "None": 0
+              }
+            },
+            "correct": 16,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.623015873015873,
+            "per_class": [
+              {
+                "f1": 0.6666666666666666,
+                "failed": 0,
+                "false_negative": 5,
+                "false_positive": 0,
+                "label": 0,
+                "support": 10,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.25,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 6,
+                "label": 1,
+                "support": 1,
+                "true_positive": 1
+              },
+              {
+                "f1": 0.9523809523809523,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 2,
+                "support": 11,
+                "true_positive": 10
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.7272727272727273,
+              "denominator": 22,
+              "macro_f1": 0.623015873015873
+            }
+          },
+          "C037": {
+            "accuracy": 0.8518518518518519,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 6,
+                "1": 2,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 5,
+                "2": 1,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 1,
+                "2": 12,
+                "None": 0
+              }
+            },
+            "correct": 23,
+            "coverage": 1.0,
+            "eligible": 27,
+            "failed": 0,
+            "macro_f1": 0.8315018315018315,
+            "per_class": [
+              {
+                "f1": 0.8571428571428571,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 6
+              },
+              {
+                "f1": 0.7142857142857143,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 3,
+                "label": 1,
+                "support": 6,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.9230769230769231,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 1,
+                "label": 2,
+                "support": 13,
+                "true_positive": 12
+              }
+            ],
+            "returned": 27,
+            "valid_only": {
+              "accuracy": 0.8518518518518519,
+              "denominator": 27,
+              "macro_f1": 0.8315018315018315
+            }
+          },
+          "C041": {
+            "accuracy": 0.8181818181818182,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 5,
+                "1": 0,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 4,
+                "2": 2,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 2,
+                "2": 9,
+                "None": 0
+              }
+            },
+            "correct": 18,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.8282828282828283,
+            "per_class": [
+              {
+                "f1": 1.0,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 0,
+                "label": 0,
+                "support": 5,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.6666666666666666,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 2,
+                "label": 1,
+                "support": 6,
+                "true_positive": 4
+              },
+              {
+                "f1": 0.8181818181818182,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 2,
+                "label": 2,
+                "support": 11,
+                "true_positive": 9
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.8181818181818182,
+              "denominator": 22,
+              "macro_f1": 0.8282828282828283
+            }
+          },
+          "C056": {
+            "accuracy": 0.8181818181818182,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 2,
+                "2": 1,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 2,
+                "2": 9,
+                "None": 0
+              }
+            },
+            "correct": 18,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.7634920634920634,
+            "per_class": [
+              {
+                "f1": 0.9333333333333333,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.5,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 3,
+                "label": 1,
+                "support": 3,
+                "true_positive": 2
+              },
+              {
+                "f1": 0.8571428571428571,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 1,
+                "label": 2,
+                "support": 11,
+                "true_positive": 9
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.8181818181818182,
+              "denominator": 22,
+              "macro_f1": 0.7634920634920634
+            }
+          }
+        }
+      },
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.9184218135300664,
+        "cache_read_tokens": 2620510,
+        "cache_read_tokens_known_subtotal": 2620510,
+        "cache_read_tokens_unknown_records": 0,
+        "cache_write_tokens": 175114,
+        "cache_write_tokens_known_subtotal": 175114,
+        "cache_write_tokens_unknown_records": 0,
+        "call_elapsed_sum_seconds": 726.4301717428025,
+        "call_latency_max_seconds": 12.044425666099414,
+        "call_latency_median_seconds": 5.36254920810461,
+        "calls_with_latency": 136,
+        "complete_cost_accounting": true,
+        "cost_upper_bound_usd": "0.417551375",
+        "cost_upper_bound_usd_known_subtotal": "0.417551375",
+        "cost_upper_bound_usd_unknown_records": 0,
+        "durable_intents_without_original_usage": 0,
+        "estimated_cost_usd": "0.114751450",
+        "estimated_cost_usd_known_subtotal": "0.114751450",
+        "estimated_cost_usd_unknown_records": 0,
+        "input_tokens": 2853275,
+        "input_tokens_known_subtotal": 2853275,
+        "input_tokens_unknown_records": 0,
+        "observed_records": 136,
+        "ordinary_input_tokens": 57651,
+        "ordinary_input_tokens_known_subtotal": 57651,
+        "ordinary_input_tokens_unknown_records": 0,
+        "output_tokens": 121784,
+        "output_tokens_known_subtotal": 121784,
+        "output_tokens_unknown_records": 0,
+        "possibly_billed_records": 0,
+        "saved_receipts_reused": 0
+      },
+      "planned": {
+        "arm": "baseline",
+        "name": "baseline_r2",
+        "repeat": 2
+      },
+      "status_counts": {
+        "validated": 136
+      },
+      "summary": {
+        "byte_size": 8264835,
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/baseline_r2/summary.json",
+        "sha256": "e0281781e558e2ff5d6e13eea765bb5fc293e07a43cb04709b0f91ea0d5519be"
+      }
+    },
+    "inventory_r1": {
+      "estimated_count_requests": 136,
+      "inventory_compliance": {
+        "all_heuristic_checks_pass": 133,
+        "eligible": 136,
+        "meaning": "Literal format and exact-substring heuristic only; independent of schema validity and substantive adequacy.",
+        "per_check_passes": {
+          "all_detected_spans_exactly_in_question": 133,
+          "essentiality_phrase_present": 136,
+          "markers_and_sections_present": 136,
+          "numbered_inventory_present": 136,
+          "quoted_spans_detected": 136
+        },
+        "strict_valid_outputs": 136
+      },
+      "manifest": {
+        "byte_size": 622,
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/inventory_r1/manifest.json",
+        "sha256": "82f0fc2700b7d0155d83e962c376639728e694e07e5895b32b096a1317b5ea51"
+      },
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 12,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "2": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            }
+          },
+          "correct": 12,
+          "coverage": 1.0,
+          "eligible": 12,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "per_class": [
+            {
+              "f1": 1.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 0,
+              "support": 12,
+              "true_positive": 12
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 1,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 2,
+              "support": 0,
+              "true_positive": 0
+            }
+          ],
+          "returned": 12,
+          "valid_only": {
+            "accuracy": 1.0,
+            "denominator": 12,
+            "macro_f1": 0.3333333333333333
+          }
+        },
+        "limitations": [
+          "Agreement with uncalibrated synthetic expectations; one repetition.",
+          "Question-family variants are not independent observations."
+        ],
+        "overall": {
+          "accuracy": 0.8088235294117647,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 39,
+              "1": 10,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 20,
+              "2": 5,
+              "None": 0
+            },
+            "2": {
+              "0": 2,
+              "1": 9,
+              "2": 51,
+              "None": 0
+            }
+          },
+          "correct": 110,
+          "coverage": 1.0,
+          "eligible": 136,
+          "failed": 0,
+          "macro_f1": 0.7853578154425612,
+          "per_class": [
+            {
+              "f1": 0.8666666666666667,
+              "failed": 0,
+              "false_negative": 10,
+              "false_positive": 2,
+              "label": 0,
+              "support": 49,
+              "true_positive": 39
+            },
+            {
+              "f1": 0.625,
+              "failed": 0,
+              "false_negative": 5,
+              "false_positive": 19,
+              "label": 1,
+              "support": 25,
+              "true_positive": 20
+            },
+            {
+              "f1": 0.864406779661017,
+              "failed": 0,
+              "false_negative": 11,
+              "false_positive": 5,
+              "label": 2,
+              "support": 62,
+              "true_positive": 51
+            }
+          ],
+          "returned": 136,
+          "valid_only": {
+            "accuracy": 0.8088235294117647,
+            "denominator": 136,
+            "macro_f1": 0.7853578154425612
+          }
+        },
+        "passing_controls": {
+          "accuracy": 0.8225806451612904,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "2": {
+              "0": 2,
+              "1": 9,
+              "2": 51,
+              "None": 0
+            }
+          },
+          "correct": 51,
+          "coverage": 1.0,
+          "eligible": 62,
+          "failed": 0,
+          "macro_f1": 0.30088495575221236,
+          "per_class": [
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 2,
+              "label": 0,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 9,
+              "label": 1,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.9026548672566371,
+              "failed": 0,
+              "false_negative": 11,
+              "false_positive": 0,
+              "label": 2,
+              "support": 62,
+              "true_positive": 51
+            }
+          ],
+          "returned": 62,
+          "valid_only": {
+            "accuracy": 0.8225806451612904,
+            "denominator": 62,
+            "macro_f1": 0.30088495575221236
+          }
+        },
+        "per_question": {
+          "C001": {
+            "accuracy": 0.6956521739130435,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 3,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 2,
+                "2": 0,
+                "None": 0
+              },
+              "2": {
+                "0": 1,
+                "1": 3,
+                "2": 7,
+                "None": 0
+              }
+            },
+            "correct": 16,
+            "coverage": 1.0,
+            "eligible": 23,
+            "failed": 0,
+            "macro_f1": 0.6518518518518519,
+            "per_class": [
+              {
+                "f1": 0.7777777777777778,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 1,
+                "label": 0,
+                "support": 10,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.4,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 6,
+                "label": 1,
+                "support": 2,
+                "true_positive": 2
+              },
+              {
+                "f1": 0.7777777777777778,
+                "failed": 0,
+                "false_negative": 4,
+                "false_positive": 0,
+                "label": 2,
+                "support": 11,
+                "true_positive": 7
+              }
+            ],
+            "returned": 23,
+            "valid_only": {
+              "accuracy": 0.6956521739130435,
+              "denominator": 23,
+              "macro_f1": 0.6518518518518519
+            }
+          },
+          "C014": {
+            "accuracy": 0.85,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 5,
+                "2": 2,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 0,
+                "2": 5,
+                "None": 0
+              }
+            },
+            "correct": 17,
+            "coverage": 1.0,
+            "eligible": 20,
+            "failed": 0,
+            "macro_f1": 0.8452991452991453,
+            "per_class": [
+              {
+                "f1": 0.9333333333333333,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.7692307692307693,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 1,
+                "label": 1,
+                "support": 7,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.8333333333333334,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 2,
+                "label": 2,
+                "support": 5,
+                "true_positive": 5
+              }
+            ],
+            "returned": 20,
+            "valid_only": {
+              "accuracy": 0.85,
+              "denominator": 20,
+              "macro_f1": 0.8452991452991453
+            }
+          },
+          "C019": {
+            "accuracy": 0.8181818181818182,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 8,
+                "1": 2,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 2,
+                "2": 9,
+                "None": 0
+              }
+            },
+            "correct": 18,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.7074074074074074,
+            "per_class": [
+              {
+                "f1": 0.8888888888888888,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 0,
+                "label": 0,
+                "support": 10,
+                "true_positive": 8
+              },
+              {
+                "f1": 0.3333333333333333,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 4,
+                "label": 1,
+                "support": 1,
+                "true_positive": 1
+              },
+              {
+                "f1": 0.9,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 0,
+                "label": 2,
+                "support": 11,
+                "true_positive": 9
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.8181818181818182,
+              "denominator": 22,
+              "macro_f1": 0.7074074074074074
+            }
+          },
+          "C037": {
+            "accuracy": 0.8518518518518519,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 5,
+                "1": 3,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 6,
+                "2": 0,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 1,
+                "2": 12,
+                "None": 0
+              }
+            },
+            "correct": 23,
+            "coverage": 1.0,
+            "eligible": 27,
+            "failed": 0,
+            "macro_f1": 0.8264102564102563,
+            "per_class": [
+              {
+                "f1": 0.7692307692307693,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.75,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 4,
+                "label": 1,
+                "support": 6,
+                "true_positive": 6
+              },
+              {
+                "f1": 0.96,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 2,
+                "support": 13,
+                "true_positive": 12
+              }
+            ],
+            "returned": 27,
+            "valid_only": {
+              "accuracy": 0.8518518518518519,
+              "denominator": 27,
+              "macro_f1": 0.8264102564102563
+            }
+          },
+          "C041": {
+            "accuracy": 0.8181818181818182,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 5,
+                "1": 0,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 4,
+                "2": 2,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 2,
+                "2": 9,
+                "None": 0
+              }
+            },
+            "correct": 18,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.8282828282828283,
+            "per_class": [
+              {
+                "f1": 1.0,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 0,
+                "label": 0,
+                "support": 5,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.6666666666666666,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 2,
+                "label": 1,
+                "support": 6,
+                "true_positive": 4
+              },
+              {
+                "f1": 0.8181818181818182,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 2,
+                "label": 2,
+                "support": 11,
+                "true_positive": 9
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.8181818181818182,
+              "denominator": 22,
+              "macro_f1": 0.8282828282828283
+            }
+          },
+          "C056": {
+            "accuracy": 0.8181818181818182,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 2,
+                "2": 1,
+                "None": 0
+              },
+              "2": {
+                "0": 1,
+                "1": 1,
+                "2": 9,
+                "None": 0
+              }
+            },
+            "correct": 18,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.7678571428571428,
+            "per_class": [
+              {
+                "f1": 0.875,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 1,
+                "label": 0,
+                "support": 8,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.5714285714285714,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 2,
+                "label": 1,
+                "support": 3,
+                "true_positive": 2
+              },
+              {
+                "f1": 0.8571428571428571,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 1,
+                "label": 2,
+                "support": 11,
+                "true_positive": 9
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.8181818181818182,
+              "denominator": 22,
+              "macro_f1": 0.7678571428571428
+            }
+          }
+        }
+      },
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.9204118991105716,
+        "cache_read_tokens": 2698540,
+        "cache_read_tokens_known_subtotal": 2698540,
+        "cache_read_tokens_unknown_records": 0,
+        "cache_write_tokens": 175692,
+        "cache_write_tokens_known_subtotal": 175692,
+        "cache_write_tokens_unknown_records": 0,
+        "call_elapsed_sum_seconds": 1038.3156162481755,
+        "call_latency_max_seconds": 13.79377454216592,
+        "call_latency_median_seconds": 7.59648445865605,
+        "calls_with_latency": 136,
+        "complete_cost_accounting": true,
+        "cost_upper_bound_usd": "0.463300375",
+        "cost_upper_bound_usd_known_subtotal": "0.463300375",
+        "cost_upper_bound_usd_unknown_records": 0,
+        "durable_intents_without_original_usage": 0,
+        "estimated_cost_usd": "0.151527000",
+        "estimated_cost_usd_known_subtotal": "0.151527000",
+        "estimated_cost_usd_unknown_records": 0,
+        "input_tokens": 2931883,
+        "input_tokens_known_subtotal": 2931883,
+        "input_tokens_unknown_records": 0,
+        "observed_records": 136,
+        "ordinary_input_tokens": 57651,
+        "ordinary_input_tokens_known_subtotal": 57651,
+        "ordinary_input_tokens_unknown_records": 0,
+        "output_tokens": 193630,
+        "output_tokens_known_subtotal": 193630,
+        "output_tokens_unknown_records": 0,
+        "possibly_billed_records": 0,
+        "saved_receipts_reused": 0
+      },
+      "planned": {
+        "arm": "inventory",
+        "name": "inventory_r1",
+        "repeat": 1
+      },
+      "status_counts": {
+        "validated": 136
+      },
+      "summary": {
+        "byte_size": 8577050,
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/inventory_r1/summary.json",
+        "sha256": "4cab0935eeeaebb272263e17a7a3706cb3a8cc48b3f0311e7bb6f638222631f9"
+      }
+    },
+    "inventory_r2": {
+      "estimated_count_requests": 136,
+      "inventory_compliance": {
+        "all_heuristic_checks_pass": 132,
+        "eligible": 136,
+        "meaning": "Literal format and exact-substring heuristic only; independent of schema validity and substantive adequacy.",
+        "per_check_passes": {
+          "all_detected_spans_exactly_in_question": 132,
+          "essentiality_phrase_present": 136,
+          "markers_and_sections_present": 136,
+          "numbered_inventory_present": 136,
+          "quoted_spans_detected": 134
+        },
+        "strict_valid_outputs": 136
+      },
+      "manifest": {
+        "byte_size": 622,
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/inventory_r2/manifest.json",
+        "sha256": "1a20a716e7c2bdaa7b8f751b0dab2308a2f4bb10ddc369ce21a788465a0c4377"
+      },
+      "metrics": {
+        "clean_abstentions": {
+          "accuracy": 1.0,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 12,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "2": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            }
+          },
+          "correct": 12,
+          "coverage": 1.0,
+          "eligible": 12,
+          "failed": 0,
+          "macro_f1": 0.3333333333333333,
+          "per_class": [
+            {
+              "f1": 1.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 0,
+              "support": 12,
+              "true_positive": 12
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 1,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "label": 2,
+              "support": 0,
+              "true_positive": 0
+            }
+          ],
+          "returned": 12,
+          "valid_only": {
+            "accuracy": 1.0,
+            "denominator": 12,
+            "macro_f1": 0.3333333333333333
+          }
+        },
+        "limitations": [
+          "Agreement with uncalibrated synthetic expectations; one repetition.",
+          "Question-family variants are not independent observations."
+        ],
+        "overall": {
+          "accuracy": 0.7647058823529411,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 38,
+              "1": 11,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 17,
+              "2": 8,
+              "None": 0
+            },
+            "2": {
+              "0": 2,
+              "1": 11,
+              "2": 49,
+              "None": 0
+            }
+          },
+          "correct": 104,
+          "coverage": 1.0,
+          "eligible": 136,
+          "failed": 0,
+          "macro_f1": 0.7362373320114562,
+          "per_class": [
+            {
+              "f1": 0.8539325842696629,
+              "failed": 0,
+              "false_negative": 11,
+              "false_positive": 2,
+              "label": 0,
+              "support": 49,
+              "true_positive": 38
+            },
+            {
+              "f1": 0.53125,
+              "failed": 0,
+              "false_negative": 8,
+              "false_positive": 22,
+              "label": 1,
+              "support": 25,
+              "true_positive": 17
+            },
+            {
+              "f1": 0.8235294117647058,
+              "failed": 0,
+              "false_negative": 13,
+              "false_positive": 8,
+              "label": 2,
+              "support": 62,
+              "true_positive": 49
+            }
+          ],
+          "returned": 136,
+          "valid_only": {
+            "accuracy": 0.7647058823529411,
+            "denominator": 136,
+            "macro_f1": 0.7362373320114562
+          }
+        },
+        "passing_controls": {
+          "accuracy": 0.7903225806451613,
+          "classes": [
+            0,
+            1,
+            2
+          ],
+          "confusion_matrix": {
+            "0": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "1": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "None": 0
+            },
+            "2": {
+              "0": 2,
+              "1": 11,
+              "2": 49,
+              "None": 0
+            }
+          },
+          "correct": 49,
+          "coverage": 1.0,
+          "eligible": 62,
+          "failed": 0,
+          "macro_f1": 0.29429429429429427,
+          "per_class": [
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 2,
+              "label": 0,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.0,
+              "failed": 0,
+              "false_negative": 0,
+              "false_positive": 11,
+              "label": 1,
+              "support": 0,
+              "true_positive": 0
+            },
+            {
+              "f1": 0.8828828828828829,
+              "failed": 0,
+              "false_negative": 13,
+              "false_positive": 0,
+              "label": 2,
+              "support": 62,
+              "true_positive": 49
+            }
+          ],
+          "returned": 62,
+          "valid_only": {
+            "accuracy": 0.7903225806451613,
+            "denominator": 62,
+            "macro_f1": 0.29429429429429427
+          }
+        },
+        "per_question": {
+          "C001": {
+            "accuracy": 0.6521739130434783,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 3,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 2,
+                "2": 0,
+                "None": 0
+              },
+              "2": {
+                "0": 1,
+                "1": 4,
+                "2": 6,
+                "None": 0
+              }
+            },
+            "correct": 15,
+            "coverage": 1.0,
+            "eligible": 23,
+            "failed": 0,
+            "macro_f1": 0.6157654981184394,
+            "per_class": [
+              {
+                "f1": 0.7777777777777778,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 1,
+                "label": 0,
+                "support": 10,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.36363636363636365,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 7,
+                "label": 1,
+                "support": 2,
+                "true_positive": 2
+              },
+              {
+                "f1": 0.7058823529411765,
+                "failed": 0,
+                "false_negative": 5,
+                "false_positive": 0,
+                "label": 2,
+                "support": 11,
+                "true_positive": 6
+              }
+            ],
+            "returned": 23,
+            "valid_only": {
+              "accuracy": 0.6521739130434783,
+              "denominator": 23,
+              "macro_f1": 0.6157654981184394
+            }
+          },
+          "C014": {
+            "accuracy": 0.75,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 4,
+                "2": 3,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 1,
+                "2": 4,
+                "None": 0
+              }
+            },
+            "correct": 15,
+            "coverage": 1.0,
+            "eligible": 20,
+            "failed": 0,
+            "macro_f1": 0.7384615384615385,
+            "per_class": [
+              {
+                "f1": 0.9333333333333333,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.6153846153846154,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 2,
+                "label": 1,
+                "support": 7,
+                "true_positive": 4
+              },
+              {
+                "f1": 0.6666666666666666,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 3,
+                "label": 2,
+                "support": 5,
+                "true_positive": 4
+              }
+            ],
+            "returned": 20,
+            "valid_only": {
+              "accuracy": 0.75,
+              "denominator": 20,
+              "macro_f1": 0.7384615384615385
+            }
+          },
+          "C019": {
+            "accuracy": 0.8181818181818182,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 3,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 1,
+                "2": 10,
+                "None": 0
+              }
+            },
+            "correct": 18,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.7030812324929973,
+            "per_class": [
+              {
+                "f1": 0.8235294117647058,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 0,
+                "label": 0,
+                "support": 10,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.3333333333333333,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 4,
+                "label": 1,
+                "support": 1,
+                "true_positive": 1
+              },
+              {
+                "f1": 0.9523809523809523,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 0,
+                "label": 2,
+                "support": 11,
+                "true_positive": 10
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.8181818181818182,
+              "denominator": 22,
+              "macro_f1": 0.7030812324929973
+            }
+          },
+          "C037": {
+            "accuracy": 0.7777777777777778,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 5,
+                "1": 3,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 6,
+                "2": 0,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 3,
+                "2": 10,
+                "None": 0
+              }
+            },
+            "correct": 21,
+            "coverage": 1.0,
+            "eligible": 27,
+            "failed": 0,
+            "macro_f1": 0.7684875510962468,
+            "per_class": [
+              {
+                "f1": 0.7692307692307693,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 0,
+                "label": 0,
+                "support": 8,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.6666666666666666,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 6,
+                "label": 1,
+                "support": 6,
+                "true_positive": 6
+              },
+              {
+                "f1": 0.8695652173913043,
+                "failed": 0,
+                "false_negative": 3,
+                "false_positive": 0,
+                "label": 2,
+                "support": 13,
+                "true_positive": 10
+              }
+            ],
+            "returned": 27,
+            "valid_only": {
+              "accuracy": 0.7777777777777778,
+              "denominator": 27,
+              "macro_f1": 0.7684875510962468
+            }
+          },
+          "C041": {
+            "accuracy": 0.7727272727272727,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 5,
+                "1": 0,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 2,
+                "2": 4,
+                "None": 0
+              },
+              "2": {
+                "0": 0,
+                "1": 1,
+                "2": 10,
+                "None": 0
+              }
+            },
+            "correct": 17,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.7481481481481481,
+            "per_class": [
+              {
+                "f1": 1.0,
+                "failed": 0,
+                "false_negative": 0,
+                "false_positive": 0,
+                "label": 0,
+                "support": 5,
+                "true_positive": 5
+              },
+              {
+                "f1": 0.4444444444444444,
+                "failed": 0,
+                "false_negative": 4,
+                "false_positive": 1,
+                "label": 1,
+                "support": 6,
+                "true_positive": 2
+              },
+              {
+                "f1": 0.8,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 4,
+                "label": 2,
+                "support": 11,
+                "true_positive": 10
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.7727272727272727,
+              "denominator": 22,
+              "macro_f1": 0.7481481481481481
+            }
+          },
+          "C056": {
+            "accuracy": 0.8181818181818182,
+            "classes": [
+              0,
+              1,
+              2
+            ],
+            "confusion_matrix": {
+              "0": {
+                "0": 7,
+                "1": 1,
+                "2": 0,
+                "None": 0
+              },
+              "1": {
+                "0": 0,
+                "1": 2,
+                "2": 1,
+                "None": 0
+              },
+              "2": {
+                "0": 1,
+                "1": 1,
+                "2": 9,
+                "None": 0
+              }
+            },
+            "correct": 18,
+            "coverage": 1.0,
+            "eligible": 22,
+            "failed": 0,
+            "macro_f1": 0.7678571428571428,
+            "per_class": [
+              {
+                "f1": 0.875,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 1,
+                "label": 0,
+                "support": 8,
+                "true_positive": 7
+              },
+              {
+                "f1": 0.5714285714285714,
+                "failed": 0,
+                "false_negative": 1,
+                "false_positive": 2,
+                "label": 1,
+                "support": 3,
+                "true_positive": 2
+              },
+              {
+                "f1": 0.8571428571428571,
+                "failed": 0,
+                "false_negative": 2,
+                "false_positive": 1,
+                "label": 2,
+                "support": 11,
+                "true_positive": 9
+              }
+            ],
+            "returned": 22,
+            "valid_only": {
+              "accuracy": 0.8181818181818182,
+              "denominator": 22,
+              "macro_f1": 0.7678571428571428
+            }
+          }
+        }
+      },
+      "native_usage_cost_latency": {
+        "billed_cost_usd": null,
+        "cache_read_fraction": 0.9204118991105716,
+        "cache_read_tokens": 2698540,
+        "cache_read_tokens_known_subtotal": 2698540,
+        "cache_read_tokens_unknown_records": 0,
+        "cache_write_tokens": 175692,
+        "cache_write_tokens_known_subtotal": 175692,
+        "cache_write_tokens_unknown_records": 0,
+        "call_elapsed_sum_seconds": 1039.4518363284878,
+        "call_latency_max_seconds": 22.02210041694343,
+        "call_latency_median_seconds": 7.257722562062554,
+        "calls_with_latency": 136,
+        "complete_cost_accounting": true,
+        "cost_upper_bound_usd": "0.462005875",
+        "cost_upper_bound_usd_known_subtotal": "0.462005875",
+        "cost_upper_bound_usd_unknown_records": 0,
+        "durable_intents_without_original_usage": 0,
+        "estimated_cost_usd": "0.150232500",
+        "estimated_cost_usd_known_subtotal": "0.150232500",
+        "estimated_cost_usd_unknown_records": 0,
+        "input_tokens": 2931883,
+        "input_tokens_known_subtotal": 2931883,
+        "input_tokens_unknown_records": 0,
+        "observed_records": 136,
+        "ordinary_input_tokens": 57651,
+        "ordinary_input_tokens_known_subtotal": 57651,
+        "ordinary_input_tokens_unknown_records": 0,
+        "output_tokens": 191041,
+        "output_tokens_known_subtotal": 191041,
+        "output_tokens_unknown_records": 0,
+        "possibly_billed_records": 0,
+        "saved_receipts_reused": 0
+      },
+      "planned": {
+        "arm": "inventory",
+        "name": "inventory_r2",
+        "repeat": 2
+      },
+      "status_counts": {
+        "validated": 136
+      },
+      "summary": {
+        "byte_size": 8579060,
+        "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f_20261013_haiku_requirements_v1/inventory_r2/summary.json",
+        "sha256": "5a85ac99948170e14ca0aa93572b2bfac4d930cdb0a557c5c68ab47614cb3bfb"
+      }
+    }
+  },
+  "schema_version": "task09f.haiku_requirements_report.v1",
+  "status": "complete_awaiting_user_review",
+  "total_http_request_cap": 1088,
+  "within_arm_comparisons": {
+    "baseline_r1_to_baseline_r2": {
+      "changes": 14,
+      "new_passing_control_failures": 1,
+      "numeric_agreement_fraction_valid_both": 0.8970588235294118,
+      "numeric_score_changes": 14,
+      "observed_both": 136,
+      "outcome_changes": 14,
+      "planned_total": 136,
+      "recovered_passing_controls": 7,
+      "unobserved_on_either_side": 0,
+      "valid_both": 136,
+      "validity_changes": 0
+    },
+    "inventory_r1_to_inventory_r2": {
+      "changes": 24,
+      "new_passing_control_failures": 8,
+      "numeric_agreement_fraction_valid_both": 0.8235294117647058,
+      "numeric_score_changes": 24,
+      "observed_both": 136,
+      "outcome_changes": 24,
+      "planned_total": 136,
+      "recovered_passing_controls": 6,
+      "unobserved_on_either_side": 0,
+      "valid_both": 136,
+      "validity_changes": 0
+    }
+  }
+}

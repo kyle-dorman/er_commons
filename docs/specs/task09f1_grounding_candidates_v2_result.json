@@ -1,0 +1,96 @@
+{
+  "schema_version": "task09f1.grounding_candidates.result.v1",
+  "status": "complete",
+  "release_id": "task09f_20261014_v2",
+  "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2",
+  "counts": {
+    "questions": 19,
+    "authored_and_reviewed": 621,
+    "published_candidates": 615,
+    "supported": 247,
+    "unsupported": 364,
+    "unresolved": 4,
+    "excluded_source_alias_duplicates": 6,
+    "applicability_slots": 684,
+    "generated_slots": 611,
+    "inapplicable_slots": 73,
+    "missing_or_unresolved_citation_fixtures": 38,
+    "evaluator_loading_error_fixtures": 19
+  },
+  "label_status": "Independently reviewed agent proposals, not human-approved gold; four unresolved candidates are ineligible for binary calibration.",
+  "review_disagreements": 0,
+  "artifacts": {
+    "completion": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/completion.json",
+      "byte_size": 133492,
+      "sha256": "49e5cf7fc1349c1563bcfc535540f6601c45f3e0176540f1bc6fd0075941aee8"
+    },
+    "summary": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/summary.json",
+      "byte_size": 5318,
+      "sha256": "4cf4ddc824e17533acae657424b2946bd801dc48ee575e066e15984b8acc0925"
+    },
+    "review_index": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/review_index.html",
+      "byte_size": 557268,
+      "sha256": "d9e8bd9404b4e9e318620f25d7cd2df034c9d7c9775927c43f1905e6fbbaed73"
+    },
+    "payload_index": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/candidates.jsonl",
+      "byte_size": 540883,
+      "sha256": "e61b36ddff5aa8fe67c438f27225ff11501d71a812d6bff1de6303e26b174254"
+    },
+    "labels_reviews": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/labels_reviews.jsonl",
+      "byte_size": 3187511,
+      "sha256": "d0b58cbfc917a1e7c8c177df0095755c885879c404024df2915d321e2409b3a0"
+    },
+    "coverage": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/coverage_matrix.json",
+      "byte_size": 309992,
+      "sha256": "8646e4fb5ac9e62b819947ae90ac52965058282e668876971b98a56b0c033867"
+    },
+    "provenance": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/provenance.json",
+      "byte_size": 4160,
+      "sha256": "a505133bb5cea16156ba908e313331cce4297c6a920e3c02da438c350c79c82b"
+    },
+    "validation": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/validation.json",
+      "byte_size": 1189,
+      "sha256": "42c1459e8391362078bb4bbc5a17cb76234e0c1132770f90ca5acb027d2b0341"
+    },
+    "duplicate_exclusions": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/duplicate_exclusions.json",
+      "byte_size": 1779,
+      "sha256": "40e3b6afb1d08da2d54d3f8b4ffe065e8df80f8cb9314c362f30ad375195aa91"
+    },
+    "precheck_fixtures": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/precheck_fixtures.json",
+      "byte_size": 35608,
+      "sha256": "d59e0952ebbe4990720909d01bb210a5bd23a986bb40c5a8601242ac2839733d"
+    },
+    "calibration_guidance": {
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2/calibration_guidance.json",
+      "byte_size": 1631,
+      "sha256": "129ae4814bcd9eced3697785a440a6ce791cc53e5d58ecf8d8f09255428ecf21"
+    }
+  },
+  "independent_audit": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v2_audit/independent_publication_audit.json",
+    "byte_size": 790,
+    "sha256": "80fa89dd75030b1754bb9bccfa8c109821bf3cf727f34cb1187eeb66dc5c04b5"
+  },
+  "limitations": [
+    "Coverage bounded to 94 current development reference source occurrences; no general corpus search.",
+    "Four uncertain labels concern mitigation status, emissions year, DNL definition and construction lighting.",
+    "Mechanisms overlap and examples share sources; counts are not independent samples."
+  ],
+  "preserved_predecessor": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_grounding_candidates_20261016_v1",
+  "provider_calls": 0,
+  "judge_runs": 0,
+  "panel_selected": false,
+  "policy_prompt_runtime_changes": false,
+  "commits": 0,
+  "pushes": 0
+}

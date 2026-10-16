@@ -1,0 +1,24 @@
+{
+  "version": "task09f.selected_judges.v1",
+  "selected_by": "Kyle",
+  "selected_date": "2026-10-16",
+  "runtime": "er_commons.adequacy_inspect",
+  "provider_profiles": "configs/adequacy_binary_models_v2.json",
+  "evidence": "docs/specs/task09f_inspect_full_dev3_result.json",
+  "components": {
+    "C": {
+      "condition_id": "openai_generation",
+      "model": "gpt-6-luna",
+      "prompt_version": "task09f.binary_adequacy.conclusion_comparison_reason.v8",
+      "prompt_sha256": "24800c30edea8824400c3812fcced8f172ce66fc372e3ae4167833f3291e242a",
+      "schema_sha256": "ee6e496c6fbf7040db53b524175a853227e6ee3e077b8fcb723bd4f7e8bbb795"
+    },
+    "S": {
+      "condition_id": "anthropic_generation",
+      "model": "claude-haiku-5-5",
+      "prompt_version": "task09f.binary_adequacy.support_basis.v6",
+      "prompt_sha256": "4d1d2b59cfc38dacc509500e4cbfdc68be20de21377ed7e133fbc4535c7c6266",
+      "schema_sha256": "b0599b17acf702cd323bb9989d04a4cdddaf817d7248d777aef250432b242579"
+    }
+  }
+}

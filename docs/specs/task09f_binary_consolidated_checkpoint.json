@@ -1,0 +1,38 @@
+{
+  "schema_version": "task09f.binary_consolidated_checkpoint.v1",
+  "status": "incomplete_transport_halt",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v2",
+  "sealed": false,
+  "plan": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v2/recovery_plan.json",
+    "sha256": "e5d5b0ac5f59920d8bdef423f145d7f437b62606d1d0d34b0f746a42e5ff4003",
+    "byte_size": 533372
+  },
+  "independent_review": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v2/independent_review.md",
+    "sha256": "725baf59fe52b9035585a4469191cac8b228d3fc0cc16bd6a37783a4c73893bb",
+    "byte_size": 3212
+  },
+  "received_judgments": 269,
+  "valid_outputs": 269,
+  "correct_judgments": 265,
+  "planned_judgments": 540,
+  "remaining_judgments": 271,
+  "generation_attempts": 274,
+  "counter_attempts": 154,
+  "uncertain_generation_attempts": 5,
+  "known_usage_cost_estimate_usd": "0.049409570",
+  "uncertain_generation_reserved_upper_bound_usd": "0.021296175",
+  "pass5": null,
+  "next_action": "Resolve transport reliability, then bounded continuation preserving all returned judgments and remaining budgets. No prompt/model promotion.",
+  "report": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v2/partial_report.md",
+    "sha256": "a6bb8a3d07f819def64a78e35bbb292acf010f0366e7bf54a1e9aeabc8d0b680",
+    "byte_size": 5899
+  },
+  "summary": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261015_binary_consolidated_pass5_recovery_v2/partial_report.json",
+    "sha256": "93a6dfd37c27fcd6dce9705b858e07589667529c432182721e85c15217a75678",
+    "byte_size": 281694
+  }
+}

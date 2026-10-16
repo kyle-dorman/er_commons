@@ -619,12 +619,19 @@ task records. Later tasks require separate authorization.
    with Astra synthetic-answer creation from development cases, independently of
    later retriever/target implementation. The
    [Task 09 umbrella](../../tasks/sprint2/09_build_evaluation_and_qualify_judges.md)
-   owns the seven written contracts: 09A synthesis, 09B runner/local qualification,
-   09C packets, 09D automatic metrics, separate 09E grounding and 09F adequacy
-   implementations, then 09G challenge/freeze. 09A is the active entry; later
-   contracts are provisional, and this planning update does not start execution. Target evaluation/judge completion October 12–14.
-   Use one judge candidate, bounded prompt revisions and saved disagreements;
-   freeze the configuration and disclose known weaknesses. Synthetic agreement is
+   owns the task contracts and completed upstream outcomes. Current order is 09F
+   adequacy, [09F.1 grounding revisit](../../tasks/sprint2/09f1_revisit_grounding_judge.md),
+   then 09G challenge/freeze. The accepted 09F.1 simplification retains adequacy
+   conclusion/support and adds independent no-answer and supporting-point grounding
+   datasets. Identify edge families, cycle on small reviewed sets, then compare
+   frozen prompts on full-development sets over the 19 development questions.
+   No conclusion-grounding call or re-review is planned; Task 12 owns combined
+   reporting and the strict all-checks-pass result.
+   Grounding work is deferred until adequacy finishes;
+   task planning alone does not authorize generation or evaluation. Earlier dates
+   are historical planning targets.
+   Compare GLM, Luna and Haiku for no-answer and grounding, with bounded revisions and saved
+   failures; select and freeze the configuration and disclose known weaknesses. Synthetic agreement is
    not human calibration; retain uncalibrated automated-judgment reporting.
 4. **Task 10 — Build and freeze BM25 retrieval and evidence presentation.** Build
    units from accepted hierarchy and accepted-review-registry body content and
@@ -641,9 +648,11 @@ task records. Later tasks require separate authorization.
    deterministic source-label rendering, output-length pilot, and development
    stability check without exposing curator-only or QA metadata. Timebox this
    work to three days around one baseline, not open-ended model optimization.
-6. **Task 12 — Verify end-to-end evaluation integration.** Apply the existing
+6. **[Task 12 — Integrate evaluation and reporting](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md).** Apply the existing
    evaluator and judge to real development target outputs, verify the complete
    identity chain and input separation, and confirm the final configuration freeze.
+   Define no-answer routing integration, exact G/S/C joins, aggregate statuses and
+   denominators, and strict all-grounding-pass AND S-pass AND C-pass reporting.
    This is a small integration check, not a second judge-development project.
    Record any substantive fixes and repeat affected development checks before
    test use. No additional full labeling pass is required.
@@ -681,6 +690,16 @@ PDFs, converted text, renders, indices, local models, and runs remain under
 `ER_COMMONS_DATA_ROOT`, not Git.
 
 ## Benchmark evaluation boundary
+
+The accepted [2026-10-16 grounding simplification](../decisions/006_structured_answers_four_part_evaluation.md#grounding-simplification--2026-10-16)
+supersedes the conclusion-grounding, conclusion-citation requirement and grounding
+0/1/2 rules below for the planned 09F.1 replacement. Supporting-point grounding,
+S and C run independently; reporting adds their strict conjunction while preserving
+the separate results. Legacy runtime/releases remain unchanged until explicit
+versioned migration. [09F.1](../../tasks/sprint2/09f1_revisit_grounding_judge.md)
+establishes no-answer and grounding components; [Task 12](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md)
+owns routing integration and combined reporting. No automatic-metric change or
+provider run follows this plan update.
 
 Accepted revision 2026-10-08: [Decision 006](../decisions/006_structured_answers_four_part_evaluation.md)
 locks four separate results: automatic retrieval recall, automatic final-citation
@@ -744,6 +763,15 @@ Canonical-ID/anchor projection, schema validity, allowed corpus and citation
 resolution remain deterministic checks independent of the two judgments below.
 
 ### LLM answer judgments
+
+**Adequacy update (2026-10-14):** The maintained
+[adequacy labeling rules](../specs/adequacy_labeling_rules.md) now own adequacy
+semantics and supersede conflicting adequacy text below, including abstention=0,
+partial conclusion credit and alternative substantive answers. The historical
+runtime has not migrated. The rules retain separate conclusion/support decisions,
+derive 0/1/2, and skip semantic judging for explicit abstentions; denominator policy
+is deferred. Grounding and automatic metrics remain unchanged. The new adequacy
+request/diagnostic schema must be specified before implementation.
 
 Score both dimensions per complete answer on an anchored `0`/`1`/`2` rubric.
 Statement-level observations remain diagnostic explanations, not a third score.

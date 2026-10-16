@@ -1,0 +1,139 @@
+{
+  "schema_version": "task09f.conclusion_comparison_result.v1",
+  "status": "complete_not_promoted",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1/completion.json",
+    "sha256": "f6a52021ec21425865bdeadc4281355fa71063970e9064d4354a934a87a1d99d",
+    "byte_size": 963152
+  },
+  "report": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1/report.md",
+    "sha256": "9a20d25e0b2181eb65a787542b7fecfd329883d3ecf61754ce6bd62d4881a1f1",
+    "byte_size": 13298
+  },
+  "summary": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1/report.json",
+    "sha256": "6161107487116f34847ffb0bf33bea0954b39d4130c0c26a01634cd403a2daa0",
+    "byte_size": 367985
+  },
+  "prompt": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1/prompt.txt",
+    "sha256": "491c2493382592569c68d7f6794b7299a122502d21a3b2e08502c4a998b3b2fd",
+    "byte_size": 8508
+  },
+  "output_schema": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1/schema.json",
+    "sha256": "58108f0de5f7ba8e1ed5908e00adbf3df8ac7a676f0a031fdf6729982e6ad848",
+    "byte_size": 2100
+  },
+  "inspection": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1/inspection.md",
+    "sha256": "294fa88f15f533abde506143d5a50d12e5582d20d82382260085f946cc3c08a3",
+    "byte_size": 949268
+  },
+  "diagnostic_review": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1/diagnostic_review.md",
+    "sha256": "dd342ed244bcd34b020b2aacf28e1e46f00ba55fc279d0d52e11b5f7a527445e",
+    "byte_size": 12028
+  },
+  "independent_review": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1/independent_review.md",
+    "sha256": "212af2debee2c054ccb57095f70f1932fcc5634d8ab51701e466a62f68e5bdeb",
+    "byte_size": 4620
+  },
+  "validation": {
+    "path": "pipelines/brisbane_baylands/task_09/09f_20261016_conclusion_comparison_v1/validation.json",
+    "sha256": "5eef67c536276539d339075a6daee207a787570f0527c0f8f4a04ab442ecee58",
+    "byte_size": 425
+  },
+  "prompt_version": "task09f.binary_adequacy.conclusion_comparison.v7",
+  "output_schema_version": "task09f.binary_adequacy.conclusion_comparison.output.v1",
+  "promoted": false,
+  "support_v6_unchanged": true,
+  "models": {
+    "anthropic_generation": {
+      "correct": 120,
+      "total": 120,
+      "valid": 120,
+      "agreement": 1.0,
+      "accuracy_valid_only": 1.0,
+      "macro_f1_valid_only": 1.0,
+      "coverage": 1.0,
+      "correct_pass5": {
+        "denominator": 24,
+        "numerator": 24,
+        "rate": 1.0
+      },
+      "valid_pass5": {
+        "denominator": 24,
+        "numerator": 24,
+        "rate": 1.0
+      },
+      "historical_correct_pass5": {
+        "denominator": 24,
+        "numerator": 24,
+        "rate": 1.0
+      },
+      "estimated_cost_usd": "0.066409035"
+    },
+    "fireworks_glm": {
+      "correct": 114,
+      "total": 120,
+      "valid": 116,
+      "agreement": 0.95,
+      "accuracy_valid_only": 0.9827586206896551,
+      "macro_f1_valid_only": 0.9827123695976154,
+      "coverage": 0.9666666666666667,
+      "correct_pass5": {
+        "denominator": 24,
+        "numerator": 21,
+        "rate": 0.875
+      },
+      "valid_pass5": {
+        "denominator": 24,
+        "numerator": 22,
+        "rate": 0.9166666666666666
+      },
+      "historical_correct_pass5": {
+        "denominator": 24,
+        "numerator": 23,
+        "rate": 0.9583333333333334
+      },
+      "estimated_cost_usd": "0.02914232"
+    },
+    "openai_generation": {
+      "correct": 120,
+      "total": 120,
+      "valid": 120,
+      "agreement": 1.0,
+      "accuracy_valid_only": 1.0,
+      "macro_f1_valid_only": 1.0,
+      "coverage": 1.0,
+      "correct_pass5": {
+        "denominator": 24,
+        "numerator": 24,
+        "rate": 1.0
+      },
+      "valid_pass5": {
+        "denominator": 24,
+        "numerator": 24,
+        "rate": 1.0
+      },
+      "historical_correct_pass5": {
+        "denominator": 24,
+        "numerator": 23,
+        "rate": 0.9583333333333334
+      },
+      "estimated_cost_usd": "0.027993640"
+    }
+  },
+  "generation_calls": 360,
+  "counter_calls": 240,
+  "automatic_retries": 0,
+  "offline_replay_reused": 360,
+  "offline_replay_requests": 0,
+  "estimated_cost_usd": "0.123544995",
+  "historical_comparison_not_concurrent": true,
+  "next_action": "Review before selecting the inspection variant or authorizing more evaluation. No automatic promotion, tuning or dataset expansion."
+}

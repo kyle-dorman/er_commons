@@ -1,0 +1,108 @@
+{
+  "schema_version": "task09f1.a_calibration_result.v2",
+  "status": "complete",
+  "run_id": "09f1_a_calibration_v2",
+  "prompt_version": "task09f1.no_answer.conclusion.v2",
+  "default_prompt_version": "task09f1.no_answer.conclusion.v1",
+  "default_changed": false,
+  "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_v2",
+  "panel": {
+    "selection_id": "09f1_a_calibration_selection_20261016_v1",
+    "selection_sha256": "d472ba9ac4682885df07f637168ce75ca2ce8fd2024e1ecbe64b8151948bc468",
+    "release_id": "task09f_20261014_v2",
+    "label_status": "accepted_and_locked_for_development_calibration",
+    "policy_version": "task09f1.no_answer.rules.v1",
+    "contract_version": "task09f1.no_answer.contract.v1"
+  },
+  "epochs": 3,
+  "max_samples": 1,
+  "max_connections": 1,
+  "planned_generations": 216,
+  "completed_generations": 216,
+  "models": {
+    "glm": {
+      "model": "fireworks/accounts/fireworks/models/glm-5p3-flash",
+      "correct": 72,
+      "valid": 72,
+      "macro_f1_failure_inclusive": 1.0,
+      "all_3_correct": 24,
+      "all_3_valid": 24,
+      "same_label_all_3": 24,
+      "false_abstention": 0,
+      "missed_abstention": 0,
+      "ambiguous_class_error": 0,
+      "output_failures": 0,
+      "execution_errors": 0,
+      "inspect_reported_retries": 0,
+      "estimated_cost_usd": 0.007970249999999998,
+      "samples_with_cache_reads": 0
+    },
+    "luna": {
+      "model": "openai/gpt-6-luna",
+      "correct": 72,
+      "valid": 72,
+      "macro_f1_failure_inclusive": 1.0,
+      "all_3_correct": 24,
+      "all_3_valid": 24,
+      "same_label_all_3": 24,
+      "false_abstention": 0,
+      "missed_abstention": 0,
+      "ambiguous_class_error": 0,
+      "output_failures": 0,
+      "execution_errors": 0,
+      "inspect_reported_retries": 0,
+      "estimated_cost_usd": 0.0062094,
+      "samples_with_cache_reads": 0
+    },
+    "haiku": {
+      "model": "anthropic/claude-haiku-5-5",
+      "correct": 70,
+      "valid": 72,
+      "macro_f1_failure_inclusive": 0.9648351648351648,
+      "all_3_correct": 23,
+      "all_3_valid": 24,
+      "same_label_all_3": 23,
+      "false_abstention": 0,
+      "missed_abstention": 0,
+      "ambiguous_class_error": 2,
+      "output_failures": 0,
+      "execution_errors": 0,
+      "inspect_reported_retries": 0,
+      "estimated_cost_usd": 0.005077015000000001,
+      "samples_with_cache_reads": 71
+    }
+  },
+  "estimated_total_cost_usd": 0.019256665,
+  "summary": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_v2/summary.json",
+    "sha256": "db1ed155cafb1761f4ada0951b171254d27dce504133fce1296412595f0ecd15",
+    "byte_size": 8720
+  },
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_calibration_v2/completion.json",
+    "sha256": "4f5520f1041c1b549008e59e32f3df460b00c98324b7210952884a49e53b5487",
+    "byte_size": 2737
+  },
+  "independent_review": {
+    "status": "passed_no_accounting_or_integrity_findings",
+    "reviewer": "independent read-only a_review",
+    "scope": "216 unique judgments, complete epochs, exact v2 prompt/version metadata, locked payloads/labels, unchanged source hashes, counts/confusion/pass3, errors/cache/cost and preserved v1 comparison",
+    "model_calls": 0
+  },
+  "validation": {
+    "focused_tests_passed": 66,
+    "scoped_ruff": "passed",
+    "source_mypy": "passed",
+    "git_diff_check": "passed"
+  },
+  "labels_changed": false,
+  "model_selected": null,
+  "prior_result": "docs/specs/task09f1_a_calibration_v1_result.json",
+  "limits": [
+    "Purposive development panel, correlated cases, not held-out qualification.",
+    "Comparison with saved v1 results is not a fresh randomized paired experiment.",
+    "Haiku regression observed under v2; causal role of hint not established.",
+    "Cost estimates use configured dated rates; SDK-internal retry accounting is not separately available."
+  ],
+  "outcome": "Luna prior failure corrected3/3;GLM unchanged perfect;Haiku A-C042-S07 substantive-to-ambiguous errors epochs1/3. No prompt or model promotion."
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": "task09f1.no_answer_candidate_result.v1",
+  "dataset_id": "09f1_a_candidates_20261016_v1",
+  "release_id": "task09f_20261014_v2",
+  "status": "generation_review_validation_complete",
+  "label_status": "agent_reviewed_proposals_not_human_gold",
+  "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_candidates_20261016_v1",
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_candidates_20261016_v1/completion.json",
+    "sha256": "0bfe0c71d6da9eccb39eb19e5e01842adca686fe76b8aeca3460486414dc73ea",
+    "byte_size": 68968
+  },
+  "report": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_candidates_20261016_v1/report.txt",
+    "sha256": "11e7bd68b27acbbfa6ff2a522caa566c2afa257ddfebee678f8c1af7673d2e65",
+    "byte_size": 6147
+  },
+  "summary": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_candidates_20261016_v1/summary.json",
+    "sha256": "1b791d63ca8a04c3a584ebb44161fd584e87f49b982f1b8571b7272055717f07",
+    "byte_size": 8232
+  },
+  "validation": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_09/09f1_a_candidates_20261016_v1/validation.json",
+    "sha256": "d4f98ee3d040b9de18527fe41342f3cd8706e4720994af29322649b9b238d105",
+    "byte_size": 940
+  },
+  "semantic_candidates": 310,
+  "unique_payloads": 310,
+  "development_questions": 19,
+  "proposed_classifications": {
+    "clean_abstention": 97,
+    "substantive": 175,
+    "ambiguous": 38
+  },
+  "deterministic_fixtures": 20,
+  "coverage": {
+    "planned_slots": 342,
+    "generated_slot_links": 329,
+    "inapplicable_slots": 13,
+    "unresolved_slots": 0,
+    "shared_conditional_hypothetical_payloads": 19
+  },
+  "review": {
+    "independently_reviewed": 310,
+    "initial_label_disagreements": 0,
+    "reviewer_uncertain_cases": 10,
+    "author_uncertain_cases": 32,
+    "either_uncertain_cases": 33,
+    "semantic_exclusions": 0
+  },
+  "policy_version": "task09f1.no_answer.rules.v1",
+  "contract_version": "task09f1.no_answer.contract.v1",
+  "prompt_status": "task09f1.no_answer.conclusion.v1 unchanged untested candidate",
+  "provider_api_calls": 0,
+  "judge_runs": 0,
+  "final_panel_selected": false,
+  "limitations": [
+    "Development-only synthetic cases; correlated contrasts are not independent questions.",
+    "Thirteen inapplicable instruction slots reflect bounded allocation, not semantic impossibility.",
+    "Guard expectations are declarative and reviewed; routing is not implemented.",
+    "Historical A adequacy labels were not used."
+  ]
+}

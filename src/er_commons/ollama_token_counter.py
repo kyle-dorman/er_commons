@@ -22,7 +22,7 @@ from urllib.parse import urlparse
 import httpx
 
 from er_commons.artifact_io import stable_json_sha256
-from er_commons.judge_qualification import write_new
+from er_commons.ollama_request import write_new
 
 MODEL_DIGEST = "cf23721ea6d0c822e492d6eea302074ab8d1ba6540892f4097204dab7064e858"
 BINARY_SHA256 = "e2a48452cd0fee2b8cefd8a941607f02b291ed06d43656b3437aa464bf176b84"
