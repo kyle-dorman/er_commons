@@ -105,5 +105,6 @@ does not authorize rerunning historical inference.
 Run `make fix`, `make check`, and `git diff --check`. Tests cover selected semantic
 identities, strict failure behavior, label isolation, native provider serialization,
 and sealed data loading. [09F.2](../tasks/sprint2/09f2_cleanup_production_judges.md)
-records cleanup scope and verification. 09G owns challenge/freeze; Task 12 owns
+records cleanup scope and verification. The [09G freeze](specs/task09g_judge_freeze_v1.json) binds the committed production
+configuration and existing evidence without new inference. Task 12 owns
 integration; held-out qualification remains separate.

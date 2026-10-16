@@ -1,122 +1,81 @@
-# Task 09G — Challenge and freeze both judges
+# Task 09G — Document and freeze the selected judges
 
-Status: **provisional; not started**. Refresh from accepted 09A–09F.1 outcomes
-before execution. This contract does not itself start evaluation or model calls.
+Status: **complete; documentation-only freeze**, as directed by Kyle on 2026-10-16.
 Parent: [Task 09](09_build_evaluation_and_qualify_judges.md).
 
-## Abstract
+## Abstract and goal
 
-Exercise the separate judges on synthetic development answers, diagnose observed
-failures and freeze a reproducible initial configuration within the October 12–14
-working window. Agreement with Astra's proposed expectations is a development
-check, not human calibration or proof that either judge is reliable.
+Close judge development by binding the already selected A/G/S/C configurations,
+completed evaluation evidence and cleaned production implementation into one
+reproducible handoff. The full-development comparisons, repeated judgments,
+failure analysis and independent cleanup reviews already satisfy the development
+work. No model reruns or new prompt cycles are needed for this closeout.
 
-## Goal
-
-Produce a compact, inspectable account of where each judge succeeds or fails,
-with bounded revisions and an honest handoff to retrieval/target development.
-Do not turn known weaknesses into an open-ended qualification project.
+This explicit scope replaces the original provisional challenge plan, including
+its extra tuning/stability runs and reserved-development final-check requirement.
+Those runs are not performed or claimed. Historical 09A reservations remain intact;
+the 30 benchmark test cases remain untouched. The freeze establishes an operational
+development configuration with known limitations, not fresh independent validation.
 
 ## Inputs
 
-- Accepted 09A variants, coverage/skip records, evidence-based proposed G/A
-  expectations and uncertainty dispositions, all from the 19 development cases.
-- Accepted 09B runtime/runner qualification, 09C packets and 09D automatic metrics.
-- [09F.1 grounding revisit](09f1_revisit_grounding_judge.md) policy, component datasets and evaluation outcome.
-- Include 09F.1's independently established no-answer classifier and point-only
-  grounding selections in the frozen bundle. Combined routing/reporting and strict
-  joint success belong to [Task 12](12_integrate_evaluation_and_reporting.md), not
-  a prerequisite combined-reporting implementation in judge development. Refresh
-  historical call-count and 0/1/2 assumptions below to the accepted component contracts.
-- [09E grounding](09e_implement_grounding_judge.md) and
-  [09F adequacy](09f_implement_adequacy_judge.md) implementations and smoke results.
-- [Decision 006](../../docs/decisions/006_structured_answers_four_part_evaluation.md),
-  [evaluation boundary](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
-  and [artifact rules](../../docs/data_artifacts.md).
+- [C/S selection and evidence](../../docs/specs/task09f_final_result.json).
+- [A handoff](../../docs/specs/task09f1_a_inspect_handoff.md) and
+  [G handoff](../../docs/specs/task09f1_point_grounding_handoff.md).
+- [09F.2 cleanup](09f2_cleanup_production_judges.md), its
+  [receipt](../../docs/specs/task09f2_cleanup_result.json), and committed production code.
+- [Shared selection](../../configs/judges_selected_v1.json),
+  [provider profiles](../../configs/judge_models_v1.json) and
+  [production guide](../../docs/judge_maintainer_guide.md).
 
-## Outputs
+## Outputs and plan
 
-- Versioned run configurations, saved per-dimension judgments and comparison
-  tables, disagreement dispositions, coverage gaps and call/runtime accounting.
-- A frozen initial judge bundle binding model/runtime, prompts, schemas, packet
-  construction, scorer versions, decoding limits and retry/failure policy.
-- A concise limitations report and Task 10/12 handoff with replay instructions;
-  all bulk predictions/reports stay beneath the configured external root.
+1. A compact [freeze manifest](../../docs/specs/task09g_judge_freeze_v1.json)
+   binding the source commit, dependency lock, selected models/prompts/schemas,
+   native generation settings, component data loaders, policies and evidence pointers.
+2. Reconciled task/index/sprint documentation with current defaults and explicit
+   historical-versus-production boundaries.
+3. A Task 10/11/12 handoff: retrieval and target generation come next; Task 12 owns
+   whole-answer routing, aligned joins, denominator policy and real-output integration.
 
-## Research / learning checkpoint
+## Learning and review
 
-Use [Anthropic evaluation guidance](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)
-for grader inspection and bounded development checks, and
-[Inspect model grading](https://inspect.aisi.org.uk/model-graded.html) for grading
-robustness if that runner was selected. Preserve the distinction between agreement
-with proposed synthetic expectations and separately authorized human calibration.
-Explain why many correlated mutations are not many independent benchmark cases.
+Reuse the completed [native Inspect review](../../docs/specs/task09f_inspect_native.md)
+and [cleanup parity review](09f2_cleanup_production_judges.md#outcome).
+A documentation freeze pins what was already evaluated; repeating the same
+correlated development examples would not create independent validation. Preserve
+proposed-label uncertainty and observed failures instead of implying human accuracy
+or a measured joint pass rate from separate component panels.
 
-## Plan / spec requirement
+Use a bounded independent review to check that existing evidence supports closeout
+and that no deferred integration work is silently claimed as complete.
 
-Record a short run/report specification and call budget before executing.
+## Validation and acceptance criteria
 
-1. Confirm a deterministic tuning/final-check allocation of synthetic variants
-   from development cases was recorded before prompt tuning in 09E/09F. Preserve
-   meaningful failure types in both where feasible. The final-check subset is
-   reserved development material, never the benchmark's 30 test cases, and may
-   share base questions with tuning variants. Report this dependence plainly.
-2. Count eligible variants and packet sizes; estimate approximately `2 × N`
-   initial calls (one per dimension) plus explicitly budgeted revisions,
-   repeats and retries. Use 09B measured latency to project elapsed time before
-   launching. Narrow repeated reruns rather than silently dropping failure types.
-3. Run the tuning subset with proposed expectations hidden from each judge.
-   Save grounding before reference-bearing adequacy; retain every result/error
-   and ensure resumption never reuses a different prompt or packet identity.
-4. Report each dimension separately: exact agreement with proposed expectations,
-   `0/1/2` confusion counts, per-expected-class agreement, distributions and
-   failure-type breakdowns. Highlight expected `0/1` receiving `2` and expected
-   `2` receiving penalties. Show denominators, uncertain/excluded expectations,
-   abstentions/N/A and execution errors separately; no blended accuracy headline.
-5. Diagnose disagreements as judge interpretation, ambiguous/wrong synthetic
-   expectation, mutation defect, evidence-packet failure or reference limitation.
-   Correct genuine artifact defects with new versions and reasons; do not relabel
-   expectations solely to agree with the judge. No full human labeling pass.
-6. Permit at most two prompt-revision rounds across the qualification pass.
-   Retain before/after outputs and rationale. Stop at the timebox with weaknesses
-   recorded; structural failures that prevent valid scoring remain explicit
-   blockers rather than being called successful qualification.
-7. Repeat a small predeclared stratified tuning sample once under identical
-   settings with response-cache reuse disabled to assess score stability. Report
-   disagreement counts and runtime; do not silently majority-vote scores.
-8. Freeze the candidate, then run reserved final-check variants once. Report
-   results without further tuning on that subset; an essential subsequent repair
-   must disclose that its results are no longer an untouched final check.
-
-## Validation
-
-- Verify zero test case IDs in synthesis/judge inputs and no expectation fields
-  in requests; ensure each judgment binds its exact dimension and packet.
-- Recompute comparison tables from saved records; test score/N/A/error
-  denominators, missing results, revised expectations and duplicate variant IDs.
-- Check manifest/file closure, restart behavior and readable replay instructions.
-  Run relevant tests and `make fix`, `make check`, and `git diff --check` for code
-  changes; docs-only closeout uses diff/link inspection and `git diff --check`.
-
-## Review pass
-
-Use scoped independent review of comparison denominators, leakage and failure
-dispositions, plus a practical check that limitations match the observed results.
-
-## Acceptance criteria
-
-- Both configurations and complete qualifying records are pinned and replayable;
-  reserved-check use, revisions, errors and remaining weaknesses are disclosed.
-- Results are labeled **uncalibrated automated judgments**. There is no invented
-  accuracy threshold, reinstated 80-percent gate or claim of human agreement.
-- The outcome states whether each judge is operational with known limitations
-  or blocked, and names Task 12's small real-output integration check.
+- Verify selected prompt/schema/model identities offline and bind exact file hashes.
+- Verify the committed source and current runtime agree; keep prior run/result
+  artifacts unchanged. No model construction or generation is needed.
+- Inspect local links, changed Markdown and `git diff --check`.
+- Explicitly state that no fresh reserved-development check or held-out qualification
+  occurred, and retain known semantic/label issues and Ollama diagnostic limits.
+- Leave Task 12's integration gates explicit. Component completion is sufficient
+  for this freeze; it does not establish end-to-end evaluator correctness.
 
 ## Non-goals
 
-Test tuning, new human labels, perfect agreement, many-model comparisons, agentic
-retrieval, target execution, reference repair or expansion into another sprint.
+Model calls, repeated comparisons, prompt or label changes, reserved/test access,
+new human labeling, code changes, or implementing combined reporting.
 
 ## Outcome
 
-Pending execution. Record frozen identities, findings, budgets and next task.
+The selected A/G/S/C judges are frozen at production commit `cf9b89d` with
+exact implementation, dependency, policy, data-publication and evidence bindings.
+The manifest also records reproducible native generation/schema hashes. Existing
+component comparisons and cleanup validation supply the evidence; zero additional
+model calls, reserved/test reads, prompt changes or runtime edits occurred.
+
+Independent review found no material gaps in this documentation-only closeout.
+Offline selected-identity checks, every manifest file binding, local Markdown links
+and `git diff --check` passed. Current index, TODO, umbrella and sprint documentation
+now reflect the completed four-component design and Task 12 integration boundary.
+Task 09 is complete with the stated limitations. Task 10 retrieval is next.

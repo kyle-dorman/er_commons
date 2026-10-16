@@ -19,7 +19,7 @@ project. No new full labeling pass is required.
 
 ## Inputs
 
-- Frozen 09G judge bundle, including 09F adequacy and
+- [Frozen 09G judge bundle](../../docs/specs/task09g_judge_freeze_v1.json), including 09F adequacy and
   [09F.1 no-answer/grounding](09f1_revisit_grounding_judge.md) policies, prompts,
   model selections, schemas, records and limitations.
 - Accepted Task 10 retrieval/evidence receipts and Task 11 saved target answers,
@@ -27,6 +27,9 @@ project. No new full labeling pass is required.
 - [Decision 006](../../docs/decisions/006_structured_answers_four_part_evaluation.md),
   [sprint evaluation boundary](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary),
   existing automatic metrics and [artifact contract](../../docs/data_artifacts.md).
+
+The documentation-only 09G freeze adds no reserved-set evaluation or end-to-end
+validation. This task still owns the real-output integration gate below.
 
 ## Outputs
 

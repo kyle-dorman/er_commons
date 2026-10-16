@@ -1,0 +1,293 @@
+{
+  "version": "task09g.judge_freeze.v1",
+  "status": "complete_documentation_only",
+  "scope_authorized_by": "Kyle",
+  "date": "2026-10-16",
+  "production_source_commit": "cf9b89d874da1774ca1854310326b6d0fe1d4dda",
+  "qualification": "development_selected_not_held_out_qualified",
+  "hash_encoding": "File bindings: SHA256 of bytes; semantic and native config identities: stable_json_sha256",
+  "components": {
+    "A": {
+      "condition_id": "openai_generation",
+      "model": "gpt-6-luna",
+      "prompt_version": "task09f1.no_answer.conclusion.v2",
+      "prompt_sha256": "23a724a688e4d7e8d25d556be3a2c97fdbbcc8c6b18370acea28d9c6bdfb3140",
+      "schema_sha256": "49cfb28b8cd319f57ba57096c9064bbaab061a39ded269f5c9201f7d8abc1644",
+      "generation_config_sha256": "75b8fc8ae55b7e4075180cf936eb3a533d3eba0ee75a1b0ad30fb39b97d14f11",
+      "provider_response_schema_sha256": "d4480c8db9dda2e01cf6871020a5962c24eb5e97da7143c83d9752bba67d2a36",
+      "provider_schema_field_order": [
+        "classification",
+        "reason"
+      ]
+    },
+    "G": {
+      "condition_id": "openai_generation",
+      "model": "gpt-6-luna",
+      "prompt_version": "task09f1.grounding.point.v3",
+      "prompt_sha256": "8f7e71500fdc3667c745fd71d0ca849b38e30f7941e3fb7e1960fcc9d0946eb6",
+      "schema_sha256": "d7b3a08f10a13df6ec47bc72f8cb95e5e0b34c73758fd4fdcbe3baa1c8214a77",
+      "generation_config_sha256": "adb054ce7df8c85c86324638df7034b55736394ec5ef34f56bcbb5a5d6fb7027",
+      "provider_response_schema_sha256": "11ac03c4885e1f95ec77ca717375ac817d0b871e33019683b82d570f505e0ce0",
+      "provider_schema_field_order": [
+        "reason",
+        "supported"
+      ]
+    },
+    "S": {
+      "condition_id": "anthropic_generation",
+      "model": "claude-haiku-5-5",
+      "prompt_version": "task09f.binary_adequacy.support_basis.v6",
+      "prompt_sha256": "518b7a38e5be9930ea1adc523fc42bd2eec5e6fe650701f3c24719aa1496314f",
+      "schema_sha256": "9261be094262c9d58e4125f5509cee6d02115dac30847fa022548b67fd0e2a56",
+      "generation_config_sha256": "2d387bd837e64ee5dc3bf022031636534e0f33fe06460b93beec190c40294ef0",
+      "provider_response_schema_sha256": "c9e8e1f52b1b23493a7982fe55360c212c17e410dc75348055bd8fd10744b0a8",
+      "provider_schema_field_order": [
+        "support_sufficient",
+        "reason_codes",
+        "reason"
+      ]
+    },
+    "C": {
+      "condition_id": "openai_generation",
+      "model": "gpt-6-luna",
+      "prompt_version": "task09f.binary_adequacy.conclusion_comparison_reason.v8",
+      "prompt_sha256": "a4ab912653631d6335a47ef611aa365c96f6e19d1162a594903f287d3e7c92d6",
+      "schema_sha256": "0bfe86e86aa4127129e4398f7d2bbc3683b0bbb8d385d40e28696b41cdffc236",
+      "generation_config_sha256": "2e219505c5d15d88dc39b6930e0a106a966407658c671175075cfc4e51b5b595",
+      "provider_response_schema_sha256": "11a3002e9ab394f3a114516cf651c96754a026c958fc080e2d275839de55785f",
+      "provider_schema_field_order": [
+        "comparison",
+        "conclusion_adequate",
+        "reason_codes",
+        "reason"
+      ]
+    }
+  },
+  "implementation": [
+    {
+      "path": "configs/judges_selected_v1.json",
+      "sha256": "7fb0cfc8d4dcc1591988d9185cd35c107a61de77ab563a6d33dade2f20c40ce3",
+      "byte_size": 1930
+    },
+    {
+      "path": "configs/judge_models_v1.json",
+      "sha256": "ce5704511667d53016237423af1d8cdfa0851d1f8836370d5b9c9bb5f6b3747b",
+      "byte_size": 1494
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "343f34e57f9db1fc6def295e4da61a9ec253e3fe6171d07e388636c25f56e653",
+      "byte_size": 1362
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "ae0637af7e576a285583149e458b94cc99ec099bd1d43739641d30a4e36b23b5",
+      "byte_size": 818002
+    },
+    {
+      "path": "Makefile",
+      "sha256": "a995692b1d62a1e1d2e8f298c168fe2ecc1071fbed16e081a82c11c8cdb5affe",
+      "byte_size": 20269
+    },
+    {
+      "path": "src/er_commons/judge_inspect.py",
+      "sha256": "35037aae5848e788ef8347c6bf81924293efccfa275ef449b8750eeaca993b43",
+      "byte_size": 9783
+    },
+    {
+      "path": "src/er_commons/adequacy_binary.py",
+      "sha256": "9c0ebf080ec875edb30e0f489c527ae4a759b703cf9d7a76a7d4ab752b8e942d",
+      "byte_size": 29839
+    },
+    {
+      "path": "src/er_commons/adequacy_inspect.py",
+      "sha256": "6f0fb4a55ccabe2e896e9540f3ad228d19bc9f1c504c72a27605f3f0c98a0711",
+      "byte_size": 6744
+    },
+    {
+      "path": "src/er_commons/adequacy_binary_development.py",
+      "sha256": "77d85b3d825b3128f973c95f43903aec776323cb89f034c964f9e00f39f5af27",
+      "byte_size": 14351
+    },
+    {
+      "path": "src/er_commons/adequacy_calibration.py",
+      "sha256": "a1f4bafc0a98b371622d8f679752d5465e22c28bc21341afe12248c1c87c77c8",
+      "byte_size": 3118
+    },
+    {
+      "path": "src/er_commons/no_answer.py",
+      "sha256": "c650201449d694d4a0f798c3a9ddb5e6c4e80568b769ba8cd1db80d96ef3bbbc",
+      "byte_size": 12161
+    },
+    {
+      "path": "src/er_commons/no_answer_inspect.py",
+      "sha256": "36a2c2fcf522a07a5332731af093ce87aa27f0e4fe1bed6614e04a4017526133",
+      "byte_size": 7510
+    },
+    {
+      "path": "src/er_commons/no_answer_development.py",
+      "sha256": "caaf37667ac068864feeb5eb80cf0c93d5f3fac31d511528f1f8b056dcdffff6",
+      "byte_size": 6045
+    },
+    {
+      "path": "src/er_commons/point_grounding.py",
+      "sha256": "8850b5437767d9bff37ea59ca45e9d03bcbae861712a41c5aaa0b75f1ff52629",
+      "byte_size": 11173
+    },
+    {
+      "path": "src/er_commons/point_grounding_inspect.py",
+      "sha256": "24b79b40d4eff472572888e3708a597872f7e406c57eaff8ff10fe8d3dbe3c7d",
+      "byte_size": 8386
+    },
+    {
+      "path": "src/er_commons/point_grounding_panel.py",
+      "sha256": "de478acb42ce726bb884f0ac1566c658a66dffedbf5394f5d49d3741f0502281",
+      "byte_size": 6997
+    },
+    {
+      "path": "src/er_commons/point_grounding_development.py",
+      "sha256": "d9c4c6829f5a6f00d6905de339594e52c3254975a88659b05c2eaced26312463",
+      "byte_size": 7687
+    },
+    {
+      "path": "src/er_commons/artifact_io.py",
+      "sha256": "742def5e35aa9a29f747149a06d77daf44106ddd5ce50c157181e19f6561236f",
+      "byte_size": 10916
+    },
+    {
+      "path": "src/er_commons/ollama_request.py",
+      "sha256": "c0e1fbb8d063ab966bc9963b60df1ec3139ac6ebac739adf31e00cd4537430c2",
+      "byte_size": 2579
+    },
+    {
+      "path": "src/er_commons/ollama_token_counter.py",
+      "sha256": "4caa43352c2d64e2d88325a6a40b26d9a44ea5b382e277b332a49ae801385393",
+      "byte_size": 19028
+    }
+  ],
+  "policies": [
+    {
+      "path": "docs/specs/no_answer_labeling_rules.md",
+      "sha256": "fc7e7ef8c7b295a12218b9b407f4a5c5941d8a9a848e829667d736a51e402762",
+      "byte_size": 1887
+    },
+    {
+      "path": "docs/specs/grounding_labeling_rules.md",
+      "sha256": "cd4ce42877b0a0fe1ff381fc77c77886da2a9d6164c9e693db7a19c1a14e1fa1",
+      "byte_size": 3167
+    },
+    {
+      "path": "docs/specs/adequacy_labeling_rules.md",
+      "sha256": "aaec5d75fb766f3059b5797ae27496414bc82c2dd335ef718c5dab0a75180fb1",
+      "byte_size": 11365
+    },
+    {
+      "path": "docs/specs/task09f1_no_answer_judge_contract.md",
+      "sha256": "c5f300e2cf9d6748af6e2ca9dd5b469731e262618679f9015d95e901701768d9",
+      "byte_size": 3093
+    },
+    {
+      "path": "docs/specs/task09f1_grounding_judge_contract.md",
+      "sha256": "57f75e43374f4a33969cada0e09b18e6e0c17dca47fd34079fbabaa9f124dbe9",
+      "byte_size": 4744
+    },
+    {
+      "path": "docs/specs/task09f_binary_judge_contract.md",
+      "sha256": "b68da0c52c8703306423f918e520546342ed250c77d12cc692ae965d94aa0584",
+      "byte_size": 9500
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/specs/task09f_final_result.json",
+      "sha256": "ca9e3e406639cce3cdd96c60a26486cb6a380b3ceb4ac01c355c6b8559f8d61b",
+      "byte_size": 2410
+    },
+    {
+      "path": "docs/specs/task09f_inspect_full_dev3_result.json",
+      "sha256": "d5354e82d912b3692eef653e0d59d15f213ab031a11c39ccf9a5b7d217bbda51",
+      "byte_size": 3017
+    },
+    {
+      "path": "docs/specs/task09f1_a_full_development_v2_result.json",
+      "sha256": "12df091deec6791e5bb16f564799073dcb802634b842ce56ff3763a72b21e4aa",
+      "byte_size": 13029
+    },
+    {
+      "path": "docs/specs/task09f1_g_full_development_v3_result.json",
+      "sha256": "13fe63b64dd677d13849e85d461c044a277c7948a7e2f9a7bb37fc68aa63838c",
+      "byte_size": 15993
+    },
+    {
+      "path": "docs/specs/task09f2_cleanup_result.json",
+      "sha256": "ee7a98244b90943f8bf885d73b7ccd1234c7ffb378466e844dfe21098db9890c",
+      "byte_size": 1073
+    }
+  ],
+  "data_publications": [
+    {
+      "path": "docs/specs/task09f_question_publication_v2_result.json",
+      "sha256": "2451102c69b70f4dd6449b859374839cd80fb96d912e445b65f637b120a1072b",
+      "byte_size": 3003
+    },
+    {
+      "path": "docs/specs/task09f_conclusion_synthesis_result.json",
+      "sha256": "a9eab8aba5e90afdc6b52882eb8884dd1063ce9a2cea552ce2db11c26222f2f3",
+      "byte_size": 14742
+    },
+    {
+      "path": "docs/specs/task09f_support_synthesis_result.json",
+      "sha256": "364916410fca65e33a4b6614c91bc6b7aff9f379405bbf5b90b3e618932b3976",
+      "byte_size": 4246
+    },
+    {
+      "path": "docs/specs/task09f1_no_answer_candidates_v1_result.json",
+      "sha256": "30c7a828c1406f8141ec26682c3e08f46a795886890329a9fa425bf0c6fe44ca",
+      "byte_size": 2636
+    },
+    {
+      "path": "docs/specs/task09f1_grounding_candidates_v2_result.json",
+      "sha256": "29465f2ce04fe01ab3c2c625a829556dfcc4155c264fbfd840c67277db73b477",
+      "byte_size": 4790
+    },
+    {
+      "path": "docs/specs/task09f1_calibration_panels_v1_result.json",
+      "sha256": "c3aa3b809283a04cbf032700c8739c714c766154274c0d272f470d27155c957e",
+      "byte_size": 3973
+    }
+  ],
+  "production_guide": "docs/judge_maintainer_guide.md",
+  "execution_policy": {
+    "owner": "native Inspect",
+    "result_cache": false,
+    "invalid_output": "failure_with_no_semantic_decision_no_reroll",
+    "cloud_max_connections": 4,
+    "ollama_max_connections": 1,
+    "max_output_tokens": 4096,
+    "cloud_reasoning_effort": "medium",
+    "request_timeout_seconds": 120,
+    "attempt_timeout_seconds": 45,
+    "inspect_transport_retries": 2,
+    "sample_time_limit_seconds": 150,
+    "sdk_retries": "OpenAI/Anthropic disabled; Fireworks native defaults",
+    "cost_limits": "Native Inspect soft per-sample; no custom aggregate hard cap"
+  },
+  "new_model_calls": 0,
+  "reserved_development_check": "Not performed in 09G; original provisional requirement explicitly superseded by documentation-only scope",
+  "held_out_test_access": false,
+  "labels": "Full-development labels are reviewed agent proposals, not human gold",
+  "limitations": [
+    "Known semantic errors, imperfect repeatability and flagged label/evidence issues remain in component reports",
+    "No new independent validation or measured joint A/G/S/C success",
+    "Ollama native aliases remain diagnostic; runtime identity/context not qualified for the new adapter",
+    "Provider pricing and model aliases may change; snapshot identities are not a guarantee of future provider behavior"
+  ],
+  "deferred": {
+    "Task 10": "Retrieval and evidence delivery qualification",
+    "Task 11": "Saved real development target answers",
+    "Task 12": "Abstention routing guard, point prechecks, aligned joins, strict joint reporting, denominators, real-output integration",
+    "Task 13": "Locked benchmark execution"
+  },
+  "next_task": "10",
+  "native_config_encoding": "stable_json_sha256(generation_config.model_dump(mode='json', exclude_none=True)); provider_response_schema_sha256 hashes that dump's response_schema member"
+}

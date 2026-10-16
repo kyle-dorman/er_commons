@@ -63,32 +63,19 @@ receipts; fixture receipts are not baseline results. The bounded code-quality
 pass strengthens validation and supports distinct saved variants of one case;
 see the outcome for verification and accepted closeout.
 
-**09E and 09E.1 are complete; [09E.2 cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md) is also complete.**
-The combined 09E/09E.1 cleanup is complete: Clef execution is retired,
-Ollama/Qwen remains for local integration checks, and maintained cloud judge paths
-have offline regression coverage and independent review. GLM Flash is selected for subsequent judging;
-Luna and Haiku remain alternatives. Keep the simple claims prompt and original
-conclusion semantics with the successful empty-review clarification. The rejected
-semantic appendix and DeepSeek remain set aside.
+## Task 09 — complete with limitations
 
-The [latest comparison](specs/task09e1_glm14_conditions_dev6_result.md) and
-[09E.1 task](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) preserve all
-experiment results, patched metrics and limitations. The
-[maintainer guide](grounding_judge_guide.md) owns current commands. Prior artifacts
-and dataset boundaries remain unchanged; this cleanup does not qualify a judge.
-The [09F adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) and
-[09F.1 A/G judges](../tasks/sprint2/09f1_revisit_grounding_judge.md) are complete, including
-[09F.2 production cleanup](../tasks/sprint2/09f2_cleanup_production_judges.md).
-Selected models are Luna A/G/C and Haiku S.
-
-Prior artifacts, uncommitted work and reserved/test boundaries remain preserved.
+The [09G freeze](specs/task09g_judge_freeze_v1.json) binds selected Luna A/G/C and
+Haiku S to the committed native Inspect implementation and completed comparison
+and cleanup evidence. Fireworks/GLM and Ollama remain alternatives. Earlier 09E
+selections and runtimes are historical. No further judge-development run is queued.
 
 ## Task 09 subqueue
 
-**09F, 09F.1 and [09F.2 cleanup](../tasks/sprint2/09f2_cleanup_production_judges.md)
-are complete.** Next: refresh and activate 09G challenge/freeze from the selected
-A/G/S/C handoffs. Native Inspect is the maintained execution path; Fireworks/GLM
-and Ollama remain available. Task 12 owns integration and combined reporting.
+**09A–09G are complete within their documented scopes.** 09G is a documentation-only
+freeze; the original additional challenge requirement was superseded, not executed.
+Next: Task 10 retrieval, then Task 11 target generation. Task 12 owns integration
+and combined reporting before locked benchmark execution.
 
 | Task | Status | Deliverable |
 | --- | --- | --- |
@@ -99,21 +86,19 @@ and Ollama remain available. Task 12 owns integration and combined reporting.
 | [09C — Evidence packets](../tasks/sprint2/09c_build_judge_evidence_packets.md) | Complete with limitations | Separate validated inputs and explicit context diagnostics |
 | [09D — Automatic metrics](../tasks/sprint2/09d_implement_automatic_metrics.md) | Complete with limitations | Inspect metrics, canonical identities and Task 10 receipt interface |
 | [09E — Grounding judge](../tasks/sprint2/09e_implement_grounding_judge.md) | Complete | Reference-blind grounding judge; accepted development results and limitations |
-| [09E.1 — Cloud/decision comparison](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) | Complete | GLM selected; provider comparison, cache repairs and disclosed development limitations |
+| [09E.1 — Cloud/decision comparison](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) | Complete (historical) | Prior GLM selection and provider evidence; superseded by the 09G bundle |
 | [09E.2 — Code cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md) | Complete | Reusable cloud interfaces, retained local smoke paths, regression tests and independent review |
 | [09F — Adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) | Complete with documented limitations | Luna C v8 / Haiku S v6; native cleanup complete |
 | [09F.1 — No-answer and grounding judges](../tasks/sprint2/09f1_revisit_grounding_judge.md) | Complete with documented limitations | Luna A v2 / G v3; full comparisons, handoffs and native cleanup complete |
-| [09G — Challenge/freeze](../tasks/sprint2/09g_challenge_and_freeze_judges.md) | Provisional | Bounded revisions, comparison report and frozen configurations |
+| [09G — Documentation freeze](../tasks/sprint2/09g_challenge_and_freeze_judges.md) | Complete with limitations | Committed source/configuration and existing evidence bound; no reruns |
 
-Refresh each provisional contract from preceding accepted outcomes before
-activation. Synthesis is complete; evaluation/judge work
-is targeted for October 12–14. These remain planning targets.
+Refresh downstream provisional contracts from the 09G freeze and accepted upstream
+outcomes before activation. The former October 12–14 targets are historical.
 
 ## Remaining queue
 
 | Task | Scope and finish line |
 | --- | --- |
-| **09 — Evaluation and synthetic judge qualification** | Astra development challenges first; then automatic metrics, separate grounding/adequacy calls, bounded disagreement analysis and prompt revisions, frozen judge configuration and known limitations. Target completion October 14. |
 | **10 — BM25 retrieval and evidence presentation** | Freeze question-only search and the top five full sections/tables, source labels and heading paths, length handling, and development recall. No model selection of results or generated section summaries. |
 | **11 — Target generation** | One frozen zero-shot target baseline, structured citations/abstention, output-length and stability checks. Three-day working timebox. |
 | **[12 — Integration and reporting](../tasks/sprint2/12_integrate_evaluation_and_reporting.md)** | Integrate frozen no-answer/G/S/C on saved development outputs; define exact joins, combined reporting, denominators and strict all-checks pass before final freeze. |

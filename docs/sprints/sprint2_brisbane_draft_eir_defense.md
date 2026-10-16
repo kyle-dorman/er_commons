@@ -611,28 +611,16 @@ task records. Later tasks require separate authorization.
    exact approved 19/30 allocation. Validate provenance, source and role separation,
    approved split membership and documented overlap limits before sealing. No
    retrieval, generation or judge run belongs to this task.
-3. **Task 09 — Build evaluation and qualify the judge with synthetic answers.**
-   Move core judge implementation and qualification here from Task 12. Implement
-   Decision 006's automatic retrieval/final-citation metrics and separate grounded
-   correctness/adequacy calls with anchored `0`/`1`/`2` scores. Bind inputs and outputs
-   to the accepted extraction, review registry and frozen Task 08 release. Begin
-   with Astra synthetic-answer creation from development cases, independently of
-   later retriever/target implementation. The
-   [Task 09 umbrella](../../tasks/sprint2/09_build_evaluation_and_qualify_judges.md)
-   owns the task contracts and completed upstream outcomes. Current order is 09F
-   adequacy, [09F.1 grounding revisit](../../tasks/sprint2/09f1_revisit_grounding_judge.md),
-   then 09G challenge/freeze. The accepted 09F.1 simplification retains adequacy
-   conclusion/support and adds independent no-answer and supporting-point grounding
-   datasets. Identify edge families, cycle on small reviewed sets, then compare
-   frozen prompts on full-development sets over the 19 development questions.
-   No conclusion-grounding call or re-review is planned; Task 12 owns combined
-   reporting and the strict all-checks-pass result.
-   Grounding work is deferred until adequacy finishes;
-   task planning alone does not authorize generation or evaluation. Earlier dates
-   are historical planning targets.
-   Compare GLM, Luna and Haiku for no-answer and grounding, with bounded revisions and saved
-   failures; select and freeze the configuration and disclose known weaknesses. Synthetic agreement is
-   not human calibration; retain uncalibrated automated-judgment reporting.
+3. **Task 09 — Evaluation components and judge freeze: complete.** Automatic
+   retrieval/citation metrics and independent A/G/S/C judges are established.
+   Luna A v2 / G v3 / C v8 and Haiku S v6 are selected through native Inspect.
+   [09F.2](../../tasks/sprint2/09f2_cleanup_production_judges.md) completed code
+   consolidation; [09G](../../tasks/sprint2/09g_challenge_and_freeze_judges.md)
+   freezes the committed configuration and existing evidence as documentation only.
+   Kyle explicitly replaced the provisional extra challenge/rerun requirement.
+   No new reserved-development check or held-out qualification is claimed.
+   Keep proposed-label uncertainty and known failures explicit. Task 12 owns
+   whole-answer routing, aligned joins and strict combined reporting.
 4. **Task 10 — Build and freeze BM25 retrieval and evidence presentation.** Build
    units from accepted hierarchy and accepted-review-registry body content and
    tables. Analyze lengths, choose whole sections or a documented contiguous
@@ -672,8 +660,10 @@ and central failures, and as many applicable perturbations as useful without
 contrived combinations or a fixed eight-variant cap. Preserve exact edits,
 intended effects, proposed G/A scores and evidence-based justifications separately
 from judge-visible answers. These are model-proposed expectations, not human gold.
-09A reserves final-check variants before any prototype/prompt tuning; 09G reports
-uncalibrated agreement, errors and known limitations without touching test cases.
+09A reserved final-check variants before prototype tuning. Those historical
+reservations remain preserved; the documentation-only 09G freeze does not evaluate
+them or claim an untouched final check. Existing development results remain
+uncalibrated automated judgments; the benchmark test cases stay untouched.
 
 ## UI and artifact boundary
 
@@ -693,10 +683,12 @@ PDFs, converted text, renders, indices, local models, and runs remain under
 
 The accepted [2026-10-16 grounding simplification](../decisions/006_structured_answers_four_part_evaluation.md#grounding-simplification--2026-10-16)
 supersedes the conclusion-grounding, conclusion-citation requirement and grounding
-0/1/2 rules below for the planned 09F.1 replacement. Supporting-point grounding,
+0/1/2 rules below. The completed 09F/09F.1 components use a three-way no-answer
+classifier and binary G/S/C decisions; the 09G manifest owns their frozen identities.
+The earlier ordinal judge rubrics below are historical. Supporting-point grounding,
 S and C run independently; reporting adds their strict conjunction while preserving
-the separate results. Legacy runtime/releases remain unchanged until explicit
-versioned migration. [09F.1](../../tasks/sprint2/09f1_revisit_grounding_judge.md)
+the separate results. Legacy results/releases remain preserved; obsolete
+execution paths were retired in 09F.2. [09F.1](../../tasks/sprint2/09f1_revisit_grounding_judge.md)
 establishes no-answer and grounding components; [Task 12](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md)
 owns routing integration and combined reporting. No automatic-metric change or
 provider run follows this plan update.

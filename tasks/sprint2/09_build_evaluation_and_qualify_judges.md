@@ -1,153 +1,75 @@
-# Task 09 — Build evaluation and qualify two judges
+# Task 09 — Build evaluation and freeze the judge components
 
-Status: **09A–09E complete with recorded limitations; 09E.1 cloud comparison and
-GLM selection complete; 09E.2 cleanup complete; 09F active; 09F.1 queued; 09G provisional.**
-Reconcile later contracts with preceding outcomes before activation. The October 9
-execution authorization covered 09A, including its full Astra authoring batch.
-The October 10 request authorized 09B after runner/model/runtime discussion:
-Inspect AI, local Ollama and a bounded two-model qualification. The later October
-10 request authorized 09C packet construction and offline validation only.
-The subsequent 09D start request authorized automatic metrics and offline Inspect
-qualification, without inference or later-task work.
+Status: **complete with documented limitations**, including 09F.2 production
+cleanup and the documentation-only [09G freeze](09g_challenge_and_freeze_judges.md).
+The [freeze manifest](../../docs/specs/task09g_judge_freeze_v1.json) binds the
+committed implementation, selected configurations and existing evaluation evidence.
+Next: Task 10 retrieval, then Task 11 target generation and Task 12 integration.
 
-## Abstract
+## Abstract and goal
 
-Turn the approved four-part evaluation into a runnable, inspectable evaluator.
-Create synthetic development answers first, choose the runner and qualify local
-inference, then implement mechanical metrics and each semantic judge separately.
-Synthetic challenges expose weaknesses; their proposed scores are not human gold.
+Build independently testable evaluation components before retriever/target
+implementation. Automatic retrieval and citation metrics remain separate from
+A (no-answer classification), G (point grounding), S (support sufficiency) and
+C (conclusion adequacy). Synthetic development comparisons expose weaknesses;
+reviewed proposed labels are not human gold or proof of general reliability.
 
-## Goal
+## Current outputs and ownership
 
-Freeze automatic scoring and two separately tested judges, with reproducible
-inputs, diagnostics, challenge results and explicit limitations. Target completion
-is October 14, 2026, following the intended October 9 synthesis kickoff and
-October 12–14 evaluation window; dates are planning targets, not execution claims.
-
-## Inputs
-
-- [08H release](../../docs/specs/task08h_final_result.json) and
-  [outcome](08h_serialize_and_freeze_benchmark.md): `task08_20261009_v1`, 49 cases,
-  exactly 19 development and 30 test. Preserve the approved allocation and seals.
+- Selected models: Luna A v2 / G v3 / C v8; Haiku S v6. Native Inspect owns
+  execution, with Fireworks/GLM and local Ollama diagnostic alternatives retained.
+- [Production guide](../../docs/judge_maintainer_guide.md): supported interfaces,
+  input isolation, failure handling, provider settings and historical replay.
+- [Current question publication](../../docs/specs/task09f_question_publication_v2_result.json):
+  49 cases, unchanged 19-development / 30-test split.
 - [Decision 006](../../docs/decisions/006_structured_answers_four_part_evaluation.md)
-  and [evaluation boundary](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
-  own formulas, 0/1/2 rubrics, source eligibility and judge visibility.
-- [Architecture](../../docs/architecture.md), [artifact contract](../../docs/data_artifacts.md),
-  and [task shape](../README.md) govern implementation and publication.
+  and current component rules own evaluation semantics. A uses three classifications;
+  G/S/C decisions are binary. Earlier 0/1/2 judge records remain historical.
+- [Task 12](12_integrate_evaluation_and_reporting.md) owns whole-answer routing,
+  evidence delivery/adapter checks, joins, denominators, strict joint reporting and
+  the real-development integration check. It is not complete through this freeze.
 
-## Plan and subtask contracts
+## Completed subtask records
 
-| Task | Deliverable | Dependencies |
-| --- | --- | --- |
-| [09A — Synthetic answers](09a_create_synthetic_challenges.md) | Framework-independent development variants, proposed expectations, coverage and provenance | Frozen 08H |
-| [09B — Harness and local inference](09b_choose_harness_and_qualify_local_judge.md) | Bounded runner decision and measured local inference qualification | 09A representative packets |
-| [09C — Evidence packets](09c_build_judge_evidence_packets.md) | Validated, separate grounding and adequacy inputs | 09A, 09B |
-| [09D — Automatic metrics](09d_implement_automatic_metrics.md) | Exact retrieval and citation scores with edge-case checks | 09C canonical resolution |
-| [09E — Grounding judge](09e_implement_grounding_judge.md) | Reference-blind grounding prompt, implementation and checks | 09B–09D |
-| [09E.1 — Cloud/decision comparison](09e1_compare_cloud_and_decision_judges.md) | Completed cloud comparison, GLM selection, cache/cost evidence and limitations | 09E outcomes, 09A.3 frozen panel |
-| [09E.2 — Judge code cleanup](09e2_cleanup_grounding_judges.md) | Completed reusable interfaces, regression tests and independent review | 09E and 09E.1 |
-| [09F — Adequacy judge](09f_implement_adequacy_judge.md) | Separate reference-aware adequacy prompt, implementation and checks | 09B, 09C; review shared interfaces after 09E |
-| [09F.1 — No-answer and grounding judges](09f1_revisit_grounding_judge.md) | Independent reviewed sets, small-panel prompt cycles, full-development GLM/Luna/Haiku comparisons and selection | Accepted 09F outcome |
-| [09G — Challenge and freeze](09g_challenge_and_freeze_judges.md) | Results, bounded revisions and configuration freeze | 09A–09F.1 |
+| Task | Retained outcome |
+| --- | --- |
+| [09A](09a_create_synthetic_challenges.md), [09A.2](09a2_regenerate_point_expectations.md), [09A.3](09a3_add_clean_abstentions.md) | Synthetic development data, proposed expectations, coverage and immutable reservation history |
+| [09B](09b_choose_harness_and_qualify_local_judge.md) | Historical harness/local inference comparison and limitations |
+| [09C](09c_build_judge_evidence_packets.md) | Separate packet projection, source integrity and context diagnostics |
+| [09D](09d_implement_automatic_metrics.md) | Offline automatic metric validation and retrieval-receipt contract |
+| [09E](09e_implement_grounding_judge.md), [09E.1](09e1_compare_cloud_and_decision_judges.md), [09E.2](09e2_cleanup_grounding_judges.md) | Historical grounding experiments, provider comparisons and earlier cleanup |
+| [09F](09f_implement_adequacy_judge.md) | Selected C/S judges and full-development comparison |
+| [09F.1](09f1_revisit_grounding_judge.md) | Selected A/G judges and full-development comparisons |
+| [09F.2](09f2_cleanup_production_judges.md) | Shared native provider configuration, selected-only cores, offline parity and full checks |
+| [09G](09g_challenge_and_freeze_judges.md) | Documentation-only freeze of existing outcomes; no new inference |
 
-Use the listed order as the default queue. Independent implementation can be
-scoped later; dependencies do not require unnecessary new serial approvals once
-execution is authorized. 09A–09E and the 09E.1/09E.2 subtasks are complete.
-09F is complete: Luna is selected for C v8 and Haiku for S v6 through native
-Inspect; the [final handoff](../../docs/specs/task09f_final_result.json) retains
-reviewed development evidence and limitations. Historical grounding selection
-remains unchanged until 09F.1. The separate no-answer/grounding revisit is next;
-09G follows both accepted outcomes. No new provider calls are authorized by
-adequacy closeout.
+## Validation and learning
 
-## Outputs and boundaries
+Component records contain independent policy/data reviews, repeated evaluations,
+failure analysis and runtime tests. Cleanup preserved exact selected prompt/schema
+identities, parser/projection behavior and all historical result pointers. Final
+implementation checks passed: 3,975 tests, one skipped, plus formatting/lint/types.
+The 09G closeout verifies bindings and documentation only.
 
-Keep schemas, prompts, configurations, small fixtures and code in Git; keep source
-packets, generated answers, calls and reports under `ER_COMMONS_DATA_ROOT` in a
-versioned Task 09 namespace. Each subtask publishes a compact checked-in result
-pointer to its external artifacts and records its exact upstream bindings.
-Share transport, persistence and citation-resolution utilities where useful;
-keep semantic prompts, evidence visibility and results separate. No judge sees
-Astra's proposed expectations, automatic scores, target identity or official
-response content. Grounding also must not see references or gold evidence roles.
+The original 09G reserved-development final-check requirement was explicitly
+superseded by Kyle's documentation-only scope. Historical reserved variants remain
+preserved; no new reserved check or benchmark-test qualification is claimed.
+Full-development comparisons include correlated variants and calibration overlap.
+They support model selection, not independent or human-calibrated accuracy.
+Separate component scores cannot establish a measured joint pass rate.
 
-09B selects Inspect AI with a narrow native Ollama adapter, without containers
-or judge tools. The user authorized comparison of Gemma 4 12B and Qwen3.5 9B,
-starting at released 16-bit precision where feasible. Model substitutions require
-an explicit recorded decision. See 09B for exact format/backend identities and
-measured limitations. No ensemble or broad model sweep.
+## Non-goals and downstream gates
 
-## Research / learning checkpoint
-
-Use primary [Inspect grading](https://inspect.aisi.org.uk/model-graded.html),
-[providers](https://inspect.aisi.org.uk/providers.html),
-[Harbor task guidance](https://docs.harborframework.com/tasks/overview), and
-[Ollama structured outputs](https://docs.ollama.com/capabilities/structured-outputs)
-to distinguish model serving, orchestration and project-specific scoring.
-[Anthropic's evaluation guidance](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)
-and the [judge notes](../../docs/llm_judge_learning_notes.md) inform challenge design;
-our accepted rubric remains authoritative. Explain selected tradeoffs in outcomes.
-
-## Review pass
-
-Use bounded independent reviews for dev/test and judge information boundaries,
-metric/rubric fidelity, and maintainable restartable implementation. Reconcile
-findings, not just test failures. Avoid adding a new full human labeling pass.
-
-## Validation and acceptance criteria
-
-- Verify frozen release identity and exact development membership; no test answers
-  enter synthesis, tuning, smoke qualification or challenge evaluation.
-- Test separate packets, exact formulas, partial credit, abstention and failed-call
-  behavior. Never report infrastructure failures as semantic zero scores.
-- Save actual inputs/outputs, versions, model identity, attempts and coverage;
-  validate reuse and interruption recovery. Inspect human readability of code.
-- Run focused meaningful tests plus `make fix` and `make check` for implementation;
-  docs-only changes require link/diff inspection and `git diff --check`.
-- Freeze separate metric/judge configurations with known limits and results;
-  report **uncalibrated automated judgments** unless separate human calibration
-  actually occurs. No invented accuracy threshold or claim of general reliability.
-
-## Non-goals
-
-Reopening Task 08, reclustering/resplitting, test execution, retriever or target
-implementation, agentic search, human calibration, framework building, model
-training, automatic expansion of gold evidence, commits or pushes in this planning
-request. Task 12 later checks actual target-output integration; Task 13 runs test.
+No further prompt cycles, model comparisons, label changes or inference are required
+to close Task 09. No test answers entered judge development. Retrieval/target work
+belongs to Tasks 10/11; Task 12 must validate actual routing and reporting before
+Task 13's separately authorized locked benchmark execution. Native Ollama aliases
+remain diagnostic, with runtime identity/context unqualified for the new adapter.
 
 ## Outcome
 
-[09A outcome](09a_create_synthetic_challenges.md#outcome) and
-[sealed result](../../docs/specs/task09a_final_result.json): all 19 development
-cases, 546 variants, 19 controls; 541 comparison-eligible variants split into 423
-development and 118 reserved final checks. Five review exclusions and 43
-inapplicable combinations remain explicit. Synthetic proposals are uncalibrated.
-[09B outcome](09b_choose_harness_and_qualify_local_judge.md#outcome) and
-[result](../../docs/specs/task09b_final_result.json) select Inspect/native Ollama
-with Qwen F16 at 48K as the operational default and Gemma BF16 as an alternative.
-Both prototypes showed semantic failures; no accurate judge is established.
-[09C outcome](09c_build_judge_evidence_packets.md#outcome) and
-[result](../../docs/specs/task09c_final_result.json) provide strict separate packets,
-explicit unresolved citations and a 48K preflight adapter, verified with fixtures
-and 12 bounded offline development packets. No judge calls occurred; exact
-runtime token counting remains the consuming judge's responsibility.
-[09D outcome](09d_implement_automatic_metrics.md#outcome) and
-[result](../../docs/specs/task09d_final_result.json) provide exact automatic metrics,
-offline Inspect integration and a canonical retrieval-receipt contract.
-Task 10/12 must qualify production mappings and delivery.
-
-[09E](09e_implement_grounding_judge.md) and
-[09E.1](09e1_compare_cloud_and_decision_judges.md) are complete. The local-model
-experiments led to the accepted GLM Flash development configuration, with Luna
-and Haiku retained as alternatives. The
-[latest comparison](../../docs/specs/task09e1_glm14_conditions_dev6_result.md)
-preserves native usage/cost evidence, selective repair provenance, full-denominator
-metrics and remaining semantic/validation failures. Historical Qwen expansion
-checkpoints are closed; no further local-judge development is pending.
-[09E.2](09e2_cleanup_grounding_judges.md) completes the shared code cleanup,
-regression coverage and independent review. Ollama remains for local integration
-checks; Clef execution is retired.
-
-Next refresh 09F for the separate reference-aware adequacy judge using the
-maintained cloud infrastructure. 09F and 09G remain unstarted; final challenge
-and configuration freeze are still 09G work, not claims made by this closeout.
+The development-selected evaluator is frozen with known limitations. Production
+source, dependency lock, models, prompts, schemas, settings, policies, data-publication
+pointers and comparison evidence are bound in the 09G manifest. Earlier task records
+preserve historical experiments and commands; current execution follows the
+production guide. Task 10 is next.

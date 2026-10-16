@@ -5,18 +5,17 @@ project docs.
 
 ## Current status
 
-**09F and 09F.1 are complete, including production cleanup.** Kyle selected
-Luna for A v2, G v3 and C v8, and Haiku for S v6.
-[09F.2](../tasks/sprint2/09f2_cleanup_production_judges.md) consolidated native
-Inspect execution and retired exploratory runtimes while retaining Fireworks/GLM
-and Ollama diagnostics. [09G](../tasks/sprint2/09g_challenge_and_freeze_judges.md)
-is next. The [production guide](judge_maintainer_guide.md) owns current use.
+**Task 09 is complete with documented limitations.** The
+[09G documentation freeze](../tasks/sprint2/09g_challenge_and_freeze_judges.md)
+binds Luna A v2 / G v3 / C v8 and Haiku S v6, existing comparisons and the cleaned
+native Inspect implementation. No additional model run or reserved-set check was
+performed. The [freeze manifest](specs/task09g_judge_freeze_v1.json) owns exact
+identities; the [production guide](judge_maintainer_guide.md) owns current use.
 
-Current evidence and selections: [C/S](specs/task09f_final_result.json),
-[A](specs/task09f1_a_inspect_handoff.md), [G](specs/task09f1_point_grounding_handoff.md).
-Full-development labels remain reviewed proposals; no held-out qualification is
-claimed. [Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) owns
-whole-answer routing and combined reporting. Historical runs remain immutable.
+**Next: Task 10 retrieval and evidence presentation.** Task 11 supplies target
+answers; [Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) owns
+whole-answer routing and combined reporting. Full-development labels remain
+reviewed proposals; no held-out or end-to-end qualification is claimed.
 
 The current [question publication](specs/task09f_question_publication_v2_result.json)
 contains 49 cases with the unchanged 19-development/30-test split. See
@@ -43,22 +42,12 @@ with separate deterministic evidence packets and explicit context diagnostics;
 remaining exact-token-counter requirement. [09D is complete](../tasks/sprint2/09d_implement_automatic_metrics.md) with offline
 Inspect metrics, canonical-ID matching and an explicit Task 10 receipt contract;
 [its result](specs/task09d_final_result.json) records fixture validation and limits.
-[09E](../tasks/sprint2/09e_implement_grounding_judge.md) and
-[09E.1](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) are complete, preserving the
-local/cloud judge development results. The user selects GLM Flash with the simple
-claims prompt, original conclusion semantics and empty-review clarification.
-The [latest comparison](specs/task09e1_glm14_conditions_dev6_result.md) records
-results and limitations; this development selection is not judge qualification.
-Luna and Haiku remain cloud alternatives; Ollama/Qwen remains for local code-path
-checks. Clef execution is retired, with its historical evidence preserved.
-
-**[09E.2 — Judge code cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md) is complete.**
-This covers both inherited 09E and current 09E.1 code. See the
-[judge maintainer guide](grounding_judge_guide.md) for maintained interfaces.
-No model inference, label changes or reserved/test access belongs to this cleanup.
-The [09F adequacy judge](../tasks/sprint2/09f_implement_adequacy_judge.md) is complete, including 09F.2 cleanup.
-Its [final handoff](specs/task09f_final_result.json) selects Luna C v8 / Haiku S v6;
-the task preserves earlier experiments and superseded whole-answer work.
+[09E/09E.1](../tasks/sprint2/09e1_compare_cloud_and_decision_judges.md) and
+[09E.2](../tasks/sprint2/09e2_cleanup_grounding_judges.md) preserve historical
+experiments. Their former GLM default and retired runners are superseded by
+[09F](specs/task09f_final_result.json), [A](specs/task09f1_a_inspect_handoff.md),
+[G](specs/task09f1_point_grounding_handoff.md) and
+[09F.2 cleanup](../tasks/sprint2/09f2_cleanup_production_judges.md).
 
 The latest development synthetic dataset is the [09A.3 additive publication](specs/task09a3_final_result.json):
 442 answers / 430 eligible, including two clean abstentions per question. It
@@ -77,7 +66,7 @@ interfaces, shared provider configuration and offline historical replay.
 
 1. [Task 09 umbrella](../tasks/sprint2/09_build_evaluation_and_qualify_judges.md),
    then [09A synthetic challenges](../tasks/sprint2/09a_create_synthetic_challenges.md).
-   The umbrella links all seven contracts; do not read every historical task.
+   The umbrella links completed component records; do not read every historical task.
 2. [08H release pointer](specs/task08h_final_result.json) and
    [08H outcome](../tasks/sprint2/08h_serialize_and_freeze_benchmark.md) for exact
    source/case/split identities and target/reference separation.
