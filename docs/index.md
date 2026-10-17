@@ -14,11 +14,13 @@ identities; the [production guide](judge_maintainer_guide.md) owns current use.
 
 **Task 10 evidence-only inputs are prepared for all 49 cases.** The
 [result pointer](specs/task10_final_result.json) binds the 19-development/30-test
-publication, canonical citation maps and validation. **Next: Task 11 target
-generation**, initially using only the 19 development cases. Retrieval remains
+publication, canonical citation maps and validation. **[Task 11A panel selection](../tasks/sprint2/11a_select_development_panels.md) is complete.**
+Next: refresh [11B](../tasks/sprint2/11b_build_luna_generation.md) before execution
+under the [Luna generation plan](../tasks/sprint2/11_build_and_freeze_target_generation.md):
+three then six questions for prompt iteration, followed by all 19 development cases. Retrieval remains
 deferred under [Decision 007](decisions/007_evidence_only_first_baseline.md).
-[Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) owns whole-answer
-routing and combined reporting. No model run or end-to-end qualification is
+[Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) finalizes combined reporting and locked-test readiness after Task 11C integrates
+whole-answer evaluation for prompt iteration. No model run or end-to-end qualification is
 claimed by input preparation.
 
 The current [question publication](specs/task09f_question_publication_v2_result.json)
@@ -63,6 +65,14 @@ contains 490 independently reviewed proposed labels, with 471 eligible for paire
 reference-visibility comparisons. The [calibration panels](specs/task09f_binary_calibration_review.md)
 now select from both published component datasets. The combined prompt comparison is complete; the selected pair is recorded in the final handoff above.
 
+## Read for Task 11
+
+Start with the [Task 11 umbrella](../tasks/sprint2/11_build_and_freeze_target_generation.md)
+and completed [11A](../tasks/sprint2/11a_select_development_panels.md), including its
+[fixed panels](specs/task11a_development_panels_v1.json) and
+[criteria/budgets](specs/task11a_panel_protocol.md). Subtasks 11B–11E
+are provisional; refresh each from its predecessor before execution.
+
 ## Task 10 handoff
 
 Start with [Task 10](../tasks/sprint2/10_prepare_evidence_only_inputs.md) and its
@@ -83,7 +93,7 @@ interfaces, shared provider configuration and offline historical replay.
    [sprint evaluation boundary](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
    for the authoritative four results and judge visibility. The
    [remaining sequence](sprints/sprint2_brisbane_draft_eir_defense.md#remaining-task-sequence)
-   keeps core judge work in 09 and later integration in 12.
+   keeps core judge work in 09 and initial integration in 11C and final reporting in 12.
 4. [Architecture](architecture.md) and [artifact contract](data_artifacts.md)
    before implementation; [task shape](../tasks/README.md) and
    [documentation guide](documentation.md) for contract changes.
@@ -120,7 +130,7 @@ interfaces, shared provider configuration and offline historical replay.
 - [`docs/todo.md`](todo.md): current queue and next action.
 - [`docs/backlog.md`](backlog.md): unselected future ideas only.
 - [LLM judge learning notes](llm_judge_learning_notes.md): supporting checks for
-  Task 09 judge development and Task 12 integration; the sprint plan owns
+  Task 09 judge development, Task 11C integration and Task 12 reporting; the sprint plan owns
   the evaluation contract.
 - [Grounding experiment record](grounding_experiment_record.md): consolidated
   09E/09E.1 techniques, successful and negative results, decisions and evidence.

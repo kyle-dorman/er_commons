@@ -1,0 +1,504 @@
+{
+  "schema_version": "task11a.development_panels.v1",
+  "status": "fixed_before_target_generation",
+  "created_date": "2026-10-17",
+  "release_id": "task09f_20261014_v2",
+  "task10_result_sha256": "6b7f1a5de7fb9e44d06d1cad7ea9f001095417338ce0a29e1bac2d72dfa2326d",
+  "data_root": "ER_COMMONS_DATA_ROOT",
+  "inputs": {
+    "target/dev.jsonl": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_10/evidence_only_v4/target/dev.jsonl",
+      "sha256": "ebdee7f33cd7ec2a2dae17998a10af89ceb39a7ee80a2d4aa437c895da935a84",
+      "byte_size": 410337
+    },
+    "evaluator/dev_mappings.jsonl": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_10/evidence_only_v4/evaluator/dev_mappings.jsonl",
+      "sha256": "f4eca3016233a50a8da1d1b89db38fcb5d3c377fc26006bf4b26f16d2e44daf9",
+      "byte_size": 434681
+    },
+    "completion.json": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_10/evidence_only_v4/completion.json",
+      "sha256": "76e82bac364b6e412bc43654f5ca0459af3027b1b3fb2be12c325481d166dff4",
+      "byte_size": 1075
+    },
+    "frozen_target_dev": {
+      "path_relative_to_data_root": "benchmarks/er_bench/releases/task09f_20261014_v2/target/dev.jsonl",
+      "sha256": "00b624a5cd86fb2a420f785d386cc15195c48364a6cd2e7235f7d1dfef72c5b2",
+      "byte_size": 3417
+    }
+  },
+  "record_hash_definition": "SHA-256 of exact UTF-8 JSONL record bytes excluding line terminator; line numbers are diagnostics, case_id is the join key. Verify whole-file bindings before selecting records.",
+  "initial_three": [
+    "C041",
+    "C017",
+    "C019"
+  ],
+  "fixed_six": [
+    "C041",
+    "C017",
+    "C019",
+    "C014",
+    "C037",
+    "C056"
+  ],
+  "remaining_thirteen": [
+    "C001",
+    "C006",
+    "C007",
+    "C008",
+    "C027",
+    "C028",
+    "C029",
+    "C036",
+    "C042",
+    "C045",
+    "C050",
+    "C051",
+    "C054"
+  ],
+  "development_order": [
+    "C001",
+    "C006",
+    "C007",
+    "C008",
+    "C014",
+    "C017",
+    "C019",
+    "C027",
+    "C028",
+    "C029",
+    "C036",
+    "C037",
+    "C041",
+    "C042",
+    "C045",
+    "C050",
+    "C051",
+    "C054",
+    "C056"
+  ],
+  "cases": [
+    {
+      "case_id": "C001",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 1,
+        "record_sha256": "9357f567ba87fd2fe60d995c3c5cd5ae281ad6955a5044ccb6bbc4bf1a303d66"
+      },
+      "evaluator_mapping": {
+        "line_1based": 1,
+        "record_sha256": "29d016d036bb491e7110de76a11526bc287e3701f550f109f81d584c2f9e0876"
+      },
+      "characteristics": {
+        "source_text_characters": 25409,
+        "passage_views": 8,
+        "embedded_table_records": 2,
+        "source_ids": [
+          "deir_appendix_g2",
+          "deir_main"
+        ]
+      }
+    },
+    {
+      "case_id": "C006",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 2,
+        "record_sha256": "b3957db29227cba7f024cf1c2d8bcd78386b779da63d684d80accda5e30f49d5"
+      },
+      "evaluator_mapping": {
+        "line_1based": 2,
+        "record_sha256": "e00c96b62061a8d205b32f40b9c94e212c604b4d2df63bfcc495658d7ac03e97"
+      },
+      "characteristics": {
+        "source_text_characters": 10931,
+        "passage_views": 3,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_appendix_a",
+          "deir_main"
+        ]
+      }
+    },
+    {
+      "case_id": "C007",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 3,
+        "record_sha256": "3790d2c6be14ac6fe90c23ede4d83b4b4b47d8cf4aa153638c03be093d04b7a9"
+      },
+      "evaluator_mapping": {
+        "line_1based": 3,
+        "record_sha256": "5866652c0242ca9fec1d74f9d2c3fe64001bbb8b68a63326be2aa4796d58c566"
+      },
+      "characteristics": {
+        "source_text_characters": 21456,
+        "passage_views": 5,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_appendix_f2",
+          "deir_main",
+          "feir_appendix_f1"
+        ]
+      }
+    },
+    {
+      "case_id": "C008",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 4,
+        "record_sha256": "00689ec60586211b960cc88c3d0836b15904ca6c74774456a97a1ad24b2b5ad2"
+      },
+      "evaluator_mapping": {
+        "line_1based": 4,
+        "record_sha256": "13b771470940a7836edf425571ccb63316d42fa7082b1f66cca813b27847be1e"
+      },
+      "characteristics": {
+        "source_text_characters": 19047,
+        "passage_views": 4,
+        "embedded_table_records": 1,
+        "source_ids": [
+          "deir_main",
+          "feir_appendix_f1"
+        ]
+      }
+    },
+    {
+      "case_id": "C014",
+      "role": "expanded_tuning",
+      "target": {
+        "line_1based": 5,
+        "record_sha256": "6bae5a4610052039d1ff0ab9ebc70a6a675c99ab68efad302e78a5f4d7280152"
+      },
+      "evaluator_mapping": {
+        "line_1based": 5,
+        "record_sha256": "be6c6086fd93d306dfa9fcd1e6d3f10146ac89969701f6bf11cfe0aca43717c6"
+      },
+      "characteristics": {
+        "source_text_characters": 32889,
+        "passage_views": 5,
+        "embedded_table_records": 15,
+        "source_ids": [
+          "deir_main",
+          "feir_appendix_f1"
+        ]
+      },
+      "selection_reason": "Longest development text packet and most embedded table records; reconcile cumulative scenario/project inclusion across main report and transportation appendix, retaining two approved scopes of one canonical table."
+    },
+    {
+      "case_id": "C017",
+      "role": "initial_tuning",
+      "target": {
+        "line_1based": 6,
+        "record_sha256": "dcf703f4c5035b940ac61cdd6d32bd651efbc4b1412bd2c2d92ac16a10b7d200"
+      },
+      "evaluator_mapping": {
+        "line_1based": 6,
+        "record_sha256": "2212bf705c5609d9d5287c4ea0f329a0aca2fa3e8a82a69c4a2ccda053dbec2e"
+      },
+      "characteristics": {
+        "source_text_characters": 6924,
+        "passage_views": 2,
+        "embedded_table_records": 1,
+        "source_ids": [
+          "deir_main"
+        ]
+      },
+      "selection_reason": "Compact narrative plus energy table; distinguish gross demand, onsite generation, net grid demand, renewable assumptions and uncertain storage benefits; preserve source inconsistencies rather than silently repair them."
+    },
+    {
+      "case_id": "C019",
+      "role": "initial_tuning",
+      "target": {
+        "line_1based": 7,
+        "record_sha256": "b085c4f3badd9244471adde5fc75f61770934733e2aaddacc486357cf9a4dc3b"
+      },
+      "evaluator_mapping": {
+        "line_1based": 7,
+        "record_sha256": "cd91f8844bdc634e4dd73809414e817003f220a30a21bfbea9a66a6c111d59f7"
+      },
+      "characteristics": {
+        "source_text_characters": 19202,
+        "passage_views": 5,
+        "embedded_table_records": 1,
+        "source_ids": [
+          "deir_appendix_k3",
+          "deir_appendix_k6",
+          "deir_appendix_l",
+          "deir_main"
+        ]
+      },
+      "selection_reason": "Four-source conditional modeling synthesis; distinguish landfill from western areas, modeled sea-level-rise assumptions and closure/approval qualifications; text-only figure references cannot establish unseen spatial detail."
+    },
+    {
+      "case_id": "C027",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 8,
+        "record_sha256": "f9417f8e287603ea4ba04ef665f93f98cdf797f51b2618d472198bb49f817e71"
+      },
+      "evaluator_mapping": {
+        "line_1based": 8,
+        "record_sha256": "2dda53d9727cfb255c09e935639607e223a68220fbfb036beb0d199ad1b8857c"
+      },
+      "characteristics": {
+        "source_text_characters": 8442,
+        "passage_views": 3,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_main",
+          "feir_appendix_f1"
+        ]
+      }
+    },
+    {
+      "case_id": "C028",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 9,
+        "record_sha256": "acda1fbca01bcb6d3883d3adb0be8d2ba6dfea18c6a427a8b238ea4c6de2fc14"
+      },
+      "evaluator_mapping": {
+        "line_1based": 9,
+        "record_sha256": "e9b519b4f5eebd1ba580833ece9ac24a328accc8f1f2f3fb0c2b440e82bc9b8d"
+      },
+      "characteristics": {
+        "source_text_characters": 9843,
+        "passage_views": 6,
+        "embedded_table_records": 4,
+        "source_ids": [
+          "deir_appendix_a",
+          "deir_appendix_j",
+          "deir_main"
+        ]
+      }
+    },
+    {
+      "case_id": "C029",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 10,
+        "record_sha256": "03effeb22a6031ac88eb15d6e650fc4aeca0e1e7570f6d8f852e38ab77bcaa17"
+      },
+      "evaluator_mapping": {
+        "line_1based": 10,
+        "record_sha256": "44552c51dde204a575110603fe3b2fb96625eb230b40f9a0182ad11585786d02"
+      },
+      "characteristics": {
+        "source_text_characters": 23908,
+        "passage_views": 2,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_main"
+        ]
+      }
+    },
+    {
+      "case_id": "C036",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 11,
+        "record_sha256": "07e22dd039cfb931b8e41c8ca973379558237bee994b36b6e9465f0952d59186"
+      },
+      "evaluator_mapping": {
+        "line_1based": 11,
+        "record_sha256": "8380ad6ee85b07527dbaf03dee8996108030cc63dfc70a3c1611e8ed55079f42"
+      },
+      "characteristics": {
+        "source_text_characters": 26131,
+        "passage_views": 9,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_appendix_a",
+          "deir_appendix_d",
+          "deir_main"
+        ]
+      }
+    },
+    {
+      "case_id": "C037",
+      "role": "expanded_tuning",
+      "target": {
+        "line_1based": 12,
+        "record_sha256": "f7ac681622a4e4c29f1338fb75a092ae4ce37a48b59445ad5aa905d584183d36"
+      },
+      "evaluator_mapping": {
+        "line_1based": 12,
+        "record_sha256": "cf24d76efafff75de4d6f3fcf9ab289d70ff9b4e9ec4c52b8681dbed21037379"
+      },
+      "characteristics": {
+        "source_text_characters": 9532,
+        "passage_views": 4,
+        "embedded_table_records": 2,
+        "source_ids": [
+          "deir_appendix_d",
+          "deir_main"
+        ]
+      },
+      "selection_reason": "Distinguish increased acreage from temporary functional loss; connect two table views, restoration timing and qualified mitigation requirements."
+    },
+    {
+      "case_id": "C041",
+      "role": "initial_tuning",
+      "target": {
+        "line_1based": 13,
+        "record_sha256": "11b97e646a1e1ff4b3bc044afe8fc79ae8291b0da49a7e8e83e9afee85cb5e9f"
+      },
+      "evaluator_mapping": {
+        "line_1based": 13,
+        "record_sha256": "9a4bef88287aee4a6bbd356ebd8ecd88654246559c8908836094ce8ded7455b6"
+      },
+      "characteristics": {
+        "source_text_characters": 1757,
+        "passage_views": 2,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_appendix_a",
+          "deir_main"
+        ]
+      },
+      "selection_reason": "Shortest development evidence packet; distinguish construction and occupancy rules, deed/lease obligations and enforcement authority across two sources."
+    },
+    {
+      "case_id": "C042",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 14,
+        "record_sha256": "5d392ee93afc91a54feabf9c6f31af517fbd58a3baa13d839c79f358aa4549e5"
+      },
+      "evaluator_mapping": {
+        "line_1based": 14,
+        "record_sha256": "b768f0b099c8ffc55c6606da275da50a651184526a53e7e0e01835242a05f43c"
+      },
+      "characteristics": {
+        "source_text_characters": 6239,
+        "passage_views": 4,
+        "embedded_table_records": 1,
+        "source_ids": [
+          "deir_main"
+        ]
+      }
+    },
+    {
+      "case_id": "C045",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 15,
+        "record_sha256": "18fffd8a6d947586f0317f709db9cc582222c4c649047ffbbc2d811700571edd"
+      },
+      "evaluator_mapping": {
+        "line_1based": 15,
+        "record_sha256": "f849b56ec44f8ae1f3c7b44c07fb231dc3cce5f5e11d7141bc56d3f81aa221b1"
+      },
+      "characteristics": {
+        "source_text_characters": 8068,
+        "passage_views": 4,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_appendix_a",
+          "deir_main"
+        ]
+      }
+    },
+    {
+      "case_id": "C050",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 16,
+        "record_sha256": "47e4b0003f9341c81602579ff843890717e0823080f720b6d2c690ed34b83cc8"
+      },
+      "evaluator_mapping": {
+        "line_1based": 16,
+        "record_sha256": "a354bd38a76ea448bb48356ce738efee2112142bc7a90a1bd00aa70ae4e58d46"
+      },
+      "characteristics": {
+        "source_text_characters": 2659,
+        "passage_views": 3,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_appendix_a"
+        ]
+      }
+    },
+    {
+      "case_id": "C051",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 17,
+        "record_sha256": "bc6acd7908c06e210476a200ce95423cfb865837ea0fd0f1c7abf773a8fcfb07"
+      },
+      "evaluator_mapping": {
+        "line_1based": 17,
+        "record_sha256": "59160379bb4ae11abc4558899e56747c06d83291d2f74754f822021bb8eeb719"
+      },
+      "characteristics": {
+        "source_text_characters": 8386,
+        "passage_views": 5,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_main"
+        ]
+      }
+    },
+    {
+      "case_id": "C054",
+      "role": "broader_development_check",
+      "target": {
+        "line_1based": 18,
+        "record_sha256": "eb6224d88bcc2f7ee3f7c42201455f7a06dbe80649b252b09445be163b4b12a7"
+      },
+      "evaluator_mapping": {
+        "line_1based": 18,
+        "record_sha256": "7f985a60dba51ee0948252a1790f3176322d1a2d9c80f48b2a361105e5c01368"
+      },
+      "characteristics": {
+        "source_text_characters": 4534,
+        "passage_views": 3,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_main"
+        ]
+      }
+    },
+    {
+      "case_id": "C056",
+      "role": "expanded_tuning",
+      "target": {
+        "line_1based": 19,
+        "record_sha256": "918d654b439d17394567ab1d3cecad15620b56f2aae2de61cdcb07ff5b23d0df"
+      },
+      "evaluator_mapping": {
+        "line_1based": 19,
+        "record_sha256": "2d77ba1a4011e4e209f3a648905f96be160fac8deba57f49787c626b65d59541"
+      },
+      "characteristics": {
+        "source_text_characters": 7335,
+        "passage_views": 5,
+        "embedded_table_records": 0,
+        "source_ids": [
+          "deir_appendix_l",
+          "deir_main"
+        ]
+      },
+      "selection_reason": "Quantitative narrative without tables; distinguish reduced depth/duration from eliminated flooding, onsite versus adjacent locations, and storm/design conditions."
+    }
+  ],
+  "shared_canonical_units_touching_panel": [],
+  "exposure_policy": "All six are tuning examples. Remaining thirteen are broader development checks, not independent held-out estimates. No test or reserved challenge content accessed. Selection uses questions/evidence only, not historical model/judge scores.",
+  "target_visibility": "Only Task 10 record.payload plus generic frozen prompt/schema enters generation; reasons, mappings, references, IDs and judge feedback remain outside target messages.",
+  "criteria_and_budgets": "task11a_panel_protocol.md",
+  "validation": {
+    "unique_counts": [
+      3,
+      6,
+      13,
+      19
+    ],
+    "initial_subset_of_six": true,
+    "six_disjoint_from_thirteen": true,
+    "union_equals_frozen_development": true,
+    "target_mapping_ids_equal": true,
+    "input_hashes_verified": true,
+    "model_calls": 0
+  }
+}

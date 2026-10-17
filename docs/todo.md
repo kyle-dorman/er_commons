@@ -74,8 +74,8 @@ selections and runtimes are historical. No further judge-development run is queu
 
 **09A–09G are complete within their documented scopes.** 09G is a documentation-only
 freeze; the original additional challenge requirement was superseded, not executed.
-Task 10 input preparation is also complete. Next: Task 11 target generation. Task 12 owns integration
-and combined reporting before locked benchmark execution.
+Task 10 input preparation is also complete. Task 11A panel selection is complete; next refresh 11B before execution. Task 11C integrates evaluation for prompt cycles;
+Task 12 finalizes reporting before locked benchmark execution.
 
 | Task | Status | Deliverable |
 | --- | --- | --- |
@@ -101,15 +101,33 @@ outcomes before activation. The former October 12–14 targets are historical.
 publishes all 49 cases in separate 19-development/30-test files. The
 [result pointer](specs/task10_final_result.json) owns exact identities and validation.
 All 232 approved occurrences are retained in 208 passage views over 207 case-level
-canonical units. No inference or scoring ran. Next: write the bounded Task 11
-contract from this handoff; initial generation/evaluation uses development only.
+canonical units. No inference or scoring ran. Task 11A panels are fixed; next refresh provisional 11B before execution. All Task 11
+generation/evaluation uses development only.
+
+## Task 11 — 11A complete; 11B next
+
+[Luna generation umbrella](../tasks/sprint2/11_build_and_freeze_target_generation.md):
+select three questions, expand to a fixed nested six for prompt iteration, then
+check a frozen candidate on all 19 development questions. Automatic checks and
+frozen judges are integrated before cycling prompts. [11A panels and criteria](specs/task11a_panel_protocol.md)
+are complete; no generation/evaluation or 11B implementation has started.
+
+| Subtask | Status |
+| --- | --- |
+| [11A — Panels and criteria](../tasks/sprint2/11a_select_development_panels.md) | Complete; [fixed panel manifest](specs/task11a_development_panels_v1.json) |
+| [11B — Luna runner](../tasks/sprint2/11b_build_luna_generation.md) | Next; provisional, refresh from 11A before execution |
+| [11C — Evaluation integration](../tasks/sprint2/11c_integrate_development_evaluation.md) | Provisional |
+| [11D — Prompt cycles](../tasks/sprint2/11d_iterate_development_prompt.md) | Provisional |
+| [11E — Freeze and all-19 check](../tasks/sprint2/11e_freeze_development_baseline.md) | Provisional |
+
+Refresh each provisional contract from its accepted predecessor before execution.
 
 ## Remaining queue
 
 | Task | Scope and finish line |
 | --- | --- |
-| **11 — Target generation** | One frozen zero-shot evidence-only target baseline on the 19 development cases, structured citations/abstention, output-length and stability checks. Three-day working timebox. |
-| **[12 — Integration and reporting](../tasks/sprint2/12_integrate_evaluation_and_reporting.md)** | Integrate frozen no-answer/G/S/C on saved development outputs; define exact joins, combined reporting, denominators and strict all-checks pass before final freeze. |
+| **11 — Target generation** | Luna evidence-only generation with 3→6 prompt cycles, integrated evaluation and a frozen all-19 development check. See 11A–11E above. |
+| **[12 — Reporting and locked-test readiness](../tasks/sprint2/12_integrate_evaluation_and_reporting.md)** | Reuse 11C/11E; finalize aggregate reporting, denominators, strict joint results and locked-test readiness. |
 | **13 — Locked test and results** | Run the frozen evidence-only baseline on the locked test set; report citation and semantic results, retrieval as not applicable, limitations and the next-project decision. |
 
 Agentic search is a later, separately scoped condition. No new full labeling pass

@@ -637,8 +637,8 @@ task records. Later tasks require separate authorization.
    freezes the committed configuration and existing evidence as documentation only.
    Kyle explicitly replaced the provisional extra challenge/rerun requirement.
    No new reserved-development check or held-out qualification is claimed.
-   Keep proposed-label uncertainty and known failures explicit. Task 12 owns
-   whole-answer routing, aligned joins and strict combined reporting.
+   Keep proposed-label uncertainty and known failures explicit. Task 11C integrates
+   whole-answer routing and aligned joins; Task 12 finalizes strict combined reporting.
 4. **[Task 10 — Prepare evidence-only inputs](../../tasks/sprint2/10_prepare_evidence_only_inputs.md): complete.**
    The [result](../specs/task10_final_result.json) binds all 49 packets and validation.
    One task, no subtasks: deterministically prepare the exact question and all
@@ -647,21 +647,26 @@ task records. Later tasks require separate authorization.
    separation and publish reproducible packets and a handoff. No retrieval,
    target inference or judge calls. Mechanical preparation of test inputs does
    not open them for tuning or evaluation.
-5. **Task 11 — Build and freeze target generation.** Pin the extraction,
-   usability, case, split, evidence-packet, prompt, model and schema identities.
-   Implement the zero-shot Qwen3 4B prompt, abstention and citation validation,
-   deterministic source-label rendering, output-length pilot and stability check
-   using only the 19 development cases. Generate supporting points and a
-   conclusion from the supplied passages. Timebox this work to three days around
-   one baseline, not open-ended model optimization.
-6. **[Task 12 — Integrate evaluation and reporting](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md).** Apply the frozen
-   evaluator and judges to saved development outputs; verify identities and input
-   separation. Define no-answer routing, exact G/S/C joins, aggregate statuses,
-   denominators and strict all-grounding-pass AND S-pass AND C-pass reporting.
-   Report final-citation metrics; mark retrieval recall not applicable for this
-   supplied-evidence condition. This is integration, not further judge development.
-   Record substantive fixes and repeat affected development checks before the
-   final freeze. No additional full labeling pass is required.
+5. **[Task 11 — Build and freeze Luna target generation](../../tasks/sprint2/11_build_and_freeze_target_generation.md).**
+   Start with Luna and pin the exact model/provider/settings before execution.
+   11A selects three development questions and a nested six-question panel;
+   11B builds the evidence-only generation runner; 11C integrates automatic
+   checks and frozen A/G/S/C judges; 11D cycles on the prompt using three then
+   six questions; 11E freezes a candidate and checks all 19 development questions
+   with bounded repeatability checks. Preserve exact request/output identities,
+   complete evidence, citations, abstention and context/output checks. Report
+   the six tuning cases separately from the remaining 13 development cases;
+   neither group supports a held-out performance claim. Retain a three-day
+   working timebox as a planning target and declare concrete budgets before runs.
+   11A is complete with [fixed panels and criteria](../specs/task11a_panel_protocol.md);
+   11B is next, pending refresh from that outcome. Later contracts remain provisional.
+6. **[Task 12 — Finalize reporting and locked-test readiness](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md).**
+   Reuse Task 11C integration and 11E saved outputs. Audit no-answer routing,
+   exact candidate joins and coverage; finalize aggregate denominators and strict
+   all-grounding-pass AND S-pass AND C-pass reporting. Preserve component results,
+   citation metrics and explicit missing/error states; retrieval recall remains
+   not applicable. Freeze reporting and configuration identities for Task 13.
+   No new prompt cycles, judge tuning or full labeling pass.
 7. **Task 13 — Run the locked test and close Sprint 2.** After a separate task
    activation and final configuration freeze, verify the identity chain and run
    the evidence-only baseline on the 30 held-out cases. Preserve applicable
@@ -709,7 +714,7 @@ S and C run independently; reporting adds their strict conjunction while preserv
 the separate results. Legacy results/releases remain preserved; obsolete
 execution paths were retired in 09F.2. [09F.1](../../tasks/sprint2/09f1_revisit_grounding_judge.md)
 establishes no-answer and grounding components; [Task 12](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md)
-owns routing integration and combined reporting. No automatic-metric change or
+finalizes combined reporting after Task 11C implements routing integration. No automatic-metric change or
 provider run follows this plan update.
 
 Accepted revision 2026-10-08: [Decision 006](../decisions/006_structured_answers_four_part_evaluation.md)
