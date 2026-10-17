@@ -15,8 +15,11 @@ identities; the [production guide](judge_maintainer_guide.md) owns current use.
 **Task 10 evidence-only inputs are prepared for all 49 cases.** The
 [result pointer](specs/task10_final_result.json) binds the 19-development/30-test
 publication, canonical citation maps and validation. **[Task 11A panel selection](../tasks/sprint2/11a_select_development_panels.md) is complete.**
-Next: refresh [11B](../tasks/sprint2/11b_build_luna_generation.md) before execution
-under the [Luna generation plan](../tasks/sprint2/11_build_and_freeze_target_generation.md):
+**[11B](../tasks/sprint2/11b_build_luna_generation.md) is complete:** the bounded
+three-case Luna smoke produced valid candidates and delivery receipts; the
+[result pointer](specs/task11b_final_result.json) records validation and limitations.
+Next: refresh [11C](../tasks/sprint2/11c_integrate_development_evaluation.md) for
+evaluation integration before any prompt iteration under the [Luna generation plan](../tasks/sprint2/11_build_and_freeze_target_generation.md):
 three then six questions for prompt iteration, followed by all 19 development cases. Retrieval remains
 deferred under [Decision 007](decisions/007_evidence_only_first_baseline.md).
 [Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) finalizes combined reporting and locked-test readiness after Task 11C integrates
@@ -70,8 +73,9 @@ now select from both published component datasets. The combined prompt compariso
 Start with the [Task 11 umbrella](../tasks/sprint2/11_build_and_freeze_target_generation.md)
 and completed [11A](../tasks/sprint2/11a_select_development_panels.md), including its
 [fixed panels](specs/task11a_development_panels_v1.json) and
-[criteria/budgets](specs/task11a_panel_protocol.md). Subtasks 11B–11E
-are provisional; refresh each from its predecessor before execution.
+[criteria/budgets](specs/task11a_panel_protocol.md). Read the completed [11B outcome](../tasks/sprint2/11b_build_luna_generation.md) and
+[result pointer](specs/task11b_final_result.json) next. Subtasks 11C–11E remain
+provisional; refresh each from its predecessor before execution.
 
 ## Task 10 handoff
 

@@ -403,3 +403,9 @@ prepare-evidence-only: check-env
 validate-evidence-only: check-env
 	@test -n "$(EVIDENCE_OUTPUT)" || (echo "Set EVIDENCE_OUTPUT"; exit 1)
 	uv run python -m er_commons.evidence_only validate --output "$(EVIDENCE_OUTPUT)"
+
+# Task 11B: one fixed initial-three smoke, no judges or prompt iteration.
+.PHONY: generate-luna-smoke
+generate-luna-smoke: check-env
+	@test -n "$(GENERATION_OUTPUT)" || (echo "Set GENERATION_OUTPUT to a fresh external run directory"; exit 1)
+	uv run --env-file "$(ENV_FILE)" python -m er_commons.target_generation --output "$(GENERATION_OUTPUT)"

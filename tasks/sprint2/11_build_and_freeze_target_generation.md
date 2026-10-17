@@ -1,6 +1,6 @@
 # Task 11 — Build and freeze Luna target generation
 
-Status: 11A complete; 11B is next, pending contract refresh. Implementation has not started.
+Status: 11A and 11B complete; 11C next, pending contract refresh.
 Refresh each provisional subtask from the accepted preceding outcome before execution.
 
 ## Abstract
@@ -27,7 +27,7 @@ to understand failures and choose a prompt. No retrieval or locked-test executio
 | Subtask | Status |
 | --- | --- |
 | [11A — Select development panels and success criteria](11a_select_development_panels.md) | Complete; [panels and protocol](../../docs/specs/task11a_development_panels_v1.json) fixed |
-| [11B — Build the Luna generation runner](11b_build_luna_generation.md) | Provisional |
+| [11B — Build the Luna generation runner](11b_build_luna_generation.md) | Complete with documented limitations; [result](../../docs/specs/task11b_final_result.json) |
 | [11C — Integrate development evaluation](11c_integrate_development_evaluation.md) | Provisional |
 | [11D — Iterate the prompt on three then six questions](11d_iterate_development_prompt.md) | Provisional |
 | [11E — Freeze and check the development baseline](11e_freeze_development_baseline.md) | Provisional |
@@ -35,7 +35,8 @@ to understand failures and choose a prompt. No retrieval or locked-test executio
 Outputs progress from panel selection to a runner, integrated per-case evaluation,
 versioned prompt comparisons and a frozen 19-case development handoff. Exact IDs,
 Luna model/provider/settings and final call budgets are decided in the owning
-subtask before runs. 11A fixes IDs and criteria and proposes budgets; no calls ran.
+subtask before runs. 11A fixes IDs and criteria and proposes budgets; 11B completed
+one bounded three-case smoke. No judges or prompt cycles ran.
 The three-day working timebox remains a planning target, not an implicit call budget.
 
 ## Plan / spec requirement

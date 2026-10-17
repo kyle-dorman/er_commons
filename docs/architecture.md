@@ -709,3 +709,16 @@ reads development only. It performs no model calls or retrieval. Whole-unit
 boundaries are inherited from approved evidence; recorded anchor text and tables
 are replayed against bound canonical files. See the [Task 10 format](specs/task10_evidence_only_v1.md)
 for current qualification status and the Task 11 delivery/context boundary.
+
+
+## Luna evidence-only generation
+
+`target_generation` owns the bounded Task 11B initial-three smoke. It verifies the
+11A development bindings, renders only the Task 10 payload with a generic pinned
+prompt/schema, and uses native Inspect/OpenAI generation. A narrow SDK HTTP hook
+counts and records the actual request before dispatch; it does not reimplement
+transport. Target settings are separate from frozen judge settings. Create-only
+attempt receipts preserve raw responses, valid candidates and explicit failures;
+uncertain attempts are never automatically resubmitted. See the
+[11B contract](../tasks/sprint2/11b_build_luna_generation.md) for limits and command.
+Whole-answer evaluation remains 11C work.

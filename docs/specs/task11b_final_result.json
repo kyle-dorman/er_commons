@@ -1,0 +1,194 @@
+{
+  "schema_version": "task11b.final_result.v1",
+  "status": "complete_with_documented_limitations",
+  "date": "2026-10-17",
+  "data_root": "ER_COMMONS_DATA_ROOT",
+  "run_id": "1def499e2619d4899dbcaa96b27ecf72eed274ea1060ad5b5759e5c00aa89d21",
+  "namespace": "pipelines/brisbane_baylands/task_11/11b_smoke_20261017_v1",
+  "case_ids": [
+    "C041",
+    "C017",
+    "C019"
+  ],
+  "model": "openai/gpt-6-luna",
+  "prompt_version": "task11b_luna_v1",
+  "artifacts": {
+    "manifest.json": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/11b_smoke_20261017_v1/manifest.json",
+      "sha256": "e1092730ab7b511a094b6919692c070ccb3c30a3615f6af26ec3cdfdc145fb09",
+      "byte_size": 2352
+    },
+    "completion.json": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/11b_smoke_20261017_v1/completion.json",
+      "sha256": "f8eceab6a9f4f505dc4e151f7e104af28220d4c7746ea5e92d3bef9491be59aa",
+      "byte_size": 7083
+    },
+    "summary.json": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/11b_smoke_20261017_v1/summary.json",
+      "sha256": "04bf693072f6edfacbff16b44fc82dbe8b79ef22d5ff52b1bf22382aac06454a",
+      "byte_size": 2198
+    },
+    "output_schema.json": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/11b_smoke_20261017_v1/output_schema.json",
+      "sha256": "49af65a99e740287b136050e88e0d133a1181983bd972f96cf58f2ca0e528c59",
+      "byte_size": 1947
+    },
+    "validation/smoke_audit.json": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/smoke_audit.json",
+      "sha256": "7e149129c6f47a31ba91dc579b3147203026f9c61671be5c6f023198085cc52d",
+      "byte_size": 1569
+    },
+    "validation/audit_smoke.py": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/audit_smoke.py",
+      "sha256": "076ac721b8342645bcef350186d24b73dda1cafb2e34f8c505c1b25a46c03456",
+      "byte_size": 3490
+    },
+    "validation/independent_review.json": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/independent_review.json",
+      "sha256": "d20221b91dc3e713c14fd1a461dba1553c538003bdeeb8ae1ef3988aba4a0ee7",
+      "byte_size": 1036
+    },
+    "validation/pre_smoke_source.json": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/pre_smoke_source.json",
+      "sha256": "49a60397e4819bb330c7106cad200ecd5e7ea6a1bafecded6768470b7d3b693d",
+      "byte_size": 1334
+    },
+    "validation/pre_smoke_source.tar.gz": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/pre_smoke_source.tar.gz",
+      "sha256": "4a47bb93ef08ec3ad6470644aa9c9d75fc2cb1b9bad71337be3ee241d2557d89",
+      "byte_size": 281570
+    },
+    "validation/focused_tests.log": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/focused_tests.log",
+      "sha256": "cb29c7261b12f797cdc347fa6d91f8e63434233f68e8a3059d3a2e1316ba4a92",
+      "byte_size": 572
+    },
+    "validation/make_fix.log": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/make_fix.log",
+      "sha256": "e79dcf5d1bf1807455a6bde0a4ad942c75f3c1bb4e40ef570faec8127c4e6075",
+      "byte_size": 91
+    },
+    "validation/make_check.log": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/make_check.log",
+      "sha256": "ee3c8bacf92e302141012a8754bd3046de1db540d555b97e5178417f6ce041e0",
+      "byte_size": 27030
+    },
+    "validation/live_smoke.log": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/live_smoke.log",
+      "sha256": "539f585a73f5d82c380abfcaba823accd329dbe28df0521d3c8a27b2fd27cbe2",
+      "byte_size": 3061
+    },
+    "validation/resume.log": {
+      "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11b_20261017/resume.log",
+      "sha256": "592e3b549db4483f55fe1af0e81fae3adc6ecb92ac6d2b064faca9643223aff9",
+      "byte_size": 2512
+    }
+  },
+  "candidates": [
+    {
+      "attempt": 1,
+      "candidate_id": "e6a9faf4adbfdc313ab8e9fbfa763db8b5905cdd2c1440a14dc195fb0e568c09",
+      "candidate_sha256": "1a19de851b9ff47319c8ebf02cefcb2f161c665fab5ed082af573b193f4acfcd",
+      "case_id": "C041",
+      "count_calls": 1,
+      "generation_calls": 1,
+      "repeat": 1,
+      "request_sha256": "40f757719d9cdddb2b8254388861efa5a97b42619bb919ab0ec3754c2746b9c1",
+      "response_id": "resp_0a8bfba5c6711dfd016ad3c8cebeb087d2bbe4b24a2fd99289",
+      "returned_model": "gpt-6-luna",
+      "run_id": "1def499e2619d4899dbcaa96b27ecf72eed274ea1060ad5b5759e5c00aa89d21",
+      "status": "valid",
+      "usage": {
+        "input_tokens": 3,
+        "input_tokens_cache_read": null,
+        "input_tokens_cache_write": 1146,
+        "output_tokens": 944,
+        "reasoning_tokens": 465,
+        "total_cost": null,
+        "total_tokens": 2093
+      }
+    },
+    {
+      "attempt": 1,
+      "candidate_id": "59862698621c1463bbf41c0477d0808d68e277b7fa59c25d44097b6e33c8965f",
+      "candidate_sha256": "ac1a5e66a399e969e0d145b2af64cb0a5722e2a653c13d8e71c57b5d76e9fa18",
+      "case_id": "C017",
+      "count_calls": 1,
+      "generation_calls": 1,
+      "repeat": 1,
+      "request_sha256": "72a2d7d72537b601b355cfa83457dec21ea1d5cfc4e68f71901c17cf5415b956",
+      "response_id": "resp_037cb10f420d2b3f016ad3c8d856ec87d2974b77e5259fd77b",
+      "returned_model": "gpt-6-luna",
+      "run_id": "1def499e2619d4899dbcaa96b27ecf72eed274ea1060ad5b5759e5c00aa89d21",
+      "status": "valid",
+      "usage": {
+        "input_tokens": 3,
+        "input_tokens_cache_read": null,
+        "input_tokens_cache_write": 3023,
+        "output_tokens": 1040,
+        "reasoning_tokens": 353,
+        "total_cost": null,
+        "total_tokens": 4066
+      }
+    },
+    {
+      "attempt": 1,
+      "candidate_id": "29a82fe75a807a67dc9f9cba7c46ac4258ffce2e08f2b7272fdd632800f68b78",
+      "candidate_sha256": "f244ced46d04c71b6d4dc25506dcc212a06609bdc687fe6bae6b7e3919912505",
+      "case_id": "C019",
+      "count_calls": 1,
+      "generation_calls": 1,
+      "repeat": 1,
+      "request_sha256": "c499536a4af1b50b78b94daa72ba685e4cd36d8242f5ec02d0e040332a56b5f0",
+      "response_id": "resp_02c1a72ac7e40ad8016ad3c8e25d9887d28b18ca95e08a3af0",
+      "returned_model": "gpt-6-luna",
+      "run_id": "1def499e2619d4899dbcaa96b27ecf72eed274ea1060ad5b5759e5c00aa89d21",
+      "status": "valid",
+      "usage": {
+        "input_tokens": 3,
+        "input_tokens_cache_read": null,
+        "input_tokens_cache_write": 6505,
+        "output_tokens": 411,
+        "reasoning_tokens": 181,
+        "total_cost": null,
+        "total_tokens": 6919
+      }
+    }
+  ],
+  "validation": {
+    "offline_fixtures_passed": 15,
+    "full_tests_passed": 4021,
+    "full_tests_skipped": 1,
+    "make_fix": "passed",
+    "make_check": "passed",
+    "git_diff_check": "passed",
+    "independent_review": "no_unresolved_implementation_blockers",
+    "smoke_audit": "passed",
+    "replay_new_calls": 0
+  },
+  "calls": {
+    "generation": 3,
+    "input_token_count": 3,
+    "transport_retries": 0,
+    "fresh_answer_retries": 0,
+    "judges": 0
+  },
+  "budget": {
+    "ceiling_usd": 1.0,
+    "reserved_usd": 0.933792,
+    "max_output_tokens_per_call": 4096,
+    "max_input_tokens_per_call": 32768,
+    "estimated_generation_cost_usd": 0.00253265,
+    "count_allowance_usd": 0.9,
+    "actual_count_cost_usd": null,
+    "provider_enforced_total_spend_cap": false
+  },
+  "provider_blocker": null,
+  "limitations": [
+    "Model ID is the documented provider alias, not an immutable snapshot.",
+    "Counting cost is undocumented; USD0.30 per count is an accounting allowance, not a verified provider price or guaranteed invoice ceiling.",
+    "Structural validity and citation resolution do not establish factual grounding, adequacy or useful answers; no judges or semantic promotion ran.",
+    "Only initial three development cases attempted; six-question panel and Task10 publications unchanged."
+  ],
+  "next_task": "Refresh provisional 11C from this outcome; not begun."
+}

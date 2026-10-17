@@ -609,3 +609,16 @@ unchanged. Historical replay uses an isolated restored checkout, never the clean
 runtime against old source hashes. The [production judge guide](judge_maintainer_guide.md)
 owns current native Inspect commands; older execution descriptions above are
 artifact history.
+
+
+## Task 11B generation artifacts
+
+Fresh smoke runs live under `pipelines/brisbane_baylands/task_11/` within the
+configured external root. Each run binds the fixed initial-three panel, Task 10
+completion and selected records, target prompt/schema/configuration and code.
+Per-case artifacts retain the full packet, native request and count receipts,
+dispatch evidence, raw provider responses, parsed candidate or explicit failure,
+and completion inventory. Run summaries include all three cases. Preserve failed
+and interrupted attempts; an uncertain provider completion is not permission to
+repeat a call. The [11B contract](../tasks/sprint2/11b_build_luna_generation.md)
+owns current limits and the executed run pointer. Task 10 publications stay sealed.
