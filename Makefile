@@ -393,3 +393,13 @@ evaluate-adequacy: check-env
 		-T component=$(JUDGE_COMPONENT) -T panel=full_development \
 		$(if $(JUDGE_CONDITION),-T condition_id=$(JUDGE_CONDITION)) \
 		--epochs $(JUDGE_EPOCHS) --log-dir "$(JUDGE_LOG_DIR)" $(JUDGE_OPTIONS)
+
+# Task 10 is offline preparation only; the release is explicit and output is external.
+.PHONY: prepare-evidence-only validate-evidence-only
+prepare-evidence-only: check-env
+	@test -n "$(EVIDENCE_RELEASE)" -a -n "$(EVIDENCE_OUTPUT)" || (echo "Set EVIDENCE_RELEASE and EVIDENCE_OUTPUT"; exit 1)
+	uv run python -m er_commons.evidence_only prepare --release "$(EVIDENCE_RELEASE)" --output "$(EVIDENCE_OUTPUT)"
+
+validate-evidence-only: check-env
+	@test -n "$(EVIDENCE_OUTPUT)" || (echo "Set EVIDENCE_OUTPUT"; exit 1)
+	uv run python -m er_commons.evidence_only validate --output "$(EVIDENCE_OUTPUT)"

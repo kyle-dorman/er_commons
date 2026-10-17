@@ -21,6 +21,9 @@ before the project expands into broader data or workflow products.
   and final-citation metrics, and grounded-correctness/answer-adequacy judgments.
   The [Sprint2 plan](sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary)
   owns those definitions; Sprint1 remains the historical baseline.
+  [Decision 007](decisions/007_evidence_only_first_baseline.md) makes supplied
+  approved evidence the first baseline; retrieval and its recall metric are
+  deferred. Initial generation/evaluation uses the 19 development cases.
 - Sprint 2 is the current single-project vertical slice. The complete original
   Brisbane Baylands Draft EIR main report and official appendices are the
   model-facing evidence universe, with the selected Final EIR Appendix F1

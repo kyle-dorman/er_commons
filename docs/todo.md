@@ -58,8 +58,8 @@ source-content checks; no inference ran. Final request counts remain
 [09D outcome](../tasks/sprint2/09d_implement_automatic_metrics.md) and
 [result](specs/task09d_final_result.json) provide exact automatic metrics through
 Inspect with canonical identity matching, explicit eligible counts and offline
-integration tests. Task 10 must qualify actual retrieval mappings and delivery
-receipts; fixture receipts are not baseline results. The bounded code-quality
+integration tests. Task 10 now prepares evidence-only source mappings under Decision 007;
+retrieval qualification is deferred. Fixture receipts are not baseline results. The bounded code-quality
 pass strengthens validation and supports distinct saved variants of one case;
 see the outcome for verification and accepted closeout.
 
@@ -74,7 +74,7 @@ selections and runtimes are historical. No further judge-development run is queu
 
 **09A–09G are complete within their documented scopes.** 09G is a documentation-only
 freeze; the original additional challenge requirement was superseded, not executed.
-Next: Task 10 retrieval, then Task 11 target generation. Task 12 owns integration
+Task 10 input preparation is also complete. Next: Task 11 target generation. Task 12 owns integration
 and combined reporting before locked benchmark execution.
 
 | Task | Status | Deliverable |
@@ -95,14 +95,22 @@ and combined reporting before locked benchmark execution.
 Refresh downstream provisional contracts from the 09G freeze and accepted upstream
 outcomes before activation. The former October 12–14 targets are historical.
 
+## Task 10 — complete
+
+[Evidence-only preparation](../tasks/sprint2/10_prepare_evidence_only_inputs.md)
+publishes all 49 cases in separate 19-development/30-test files. The
+[result pointer](specs/task10_final_result.json) owns exact identities and validation.
+All 232 approved occurrences are retained in 208 passage views over 207 case-level
+canonical units. No inference or scoring ran. Next: write the bounded Task 11
+contract from this handoff; initial generation/evaluation uses development only.
+
 ## Remaining queue
 
 | Task | Scope and finish line |
 | --- | --- |
-| **10 — BM25 retrieval and evidence presentation** | Freeze question-only search and the top five full sections/tables, source labels and heading paths, length handling, and development recall. No model selection of results or generated section summaries. |
-| **11 — Target generation** | One frozen zero-shot target baseline, structured citations/abstention, output-length and stability checks. Three-day working timebox. |
+| **11 — Target generation** | One frozen zero-shot evidence-only target baseline on the 19 development cases, structured citations/abstention, output-length and stability checks. Three-day working timebox. |
 | **[12 — Integration and reporting](../tasks/sprint2/12_integrate_evaluation_and_reporting.md)** | Integrate frozen no-answer/G/S/C on saved development outputs; define exact joins, combined reporting, denominators and strict all-checks pass before final freeze. |
-| **13 — Locked test and results** | Run the primary baseline followed by the evidence-only oracle; report four separate results, stage-level errors, limitations and the next-project decision. |
+| **13 — Locked test and results** | Run the frozen evidence-only baseline on the locked test set; report citation and semantic results, retrieval as not applicable, limitations and the next-project decision. |
 
 Agentic search is a later, separately scoped condition. No new full labeling pass
 is required, and no held-out test results may be used to tune the pipeline.

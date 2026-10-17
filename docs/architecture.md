@@ -699,3 +699,13 @@ for validation and the unchanged disagreement gate. Conclusion-only mode has its
 own genuine output schema without point reviews and a separate aggregator using
 frozen point decisions directly. Default requests and scoring are unchanged;
 the experimental paths do not invent reviews or silently suppress disagreements.
+
+## Evidence-only target input preparation
+
+`evidence_only_sources` verifies the frozen release and canonical source files;
+`evidence_only` projects strict target payloads, separate evaluator mappings and
+split datasets, then publishes and replays a sealed file set. The default loader
+reads development only. It performs no model calls or retrieval. Whole-unit
+boundaries are inherited from approved evidence; recorded anchor text and tables
+are replayed against bound canonical files. See the [Task 10 format](specs/task10_evidence_only_v1.md)
+for current qualification status and the Task 11 delivery/context boundary.

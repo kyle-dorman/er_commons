@@ -12,10 +12,14 @@ native Inspect implementation. No additional model run or reserved-set check was
 performed. The [freeze manifest](specs/task09g_judge_freeze_v1.json) owns exact
 identities; the [production guide](judge_maintainer_guide.md) owns current use.
 
-**Next: Task 10 retrieval and evidence presentation.** Task 11 supplies target
-answers; [Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) owns
-whole-answer routing and combined reporting. Full-development labels remain
-reviewed proposals; no held-out or end-to-end qualification is claimed.
+**Task 10 evidence-only inputs are prepared for all 49 cases.** The
+[result pointer](specs/task10_final_result.json) binds the 19-development/30-test
+publication, canonical citation maps and validation. **Next: Task 11 target
+generation**, initially using only the 19 development cases. Retrieval remains
+deferred under [Decision 007](decisions/007_evidence_only_first_baseline.md).
+[Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) owns whole-answer
+routing and combined reporting. No model run or end-to-end qualification is
+claimed by input preparation.
 
 The current [question publication](specs/task09f_question_publication_v2_result.json)
 contains 49 cases with the unchanged 19-development/30-test split. See
@@ -59,7 +63,12 @@ contains 490 independently reviewed proposed labels, with 471 eligible for paire
 reference-visibility comparisons. The [calibration panels](specs/task09f_binary_calibration_review.md)
 now select from both published component datasets. The combined prompt comparison is complete; the selected pair is recorded in the final handoff above.
 
-## Read for Task 09
+## Task 10 handoff
+
+Start with [Task 10](../tasks/sprint2/10_prepare_evidence_only_inputs.md) and its
+explicit inputs. It is one preparation task with no subtasks or model runs.
+
+## Task 09 handoff references
 
 The [production judge guide](judge_maintainer_guide.md) owns current A/G/S/C
 interfaces, shared provider configuration and offline historical replay.

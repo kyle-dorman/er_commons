@@ -89,3 +89,11 @@ commands: `make evaluate-no-answer`, `make evaluate-point-grounding`, and
 `make evaluate-adequacy JUDGE_COMPONENT=C|S`. Each requires an explicit external
 `JUDGE_LOG_DIR`; native Inspect options control repetitions and limits. Retired
 09E/09F experiment commands exist only in the historical source snapshot.
+
+## Evidence-only baseline preparation
+
+Task 10 provides `make prepare-evidence-only EVIDENCE_RELEASE=PATH EVIDENCE_OUTPUT=DIR`
+and `make validate-evidence-only EVIDENCE_OUTPUT=DIR`. Both are offline; preparation
+requires the configured artifact root to exist. The completed Task 10 publication
+is selected by its result pointer. The [format/replay guide](specs/task10_evidence_only_v1.md)
+owns exact arguments, outputs and split-loading behavior.

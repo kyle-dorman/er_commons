@@ -1,0 +1,144 @@
+{
+  "artifacts": {
+    "evaluator/dev_mappings.jsonl": {
+      "byte_size": 434681,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4/evaluator/dev_mappings.jsonl",
+      "sha256": "f4eca3016233a50a8da1d1b89db38fcb5d3c377fc26006bf4b26f16d2e44daf9"
+    },
+    "evaluator/test_mappings.jsonl": {
+      "byte_size": 688062,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4/evaluator/test_mappings.jsonl",
+      "sha256": "cf15858f4a8242e45590c31829d934afed8e648e1304db69b0169a1fdea0fa1c"
+    },
+    "manifest.json": {
+      "byte_size": 150891,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4/manifest.json",
+      "sha256": "2230f20e773d3411fc785f680bfcb851712e5271824e79d634f367af82119219"
+    },
+    "payload.schema.json": {
+      "byte_size": 3452,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4/payload.schema.json",
+      "sha256": "ba905fe5964785500a54a8f0819212008f482f7ae65bc5da238493b81180c41b"
+    },
+    "split.json": {
+      "byte_size": 382,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4/split.json",
+      "sha256": "c264833be3f3772a2c766ebb5aa4dd5c84db941b7d33e7cf03042ecd19922daa"
+    },
+    "target/dev.jsonl": {
+      "byte_size": 410337,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4/target/dev.jsonl",
+      "sha256": "ebdee7f33cd7ec2a2dae17998a10af89ceb39a7ee80a2d4aa437c895da935a84"
+    },
+    "target/test.jsonl": {
+      "byte_size": 673378,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4/target/test.jsonl",
+      "sha256": "3cc7f7fc319199dba316e823ea139e84f29b8dbd0cb45aa4716096c79daac107"
+    },
+    "validation.json": {
+      "byte_size": 5601,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4/validation.json",
+      "sha256": "9e1b7b028d88e7e148b45da55804c91d73719288ab2f5953ae0703e0f5e41909"
+    }
+  },
+  "completion": {
+    "byte_size": 1075,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4/completion.json",
+    "sha256": "76e82bac364b6e412bc43654f5ca0459af3027b1b3fb2be12c325481d166dff4"
+  },
+  "counts": {
+    "approved_occurrences": 232,
+    "case_level_canonical_units": 207,
+    "cases": 49,
+    "context_units": 45,
+    "development_cases": 19,
+    "development_passage_views": 82,
+    "passage_views": 208,
+    "support_units": 162,
+    "table_records": 68,
+    "test_cases": 30,
+    "test_passage_views": 126
+  },
+  "evidence": {
+    "cleanup_equivalence_v4.json": {
+      "byte_size": 522,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/validation_20261016/cleanup_equivalence_v4.json",
+      "sha256": "1556a67cbd5fc28b7538a72cb7aaf94dd7a76d31c9e36b7241aa6a5ad87478ff"
+    },
+    "cleanup_review_v4.json": {
+      "byte_size": 465,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/validation_20261016/cleanup_review_v4.json",
+      "sha256": "b39b882083fb81c54ad23370534603aae119bea6e15125318edc17b4cd106b76"
+    },
+    "focused_tests_v4.log": {
+      "byte_size": 99,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/validation_20261016/focused_tests_v4.log",
+      "sha256": "b4d99550d907524e8775f9992d9b4f8a477b12d169dbfbf5a49dfd116fd34229"
+    },
+    "independent_audit_v4_replay.py": {
+      "byte_size": 6246,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/validation_20261016/independent_audit_v4_replay.py",
+      "sha256": "a9fcb330e982cdd1bee03695c99eb43fbe0229f1c76aaa4e5a37f3a4b2b8e3ab"
+    },
+    "make_check_v4.log": {
+      "byte_size": 27437,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/validation_20261016/make_check_v4.log",
+      "sha256": "d23ecfb6ce39fa42ebe3c979fb60f8a5b79f9419c2d577fc7ca8de37949ae352"
+    },
+    "prepare_v4.log": {
+      "byte_size": 337,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/validation_20261016/prepare_v4.log",
+      "sha256": "6a699b6655d010f7883f906300f625e13cd76a6c4340ada793f4981a60017f2d"
+    },
+    "replay_v4.log": {
+      "byte_size": 272,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/validation_20261016/replay_v4.log",
+      "sha256": "ca3ebff71a9a676f56a17d0e9b7966708680bcf260007c01a7a18f542d3416a0"
+    },
+    "review_v4_replay.json": {
+      "byte_size": 5151,
+      "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/validation_20261016/review_v4_replay.json",
+      "sha256": "0a53547bc0ef12c25b3cea1f39a5944fedac9b500704af8dceeb4cf73a70fcd2"
+    }
+  },
+  "generation_or_scoring_runs": 0,
+  "limitations": [
+    "Approved source boundaries inherited from verified release; no new semantic support judgment.",
+    "Text-only sources preserve existing figure-pixel and upstream edition limitations.",
+    "Prepared packets do not prove model delivery or token/context fit.",
+    "Retrieval recall not applicable."
+  ],
+  "model_calls": 0,
+  "namespace": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v4",
+  "next_task": "Task11 development-only target generation; freeze actual request/context/output behavior before test use.",
+  "previous_completion": {
+    "byte_size": 1075,
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_10/evidence_only_v3/completion.json",
+    "sha256": "f94718f2658b4a1a027e601277e9a8e1bb90ab3fc67d5cf055efa17e30b4e359"
+  },
+  "release_id": "task09f_20261014_v2",
+  "release_result": {
+    "byte_size": 3003,
+    "path": "/Users/kyledorman/Documents/er_commons/docs/specs/task09f_question_publication_v2_result.json",
+    "sha256": "2451102c69b70f4dd6449b859374839cd80fb96d912e445b65f637b120a1072b"
+  },
+  "schema_version": "task10.final_result.v1",
+  "scope_decisions": [
+    "Exact repeated source views deduplicated; C014 retains two distinct approved scopes under one canonical table identity.",
+    "Nineteen optional-context occurrences omitted from citation index retained using their frozen explicit role; provenance bases kept separate."
+  ],
+  "status": "complete",
+  "validation": {
+    "cleanup_equivalence": "byte_identical_payloads_maps_split_schema_diagnostics",
+    "cleanup_review": "passed",
+    "focused_passed": 31,
+    "format_lint_types": "passed",
+    "full_passed": 4006,
+    "full_skipped": 1,
+    "git_diff_check": "passed",
+    "independent_review": "passed",
+    "make_check": "passed",
+    "make_fix": "passed",
+    "reconstruction": "exact_byte_equality"
+  }
+}

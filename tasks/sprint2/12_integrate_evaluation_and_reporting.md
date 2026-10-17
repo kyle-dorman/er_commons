@@ -22,7 +22,8 @@ project. No new full labeling pass is required.
 - [Frozen 09G judge bundle](../../docs/specs/task09g_judge_freeze_v1.json), including 09F adequacy and
   [09F.1 no-answer/grounding](09f1_revisit_grounding_judge.md) policies, prompts,
   model selections, schemas, records and limitations.
-- Accepted Task 10 retrieval/evidence receipts and Task 11 saved target answers,
+- Accepted [Task 10 evidence-only packets](10_prepare_evidence_only_inputs.md)
+  and citation mappings, plus Task 11 actual delivery receipts and saved answers,
   with source, corpus, question/split, configuration and candidate-content identities.
 - [Decision 006](../../docs/decisions/006_structured_answers_four_part_evaluation.md),
   [sprint evaluation boundary](../../docs/sprints/sprint2_brisbane_draft_eir_defense.md#benchmark-evaluation-boundary),
@@ -31,10 +32,15 @@ project. No new full labeling pass is required.
 The documentation-only 09G freeze adds no reserved-set evaluation or end-to-end
 validation. This task still owns the real-output integration gate below.
 
+Under [Decision 007](../../docs/decisions/007_evidence_only_first_baseline.md),
+the first condition supplies approved evidence. Retrieval recall is not applicable;
+do not manufacture retrieval histories or score supplied evidence as discovery.
+Initial integration uses only the 19 development cases.
+
 ## Outputs
 
 - Versioned routing/join/reporting specification and deterministic implementation.
-- Separate automatic retrieval/citation results, point-grounding results, S/C
+- Separate automatic final-citation results (retrieval not applicable), point-grounding results, S/C
   decisions and adequacy aggregation, plus strict joint success and availability.
 - Offline truth-table/identity fixtures, bounded real-development integration
   evidence, replay instructions and frozen Task 13 reporting handoff.
