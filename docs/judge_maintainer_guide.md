@@ -16,7 +16,7 @@ provider profiles live in [`configs/judge_models_v1.json`](../configs/judge_mode
 cost registration, sample identity checks and selection verification. The component
 cores own input validation, exact prompts and strict parsing; component adapters
 own scoring. Dataset loaders verify frozen development artifacts and keep labels
-and provenance outside model messages. Task 12 owns whole-answer routing and joins.
+and provenance outside model messages. Task 11C owns initial whole-answer routing and joins; Task 12 audits and finalizes aggregate reporting.
 
 ## Execution
 
@@ -106,5 +106,5 @@ Run `make fix`, `make check`, and `git diff --check`. Tests cover selected seman
 identities, strict failure behavior, label isolation, native provider serialization,
 and sealed data loading. [09F.2](../tasks/sprint2/09f2_cleanup_production_judges.md)
 records cleanup scope and verification. The [09G freeze](specs/task09g_judge_freeze_v1.json) binds the committed production
-configuration and existing evidence without new inference. Task 12 owns
-integration; held-out qualification remains separate.
+configuration and existing evidence without new inference. Task 11C owns initial
+integration and Task 12 final reporting; held-out qualification remains separate.

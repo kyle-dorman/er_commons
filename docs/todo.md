@@ -74,7 +74,7 @@ selections and runtimes are historical. No further judge-development run is queu
 
 **09A–09G are complete within their documented scopes.** 09G is a documentation-only
 freeze; the original additional challenge requirement was superseded, not executed.
-Task 10 input preparation is also complete. Task 11A panels and 11B runner/smoke are complete; next refresh 11C. Task 11C integrates evaluation for prompt cycles;
+Task 10 input preparation is also complete. Task 11A–11C are complete; next refresh 11D. Task 11C supplies evaluation for prompt cycles;
 Task 12 finalizes reporting before locked benchmark execution.
 
 | Task | Status | Deliverable |
@@ -101,10 +101,10 @@ outcomes before activation. The former October 12–14 targets are historical.
 publishes all 49 cases in separate 19-development/30-test files. The
 [result pointer](specs/task10_final_result.json) owns exact identities and validation.
 All 232 approved occurrences are retained in 208 passage views over 207 case-level
-canonical units. No inference or scoring ran. Task 11A panels are fixed and 11B is complete; next refresh 11C. All Task 11
+canonical units. No inference or scoring ran. Task 11A panels are fixed and 11B/11C are complete; next refresh 11D. All Task 11
 generation/evaluation uses development only.
 
-## Task 11 — 11B complete; 11C next
+## Task 11 — 11C complete; 11D next
 
 [Luna generation umbrella](../tasks/sprint2/11_build_and_freeze_target_generation.md):
 select three questions, expand to a fixed nested six for prompt iteration, then
@@ -112,14 +112,17 @@ check a frozen candidate on all 19 development questions. Automatic checks and
 frozen judges are integrated before cycling prompts. [11A panels and criteria](specs/task11a_panel_protocol.md)
 are complete. [11B](../tasks/sprint2/11b_build_luna_generation.md) completed its
 bounded three-case smoke with valid candidates and preserved receipts; see the
-[result and limitations](specs/task11b_final_result.json). Next refresh 11C for
-evaluation integration; no prompt cycles or 11C work have begun.
+[result and limitations](specs/task11b_final_result.json). [11C](../tasks/sprint2/11c_integrate_development_evaluation.md) completed saved-candidate
+evaluation and no-call replay. Its [result](specs/task11c_final_result.json) retains
+C017's C failure and C019's S failure. [11C.1 cleanup](../tasks/sprint2/11c1_cleanup_development_evaluation.md) is complete,
+with exact offline replay preserved. Next: refresh 11D from these outcomes.
+No prompt cycles or 11D work have begun.
 
 | Subtask | Status |
 | --- | --- |
 | [11A — Panels and criteria](../tasks/sprint2/11a_select_development_panels.md) | Complete; [fixed panel manifest](specs/task11a_development_panels_v1.json) |
 | [11B — Luna runner](../tasks/sprint2/11b_build_luna_generation.md) | Complete with documented limitations; [result](specs/task11b_final_result.json) |
-| [11C — Evaluation integration](../tasks/sprint2/11c_integrate_development_evaluation.md) | Next; provisional, refresh from 11B before execution |
+| [11C — Evaluation integration](../tasks/sprint2/11c_integrate_development_evaluation.md) | Complete with documented limitations; [result](specs/task11c_final_result.json) |
 | [11D — Prompt cycles](../tasks/sprint2/11d_iterate_development_prompt.md) | Provisional |
 | [11E — Freeze and all-19 check](../tasks/sprint2/11e_freeze_development_baseline.md) | Provisional |
 

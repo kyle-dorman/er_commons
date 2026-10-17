@@ -18,12 +18,16 @@ publication, canonical citation maps and validation. **[Task 11A panel selection
 **[11B](../tasks/sprint2/11b_build_luna_generation.md) is complete:** the bounded
 three-case Luna smoke produced valid candidates and delivery receipts; the
 [result pointer](specs/task11b_final_result.json) records validation and limitations.
-Next: refresh [11C](../tasks/sprint2/11c_integrate_development_evaluation.md) for
-evaluation integration before any prompt iteration under the [Luna generation plan](../tasks/sprint2/11_build_and_freeze_target_generation.md):
+**[11C](../tasks/sprint2/11c_integrate_development_evaluation.md) is complete:**
+saved-candidate automatic checks and frozen A/G/S/C reports replay without calls;
+see the [result](specs/task11c_final_result.json) for semantic failures and accounting limits.
+The [11C.1 cleanup](../tasks/sprint2/11c1_cleanup_development_evaluation.md) documents
+the maintained module boundaries and unchanged-output verification.
+Next: refresh [11D](../tasks/sprint2/11d_iterate_development_prompt.md) before any
+prompt iteration under the [Luna generation plan](../tasks/sprint2/11_build_and_freeze_target_generation.md):
 three then six questions for prompt iteration, followed by all 19 development cases. Retrieval remains
 deferred under [Decision 007](decisions/007_evidence_only_first_baseline.md).
-[Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) finalizes combined reporting and locked-test readiness after Task 11C integrates
-whole-answer evaluation for prompt iteration. No model run or end-to-end qualification is
+[Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) finalizes combined reporting and locked-test readiness using Task 11C whole-answer evaluation for prompt iteration. No model run or end-to-end qualification is
 claimed by input preparation.
 
 The current [question publication](specs/task09f_question_publication_v2_result.json)
@@ -74,8 +78,10 @@ Start with the [Task 11 umbrella](../tasks/sprint2/11_build_and_freeze_target_ge
 and completed [11A](../tasks/sprint2/11a_select_development_panels.md), including its
 [fixed panels](specs/task11a_development_panels_v1.json) and
 [criteria/budgets](specs/task11a_panel_protocol.md). Read the completed [11B outcome](../tasks/sprint2/11b_build_luna_generation.md) and
-[result pointer](specs/task11b_final_result.json) next. Subtasks 11C–11E remain
-provisional; refresh each from its predecessor before execution.
+[result pointer](specs/task11b_final_result.json) next, then the completed
+[11C outcome](../tasks/sprint2/11c_integrate_development_evaluation.md) and
+[result](specs/task11c_final_result.json). Subtasks 11D–11E remain provisional;
+refresh each from its predecessor before execution. 11D has not begun.
 
 ## Task 10 handoff
 

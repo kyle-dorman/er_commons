@@ -605,8 +605,8 @@ another judge's predictions. Development loaders retain explicit frozen data sea
 `configs/judges_selected_v1.json` and `configs/judge_models_v1.json` are the current
 selection and provider contracts. Exact selected prompt/schema identities are
 validated before selected dispatch. Inspect owns transport, generation, retries,
-concurrency and logs. Invalid output remains a non-decision. Task 12 owns routing
-and combined reporting; 09G owns challenge/freeze.
+concurrency and logs. Invalid output remains a non-decision. Task 11C owns initial routing
+and per-question reporting; Task 12 finalizes combined reporting. 09G owns the freeze.
 
 09F.2 retired the older staged/whole-answer grounding and adequacy runners,
 hand-written cloud transports and experiment dispatch. Their source is recoverable
@@ -721,4 +721,32 @@ transport. Target settings are separate from frozen judge settings. Create-only
 attempt receipts preserve raw responses, valid candidates and explicit failures;
 uncertain attempts are never automatically resubmitted. See the
 [11B contract](../tasks/sprint2/11b_build_luna_generation.md) for limits and command.
-Whole-answer evaluation remains 11C work.
+
+## Saved development evaluation
+
+The saved-candidate evaluator has four owners. Start with the run module to follow
+the workflow; edit the responsible module below for a localized change.
+
+| Module | Responsibility / where to edit |
+| --- | --- |
+| `development_evaluation_inputs` | Verify sealed 11B candidates, Task 10 mappings and development references; assemble plans. |
+| `development_evaluation` | Validate candidate identity/schema, project isolated components, apply routing, join judgments and render reports. |
+| `development_evaluation_provider` | Frozen native settings, typed execution limits, exact token counting and request/response receipts. |
+| `development_evaluation_run` | Bind the manifest, orchestrate attempts, publish reports, verify offline replay and expose the CLI. |
+
+Core preparation uses named identity, source, answer and projection steps. Typed
+answer records and execution limits document stable fields; external provider JSON
+remains a boundary rather than a second competing schema. The provider request hook
+separates validation, counting and receipt recording so their order remains visible.
+
+A runs first; only substantive conclusions route to G/S/C. Every required support
+and qualification retains a judgment, mechanical failure or unavailable status.
+Optional context and clean/mixed abstention remain explicit. Task 12 owns final
+aggregate denominators and strict joint reporting. The [11C contract](../tasks/sprint2/11c_integrate_development_evaluation.md)
+owns operational limits and evidence pointers; [11C.1](../tasks/sprint2/11c1_cleanup_development_evaluation.md)
+owns the maintainability cleanup and unchanged-output verification.
+
+The existing Make command and explicit `--replay` mode are unchanged. Replay never
+constructs a provider. All four modules are included in implementation provenance;
+`--allow-replay-source-change` permits only implementation differences and still
+requires identical input/configuration bindings, plans and serialized reports.

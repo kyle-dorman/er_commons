@@ -622,3 +622,16 @@ and completion inventory. Run summaries include all three cases. Preserve failed
 and interrupted attempts; an uncertain provider completion is not permission to
 repeat a call. The [11B contract](../tasks/sprint2/11b_build_luna_generation.md)
 owns current limits and the executed run pointer. Task 10 publications stay sealed.
+
+
+## Task 11C evaluation artifacts
+
+Saved-candidate evaluations use fresh namespaces under
+`pipelines/brisbane_baylands/task_11/`. The run manifest binds source pointers,
+implementation, frozen judges, exact projected inputs and prospective call/cost
+limits. Plans and per-item receipts preserve full candidate/run/repeat/point joins,
+native requests, token counts, raw responses, errors and usage. JSON and readable
+per-question reports retain component availability and all required point results.
+Completion seals support explicit no-network replay; failed or interrupted attempts
+must never be silently resubmitted. The [11C contract](../tasks/sprint2/11c_integrate_development_evaluation.md)
+owns the executed result. All Task 10 and 11B artifacts remain immutable.

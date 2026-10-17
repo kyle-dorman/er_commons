@@ -1,0 +1,70 @@
+{
+  "schema_version": "task11c1.cleanup_result.v1",
+  "status": "complete",
+  "date": "2026-10-17",
+  "scope": "Maintainability refactor of 11C only; unchanged evaluation policy and outputs",
+  "data_root": "ER_COMMONS_DATA_ROOT",
+  "validation_namespace": "pipelines/brisbane_baylands/task_11/validation_11c1_20261017",
+  "module_owners": {
+    "development_evaluation_inputs.py": "verified saved source loading",
+    "development_evaluation.py": "candidate validation, isolated projections, routing and reporting",
+    "development_evaluation_provider.py": "frozen provider settings, typed limits, exact counting and receipts",
+    "development_evaluation_run.py": "manifest, run/replay orchestration and CLI"
+  },
+  "validation": {
+    "focused_offline_tests": 36,
+    "full_tests_passed": 4057,
+    "full_tests_skipped": 1,
+    "make_fix": "passed",
+    "make_check": "passed",
+    "git_diff_check": "passed",
+    "independent_review": "no_findings",
+    "plan_sha256": "34433b467ea7a6ed74ef84236298e24aa7c94bef970324ace12c1e74ecbbcc8d",
+    "report_sha256": "479dafb1e81d7cb0306cdd874c08b169c0cdc32241dd0e18985337b7a0c3567b",
+    "plans_unchanged": true,
+    "per_question_json_and_markdown_byte_identical": true,
+    "provider_construction_disabled_for_replay": true,
+    "cli_replay": "passed",
+    "protected_inputs_unchanged": true
+  },
+  "provider_calls": 0,
+  "artifacts": {
+    "pipelines/brisbane_baylands/task_11/validation_11c1_20261017/after_source.json": {
+      "sha256": "86484542ec8b3bb6dce6e317771310951dae90c9f291e401a81601d1b724f4b7",
+      "byte_size": 773
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11c1_20261017/after_source.tar.gz": {
+      "sha256": "d846af5ea38df8c675576cc316445e2bcadfbf154d816e60313cbb35776b39c9",
+      "byte_size": 18328
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11c1_20261017/before.json": {
+      "sha256": "da7fc6822bc80369fa5a63aee4a209f489a2a5d3bf19c946628413a5be3d20b9",
+      "byte_size": 1280
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11c1_20261017/before_source.tar.gz": {
+      "sha256": "8d09a356b6e40802fc60792e470503d44a1e29098a143c6a4cbbd46843a2c084",
+      "byte_size": 16229
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11c1_20261017/cli_replay.log": {
+      "sha256": "1f92cba0e7e740557ae9c04b1189dd1d162ea0b71eac95f79864d3a8e7aed550",
+      "byte_size": 54469
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11c1_20261017/independent_review.json": {
+      "sha256": "709be892c02d13dd6eab832213094791136bc4423d40d088dd1097025c09ec30",
+      "byte_size": 336
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11c1_20261017/make_check.log": {
+      "sha256": "8178ed663d9d4809a0f3a80f59248879ba4a04cefef80035fe26764793ce8a53",
+      "byte_size": 27243
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11c1_20261017/make_fix.log": {
+      "sha256": "0b1d9831ca0c6dfe346d18ef1c0641dcbbb4bbd1f8baba4f1744f606492713b5",
+      "byte_size": 91
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11c1_20261017/replay.json": {
+      "sha256": "f060972afbaa1f6ab81b07a970c3cfb29a6d0829fde3137debb6f50b1e29bc86",
+      "byte_size": 1037
+    }
+  },
+  "next_task": "Refresh provisional 11D; not begun"
+}
