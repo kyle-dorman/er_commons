@@ -30,7 +30,7 @@ preserves gains, regressions and manual/judge disagreements; the
 [original stopped result](specs/task11d_final_result.json) remains unchanged.
 [11D.1 public-rubric comparisons](../tasks/sprint2/11d1_public_rubric_prompt_comparisons.md) are complete: examples improved observed scores, but no prompt qualified across repeats. The [result](specs/task11d1_final_result.json) preserves failures and evaluation limitations. [11D.2](../tasks/sprint2/11d2_resolve_evaluation_contract.md) has implemented offline specification and metadata corrections while retaining V6b; the detailed question was subsequently rejected. [11D.3](../tasks/sprint2/11d3_test_light_question_wording.md) completed the lighter C014 wording comparison without demonstrated improvement; the published question remains unchanged. [11D.4](../tasks/sprint2/11d4_compare_alternative_models.md) is complete: Haiku and GLM added no coverage beyond Luna’s five of six; [results](specs/task11d4_result.json) retain formatting, output-budget and semantic failures. [11D.5](../tasks/sprint2/11d5_raise_haiku_output_cap.md) is complete: the larger Haiku allowance removed truncation, but added no frozen-score question coverage; see [results](specs/task11d5_result.json). [11D.6](../tasks/sprint2/11d6_simplify_context_and_qualifications.md) has prepared shared project context, tighter qualifications and edition-neutral label derivatives, including authorized held-out maintenance; [results](specs/task11d6_result.json) record offline checks, with no live evaluation. Stronger models are deferred; the completed 11E outcome owns the all-19 check. Retrieval remains
 deferred under [Decision 007](decisions/007_evidence_only_first_baseline.md).
-[Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) finalizes combined reporting and locked-test readiness using Task 11C whole-answer evaluation for prompt iteration. No model run or end-to-end qualification is
+[Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) next builds tables/charts from saved evidence and freezes reporting for locked evaluation. No model run or end-to-end qualification is
 claimed by input preparation.
 
 The current [question publication](specs/task09f_question_publication_v2_result.json)
@@ -76,6 +76,17 @@ reference-visibility comparisons. The [calibration panels](specs/task09f_binary_
 now select from both published component datasets. The combined prompt comparison is complete; the selected pair is recorded in the final handoff above.
 
 [Task 11F](../tasks/sprint2/11f_cleanup_target_generation.md) records the completed code review/cleanup and maintainer map. Offline checks passed; no new model run occurred.
+
+## Next sequence: Tasks 12–15
+
+[12 — Tables/charts](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) →
+[13 — Locked evaluation, both models × three repeats](../tasks/sprint2/13_run_locked_test.md) →
+[14 — Selective failure review](../tasks/sprint2/14_selective_failure_review.md) →
+[15 — Short methods/results writeup](../tasks/sprint2/15_write_methods_and_results.md).
+Task 11 is fully closed, including maintenance and internal findings. Task 12
+planning is updated; no execution is active. Dataset construction/coverage belongs
+in 15. The [internal prompt findings](../tasks/sprint2/11_prompt_iteration_findings.md)
+remain part of completed Task 11 and are excluded from the short writeup.
 
 ## Read for Task 11
 

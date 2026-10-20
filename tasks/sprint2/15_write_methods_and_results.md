@@ -1,0 +1,92 @@
+# Task 15 — Short methods and results writeup
+
+Status: provisional; after Tasks 13 and 14. No writeup implementation active.
+
+## Abstract and goal
+
+Write a concise, mini-paper-style account of the dataset, methods and results,
+shorter than a full research paper. Explain what was built, what was measured,
+what worked and the limits of the evidence. Use existing tables/charts and a few
+selected examples rather than reproducing task logs or prompt-development history.
+
+## Inputs and outputs
+
+Use accepted construction/publication records from Tasks 02–10, the final Task 11
+condition, Task 12 reporting/calibration tables, Task 13 results and Task 14's
+selective cases. Produce a short readable report with figure/table source links
+and a compact reproducibility appendix. Choose final format/length at activation;
+working target is roughly 1,500–2,500 words plus selected figures/tables.
+
+## Planned contents
+
+1. **Purpose and scope.** Environmental-review evidence-based answering, one
+   source-project setting, intended uses and limits; supplied-evidence baseline
+   and future search work clearly distinguished.
+2. **Dataset construction.** Source documents → comment/response relationships →
+   concerns/questions → evidence/reference authoring → review → release. Show
+   counts and exclusions at each recoverable step, units, versions, human/model
+   roles and source/annotation provenance. Explain transformations and selection
+   effects. Mark missing historical measurements unknown rather than inventing them.
+3. **Dataset composition and coverage.** Summarize topics, question/evidence types,
+   text/table composition, evidence counts, cross-section/document use, context
+   sizes, shared evidence, source-edition limits and 19/30 allocation. Use existing
+   approved metadata; new semantic annotations require separate scope. Explain
+   why the additional thirteen development cases are not independent held-out data.
+4. **Methods.** Final prompt/input condition, both target models, three repeats,
+   output controls and independent A/G/S/C interfaces. Describe automatic canonical
+   citation/evidence matching as a dataset capability, alongside semantic judging.
+   Report existing judge-label agreement and limitations without claiming new human
+   calibration. A delivery receipt is not proof of cognitive reading; retrieval
+   metrics are N/A for the supplied-evidence condition.
+5. **Results.** Select Task 12/13 figures showing both models, component/joint
+   performance, observed at-least-once/every-time success, automatic citation
+   measures, and the predeclared Luna citation/section/document associations.
+   Keep development and locked results separate; show denominators and availability.
+6. **Discussion and limits.** A few Task 14 cases, source/reference/judge limitations,
+   repeat variability, exposure, accounting uncertainty and generalization limits.
+   Distinguish official response provenance from independent factual validity.
+7. **Reproducibility.** Compact artifact/configuration/code identities, runtime,
+   evaluation definitions, costs, source rights/access and replay instructions.
+
+Task 11's [internal iteration findings](11_prompt_iteration_findings.md) are for
+project learning and are explicitly excluded from the writeup's experiment story.
+Mention the final method and development selection/exposure honestly, without a
+prompt-by-prompt ablation section or a long negative-results appendix.
+
+## Literature lessons to retain
+
+| Source | Use in this writeup / limit |
+| --- | --- |
+| [LongDocURL](https://aclanthology.org/2025.acl-long.57.pdf), §§3–5 and appendices | Construction funnel, task/evidence distributions and explicit input conditions. Do not present supplied passages as unrestricted document search. |
+| [BRIDGE](https://arxiv.org/html/2603.07931v1), §§2–4 | Evidence structure/modality breakdowns and evaluated N. Our conditions stay fixed across subgroups; do not select each subgroup's best prompt. Passage counts are not annotated reasoning hops. |
+| [OpenThoughts](https://arxiv.org/html/2506.04178v1), §§4–6 | Versioned construction recipes, intermediate artifacts and reproducibility. Its training-data conclusions do not relax benchmark reference verification. Detailed intervention findings stay internal to Task 11. |
+| [DocScope](https://arxiv.org/html/2605.08888v2), §§2/4 and Appendices B/H | Dataset datasheet, answer-versus-support distinction and annotation limitations. Do not transplant visual-region metrics or claim our small selected review estimates population error. |
+| [RbtAct / RMR-75K](https://arxiv.org/html/2603.09723v1), §§3–5 | Atomic concern/response mapping, filtering effects and separate relevance/grounding/actionability dimensions. Keep official relationships separate from inferred semantic links; agency agreement or revision does not establish correctness. |
+
+Source-specific claims must cite the exact paper/version. Construction reporting
+should describe the implemented/released artifacts, not copy a paper's claimed
+pipeline without checking it. Useful cautions from the literature discussion:
+RbtAct's public mapping prompt permits response reuse despite the paper's stated
+one-to-one rule; BRIDGE has unequal evaluated subsets and subgroup-best strategies.
+These motivate accurate reporting, not a literature critique section in the short
+writeup. Keep any such claim appropriately qualified and source-linked.
+
+## Validation, review and acceptance
+
+Check every number against accepted machine-readable tables and every example
+against its review record. Distinguish judged pass rates, judge-label agreement,
+automatic citation overlap and human observations. Reuse approved aggregate split
+metadata without reopening held-out content for construction tuning. Review for
+clear methods, adequate source credit, concise presentation and unsupported claims.
+Verify links, figures and `git diff --check`; render the chosen final format.
+
+## Non-goals
+
+A full-length paper, comprehensive literature review, new experiments or human
+annotation, prompt-development narrative, changing frozen results, search-agent
+implementation, or external publication/submission without authorization.
+
+## Outcome
+
+Planning only. Task 15 owns the short methods/results narrative and sprint closeout;
+Tasks 12–14 prepare its reusable evidence and illustrations.

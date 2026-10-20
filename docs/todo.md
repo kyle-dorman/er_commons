@@ -104,7 +104,11 @@ All 232 approved occurrences are retained in 208 passage views over 207 case-lev
 canonical units. No inference or scoring ran. Task 11A panels are fixed and 11B–11D are complete; any further prompt work needs a new bounded task. All Task 11
 generation/evaluation uses development only.
 
-## Task 11 — Development check complete; reporting next
+## Task 11 — closed; Task 12 next
+
+Task 11 is fully closed, including code cleanup and the
+[internal intervention findings](../tasks/sprint2/11_prompt_iteration_findings.md).
+No further Task 11 work or runs are pending.
 
 [Luna generation umbrella](../tasks/sprint2/11_build_and_freeze_target_generation.md):
 select three questions, expand to a fixed nested six for prompt iteration, then
@@ -135,16 +139,18 @@ material defect blocks promotion and V3 retains failures. The
 | [11D.6 — Context and qualifications](../tasks/sprint2/11d6_simplify_context_and_qualifications.md) | Complete offline; [result](specs/task11d6_result.json); no live evaluation |
 | [11E — Freeze and all-19 check](../tasks/sprint2/11e_freeze_development_baseline.md) | Complete with limitations;114/114 evaluated |
 
-Next: Task 12 reporting/readiness review can consume the sealed [11E handoff](../tasks/sprint2/11e_freeze_development_baseline.md). No further calls or locked-test run are active.
+Next: Task 12 builds tables/charts and freezes reporting using the sealed [11E handoff](../tasks/sprint2/11e_freeze_development_baseline.md). No further calls or locked-test run are active.
 
-[Task 11F maintenance](../tasks/sprint2/11f_cleanup_target_generation.md) is complete: shared attempt handling, clearer projection stages and stronger failure receipts; offline checks passed. Task 12 remains provisional.
+[Task 11F maintenance](../tasks/sprint2/11f_cleanup_target_generation.md) is complete: shared attempt handling, clearer projection stages and stronger failure receipts; offline checks passed. Task 12 planning is refreshed; implementation is not active.
 
 ## Remaining queue
 
 | Task | Scope and finish line |
 | --- | --- |
-| **[12 — Reporting and locked-test readiness](../tasks/sprint2/12_integrate_evaluation_and_reporting.md)** | Reuse 11C/11E; finalize aggregate reporting, denominators, strict joint results and locked-test readiness. |
-| **13 — Locked test and results** | Run the frozen evidence-only baseline on the locked test set; report citation and semantic results, retrieval as not applicable, limitations and the next-project decision. |
+| **[12 — Tables, charts and reporting](../tasks/sprint2/12_integrate_evaluation_and_reporting.md)** | Next, not active. Both models, three-repeat component/joint/any/every results, automatic citation metrics, historical judge-label agreement and Luna complexity plots; freeze reporting. |
+| **[13 — Locked evaluation](../tasks/sprint2/13_run_locked_test.md)** | Provisional. Both models × 30 questions × three repeats; sealed results using Task 12 reports. |
+| **[14 — Selective failure review](../tasks/sprint2/14_selective_failure_review.md)** | Provisional, after 13. Small selection of failures, successes and evaluator disagreements; reuse prior reviews. |
+| **[15 — Short methods/results writeup](../tasks/sprint2/15_write_methods_and_results.md)** | Provisional. Dataset construction/coverage, methods, results and selected limitations; short mini-paper-style report. |
 
 Agentic search is a later, separately scoped condition. No new full labeling pass
 is required, and no held-out test results may be used to tune the pipeline.

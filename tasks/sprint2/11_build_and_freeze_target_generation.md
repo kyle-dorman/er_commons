@@ -1,6 +1,7 @@
 # Task 11 — Build and freeze Luna target generation
 
-Status: Complete with limitations. The user-accepted focused conclusion prompt
+Status: Closed (2026-10-20), complete with documented limitations. No remaining
+Task 11 work. The user-accepted focused conclusion prompt
 and shared overview were frozen in [11E](11e_freeze_development_baseline.md) and
 checked on all 19 development questions for Luna and Haiku, three repeats each.
 The sealed handoff is ready for Task 12 reporting/readiness review; locked-test
@@ -122,3 +123,18 @@ Task 12 remains provisional and owns final aggregation, routing/denominator
 policy and locked-test readiness. Model failures, disputed reference/judge
 readings, mixed-edition overview framing and uncertain counting charges are
 limitations to carry forward, not grounds for another prompt cycle at closeout.
+
+
+## Internal learning and downstream reporting
+
+The [prompt iteration findings](11_prompt_iteration_findings.md) synthesize the
+completed comparisons: hypotheses, controls, targeted failures, gains/regressions,
+selection decisions and attribution limits. This is internal Task 11 learning,
+not a new run or a prompt-ablation section for Task 15.
+
+[Task 12](12_integrate_evaluation_and_reporting.md) builds tables/charts and freezes
+reporting; [Task 13](13_run_locked_test.md) runs both models three times on the
+locked set; [Task 14](14_selective_failure_review.md) selectively reviews examples;
+[Task 15](15_write_methods_and_results.md) writes the short methods/results report,
+including dataset construction and coverage. Task 11 remains closed. Code review/cleanup and the internal intervention
+analysis are complete; further reporting is owned by Task 12.

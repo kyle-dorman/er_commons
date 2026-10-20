@@ -669,20 +669,24 @@ task records. Later tasks require separate authorization.
    working timebox as a planning target and declare concrete budgets before runs.
    Task 11 is complete with limitations: [11E](../../tasks/sprint2/11e_freeze_development_baseline.md)
    retains all 114 Luna/Haiku answers (19 questions, three repeats each).
-   Task 12 is next and remains provisional; no further run is active.
-6. **[Task 12 — Finalize reporting and locked-test readiness](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md).**
-   Reuse Task 11C integration and 11E saved outputs. Audit no-answer routing,
-   exact candidate joins and coverage; finalize aggregate denominators and strict
-   all-grounding-pass AND S-pass AND C-pass reporting. Preserve component results,
-   citation metrics and explicit missing/error states; retrieval recall remains
-   not applicable. Freeze reporting and configuration identities for Task 13.
-   No new prompt cycles, judge tuning or full labeling pass.
-7. **Task 13 — Run the locked test and close Sprint 2.** After a separate task
-   activation and final configuration freeze, verify the identity chain and run
-   the evidence-only baseline on the 30 held-out cases. Preserve applicable
-   citation and A/G/S/C results, report judge and supplied-evidence limitations,
-   analyze errors and make the second-project decision. No retrieval comparison
-   or secondary oracle run is required; no test results may tune the pipeline.
+   Task 12 planning is refreshed and is next; no further run is active.
+6. **[Task 12 — Tables, charts and reporting](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md).**
+   Reuse 11C/11E and the cleaned 11F code. Build both-model component/automatic/joint
+   results, three-repeat at-least-once/every-time summaries, historical judge-label
+   accuracy/F1 and Luna citation/section/document association plots. Freeze
+   denominators, routing and reporting before test. No new calls or full human audit.
+7. **[Task 13 — Locked evaluation](../../tasks/sprint2/13_run_locked_test.md).**
+   After activation and readiness, run both frozen models on all 30 held-out cases,
+   three repeats each (180 planned target answers). Retain every failure and use
+   Task 12 reporting unchanged. No test-informed tuning or retrieval comparison.
+8. **[Task 14 — Selective failure review](../../tasks/sprint2/14_selective_failure_review.md).**
+   After 13, inspect a small bounded selection of failures, successes and evaluator
+   disagreements, reusing prior analyses. Preserve frozen scores; no full human
+   labeling study or new judge accuracy experiment.
+9. **[Task 15 — Short methods/results writeup](../../tasks/sprint2/15_write_methods_and_results.md).**
+   Describe dataset construction/coverage, final methods, results and selected
+   limitations, using existing figures and examples. Keep Task 11 intervention
+   history internal. Close the sprint with a concise report and next-project decision.
 
 ### Task 09 synthetic challenge scope
 
