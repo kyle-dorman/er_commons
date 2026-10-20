@@ -1,0 +1,597 @@
+{
+  "schema_version": "task11d14.result.v1",
+  "status": "complete_with_limitations",
+  "decision": "promising_targeted_context_addition_not_yet_adopted",
+  "namespace": "pipelines/brisbane_baylands/task_11/validation_11d14_20261019",
+  "artifact_root": "ER_COMMONS_DATA_ROOT",
+  "fresh_answers": 4,
+  "saved_controls": 4,
+  "case_ids": [
+    "C041"
+  ],
+  "base_prompt_selection": "docs/specs/task11_working_prompt.json",
+  "overview_path": "docs/prompts/task11d14_document_overview.md",
+  "overview_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "primary_occurrence": {
+    "luna": {
+      "baseline": 0,
+      "overview": 0,
+      "denominator_each": 2
+    },
+    "haiku": {
+      "baseline": 2,
+      "overview": 0,
+      "denominator_each": 2
+    }
+  },
+  "aggregate": {
+    "conclusion_focus": {
+      "luna": {
+        "planned_answers": 2,
+        "available_answers": 2,
+        "unavailable_answers": 0,
+        "qualifications": {
+          "passed": 1,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 1,
+          "nonempty_answers": 1,
+          "empty_answers": 1,
+          "fail_free_nonempty_answers": 1
+        },
+        "supporting_points": {
+          "passed": 6,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 6,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 2
+        },
+        "all_G": {
+          "passed": 7,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 7,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 2
+        },
+        "A": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "S": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "C": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "strict": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        }
+      },
+      "haiku": {
+        "planned_answers": 2,
+        "available_answers": 2,
+        "unavailable_answers": 0,
+        "qualifications": {
+          "passed": 6,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 6,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 2
+        },
+        "supporting_points": {
+          "passed": 8,
+          "failed": 1,
+          "unavailable": 0,
+          "total": 9,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 1
+        },
+        "all_G": {
+          "passed": 14,
+          "failed": 1,
+          "unavailable": 0,
+          "total": 15,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 1
+        },
+        "A": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "S": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "C": {
+          "passed": 0,
+          "failed": 2,
+          "unavailable": 0,
+          "total": 2
+        },
+        "strict": {
+          "passed": 0,
+          "failed": 2,
+          "unavailable": 0,
+          "total": 2
+        }
+      }
+    },
+    "document_overview": {
+      "luna": {
+        "planned_answers": 2,
+        "available_answers": 2,
+        "unavailable_answers": 0,
+        "qualifications": {
+          "passed": 1,
+          "failed": 1,
+          "unavailable": 0,
+          "total": 2,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 1
+        },
+        "supporting_points": {
+          "passed": 6,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 6,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 2
+        },
+        "all_G": {
+          "passed": 7,
+          "failed": 1,
+          "unavailable": 0,
+          "total": 8,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 1
+        },
+        "A": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "S": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "C": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "strict": {
+          "passed": 1,
+          "failed": 1,
+          "unavailable": 0,
+          "total": 2
+        }
+      },
+      "haiku": {
+        "planned_answers": 2,
+        "available_answers": 2,
+        "unavailable_answers": 0,
+        "qualifications": {
+          "passed": 5,
+          "failed": 1,
+          "unavailable": 0,
+          "total": 6,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 1
+        },
+        "supporting_points": {
+          "passed": 8,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 8,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 2
+        },
+        "all_G": {
+          "passed": 13,
+          "failed": 1,
+          "unavailable": 0,
+          "total": 14,
+          "nonempty_answers": 2,
+          "empty_answers": 0,
+          "fail_free_nonempty_answers": 1
+        },
+        "A": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "S": {
+          "passed": 2,
+          "failed": 0,
+          "unavailable": 0,
+          "total": 2
+        },
+        "C": {
+          "passed": 1,
+          "failed": 1,
+          "unavailable": 0,
+          "total": 2
+        },
+        "strict": {
+          "passed": 0,
+          "failed": 2,
+          "unavailable": 0,
+          "total": 2
+        }
+      }
+    }
+  },
+  "by_case": {
+    "conclusion_focus": {
+      "luna": {
+        "C041": {
+          "planned_answers": 2,
+          "available_answers": 2,
+          "unavailable_answers": 0,
+          "qualifications": {
+            "passed": 1,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 1,
+            "nonempty_answers": 1,
+            "empty_answers": 1,
+            "fail_free_nonempty_answers": 1
+          },
+          "supporting_points": {
+            "passed": 6,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 6,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 2
+          },
+          "all_G": {
+            "passed": 7,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 7,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 2
+          },
+          "A": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "S": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "C": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "strict": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          }
+        }
+      },
+      "haiku": {
+        "C041": {
+          "planned_answers": 2,
+          "available_answers": 2,
+          "unavailable_answers": 0,
+          "qualifications": {
+            "passed": 6,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 6,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 2
+          },
+          "supporting_points": {
+            "passed": 8,
+            "failed": 1,
+            "unavailable": 0,
+            "total": 9,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 1
+          },
+          "all_G": {
+            "passed": 14,
+            "failed": 1,
+            "unavailable": 0,
+            "total": 15,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 1
+          },
+          "A": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "S": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "C": {
+            "passed": 0,
+            "failed": 2,
+            "unavailable": 0,
+            "total": 2
+          },
+          "strict": {
+            "passed": 0,
+            "failed": 2,
+            "unavailable": 0,
+            "total": 2
+          }
+        }
+      }
+    },
+    "document_overview": {
+      "luna": {
+        "C041": {
+          "planned_answers": 2,
+          "available_answers": 2,
+          "unavailable_answers": 0,
+          "qualifications": {
+            "passed": 1,
+            "failed": 1,
+            "unavailable": 0,
+            "total": 2,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 1
+          },
+          "supporting_points": {
+            "passed": 6,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 6,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 2
+          },
+          "all_G": {
+            "passed": 7,
+            "failed": 1,
+            "unavailable": 0,
+            "total": 8,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 1
+          },
+          "A": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "S": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "C": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "strict": {
+            "passed": 1,
+            "failed": 1,
+            "unavailable": 0,
+            "total": 2
+          }
+        }
+      },
+      "haiku": {
+        "C041": {
+          "planned_answers": 2,
+          "available_answers": 2,
+          "unavailable_answers": 0,
+          "qualifications": {
+            "passed": 5,
+            "failed": 1,
+            "unavailable": 0,
+            "total": 6,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 1
+          },
+          "supporting_points": {
+            "passed": 8,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 8,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 2
+          },
+          "all_G": {
+            "passed": 13,
+            "failed": 1,
+            "unavailable": 0,
+            "total": 14,
+            "nonempty_answers": 2,
+            "empty_answers": 0,
+            "fail_free_nonempty_answers": 1
+          },
+          "A": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "S": {
+            "passed": 2,
+            "failed": 0,
+            "unavailable": 0,
+            "total": 2
+          },
+          "C": {
+            "passed": 1,
+            "failed": 1,
+            "unavailable": 0,
+            "total": 2
+          },
+          "strict": {
+            "passed": 0,
+            "failed": 2,
+            "unavailable": 0,
+            "total": 2
+          }
+        }
+      }
+    }
+  },
+  "accounting": {
+    "saved_control_new_calls": 0,
+    "actual_count_cost_usd": null,
+    "count_billing": "unverified",
+    "count_calls": 38,
+    "dispatches_without_receipts": [],
+    "accounting_complete": true,
+    "generation": {
+      "calls": 4,
+      "known_cost_estimate_usd": 0.004676805,
+      "missing_cost_receipts": 0
+    },
+    "judge": {
+      "calls": 34,
+      "known_cost_estimate_usd": 0.009966105,
+      "missing_cost_receipts": 0
+    },
+    "partial_receipt_warning": "Fresh saved receipts include incomplete answer slots; dispatches without receipts explicitly make accounting incomplete. Provider count billing remains unknown."
+  },
+  "limitations": [
+    "Point counts differ and are not independent answer samples.",
+    "Repeated answers are stochastic draws, not matched random seeds.",
+    "Provenance caveat occurrence and field location require whole-answer human review; no substring heuristic assigns absence.",
+    "Optional context and conclusion are not pointwise G-scored.",
+    "No original scores changed.",
+    "Document overview is added to both target and judge envelopes; score changes combine answer and evaluator-context effects.",
+    "One question, two unseeded repeats per model; no panel-wide conclusion is supported."
+  ],
+  "artifacts": {
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/preflight.json": {
+      "sha256": "e6e82a9e38ef1ad7f47b373b123624189736434c4e8f888cdfbf9acd65bf4086",
+      "byte_size": 129200
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/task_contract.md": {
+      "sha256": "ff7584e20aec6d7835a40a06ae75d8e084468d70f58a88e831b4fc218ffb54a8",
+      "byte_size": 6597
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/task_outcome.md": {
+      "sha256": "5f1c1fc967e19a88de92c4dcd02f4f672af3a413978daf9b3bcd24da6d4bcb05",
+      "byte_size": 11195
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/decision_review.md": {
+      "sha256": "c8863a2172713ff940b0647de9e091c8d7afd42e58d2159dcb3898b6db38aa95",
+      "byte_size": 4577
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/reports/comparison.json": {
+      "sha256": "5bfa1a28e013fac572dfab8875086066cb8bee781675ccf80d61b0277bedd7a5",
+      "byte_size": 336214
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/reports/comparison.md": {
+      "sha256": "b6a4bce27f60a4c460633dfc12bc15cd6dae245461daa9cb1febc55d1735e92f",
+      "byte_size": 868
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/manual_comparison_review.json": {
+      "sha256": "e6aaa90849de5030e54ebf49a03a6ec8698f25f3500a53f046591ef6106d5d1e",
+      "byte_size": 21150
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/manual_comparison_review.md": {
+      "sha256": "79f30d793e9f390e6ddfc5e65fbd2c388ba25c6476f3bd3878f148199949b922",
+      "byte_size": 3071
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/manual_control_review.json": {
+      "sha256": "78cfc186fdd05a47bc487baf703c4f583ff20bd28e84caede6c89257b22494c0",
+      "byte_size": 11441
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/independent_audit_result.json": {
+      "sha256": "b3854862662b382dc5b8d8a6709eee348f72f64a7535d4f3f0885ebbe09ff21b",
+      "byte_size": 812
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/independent_receipt_accounting.json": {
+      "sha256": "ea95123c6d7bd86bdd433ade08c50908b0459d85146f67936ae367552dab8532",
+      "byte_size": 16169
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/independent_preflight_review.json": {
+      "sha256": "cc5d03c7dd6f2c5545c88cfd109405b7b74332c97b380e544ae6590b166af885",
+      "byte_size": 3206
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/make_fix.log": {
+      "sha256": "c546e86b6fa6e7a9e10ae47b5556dd844f69064d058dc33ead3f1c29e40a7510",
+      "byte_size": 91
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/make_check.log": {
+      "sha256": "af04e669711cbfc88ec16166e396d7e18ba8cd5b19da9e5c182b1c925ebe8cb9",
+      "byte_size": 27876
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/offline_repair_note.md": {
+      "sha256": "6cf1b826c16d17afa3d5de71a070207617aeb97d101e3309e475a65cf5312438",
+      "byte_size": 251
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/publication_review.json": {
+      "sha256": "21a52ffdba9b97f252d14d1c0ed350a0a2b8814338533ced19dc08494624ea06",
+      "byte_size": 3323
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/completion.json": {
+      "sha256": "94d394cfd1b816cb39387fa864b597dd475d9d237ca422bf5bb62d0ecebe319e",
+      "byte_size": 189536
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d14_20261019/final_diff_check.json": {
+      "sha256": "28e77ccea59c8ff602ca21e7a7a293eb24aaa318f01ac54df769f5d64221b9eb",
+      "byte_size": 58
+    }
+  }
+}

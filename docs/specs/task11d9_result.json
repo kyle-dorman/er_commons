@@ -1,0 +1,3853 @@
+{
+  "11E_begun": false,
+  "accounting": {
+    "actual_count_cost_usd": null,
+    "by_kind": {
+      "generation": {
+        "input_tokens": {
+          "known_receipts": 68,
+          "known_sum": 238,
+          "unreported_receipts": 0
+        },
+        "input_tokens_cache_read": {
+          "known_receipts": 63,
+          "known_sum": 293574,
+          "unreported_receipts": 5
+        },
+        "input_tokens_cache_write": {
+          "known_receipts": 51,
+          "known_sum": 589676,
+          "unreported_receipts": 17
+        },
+        "output_tokens": {
+          "known_receipts": 68,
+          "known_sum": 137825,
+          "unreported_receipts": 0
+        },
+        "reasoning_tokens": {
+          "known_receipts": 61,
+          "known_sum": 68108,
+          "unreported_receipts": 7
+        },
+        "total_cost": {
+          "known_receipts": 68,
+          "known_sum": 0.14558153999999998,
+          "unreported_receipts": 0
+        },
+        "total_tokens": {
+          "known_receipts": 68,
+          "known_sum": 1021313,
+          "unreported_receipts": 0
+        }
+      },
+      "judge": {
+        "input_tokens": {
+          "known_receipts": 589,
+          "known_sum": 47556,
+          "unreported_receipts": 0
+        },
+        "input_tokens_cache_read": {
+          "known_receipts": 138,
+          "known_sum": 275174,
+          "unreported_receipts": 451
+        },
+        "input_tokens_cache_write": {
+          "known_receipts": 517,
+          "known_sum": 1689868,
+          "unreported_receipts": 72
+        },
+        "output_tokens": {
+          "known_receipts": 589,
+          "known_sum": 186947,
+          "unreported_receipts": 0
+        },
+        "reasoning_tokens": {
+          "known_receipts": 551,
+          "known_sum": 119443,
+          "unreported_receipts": 38
+        },
+        "total_cost": {
+          "known_receipts": 589,
+          "known_sum": 0.3122143399999997,
+          "unreported_receipts": 0
+        },
+        "total_tokens": {
+          "known_receipts": 589,
+          "known_sum": 2199545,
+          "unreported_receipts": 0
+        }
+      }
+    },
+    "by_model": {
+      "haiku": {
+        "input_tokens": {
+          "known_receipts": 389,
+          "known_sum": 24975,
+          "unreported_receipts": 0
+        },
+        "input_tokens_cache_read": {
+          "known_receipts": 106,
+          "known_sum": 253802,
+          "unreported_receipts": 283
+        },
+        "input_tokens_cache_write": {
+          "known_receipts": 351,
+          "known_sum": 1546964,
+          "unreported_receipts": 38
+        },
+        "output_tokens": {
+          "known_receipts": 389,
+          "known_sum": 214032,
+          "unreported_receipts": 0
+        },
+        "reasoning_tokens": {
+          "known_receipts": 366,
+          "known_sum": 124476,
+          "unreported_receipts": 23
+        },
+        "total_cost": {
+          "known_receipts": 389,
+          "known_sum": 0.30542201999999996,
+          "unreported_receipts": 0
+        },
+        "total_tokens": {
+          "known_receipts": 389,
+          "known_sum": 2039773,
+          "unreported_receipts": 0
+        }
+      },
+      "luna": {
+        "input_tokens": {
+          "known_receipts": 268,
+          "known_sum": 22819,
+          "unreported_receipts": 0
+        },
+        "input_tokens_cache_read": {
+          "known_receipts": 95,
+          "known_sum": 314946,
+          "unreported_receipts": 173
+        },
+        "input_tokens_cache_write": {
+          "known_receipts": 217,
+          "known_sum": 732580,
+          "unreported_receipts": 51
+        },
+        "output_tokens": {
+          "known_receipts": 268,
+          "known_sum": 110740,
+          "unreported_receipts": 0
+        },
+        "reasoning_tokens": {
+          "known_receipts": 246,
+          "known_sum": 63075,
+          "unreported_receipts": 22
+        },
+        "total_cost": {
+          "known_receipts": 268,
+          "known_sum": 0.15237385999999986,
+          "unreported_receipts": 0
+        },
+        "total_tokens": {
+          "known_receipts": 268,
+          "known_sum": 1181085,
+          "unreported_receipts": 0
+        }
+      }
+    },
+    "calls": {
+      "count_calls": 657,
+      "generation_calls": 68,
+      "judge_calls": 589
+    },
+    "cost_interpretation": "Sum of nonnull library-reported total_cost estimates; not a provider invoice. Partial sums do not imply zero cost for unavailable receipts or fields.",
+    "count_cost_allowance_usd": 0,
+    "dispatched_calls_without_joined_usage_status": 0,
+    "missing_usage_receipts": [],
+    "reservation_interpretation": "Reservations are conservative liability bounds, not spending.",
+    "retries_observed": 0,
+    "totals": {
+      "input_tokens": {
+        "known_receipts": 657,
+        "known_sum": 47794,
+        "unreported_receipts": 0
+      },
+      "input_tokens_cache_read": {
+        "known_receipts": 201,
+        "known_sum": 568748,
+        "unreported_receipts": 456
+      },
+      "input_tokens_cache_write": {
+        "known_receipts": 568,
+        "known_sum": 2279544,
+        "unreported_receipts": 89
+      },
+      "output_tokens": {
+        "known_receipts": 657,
+        "known_sum": 324772,
+        "unreported_receipts": 0
+      },
+      "reasoning_tokens": {
+        "known_receipts": 612,
+        "known_sum": 187551,
+        "unreported_receipts": 45
+      },
+      "total_cost": {
+        "known_receipts": 657,
+        "known_sum": 0.4577958799999999,
+        "unreported_receipts": 0
+      },
+      "total_tokens": {
+        "known_receipts": 657,
+        "known_sum": 3220858,
+        "unreported_receipts": 0
+      }
+    },
+    "usage_accounting_complete": true,
+    "usage_receipts": 657
+  },
+  "arms": {
+    "baseline": {
+      "cases": [
+        "C041",
+        "C017",
+        "C019",
+        "C014",
+        "C037",
+        "C056"
+      ],
+      "models": {
+        "haiku": {
+          "arm": {
+            "planned": 12,
+            "valid": 12,
+            "complete": 12,
+            "all_checks": {
+              "denominator": 12,
+              "pass": 4,
+              "rate": 0.3333333333333333
+            },
+            "judges": {
+              "A": {
+                "denominator": 12,
+                "pass": 12,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 12,
+                "pass": 7,
+                "rate": 0.5833333333333334
+              },
+              "G": {
+                "denominator": 12,
+                "pass": 4,
+                "rate": 0.3333333333333333
+              },
+              "S": {
+                "denominator": 12,
+                "pass": 11,
+                "rate": 0.9166666666666666
+              }
+            },
+            "G_points": {
+              "denominator": 89,
+              "pass": 77,
+              "rate": 0.8651685393258427
+            }
+          },
+          "by_question": {
+            "C014": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 14,
+                  "pass": 11,
+                  "rate": 0.7857142857142857
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 14,
+                  "pass": 11,
+                  "rate": 0.7857142857142857
+                }
+              }
+            },
+            "C017": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 23,
+                  "pass": 20,
+                  "rate": 0.8695652173913043
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 23,
+                  "pass": 20,
+                  "rate": 0.8695652173913043
+                }
+              }
+            },
+            "C019": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 13,
+                  "pass": 10,
+                  "rate": 0.7692307692307693
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 13,
+                  "pass": 10,
+                  "rate": 0.7692307692307693
+                }
+              }
+            },
+            "C037": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 12,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 12,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C041": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 10,
+                  "rate": 0.8333333333333334
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 10,
+                  "rate": 0.8333333333333334
+                }
+              }
+            },
+            "C056": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 15,
+                  "pass": 14,
+                  "rate": 0.9333333333333333
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 15,
+                  "pass": 14,
+                  "rate": 0.9333333333333333
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 12,
+            "valid": 12,
+            "complete": 12,
+            "all_checks": {
+              "denominator": 12,
+              "pass": 4,
+              "rate": 0.3333333333333333
+            },
+            "judges": {
+              "A": {
+                "denominator": 12,
+                "pass": 12,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 12,
+                "pass": 7,
+                "rate": 0.5833333333333334
+              },
+              "G": {
+                "denominator": 12,
+                "pass": 4,
+                "rate": 0.3333333333333333
+              },
+              "S": {
+                "denominator": 12,
+                "pass": 11,
+                "rate": 0.9166666666666666
+              }
+            },
+            "G_points": {
+              "denominator": 89,
+              "pass": 77,
+              "rate": 0.8651685393258427
+            }
+          }
+        },
+        "luna": {
+          "arm": {
+            "planned": 12,
+            "valid": 12,
+            "complete": 12,
+            "all_checks": {
+              "denominator": 12,
+              "pass": 8,
+              "rate": 0.6666666666666666
+            },
+            "judges": {
+              "A": {
+                "denominator": 12,
+                "pass": 12,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 12,
+                "pass": 9,
+                "rate": 0.75
+              },
+              "G": {
+                "denominator": 12,
+                "pass": 11,
+                "rate": 0.9166666666666666
+              },
+              "S": {
+                "denominator": 12,
+                "pass": 11,
+                "rate": 0.9166666666666666
+              }
+            },
+            "G_points": {
+              "denominator": 48,
+              "pass": 47,
+              "rate": 0.9791666666666666
+            }
+          },
+          "by_question": {
+            "C014": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 11,
+                  "rate": 0.9166666666666666
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 11,
+                  "rate": 0.9166666666666666
+                }
+              }
+            },
+            "C017": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C019": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 6,
+                  "pass": 6,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 6,
+                  "pass": 6,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C037": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C041": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 7,
+                  "pass": 7,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 7,
+                  "pass": 7,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C056": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 5,
+                  "pass": 5,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 5,
+                  "pass": 5,
+                  "rate": 1.0
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 12,
+            "valid": 12,
+            "complete": 12,
+            "all_checks": {
+              "denominator": 12,
+              "pass": 8,
+              "rate": 0.6666666666666666
+            },
+            "judges": {
+              "A": {
+                "denominator": 12,
+                "pass": 12,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 12,
+                "pass": 9,
+                "rate": 0.75
+              },
+              "G": {
+                "denominator": 12,
+                "pass": 11,
+                "rate": 0.9166666666666666
+              },
+              "S": {
+                "denominator": 12,
+                "pass": 11,
+                "rate": 0.9166666666666666
+              }
+            },
+            "G_points": {
+              "denominator": 48,
+              "pass": 47,
+              "rate": 0.9791666666666666
+            }
+          }
+        }
+      }
+    },
+    "citation": {
+      "cases": [
+        "C019",
+        "C014",
+        "C056"
+      ],
+      "models": {
+        "haiku": {
+          "arm": {
+            "planned": 6,
+            "valid": 6,
+            "complete": 6,
+            "all_checks": {
+              "denominator": 6,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "judges": {
+              "A": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 6,
+                "pass": 5,
+                "rate": 0.8333333333333334
+              },
+              "G": {
+                "denominator": 6,
+                "pass": 0,
+                "rate": 0.0
+              },
+              "S": {
+                "denominator": 6,
+                "pass": 5,
+                "rate": 0.8333333333333334
+              }
+            },
+            "G_points": {
+              "denominator": 41,
+              "pass": 32,
+              "rate": 0.7804878048780488
+            }
+          },
+          "by_question": {
+            "C014": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 16,
+                  "pass": 13,
+                  "rate": 0.8125
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 14,
+                  "pass": 11,
+                  "rate": 0.7857142857142857
+                }
+              }
+            },
+            "C019": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 8,
+                  "rate": 0.6666666666666666
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 13,
+                  "pass": 10,
+                  "rate": 0.7692307692307693
+                }
+              }
+            },
+            "C056": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 13,
+                  "pass": 11,
+                  "rate": 0.8461538461538461
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 15,
+                  "pass": 14,
+                  "rate": 0.9333333333333333
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 6,
+            "valid": 6,
+            "complete": 6,
+            "all_checks": {
+              "denominator": 6,
+              "pass": 1,
+              "rate": 0.16666666666666666
+            },
+            "judges": {
+              "A": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 6,
+                "pass": 4,
+                "rate": 0.6666666666666666
+              },
+              "G": {
+                "denominator": 6,
+                "pass": 1,
+                "rate": 0.16666666666666666
+              },
+              "S": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              }
+            },
+            "G_points": {
+              "denominator": 42,
+              "pass": 35,
+              "rate": 0.8333333333333334
+            }
+          }
+        },
+        "luna": {
+          "arm": {
+            "planned": 6,
+            "valid": 6,
+            "complete": 6,
+            "all_checks": {
+              "denominator": 6,
+              "pass": 4,
+              "rate": 0.6666666666666666
+            },
+            "judges": {
+              "A": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 6,
+                "pass": 4,
+                "rate": 0.6666666666666666
+              },
+              "G": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              },
+              "S": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              }
+            },
+            "G_points": {
+              "denominator": 20,
+              "pass": 20,
+              "rate": 1.0
+            }
+          },
+          "by_question": {
+            "C014": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 7,
+                  "pass": 7,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 11,
+                  "rate": 0.9166666666666666
+                }
+              }
+            },
+            "C019": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 6,
+                  "pass": 6,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 6,
+                  "pass": 6,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C056": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 7,
+                  "pass": 7,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 5,
+                  "pass": 5,
+                  "rate": 1.0
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 6,
+            "valid": 6,
+            "complete": 6,
+            "all_checks": {
+              "denominator": 6,
+              "pass": 4,
+              "rate": 0.6666666666666666
+            },
+            "judges": {
+              "A": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 6,
+                "pass": 5,
+                "rate": 0.8333333333333334
+              },
+              "G": {
+                "denominator": 6,
+                "pass": 5,
+                "rate": 0.8333333333333334
+              },
+              "S": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              }
+            },
+            "G_points": {
+              "denominator": 23,
+              "pass": 22,
+              "rate": 0.9565217391304348
+            }
+          }
+        }
+      }
+    },
+    "conclusion": {
+      "cases": [
+        "C041",
+        "C017",
+        "C014"
+      ],
+      "models": {
+        "haiku": {
+          "arm": {
+            "planned": 6,
+            "valid": 6,
+            "complete": 6,
+            "all_checks": {
+              "denominator": 6,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "judges": {
+              "A": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 6,
+                "pass": 2,
+                "rate": 0.3333333333333333
+              },
+              "G": {
+                "denominator": 6,
+                "pass": 3,
+                "rate": 0.5
+              },
+              "S": {
+                "denominator": 6,
+                "pass": 3,
+                "rate": 0.5
+              }
+            },
+            "G_points": {
+              "denominator": 53,
+              "pass": 46,
+              "rate": 0.8679245283018868
+            }
+          },
+          "by_question": {
+            "C014": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 16,
+                  "pass": 12,
+                  "rate": 0.75
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 14,
+                  "pass": 11,
+                  "rate": 0.7857142857142857
+                }
+              }
+            },
+            "C017": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 22,
+                  "pass": 22,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 23,
+                  "pass": 20,
+                  "rate": 0.8695652173913043
+                }
+              }
+            },
+            "C041": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 15,
+                  "pass": 12,
+                  "rate": 0.8
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 10,
+                  "rate": 0.8333333333333334
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 6,
+            "valid": 6,
+            "complete": 6,
+            "all_checks": {
+              "denominator": 6,
+              "pass": 1,
+              "rate": 0.16666666666666666
+            },
+            "judges": {
+              "A": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 6,
+                "pass": 1,
+                "rate": 0.16666666666666666
+              },
+              "G": {
+                "denominator": 6,
+                "pass": 1,
+                "rate": 0.16666666666666666
+              },
+              "S": {
+                "denominator": 6,
+                "pass": 5,
+                "rate": 0.8333333333333334
+              }
+            },
+            "G_points": {
+              "denominator": 49,
+              "pass": 41,
+              "rate": 0.8367346938775511
+            }
+          }
+        },
+        "luna": {
+          "arm": {
+            "planned": 6,
+            "valid": 6,
+            "complete": 6,
+            "all_checks": {
+              "denominator": 6,
+              "pass": 3,
+              "rate": 0.5
+            },
+            "judges": {
+              "A": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 6,
+                "pass": 5,
+                "rate": 0.8333333333333334
+              },
+              "G": {
+                "denominator": 6,
+                "pass": 3,
+                "rate": 0.5
+              },
+              "S": {
+                "denominator": 6,
+                "pass": 5,
+                "rate": 0.8333333333333334
+              }
+            },
+            "G_points": {
+              "denominator": 25,
+              "pass": 22,
+              "rate": 0.88
+            }
+          },
+          "by_question": {
+            "C014": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 8,
+                  "pass": 6,
+                  "rate": 0.75
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 11,
+                  "rate": 0.9166666666666666
+                }
+              }
+            },
+            "C017": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 8,
+                  "rate": 0.8888888888888888
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C041": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 8,
+                  "pass": 8,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 7,
+                  "pass": 7,
+                  "rate": 1.0
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 6,
+            "valid": 6,
+            "complete": 6,
+            "all_checks": {
+              "denominator": 6,
+              "pass": 2,
+              "rate": 0.3333333333333333
+            },
+            "judges": {
+              "A": {
+                "denominator": 6,
+                "pass": 6,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 6,
+                "pass": 3,
+                "rate": 0.5
+              },
+              "G": {
+                "denominator": 6,
+                "pass": 5,
+                "rate": 0.8333333333333334
+              },
+              "S": {
+                "denominator": 6,
+                "pass": 5,
+                "rate": 0.8333333333333334
+              }
+            },
+            "G_points": {
+              "denominator": 28,
+              "pass": 27,
+              "rate": 0.9642857142857143
+            }
+          }
+        }
+      }
+    },
+    "qualification": {
+      "cases": [
+        "C041",
+        "C017",
+        "C037",
+        "C056"
+      ],
+      "models": {
+        "haiku": {
+          "arm": {
+            "planned": 8,
+            "valid": 8,
+            "complete": 8,
+            "all_checks": {
+              "denominator": 8,
+              "pass": 2,
+              "rate": 0.25
+            },
+            "judges": {
+              "A": {
+                "denominator": 8,
+                "pass": 8,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 8,
+                "pass": 5,
+                "rate": 0.625
+              },
+              "G": {
+                "denominator": 8,
+                "pass": 4,
+                "rate": 0.5
+              },
+              "S": {
+                "denominator": 8,
+                "pass": 8,
+                "rate": 1.0
+              }
+            },
+            "G_points": {
+              "denominator": 58,
+              "pass": 52,
+              "rate": 0.896551724137931
+            }
+          },
+          "by_question": {
+            "C017": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 21,
+                  "pass": 18,
+                  "rate": 0.8571428571428571
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 23,
+                  "pass": 20,
+                  "rate": 0.8695652173913043
+                }
+              }
+            },
+            "C037": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 11,
+                  "rate": 0.9166666666666666
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 12,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C041": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 12,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 10,
+                  "rate": 0.8333333333333334
+                }
+              }
+            },
+            "C056": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 13,
+                  "pass": 11,
+                  "rate": 0.8461538461538461
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 15,
+                  "pass": 14,
+                  "rate": 0.9333333333333333
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 8,
+            "valid": 8,
+            "complete": 8,
+            "all_checks": {
+              "denominator": 8,
+              "pass": 4,
+              "rate": 0.5
+            },
+            "judges": {
+              "A": {
+                "denominator": 8,
+                "pass": 8,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 8,
+                "pass": 5,
+                "rate": 0.625
+              },
+              "G": {
+                "denominator": 8,
+                "pass": 4,
+                "rate": 0.5
+              },
+              "S": {
+                "denominator": 8,
+                "pass": 7,
+                "rate": 0.875
+              }
+            },
+            "G_points": {
+              "denominator": 62,
+              "pass": 56,
+              "rate": 0.9032258064516129
+            }
+          }
+        },
+        "luna": {
+          "arm": {
+            "planned": 8,
+            "valid": 8,
+            "complete": 8,
+            "all_checks": {
+              "denominator": 8,
+              "pass": 7,
+              "rate": 0.875
+            },
+            "judges": {
+              "A": {
+                "denominator": 8,
+                "pass": 8,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 8,
+                "pass": 7,
+                "rate": 0.875
+              },
+              "G": {
+                "denominator": 8,
+                "pass": 8,
+                "rate": 1.0
+              },
+              "S": {
+                "denominator": 8,
+                "pass": 8,
+                "rate": 1.0
+              }
+            },
+            "G_points": {
+              "denominator": 30,
+              "pass": 30,
+              "rate": 1.0
+            }
+          },
+          "by_question": {
+            "C017": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 0,
+                  "rate": 0.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 0,
+                    "rate": 0.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C037": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 8,
+                  "pass": 8,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C041": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 7,
+                  "pass": 7,
+                  "rate": 1.0
+                }
+              }
+            },
+            "C056": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 4,
+                  "pass": 4,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 5,
+                  "pass": 5,
+                  "rate": 1.0
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 8,
+            "valid": 8,
+            "complete": 8,
+            "all_checks": {
+              "denominator": 8,
+              "pass": 6,
+              "rate": 0.75
+            },
+            "judges": {
+              "A": {
+                "denominator": 8,
+                "pass": 8,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 8,
+                "pass": 6,
+                "rate": 0.75
+              },
+              "G": {
+                "denominator": 8,
+                "pass": 8,
+                "rate": 1.0
+              },
+              "S": {
+                "denominator": 8,
+                "pass": 7,
+                "rate": 0.875
+              }
+            },
+            "G_points": {
+              "denominator": 30,
+              "pass": 30,
+              "rate": 1.0
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "cases": [
+        "C041"
+      ],
+      "models": {
+        "haiku": {
+          "arm": {
+            "planned": 2,
+            "valid": 2,
+            "complete": 2,
+            "all_checks": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "judges": {
+              "A": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 2,
+                "pass": 1,
+                "rate": 0.5
+              },
+              "G": {
+                "denominator": 2,
+                "pass": 1,
+                "rate": 0.5
+              },
+              "S": {
+                "denominator": 2,
+                "pass": 1,
+                "rate": 0.5
+              }
+            },
+            "G_points": {
+              "denominator": 12,
+              "pass": 11,
+              "rate": 0.9166666666666666
+            }
+          },
+          "by_question": {
+            "C041": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 11,
+                  "rate": 0.9166666666666666
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 1,
+                  "rate": 0.5
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 1,
+                    "rate": 0.5
+                  }
+                },
+                "G_points": {
+                  "denominator": 12,
+                  "pass": 10,
+                  "rate": 0.8333333333333334
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 2,
+            "valid": 2,
+            "complete": 2,
+            "all_checks": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "judges": {
+              "A": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 2,
+                "pass": 1,
+                "rate": 0.5
+              },
+              "G": {
+                "denominator": 2,
+                "pass": 1,
+                "rate": 0.5
+              },
+              "S": {
+                "denominator": 2,
+                "pass": 1,
+                "rate": 0.5
+              }
+            },
+            "G_points": {
+              "denominator": 12,
+              "pass": 10,
+              "rate": 0.8333333333333334
+            }
+          }
+        },
+        "luna": {
+          "arm": {
+            "planned": 2,
+            "valid": 2,
+            "complete": 2,
+            "all_checks": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "judges": {
+              "A": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              },
+              "G": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              },
+              "S": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              }
+            },
+            "G_points": {
+              "denominator": 9,
+              "pass": 9,
+              "rate": 1.0
+            }
+          },
+          "by_question": {
+            "C041": {
+              "arm": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 9,
+                  "pass": 9,
+                  "rate": 1.0
+                }
+              },
+              "matched_baseline": {
+                "planned": 2,
+                "valid": 2,
+                "complete": 2,
+                "all_checks": {
+                  "denominator": 2,
+                  "pass": 2,
+                  "rate": 1.0
+                },
+                "judges": {
+                  "A": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "C": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "G": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  },
+                  "S": {
+                    "denominator": 2,
+                    "pass": 2,
+                    "rate": 1.0
+                  }
+                },
+                "G_points": {
+                  "denominator": 7,
+                  "pass": 7,
+                  "rate": 1.0
+                }
+              }
+            }
+          },
+          "matched_baseline": {
+            "planned": 2,
+            "valid": 2,
+            "complete": 2,
+            "all_checks": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "judges": {
+              "A": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              },
+              "C": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              },
+              "G": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              },
+              "S": {
+                "denominator": 2,
+                "pass": 2,
+                "rate": 1.0
+              }
+            },
+            "G_points": {
+              "denominator": 7,
+              "pass": 7,
+              "rate": 1.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "artifacts": {
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/audit_checked.py": {
+      "byte_size": 9839,
+      "sha256": "077dd18db1201004701c589f50ee40c9329efeb93afde70e2d909ec1242c4847"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/completion.json": {
+      "byte_size": 2702137,
+      "sha256": "faea89e7100f011e8907188154e46eeb4feebdd50763508e18d9322a3d094ab4"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/decision_review.md": {
+      "byte_size": 6168,
+      "sha256": "da5630ba07849cd43681143f2c0d44322f34ca5fcf984a36a651fd9124b23f0e"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/git_diff_check_final.log": {
+      "byte_size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/independent_audit_result.json": {
+      "byte_size": 1231,
+      "sha256": "435af66bf2fd8e92ba5f0af850ea024fae6ee0399c291f516f479e8a18447087"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/independent_final_review.json": {
+      "byte_size": 2699,
+      "sha256": "767f473cc973015c723b95520dd8ef565a0d90ec57e0171d8923411e6f0b4c43"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/independent_preflight_review.json": {
+      "byte_size": 2008,
+      "sha256": "6e5fd7d1b02bb45e71326447e5169670288f702f0d7542b5b9dd193156d34622"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/make_check.log": {
+      "byte_size": 27876,
+      "sha256": "0243c9a909ceed055ffdca31e938cd5e70065170a2947008b33f8f103714da70"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/make_fix.log": {
+      "byte_size": 91,
+      "sha256": "c546e86b6fa6e7a9e10ae47b5556dd844f69064d058dc33ead3f1c29e40a7510"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/offline_tests.log": {
+      "byte_size": 99,
+      "sha256": "cfd88f428ccffc13c39ac6d9e54f5c5970cd0ade401e1c98224d75d161b42863"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/preflight.json": {
+      "byte_size": 136850,
+      "sha256": "fcc05be1fc6c47dddd5aec07c05312cc478816899ae3a94d5c822739987228a7"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/publication_review.json": {
+      "byte_size": 733,
+      "sha256": "f0b6e36d2b4c05c5cf4579b0f4c92f89f30763f8ad513514c8064d66a38e050c"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reports/final.json": {
+      "byte_size": 4274823,
+      "sha256": "e239d6f52fa8bd95fe1cc9e51210c6e420a5173c994faac29c33733a6efed8ee"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reports/final.md": {
+      "byte_size": 509266,
+      "sha256": "a3e50263ed697365bd52872f1cd4ac49026eb8112546641c6ea3200cf6621fd6"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/baseline.json": {
+      "byte_size": 587,
+      "sha256": "c3f1dc3c916faef9c524746b4af7a8420cf7d7fd786efdacffccfa4f6e12611d"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/baseline_text_review.json": {
+      "byte_size": 161140,
+      "sha256": "d2a99934170f07e7f9c0320d9400a4103e3e5e579d5870a6edb3cbcb3804a869"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/citation.json": {
+      "byte_size": 523,
+      "sha256": "f206460f75b55e543b10d49b099848bc6b711637d92c3dde6ba516340178ebc5"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/citation_text_review.json": {
+      "byte_size": 127984,
+      "sha256": "5dbf2efb0401d7ec58cfe624173149872e004c8b70978b8a6663d4a0e1375393"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/conclusion.json": {
+      "byte_size": 717,
+      "sha256": "3e3210129ab1dd74461fc4e0bcbadfd51e797f98103563b98b4c71432ab73961"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/conclusion_text_review.json": {
+      "byte_size": 200771,
+      "sha256": "51598d93574cddb823a7442f29ef6131834b1f04b53311f462644427b370be4f"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/qualification.json": {
+      "byte_size": 599,
+      "sha256": "536c86f57817f3ed2ff519e7d62cba1ca9e98d56e4df4cbbdd28a7a87121589f"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/qualification_text_review.json": {
+      "byte_size": 80542,
+      "sha256": "637f166321f7ed55e39e1e4ab11e3a5b9b3937eba987f732f9641adfd277fce4"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/summary.json": {
+      "byte_size": 580,
+      "sha256": "d9998953181094403e94bb11395c4b7ab3016bc0ecd5b4467681e78905de1b9d"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/reviews/summary_text_review.json": {
+      "byte_size": 20798,
+      "sha256": "208965058178ce167f09e227a6e6ed5b173e68791c24869d1d898e3e6fb7f7ee"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/runner.py": {
+      "byte_size": 15303,
+      "sha256": "982ccfc633450129a9e8273798f4838a86ec9f12ecb55e697889606f1d8e5124"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/task_contract.md": {
+      "byte_size": 8747,
+      "sha256": "40a58a75eb168a61c35b6b113268bcfa10a429bfdb644f7029d3e43c764d6253"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/task_outcome.md": {
+      "byte_size": 13521,
+      "sha256": "312835b31456982201535a492cde849cd61a6dc7e4cd4e2eff3ae697a2c6b9d9"
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d9_20261019_live/test_audit_checked.py": {
+      "byte_size": 1807,
+      "sha256": "630d014b84b522dbf06eadc777ee533e3495149bc90fd9d0f583d41c2d5c5c15"
+    }
+  },
+  "audit": {
+    "calls": {
+      "count_calls": 657,
+      "generation_calls": 68,
+      "judge_calls": 589
+    },
+    "count_billing": "unknown; not asserted free",
+    "count_usage_differences": [],
+    "new_calls": 0,
+    "protected_completions_sha256": {
+      "validation_11d8_20261019": "e4e987c0c16b390a0236849659a7c2df0b1786293a3137a7218bb615e336649e",
+      "validation_11d9_20261019": "6f7b320e9ba239b4a24b68b602b68265200aaf39beb713c8644ad2e8ec8a0326"
+    },
+    "receipts": 657,
+    "receipts_missing_reasoning_subtotal": 45,
+    "slots": 68,
+    "snapshot_sha256": "e239d6f52fa8bd95fe1cc9e51210c6e420a5173c994faac29c33733a6efed8ee",
+    "source_passages_unchanged": 23,
+    "stage_replays": [
+      {
+        "new_calls": 0,
+        "replay": "verified",
+        "slots": 24,
+        "stage": "baseline"
+      },
+      {
+        "new_calls": 0,
+        "replay": "verified",
+        "slots": 16,
+        "stage": "qualification"
+      },
+      {
+        "new_calls": 0,
+        "replay": "verified",
+        "slots": 12,
+        "stage": "citation"
+      },
+      {
+        "new_calls": 0,
+        "replay": "verified",
+        "slots": 4,
+        "stage": "summary"
+      },
+      {
+        "new_calls": 0,
+        "replay": "verified",
+        "slots": 12,
+        "stage": "conclusion"
+      }
+    ],
+    "status": "passed"
+  },
+  "baseline": "exact V6b with neutral questions/locators/references; no summary",
+  "case_ids": [
+    "C041",
+    "C017",
+    "C019",
+    "C014",
+    "C037",
+    "C056"
+  ],
+  "date": "2026-10-19",
+  "decision": "retain neutral-input V6b as working experimental control; no addition reliably improves both models; no combined prompt or qualified baseline promoted",
+  "design": "four nonadditive single changes; both models; two repeats; fixed relevant subsets",
+  "judges_retuned": false,
+  "limitations": [
+    "Two unseeded repeats on exposed development cases, not statistical significance or generalization.",
+    "Different arms use different predeclared subsets; compare only matching baseline cases.",
+    "Summary is a combined target-and-judge context intervention on one case.",
+    "Frozen judge disagreements and source footnote issues retained without manual score overrides.",
+    "Count billing unknown; 45 reasoning subtotals missing, overall usage/cost receipts complete."
+  ],
+  "limits": {
+    "count_calls": 1156,
+    "elapsed_seconds": 14400,
+    "generation_calls": 68,
+    "generation_output_tokens": 12288,
+    "input_tokens": 100000,
+    "items_per_answer": 16,
+    "judge_calls": 1088,
+    "judge_output_tokens": 4096,
+    "reserved_usd": 40.0,
+    "retries": 0
+  },
+  "locked_or_reserved_accessed": false,
+  "recommendations": {
+    "citation": "No reliable benefit; leave out pending refinement.",
+    "conclusion": "Isolated Luna improvement merits possible future refinement; do not adopt universally.",
+    "qualification": "Do not restore unchanged; mixed behavior and Haiku regression.",
+    "summary": "No reliable provenance fix or score improvement; omit from control."
+  },
+  "remaining_13_evaluated": false,
+  "repository_bindings": {
+    "docs/prompts/task11d9_baseline.md": {
+      "sha256": "8f947e68e67b94318aed40c46e3b23fc39fc9a49d4b3904dd88e510edb46080f"
+    },
+    "docs/prompts/task11d9_citation.md": {
+      "sha256": "5a0477c16d6943c0b9c8ffab86b31843c9ee465ab58be3db0190aa39a2e01789"
+    },
+    "docs/prompts/task11d9_conclusion.md": {
+      "sha256": "d79947503d00296e2ab14866cfb75a8681cb9d2677bb7b964c17d2901d1227d1"
+    },
+    "docs/prompts/task11d9_qualification.md": {
+      "sha256": "1cc8f9d7f3dee2e695527c9a8d08fac08b0aba3f3341bfe924b71855b9067f9a"
+    },
+    "tasks/sprint2/11d9_single_change_ablations.md": {
+      "sha256": "312835b31456982201535a492cde849cd61a6dc7e4cd4e2eff3ae697a2c6b9d9"
+    }
+  },
+  "schema_version": "task11d9.result.v1",
+  "startup_recovery": {
+    "answer_retry": false,
+    "calls": 0,
+    "original_namespace": "pipelines/brisbane_baylands/task_11/validation_11d9_20261019",
+    "reason": "credential environment absent before client initialization"
+  },
+  "status": "complete_no_promotion",
+  "task10_modified": false
+}

@@ -20,23 +20,51 @@ from er_commons.artifact_io import (
     sha256_file,
     stable_json_sha256,
 )
-from er_commons.target_generation import INITIAL, REPO, save
+from er_commons.target_generation import REPO, save
 
 
-def run_manifest(plans: list[dict[str, Any]]) -> dict[str, Any]:
+def evaluation_limits(overrides: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Allow bounded operational overrides without changing frozen per-call policy."""
+    caps = {
+        "max_judge_calls": 72,
+        "max_count_calls": 72,
+        "max_spend_usd": 24.0,
+        "max_elapsed_seconds": 1800,
+        "max_input_tokens": 100000,
+        "count_cost_allowance_usd": 0.30,
+    }
+    overrides = overrides or {}
+    if set(overrides) - set(caps):
+        raise ValueError("Only operational run limits may change")
+    for key, value in overrides.items():
+        expected = (int, float) if key in {"max_spend_usd", "count_cost_allowance_usd"} else (int,)
+        if type(value) not in expected:
+            raise ValueError(f"Invalid operational limit: {key}")
+        valid_value = (
+            0 <= value <= caps[key] if key == "count_cost_allowance_usd" else 0 < value <= caps[key]
+        )
+        if not valid_value:
+            raise ValueError(f"Invalid operational limit: {key}")
+    return {**provider.LIMITS, **overrides}
+
+
+def run_manifest(
+    plans: list[dict[str, Any]], limits: dict[str, Any] | None = None
+) -> dict[str, Any]:
     """Record worst-case fanout, semantic bindings and accounting before dispatch."""
+    limits = evaluation_limits(limits)
     count = sum(sum(item["status"] == "not_run" for item in plan["items"]) for plan in plans)
-    if count > provider.LIMITS["max_judge_calls"]:
+    if count > min(limits["max_judge_calls"], limits["max_count_calls"]):
         raise ValueError("Judge fanout exceeds declared call limit")
     reserve = count * (
-        provider.LIMITS["count_cost_allowance_usd"]
+        limits["count_cost_allowance_usd"]
         + (
-            provider.LIMITS["max_input_tokens"] * provider.LIMITS["reserve_input_per_million"]
-            + provider.LIMITS["max_output_tokens"] * provider.LIMITS["reserve_output_per_million"]
+            limits["max_input_tokens"] * limits["reserve_input_per_million"]
+            + limits["max_output_tokens"] * limits["reserve_output_per_million"]
         )
         / 1_000_000
     )
-    if reserve > provider.LIMITS["max_spend_usd"]:
+    if reserve > limits["max_spend_usd"]:
         raise ValueError("Prospective liability exceeds spending ceiling")
     configs = {}
     for component in ("A", "G", "S", "C"):
@@ -49,7 +77,7 @@ def run_manifest(plans: list[dict[str, Any]]) -> dict[str, Any]:
         }
     return {
         "schema_version": "task11c.run.v1",
-        "limits": provider.LIMITS,
+        "limits": limits,
         "prospective_calls": count,
         "reserved_usd": reserve,
         "plans_sha256": stable_json_sha256(plans),
@@ -138,6 +166,8 @@ async def run(
     *,
     replay: bool = False,
     allow_replay_source_change: bool = False,
+    generation_run: Path | None = None,
+    limits: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Evaluate a fresh namespace, or verify and replay its sealed saved judgments."""
     from er_commons.development_evaluation import build_report, pending_items, readable_report
@@ -146,8 +176,17 @@ async def run(
         raise ValueError("Output must be under configured external root")
     if allow_replay_source_change and not replay:
         raise ValueError("Source-change allowance requires replay")
-    plans = inputs.load_plans(data_root)
-    manifest = run_manifest(plans)
+    plans = (
+        inputs.load_plans(data_root)
+        if generation_run is None
+        else inputs.load_plans(data_root, generation_run)
+    )
+    manifest = run_manifest(plans) if limits is None else run_manifest(plans, limits)
+    if generation_run is not None:
+        manifest["generation_run"] = {
+            "namespace": str(generation_run.resolve().relative_to(data_root.resolve())),
+            "completion_sha256": sha256_file(generation_run / "completion.json"),
+        }
     if replay:
         return replay_run(output, plans, manifest, allow_source_change=allow_replay_source_change)
     if output.exists():
@@ -155,7 +194,7 @@ async def run(
     output.mkdir(parents=True, exist_ok=False)
     save(output / "manifest.json", manifest)
     save(output / "plans.json", plans)
-    deadline = time.monotonic() + provider.LIMITS["max_elapsed_seconds"]
+    deadline = time.monotonic() + manifest["limits"]["max_elapsed_seconds"]
     judgments = []
     reports = []
     stopped = False
@@ -165,7 +204,9 @@ async def run(
             for item in items:
                 directory = output / "judgments" / item["sample_id"]
                 directory.mkdir(parents=True, exist_ok=False)
-                result = await provider.execute_item(item, plan["identity"], directory, deadline)
+                result = await provider.execute_item(
+                    item, plan["identity"], directory, deadline, manifest["limits"]
+                )
                 case_judgments.append(result)
                 stopped = result["status"] == "execution_error"
                 if stopped:
@@ -181,7 +222,7 @@ async def run(
     save(output / "judgments.json", judgments)
     save(output / "reports.json", reports)
     summary = {
-        "case_ids": INITIAL,
+        "case_ids": [plan["identity"]["case_id"] for plan in plans],
         "judge_calls": sum(j["judge_calls"] for j in judgments),
         "count_calls": sum(j["count_calls"] for j in judgments),
         "execution_errors": sum(j["status"] == "execution_error" for j in judgments),
@@ -195,9 +236,11 @@ async def run(
 
 
 def main() -> None:
-    """Expose explicit live and no-network replay commands for the saved smoke only."""
+    """Expose bounded fixed-panel evaluation and no-network sealed replay commands."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--generation-run", type=Path)
+    parser.add_argument("--limits-config", type=Path)
     parser.add_argument("--replay", action="store_true")
     parser.add_argument("--allow-replay-source-change", action="store_true")
     args = parser.parse_args()
@@ -212,6 +255,8 @@ def main() -> None:
                 Path(root),
                 args.output,
                 replay=args.replay,
+                generation_run=args.generation_run,
+                limits=json.loads(args.limits_config.read_text()) if args.limits_config else None,
                 allow_replay_source_change=args.allow_replay_source_change,
             )
         ),

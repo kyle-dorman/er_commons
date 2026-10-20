@@ -10,6 +10,7 @@ import argparse
 import asyncio
 import json
 import logging
+import math
 import os
 import time
 from pathlib import Path
@@ -43,6 +44,7 @@ CONFIG = REPO / "configs/task11b_luna_v1.json"
 PROMPT = REPO / "docs/prompts/task11b_luna_v1.md"
 PANEL = REPO / "docs/specs/task11a_development_panels_v1.json"
 INITIAL = ["C041", "C017", "C019"]
+EXPANDED = [*INITIAL, "C014", "C037", "C056"]
 COUNT_FIELDS = {
     "model",
     "input",
@@ -61,34 +63,90 @@ def save(path: Path, value: Any) -> None:
     publish_bytes_no_clobber(path, json_bytes(value))
 
 
-def load_smoke(data_root: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def validate_config(config: Any, *, panel_size: int) -> None:
+    """Reject invalid budgets and metadata that disagrees with the native transport."""
+    if not isinstance(config, dict):
+        raise ValueError("Generation configuration must be an object")
+    for key in (
+        "context_tokens",
+        "max_input_tokens",
+        "max_output_tokens",
+        "max_generation_calls",
+        "max_count_calls",
+        "max_elapsed_seconds",
+        "timeout_seconds",
+    ):
+        value: Any = config.get(key)
+        if type(value) is not int or value <= 0:
+            raise ValueError(f"Invalid positive integer generation limit: {key}")
+    for key in (
+        "max_spend_usd",
+        "reserve_input_per_million",
+        "reserve_output_per_million",
+        "count_cost_allowance_usd",
+    ):
+        value = config.get(key)
+        if type(value) not in (int, float) or not math.isfinite(value):
+            raise ValueError(f"Invalid finite generation budget: {key}")
+        if value < 0 or (value == 0 and key != "count_cost_allowance_usd"):
+            raise ValueError(f"Invalid generation budget: {key}")
+    for key, expected in {
+        "provider": "openai",
+        "base_url": "https://api.openai.com/v1",
+        "service_tier": "default",
+        "reasoning_summary": "none",
+    }.items():
+        if config.get(key) != expected:
+            raise ValueError(f"Generation transport setting differs: {key}")
+    if type(config.get("max_retries")) is not int or config["max_retries"] != 0:
+        raise ValueError("Automatic retries are forbidden")
+    for key in ("model", "reasoning_effort"):
+        if not isinstance(config.get(key), str) or not config[key].strip():
+            raise ValueError(f"Missing generation setting: {key}")
+    if any(config[key] < panel_size for key in ("max_generation_calls", "max_count_calls")):
+        raise ValueError("Call limits do not cover the complete fixed panel")
+    if config["max_input_tokens"] + config["max_output_tokens"] > config["context_tokens"]:
+        raise ValueError("Input/output limits exceed the declared context window")
+
+
+def panel_case_ids(panel: str) -> list[str]:
+    """Allow only the fixed nested Task 11A panels, never arbitrary case selections."""
+    if panel not in {"initial_three", "expanded_six"}:
+        raise ValueError("Unsupported development panel")
+    return list(INITIAL if panel == "initial_three" else EXPANDED)
+
+
+def load_smoke(
+    data_root: Path, *, panel: str = "initial_three"
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Verify accepted development bindings without opening evaluator/test files."""
-    panel = json.loads(PANEL.read_text())
-    if panel["initial_three"] != INITIAL:
-        raise ValueError("Initial panel changed")
+    selected_ids = panel_case_ids(panel)
+    manifest = json.loads(PANEL.read_text())
+    if manifest["initial_three"] != INITIAL or manifest["fixed_six"] != EXPANDED:
+        raise ValueError("Fixed panel changed")
     paths = {}
     for key in ("target/dev.jsonl", "completion.json"):
-        binding = panel["inputs"][key]
+        binding = manifest["inputs"][key]
         path = assert_contained(data_root, binding["path_relative_to_data_root"])
         if sha256_file(path) != binding["sha256"] or path.stat().st_size != binding["byte_size"]:
             raise ValueError(f"Accepted input binding changed: {key}")
         paths[key] = path
-    expected = {row["case_id"]: row["target"]["record_sha256"] for row in panel["cases"]}
+    expected = {row["case_id"]: row["target"]["record_sha256"] for row in manifest["cases"]}
     selected = {}
     for line in paths["target/dev.jsonl"].read_bytes().splitlines():
         row = json.loads(line)
-        if row["case_id"] in INITIAL:
+        if row["case_id"] in selected_ids:
             if row["case_id"] in selected or sha256_bytes(line) != expected[row["case_id"]]:
                 raise ValueError("Duplicate or changed selected record")
             validate_record(row)
             selected[row["case_id"]] = row
-    if set(selected) != set(INITIAL):
-        raise ValueError("Missing smoke case")
-    return [selected[key] for key in INITIAL], {
+    if set(selected) != set(selected_ids):
+        raise ValueError("Missing panel case")
+    return [selected[key] for key in selected_ids], {
         "panel_sha256": sha256_file(PANEL),
         "task10_completion_sha256": sha256_file(paths["completion.json"]),
         "target_file_sha256": sha256_file(paths["target/dev.jsonl"]),
-        "record_sha256": {key: expected[key] for key in INITIAL},
+        "record_sha256": {key: expected[key] for key in selected_ids},
     }
 
 
@@ -305,8 +363,12 @@ async def generate_one(
     config: dict[str, Any],
     prompt: str,
     deadline: float,
+    *,
+    repeat: int = 1,
 ) -> dict[str, Any]:
     """Run one native generation, retaining malformed outputs and explicit failures."""
+    if type(repeat) is not int or repeat not in (1, 2):
+        raise ValueError("Only primary and one stability repeat are allowed")
     validate_record(record)
     hooks = ReceiptHooks(directory, config, deadline)
     hooks.expected_input = [
@@ -316,7 +378,7 @@ async def generate_one(
             ("user", json.dumps(record["payload"], ensure_ascii=False)),
         )
     ]
-    result: dict[str, Any] = {"case_id": record["case_id"], "attempt": 1, "repeat": 1}
+    result: dict[str, Any] = {"case_id": record["case_id"], "attempt": 1, "repeat": repeat}
     client = DefaultAsyncHttpxClient(
         event_hooks={"request": [hooks.request], "response": [hooks.response]}
     )
@@ -357,8 +419,35 @@ async def generate_one(
         )
         save(directory / "inspect_output.json", output.model_dump(mode="json"))
         publish_bytes_no_clobber(directory / "raw_answer.txt", output.completion.encode())
+        result.update(
+            returned_model=output.model,
+            response_id=output.response_id,
+            usage=output.usage.model_dump(mode="json") if output.usage else None,
+        )
         if output.stop_reason != "stop":
             raise ValueError(f"Noncomplete output: {output.stop_reason}")
+        if output.model != config["model"] or output.usage is None:
+            raise ValueError("Returned model or usage unverified; accounting uncertain")
+        usage = output.usage
+        effective_input = (
+            usage.input_tokens
+            + (usage.input_tokens_cache_read or 0)
+            + (usage.input_tokens_cache_write or 0)
+        )
+        if (
+            any(
+                value < 0
+                for value in (
+                    usage.input_tokens,
+                    usage.output_tokens,
+                    usage.input_tokens_cache_read or 0,
+                    usage.input_tokens_cache_write or 0,
+                )
+            )
+            or not 0 < effective_input <= config["max_input_tokens"]
+            or usage.output_tokens > config["max_output_tokens"]
+        ):
+            raise ValueError("Usage exceeds reserve or is invalid; accounting uncertain")
         answer = validate_answer(output.completion, record["payload"])
         save(directory / "candidate.json", answer)
         publish_bytes_no_clobber(
@@ -367,9 +456,6 @@ async def generate_one(
         result.update(
             status="valid",
             candidate_sha256=sha256_file(directory / "candidate.json"),
-            returned_model=output.model,
-            response_id=output.response_id,
-            usage=output.usage.model_dump(mode="json") if output.usage else None,
         )
     except Exception as error:
         causes: list[dict[str, str]] = []
@@ -384,7 +470,15 @@ async def generate_one(
             failure_causes=causes,
         )
     finally:
-        await client.aclose()
+        try:
+            await client.aclose()
+        except Exception as error:
+            result.update(
+                status="failed",
+                cleanup_error=f"{type(error).__name__}: {error}",
+            )
+            result.setdefault("failure_type", type(error).__name__)
+            result.setdefault("failure", f"Client cleanup failed: {error}")
     result.update(count_calls=hooks.count_calls, generation_calls=hooks.generation_calls)
     manifest = directory.parent / "manifest.json"
     result["run_id"] = (
@@ -410,21 +504,33 @@ async def generate_one(
     return result
 
 
-async def run(data_root: Path, output: Path) -> dict[str, Any]:
-    """Attempt only the fixed initial three once, or replay sealed results exactly."""
+async def run(
+    data_root: Path,
+    output: Path,
+    *,
+    config_path: Path = CONFIG,
+    prompt_path: Path = PROMPT,
+    panel: str = "initial_three",
+    repeat: int = 1,
+) -> dict[str, Any]:
+    """Attempt a complete fixed panel once, retaining exact run and repeat identities."""
     if not data_root.is_dir() or not output.resolve().is_relative_to(data_root.resolve()):
         raise ValueError("Output must be under existing configured external root")
-    records, bindings = load_smoke(data_root)
-    config = json.loads(CONFIG.read_text())
-    prompt = PROMPT.read_text()
+    case_ids = panel_case_ids(panel)
+    if type(repeat) is not int or repeat not in (1, 2):
+        raise ValueError("Only primary and one stability repeat are allowed")
+    records, bindings = load_smoke(data_root, panel=panel)
+    config = json.loads(config_path.read_text())
+    validate_config(config, panel_size=len(case_ids))
+    prompt = prompt_path.read_text()
     identity = {
         "schema_version": "task11b.run.v1",
         "run_id": stable_json_sha256(str(output.resolve().relative_to(data_root.resolve()))),
         "namespace": str(output.resolve().relative_to(data_root.resolve())),
-        "case_ids": INITIAL,
+        "case_ids": case_ids,
         "bindings": bindings,
         "config": config,
-        "prompt_sha256": sha256_file(PROMPT),
+        "prompt_sha256": sha256_file(prompt_path),
         "schema_sha256": stable_json_sha256(output_schema()),
         "implementation_sha256": {
             name: sha256_file(Path(__file__).with_name(name))
@@ -437,7 +543,7 @@ async def run(data_root: Path, output: Path) -> dict[str, Any]:
             )
         },
         "uv_lock_sha256": sha256_file(REPO / "uv.lock"),
-        "repeat": 1,
+        "repeat": repeat,
         "attempts_per_case": 1,
         "total_reserved_cost_usd": (
             config["max_count_calls"] * config["count_cost_allowance_usd"]
@@ -477,14 +583,14 @@ async def run(data_root: Path, output: Path) -> dict[str, Any]:
                     output / "interrupted.json",
                     {
                         "run_id": identity["run_id"],
-                        "case_ids": INITIAL,
+                        "case_ids": case_ids,
                         "case_status": {
                             key: (
                                 "unknown_interrupted"
                                 if key == record["case_id"]
                                 else "saved_or_not_dispatched"
                             )
-                            for key in INITIAL
+                            for key in case_ids
                         },
                         "redispatch_permitted": False,
                     },
@@ -502,6 +608,8 @@ async def run(data_root: Path, output: Path) -> dict[str, Any]:
             result = {
                 "case_id": record["case_id"],
                 "status": "not_dispatched",
+                "attempt": 1,
+                "repeat": repeat,
                 "reason": "Stopped after provider/context/integrity preflight failure",
                 "count_calls": 0,
                 "generation_calls": 0,
@@ -510,11 +618,11 @@ async def run(data_root: Path, output: Path) -> dict[str, Any]:
             save(directory / "result.json", result)
             save(directory / "completion.json", artifact_inventory(directory, {"completion.json"}))
         else:
-            result = await generate_one(record, directory, config, prompt, deadline)
+            result = await generate_one(record, directory, config, prompt, deadline, repeat=repeat)
         stopped = stopped or (result["status"] == "failed" and not result["generation_calls"])
         results.append(result)
     summary = {
-        "case_ids": INITIAL,
+        "case_ids": case_ids,
         "results": results,
         "generation_calls": sum(r["generation_calls"] for r in results),
         "count_calls": sum(r["count_calls"] for r in results),
@@ -526,15 +634,30 @@ async def run(data_root: Path, output: Path) -> dict[str, Any]:
 
 
 def main() -> None:
-    """Expose one explicit external smoke namespace; no alternate panels or retries."""
+    """Expose fixed-panel runs with explicit prompt, configuration and repeat identity."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--config", type=Path, default=CONFIG)
+    parser.add_argument("--prompt", type=Path, default=PROMPT)
+    parser.add_argument(
+        "--panel", choices=("initial_three", "expanded_six"), default="initial_three"
+    )
+    parser.add_argument("--repeat", type=int, choices=(1, 2), default=1)
     args = parser.parse_args()
     root = os.environ.get("ER_COMMONS_DATA_ROOT")
     if not root:
         parser.error("ER_COMMONS_DATA_ROOT must be set")
     logging.basicConfig(level=logging.INFO)
-    summary = asyncio.run(run(Path(root), args.output))
+    summary = asyncio.run(
+        run(
+            Path(root),
+            args.output,
+            config_path=args.config,
+            prompt_path=args.prompt,
+            panel=args.panel,
+            repeat=args.repeat,
+        )
+    )
     logging.info("task11b_complete %s", json.dumps(summary))
 
 

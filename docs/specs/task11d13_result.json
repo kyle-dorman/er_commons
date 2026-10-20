@@ -1,0 +1,166 @@
+{
+  "schema_version": "task11d13.offline_review.v1",
+  "status": "complete",
+  "provider_calls": 0,
+  "working_prompt_selection": "docs/specs/task11_working_prompt.json",
+  "scope": {
+    "C041_answers": 24,
+    "outside_C041_answers": 84,
+    "runs": [
+      "11D9",
+      "11D10",
+      "11D11",
+      "11D12"
+    ],
+    "fixed_panel_only": true
+  },
+  "occurrence_summary": [
+    {
+      "condition": "baseline",
+      "model": "luna",
+      "answers": 2,
+      "occurrence_answers": 0,
+      "conclusion_occurrence_answers": 0,
+      "C_pass": 2,
+      "S_pass": 2
+    },
+    {
+      "condition": "baseline",
+      "model": "haiku",
+      "answers": 2,
+      "occurrence_answers": 2,
+      "conclusion_occurrence_answers": 1,
+      "C_pass": 1,
+      "S_pass": 1
+    },
+    {
+      "condition": "qualification",
+      "model": "luna",
+      "answers": 2,
+      "occurrence_answers": 0,
+      "conclusion_occurrence_answers": 0,
+      "C_pass": 2,
+      "S_pass": 2
+    },
+    {
+      "condition": "qualification",
+      "model": "haiku",
+      "answers": 2,
+      "occurrence_answers": 0,
+      "conclusion_occurrence_answers": 0,
+      "C_pass": 1,
+      "S_pass": 2
+    },
+    {
+      "condition": "summary",
+      "model": "luna",
+      "answers": 2,
+      "occurrence_answers": 0,
+      "conclusion_occurrence_answers": 0,
+      "C_pass": 2,
+      "S_pass": 2
+    },
+    {
+      "condition": "summary",
+      "model": "haiku",
+      "answers": 2,
+      "occurrence_answers": 1,
+      "conclusion_occurrence_answers": 1,
+      "C_pass": 1,
+      "S_pass": 1
+    },
+    {
+      "condition": "conclusion",
+      "model": "luna",
+      "answers": 2,
+      "occurrence_answers": 0,
+      "conclusion_occurrence_answers": 0,
+      "C_pass": 2,
+      "S_pass": 2
+    },
+    {
+      "condition": "conclusion",
+      "model": "haiku",
+      "answers": 2,
+      "occurrence_answers": 2,
+      "conclusion_occurrence_answers": 1,
+      "C_pass": 1,
+      "S_pass": 2
+    },
+    {
+      "condition": "qualification_examples",
+      "model": "luna",
+      "answers": 2,
+      "occurrence_answers": 0,
+      "conclusion_occurrence_answers": 0,
+      "C_pass": 2,
+      "S_pass": 2
+    },
+    {
+      "condition": "qualification_examples",
+      "model": "haiku",
+      "answers": 2,
+      "occurrence_answers": 0,
+      "conclusion_occurrence_answers": 0,
+      "C_pass": 2,
+      "S_pass": 2
+    },
+    {
+      "condition": "conclusion_focus",
+      "model": "luna",
+      "answers": 2,
+      "occurrence_answers": 0,
+      "conclusion_occurrence_answers": 0,
+      "C_pass": 2,
+      "S_pass": 2
+    },
+    {
+      "condition": "conclusion_focus",
+      "model": "haiku",
+      "answers": 2,
+      "occurrence_answers": 2,
+      "conclusion_occurrence_answers": 2,
+      "C_pass": 0,
+      "S_pass": 2
+    }
+  ],
+  "decision": "accepted11D12workingprompt; provenancecontexttestproposednotrun",
+  "artifacts": {
+    "pipelines/brisbane_baylands/task_11/provenance_review_20261019/build_occurrences.py": {
+      "sha256": "c0d66b724a7e8fc705ac830e7e139e77ec5122c5461b81409928b9a49a825545",
+      "byte_size": 4972
+    },
+    "pipelines/brisbane_baylands/task_11/provenance_review_20261019/occurrence.json": {
+      "sha256": "45ee62c725c160b685d06e930e3f2874d267139c0cdc3ee6feba5da19e402462",
+      "byte_size": 125284
+    },
+    "pipelines/brisbane_baylands/task_11/provenance_review_20261019/occurrence.md": {
+      "sha256": "b7b9f481ed8c912c17e93910616a5a984995b1db90656922f4c86105bf426c03",
+      "byte_size": 42053
+    },
+    "pipelines/brisbane_baylands/task_11/provenance_review_20261019/outside_c041_scope_review.json": {
+      "sha256": "a1a8fb8370067228426a7d491342dd0badaf6a026f70049fdc6669191d85220b",
+      "byte_size": 7639
+    },
+    "pipelines/brisbane_baylands/task_11/provenance_review_20261019/review_summary.md": {
+      "sha256": "8b00c0fbf6522ff65cd937417fa148d9b2cb00249c70eae0a05e8074fd71850d",
+      "byte_size": 5090
+    },
+    "pipelines/brisbane_baylands/task_11/provenance_review_20261019/source_judge_audit.json": {
+      "sha256": "23001c85784b27d7734ef60196620d16273b8d4707d7dd3721e2a021f05dae6a",
+      "byte_size": 83391
+    },
+    "pipelines/brisbane_baylands/task_11/provenance_review_20261019/source_judge_audit.md": {
+      "sha256": "6bf749cbd30b10e8551190e6e37cee9a656cdb9b58e0fa6bff0e2db9c5824a54",
+      "byte_size": 6912
+    },
+    "pipelines/brisbane_baylands/task_11/provenance_review_20261019/verification.json": {
+      "sha256": "418beb1d43b1f12a785408635f4081676ca64c9eb8c3cd48f3aedf22a08cdfce",
+      "byte_size": 207
+    },
+    "pipelines/brisbane_baylands/task_11/provenance_review_20261019/publication_review.json": {
+      "sha256": "fbc31262a587957b50ad6df1b468913928630ffc361461e3d26c1a977bf30b2c",
+      "byte_size": 917
+    }
+  }
+}

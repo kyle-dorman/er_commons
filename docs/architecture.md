@@ -750,3 +750,78 @@ The existing Make command and explicit `--replay` mode are unchanged. Replay nev
 constructs a provider. All four modules are included in implementation provenance;
 `--allow-replay-source-change` permits only implementation differences and still
 requires identical input/configuration bindings, plans and serialized reports.
+
+Task 11D extends these runners with explicit fixed-three/fixed-six selection, prompt
+and operational configuration paths, repeat identity, and a sealed generation-run
+input for evaluation. Operational evaluation limits may change only within bounded
+call/spend/time/input caps and counting allowances; frozen semantic settings remain unchanged.
+Validated limits flow from the manifest through execution into provider receipt hooks. A failed generation
+panel cannot be silently reduced for evaluation. See the [11D outcome](../tasks/sprint2/11d_iterate_development_prompt.md).
+
+## Offline edition projection
+
+[Task 11D.2 metadata projection](specs/task11d2_metadata_projection.md) provides
+an opt-in offline adapter for audited bibliographic edition labels. It preserves
+legacy dispatch and creates distinct evaluation identities; integration into a
+future run requires an explicit new condition. Curator approval stays outside
+model-visible source evidence.
+
+## Alternative target generation
+
+`alternative_target_generation` supplies the bounded Haiku/Fireworks generation
+adapter for [11D.4](../tasks/sprint2/11d4_compare_alternative_models.md). It reuses
+native Inspect clients and the existing answer validator, retains actual request
+and response bytes, and disables both SDK and Inspect retries. Its explicitly
+named canonical delivery projection is derived from native messages and separately
+hashed for the saved-candidate evaluator; it never impersonates a native request.
+GLM receives the answer schema in its JSON-only prompt to retain reasoning.
+Anthropic uses native counting; Fireworks' exploratory byte allowance and subsequent
+usage check remain distinct from an exact preflight token count. Legacy Luna
+execution and frozen judge settings are unchanged.
+
+`haiku_output_generation` isolates the [11D.5 output-cap condition](../tasks/sprint2/11d5_raise_haiku_output_cap.md)
+while preserving the 11D.4 request contract. The sealed runs retain their original
+source snapshots. The maintained adapters share one attempt lifecycle for native
+execution, usage checks, failure capture and candidate sealing; their version-specific
+request gates and output allowances remain explicit. It requires each native request to match its sealed Haiku predecessor
+except for the authorized output allowance. Generation and judge allowances are
+separate; the larger generation budget does not change frozen evaluation.
+
+## Shared project context and neutral locators
+
+`context_projection` prepares opt-in, offline envelopes for
+[11D.6](../tasks/sprint2/11d6_simplify_context_and_qualifications.md). A sourced
+project summary prefixes both target and A/G/S/C instructions. Audited locators
+retain main-document/appendix and section identity without edition or curator
+framing; source text, tables and opaque source IDs remain unchanged. Mechanical
+question naming and explicit reference projections receive fresh bound identities.
+Private provenance stays outside model messages, and references are accepted only
+by the C projection. Legacy generation, judges and sealed reports are unchanged.
+The task's derivative label publication covers all current collections, including
+administrative maintenance of held-out labels; it does not authorize held-out
+model evaluation or replace historical calibration results.
+
+Task 11D.8 uses the opt-in `context_comparison` transport to execute the prepared
+context condition for Luna and Haiku. It reuses native receipt/count controls,
+checks actual delivered messages against the bound projected inputs, and gives
+the experiment new identities. Frozen judge cores and historical adapters remain
+unchanged. The bounded external runner owns slot scheduling, reservation, stop
+policy and replay; reports retain all planned answers and separate point-level
+from whole-answer grounding coverage.
+
+
+## Task 11 maintenance entry points
+
+For the accepted shared-context condition, start at `context_comparison.execute`
+(native execution) and `context_projection.project_target` / `project_judge`
+(input isolation). Configuration/schema preparation is separate from transport;
+grounding locator and reference transformations are separate from envelope assembly.
+Edit prompt text only in its versioned prompt file under an authorized new condition.
+
+`target_generation.run` remains the bounded legacy fixed-panel entrypoint;
+`alternative_target_generation` and `haiku_output_generation` retain the earlier
+registered comparison conditions. Do not broaden these historical limits to run
+the accepted all-19 condition. The sealed 11E runner/report scripts are execution
+snapshots, not a second editable package API. Task 12 must explicitly select any
+reporting code it needs to maintain. See [11F](../tasks/sprint2/11f_cleanup_target_generation.md)
+for the cleanup review and offline validation.

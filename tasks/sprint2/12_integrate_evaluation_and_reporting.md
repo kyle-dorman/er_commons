@@ -7,7 +7,7 @@ it does not authorize judge calls, target generation or locked-test access.
 ## Abstract
 
 Reuse the generation/evaluation integration established in [Task 11C](11c_integrate_development_evaluation.md) and the
-frozen Luna candidate and development evidence from [Task 11E](11e_freeze_development_baseline.md). Audit routing,
+frozen Luna and Haiku configurations and development evidence from [Task 11E](11e_freeze_development_baseline.md). Audit routing,
 exact artifact identities, independent judge inputs and component results.
 Finalize combined reporting, including the accepted strict all-grounding-pass AND
 S-pass AND C-pass result, and locked-test readiness before Task 13 uses it.
@@ -26,7 +26,7 @@ Task 13 reporting handoff. No new full labeling pass is required.
   model selections, schemas, records and limitations.
 - Accepted [Task 10 evidence-only packets](10_prepare_evidence_only_inputs.md)
   and citation mappings, plus accepted Task 11C evaluation wiring and Task 11E
-  frozen Luna configuration, actual delivery receipts, saved answers and evaluation
+  frozen Luna and Haiku configurations, actual delivery receipts, saved answers and evaluation
   reports, with source, corpus, question/split, configuration and candidate-content
   identities. Task 11 uses a nested three-then-six-question development cycle,
   followed by all 19 development questions; preserve those exposure groups.
@@ -141,7 +141,7 @@ historical artifacts; locked-test execution; commit or push.
 
 ## Outcome
 
-Provisional reporting ownership updated for Task 11's Luna development sequence.
+Provisional reporting ownership updated for Task 11's completed Luna and Haiku development sequence.
 No implementation, generation, evaluation or locked-test access has run under this
 contract. Refresh from accepted Task 11C/11E outcomes before activation. Task 13
 owns locked execution and publication using the frozen reporting contract.

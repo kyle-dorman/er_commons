@@ -1,0 +1,2105 @@
+{
+  "11E_begun": false,
+  "accounting": {
+    "actual_count_cost_usd": null,
+    "by_kind": {
+      "generation": {
+        "input_tokens": {
+          "known_receipts": 24,
+          "known_sum": 84,
+          "unreported_receipts": 0
+        },
+        "input_tokens_cache_read": {
+          "known_receipts": 23,
+          "known_sum": 104773,
+          "unreported_receipts": 1
+        },
+        "input_tokens_cache_write": {
+          "known_receipts": 18,
+          "known_sum": 218811,
+          "unreported_receipts": 6
+        },
+        "output_tokens": {
+          "known_receipts": 24,
+          "known_sum": 60673,
+          "unreported_receipts": 0
+        },
+        "reasoning_tokens": {
+          "known_receipts": 24,
+          "known_sum": 35705,
+          "unreported_receipts": 0
+        },
+        "total_cost": {
+          "known_receipts": 24,
+          "known_sum": 0.058744005,
+          "unreported_receipts": 0
+        },
+        "total_tokens": {
+          "known_receipts": 24,
+          "known_sum": 384341,
+          "unreported_receipts": 0
+        }
+      },
+      "judge": {
+        "input_tokens": {
+          "known_receipts": 207,
+          "known_sum": 17869,
+          "unreported_receipts": 0
+        },
+        "input_tokens_cache_read": {
+          "known_receipts": 47,
+          "known_sum": 97083,
+          "unreported_receipts": 160
+        },
+        "input_tokens_cache_write": {
+          "known_receipts": 183,
+          "known_sum": 662833,
+          "unreported_receipts": 24
+        },
+        "output_tokens": {
+          "known_receipts": 207,
+          "known_sum": 68736,
+          "unreported_receipts": 0
+        },
+        "reasoning_tokens": {
+          "known_receipts": 201,
+          "known_sum": 45145,
+          "unreported_receipts": 6
+        },
+        "total_cost": {
+          "known_receipts": 207,
+          "known_sum": 0.119979855,
+          "unreported_receipts": 0
+        },
+        "total_tokens": {
+          "known_receipts": 207,
+          "known_sum": 846521,
+          "unreported_receipts": 0
+        }
+      }
+    },
+    "by_model": {
+      "haiku": {
+        "input_tokens": {
+          "known_receipts": 143,
+          "known_sum": 9373,
+          "unreported_receipts": 0
+        },
+        "input_tokens_cache_read": {
+          "known_receipts": 36,
+          "known_sum": 85852,
+          "unreported_receipts": 107
+        },
+        "input_tokens_cache_write": {
+          "known_receipts": 131,
+          "known_sum": 629980,
+          "unreported_receipts": 12
+        },
+        "output_tokens": {
+          "known_receipts": 143,
+          "known_sum": 88277,
+          "unreported_receipts": 0
+        },
+        "reasoning_tokens": {
+          "known_receipts": 139,
+          "known_sum": 55412,
+          "unreported_receipts": 4
+        },
+        "total_cost": {
+          "known_receipts": 143,
+          "known_sum": 0.12468182,
+          "unreported_receipts": 0
+        },
+        "total_tokens": {
+          "known_receipts": 143,
+          "known_sum": 813482,
+          "unreported_receipts": 0
+        }
+      },
+      "luna": {
+        "input_tokens": {
+          "known_receipts": 88,
+          "known_sum": 8580,
+          "unreported_receipts": 0
+        },
+        "input_tokens_cache_read": {
+          "known_receipts": 34,
+          "known_sum": 116004,
+          "unreported_receipts": 54
+        },
+        "input_tokens_cache_write": {
+          "known_receipts": 70,
+          "known_sum": 251664,
+          "unreported_receipts": 18
+        },
+        "output_tokens": {
+          "known_receipts": 88,
+          "known_sum": 41132,
+          "unreported_receipts": 0
+        },
+        "reasoning_tokens": {
+          "known_receipts": 86,
+          "known_sum": 25438,
+          "unreported_receipts": 2
+        },
+        "total_cost": {
+          "known_receipts": 88,
+          "known_sum": 0.05404204,
+          "unreported_receipts": 0
+        },
+        "total_tokens": {
+          "known_receipts": 88,
+          "known_sum": 417380,
+          "unreported_receipts": 0
+        }
+      }
+    },
+    "calls": {
+      "count_calls": 231,
+      "generation_calls": 24,
+      "judge_calls": 207
+    },
+    "combined_reserved_liability_usd": 95.740432,
+    "cost_interpretation": "Sum of nonnull library-reported total_cost estimates; not a provider invoice. Partial sums do not imply zero cost for unavailable receipts or fields.",
+    "count_cost_allowance_usd": 0,
+    "current_reservation_usd": 30,
+    "dispatched_calls_without_joined_usage_status": 0,
+    "missing_usage_receipts": [],
+    "prior_reservations_usd": 65.740432,
+    "reservation_interpretation": "Reservations are conservative liability bounds, not spending.",
+    "totals": {
+      "input_tokens": {
+        "known_receipts": 231,
+        "known_sum": 17953,
+        "unreported_receipts": 0
+      },
+      "input_tokens_cache_read": {
+        "known_receipts": 70,
+        "known_sum": 201856,
+        "unreported_receipts": 161
+      },
+      "input_tokens_cache_write": {
+        "known_receipts": 201,
+        "known_sum": 881644,
+        "unreported_receipts": 30
+      },
+      "output_tokens": {
+        "known_receipts": 231,
+        "known_sum": 129409,
+        "unreported_receipts": 0
+      },
+      "reasoning_tokens": {
+        "known_receipts": 225,
+        "known_sum": 80850,
+        "unreported_receipts": 6
+      },
+      "total_cost": {
+        "known_receipts": 231,
+        "known_sum": 0.17872386,
+        "unreported_receipts": 0
+      },
+      "total_tokens": {
+        "known_receipts": 231,
+        "known_sum": 1230862,
+        "unreported_receipts": 0
+      }
+    },
+    "usage_accounting_complete": true,
+    "usage_receipts": 231
+  },
+  "by_model": {
+    "haiku": {
+      "complete_evaluations": 12,
+      "judges": {
+        "A": {
+          "all_item_pass_per_applicable_answer": {
+            "denominator": 12,
+            "pass": 12,
+            "rate": 1.0
+          },
+          "all_item_pass_per_scheduled_answer": {
+            "denominator": 12,
+            "pass": 12,
+            "rate": 1.0
+          },
+          "complete_applicable_answers": 12,
+          "completed_items": 12,
+          "item_pass_per_applicable_item": {
+            "denominator": 12,
+            "pass": 12,
+            "rate": 1.0
+          },
+          "item_pass_per_completed_item": {
+            "denominator": 12,
+            "pass": 12,
+            "rate": 1.0
+          },
+          "planned_items_all_routes": 12,
+          "unavailable_items_all_routes": 0
+        },
+        "C": {
+          "all_item_pass_per_applicable_answer": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "all_item_pass_per_scheduled_answer": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "complete_applicable_answers": 12,
+          "completed_items": 12,
+          "item_pass_per_applicable_item": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "item_pass_per_completed_item": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "planned_items_all_routes": 12,
+          "unavailable_items_all_routes": 0
+        },
+        "G": {
+          "all_item_pass_per_applicable_answer": {
+            "denominator": 12,
+            "pass": 5,
+            "rate": 0.4166666666666667
+          },
+          "all_item_pass_per_scheduled_answer": {
+            "denominator": 12,
+            "pass": 5,
+            "rate": 0.4166666666666667
+          },
+          "complete_applicable_answers": 12,
+          "completed_items": 95,
+          "item_pass_per_applicable_item": {
+            "denominator": 95,
+            "pass": 86,
+            "rate": 0.9052631578947369
+          },
+          "item_pass_per_completed_item": {
+            "denominator": 95,
+            "pass": 86,
+            "rate": 0.9052631578947369
+          },
+          "planned_items_all_routes": 95,
+          "unavailable_items_all_routes": 0
+        },
+        "S": {
+          "all_item_pass_per_applicable_answer": {
+            "denominator": 12,
+            "pass": 11,
+            "rate": 0.9166666666666666
+          },
+          "all_item_pass_per_scheduled_answer": {
+            "denominator": 12,
+            "pass": 11,
+            "rate": 0.9166666666666666
+          },
+          "complete_applicable_answers": 12,
+          "completed_items": 12,
+          "item_pass_per_applicable_item": {
+            "denominator": 12,
+            "pass": 11,
+            "rate": 0.9166666666666666
+          },
+          "item_pass_per_completed_item": {
+            "denominator": 12,
+            "pass": 11,
+            "rate": 0.9166666666666666
+          },
+          "planned_items_all_routes": 12,
+          "unavailable_items_all_routes": 0
+        }
+      },
+      "scheduled_answers": 12,
+      "strict_diagnostic": {
+        "denominator": 12,
+        "pass": 3,
+        "rate": 0.25
+      },
+      "valid_answers": 12
+    },
+    "luna": {
+      "complete_evaluations": 12,
+      "judges": {
+        "A": {
+          "all_item_pass_per_applicable_answer": {
+            "denominator": 12,
+            "pass": 12,
+            "rate": 1.0
+          },
+          "all_item_pass_per_scheduled_answer": {
+            "denominator": 12,
+            "pass": 12,
+            "rate": 1.0
+          },
+          "complete_applicable_answers": 12,
+          "completed_items": 12,
+          "item_pass_per_applicable_item": {
+            "denominator": 12,
+            "pass": 12,
+            "rate": 1.0
+          },
+          "item_pass_per_completed_item": {
+            "denominator": 12,
+            "pass": 12,
+            "rate": 1.0
+          },
+          "planned_items_all_routes": 12,
+          "unavailable_items_all_routes": 0
+        },
+        "C": {
+          "all_item_pass_per_applicable_answer": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "all_item_pass_per_scheduled_answer": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "complete_applicable_answers": 12,
+          "completed_items": 12,
+          "item_pass_per_applicable_item": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "item_pass_per_completed_item": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "planned_items_all_routes": 12,
+          "unavailable_items_all_routes": 0
+        },
+        "G": {
+          "all_item_pass_per_applicable_answer": {
+            "denominator": 12,
+            "pass": 11,
+            "rate": 0.9166666666666666
+          },
+          "all_item_pass_per_scheduled_answer": {
+            "denominator": 12,
+            "pass": 11,
+            "rate": 0.9166666666666666
+          },
+          "complete_applicable_answers": 12,
+          "completed_items": 40,
+          "item_pass_per_applicable_item": {
+            "denominator": 40,
+            "pass": 39,
+            "rate": 0.975
+          },
+          "item_pass_per_completed_item": {
+            "denominator": 40,
+            "pass": 39,
+            "rate": 0.975
+          },
+          "planned_items_all_routes": 40,
+          "unavailable_items_all_routes": 0
+        },
+        "S": {
+          "all_item_pass_per_applicable_answer": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "all_item_pass_per_scheduled_answer": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "complete_applicable_answers": 12,
+          "completed_items": 12,
+          "item_pass_per_applicable_item": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "item_pass_per_completed_item": {
+            "denominator": 12,
+            "pass": 8,
+            "rate": 0.6666666666666666
+          },
+          "planned_items_all_routes": 12,
+          "unavailable_items_all_routes": 0
+        }
+      },
+      "scheduled_answers": 12,
+      "strict_diagnostic": {
+        "denominator": 12,
+        "pass": 5,
+        "rate": 0.4166666666666667
+      },
+      "valid_answers": 12
+    }
+  },
+  "by_question_and_model": {
+    "C014": {
+      "haiku": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 19,
+            "item_pass_per_applicable_item": {
+              "denominator": 19,
+              "pass": 17,
+              "rate": 0.8947368421052632
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 19,
+              "pass": 17,
+              "rate": 0.8947368421052632
+            },
+            "planned_items_all_routes": 19,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 0,
+          "rate": 0.0
+        },
+        "valid_answers": 2
+      },
+      "luna": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 8,
+            "item_pass_per_applicable_item": {
+              "denominator": 8,
+              "pass": 8,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 8,
+              "pass": 8,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 8,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 0,
+          "rate": 0.0
+        },
+        "valid_answers": 2
+      }
+    },
+    "C017": {
+      "haiku": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 22,
+            "item_pass_per_applicable_item": {
+              "denominator": 22,
+              "pass": 21,
+              "rate": 0.9545454545454546
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 22,
+              "pass": 21,
+              "rate": 0.9545454545454546
+            },
+            "planned_items_all_routes": 22,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 0,
+          "rate": 0.0
+        },
+        "valid_answers": 2
+      },
+      "luna": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 8,
+            "item_pass_per_applicable_item": {
+              "denominator": 8,
+              "pass": 8,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 8,
+              "pass": 8,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 8,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 0,
+          "rate": 0.0
+        },
+        "valid_answers": 2
+      }
+    },
+    "C019": {
+      "haiku": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 10,
+            "item_pass_per_applicable_item": {
+              "denominator": 10,
+              "pass": 9,
+              "rate": 0.9
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 10,
+              "pass": 9,
+              "rate": 0.9
+            },
+            "planned_items_all_routes": 10,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 1,
+          "rate": 0.5
+        },
+        "valid_answers": 2
+      },
+      "luna": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 6,
+            "item_pass_per_applicable_item": {
+              "denominator": 6,
+              "pass": 6,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 6,
+              "pass": 6,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 6,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 1,
+          "rate": 0.5
+        },
+        "valid_answers": 2
+      }
+    },
+    "C037": {
+      "haiku": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 14,
+            "item_pass_per_applicable_item": {
+              "denominator": 14,
+              "pass": 12,
+              "rate": 0.8571428571428571
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 14,
+              "pass": 12,
+              "rate": 0.8571428571428571
+            },
+            "planned_items_all_routes": 14,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 0,
+          "rate": 0.0
+        },
+        "valid_answers": 2
+      },
+      "luna": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 8,
+            "item_pass_per_applicable_item": {
+              "denominator": 8,
+              "pass": 8,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 8,
+              "pass": 8,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 8,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 2,
+          "rate": 1.0
+        },
+        "valid_answers": 2
+      }
+    },
+    "C041": {
+      "haiku": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 13,
+            "item_pass_per_applicable_item": {
+              "denominator": 13,
+              "pass": 12,
+              "rate": 0.9230769230769231
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 13,
+              "pass": 12,
+              "rate": 0.9230769230769231
+            },
+            "planned_items_all_routes": 13,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 1,
+          "rate": 0.5
+        },
+        "valid_answers": 2
+      },
+      "luna": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 6,
+            "item_pass_per_applicable_item": {
+              "denominator": 6,
+              "pass": 5,
+              "rate": 0.8333333333333334
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 6,
+              "pass": 5,
+              "rate": 0.8333333333333334
+            },
+            "planned_items_all_routes": 6,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 0,
+              "rate": 0.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 0,
+          "rate": 0.0
+        },
+        "valid_answers": 2
+      }
+    },
+    "C056": {
+      "haiku": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 1,
+              "rate": 0.5
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 17,
+            "item_pass_per_applicable_item": {
+              "denominator": 17,
+              "pass": 15,
+              "rate": 0.8823529411764706
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 17,
+              "pass": 15,
+              "rate": 0.8823529411764706
+            },
+            "planned_items_all_routes": 17,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 1,
+          "rate": 0.5
+        },
+        "valid_answers": 2
+      },
+      "luna": {
+        "complete_evaluations": 2,
+        "judges": {
+          "A": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "C": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          },
+          "G": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 4,
+            "item_pass_per_applicable_item": {
+              "denominator": 4,
+              "pass": 4,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 4,
+              "pass": 4,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 4,
+            "unavailable_items_all_routes": 0
+          },
+          "S": {
+            "all_item_pass_per_applicable_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "all_item_pass_per_scheduled_answer": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "complete_applicable_answers": 2,
+            "completed_items": 2,
+            "item_pass_per_applicable_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "item_pass_per_completed_item": {
+              "denominator": 2,
+              "pass": 2,
+              "rate": 1.0
+            },
+            "planned_items_all_routes": 2,
+            "unavailable_items_all_routes": 0
+          }
+        },
+        "scheduled_answers": 2,
+        "strict_diagnostic": {
+          "denominator": 2,
+          "pass": 2,
+          "rate": 1.0
+        },
+        "valid_answers": 2
+      }
+    }
+  },
+  "candidate_promoted": false,
+  "completion": {
+    "byte_size": 1247017,
+    "path": "pipelines/brisbane_baylands/task_11/validation_11d8_20261019/completion.json",
+    "sha256": "e4e987c0c16b390a0236849659a7c2df0b1786293a3137a7218bb615e336649e"
+  },
+  "condition": "V10 plus shared project context and neutral locators/references; frozen 09G judge cores. Historical V6b scores are a different condition, not a causal prompt-only comparison.",
+  "coverage_union": {
+    "C014": {
+      "any_model_any_repeat": false,
+      "any_model_both_repeats": false,
+      "model_pass_counts_of_two": {
+        "haiku": 0,
+        "luna": 0
+      }
+    },
+    "C017": {
+      "any_model_any_repeat": false,
+      "any_model_both_repeats": false,
+      "model_pass_counts_of_two": {
+        "haiku": 0,
+        "luna": 0
+      }
+    },
+    "C019": {
+      "any_model_any_repeat": true,
+      "any_model_both_repeats": false,
+      "model_pass_counts_of_two": {
+        "haiku": 1,
+        "luna": 1
+      }
+    },
+    "C037": {
+      "any_model_any_repeat": true,
+      "any_model_both_repeats": true,
+      "model_pass_counts_of_two": {
+        "haiku": 0,
+        "luna": 2
+      }
+    },
+    "C041": {
+      "any_model_any_repeat": true,
+      "any_model_both_repeats": false,
+      "model_pass_counts_of_two": {
+        "haiku": 1,
+        "luna": 0
+      }
+    },
+    "C056": {
+      "any_model_any_repeat": true,
+      "any_model_both_repeats": true,
+      "model_pass_counts_of_two": {
+        "haiku": 1,
+        "luna": 2
+      }
+    }
+  },
+  "date": "2026-10-19",
+  "denominators": "All 24 scheduled answers retained, 12 per model and 2 per question/model. A pass means substantive, not correct classification against an independent route label. G answer pass requires every planned supporting/qualification point. Conditional G/S/C denominators require substantive A; skipped/unavailable/invalid answers are never joint passes. Strict diagnostic is schema-valid, citations resolved, complete coverage, substantive A and all G/S/C pass; official Task12 strict metric remains separate.",
+  "interpretation": "Automated judged pass rates on six exposed development questions; not independently measured objective accuracy or a general model ranking.",
+  "limitations": [
+    "Six exposed questions with two repeats per model, no general ranking.",
+    "Bundled new context and prompt condition; changes are not causally isolated.",
+    "Frozen judge outputs are not independently verified ground truth.",
+    "Counting billing remains unknown; usage costs are estimates, not invoices."
+  ],
+  "locked_or_reserved_evaluated": false,
+  "overall": {
+    "complete_evaluations": 24,
+    "judges": {
+      "A": {
+        "all_item_pass_per_applicable_answer": {
+          "denominator": 24,
+          "pass": 24,
+          "rate": 1.0
+        },
+        "all_item_pass_per_scheduled_answer": {
+          "denominator": 24,
+          "pass": 24,
+          "rate": 1.0
+        },
+        "complete_applicable_answers": 24,
+        "completed_items": 24,
+        "item_pass_per_applicable_item": {
+          "denominator": 24,
+          "pass": 24,
+          "rate": 1.0
+        },
+        "item_pass_per_completed_item": {
+          "denominator": 24,
+          "pass": 24,
+          "rate": 1.0
+        },
+        "planned_items_all_routes": 24,
+        "unavailable_items_all_routes": 0
+      },
+      "C": {
+        "all_item_pass_per_applicable_answer": {
+          "denominator": 24,
+          "pass": 16,
+          "rate": 0.6666666666666666
+        },
+        "all_item_pass_per_scheduled_answer": {
+          "denominator": 24,
+          "pass": 16,
+          "rate": 0.6666666666666666
+        },
+        "complete_applicable_answers": 24,
+        "completed_items": 24,
+        "item_pass_per_applicable_item": {
+          "denominator": 24,
+          "pass": 16,
+          "rate": 0.6666666666666666
+        },
+        "item_pass_per_completed_item": {
+          "denominator": 24,
+          "pass": 16,
+          "rate": 0.6666666666666666
+        },
+        "planned_items_all_routes": 24,
+        "unavailable_items_all_routes": 0
+      },
+      "G": {
+        "all_item_pass_per_applicable_answer": {
+          "denominator": 24,
+          "pass": 16,
+          "rate": 0.6666666666666666
+        },
+        "all_item_pass_per_scheduled_answer": {
+          "denominator": 24,
+          "pass": 16,
+          "rate": 0.6666666666666666
+        },
+        "complete_applicable_answers": 24,
+        "completed_items": 135,
+        "item_pass_per_applicable_item": {
+          "denominator": 135,
+          "pass": 125,
+          "rate": 0.9259259259259259
+        },
+        "item_pass_per_completed_item": {
+          "denominator": 135,
+          "pass": 125,
+          "rate": 0.9259259259259259
+        },
+        "planned_items_all_routes": 135,
+        "unavailable_items_all_routes": 0
+      },
+      "S": {
+        "all_item_pass_per_applicable_answer": {
+          "denominator": 24,
+          "pass": 19,
+          "rate": 0.7916666666666666
+        },
+        "all_item_pass_per_scheduled_answer": {
+          "denominator": 24,
+          "pass": 19,
+          "rate": 0.7916666666666666
+        },
+        "complete_applicable_answers": 24,
+        "completed_items": 24,
+        "item_pass_per_applicable_item": {
+          "denominator": 24,
+          "pass": 19,
+          "rate": 0.7916666666666666
+        },
+        "item_pass_per_completed_item": {
+          "denominator": 24,
+          "pass": 19,
+          "rate": 0.7916666666666666
+        },
+        "planned_items_all_routes": 24,
+        "unavailable_items_all_routes": 0
+      }
+    },
+    "scheduled_answers": 24,
+    "strict_diagnostic": {
+      "denominator": 24,
+      "pass": 8,
+      "rate": 0.3333333333333333
+    },
+    "valid_answers": 24
+  },
+  "remaining_13_evaluated": false,
+  "reports": {
+    "comparison.json": {
+      "byte_size": 901673,
+      "path": "pipelines/brisbane_baylands/task_11/validation_11d8_20261019/comparison.json",
+      "sha256": "d30e76321effd27534f6a316c60abcc8233c206a11e11fa9868321311c7ccfb3"
+    },
+    "comparison.md": {
+      "byte_size": 3694,
+      "path": "pipelines/brisbane_baylands/task_11/validation_11d8_20261019/comparison.md",
+      "sha256": "3771352d49ec3410eeba9f42776a9fd525f64ebc873157b8c3e8ad69f30e4cde"
+    },
+    "failures.json": {
+      "byte_size": 66573,
+      "path": "pipelines/brisbane_baylands/task_11/validation_11d8_20261019/failures.json",
+      "sha256": "74a2fe1041c95e20ed1d60c856e1c84c99a4ffd1ab975dbbf3c88dd4687f091c"
+    },
+    "failures.md": {
+      "byte_size": 24025,
+      "path": "pipelines/brisbane_baylands/task_11/validation_11d8_20261019/failures.md",
+      "sha256": "bb2817b53ce03e871a244e606445a905febb5b279122077bd79c4d65846b3d9b"
+    },
+    "independent_final_review.json": {
+      "byte_size": 2920,
+      "path": "pipelines/brisbane_baylands/task_11/validation_11d8_20261019/independent_final_review.json",
+      "sha256": "0c4f822327f38d9ab1c74f2e6c8cb73df27f70e5392145028daaf1a52f1dcc09"
+    },
+    "independent_preflight_review.json": {
+      "byte_size": 2853,
+      "path": "pipelines/brisbane_baylands/task_11/validation_11d8_20261019/independent_preflight_review.json",
+      "sha256": "f7297b951c2669818d84f4769dcbdf137e5202da9809d72d0e3711f5e52c0104"
+    },
+    "preflight.json": {
+      "byte_size": 130006,
+      "path": "pipelines/brisbane_baylands/task_11/validation_11d8_20261019/preflight.json",
+      "sha256": "e6250277d8ceb2de99beac48a1e92b3fcff46cece957b87b034ad2ec4a016bd8"
+    },
+    "replay.json": {
+      "byte_size": 465,
+      "path": "pipelines/brisbane_baylands/task_11/validation_11d8_20261019/replay.json",
+      "sha256": "2c04ad44d8bd6d223866eff0cb70872d9ae54223ee5900e44d90ec59d57ab979"
+    }
+  },
+  "repository_bindings": {
+    "docs/prompts/task11d7_target_v10.md": {
+      "byte_size": 6500,
+      "sha256": "7bbdfd0803563ecdcdf9e3b9c7e8a0515876c042fc8b813119c27e6aded628fd"
+    },
+    "src/er_commons/context_comparison.py": {
+      "byte_size": 10285,
+      "sha256": "f51e13a1c12c61650bc98dcdb56e4f3861c5b5fb8855d603418364a2e73cf24e"
+    },
+    "tasks/sprint2/11d8_compare_v10_luna_haiku.md": {
+      "byte_size": 9954,
+      "sha256": "4dceeb3c7923ecee4f7b6b084d37b666b28138d62443d4266dd9c29ef1489586"
+    },
+    "tests/test_context_comparison.py": {
+      "byte_size": 6590,
+      "sha256": "363b7d98db0516876bc697dcb773782c1da243b58f559f6a92d37c4be2f7af5c"
+    }
+  },
+  "schema_version": "task11d8.v10_comparison_result.v1",
+  "status": "complete_bounded_comparison",
+  "validation": {
+    "git_diff_check": "passed",
+    "make_check": "4166 passed, 1 skipped",
+    "make_fix": "passed",
+    "offline_reporting_tests": 10,
+    "offline_runner_tests": 3,
+    "offline_transport_tests": 13,
+    "report_replay": "verified"
+  }
+}

@@ -12,6 +12,7 @@ import pytest
 from openai import DefaultAsyncHttpxClient
 
 from er_commons import target_generation as target
+from er_commons.artifact_io import sha256_file
 
 
 def packet() -> dict[str, Any]:
@@ -78,6 +79,9 @@ def mock_provider(
     status: int = 200,
     incomplete: bool = False,
     count_status: int = 200,
+    returned_model: str = "gpt-6-luna",
+    usage: dict[str, int] | None = None,
+    omit_usage: bool = False,
 ) -> list[dict[str, Any]]:
     """Replace only SDK network transport, retaining real native serialization."""
     calls: list[dict[str, Any]] = []
@@ -101,7 +105,7 @@ def mock_provider(
                 "id": "resp_fixture",
                 "object": "response",
                 "created_at": 1,
-                "model": "gpt-6-luna",
+                "model": returned_model,
                 "status": "incomplete" if incomplete else "completed",
                 "incomplete_details": {"reason": "max_output_tokens"} if incomplete else None,
                 "output": [
@@ -119,7 +123,13 @@ def mock_provider(
                         ],
                     }
                 ],
-                "usage": {"input_tokens": 100, "output_tokens": 80, "total_tokens": 180},
+                "usage": None
+                if omit_usage
+                else (
+                    usage
+                    if usage is not None
+                    else {"input_tokens": 100, "output_tokens": 80, "total_tokens": 180}
+                ),
             },
         )
 
@@ -157,7 +167,7 @@ def test_native_complete_payload_and_schema(
     assert json.loads(generation["input"][1]["content"][0]["text"]) == packet()["payload"]
     assert (tmp_path / "generation_response.body").exists()
     assert (tmp_path / "dispatch.json").exists()
-    assert result["candidate_sha256"] == target.sha256_file(tmp_path / "candidate.json")
+    assert result["candidate_sha256"] == sha256_file(tmp_path / "candidate.json")
 
 
 @pytest.mark.parametrize("field", ["reference", "judge_feedback", "selection_reason"])
@@ -209,7 +219,7 @@ def test_output_failures_preserved_no_retry(
 def test_run_resume_no_calls_and_tamper(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     calls = mock_provider(monkeypatch)
     records = [{**packet(), "case_id": key} for key in target.INITIAL]
-    monkeypatch.setattr(target, "load_smoke", lambda root: (records, {}))
+    monkeypatch.setattr(target, "load_smoke", lambda root, **kwargs: (records, {}))
     output = tmp_path / "run"
     first = asyncio.run(target.run(tmp_path, output))
     assert first["valid_candidates"] == 3
@@ -225,7 +235,7 @@ def test_interrupted_attempt_never_redispatched(
 ) -> None:
     calls = mock_provider(monkeypatch)
     records = [{**packet(), "case_id": key} for key in target.INITIAL]
-    monkeypatch.setattr(target, "load_smoke", lambda root: (records, {}))
+    monkeypatch.setattr(target, "load_smoke", lambda root, **kwargs: (records, {}))
     output = tmp_path / "run"
     asyncio.run(target.run(tmp_path, output))
     (output / "completion.json").unlink()
@@ -264,3 +274,189 @@ def test_expired_run_no_count(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -
     )
     assert result["status"] == "failed"
     assert not calls
+
+
+@pytest.mark.parametrize(
+    "panel,repeat",
+    [("other", 1), ("initial_three", 3), ("initial_three", True), ("initial_three", 1.0)],
+)
+def test_scope_rejected_before_loading(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, panel: str, repeat: int
+) -> None:
+    """Unsupported panels or extra sampling cannot reach source loading or providers."""
+
+    def forbidden(*args: Any, **kwargs: Any) -> None:
+        raise AssertionError("Source loaded")
+
+    monkeypatch.setattr(target, "load_smoke", forbidden)
+    with pytest.raises(ValueError):
+        asyncio.run(target.run(tmp_path, tmp_path / "run", panel=panel, repeat=repeat))
+
+
+def test_complete_six_repeat_identity_and_no_reroll(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """Six-case repetition preserves full coverage and replay makes no new calls."""
+    calls = mock_provider(monkeypatch)
+    records = [{**packet(), "case_id": key} for key in target.EXPANDED]
+    monkeypatch.setattr(target, "load_smoke", lambda root, **kwargs: (records, {}))
+    config = json.loads(target.CONFIG.read_text())
+    config.update(max_generation_calls=6, max_count_calls=6, max_spend_usd=3)
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config))
+    output = tmp_path / "repeat"
+    result = asyncio.run(
+        target.run(tmp_path, output, config_path=path, panel="expanded_six", repeat=2)
+    )
+    assert result["case_ids"] == target.EXPANDED
+    assert result["valid_candidates"] == 6
+    assert all(row["repeat"] == 2 for row in result["results"])
+    assert len({row["candidate_id"] for row in result["results"]}) == 6
+    assert len(calls) == 12
+    assert (
+        asyncio.run(target.run(tmp_path, output, config_path=path, panel="expanded_six", repeat=2))
+        == result
+    )
+    assert len(calls) == 12
+    with pytest.raises(FileExistsError):
+        asyncio.run(target.run(tmp_path, output, config_path=path, panel="expanded_six", repeat=1))
+    assert len(calls) == 12
+
+
+@pytest.mark.parametrize(
+    "override", [{"max_generation_calls": 2}, {"max_count_calls": 2}, {"max_retries": 1}]
+)
+def test_call_capacity_and_retry_rejected(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, override: dict[str, int]
+) -> None:
+    """Underbudget panel coverage and hidden retries fail before native requests."""
+    calls = mock_provider(monkeypatch)
+    records = [{**packet(), "case_id": key} for key in target.INITIAL]
+    monkeypatch.setattr(target, "load_smoke", lambda root, **kwargs: (records, {}))
+    config = json.loads(target.CONFIG.read_text())
+    config.update(override)
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError):
+        asyncio.run(target.run(tmp_path, tmp_path / "run", config_path=path))
+    assert not calls
+
+
+def test_frozen_panel_manifest_names() -> None:
+    """CLI panel names must resolve to the accepted fixed-six manifest membership."""
+    manifest = json.loads(target.PANEL.read_text())
+    assert target.panel_case_ids("initial_three") == manifest["initial_three"]
+    assert target.panel_case_ids("expanded_six") == manifest["fixed_six"]
+
+
+@pytest.mark.parametrize(
+    "override",
+    [
+        {"max_spend_usd": float("nan")},
+        {"count_cost_allowance_usd": float("inf")},
+        {"reserve_input_per_million": -1},
+        {"max_output_tokens": True},
+        {"max_input_tokens": 1.5},
+        {"timeout_seconds": 0},
+        {"max_retries": False},
+        {"provider": "anthropic"},
+        {"base_url": "https://example.com/v1"},
+        {"service_tier": "priority"},
+        {"reasoning_summary": "auto"},
+        {"model": ""},
+        {"context_tokens": 4096},
+    ],
+)
+def test_invalid_config_fails_before_namespace_or_network(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, override: dict[str, Any]
+) -> None:
+    """Malformed budgets and misleading controls cannot reach provider dispatch."""
+    calls = mock_provider(monkeypatch)
+    records = [{**packet(), "case_id": key} for key in target.INITIAL]
+    monkeypatch.setattr(target, "load_smoke", lambda root, **kwargs: (records, {}))
+    config = json.loads(target.CONFIG.read_text())
+    config.update(override)
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config))
+    output = tmp_path / "run"
+    with pytest.raises(ValueError):
+        asyncio.run(target.run(tmp_path, output, config_path=path))
+    assert not output.exists()
+    assert not calls
+
+
+def test_stopped_panel_retains_repeat_identity(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """A preflight failure preserves identities for every undispatched panel slot."""
+    calls = mock_provider(monkeypatch, count_status=404)
+    records = [{**packet(), "case_id": key} for key in target.INITIAL]
+    monkeypatch.setattr(target, "load_smoke", lambda root, **kwargs: (records, {}))
+    output = tmp_path / "run"
+    result = asyncio.run(target.run(tmp_path, output, repeat=2))
+    assert len(calls) == 1
+    assert [row["status"] for row in result["results"]] == [
+        "failed",
+        "not_dispatched",
+        "not_dispatched",
+    ]
+    assert all(row["attempt"] == 1 and row["repeat"] == 2 for row in result["results"])
+    assert asyncio.run(target.run(tmp_path, output, repeat=2)) == result
+    assert len(calls) == 1
+
+
+@pytest.mark.parametrize(
+    "overrides",
+    [
+        {"returned_model": "different-model"},
+        {"omit_usage": True},
+        {"usage": {"input_tokens": 100, "output_tokens": 5000, "total_tokens": 5100}},
+        {"usage": {"input_tokens": 40000, "output_tokens": 80, "total_tokens": 40080}},
+        {"usage": {"input_tokens": -1, "output_tokens": 80, "total_tokens": 79}},
+    ],
+)
+def test_unverified_output_preserves_receipt_without_candidate(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, overrides: dict[str, Any]
+) -> None:
+    """Provider identity/accounting violations retain diagnostics without valid output."""
+    calls = mock_provider(monkeypatch, **overrides)
+    result = invoke(tmp_path)
+    assert result["status"] == "failed"
+    assert "accounting uncertain" in result["failure"]
+    assert len(calls) == 2
+    assert "returned_model" in result and "usage" in result
+    assert (tmp_path / "raw_answer.txt").exists()
+    assert (tmp_path / "generation_response.body").exists()
+    assert not (tmp_path / "candidate.json").exists()
+
+
+@pytest.mark.parametrize("text", [None, "broken json"])
+def test_client_close_failure_preserves_final_receipts(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, text: str | None
+) -> None:
+    """Cleanup errors cannot suppress the final seal or an earlier failure reason."""
+    calls = mock_provider(monkeypatch, text=text)
+    client_factory = target.DefaultAsyncHttpxClient  # type: ignore[attr-defined]
+
+    def client(**kwargs: Any) -> DefaultAsyncHttpxClient:
+        """Close the fixture transport, then simulate a cleanup exception."""
+        instance = client_factory(**kwargs)
+        close = instance.aclose
+
+        async def failing_close() -> None:
+            """Simulate failure after releasing transport resources."""
+            await close()
+            raise RuntimeError("fixture close failure")
+
+        instance.aclose = failing_close  # type: ignore[method-assign]
+        return instance
+
+    monkeypatch.setattr(target, "DefaultAsyncHttpxClient", client)
+    result = invoke(tmp_path)
+    assert result["status"] == "failed"
+    assert result["cleanup_error"] == "RuntimeError: fixture close failure"
+    assert len(calls) == 2
+    assert (tmp_path / "result.json").exists()
+    assert (tmp_path / "completion.json").exists()
+    if text is not None:
+        assert result["failure_type"] == "JSONDecodeError"

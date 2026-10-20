@@ -29,7 +29,7 @@ from er_commons.target_generation import COUNT_FIELDS, REPO, save
 
 
 class EvaluationLimits(TypedDict):
-    """Fixed run budget recorded before dispatch; counting charges remain unknown."""
+    """Recorded operational budget; counting allowances are not verified charges."""
 
     max_judge_calls: int
     max_count_calls: int
@@ -138,10 +138,18 @@ def count_projection(provider: str, native: dict[str, Any]) -> dict[str, Any]:
 class ReceiptHooks:
     """One exact count and one generation dispatch, without retry or credential logging."""
 
-    def __init__(self, directory: Path, provider: str, model: str, deadline: float) -> None:
+    def __init__(
+        self,
+        directory: Path,
+        provider: str,
+        model: str,
+        deadline: float,
+        limits: dict[str, Any] | None = None,
+    ) -> None:
         """Bind a fresh request directory and immutable runtime limits."""
         self.directory, self.provider, self.model = directory, provider, model
         self.deadline = deadline
+        self.limits = dict(LIMITS if limits is None else limits)
         self.client: Any = None
         self.count_calls = 0
         self.judge_calls = 0
@@ -174,7 +182,7 @@ class ReceiptHooks:
         count = await self._count_input(projection, request.headers)
         tokens = count.input_tokens
         save(self.directory / "count_result.json", count.model_dump(mode="json"))
-        if type(tokens) is not int or not 0 < tokens <= LIMITS["max_input_tokens"]:
+        if type(tokens) is not int or not 0 < tokens <= self.limits["max_input_tokens"]:
             raise ValueError("context_overflow_or_unverified")
         if time.monotonic() >= self.deadline:
             raise ValueError("Run timebox exhausted after count")
@@ -183,7 +191,7 @@ class ReceiptHooks:
             {
                 "input_tokens": tokens,
                 "request_sha256": sha256_bytes(body),
-                "max_output_tokens": LIMITS["max_output_tokens"],
+                "max_output_tokens": self.limits["max_output_tokens"],
             },
         )
         self.judge_calls += 1
@@ -212,7 +220,7 @@ class ReceiptHooks:
     def _validate_native_controls(self, native: dict[str, Any]) -> None:
         """Reject model, output, tool or premium-tier drift before counting."""
         cap = "max_output_tokens" if self.provider == "openai" else "max_tokens"
-        if native["model"] != self.model or native.get(cap) != LIMITS["max_output_tokens"]:
+        if native["model"] != self.model or native.get(cap) != self.limits["max_output_tokens"]:
             raise ValueError("Native model/output cap changed")
         if native.get("tools") or native.get("service_tier", "default") not in {"default", "auto"}:
             raise ValueError("Tools or premium service tier forbidden")
@@ -255,13 +263,18 @@ class ReceiptHooks:
 
 
 async def execute_item(
-    item: dict[str, Any], identity: dict[str, Any], directory: Path, deadline: float
+    item: dict[str, Any],
+    identity: dict[str, Any],
+    directory: Path,
+    deadline: float,
+    limits: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Attempt one frozen judgment; preserve errors and never replace an answer."""
+    limits = dict(LIMITS if limits is None else limits)
     condition, prompt, frozen = component_settings(item["component"])
     selected = judge_inspect.profile(condition)
     config = frozen.model_copy(update={"max_retries": 0, "max_connections": 1})
-    hooks = ReceiptHooks(directory, selected.provider, selected.model, deadline)
+    hooks = ReceiptHooks(directory, selected.provider, selected.model, deadline, limits)
     client = DefaultAsyncHttpxClient(
         event_hooks={"request": [hooks.request], "response": [hooks.response]}
     )
@@ -298,7 +311,7 @@ async def execute_item(
             raise ValueError(f"Noncomplete output: {output.stop_reason}")
         if output.model != selected.model or output.usage is None:
             raise ValueError("Returned model or usage unverified; accounting uncertain")
-        if output.usage.output_tokens > LIMITS["max_output_tokens"]:
+        if output.usage.output_tokens > limits["max_output_tokens"]:
             raise ValueError("Output usage exceeds reserve; accounting uncertain")
         effective_input = (
             output.usage.input_tokens
@@ -311,7 +324,7 @@ async def execute_item(
                 "input_tokens"
             ],
             "actual_count_cost_usd": None,
-            "count_cost_allowance_usd": LIMITS["count_cost_allowance_usd"],
+            "count_cost_allowance_usd": limits["count_cost_allowance_usd"],
         }
         judgment["accounting"]["count_usage_difference_tokens"] = (
             effective_input - judgment["accounting"]["count_input_tokens"]
@@ -319,7 +332,7 @@ async def execute_item(
         judgment["accounting"]["count_usage_match"] = (
             judgment["accounting"]["count_usage_difference_tokens"] == 0
         )
-        if effective_input > LIMITS["max_input_tokens"]:
+        if effective_input > limits["max_input_tokens"]:
             raise ValueError("Input usage exceeds reserve; accounting uncertain")
         judgment["status"] = "completed"
     except Exception as error:
@@ -330,7 +343,13 @@ async def execute_item(
             cause = cause.__cause__
         judgment.update(error=f"{type(error).__name__}: {error}", failure_causes=causes)
     finally:
-        await client.aclose()
+        try:
+            await client.aclose()
+        except Exception as error:
+            # Cleanup must not discard dispatch accounting or the original failure.
+            cleanup_error = f"{type(error).__name__}: {error}"
+            judgment.update(status="execution_error", cleanup_error=cleanup_error)
+            judgment.setdefault("error", cleanup_error)
     judgment.update(judge_calls=hooks.judge_calls, count_calls=hooks.count_calls)
     save(directory / "judgment.json", judgment)
     save(directory / "completion.json", artifact_inventory(directory, {"completion.json"}))

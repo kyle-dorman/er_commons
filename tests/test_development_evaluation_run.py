@@ -9,6 +9,7 @@ from typing import Any
 
 import pytest
 
+from er_commons.artifact_io import artifact_inventory
 from er_commons.development_evaluation_provider import (
     LIMITS,
     ReceiptHooks,
@@ -148,8 +149,11 @@ def test_offline_run_and_replay(tmp_path: Path, monkeypatch: pytest.MonkeyPatch)
     monkeypatch.setattr(core, "readable_report", lambda report: json.dumps(report))
     calls = []
 
-    async def execute(item: Any, identity: Any, directory: Path, deadline: float) -> Any:
+    async def execute(
+        item: Any, identity: Any, directory: Path, deadline: float, limits: dict[str, Any]
+    ) -> Any:
         """Produce an offline receipt with an auditable call count."""
+        assert limits == LIMITS
         calls.append(item)
         return {
             **item,
@@ -212,8 +216,14 @@ def test_offline_run_and_replay(tmp_path: Path, monkeypatch: pytest.MonkeyPatch)
 
 
 @pytest.mark.parametrize("component", ["A", "S"])
+@pytest.mark.parametrize("input_tokens", [100, 100000, 100001])
+@pytest.mark.parametrize("close_error", [False, True])
 def test_native_sdk_serialization(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, component: str
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    component: str,
+    input_tokens: int,
+    close_error: bool,
 ) -> None:
     """Exercise real Inspect and both SDK serializers using network-only replacement."""
     import httpx2
@@ -231,7 +241,7 @@ def test_native_sdk_serialization(
         calls.append(body)
         if request.url.path.endswith(("/input_tokens", "/count_tokens")):
             return httpx2.Response(
-                200, json={"input_tokens": 100, "object": "response.input_tokens"}
+                200, json={"input_tokens": input_tokens, "object": "response.input_tokens"}
             )
         if component == "S":
             return httpx2.Response(
@@ -244,7 +254,7 @@ def test_native_sdk_serialization(
                     "content": [{"type": "text", "text": "{}"}],
                     "stop_reason": "end_turn",
                     "stop_sequence": None,
-                    "usage": {"input_tokens": 100, "output_tokens": 10},
+                    "usage": {"input_tokens": input_tokens, "output_tokens": 10},
                 },
             )
         return httpx2.Response(
@@ -264,13 +274,27 @@ def test_native_sdk_serialization(
                         "content": [{"type": "output_text", "text": "{}", "annotations": []}],
                     }
                 ],
-                "usage": {"input_tokens": 100, "output_tokens": 10, "total_tokens": 110},
+                "usage": {
+                    "input_tokens": input_tokens,
+                    "output_tokens": 10,
+                    "total_tokens": input_tokens + 10,
+                },
             },
         )
 
     def client(**kwargs: Any) -> Any:
         """Keep production hooks and replace network transport alone."""
-        return DefaultAsyncHttpxClient(transport=httpx2.MockTransport(handle), **kwargs)
+        transport = DefaultAsyncHttpxClient(transport=httpx2.MockTransport(handle), **kwargs)
+        if close_error:
+            original_close = transport.aclose
+
+            async def failed_close() -> None:
+                """Simulate cleanup failure after releasing the fixture transport."""
+                await original_close()
+                raise RuntimeError("fixture close failure")
+
+            transport.aclose = failed_close
+        return transport
 
     monkeypatch.setenv("OPENAI_API_KEY", "fixture-key-not-real")
     monkeypatch.setenv("ANTHROPIC_API_KEY", "fixture-key-not-real")
@@ -282,8 +306,24 @@ def test_native_sdk_serialization(
         "packet": {"fixture": "invented"},
         "payload_sha256": "fixture",
     }
-    result = asyncio.run(provider.execute_item(item, {}, tmp_path, time.monotonic() + 30))
-    assert result["status"] == "completed", result
+    limits = {**LIMITS, "max_input_tokens": 100000, "count_cost_allowance_usd": 0.0}
+    result = asyncio.run(provider.execute_item(item, {}, tmp_path, time.monotonic() + 30, limits))
+    if close_error:
+        assert result["status"] == "execution_error"
+        assert result["cleanup_error"] == "RuntimeError: fixture close failure"
+        assert json.loads((tmp_path / "judgment.json").read_text()) == result
+        assert json.loads((tmp_path / "completion.json").read_text()) == artifact_inventory(
+            tmp_path, {"completion.json"}
+        )
+    if input_tokens > 100000:
+        assert result["status"] == "execution_error"
+        assert any("context_overflow" in cause for cause in result["failure_causes"])
+        assert result["count_calls"] == 1 and result["judge_calls"] == 0
+        assert len(calls) == 1
+        return
+    assert result["accounting"]["count_cost_allowance_usd"] == 0.0
+    assert result["accounting"]["actual_count_cost_usd"] is None
+    assert result["status"] == ("execution_error" if close_error else "completed"), result
     assert len(calls) == 2
     assert calls[0] == count_projection(selected.provider, calls[1])
     assert (tmp_path / "judge_response.body").exists()
@@ -303,3 +343,113 @@ def test_manifest_binds_every_evaluation_module() -> None:
         "development_evaluation_provider.py",
         "development_evaluation_run.py",
     }
+
+
+def test_operational_caps_preserve_judge_policy() -> None:
+    """Six-panel budgets increase capacity without changing judge semantics or retries."""
+    from er_commons.development_evaluation_run import evaluation_limits, run_manifest
+
+    limits = {"max_judge_calls": 72, "max_count_calls": 72, "max_spend_usd": 24.0}
+    plans = [{"items": [{"status": "not_run"}] * 72}]
+    manifest = run_manifest(plans, limits)
+    assert manifest["prospective_calls"] == 72
+    resumed = run_manifest(
+        plans, {**limits, "max_input_tokens": 100000, "count_cost_allowance_usd": 0}
+    )
+    assert resumed["reserved_usd"] == pytest.approx(72 * 0.028072)
+    assert resumed["limits"]["actual_count_cost_usd"] is None
+    assert LIMITS["max_input_tokens"] == 32768
+    assert LIMITS["count_cost_allowance_usd"] == 0.30
+    assert manifest["limits"]["max_output_tokens"] == 4096
+    assert manifest["limits"]["max_retries"] == 0
+    for invalid in (
+        {"max_input_tokens": 100001},
+        {"max_input_tokens": True},
+        {"count_cost_allowance_usd": -0.01},
+        {"count_cost_allowance_usd": True},
+        {"count_cost_allowance_usd": 0.31},
+        {"reserve_input_per_million": 0},
+        {"max_judge_calls": 73},
+        {"max_output_tokens": 8192},
+        {"max_retries": 1},
+        {"max_elapsed_seconds": 1801},
+        {"max_count_calls": True},
+    ):
+        with pytest.raises(ValueError):
+            evaluation_limits(invalid)
+    with pytest.raises(ValueError, match="fanout"):
+        run_manifest(plans)
+    with pytest.raises(ValueError, match="fanout"):
+        run_manifest(plans, {**limits, "max_count_calls": 71})
+    with pytest.raises(ValueError, match="liability"):
+        run_manifest(plans, {**limits, "max_spend_usd": 1})
+
+
+@pytest.mark.parametrize("panel", ["initial_three", "expanded_six"])
+def test_explicit_generation_run_panel_and_identity(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, panel: str
+) -> None:
+    """Only sealed complete panels with bound run/repeat/candidate identities load."""
+    from er_commons import development_evaluation_inputs as inputs
+    from er_commons.artifact_io import artifact_inventory, json_bytes, stable_json_sha256
+    from er_commons.target_generation import panel_case_ids
+
+    source = tmp_path / "run"
+    source.mkdir()
+    cases = panel_case_ids(panel)
+    records = [{"case_id": case} for case in cases]
+    bindings = {"fixture": "bound"}
+    monkeypatch.setattr(inputs, "load_smoke", lambda root, **kw: (records, bindings))
+    run_id = stable_json_sha256("run")
+    manifest = {
+        "case_ids": cases,
+        "bindings": bindings,
+        "namespace": "run",
+        "run_id": run_id,
+        "repeat": 2,
+        "attempts_per_case": 1,
+    }
+    rows = []
+    for case in cases:
+        identity = {
+            "run_id": run_id,
+            "case_id": case,
+            "attempt": 1,
+            "repeat": 2,
+            "request_sha256": "request",
+            "candidate_sha256": "answer",
+        }
+        rows.append(
+            {
+                **identity,
+                "candidate_id": stable_json_sha256(identity),
+                "status": "valid",
+                "generation_calls": 1,
+                "count_calls": 1,
+            }
+        )
+    summary = {"case_ids": cases, "results": rows}
+
+    def seal() -> None:
+        """Publish synthetic seal after each deliberately changed metadata fixture."""
+        (source / "manifest.json").write_bytes(json_bytes(manifest))
+        (source / "summary.json").write_bytes(json_bytes(summary))
+        (source / "completion.json").write_bytes(
+            json_bytes(artifact_inventory(source, {"completion.json"}))
+        )
+
+    seal()
+    assert inputs._load_panel_run(tmp_path, source)[1] == rows
+    rows[0]["repeat"] = 1
+    seal()
+    with pytest.raises(ValueError, match="receipt"):
+        inputs._load_panel_run(tmp_path, source)
+    rows[0]["repeat"] = 2
+    rows[0]["candidate_id"] = "foreign"
+    seal()
+    with pytest.raises(ValueError, match="Candidate identity"):
+        inputs._load_panel_run(tmp_path, source)
+    manifest["case_ids"] = [*cases, "C999"]
+    seal()
+    with pytest.raises(ValueError, match="fixed three/six"):
+        inputs._load_panel_run(tmp_path, source)

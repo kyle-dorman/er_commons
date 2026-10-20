@@ -23,9 +23,12 @@ saved-candidate automatic checks and frozen A/G/S/C reports replay without calls
 see the [result](specs/task11c_final_result.json) for semantic failures and accounting limits.
 The [11C.1 cleanup](../tasks/sprint2/11c1_cleanup_development_evaluation.md) documents
 the maintained module boundaries and unchanged-output verification.
-Next: refresh [11D](../tasks/sprint2/11d_iterate_development_prompt.md) before any
-prompt iteration under the [Luna generation plan](../tasks/sprint2/11_build_and_freeze_target_generation.md):
-three then six questions for prompt iteration, followed by all 19 development cases. Retrieval remains
+[11D](../tasks/sprint2/11d_iterate_development_prompt.md) is complete after the
+100K continuation: both fixed-six comparisons ran fully, but no candidate met the
+promotion rule. The [continuation result](specs/task11d_resume_100k_result.json)
+preserves gains, regressions and manual/judge disagreements; the
+[original stopped result](specs/task11d_final_result.json) remains unchanged.
+[11D.1 public-rubric comparisons](../tasks/sprint2/11d1_public_rubric_prompt_comparisons.md) are complete: examples improved observed scores, but no prompt qualified across repeats. The [result](specs/task11d1_final_result.json) preserves failures and evaluation limitations. [11D.2](../tasks/sprint2/11d2_resolve_evaluation_contract.md) has implemented offline specification and metadata corrections while retaining V6b; the detailed question was subsequently rejected. [11D.3](../tasks/sprint2/11d3_test_light_question_wording.md) completed the lighter C014 wording comparison without demonstrated improvement; the published question remains unchanged. [11D.4](../tasks/sprint2/11d4_compare_alternative_models.md) is complete: Haiku and GLM added no coverage beyond Luna’s five of six; [results](specs/task11d4_result.json) retain formatting, output-budget and semantic failures. [11D.5](../tasks/sprint2/11d5_raise_haiku_output_cap.md) is complete: the larger Haiku allowance removed truncation, but added no frozen-score question coverage; see [results](specs/task11d5_result.json). [11D.6](../tasks/sprint2/11d6_simplify_context_and_qualifications.md) has prepared shared project context, tighter qualifications and edition-neutral label derivatives, including authorized held-out maintenance; [results](specs/task11d6_result.json) record offline checks, with no live evaluation. Stronger models are deferred; the completed 11E outcome owns the all-19 check. Retrieval remains
 deferred under [Decision 007](decisions/007_evidence_only_first_baseline.md).
 [Task 12](../tasks/sprint2/12_integrate_evaluation_and_reporting.md) finalizes combined reporting and locked-test readiness using Task 11C whole-answer evaluation for prompt iteration. No model run or end-to-end qualification is
 claimed by input preparation.
@@ -72,6 +75,8 @@ contains 490 independently reviewed proposed labels, with 471 eligible for paire
 reference-visibility comparisons. The [calibration panels](specs/task09f_binary_calibration_review.md)
 now select from both published component datasets. The combined prompt comparison is complete; the selected pair is recorded in the final handoff above.
 
+[Task 11F](../tasks/sprint2/11f_cleanup_target_generation.md) records the completed code review/cleanup and maintainer map. Offline checks passed; no new model run occurred.
+
 ## Read for Task 11
 
 Start with the [Task 11 umbrella](../tasks/sprint2/11_build_and_freeze_target_generation.md)
@@ -80,8 +85,9 @@ and completed [11A](../tasks/sprint2/11a_select_development_panels.md), includin
 [criteria/budgets](specs/task11a_panel_protocol.md). Read the completed [11B outcome](../tasks/sprint2/11b_build_luna_generation.md) and
 [result pointer](specs/task11b_final_result.json) next, then the completed
 [11C outcome](../tasks/sprint2/11c_integrate_development_evaluation.md) and
-[result](specs/task11c_final_result.json). Subtasks 11D–11E remain provisional;
-refresh each from its predecessor before execution. 11D has not begun.
+[result](specs/task11c_final_result.json). Read the completed [11D outcome](../tasks/sprint2/11d_iterate_development_prompt.md)
+and [result](specs/task11d_final_result.json). Read the [100K continuation result](specs/task11d_resume_100k_result.json) for the
+complete fixed-six comparison and no-selection decision. Then read [11D.1](../tasks/sprint2/11d1_public_rubric_prompt_comparisons.md) and its [result](specs/task11d1_final_result.json) for public-rubric comparisons and repeats; then read the completed 11E outcome.
 
 ## Task 10 handoff
 
@@ -150,3 +156,9 @@ interfaces, shared provider configuration and offline historical replay.
 
 Use the next task's inputs and the document roles above. Read a completed task
 only when its outcome or preserved evidence is an explicit input.
+
+[11D.7](../tasks/sprint2/11d7_citation_clause_check.md) preserves the V9/V10 prompt preparation; its additions were evaluated in 11D.8 and isolated in 11D.9.
+
+Historical comparison: [11D.8 V10](../tasks/sprint2/11d8_compare_v10_luna_haiku.md) is complete: Luna 5/12 and Haiku 3/12 all-checks passes, with all 24 answers valid and fully evaluated. [Results](specs/task11d8_result.json) retain question/judge breakdowns; no baseline promotion.
+
+Current: [Task 11E](../tasks/sprint2/11e_freeze_development_baseline.md) is complete with limitations: all 114 planned development answers evaluated. Luna passed all checks on 29/57; Haiku on 6/57. The additional 13 are weaker than the original six. [Results](specs/task11e_result.json) and the [frozen configuration](specs/task11e_frozen_generation_v1.json) form the Task 12 reporting/readiness handoff. No further run is active and locked-test readiness is not established.

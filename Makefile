@@ -408,7 +408,7 @@ validate-evidence-only: check-env
 .PHONY: generate-luna-smoke
 generate-luna-smoke: check-env
 	@test -n "$(GENERATION_OUTPUT)" || (echo "Set GENERATION_OUTPUT to a fresh external run directory"; exit 1)
-	uv run --env-file "$(ENV_FILE)" python -m er_commons.target_generation --output "$(GENERATION_OUTPUT)"
+	uv run --env-file "$(ENV_FILE)" python -m er_commons.target_generation --output "$(GENERATION_OUTPUT)" $(GENERATION_OPTIONS)
 
 .PHONY: evaluate-development-smoke
 evaluate-development-smoke: check-env

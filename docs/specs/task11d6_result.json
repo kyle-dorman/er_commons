@@ -1,0 +1,77 @@
+{
+  "11E_begun": false,
+  "accounting": {
+    "count_calls": 0,
+    "generation_calls": 0,
+    "judge_calls": 0,
+    "retries": 0,
+    "spending_usd": 0
+  },
+  "artifact_count": 12283,
+  "candidate_selected": false,
+  "completion": {
+    "byte_size": 3226247,
+    "path": "pipelines/brisbane_baylands/task_11/validation_11d6_20261019/completion.json",
+    "sha256": "2571d87d8d5ace6921564c80719a61b6971e3d2e20cc729493c9d94bb55fe0e4"
+  },
+  "context_preview": "pipelines/brisbane_baylands/task_11/validation_11d6_20261019/context_preview_v3",
+  "date": "2026-10-19",
+  "heldout_evaluated": false,
+  "heldout_label_maintenance_authorized": true,
+  "label_publication": "pipelines/brisbane_baylands/task_11/validation_11d6_20261019/labels/publication_v5",
+  "labels": {
+    "records": 2366,
+    "references_retained": 49,
+    "reserved_retained": 118,
+    "retained_prior_ineligible": 16,
+    "retired_edition_dependent": 1
+  },
+  "limitations": [
+    "Offline preparation does not establish improved model or judge performance.",
+    "Frozen judge cores retained; shared context defines a new evaluation condition.",
+    "Raw quotes and opaque identifiers retain original edition wording privately or verbatim.",
+    "Legacy readers and sealed historical publications remain unchanged.",
+    "Citation clause-check proposal remains outside V8; conclusion rule unchanged.",
+    "All draft publications retained; only v5 and context preview v3 are final."
+  ],
+  "live_activation": false,
+  "remaining_13_evaluated": false,
+  "repository_bindings": {
+    "docs/prompts/task11d6_project_summary.md": {
+      "byte_size": 190,
+      "sha256": "4208da9c8e134f93959fe4ef6e7a699a5ac156be33869e9b78a3882caefdfb04"
+    },
+    "docs/prompts/task11d6_target_v8.md": {
+      "byte_size": 6252,
+      "sha256": "1cc8f9d7f3dee2e695527c9a8d08fac08b0aba3f3341bfe924b71855b9067f9a"
+    },
+    "src/er_commons/context_projection.py": {
+      "byte_size": 12840,
+      "sha256": "c9c3292589ea5fea4ba132942675ab2e4b9339d4a98f133b7088e78d8cb1b0e4"
+    },
+    "tasks/sprint2/11d6_simplify_context_and_qualifications.md": {
+      "byte_size": 9157,
+      "sha256": "e40eed36ebff898c99b245c5de3af033b19dec711f19203df7f835f947361001"
+    },
+    "tests/test_context_projection.py": {
+      "byte_size": 9470,
+      "sha256": "e981302d9c5157dd5afadfea4ec880f8782a606d9a18fe3046d7a4e679e16dc3"
+    }
+  },
+  "review": "pipelines/brisbane_baylands/task_11/validation_11d6_20261019/independent_final_review.json",
+  "schema_version": "task11d6.offline_preparation_result.v1",
+  "status": "complete_offline_prepared_not_evaluated",
+  "validation": {
+    "assertion_spans": 258,
+    "focused_tests": 16,
+    "git_diff_check": "passed",
+    "judge_envelopes": 123,
+    "make_check": "4153 passed, 1 skipped",
+    "make_fix": "passed",
+    "point_joins": 1104,
+    "source_bindings": 3406,
+    "target_envelopes": 6,
+    "unchanged_passages": 23,
+    "verbatim_G_evidence_payloads": 651
+  }
+}

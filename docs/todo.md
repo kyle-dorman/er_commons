@@ -74,7 +74,7 @@ selections and runtimes are historical. No further judge-development run is queu
 
 **09A–09G are complete within their documented scopes.** 09G is a documentation-only
 freeze; the original additional challenge requirement was superseded, not executed.
-Task 10 input preparation is also complete. Task 11A–11C are complete; next refresh 11D. Task 11C supplies evaluation for prompt cycles;
+Task 10 input preparation is also complete. Task 11A–11D are complete; 11D selected no candidate after full fixed-six comparisons. Task 11C supplies evaluation for prompt cycles;
 Task 12 finalizes reporting before locked benchmark execution.
 
 | Task | Status | Deliverable |
@@ -101,10 +101,10 @@ outcomes before activation. The former October 12–14 targets are historical.
 publishes all 49 cases in separate 19-development/30-test files. The
 [result pointer](specs/task10_final_result.json) owns exact identities and validation.
 All 232 approved occurrences are retained in 208 passage views over 207 case-level
-canonical units. No inference or scoring ran. Task 11A panels are fixed and 11B/11C are complete; next refresh 11D. All Task 11
+canonical units. No inference or scoring ran. Task 11A panels are fixed and 11B–11D are complete; any further prompt work needs a new bounded task. All Task 11
 generation/evaluation uses development only.
 
-## Task 11 — 11C complete; 11D next
+## Task 11 — Development check complete; reporting next
 
 [Luna generation umbrella](../tasks/sprint2/11_build_and_freeze_target_generation.md):
 select three questions, expand to a fixed nested six for prompt iteration, then
@@ -115,26 +115,42 @@ bounded three-case smoke with valid candidates and preserved receipts; see the
 [result and limitations](specs/task11b_final_result.json). [11C](../tasks/sprint2/11c_integrate_development_evaluation.md) completed saved-candidate
 evaluation and no-call replay. Its [result](specs/task11c_final_result.json) retains
 C017's C failure and C019's S failure. [11C.1 cleanup](../tasks/sprint2/11c1_cleanup_development_evaluation.md) is complete,
-with exact offline replay preserved. Next: refresh 11D from these outcomes.
-No prompt cycles or 11D work have begun.
+with exact offline replay preserved. [11D](../tasks/sprint2/11d_iterate_development_prompt.md) is complete after its authorized
+100K continuation. Both six-case arms have complete evaluation, but V4's new
+material defect blocks promotion and V3 retains failures. The
+[result](specs/task11d_resume_100k_result.json) preserves the no-selection decision.
+[11D.1 public-rubric comparisons](../tasks/sprint2/11d1_public_rubric_prompt_comparisons.md) are complete; examples improved observed scores, but no prompt met repeat promotion criteria. See the [result](specs/task11d1_final_result.json). [11D.2](../tasks/sprint2/11d2_resolve_evaluation_contract.md) retains V6b and has implemented the offline specification and metadata corrections. The detailed C014 proposal was rejected as too revealing for search. [11D.3](../tasks/sprint2/11d3_test_light_question_wording.md) completed the lighter-wording experiment without demonstrated improvement. Keep the original publication and V6b. [11D.4](../tasks/sprint2/11d4_compare_alternative_models.md) completed Haiku/GLM comparisons without expanding Luna’s five-of-six coverage; see the [result](specs/task11d4_result.json). [11D.5](../tasks/sprint2/11d5_raise_haiku_output_cap.md) completed the tripled-output comparison: truncation resolved, no added frozen-score coverage; see [results](specs/task11d5_result.json). Stronger models remain deferred. The completed 11E outcome owns the all-19 check.
 
 | Subtask | Status |
 | --- | --- |
 | [11A — Panels and criteria](../tasks/sprint2/11a_select_development_panels.md) | Complete; [fixed panel manifest](specs/task11a_development_panels_v1.json) |
 | [11B — Luna runner](../tasks/sprint2/11b_build_luna_generation.md) | Complete with documented limitations; [result](specs/task11b_final_result.json) |
 | [11C — Evaluation integration](../tasks/sprint2/11c_integrate_development_evaluation.md) | Complete with documented limitations; [result](specs/task11c_final_result.json) |
-| [11D — Prompt cycles](../tasks/sprint2/11d_iterate_development_prompt.md) | Provisional |
-| [11E — Freeze and all-19 check](../tasks/sprint2/11e_freeze_development_baseline.md) | Provisional |
+| [11D — Prompt cycles](../tasks/sprint2/11d_iterate_development_prompt.md) | Complete; no selection after full fixed-six comparisons |
+| [11D.1 — Public rubric and examples](../tasks/sprint2/11d1_public_rubric_prompt_comparisons.md) | Complete; no selection after three paired prompt comparisons |
+| [11D.2 — Evaluation contract corrections](../tasks/sprint2/11d2_resolve_evaluation_contract.md) | Offline corrections ready; detailed question rejected |
+| [11D.3 — Light question comparison](../tasks/sprint2/11d3_test_light_question_wording.md) | Complete; no demonstrated improvement; original publication retained |
+| [11D.4 — Alternative-model coverage](../tasks/sprint2/11d4_compare_alternative_models.md) | Complete; no additional question coverage; no selection |
+| [11D.5 — Haiku output allowance](../tasks/sprint2/11d5_raise_haiku_output_cap.md) | Complete; truncation resolved; no selection |
+| [11D.6 — Context and qualifications](../tasks/sprint2/11d6_simplify_context_and_qualifications.md) | Complete offline; [result](specs/task11d6_result.json); no live evaluation |
+| [11E — Freeze and all-19 check](../tasks/sprint2/11e_freeze_development_baseline.md) | Complete with limitations;114/114 evaluated |
 
-Refresh each provisional contract from its accepted predecessor before execution.
+Next: Task 12 reporting/readiness review can consume the sealed [11E handoff](../tasks/sprint2/11e_freeze_development_baseline.md). No further calls or locked-test run are active.
+
+[Task 11F maintenance](../tasks/sprint2/11f_cleanup_target_generation.md) is complete: shared attempt handling, clearer projection stages and stronger failure receipts; offline checks passed. Task 12 remains provisional.
 
 ## Remaining queue
 
 | Task | Scope and finish line |
 | --- | --- |
-| **11 — Target generation** | Luna evidence-only generation with 3→6 prompt cycles, integrated evaluation and a frozen all-19 development check. See 11A–11E above. |
 | **[12 — Reporting and locked-test readiness](../tasks/sprint2/12_integrate_evaluation_and_reporting.md)** | Reuse 11C/11E; finalize aggregate reporting, denominators, strict joint results and locked-test readiness. |
 | **13 — Locked test and results** | Run the frozen evidence-only baseline on the locked test set; report citation and semantic results, retrieval as not applicable, limitations and the next-project decision. |
 
 Agentic search is a later, separately scoped condition. No new full labeling pass
 is required, and no held-out test results may be used to tune the pipeline.
+
+[11D.7](../tasks/sprint2/11d7_citation_clause_check.md) preserves the V9/V10 prompt preparation; its additions were evaluated in 11D.8 and isolated in 11D.9.
+
+[11D.8 V10 Luna/Haiku comparison](../tasks/sprint2/11d8_compare_v10_luna_haiku.md) is complete: all 24 answers valid and fully evaluated; Luna 5/12 and Haiku 3/12 all-checks passes. [Results](specs/task11d8_result.json); no baseline selected.
+
+Current: [Task 11E](../tasks/sprint2/11e_freeze_development_baseline.md) is complete with limitations: all 114 planned development answers evaluated. Luna passed all checks on 29/57; Haiku on 6/57. The additional 13 are weaker than the original six. [Results](specs/task11e_result.json) and the [frozen configuration](specs/task11e_frozen_generation_v1.json) form the Task 12 reporting/readiness handoff. No further run is active and locked-test readiness is not established.

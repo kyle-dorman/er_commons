@@ -1,0 +1,141 @@
+{
+  "schema_version": "task11d2.offline_result.v1",
+  "date": "2026-10-17",
+  "status": "offline_corrections_ready_question_approval_pending",
+  "prior_result": {
+    "path": "docs/specs/task11d1_final_result.json",
+    "sha256": "c03a8b35c5c50451a2e0d20c0f1c5750439a5f14634838d5c59e03ea52231975",
+    "byte_size": 262868
+  },
+  "retained_prompt": {
+    "path": "docs/prompts/task11d1_luna_v6b.md",
+    "sha256": "8f947e68e67b94318aed40c46e3b23fc39fc9a49d4b3904dd88e510edb46080f",
+    "byte_size": 6065,
+    "role": "diagnostic_comparator_not_promoted_baseline"
+  },
+  "fixed_case_ids": [
+    "C041",
+    "C017",
+    "C019",
+    "C014",
+    "C037",
+    "C056"
+  ],
+  "selected_candidate": null,
+  "question_approval": {
+    "case_id": "C014",
+    "status": "pending",
+    "proposal": "docs/specs/task11d2_c014_question_proposal.md",
+    "activated": false,
+    "reference_changed": false
+  },
+  "metadata_projection": {
+    "status": "offline_validated_not_dispatch_integrated",
+    "version": "task11d2.g.edition_projection.v1",
+    "passages": 23,
+    "staged_generation_records": 6,
+    "projected_G_items": 47,
+    "new_scores": 0,
+    "curator_annotations_excluded_from_source_evidence": true
+  },
+  "validation": {
+    "make_fix": "passed",
+    "make_check": "4103 passed, 1 skipped",
+    "git_diff_check": "passed",
+    "new_tests": 32,
+    "protected_bindings_verified": 221,
+    "independent_review": "passed_after_one_audit_guard_repair"
+  },
+  "calls": {
+    "generation": 0,
+    "judge": 0,
+    "count": 0,
+    "retries": 0
+  },
+  "spending": {
+    "new_usd": 0,
+    "prior_reservations_unchanged": true,
+    "prior_counting_cost_uncertainty_unchanged": true
+  },
+  "remaining_13_evaluated": false,
+  "locked_test_or_reserved_content_accessed": false,
+  "task10_or_09G_modified": false,
+  "11E_begun": false,
+  "repository_bindings": {
+    "docs/prompts/task11d1_luna_v6b.md": {
+      "sha256": "8f947e68e67b94318aed40c46e3b23fc39fc9a49d4b3904dd88e510edb46080f",
+      "byte_size": 6065
+    },
+    "docs/specs/task11d2_answer_review_contract.md": {
+      "sha256": "6f54863f26533bd4f0882cdafd43e68af3a8cac3f2809efda634c834671167b9",
+      "byte_size": 6767
+    },
+    "docs/specs/task11d2_c014_question_proposal.md": {
+      "sha256": "23799178f41b8d1a43f71feee19db862f4b225a223cab4c03f2e49b401164fda",
+      "byte_size": 5658
+    },
+    "docs/specs/task11d2_metadata_projection.md": {
+      "sha256": "1f840b360880436b14703c53706b97742df684b60f8dbf2d78499be0c8a7dcad",
+      "byte_size": 3572
+    },
+    "src/er_commons/development_edition_projection.py": {
+      "sha256": "6cbc7458db175bab57f8468c3512d9c09ece0ee46d0a053f3dbbf3ff2f7a07a2",
+      "byte_size": 10743
+    },
+    "tests/test_development_edition_projection.py": {
+      "sha256": "1160a47ec4ebc68135ea0c8fe0bf09579e6f58e9ee453463a93d7eac73efec85",
+      "byte_size": 9946
+    }
+  },
+  "artifacts": {
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/audit_projection.py": {
+      "sha256": "012bcbd108e472e2ea3b4583792d0d6bd47be602ed9e43018fdfda5319d9cc86",
+      "byte_size": 5146
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/bibliographic_mappings.json": {
+      "sha256": "f5c6c599f89090801ff8d0b1f9cf81250d4d541e2d83640ed8a2a5a16e2d2db9",
+      "byte_size": 8482
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/independent_review.json": {
+      "sha256": "a61e754cec3fcfb418602447a26aa0a7915559d34429c1d4f90817ce2139dcd6",
+      "byte_size": 3340
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/make_check.log": {
+      "sha256": "a6db2df888980975f911c5aef5cf079d05f4027ab3dfc2189c53145432d59331",
+      "byte_size": 27403
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/make_fix.log": {
+      "sha256": "a295505c56008ef21e7e75ea5fc6299102d322c86f4e4082e77eb6e561e3fac1",
+      "byte_size": 91
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/offline_development_failures.json": {
+      "sha256": "fb0860a0d13afbc7b40592ea54285d091de77558c4c0b4a34ea4a7e090823078",
+      "byte_size": 668
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/offline_projection_audit.json": {
+      "sha256": "acd690e39828d2754d896436f81a345f63649ed601c25a52b068b4aa201dd513",
+      "byte_size": 42826
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/projected_g_items.json": {
+      "sha256": "1e0111c93b8f92f82442e97cb67c0c69a62dbc90c5bc0faf22a082c4e7ad9b70",
+      "byte_size": 921069
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/protected_before.json": {
+      "sha256": "20c7060fc2f69fd74f1f45a1dea0ddd08c46435d7a7e539ba7809c519407c72f",
+      "byte_size": 39944
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/publish.py": {
+      "sha256": "e3d5005f12ed5eb1d99ad5ebc7f70c357bf536bdfa91bac74379fd7f92eff3f8",
+      "byte_size": 3734
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/staged_generation_records.json": {
+      "sha256": "adbe555305de53a2f711eb227162104da6c748cd092e7dd1fce7271e1b3c7838",
+      "byte_size": 308646
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d2_20261017/completion.json": {
+      "sha256": "462ca1e6cdd85ba5143a026bd320bb86a83536167ef6a5bff74f46d22510cbcb",
+      "byte_size": 1693
+    }
+  },
+  "next_action": "Record exact C014 question decision; integrate a newly bounded condition before live comparisons. Preserve V6b and historical scores."
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "task11.working_prompt_selection.v1",
+  "status": "user_accepted_working_prompt",
+  "accepted_date": "2026-10-19",
+  "prompt_path": "docs/prompts/task11d12_conclusion_focus.md",
+  "prompt_sha256": "87ae893eaba00c0ae730c5c6291d5514b4eddba21771ff3fc20bf24430977382",
+  "basis_task": "tasks/sprint2/11d12_conclusion_focus.md",
+  "experiment_result_path": "docs/specs/task11d12_result.json",
+  "experiment_result_sha256": "8ca0fbfed583a0a1f945123716088fa287c1de4f3c5f88c247f1c326f260aa25",
+  "selection_authority": "User explicitly promoted the focused conclusion check and then the document overview after reviewing their results.",
+  "composition": "Neutral-input V6b with focused conclusion condition/exclusion check and original examples; prepend the accepted document overview and appendix list to target and all judge contexts.",
+  "excluded_additions": [
+    "qualification rewrite",
+    "citation-check sentence",
+    "replacement citation example",
+    "superseded generic one-sentence project summary"
+  ],
+  "historical_control": "docs/prompts/task11d9_baseline.md",
+  "limitations": [
+    "All19development checked3/model/question: Luna29/57 andHaiku6/57 all-checks passes; broader13 weaker than originalsix; no held-out qualification.",
+    "11D12 focused check improved Luna electricity coverage but did not reliably move sufficient-storage assumption into Haiku conclusions.",
+    "11D14 removed Haiku provenance doubts2/2to0/2; other scope/enforcement caveats and errors remain.",
+    "Document overview is shared with judges, so scoring changes combine generation and evaluator-context changes.",
+    "Source catalog has a K2 part edition exception to review before corpus-wide overview deployment.",
+    "Sealed experiment outcomes retain historical recommendations; user acceptance supersedes them without changing results.",
+    "11D15 found fixed-six C014 P4/P5 use feir_appendix_f1, so literal all-draft overview wording is a known input limitation.",
+    "11E preserves substantive model failures and disputed reference/judge readings; manual findings do not override scores."
+  ],
+  "next_task": "tasks/sprint2/12_integrate_evaluation_and_reporting.md",
+  "task11e_status": "complete_with_limitations",
+  "context_path": "docs/prompts/task11d14_document_overview.md",
+  "context_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "context_delivery": {
+    "targets": [
+      "generation",
+      "A",
+      "G",
+      "S",
+      "C"
+    ],
+    "template": "<project_context>\n{overview_file_text}\n</project_context>\n\n{unchanged_base_or_judge_core}",
+    "judge_cores": "unchanged09G",
+    "reference_isolation": "No reference answers or judge feedback in generation."
+  },
+  "context_basis_task": "tasks/sprint2/11d14_document_overview.md",
+  "context_experiment_result_path": "docs/specs/task11d14_result.json",
+  "context_experiment_result_sha256": "eb08abdceaf39fad08e37fb1b769f0ddadb208e478d538b58797fbc2618f59d7",
+  "recommended_next_step": "Task12 reporting/readiness review may consume complete11Edevelopmenthandoff. No further calls or locked-test execution started.",
+  "validation_result_path": "docs/specs/task11e_result.json",
+  "frozen_configuration_path": "docs/specs/task11e_frozen_generation_v1.json"
+}

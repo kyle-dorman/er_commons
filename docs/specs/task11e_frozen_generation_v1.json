@@ -1,0 +1,129 @@
+{
+  "schema_version": "task11e.frozen_generation.v1",
+  "status": "frozen_development_checked_with_limitations",
+  "scope": "19 development cases, two target models, three repeats each; not locked-test qualification",
+  "prompt_path": "docs/prompts/task11d12_conclusion_focus.md",
+  "prompt_sha256": "87ae893eaba00c0ae730c5c6291d5514b4eddba21771ff3fc20bf24430977382",
+  "context_path": "docs/prompts/task11d14_document_overview.md",
+  "context_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "context_delivery": {
+    "targets": [
+      "generation",
+      "A",
+      "G",
+      "S",
+      "C"
+    ],
+    "template": "<project_context>\n{overview_file_text}\n</project_context>\n\n{unchanged_base_or_judge_core}",
+    "judge_cores": "unchanged09G",
+    "reference_isolation": "No reference answers or judge feedback in generation."
+  },
+  "preflight": {
+    "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11e_20261019/preflight.json",
+    "sha256": "bc2bfaafea193c344edeb3a770dd2e4cd06641e301660e7d8dcc2a90fa6f0c48"
+  },
+  "source_sha256": "9dfcc61073326cbb6449da22ea8a88142d761b2df0f7274e0e6bab05bf2c10a3",
+  "input_files_sha256": {
+    "development_reference_projection.json": "1386cf58488794fcaa75fcaa31edb11bda1ddf3fc054f4d4ebfd4e2bd2ff093c",
+    "input_manifest.json": "7693b98bc9f356462c02d6e8e5d2fb8a36798d3bc61d6b11b47b0ccaca3aa95f",
+    "inputs.json": "6c6ab67ec45dd9d2cc56343876483a224b3cebc277b61d8d58721e7e89fe63aa"
+  },
+  "effective_prompts_sha256": {
+    "all19": {
+      "judges": {
+        "A": "5e17022cb2e9e2d5af55561e0f2f022beebaa037cbd7e548f08e2a7b8e2d6294",
+        "C": "a0f3fb63ee7b504f13f7a4b9111c70208ee7af2050bd31c3a09a4b7986486a04",
+        "G": "fc5a177e73c83332a821ece4cba97e09ae982e3d7ced24ea51fee26e5314f741",
+        "S": "504b66a972c145f1c7a75a9c5eefbf925b65e94aa98883b35efc66d2d942a984"
+      },
+      "target": "cc953ec680a5df6ae221c1998b8fa9557d8cdfc99da90d86f752d77f0bbe5e5b"
+    }
+  },
+  "judges": {
+    "A": {
+      "condition": "openai_generation",
+      "prompt_sha256": "23a724a688e4d7e8d25d556be3a2c97fdbbcc8c6b18370acea28d9c6bdfb3140"
+    },
+    "C": {
+      "condition": "openai_generation",
+      "prompt_sha256": "a4ab912653631d6335a47ef611aa365c96f6e19d1162a594903f287d3e7c92d6"
+    },
+    "G": {
+      "condition": "openai_generation",
+      "prompt_sha256": "8f7e71500fdc3667c745fd71d0ca849b38e30f7941e3fb7e1960fcc9d0946eb6"
+    },
+    "S": {
+      "condition": "anthropic_generation",
+      "prompt_sha256": "518b7a38e5be9930ea1adc523fc42bd2eec5e6fe650701f3c24719aa1496314f"
+    }
+  },
+  "targets": {
+    "luna": {
+      "model": "gpt-6-luna",
+      "reasoning": {
+        "effort": "medium"
+      },
+      "output_config": null,
+      "native_schema_sha256": "b8eef97149fa958b9f64ec25f215398adde3e400358bf4d5ed5c734794f02745",
+      "native_example": {
+        "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11e_20261019/observations/all19/luna_repeat1/C041/generation/native_request.json",
+        "sha256": "4f28f74d44cf59ccb25ad044f81a8a8fe85cf07952af4d24f9f77d743969e83c"
+      }
+    },
+    "haiku": {
+      "model": "claude-haiku-5-5",
+      "reasoning": {
+        "type": "adaptive",
+        "display": "summarized",
+        "block_binding": {
+          "prefix_mismatch_behavior": "drop_block"
+        }
+      },
+      "output_config": {
+        "effort": "medium"
+      },
+      "native_schema_sha256": "3f52fb4fe34825868d3e15627e7bab7ac35d35899890a022b84350f070660b98",
+      "native_example": {
+        "path_relative_to_data_root": "pipelines/brisbane_baylands/task_11/validation_11e_20261019/observations/all19/haiku_repeat1/C041/generation/native_request.json",
+        "sha256": "df958fa1c6e8c5234528515a17bbfb6720119aa7eab69d2cd7dacb7abc7aa55d"
+      }
+    }
+  },
+  "native_execution": {
+    "max_input_tokens": 100000,
+    "generation_output_tokens": 12288,
+    "judge_output_tokens": 4096,
+    "retries": 0,
+    "per_call_timeout_seconds": 900,
+    "per_answer_evaluation_timeout_seconds": 1800,
+    "provider_prompt_caching": "retained",
+    "response_cache": false
+  },
+  "exposure_groups": {
+    "fixed_six": [
+      "C041",
+      "C017",
+      "C019",
+      "C014",
+      "C037",
+      "C056"
+    ],
+    "remaining_thirteen": [
+      "C001",
+      "C006",
+      "C007",
+      "C008",
+      "C027",
+      "C028",
+      "C029",
+      "C036",
+      "C042",
+      "C045",
+      "C050",
+      "C051",
+      "C054"
+    ]
+  },
+  "result_path": "docs/specs/task11e_result.json",
+  "next_step": "Task12 reporting/readiness review only; no locked-test dispatch authorized"
+}

@@ -1,0 +1,8 @@
+{
+  "max_judge_calls": 72,
+  "max_count_calls": 72,
+  "max_spend_usd": 24.0,
+  "max_elapsed_seconds": 1800,
+  "max_input_tokens": 100000,
+  "count_cost_allowance_usd": 0.0
+}

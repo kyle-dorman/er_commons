@@ -418,6 +418,15 @@ supplying its reference answer as B would leak the answer. A replacement scaffol
 requires a separate explicit design decision; this plan creates no additional
 outline review to preserve that diagnostic.
 
+**Task 11 closeout amendment:** The user-accepted [11E condition](../../tasks/sprint2/11e_freeze_development_baseline.md)
+uses invented nonbenchmark examples, a focused conclusion check, shared document
+overview, a 12,288-token output allowance and native unseeded repeats for both
+models. This supersedes the provisional word-limit experiment and zero-shot
+selection below for this development handoff; no 200/400-word comparison or
+zero-shot result is claimed. Task 12 must preserve this condition identity and
+resolve locked-test readiness. The following paragraphs retain the earlier
+planning proposal; they are not outstanding Task 11 experiments.
+
 Do not freeze a 200-word defense limit before the annotation and target pilots.
 Test at least 200- and 400-word limits against varied reviewed reference cases,
 including long official responses, and select the smallest limit that permits
@@ -658,8 +667,9 @@ task records. Later tasks require separate authorization.
    the six tuning cases separately from the remaining 13 development cases;
    neither group supports a held-out performance claim. Retain a three-day
    working timebox as a planning target and declare concrete budgets before runs.
-   11A is complete with [fixed panels and criteria](../specs/task11a_panel_protocol.md);
-   11B is next, pending refresh from that outcome. Later contracts remain provisional.
+   Task 11 is complete with limitations: [11E](../../tasks/sprint2/11e_freeze_development_baseline.md)
+   retains all 114 Luna/Haiku answers (19 questions, three repeats each).
+   Task 12 is next and remains provisional; no further run is active.
 6. **[Task 12 — Finalize reporting and locked-test readiness](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md).**
    Reuse Task 11C integration and 11E saved outputs. Audit no-answer routing,
    exact candidate joins and coverage; finalize aggregate denominators and strict

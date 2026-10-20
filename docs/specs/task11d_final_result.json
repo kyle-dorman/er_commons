@@ -1,0 +1,853 @@
+{
+  "schema_version": "task11d.final_result.v1",
+  "status": "complete_no_acceptable_candidate_within_recorded_limits",
+  "date": "2026-10-17",
+  "data_root": "ER_COMMONS_DATA_ROOT",
+  "validation_namespace": "pipelines/brisbane_baylands/task_11/validation_11d_20261017",
+  "baseline": {
+    "generation_result": "docs/specs/task11b_final_result.json",
+    "evaluation_result": "docs/specs/task11c_final_result.json",
+    "reused_candidates": 3,
+    "reused_judgments": 21,
+    "new_calls": 0,
+    "preserved_failures": {
+      "C017": "C=false",
+      "C019": "S=false"
+    }
+  },
+  "selected_candidate": null,
+  "provisional_initial_incumbent": "docs/prompts/task11d_luna_v3.md",
+  "stop": {
+    "case_id": "C014",
+    "exact_input_tokens": 33922,
+    "max_input_tokens": 32768,
+    "generation_dispatched": false,
+    "reason": "recorded global context/input-cap stop",
+    "spend_or_time_exhausted": false
+  },
+  "runs": [
+    {
+      "generation_namespace": "pipelines/brisbane_baylands/task_11/11d_v2_three_generation",
+      "evaluation_namespace": "pipelines/brisbane_baylands/task_11/11d_v2_three_evaluation",
+      "prompt_sha256": "8f38cf6ff05fa464b50e093739e8199dce760c6d7dc4e854938f1b59c8eebb74",
+      "case_results": [
+        {
+          "identity": {
+            "candidate_id": "fb6e7fcc2b7459f6156874d62b2397ba2662a5acfa4a1162a27f741ef661eeba",
+            "candidate_sha256": "1b57706df33ce9a89c7e3e4a115e00b9bb70b85bb1d44e4d594d4f5632a0c262",
+            "request_sha256": "a55ccbc6eaad853e505266615cd924c363019f70bb871fe5652109a9d4398bf7",
+            "run_id": "0595dc8fa6329cbf6ef5a1f0dec219422d55b60cf305295a6887109587970a82",
+            "case_id": "C041",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "valid",
+          "coverage_complete": true,
+          "evaluation_availability": "completed",
+          "component_results": [
+            {
+              "component": "A",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "classification": "substantive"
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S2",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S3",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S4",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "Q1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "S",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "support_sufficient": true
+              }
+            },
+            {
+              "component": "C",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "conclusion_adequate": true
+              }
+            }
+          ]
+        },
+        {
+          "identity": {
+            "candidate_id": "536cd196e265499d20b44976f3aebbe5bde109b4f81f136e2481f084988c39c1",
+            "candidate_sha256": "fb82925329ce088396a8bd9b48439f8af7f5ce1af6eb86bf76f939cf0a4f5db3",
+            "request_sha256": "0ef3ea464d75b250ce16c0ada2068d1a00a05167607551e5287aa42b0c49d855",
+            "run_id": "0595dc8fa6329cbf6ef5a1f0dec219422d55b60cf305295a6887109587970a82",
+            "case_id": "C017",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "valid",
+          "coverage_complete": true,
+          "evaluation_availability": "completed",
+          "component_results": [
+            {
+              "component": "A",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "classification": "substantive"
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S2",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S3",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "Q1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "S",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "support_sufficient": true
+              }
+            },
+            {
+              "component": "C",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "conclusion_adequate": false
+              }
+            }
+          ]
+        },
+        {
+          "identity": {
+            "candidate_id": "aeb15fac425b8e0e0d5a8222a42cae194966154755c85a9cb9600a82910294b4",
+            "candidate_sha256": "86c17e367195332f794c46311b371f1efc5957977ead02fc1b3e175f4143cd04",
+            "request_sha256": "1319c0dac67f66ea1a0e9fbaeb0456589982e7e2db3a3303bc9060a9a592694e",
+            "run_id": "0595dc8fa6329cbf6ef5a1f0dec219422d55b60cf305295a6887109587970a82",
+            "case_id": "C019",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "valid",
+          "coverage_complete": true,
+          "evaluation_availability": "completed",
+          "component_results": [
+            {
+              "component": "A",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "classification": "substantive"
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "s1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "s2",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "q1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "S",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "support_sufficient": true
+              }
+            },
+            {
+              "component": "C",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "conclusion_adequate": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "generation_namespace": "pipelines/brisbane_baylands/task_11/11d_v3_six_generation",
+      "evaluation_namespace": null,
+      "prompt_sha256": "761a54141946837eec1523c017af1a6d3cc9e435f8f328c12eb04c0bf509bf31",
+      "case_results": [
+        {
+          "identity": {
+            "candidate_id": "8168cb798584df89b4cf89075595f9c40a5d34ea12b17023d991b0d1afd74592",
+            "candidate_sha256": "ee2ee99b98ecf481035a03642a43a4f6dcf83479ca76bfecc69086bf270281cd",
+            "request_sha256": "297dcc2266b99dfb4690d2ccff40c70c27062224778ed75c074902125c47fb63",
+            "run_id": "4b1f44fa8e3593ee7776cfee3d79d663473c3d88438b5db1be5e5a786b0c932b",
+            "case_id": "C041",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "valid",
+          "coverage_complete": false,
+          "evaluation_availability": "unavailable_global_context_stop",
+          "component_results": []
+        },
+        {
+          "identity": {
+            "candidate_id": "a020b97a28ac2fc8a8cfd5ccb3463f738be4175b544b757efe300190eedb0270",
+            "candidate_sha256": "19b781620d00e1e3765c1981c5059012bbe6166b890edbda8bf91a8dbbcb3494",
+            "request_sha256": "cf55a056e8c19cfd31a8d1f8c8f4760c6b037e046ca9ee80fad220e9fd83afcc",
+            "run_id": "4b1f44fa8e3593ee7776cfee3d79d663473c3d88438b5db1be5e5a786b0c932b",
+            "case_id": "C017",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "valid",
+          "coverage_complete": false,
+          "evaluation_availability": "unavailable_global_context_stop",
+          "component_results": []
+        },
+        {
+          "identity": {
+            "candidate_id": "892cc3f7076e23daa2c3362cf9833a768ffebe9dc642e78f35f82f0524c51148",
+            "candidate_sha256": "975b6bf0c94d4c546ca5e21607d6734a9acff23ec7d6daa07a1fc41af96d9c8a",
+            "request_sha256": "808fef3ed8a69ec30d16330f4e21e2fb728b971964c6242c895e93c14f97dcf0",
+            "run_id": "4b1f44fa8e3593ee7776cfee3d79d663473c3d88438b5db1be5e5a786b0c932b",
+            "case_id": "C019",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "valid",
+          "coverage_complete": false,
+          "evaluation_availability": "unavailable_global_context_stop",
+          "component_results": []
+        },
+        {
+          "identity": {
+            "candidate_id": "bd87c0666b04f659770ea1411a9493577c83aeb16c842d02dd12cdf461a7a753",
+            "candidate_sha256": null,
+            "request_sha256": "9cda9699bc382416d1e38630faf44f3752f4f1a09071e0c2f705573cfa253592",
+            "run_id": "4b1f44fa8e3593ee7776cfee3d79d663473c3d88438b5db1be5e5a786b0c932b",
+            "case_id": "C014",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "failed",
+          "coverage_complete": false,
+          "evaluation_availability": "unavailable_global_context_stop",
+          "component_results": []
+        },
+        {
+          "identity": {
+            "candidate_id": null,
+            "candidate_sha256": null,
+            "request_sha256": null,
+            "run_id": "4b1f44fa8e3593ee7776cfee3d79d663473c3d88438b5db1be5e5a786b0c932b",
+            "case_id": "C037",
+            "repeat": null,
+            "attempt": null
+          },
+          "generation_status": "not_dispatched",
+          "coverage_complete": false,
+          "evaluation_availability": "unavailable_global_context_stop",
+          "component_results": []
+        },
+        {
+          "identity": {
+            "candidate_id": null,
+            "candidate_sha256": null,
+            "request_sha256": null,
+            "run_id": "4b1f44fa8e3593ee7776cfee3d79d663473c3d88438b5db1be5e5a786b0c932b",
+            "case_id": "C056",
+            "repeat": null,
+            "attempt": null
+          },
+          "generation_status": "not_dispatched",
+          "coverage_complete": false,
+          "evaluation_availability": "unavailable_global_context_stop",
+          "component_results": []
+        }
+      ]
+    },
+    {
+      "generation_namespace": "pipelines/brisbane_baylands/task_11/11d_v3_three_generation",
+      "evaluation_namespace": "pipelines/brisbane_baylands/task_11/11d_v3_three_evaluation",
+      "prompt_sha256": "761a54141946837eec1523c017af1a6d3cc9e435f8f328c12eb04c0bf509bf31",
+      "case_results": [
+        {
+          "identity": {
+            "candidate_id": "1359e32819bf09983b2babc1a117657d715dedadd135b52f429d50aba4010875",
+            "candidate_sha256": "f5d4c974157951ae2e60dd592e86e51bf3931aba1fafbca8e8b9304ad422a91e",
+            "request_sha256": "297dcc2266b99dfb4690d2ccff40c70c27062224778ed75c074902125c47fb63",
+            "run_id": "816cff3f0385109774bdbaf81816b02bddb70a3866acf750824dbfb2bbff6d1f",
+            "case_id": "C041",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "valid",
+          "coverage_complete": true,
+          "evaluation_availability": "completed",
+          "component_results": [
+            {
+              "component": "A",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "classification": "substantive"
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S2",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S3",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S4",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "Q1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "S",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "support_sufficient": true
+              }
+            },
+            {
+              "component": "C",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "conclusion_adequate": true
+              }
+            }
+          ]
+        },
+        {
+          "identity": {
+            "candidate_id": "94d21c5d128e4bf4bc78c16211840d61be70bbd7a52dfbec9a706bdf71ce4117",
+            "candidate_sha256": "eec7189899561e0a2dd823795fe33e560dcf85e446c9a1045d45228710eabd42",
+            "request_sha256": "cf55a056e8c19cfd31a8d1f8c8f4760c6b037e046ca9ee80fad220e9fd83afcc",
+            "run_id": "816cff3f0385109774bdbaf81816b02bddb70a3866acf750824dbfb2bbff6d1f",
+            "case_id": "C017",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "valid",
+          "coverage_complete": true,
+          "evaluation_availability": "completed",
+          "component_results": [
+            {
+              "component": "A",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "classification": "substantive"
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S2",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S3",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "S4",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "Q1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "Q2",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "S",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "support_sufficient": true
+              }
+            },
+            {
+              "component": "C",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "conclusion_adequate": true
+              }
+            }
+          ]
+        },
+        {
+          "identity": {
+            "candidate_id": "c11097aa1ad02c2896275000339f0f3aafc7dca65d49d52b7981fd743b089df8",
+            "candidate_sha256": "2633f24ba713899b658f56910697f74453aeead4d6dd1ba1b41b62f588f3a532",
+            "request_sha256": "808fef3ed8a69ec30d16330f4e21e2fb728b971964c6242c895e93c14f97dcf0",
+            "run_id": "816cff3f0385109774bdbaf81816b02bddb70a3866acf750824dbfb2bbff6d1f",
+            "case_id": "C019",
+            "repeat": 1,
+            "attempt": 1
+          },
+          "generation_status": "valid",
+          "coverage_complete": true,
+          "evaluation_availability": "completed",
+          "component_results": [
+            {
+              "component": "A",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "classification": "substantive"
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "s1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "s2",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "s3",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "G",
+              "point_id": "q1",
+              "status": "completed",
+              "decision": {
+                "supported": true
+              }
+            },
+            {
+              "component": "S",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "support_sufficient": true
+              }
+            },
+            {
+              "component": "C",
+              "point_id": null,
+              "status": "completed",
+              "decision": {
+                "conclusion_adequate": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "calls": {
+    "generation": 9,
+    "judge": 45,
+    "count": 55,
+    "transport_retries": 0,
+    "semantic_retries": 0,
+    "stability_repeats": 0
+  },
+  "budget": {
+    "max_generation_calls": 24,
+    "max_judge_calls": 288,
+    "max_count_calls": 312,
+    "ceiling_usd": 100,
+    "ledger_reserved_usd": 26.146176,
+    "maximum_contract_liability_usd": 97.114368,
+    "actual_count_attempt_allowance_usd": 16.5,
+    "actual_count_cost_usd": null,
+    "estimated_token_cost_usd": 0.023086605,
+    "provider_enforced_spend_cap": false,
+    "unused_reservations_refunded": false
+  },
+  "usage": {
+    "input_tokens_including_cache": 120225,
+    "output_tokens_including_reasoning": 23919
+  },
+  "validation": {
+    "make_fix": "passed",
+    "make_check": "passed",
+    "tests_passed": 4067,
+    "tests_skipped": 1,
+    "git_diff_check": "passed",
+    "baseline_no_call_replay": "verified",
+    "new_evaluation_no_call_replays": 2,
+    "protected_inputs_unchanged": true,
+    "independent_review": "no_unresolved_blockers"
+  },
+  "limitations": [
+    "No complete six-case evaluation or stability repeat; no prompt selected for11E.",
+    "All six remain tuning cases; initial-three success is not broad performance.",
+    "Stopped-six C019 reasoning detail regressed versus initial v3; support sufficiency unassessed.",
+    "Provider aliases and frozen development-selected judges limit reproducibility and independent validity.",
+    "Exact C014 request exceeded the operational input cap although model context is larger.",
+    "Token estimates are not invoices; counting billing remains unknown."
+  ],
+  "next_action": "Separately refresh a bounded fixed-six follow-up contract before any input-cap change or calls; do not begin11E.",
+  "remaining13_evaluated": false,
+  "locked_test_or_reserved_content_accessed": false,
+  "task10_or_frozen_judges_modified": false,
+  "artifacts": {
+    "pipelines/brisbane_baylands/task_11/11d_v2_three_generation/completion.json": {
+      "sha256": "39547c5209a05af8f090e9f3ede4b56c66aa35837bc55a3de71192edfe806565",
+      "byte_size": 7085
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v2_three_generation/manifest.json": {
+      "sha256": "46a7f7033f229549fa4d2758067b5f6988f87b7d18f046c8490c00109b3d262a",
+      "byte_size": 2361
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v2_three_generation/summary.json": {
+      "sha256": "719b0aad6bcb21493a90c46321168443905578d15fa661841dd2776e2deed6e3",
+      "byte_size": 2198
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v2_three_evaluation/completion.json": {
+      "sha256": "984df50df9925ab7e17174be5e7a46d2b1bd9481544a04c166d705843d6f1c1a",
+      "byte_size": 67297
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v2_three_evaluation/manifest.json": {
+      "sha256": "45e42dde9c9a4fcedd88f72afa5d4425b32b6988c3d5b80b12dd4f40def9e38a",
+      "byte_size": 6466
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v2_three_evaluation/summary.json": {
+      "sha256": "94249c30aa79a032e91dc3dda5d38d32f18536f0d58ed79a1c1173c5f416b879",
+      "byte_size": 181
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v3_six_generation/completion.json": {
+      "sha256": "81ccbd2a68fda3893dfb14100aa624aa2cb1edcce1e702a0307a059c2fa687a0",
+      "byte_size": 9084
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v3_six_generation/manifest.json": {
+      "sha256": "6b008651a52040202705983fb053f363cf3b3d3814a6a4af1fce9cadcd353751",
+      "byte_size": 2602
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v3_six_generation/summary.json": {
+      "sha256": "0179e9418d10fc4817360a7fcb60e973990602a82caaa04cd075f483cf3ac2ee",
+      "byte_size": 3191
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v3_three_generation/completion.json": {
+      "sha256": "c85c147a135d963e15f2ed06596bc7c41ee07077c5416b6c472066cd00b350a2",
+      "byte_size": 7085
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v3_three_generation/manifest.json": {
+      "sha256": "cbc24c9241eaae022d37a7962b7031ad0ca98bc32dd91ae070f91d9d98504ab9",
+      "byte_size": 2361
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v3_three_generation/summary.json": {
+      "sha256": "df51db04b32a9e71a80fac4a3478a9f611034d9e8a1cce02a41b6dd8498d4ee4",
+      "byte_size": 2199
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v3_three_evaluation/completion.json": {
+      "sha256": "05a559e7146d356dcd04390cb9ff0d1568f835af6bdbcb5739bd6f79ef75e5b9",
+      "byte_size": 76715
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v3_three_evaluation/manifest.json": {
+      "sha256": "cd48bbba602976bbe69d16f6098a3146c04e441fbfe9c0f9b90037d1ac3fbe55",
+      "byte_size": 6457
+    },
+    "pipelines/brisbane_baylands/task_11/11d_v3_three_evaluation/summary.json": {
+      "sha256": "eebbfc18bb550f4195be69006b1af65f0930069f0d3d5644b98fc98c99de1fec",
+      "byte_size": 172
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/protected_before.json": {
+      "sha256": "fe8e0a47cfd599d2d0603266ee677644a8c6efd172ab5f93035462de44177b34",
+      "byte_size": 3749
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/run_audit.json": {
+      "sha256": "4d9d14e4b926478728a2d84d2023f7c0eee028ae832eb60040404862720c7a55",
+      "byte_size": 1647
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/v3_three_decision.json": {
+      "sha256": "446db87b1f4bdf0d8708301c3772a8ef090f127d366b4a58824c4249306d38bd",
+      "byte_size": 717
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/comparison.md": {
+      "sha256": "15ee6939490afcd9d08564becdbbd238ab54751fff0c875899de2736116d90a5",
+      "byte_size": 3015
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/v2_three_decision.json": {
+      "sha256": "d00bac111f2d799369c36afdc294fce02f5cefddced8a37040fbda4db43a6138",
+      "byte_size": 827
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/make_fix.log": {
+      "sha256": "0b1d9831ca0c6dfe346d18ef1c0641dcbbb4bbd1f8baba4f1744f606492713b5",
+      "byte_size": 91
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/final_outcome_review.json": {
+      "sha256": "d219aaa00f3b20db6125a0f1a3dfc9fd5bced12e3b35071d17b39527b55be30c",
+      "byte_size": 317
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/dispatch.py": {
+      "sha256": "6438ce5aac942f83e91e639832ce0e332ea98757a4985feeaebdcf5771dfdcf7",
+      "byte_size": 2179
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/comparison_summary.log": {
+      "sha256": "0eb8e4c93bb7f5951503071c62d55dca51f350609b61ec025ee0f39a751353b6",
+      "byte_size": 1963
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/baseline_replay.log": {
+      "sha256": "c785e6b7ed2df26dedbd569697ddc9f8cd71fb126ba21c5c5b967966af54177e",
+      "byte_size": 54469
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/baseline_manual_review.json": {
+      "sha256": "0c4bb272c48f9d427154f9f73b1b05a3641d747a39d64c3d9fd5bbd3d1b150a4",
+      "byte_size": 802
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/v3_six_decision.json": {
+      "sha256": "918b3ecfb64ef512c2c40ff3043c7727636e2d818be9922b5ae0856b76ba7e37",
+      "byte_size": 1772
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/run_audit.log": {
+      "sha256": "9726d5fbb2cfea6de1f39d1de1a857825dfc2b73538ff76c80eee74652207840",
+      "byte_size": 1479
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/summarize.py": {
+      "sha256": "a331c3a146bb165e1e03693bfe0415afe83caa622c2ce50d8192c385c2062e20",
+      "byte_size": 3473
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/comparison.json": {
+      "sha256": "4b6b1f5204bcabea48313460af88e004965abff65d1193918f4120d48b5dc9ab",
+      "byte_size": 168071
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/v3_six_generation.log": {
+      "sha256": "ffde146561a2f3420ce5be00def2233583b4502646b7ed7430d4650c7aad0d8f",
+      "byte_size": 4324
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/make_check.log": {
+      "sha256": "64b271523068c11102d3fd70acf8a0fe086b7c6e5ec7fbea8eb79d4b719e33b5",
+      "byte_size": 27243
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/pre_dispatch_review.json": {
+      "sha256": "078a3e0de77a035672430e09dbff404fdcd662c9c00454fe6cc51ca594e9e58d",
+      "byte_size": 783
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/v2_three_generation.log": {
+      "sha256": "dc4feb68576b091b99dbee07aa84eb2827d3e2393add4e54d20ae3b8b1e0dd2b",
+      "byte_size": 3182
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/audit_runs.py": {
+      "sha256": "4cd69369ef5905744b3f206dcff69c85f3e3fb63ab9bae0b4e22b5df172452ea",
+      "byte_size": 2845
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/reservations.jsonl": {
+      "sha256": "c88ee2d57c7df2997b7193831c1ce9714838c60b2fd8c8d1e4652c164b8e257e",
+      "byte_size": 1025
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/v3_three_evaluation.log": {
+      "sha256": "1cc625ba84b4da8f32a55f743c84fe0ed67adf97205ececf4e2d0ee6c077916a",
+      "byte_size": 4895
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/pre_dispatch_source.tar.gz": {
+      "sha256": "d3e85d52ffcad2d66106b3921bd9040fc1e51bba269e34be5aeee05b75666b94",
+      "byte_size": 579521
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/git_diff_check.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byte_size": 0
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/preflight.json": {
+      "sha256": "11247ce380795668f599f018bd51dd5ccfcfc318f6178cc2bf882d276929371e",
+      "byte_size": 13540
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/publish_result.py": {
+      "sha256": "6543885fac3195b8d92dc5fd1b86bd1b0bc79ed62ef627b4426053ab904f5be0",
+      "byte_size": 4724
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/v2_three_evaluation.log": {
+      "sha256": "64777261224797cc755c38bcf8107f9f1abb236505979d28dff11fa9ecafb63d",
+      "byte_size": 4355
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/final_independent_audit.json": {
+      "sha256": "5c6d9a96b30c2e60d155b4dbe20c6b09101da7cc6edd10df76cc2b1f5c18e912",
+      "byte_size": 696
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/v3_three_generation.log": {
+      "sha256": "949499059e0c22e8d6fee6947016b70a066972fa35f39d0b65ad0fc0a71e7fb2",
+      "byte_size": 3183
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/preflight.py": {
+      "sha256": "2651d87569bae0f33d901b62d80e0f932982362d8c4f83c77a75f57ce9b55aa9",
+      "byte_size": 2076
+    },
+    "pipelines/brisbane_baylands/task_11/validation_11d_20261017/completion.json": {
+      "sha256": "f66ff202d08a0c0f48eab640e0035279b22dcafcde45989f8c75539c6b6b3368",
+      "byte_size": 3759
+    }
+  },
+  "repository_bindings": {
+    "docs/prompts/task11d_luna_v2.md": {
+      "sha256": "8f38cf6ff05fa464b50e093739e8199dce760c6d7dc4e854938f1b59c8eebb74",
+      "byte_size": 2217
+    },
+    "docs/prompts/task11d_luna_v3.md": {
+      "sha256": "761a54141946837eec1523c017af1a6d3cc9e435f8f328c12eb04c0bf509bf31",
+      "byte_size": 2914
+    },
+    "configs/task11d_luna_panel3_v1.json": {
+      "sha256": "98c6ccc67e29b0b3c89c77f2cffbdf848341c8444dfc9da2b96cc72e434238d1",
+      "byte_size": 932
+    },
+    "configs/task11d_evaluation_six_v1.json": {
+      "sha256": "55a193acc338d1b492af3518e341202cde3d5f20e288ba08bcaf1a844ad2f945",
+      "byte_size": 109
+    },
+    "configs/task11d_luna_panel6_v1.json": {
+      "sha256": "3b1797544ab8d0bb75d5721a08ce204923a7655dccc7cc2910b25b5e89f80f0b",
+      "byte_size": 932
+    }
+  }
+}
