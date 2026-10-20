@@ -423,8 +423,9 @@ uses invented nonbenchmark examples, a focused conclusion check, shared document
 overview, a 12,288-token output allowance and native unseeded repeats for both
 models. This supersedes the provisional word-limit experiment and zero-shot
 selection below for this development handoff; no 200/400-word comparison or
-zero-shot result is claimed. Task 12 must preserve this condition identity and
-resolve locked-test readiness. The following paragraphs retain the earlier
+zero-shot result is claimed. Task 12 preserved this condition identity and
+established reporting readiness; Task 13 still requires execution caps and its
+locked-only adapter. The following paragraphs retain the earlier
 planning proposal; they are not outstanding Task 11 experiments.
 
 Do not freeze a 200-word defense limit before the annotation and target pilots.
@@ -663,18 +664,22 @@ task records. Later tasks require separate authorization.
    checks and frozen A/G/S/C judges; 11D cycles on the prompt using three then
    six questions; 11E freezes a candidate and checks all 19 development questions
    with bounded repeatability checks. Preserve exact request/output identities,
-   complete evidence, citations, abstention and context/output checks. Report
-   the six tuning cases separately from the remaining 13 development cases;
-   neither group supports a held-out performance claim. Retain a three-day
-   working timebox as a planning target and declare concrete budgets before runs.
+   complete evidence, citations, abstention and context/output checks. Preserve
+   six/thirteen exposure identities in provenance; the current presentation pools
+   all 19 development questions under the accepted reporting policy. Development
+   results do not support a held-out performance claim.
    Task 11 is complete with limitations: [11E](../../tasks/sprint2/11e_freeze_development_baseline.md)
    retains all 114 Luna/Haiku answers (19 questions, three repeats each).
-   Task 12 planning is refreshed and is next; no further run is active.
-6. **[Task 12 — Tables, charts and reporting](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md).**
-   Reuse 11C/11E and the cleaned 11F code. Build both-model component/automatic/joint
-   results, three-repeat at-least-once/every-time summaries, historical judge-label
-   accuracy/F1 and Luna citation/section/document association plots. Freeze
-   denominators, routing and reporting before test. No new calls or full human audit.
+   Task 12 reporting is complete; no further run is active.
+6. **[Task 12 — Tables, charts and reporting](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md): complete offline.**
+   The [frozen report contract](../specs/task12_reporting_v1.md) and
+   [result](../specs/task12_result.json) own definitions and readiness.
+   Reports include both-model component/automatic/joint results, three-repeat
+   at-least-once/every-time summaries, synthetic judge accuracy/repeatability and
+   Luna citation-occurrence/response-unit/document associations. The
+   [12A maintenance pass](../../tasks/sprint2/12a_reporting_code_quality.md) is closed;
+   use the [maintainer guide](../reporting_maintainer_guide.md) and its current
+   definition amendments. No new calls or full human audit were performed.
 7. **[Task 13 — Locked evaluation](../../tasks/sprint2/13_run_locked_test.md).**
    After activation and readiness, run both frozen models on all 30 held-out cases,
    three repeats each (180 planned target answers). Retain every failure and use

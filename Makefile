@@ -19,6 +19,7 @@ help:
 	@echo "  make bootstrap   Install dependencies and create external data directories"
 	@echo "  make about       Describe the current project scope"
 	@echo "  make paths       Show the configured external data/artifact paths"
+	@echo "  make report-development REPORT_OUTPUT=PATH  Replay sealed Task 11E tables/charts offline"
 	@echo "  make freeze-brisbane-sources  Freeze the reviewed Brisbane source release"
 	@echo "  make verify-brisbane-sources  Verify the frozen release without network access"
 	@echo "  make validate-collection-contract  Validate the current v2 contract fixtures"
@@ -54,6 +55,11 @@ about: check-env
 
 paths: check-env
 	uv run er-commons paths
+
+.PHONY: report-development
+report-development: check-env
+	@test -n "$(REPORT_OUTPUT)" || (echo "REPORT_OUTPUT=PATH is required"; exit 1)
+	uv run --offline --env-file "$(ENV_FILE)" python -m er_commons.reporting_run --output "$(REPORT_OUTPUT)"
 
 freeze-brisbane-sources: check-env
 	uv run er-commons sources freeze \

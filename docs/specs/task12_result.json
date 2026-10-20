@@ -1,0 +1,384 @@
+{
+  "schema_version": "task12.result.v1",
+  "status": "complete_with_limitations",
+  "namespace": "pipelines/brisbane_baylands/task_12/reporting_20261020_v1",
+  "artifact_root": "ER_COMMONS_DATA_ROOT",
+  "reporting_contract": {
+    "path": "docs/specs/task12_reporting_v1.md",
+    "sha256": "6774866a10e237740f37510a330093742fd43d3a4e0a4af920c1cff3b63e5cbb",
+    "byte_size": 10874
+  },
+  "source_handoff": {
+    "path": "docs/specs/task11e_result.json",
+    "sha256": "e1aa7740b5b5accd70ea0b1d42f24eea408d0c8a0f23d3f60bb42781156dcbe3",
+    "byte_size": 125947
+  },
+  "source_frozen_configuration": {
+    "path": "docs/specs/task11e_frozen_generation_v1.json",
+    "sha256": "b4cc971c66db299faa908480b2ede530d804097b82263a0008822a2d7ea4da6c",
+    "byte_size": 4631
+  },
+  "manifest": {
+    "path": "pipelines/brisbane_baylands/task_12/reporting_20261020_v1/manifest.json",
+    "sha256": "e058cdb7b5d4155c1b602f69cb3351f6d162a123d8b2de23fac9e22f7fe1467b",
+    "byte_size": 1519127
+  },
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_12/reporting_20261020_v1/completion.json",
+    "sha256": "8c07839a77f8986415b9a3bc1379088b683af6264d64bee01b2e7c18cafbd1b0",
+    "byte_size": 6364
+  },
+  "replay": {
+    "new_calls": 0,
+    "planned_answers": 114,
+    "recomputed_answers": 114,
+    "identical_second_publication": "all_output_bytes_verified"
+  },
+  "table_rows": {
+    "answers": 114,
+    "bounded_audit": 8,
+    "citation_results": 24,
+    "complexity": 216,
+    "judge_agreement": 16,
+    "judge_confusion": 53,
+    "judge_observations": 2208,
+    "judge_sources": 6,
+    "model_results": 144,
+    "point_results": 72,
+    "points": 635,
+    "questions": 228,
+    "repeatability": 36
+  },
+  "charts": [
+    "judge_agreement.png",
+    "luna_complexity.png",
+    "model_results.png",
+    "question_overview.png",
+    "repeatability.png",
+    "returned_citations.png"
+  ],
+  "model_results": [
+    {
+      "model": "haiku",
+      "component": "A",
+      "pass": 57,
+      "fail": 0,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "haiku",
+      "component": "G",
+      "pass": 14,
+      "fail": 43,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "haiku",
+      "component": "S",
+      "pass": 52,
+      "fail": 5,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "haiku",
+      "component": "C",
+      "pass": 35,
+      "fail": 22,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "haiku",
+      "component": "automatic",
+      "pass": 57,
+      "fail": 0,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "haiku",
+      "component": "joint",
+      "pass": 6,
+      "fail": 51,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "luna",
+      "component": "A",
+      "pass": 57,
+      "fail": 0,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "luna",
+      "component": "G",
+      "pass": 48,
+      "fail": 9,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "luna",
+      "component": "S",
+      "pass": 55,
+      "fail": 2,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "luna",
+      "component": "C",
+      "pass": 37,
+      "fail": 20,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "luna",
+      "component": "automatic",
+      "pass": 57,
+      "fail": 0,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    },
+    {
+      "model": "luna",
+      "component": "joint",
+      "pass": 29,
+      "fail": 28,
+      "unavailable": 0,
+      "planned": 57,
+      "complete_evaluations": 57
+    }
+  ],
+  "joint_repeatability": [
+    {
+      "at_least_once": 3,
+      "complete_triples": 6,
+      "component": "joint",
+      "evaluation_complete_triples": 6,
+      "every_time": 0,
+      "exposure_group": "fixed_six",
+      "mixed_applicability_triples": 0,
+      "model": "haiku",
+      "not_applicable_triples": 0,
+      "passes_0": 3,
+      "passes_1": 3,
+      "passes_2": 0,
+      "passes_3": 0,
+      "planned_questions": 6,
+      "split": "development",
+      "unresolved_triples": 0
+    },
+    {
+      "at_least_once": 2,
+      "complete_triples": 13,
+      "component": "joint",
+      "evaluation_complete_triples": 13,
+      "every_time": 0,
+      "exposure_group": "remaining_thirteen",
+      "mixed_applicability_triples": 0,
+      "model": "haiku",
+      "not_applicable_triples": 0,
+      "passes_0": 11,
+      "passes_1": 1,
+      "passes_2": 1,
+      "passes_3": 0,
+      "planned_questions": 13,
+      "split": "development",
+      "unresolved_triples": 0
+    },
+    {
+      "at_least_once": 5,
+      "complete_triples": 19,
+      "component": "joint",
+      "evaluation_complete_triples": 19,
+      "every_time": 0,
+      "exposure_group": "all",
+      "mixed_applicability_triples": 0,
+      "model": "haiku",
+      "not_applicable_triples": 0,
+      "passes_0": 14,
+      "passes_1": 4,
+      "passes_2": 1,
+      "passes_3": 0,
+      "planned_questions": 19,
+      "split": "development",
+      "unresolved_triples": 0
+    },
+    {
+      "at_least_once": 5,
+      "complete_triples": 6,
+      "component": "joint",
+      "evaluation_complete_triples": 6,
+      "every_time": 4,
+      "exposure_group": "fixed_six",
+      "mixed_applicability_triples": 0,
+      "model": "luna",
+      "not_applicable_triples": 0,
+      "passes_0": 1,
+      "passes_1": 0,
+      "passes_2": 1,
+      "passes_3": 4,
+      "planned_questions": 6,
+      "split": "development",
+      "unresolved_triples": 0
+    },
+    {
+      "at_least_once": 9,
+      "complete_triples": 13,
+      "component": "joint",
+      "evaluation_complete_triples": 13,
+      "every_time": 0,
+      "exposure_group": "remaining_thirteen",
+      "mixed_applicability_triples": 0,
+      "model": "luna",
+      "not_applicable_triples": 0,
+      "passes_0": 4,
+      "passes_1": 3,
+      "passes_2": 6,
+      "passes_3": 0,
+      "planned_questions": 13,
+      "split": "development",
+      "unresolved_triples": 0
+    },
+    {
+      "at_least_once": 14,
+      "complete_triples": 19,
+      "component": "joint",
+      "evaluation_complete_triples": 19,
+      "every_time": 4,
+      "exposure_group": "all",
+      "mixed_applicability_triples": 0,
+      "model": "luna",
+      "not_applicable_triples": 0,
+      "passes_0": 5,
+      "passes_1": 3,
+      "passes_2": 7,
+      "passes_3": 4,
+      "planned_questions": 19,
+      "split": "development",
+      "unresolved_triples": 0
+    }
+  ],
+  "citation_results": [
+    {
+      "answers_with_invalid_ids": 0,
+      "delivered_units": 243,
+      "delivery_audit_available": 57,
+      "eligible": 57,
+      "exposure_group": "all",
+      "hits": 193,
+      "invalid_id_audit_available": 57,
+      "invalid_token_observations": 0,
+      "macro_f1": 0.9747574063363537,
+      "macro_precision": 1.0,
+      "macro_recall": 0.956766917293233,
+      "micro_f1": 0.9722921914357683,
+      "micro_precision": 1.0,
+      "micro_recall": 0.946078431372549,
+      "model": "haiku",
+      "neutral_count": 23,
+      "not_applicable": 0,
+      "planned": 57,
+      "precision_denominator": 193,
+      "repeat": 0,
+      "split": "development",
+      "supplied_units": 243,
+      "support_count": 204,
+      "unavailable": 0,
+      "verified_delivery_answers": 57
+    },
+    {
+      "answers_with_invalid_ids": 0,
+      "delivered_units": 243,
+      "delivery_audit_available": 57,
+      "eligible": 57,
+      "exposure_group": "all",
+      "hits": 163,
+      "invalid_id_audit_available": 57,
+      "invalid_token_observations": 0,
+      "macro_f1": 0.8823232323232323,
+      "macro_precision": 1.0,
+      "macro_recall": 0.8133249791144528,
+      "micro_f1": 0.888283378746594,
+      "micro_precision": 1.0,
+      "micro_recall": 0.7990196078431373,
+      "model": "luna",
+      "neutral_count": 12,
+      "not_applicable": 0,
+      "planned": 57,
+      "precision_denominator": 163,
+      "repeat": 0,
+      "split": "development",
+      "supplied_units": 243,
+      "support_count": 204,
+      "unavailable": 0,
+      "verified_delivery_answers": 57
+    }
+  ],
+  "section_count_unavailable": {
+    "luna": 18,
+    "haiku": 19
+  },
+  "validation": {
+    "focused_reporting_tests_passed": 26,
+    "make_fix": "passed",
+    "make_check": "passed",
+    "full_tests_passed": 4227,
+    "skipped": 1,
+    "warnings": 89,
+    "git_diff_check": "passed",
+    "visual_qa": "six_figures_inspected_and_layout_corrected",
+    "log": {
+      "path": "pipelines/brisbane_baylands/task_12/validation_20261020_v1/make_check.log",
+      "sha256": "05fe43aaf1126553af54a675d38e015cc0716b9644268284a27a546dd5377bbe",
+      "byte_size": 28198
+    },
+    "independent_review": {
+      "path": "pipelines/brisbane_baylands/task_12/validation_20261020_v1/independent_review.json",
+      "sha256": "a74a745c816a3834add87d6d5b2522398cb9827e8a6425bea972241866971dea",
+      "byte_size": 3585
+    }
+  },
+  "readiness": {
+    "limitations": [
+      "Development exposure includes both original six and additional thirteen.",
+      "Historical judge agreement is not human-gold or fresh held-out validation.",
+      "No quality threshold is invented after development inspection.",
+      "Stable parent-section mapping is absent for table citation units.",
+      "Frozen scores retain previously reviewed evaluator disagreements."
+    ],
+    "locked_test_execution_authorized": false,
+    "next": "Task 13 must separately authorize and bind its locked-only input adapter and planned 2 \u00d7 30 \u00d7 3 slots; reuse these frozen reducers and definitions.",
+    "reporting_contract_ready": true,
+    "tasks_13_15": "provisional"
+  },
+  "boundaries": {
+    "model_calls": 0,
+    "counting_calls": 0,
+    "network_fetches": 0,
+    "locked_or_reserved_content_inspected": false,
+    "prompt_or_judge_changes": false,
+    "sealed_inputs_modified": false,
+    "new_human_labels": 0,
+    "committed": false,
+    "pushed": false
+  }
+}

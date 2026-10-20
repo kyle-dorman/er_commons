@@ -38,7 +38,10 @@ working target is roughly 1,500–2,500 words plus selected figures/tables.
    Report existing judge-label agreement and limitations without claiming new human
    calibration. A delivery receipt is not proof of cognitive reading; retrieval
    metrics are N/A for the supplied-evidence condition.
-5. **Results.** Select Task 12/13 figures showing both models, component/joint
+5. **Results.** Use Task 13's 30-test-question figures as the main model results.
+   Task 12's pooled 19-development-question views are a reporting preview, not
+   the main results. Historical judge accuracy uses separate populations.
+   Select figures showing both models, component/joint
    performance, observed at-least-once/every-time success, automatic citation
    measures, and the predeclared Luna citation/section/document associations.
    Keep development and locked results separate; show denominators and availability.

@@ -1,8 +1,13 @@
 # Task 12 — Build results tables, charts and locked-test reporting
 
-Status: planning refreshed 2026-10-20; next, not active. Bind accepted 09G,
-Task 10 and Task 11 outcomes before implementation. This contract assigns deferred reporting work;
+Status: Complete with limitations 2026-10-20; offline reporting frozen. Accepted 09G,
+Task 10 and Task 11 outcomes are bound by the result pointer. This contract owns reporting;
 it does not authorize judge calls, target generation or locked-test access.
+
+Current complexity counts follow the [response-unit correction](../../docs/specs/task12_response_units_v4.md).
+Current presentation follows the user-approved [v2 amendment](../../docs/specs/task12_presentation_v2.md):
+report all 19 development questions together. Earlier six/thirteen views below
+remain historical technical provenance; Task 13 supplies the main 30-test results.
 
 ## Abstract
 
@@ -218,9 +223,161 @@ historical artifacts; locked-test execution; commit or push.
 
 ## Outcome
 
-Planning updated for the user-approved Task 12–15 split: tables/charts here,
-locked execution in 13, selective review in 14, concise writeup in 15.
-No implementation, generation, evaluation or locked-test access has run under this
-contract. Refresh from accepted Task 11C/11E outcomes before activation. Task 13
-owns locked execution using the frozen reporting contract; Task 14 owns selective
-review and Task 15 the short methods/results writeup.
+Completed offline reporting with documented limitations. The maintained package
+replays all 114 accepted 11E plans/reports exactly and publishes machine-readable
+JSON/CSV plus six shareable PNG/SVG figures. The [frozen reporting contract](../../docs/specs/task12_reporting_v1.md)
+owns definitions, eligibility, missing/error/abstention handling and fixed bins;
+the [result pointer](../../docs/specs/task12_result.json) binds exact provenance,
+publication and validation. Tasks 13–15 remain provisional.
+
+### Original sealed publication and results
+
+Designated external namespace:
+`pipelines/brisbane_baylands/task_12/reporting_20261020_v1/`.
+It contains 13 paired JSON/CSV tables, six paired PNG/SVG figures, README,
+manifest and completion seal. The 114 answer rows preserve exact identities,
+raw component statuses/errors and automatic diagnostics; 635 point rows preserve
+required support/qualification identities. Separate tables retain per-repeat,
+per-question, point/answer, exposure-group, citation, complexity and historical
+judge-label populations. Replaying the same command reproduced every output byte.
+
+| Model / development exposure | Joint answers | At least once / questions | Every time / questions |
+| --- | --- | --- | --- |
+| Luna, all development | 29/57 | 14/19 | 4/19 |
+| Haiku, all development | 6/57 | 5/19 | 0/19 |
+
+All observed triples are complete. Luna's 0/1/2/3 joint-pass distribution is
+5/3/7/4 questions; Haiku's is 14/4/1/0. Luna G passes 209/218 points and
+48/57 whole answers; Haiku passes 346/417 points and 14/57 whole answers.
+A and automatic validity pass 57/57 for each model; S is 55/57 versus 52/57,
+and C is 37/57 versus 35/57. No prior review changed frozen decisions.
+
+Returned-citation macro precision/recall/F1 is 1.000/0.813/0.882 for Luna
+and 1.000/0.957/0.975 for Haiku. Micro values are 1.000/0.799/0.888 and
+1.000/0.946/0.972 respectively. All 114 citation records are eligible with no
+invalid IDs; exact delivery is verified for all 114. These measure reference
+matching and input delivery, not semantic grounding or retrieval. Retrieval
+remains N/A. Stable section counts are unavailable for 37/114 answers
+(18 Luna, 19 Haiku) because table units lack stable parent-section mappings.
+Canonical citation/document counts remain available; headings are never substituted.
+
+Historical judge accuracy is reported separately: A 914/930, G 1822/1833,
+S 1427/1470, C 735/738. All these predictions are valid in their saved populations.
+The 16 agreement rows include A class-wise metrics, binary positive-class metrics,
+macro-F1, confusion counts and reconstructable exposure partitions. A subgroup
+confusions unavailable in the saved summaries stay null. Labels include
+agent-reviewed/model-proposed expectations, not human gold; these are not fresh
+held-out accuracy estimates and cannot be multiplied into joint accuracy.
+
+### Review, fixes and learning
+
+Bounded independent work reviewed input seals/joins, historical metric populations,
+routing and denominators, then audited the final publication. Every candidate
+was replayed programmatically; the additional fixed audit covers repeat1 of
+C041/C014/C001/C008 for both models. Accepted 11E source/publication/audit/manual
+summary records and 09G calibration records remain provenance. No comprehensive
+human review or new semantic labeling was performed.
+
+Review drove explicit fixes: preserve known failures alongside unavailable
+components; retain expected missing G points in point denominators; distinguish
+outcome resolution from complete evaluation; keep clean-abstention G/S/C N/A;
+keep an undispatched A unavailable on malformed answers; render zero-eligible
+citation panels explicitly; preserve A/S/C raw statuses and hashes; freeze current
+evaluator dependencies as well as reporting modules. The final independent audit
+verified all 40 sealed output files, 655 implementation bindings and 4,197 consumed
+input bindings, plus every model/point/citation/repeat aggregate, with no findings.
+
+The offline learning checkpoint inspected installed Inspect interfaces and reused
+the existing pure evaluator/metric models. Matplotlib was installed entirely from
+the local cache and locked, giving maintained static rendering without a dashboard
+or custom graphics framework. JSON/CSV use the standard library. Separate judge
+inputs protect information boundaries but do not make their errors independent;
+only a same-answer conjunction measures observed joint success.
+
+### Validation and next boundary
+
+Twenty-six focused reporting tests cover seal mutation, identity/citation counts,
+confusion arithmetic, partial evaluations, abstention, missing point rosters,
+three-repeat denominators, split isolation and unavailable chart rendering.
+`make fix`, `make check` and `git diff --check` passed: 4,227 tests passed,
+one skipped, 89 existing dependency warnings; formatting, lint and types passed.
+The result pointer retains the full validation log. Six figures were visually inspected; label overlap was corrected before
+publication. An identical second publication verified byte-for-byte replay.
+
+Reporting readiness is established for the frozen definitions and shared reducers.
+Task 13 still requires separate activation, concrete call/time/token/spending
+caps and a verified locked-only input adapter for 180 planned slots. Its adapter
+must not repurpose the development-only loader; it must preserve the same report
+contract. No test/reserved content was inspected; no model/counting calls, prompt
+or judge tuning, source artifact changes, commits or pushes occurred.
+
+### Presentation follow-up
+
+The user requested one clean review folder and pooled development reporting.
+`development_19_review/` contains six final PNG/SVG figures, eight relevant CSV
+tables and `START_HERE.html`, with no intermediate or raw-run files.
+The model chart and question overview now treat all 19 as one group; historical
+judge accuracy keeps its own populations and calibration partitions.
+The [v2 presentation policy](../../docs/specs/task12_presentation_v2.md) supersedes
+only display grouping. Scoring, denominators, bins and sealed inputs are unchanged.
+Task 13 will repeat this presentation for the 30 test questions as the main
+model-results evidence. Tasks 13–15 remain provisional.
+
+The presentation follow-up passed bounded independent review, visual checks,
+`make fix`, `make check` (4,227 passed, one skipped), and `git diff --check`.
+The adjacent review provenance/validation files preserve evidence without adding
+intermediates to the user-facing folder.
+
+### Synthetic judge repeatability follow-up
+
+Added [same-item judge repeatability](../../docs/specs/task12_judge_repeatability_v3.md)
+from saved synthetic-dataset predictions: A 307/310 at least once and 302/310 all
+three; G 611/611 and 604/611; S 485/490 and 464/490; C 246/246 and 244/246.
+All 1,657 triples are complete. Reconstructed 4,971 predictions reproduce the
+existing per-judge accuracy counts, preserving all original labels/judges.
+The clean folder now includes seven final figures and ten CSV tables, including
+aggregate and per-item judge repeatability. The gallery labels this explicitly
+as judge accuracy on synthetic datasets. Previous review outputs and sealed
+source reports remain preserved; no model/counting calls or new labels occurred.
+
+The judge repeatability supplement passed bounded independent review, including
+native epoch ordering and exact partition/count reconciliation. `make fix`,
+`make check` (4,233 passed, one skipped), visual inspection of both judge figures,
+and `git diff --check` passed. The adjacent provenance and validation receipt
+record this update; the previous presentation is retained separately.
+
+### Response-unit and citation-occurrence correction
+
+The user clarified that independently citable sections and tables are separate
+response units, and each reuse in an answer is another citation occurrence.
+The [v4 definition](../../docs/specs/task12_response_units_v4.md) replaces the
+parent-section requirement for complexity reporting. All 114 answers now have
+complete response-unit counts; the earlier 37-answer unavailability no longer
+applies to this metric. Saved records retain 1,233 resolved citation occurrences.
+For example, Luna C017 repeat 1 has six citation occurrences, two response units
+(one section and one table), and one document. The current frozen citation
+contract does not yet expose separate figure-caption IDs; none are invented.
+
+The clean review folder has seven PNG/SVG figures and eleven CSV tables,
+including `answer_complexity.csv` with exact answer identities and count types.
+All nine non-complexity tables remain byte-identical. Citation matching scores
+still use distinct canonical units, with optional context neutral. The original
+sealed report and prior presentations are preserved. Task 13 inherits the new
+counting definitions without authorization to execute or inspect locked inputs.
+
+Bounded independent review confirmed raw occurrence preservation, exact identities,
+unchanged outcomes, and explicit unavailable counts for unextractable malformed
+fields. All 22 focused tests passed; both old and new complexity charts were
+visually checked. Legacy `invalid_ids` retains its existing broader nonresolved-ID
+semantics; the new occurrence fields distinguish each resolution status.
+
+Final validation: `make fix`, `make check` (4,237 passed, one skipped), and
+`git diff --check` passed. Current review provenance binds the policy, code,
+outputs and validation log. No model calls, commits or pushes occurred.
+
+### Closeout
+
+Task 12 and [12A maintenance](12a_reporting_code_quality.md) are closed. The
+[index](../../docs/index.md) and [maintainer guide](../../docs/reporting_maintainer_guide.md)
+route the current definitions and code; earlier sections above preserve the
+original publication history. Task 13 is next and remains provisional.

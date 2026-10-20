@@ -1,18 +1,28 @@
 # Task 13 — Run the frozen locked-test evaluation
 
-Status: provisional; not active. Refresh from accepted Task 12 before execution.
+Status: provisional; not active. Task 12/12A reporting handoff is complete;
+execution caps and the locked-only adapter must be finalized before activation.
 This document plans the run; it does not open locked content or authorize calls now.
 
 ## Abstract and goal
 
 Evaluate both frozen target models, Luna and Haiku, on all 30 locked questions,
-with three fresh answers per question/model. Use Task 12's frozen reporting rules
+with three fresh answers per question/model. These 30 questions supply the main
+target-model results. Report all 30 together in a second clean figures/tables
+folder, following the [presentation amendment](../../docs/specs/task12_presentation_v2.md);
+judge accuracy and [repeatability](../../docs/specs/task12_judge_repeatability_v3.md)
+retain their own synthetic datasets and same-item triples. Use Task 12's frozen reporting rules
 and export its tables/charts without selecting favorable repeats or retuning.
 
 ## Inputs and outputs
 
+Use the [reporting maintainer guide](../../docs/reporting_maintainer_guide.md)
+and [12A closeout](12a_reporting_code_quality.md) for the maintained implementation.
+
 Inputs: [Task 12](12_integrate_evaluation_and_reporting.md) reporting/readiness
-handoff, [11E configuration](../../docs/specs/task11e_frozen_generation_v1.json),
+handoff ([accepted result](../../docs/specs/task12_result.json) and
+[frozen definitions](../../docs/specs/task12_reporting_v1.md)),
+[11E configuration](../../docs/specs/task11e_frozen_generation_v1.json),
 accepted Task 10 input publication and 09G judges. Preserve the accepted prompt,
 examples, focused conclusion check, shared overview and neutral input projection.
 
@@ -36,7 +46,8 @@ separate. Provide a compact handoff to [Task 14](14_selective_failure_review.md)
    answer, not an independent rejudging of a saved answer. Never replace a semantic
    failure or choose the best output. Account for every unattempted/error slot.
 5. Reuse Task 12 reporting for both models, per-component/automatic/joint outcomes,
-   at-least-once/every-time results and Luna citation/section/document associations.
+   at-least-once/every-time results and Luna associations with citation occurrences,
+   distinct response units and documents.
    Reuse frozen bins/denominators; do not optimize plots or model choice on test.
 6. Seal artifacts, verify no-network replay and document costs and limitations.
    Task 14 handles selective manual diagnosis; Task 15 writes the short report.
@@ -61,5 +72,12 @@ cannot retroactively improve this run's frozen results.
 
 ## Outcome
 
-Planning only. No locked content inspected and no calls made. Task 12 is next;
-Task 13 activation follows its accepted readiness decision.
+Planning only. Task 12 completed offline reporting and its readiness handoff.
+No locked content inspected and no calls made. Task 13 still needs separate
+activation, concrete execution caps and a verified locked-only input adapter;
+the development-only reporting loader must not be reused against held-out files.
+Use the frozen reducers, bins and denominator rules unchanged.
+
+For complexity reporting, use [response units and citation occurrences](../../docs/specs/task12_response_units_v4.md):
+sections, tables and figure captions are independent units; repeated references
+are separate citation occurrences. Parent-section mappings are not required.

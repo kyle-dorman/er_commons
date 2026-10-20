@@ -97,3 +97,17 @@ and `make validate-evidence-only EVIDENCE_OUTPUT=DIR`. Both are offline; prepara
 requires the configured artifact root to exist. The completed Task 10 publication
 is selected by its result pointer. The [format/replay guide](specs/task10_evidence_only_v1.md)
 owns exact arguments, outputs and split-loading behavior.
+
+## Offline development reports
+
+`make report-development REPORT_OUTPUT=/absolute/external/task_12/output` verifies
+and replays the sealed Task 11E development results, then publishes tables/charts.
+The output must lie under `$ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_12/`;
+`.env` supplies the root. This command runs the package manager offline and has
+no model/counting mode. An identical rerun verifies all output bytes; use a fresh
+namespace after code/configuration changes. See the [frozen definitions](specs/task12_reporting_v1.md)
+and [accepted result](specs/task12_result.json).
+
+Saved-report figure/table export and explicit legacy-judge enrichment are documented
+in the [reporting maintainer guide](reporting_maintainer_guide.md). The exporter
+accepts `--primary-model`; model comparison rosters come from saved tables.

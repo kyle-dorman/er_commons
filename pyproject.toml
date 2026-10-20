@@ -12,6 +12,7 @@ dependencies = [
     "httpx==0.28.1",
     "inspect-ai==0.3.278",
     "jsonschema>=4.26,<5",
+    "matplotlib>=3.10,<4",
     "openai>=3.4,<4",
     "opencv-python-headless==5.0.0.93",
     "pikepdf>=10,<11",

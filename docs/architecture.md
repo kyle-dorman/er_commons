@@ -825,3 +825,18 @@ the accepted all-19 condition. The sealed 11E runner/report scripts are executio
 snapshots, not a second editable package API. Task 12 must explicitly select any
 reporting code it needs to maintain. See [11F](../tasks/sprint2/11f_cleanup_target_generation.md)
 for the cleanup review and offline validation.
+
+## Frozen offline result reporting
+
+`reporting_inputs` verifies selected sealed development files and replays the
+existing evaluator without dispatch. `reporting` owns pure denominator/repeat/
+citation/complexity reductions; `reporting_judges` reconstructs separate historical
+label-agreement tables. `reporting_charts` uses Matplotlib for static PNG/SVG, and
+`reporting_run` publishes create-only JSON/CSV, provenance and a completion seal.
+The [Task 12 contract](specs/task12_reporting_v1.md) owns meanings and missing/error
+handling. Task 13 must bind a separately authorized locked-only input adapter,
+then reuse the frozen reductions; this loader intentionally reads only 11E.
+
+For maintained reporting boundaries and future model comparisons, use the
+[reporting maintainer guide](reporting_maintainer_guide.md). Historical 11E/09G
+source adapters remain separate from pure counts/presentation and saved-report export.

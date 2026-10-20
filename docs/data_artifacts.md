@@ -635,3 +635,15 @@ per-question reports retain component availability and all required point result
 Completion seals support explicit no-network replay; failed or interrupted attempts
 must never be silently resubmitted. The [11C contract](../tasks/sprint2/11c_integrate_development_evaluation.md)
 owns the executed result. All Task 10 and 11B artifacts remain immutable.
+
+## Task 12 reporting artifacts
+
+Offline reports live beneath `pipelines/brisbane_baylands/task_12/` in a fresh
+explicit namespace. JSON/CSV tables preserve exact model/run/repeat/candidate/point
+identities, automatic diagnostics and separate historical judge agreement. PNG
+and SVG charts derive from those tables. `manifest.json` binds consumed source
+files, frozen configuration, accepted reviews, implementation and runtime;
+`completion.json` seals output bytes. Identical replay verifies byte equality;
+changed inputs or implementation require a new namespace. No upstream seal is
+modified. The [result](specs/task12_result.json) selects the accepted publication;
+preview and visual-QA directories are not designated results.

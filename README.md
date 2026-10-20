@@ -10,6 +10,18 @@ The repository favors maintained open-source tools and thin, explicit glue code.
 Before new custom code is added, a task should establish that an existing package,
 format, or command-line tool does not cleanly solve the need.
 
+## Current milestone
+
+The first benchmark has 49 questions: 19 development and 30 test. Development
+execution, offline reporting and the reporting code-quality pass are complete.
+No task is active. [Task 13](tasks/sprint2/13_run_locked_test.md) is the next,
+separately authorized locked evaluation; it will supply the main model results.
+
+Use the [docs index](docs/index.md) for accepted inputs and status, the
+[queue](docs/todo.md) for next actions, and the
+[reporting maintainer guide](docs/reporting_maintainer_guide.md) for charts,
+tables and future model comparisons. Generated reports live outside Git.
+
 ## Quick start
 
 ```bash
