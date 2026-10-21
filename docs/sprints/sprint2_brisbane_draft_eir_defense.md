@@ -1,763 +1,155 @@
 # Sprint 2: Brisbane Draft-EIR Defense Vertical Slice
 
-Sprint 2 implements the accepted Sprint 1 contract as the smallest end-to-end
-benchmark run. It is deliberately one project, one target model, and one
-auditable evaluation path—not a general CEQA platform.
-
 ## Goal
 
-Produce a rerunnable evaluation of one fixed local model answering locked,
-comment-derived questions with evidence-grounded defenses from the original
-2025 Brisbane Baylands Draft EIR.
+Produce a reproducible, evidence-grounded evaluation of Luna and Haiku answering
+comment-derived questions about the 2025 Brisbane Baylands Draft EIR. This is a
+single-project, supplied-evidence benchmark. It measures answering from approved
+source passages; it does not measure retrieval or establish general CEQA competence.
+
+The frozen release has 49 questions: 19 development and 30 test. The completed
+locked test preserves all 180 planned answers (two models, three repeats per
+question). Task 14 is active for structured, iterative review with Kyle in the
+next chat; Task 15 remains provisional. No new model run is active or authorized.
 
 ## Accepted execution decisions
 
 ### Source corpus boundary
 
-The model-facing source corpus includes the complete 2025 Draft EIR main-report
-PDF and every appendix published on the City's official 2025 Draft EIR page.
-The first baseline receives the approved cited passages from this source set;
-searching the full corpus is deferred to a later retrieval condition. The
-separately published chapter PDFs duplicate the main report and
-are not additional corpus documents; retain them only as source-recovery or QA
-aids if needed.
-
-Freeze the official landing-page and file URLs, access timestamps, checksums,
-byte sizes, MIME types, and PDF page counts before annotation. Task 08 uses
-task-by-task authoring across all participating batches; the accepted release
-retains 49 cases with 19 development and 30 test cases. The [08E plan](../../tasks/sprint2/08e_review_group_evidence.md) prepares research
-in batch and reviews each question in chat, without source deduplication.
-There is no up-front 35-candidate gate; retain normal attrition and agree final
-size and topic-balanced split after all group batches finish.
+The source corpus comprises the official 2025 Draft EIR main report and
+appendices. Separately published chapter PDFs are duplicate/recovery sources.
+Final EIR responses are curator-only material and never target evidence. The
+[Task 03J extraction](../../tasks/sprint2/03j_run_final_canonical_extraction.md),
+[Task 06H accepted handoff](../../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
+and [Task 05H response inventory](../../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
+own exact corpus, usability, provenance and linking boundaries.
 
 ### Canonical extraction boundary
 
-Retain Docling's original structured output and the clean table pipeline's raw
-and cleaned outputs, and materialize a stable canonical interface with page,
-structural-block, semantic-section, printed-label, alias, table, table-family,
-and cross-reference records. Page records preserve document identity, PDF page
-number, printed-label evidence and resolution when present, canonical text,
-and conversion provenance. Structural blocks preserve headings, paragraphs,
-list items, captions, Docling table-region observations, and other detected
-elements with stable links to their source page and location. Semantic
-sections retain ordered block membership beneath separate body and furniture
-roots. Visible table-of-contents entries may supply hierarchy evidence and
-aliases, but are not body-section starts. Clean table-pipeline records supply
-canonical table content; TableFormer remains disabled and Docling table
-regions do not supply canonical cells.
-
-Preserve explicit mappings between Docling table-region observations and clean
-logical tables. One observed region may map to zero, one, or several clean
-tables; do not force a one-to-one relationship or collapse separately
-reconstructed tables. Represent related tables as first-class, machine-derived
-table families where the reviewed footer and header evidence supports reading
-them together. Finalize deterministic family membership and IDs only over a
-complete document and scope those IDs to one extraction version; pilot and
-partial-run family numbers are not canonical identities.
-
-Save extracted images and their source-page and bounding-box metadata as part
-of the conversion artifacts, even though first-pass retrieval and generation
-remain text-only. Do not silently discard figures or other visual elements;
-represent them in the structural record and link them to the saved image
-artifact. Full-page renders, overlays, diagnostic HTML and Markdown, ruling
-masks, and table-debug images are reproducible review-cache derivatives, not
-canonical extraction artifacts. Generate and checksum them only for requested
-review or labeling pages. Retrieval passage size, overlap, and heading
-composition are later BM25 decisions and must not be fixed by the extraction
-task.
-
-Use native PDF text and layout extraction only in this sprint; do not apply
-OCR. Task 03 canonical page, table, and table-family records contain
-machine-derived content, provenance, and stage statuses only. Conversion,
-routing, table-stage, and canonicalization statuses remain distinct and do not
-constitute usability judgments.
-
-Task 04A maintains a separate usability registry for every Task 03 source,
-including sources whose terminal failure leaves no canonical document ID.
-Registry rows therefore retain the corpus candidate and source IDs and add
-canonical IDs only when those entities exist. Page, table, and table-family
-records identify their entity type, human review status, exclusion reason when
-present, reviewer, review date, and links to applicable canonical content and
-requested review-cache renders. This granularity permits one table in a family
-to pass while another does not. Task 04A also records sampled or
-anomaly-triggered observations for body/furniture classification, hierarchy,
-printed labels, aliases, and cross-references. It rolls page statuses up into
-document dispositions such as `usable`, `usable_with_exclusions`, and
-`skipped_no_ocr`; reviewer fields and human dispositions never enter immutable
-Task 03 machine records.
-
-Task 04A's registry is the original accepted usability review over Task 03J;
-Task 04B closed as a no-op. Task 06H accepted the repaired review and handoff
-with sampled-coverage limitations. Downstream work pins the matching extraction,
-review, and handoff identities rather than combining parts from different
-lineages. [Task 06H](../../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
-owns the exact replacement correspondence.
-
-An isolated failed page does not require excluding an otherwise usable
-appendix. Mark failed pages unusable and retain the appendix as
-`usable_with_exclusions` when the missing material does not make the remaining
-content or its cross-references unreliable. Skip the entire appendix when
-failure is widespread or affects essential context. A human must review every
-excluded page and wholly skipped document against requested review-cache
-renders. Make the usability registry available to curator-only response
-inventory and screening so response references can be resolved against usable
-parts of each appendix. Exclude candidate cases whose required evidence
-depends on unusable pages. The complete main report is mandatory and cannot be
-silently skipped under this policy; a material native-extraction failure there
-is a stop condition requiring a new decision.
-
-First-pass retrieval and generation may use a table only when the clean table
-pipeline produces a canonical structured or textual representation and the
-accepted review registry's
-human review verifies it against a corresponding review-cache render. For a
-multi-table family, review must make the family membership, per-table content,
-and any one-to-many Docling-region mapping visible; verification of one member
-does not silently verify every member. Figure captions and surrounding prose
-may serve as text evidence. Exclude any candidate whose defense requires the
-target model to interpret a chart, map, photograph, diagram, or other visual
-content that it will not receive. Record these cases as
-`excluded_requires_visual_evidence` so they remain discoverable for a later
-multimodal benchmark rather than disappearing from the inventory.
-
-### Curator-only response inventory boundary
-
-Enumerate every identifiable comment and response unit in Final EIR Volume 4
-before eligibility screening. Preserve comment and response IDs, exact source
-pages and text anchors, commenter letter or organization, cross-references,
-and stated Draft EIR chapter, appendix, or page references. Represent
-one-to-many and many-to-one comment-response relationships explicitly rather
-than forcing each source unit into an artificial one-to-one row.
-
-Preserve general responses as canonical units only within the curator-only Task
-05 namespace, with their own IDs and anchors. Final EIR Volume 4 is not part of
-the Task 03 model corpus or accepted Draft EIR extraction release. Task 05 may
-reuse maintained producer components where suitable, but its bounded extraction
-or transcription route, identities, and acceptance records remain separate.
-For every response that refers to a general response, also produce a derived
-resolved review view that includes the referenced general-response text, ID,
-and source anchor with the individual comment-response pair. This view must be
-independently reviewable without erasing where the incorporated text came from
-or altering the curator-only source transcription.
-
-Validate the relationship graph in both directions. Flag every identifiable
-comment with no response as an orphan for human review, and flag every general
-response that is not linked to at least one comment or individual response.
-Record whether each apparent orphan is a source omission, extraction failure,
-unresolved cross-reference, or legitimate document structure. Do not silently
-drop unmatched units.
-
-Construct the Task 05 inventory deterministically from document structure,
-source IDs, headings, and explicit cross-reference patterns, with manual
-resolution of ambiguous cases. No LLM creates, segments, links, or triages
-that accepted inventory. Task 07A uses direct human review of accepted
-comment-rooted cases for pilot fit; screening does not change Task 05 records.
-
-Task 05's accepted curator-only inventory is owned by the
-[Task 05 umbrella](../../tasks/sprint2/05_build_curator_only_response_inventory.md)
-and [Task 05H outcome](../../tasks/sprint2/05h_review_and_freeze_response_inventory.md).
-Its source, relationship, linking, review, and publication details live in those
-completed task records. The [accepted release](../specs/task05h_final_result.json)
-is the Task 07/08 input; it does not itself establish case eligibility or
-evidence sufficiency.
-
-Use replaceable working space and bounded pilots for iteration; do not seal
-every experiment. Routine Task 05
-validation pins the Task 02 source checksum and Task 03J/04A/04D identities
-through compact completion metadata without rehashing or copying their large
-payloads. Hash newly authored authoritative Task 05 records once at final
-publication, preferably while writing them, and reserve a full byte audit for a
-specific integrity concern or separately approved archival boundary.
+Preserve producer outputs, immutable canonical records and regenerable review
+cache as separate layers. Native text/table extraction, source anchors and the
+accepted human usability registry determine usable evidence. No OCR or implicit
+visual interpretation is part of this condition. Canonical table content comes
+from the clean table pipeline; source observations and human review remain
+separate. Consume the matching extraction, review and handoff identities rather
+than mixing lineages. The [architecture](../architecture.md) and
+[artifact contract](../data_artifacts.md) own maintained implementation and storage.
 
 ### Task 08 eligibility, clustering, and split boundary
 
-Begin question selection with the exclusive groups in
-[Decision 005](../decisions/005_task08_grouped_question_selection.md). Kyle reviews
-under the amended all-selected 08B policy, which permits more than three
-questions per group. This purposive selection retains the subsequent human
-eligibility requirements. The
-2026-09-30 amendment makes the final size and split flexible, with explicit
-agreement before freezing. See the [Task 08 umbrella](../../tasks/sprint2/08_curate_grouped_benchmark.md)
-for reusable stages, context boundaries and question-by-question 08E chat review.
-08A preparation may cover all remaining accepted groups ahead of review under
-the explicit preparation amendment. Groups with at most three candidates use
-stable comment-ID order without model ranking; larger groups use saved advisory
-Astra order. This does not advance selection, authoring or eligibility gates.
+The [08H release](../specs/task08h_final_result.json) freezes 49 human-approved
+questions and the exact 19-development/30-test allocation. Each case preserves
+its original comment, single scoped question, approved answer and source evidence.
+Human review determines eligibility: essential evidence cannot depend on later
+revisions, Final EIR analysis, unavailable external or visual evidence, or unusable
+source content. No automatic eligibility decision is inferred from provenance.
 
-Human reviewers alone determine candidate eligibility. Deterministic checks
-may flag language, source references, or missing links for reviewer attention,
-but they do not accept or reject cases. Exclude an entire comment-response case
-when answering its scoped question materially depends on a later revision, new
-Final-EIR analysis, external evidence, a mitigation change, unusable source
-content, or visual evidence unavailable to the target model.
-
-For the next authoring pass, one original comment yields at most one case with
-one independently answerable, human-approved question. Distill or rewrite only
-when the question faithfully preserves the comment's central issue, scope and
-qualifications. If it contains multiple independent asks that cannot naturally
-be expressed as one question, leave the proposal unresolved and discuss the
-obstacle before the human decides. Do not split it into several cases or hide
-the multiple asks in a compound sentence. No automatic exclusion or forced rewrite.
-Do not remove a difficult qualification merely to make the case answerable.
-Preserve the original comment, the exact question, source IDs and the rewrite/skip
-reason. Freeze that same question as retrieval, generation and evaluation input.
-The six pilot comments reenter this process with new Task 08 decisions, including
-selection and separate comment-only wording review. Their sealed Task 07
-questions, claims, and answers remain unchanged; no old approval substitutes
-for a current gate.
-
-Use the shared `task08.selection_gate.v2` process. During 08B, the curator
-reviews the original comment and complete linked responses and saves a selection
-decision and reason; explicit selection is the sole 08B human gate to 08C.
-Eligibility concerns may go in the reason, without a separate provisional label.
-The `task08b.selection.v2` form omits warning, advisory-reason and ranking-record
-panels while underlying artifacts retain all source limitations and exceptions.
-It has no stopping control: confirm review completion in chat at export and
-reconcile saved annotations against the full inventory, leaving unanswered
-candidates unreviewed. Preserve skips, exclusions, unresolved decisions and
-reasons; at most three selections are permitted, and fewer are welcome.
-Question rewriting and exact wording approval follow in a separate comment-only
-chat using [task08c.chat_review.v1](../specs/task08c_chat_review_v1.md). Preserve
-displayed versions and feedback; a null proposal remains unresolved pending human
-discussion. Only explicit approval of the exact displayed version can freeze text.
-Flag unsupported user-added intent; no automatic exclusions or backfill. Astra may rank original candidates beforehand, but saved advice neither
-selects nor rejects cases. At 08E, the curator conducts evidence-based eligibility
-review using the original comment, resolved response, exact Draft EIR evidence,
-requested review-cache renders, source usability and relevant cross-references.
-Selection alone never establishes final eligibility or acceptance.
-
-Preserve every screening, evidence-verification, acceptance, and selection
-decision as a versioned record rather than overwriting earlier
-dispositions. Each decision records the stable source or case ID, review stage,
-disposition, reason code, reviewer, timestamp, and the input artifact version
-that was reviewed. Produce an annotation attrition waterfall with raw counts at
-each stage—from the complete response inventory through plausible candidates,
-explicit selection, question/claim review, evidence-based eligibility, accepted
-cases, and final split
-selection—and report exclusions by reason code. The waterfall is an audit
-summary derived from the decision records, not a separately maintained count.
-
-Selection reasons remain provenance and do not substitute for the later
-evidence-based decision. Report this as single-curator review, not inter-reviewer
-agreement. Model eligibility QA remains out of scope for Sprint 2 and cannot
-substitute for human eligibility review.
-
-Accepted 2026-10-09 amendment: Kyle approved retaining all 49 reviewed cases
-separately and distributing related topics across a 19-development / 30-test
-split. The whole question pool and the closest answers were reviewed; none were
-identified as needing merger. Thirteen overlapping topic families guide coverage.
-C002 remains in test, as does every appendix cited by only one case. Citation
-balancing uses distinct cited section/table units per answer, including optional
-context. This counting choice does not change support/context scoring roles.
-
-The [08G contract](../../tasks/sprint2/08g_review_case_clusters.md) owns the bounded
-similarity review and its limitations; [08H](../../tasks/sprint2/08h_serialize_and_freeze_benchmark.md)
-owns exact approved allocation and final publication. The user's amendment
-supersedes mandatory relationship enumeration, duplicate fixtures, Astra cluster
-proposals and keep-together connected components for this release. Those
-provisional procedures were not performed; their contracts remain preserved as
-history. No exhaustive semantic-independence claim follows from this review.
-
-Shared sections and related reasoning may cross development/test. The strongest
-recorded overlaps include drainage/flooding, bicycle safety and traffic diversion.
-Topic balancing improves coverage but can test application of familiar evidence
-to different questions; it is not an unseen-topic or unseen-evidence evaluation.
-Preserve these limitations in the release and downstream reports. Later discovery
-of duplication requires a named revision, not an implicit split change.
-
-Task 03 source cross-references and Task 05 curator-only response relationships
-remain separate provenance structures. Neither shared targets nor graph proximity
-creates an automatic Task 08 dependency or merger. No new authoring or evidence
-approval is inferred from the allocation decision.
-
-Keep test locking lightweight for the MVP. Save and hash the accepted cases,
-split manifest, and frozen evidence-packet, prompt, model, and judge configurations
-before the primary test run. Keep test-reference fields out of target-model
-inputs through the artifact schema, but do not build a permissions system,
-special access workflow, or elaborate CLI lock. Record later configuration
-changes as new named runs rather than replacing the primary result.
+Related topics and source passages cross the split. The
+[08G review](../../tasks/sprint2/08g_review_case_clusters.md) owns the limited
+similarity assessment; this is neither an unseen-topic nor unseen-evidence test.
+The [Task 08 umbrella](../../tasks/sprint2/08_curate_grouped_benchmark.md) owns
+selection and authoring provenance. Changes require a named revision, not an
+implicit merger, resplit or reference correction.
 
 ### Model-assisted reference-case authoring
 
-Task 07 first screens **at least 50 distinct comment-response pairs** from the
-accepted Task 05H inventory for pilot fit. In a focused Label Studio project,
-the curator reviews every pair and assigns `great_fit`, `ok_fit`, or
-`skip_for_pilot`, with multiple reason codes where useful. Codex may propose
-ratings, but only the human disposition counts. Preserve selection coverage,
-ranking or priority groups, reasons, and counts. Select a small, varied set of
-great fits (initial target 6–10) for exploratory authoring; expand the screened
-batch if it yields too few. Pilot fit does not establish Task 08 eligibility or
-replace its fresh selection, authoring and evidence-based eligibility reviews.
-
-Each selected case then passes through four authoring reviews:
-
-1. **One comment question:** approve a faithful single question or skip the case.
-2. **Claims and relevance:** state substantive response claims clearly and review
-   whether they answer or materially support an answer to that question. Preserve
-   excluded claims in history rather than carrying them into evidence discovery.
-3. **Evidence:** review source sections/tables and retain separate deduplicated
-   support/context citation pools, source judgments and explicit gaps.
-4. **Reference answer, including reasoning (combined 07E/07F):** review one concise
-   answer that gives the conclusion, necessary supporting explanation, conditions
-   and limitations. An internal draft outline is optional; there is no separately
-   approved outline, reasoning map or subsequent polished-answer labeling pass.
-
-The final answer and reviewed source pool provide the reference for later answer
-adequacy judgments. They are not exposed to the target and do not establish truth
-merely by being authored. Retain exact source provenance and point-to-citation
-links in the structured answer under Decision 006; no duplicate claim inventory.
-For each stage, prepare a bounded input batch and prompt for a separate Codex
-task. The user starts that task through existing app access. Small code helpers
-validate and import its proposals, export human annotations, and prepare only
-approved outputs for the next stage. There is no paid API integration or live
-model backend requirement for this pilot. Preserve source and case IDs, prompt
-and form versions, selected model, input batch, model proposal, and curator
-edits. A stage may repeat under a new named revision as its review criteria
-improve. A rejected or unresolved stage never advances silently.
-
-Build candidate evidence through reproducible curator search, separate from
-the later top-five benchmark retriever. Resolve the official response's
-explicit Draft EIR references first, then search usable corpus text using the
-comment, response, and reviewed assertions. Search may fan out by assertion;
-merge candidates for case-level review. Preserve distinct provenance for
-response-explicit, lexical, and any graph-discovered evidence, along with
-which Codex task proposed a span and the curator's disposition.
-
-The evidence proposal is closed over that supplied candidate pool. Its schema
-may select only canonical evidence IDs present in the input; it may not
-invent page references, quote unseen passages, or request arbitrary source
-IDs. For each selected span, require a short relevance explanation and a
-classification of direct support versus contextual material. The schema must
-also permit an explicit `insufficient_evidence` result. Validate all returned
-IDs mechanically before presenting the proposal for curator review.
-
-Contextual spans may remain in the curation packet to explain terminology,
-scope, or cross-references, but they do not count as reference evidence and
-cannot independently justify a claim. Every substantive step in the
-curator-approved answer logic and reference defense must be supported by the
-reviewed evidence, with explicit point-to-citation output links under Decision 006. Retrieval coverage metrics score only
-against curator-approved direct-support spans, not contextual material.
-
-Represent evidence hierarchically rather than treating a PDF page as the
-semantic citation unit. Preserve the source's own document or appendix,
-section, table, and figure references as semantic evidence units, including
-units that span multiple pages. Attach one or more exact canonical page,
-block, table, or visual-asset anchors beneath each unit for verification,
-retrieval scoring, and review-cache rendering. A response-level reference to
-an entire section or appendix seeds search within that unit; the accepted
-evidence retains both the original semantic reference and the exact supporting
-anchors found within it. Human-readable citations should follow the source's
-naming conventions while remaining mechanically resolvable through the
-internal anchors.
-
-Create reviewed reference-evidence records during case authoring as the bridge
-between canonical extraction records and curator-approved citations. Each
-record has a stable evidence ID, semantic source-unit ID, one or more exact
-canonical anchor IDs, display citation, evidence text, support/context
-classification, discovery provenance, and curator disposition. A record may
-combine multiple blocks within one semantic evidence unit without weakening
-their exact source traceability.
-
-Require curation and target models to return one structured answer with explicit
-point-to-citation links, using only citation IDs supplied in their respective
-inputs. No duplicate claims list or parallel prose answer is required. Deduplicate reference
-citations within each case by canonical section/table identity and retain
-`support` over `context` across reviewed uses. Direct and supporting claim roles
-do not create different citation levels. Context-only citations remain optional
-for required coverage. The [07D export contract](../specs/evidence_review_v1.md#case-level-citation-export-decision-2026-09-28)
-owns exact aggregation and review-provenance rules. Render those IDs
-deterministically into human-readable Draft EIR citations; do not rely on a
-model to reproduce section names, page labels, or citation formatting. Keep
-curator-approved reference records separate from target evidence packets. The first
-baseline receives all approved cited source passages, including support and
-context passages, through a target-only projection. It may cite the supplied
-passage IDs. Preserve canonical mappings for evaluation, but hide reference-answer
-text, support/context roles, curator rationales, dispositions and discovery
-provenance from the target. Source titles, heading paths and page locations remain
-ordinary citation metadata. The accepted extraction supplies canonical source
-entities; case authoring owns the approved evidence pool; Task 10 owns the
-mechanical target projection.
-
-Canonical source and anchor IDs are deterministic within a frozen extraction
-version, not promised to survive a materially different conversion. Record the
-source checksums, Docling and table-pipeline versions, complete configuration
-hash, and corpus version that define each extraction. An identical rerun must
-reproduce the same IDs; a
-changed converter or configuration creates a new corpus version and new
-low-level anchors. Pin reviewed evidence and benchmark cases to the exact
-accepted Task 03 extraction identity, accepted review-registry version,
-Task 05 inventory version, and Task 08 case/split versions. Human-readable
-document and section slugs may remain recognizable across versions, but they
-do not replace content and configuration checksums.
+Human approval owns the frozen question, evidence and reference answer. Model
+proposals remain distinguishable from human decisions. Preserve support/context
+roles, source anchors, exact approved text and revision history. Reference answers,
+curator reasoning and official responses stay out of target inputs. The
+[Task 07 umbrella](../../tasks/sprint2/07_pilot_reference_case_authoring.md) and
+[Task 08 umbrella](../../tasks/sprint2/08_curate_grouped_benchmark.md) own the
+completed authoring process and its limitations.
 
 ### First baseline: supplied evidence
 
-[Decision 007](../decisions/007_evidence_only_first_baseline.md) supersedes the
-retrieval-first sequence. Give the target the exact frozen question and all its
-approved cited source passages, with stable citation IDs and complete source text.
-Do not supply the reference answer, authored supporting points, curator reasoning,
-support/context labels or official responses. The target produces its own
-supporting points and conclusion. This measures answering with supplied evidence;
-it does not measure search or evidence selection.
+[Decision 007](../decisions/007_evidence_only_first_baseline.md) defines the condition:
+the exact question and all approved cited passages, complete and unranked, with
+stable citation IDs. [Task 10](../../tasks/sprint2/10_prepare_evidence_only_inputs.md)
+owns the target-only projection and its isolation from reference content.
 
-[Task 10](../../tasks/sprint2/10_prepare_evidence_only_inputs.md) is one bounded
-preparation task with no subtasks. Prepare and mechanically validate packets for
-all 49 cases, retaining the exact 19-development/30-test allocation. Preparation
-of the 30 test packets authorizes no test inference, scoring, prompt tuning or
-semantic review for pipeline selection. Only the 19 development cases are used
-for initial target and evaluator runs. Preserve full passages and report context
-sizes; do not silently truncate, summarize, rank or select a smaller evidence set.
-
-BM25 retrieval, agentic search and a retrieval-versus-evidence-only oracle
-comparison are deferred. Evidence-only is the first baseline, not a secondary
-oracle. Retrieval recall is not applicable to this condition; final-citation
-metrics and frozen A/G/S/C judgments remain applicable under their own rules.
-
-The previously proposed `A+B` reasoning-summary diagnostic is deferred. Combined
-07E/07F no longer produces an independently approved non-answer summary, and
-supplying its reference answer as B would leak the answer. A replacement scaffold
-requires a separate explicit design decision; this plan creates no additional
-outline review to preserve that diagnostic.
-
-**Task 11 closeout amendment:** The user-accepted [11E condition](../../tasks/sprint2/11e_freeze_development_baseline.md)
-uses invented nonbenchmark examples, a focused conclusion check, shared document
-overview, a 12,288-token output allowance and native unseeded repeats for both
-models. This supersedes the provisional word-limit experiment and zero-shot
-selection below for this development handoff; no 200/400-word comparison or
-zero-shot result is claimed. Task 12 preserved this condition identity and
-established reporting readiness; Task 13 still requires execution caps and its
-locked-only adapter. The following paragraphs retain the earlier
-planning proposal; they are not outstanding Task 11 experiments.
-
-Do not freeze a 200-word defense limit before the annotation and target pilots.
-Test at least 200- and 400-word limits against varied reviewed reference cases,
-including long official responses, and select the smallest limit that permits
-a complete concise Draft-EIR-only defense without forced omission. Apply the
-frozen word and statement limits to the evidence-only baseline; exclude deterministically rendered citations from the word count.
-If 400 words is still inadequate for a complete pilot case, stop for a new
-length decision rather than silently truncating the answer or reference.
-
-Use a zero-shot fixed prompt for the initial target baseline. It contains the
-task instruction, structured output schema, citation and abstention rules,
-frozen human-approved single question, and its supplied source passages. Do not include
-completed development reference defenses or other benchmark cases as few-shot
-examples. Any later few-shot prompt is a separately named secondary condition
-and cannot replace or retroactively modify the primary baseline.
-
-Run the target at temperature `0` with a fixed seed where supported and record
-the model digest, prompt hash, schema version, context, and runtime settings.
-Generate three baseline repeats for each case in the Task 08 development split and
-compare them mechanically before human review. Human-review repeats only when
-they differ substantively. If differences are limited to harmless formatting,
-use one generation per locked-test condition. If claims, citations,
-abstention, or resulting scores vary materially, stop and decide whether the
-locked test requires repeated runs rather than selecting a favorable output.
-
-Retry only infrastructure failures such as an unavailable Ollama service,
-timeout, or interrupted process, using a fixed attempt and backoff policy with
-identical model inputs and settings. Record every attempt. Do not use a model
-repair call or repeated generation to replace schema-invalid or semantically
-invalid output. Preserve such output as an invalid prediction and score it
-under the frozen evaluation contract rather than selecting a later
-valid-looking answer.
+Use the [11E frozen configuration](../specs/task11e_frozen_generation_v1.json)
+for exact Luna/Haiku identities, prompts, invented nonbenchmark examples, shared
+document overview, reasoning settings and 12,288-token output allowance. The
+three native unseeded repeats are retained individually. Do not select favorable
+repeats, replace failures or tune on test outcomes. The
+[Task 13 outcome](../../tasks/sprint2/13_run_locked_test.md) owns the completed
+zero-retry execution, operational limits and sealed identities.
 
 ### Deferred retrieval design
 
-The following design is retained for a future separately scoped retrieval
-condition. None of its indexing, preprocessing pilots, top-five limits or recall
-reports belongs to Tasks 10–13 for the current evidence-only baseline. Revisit
-these choices before activating retrieval; they do not constrain supplied-evidence
-packet construction.
-
-Use whole leaf sections—the smallest heading-defined sections in the canonical
-hierarchy—as the preferred BM25 retrieval units. Preserve paragraph and
-list-item boundaries within them, keep verified tables as distinct structured
-units, carry the full heading path as metadata, and retain exact canonical
-anchors. Build units only from accepted-review-registry body content and tables;
-never span excluded content. Before building the development index, analyze and
-report the leaf-section length distribution by source document, including
-outliers and the combined size of five large results relative to the target
-context budget.
-
-Proceed with whole leaf sections only if that analysis shows usable and
-reasonably bounded units. If lengths are too variable, appendices lack useful
-heading structure, or large sections would exceed the context budget, pilot a
-fixed-length, contiguous, structure-preserving fallback within section
-boundaries. Do not split all sections by default, cross semantic or excluded
-content boundaries, or choose a fallback size without recording the length
-evidence that required it.
-
-Index each retrieval unit's full canonical heading path together with its body
-text because section and appendix headings may contain important topic terms
-that are not repeated in every paragraph. Show the same heading path to the
-target as source metadata. Exclude repeated page headers, footers, page
-numbers, and generic document boilerplate from indexed text.
-
-Use only the exact frozen single question as the primary BM25 query. Do
-not include the official individual or general responses, reviewed citations,
-evidence summary, reference defense, curator labels, or model-generated query
-expansion. The separate high-recall curation search may use curator-only
-response material because it constructs reviewed references; the benchmark
-retriever may not.
-
-On development cases, compare two frozen lexical preprocessing candidates. The
-plain candidate applies Unicode normalization, lowercasing, and
-punctuation-aware token splitting without stemming or stopword removal. The
-normalized-English candidate adds English stemming and a versioned English
-stopword list that explicitly retains negations such as `no`, `not`, and
-`without`. Select using support-unit retrieval recall at five; if results
-are effectively tied, prefer the simpler plain candidate. Save the tokenizer
-configuration, vocabulary, stemmer package and version when used, and exact
-stopword list with the index artifacts.
-
-Define retrieval recall at five over the distinct reference supporting citation
-units actually returned to the target in its five-passage context. A searched
-file, corpus membership or a hit elsewhere in the document is not a retrieval hit.
-Match frozen document/extraction/section-or-table identities and their canonical
-anchors, not titles or semantic similarity. A fragment cannot claim a whole section
-solely by inheriting its parent ID: required reference anchors must be present in
-the returned material; a future retrieval task freezes the deterministic
-projection for fallback fragments. Keep section and table units distinct and deduplicate repeated hits.
-The metric definitions below own support/context handling and final-answer scoring.
-
-Save the top 20 ranked results/scores as diagnostics; only ranks 1–5 reach the target.
-Report recall at 1/3/5/10/20, with recall at 5 primary. Deeper-list recall is diagnostic,
-not credit for material the target saw. If future multi-query retrieval is approved,
-log and score the union actually returned within that condition's fixed budget;
-this does not authorize query expansion in the future single-query baseline.
-Report complete-case recall, raw hits/denominators and per-case results. When a
-reference pool exceeds the unit budget, report its achievable recall ceiling;
-do not silently increase the budget or treat a ceiling as reasoning failure.
-
-Use BM25S's maintained default Lucene-style scoring method and default scoring
-parameters. Record the exact BM25S version, method, and parameters with the
-index, but do not run a parameter sweep on the development cases. Restrict
-development comparison to the already defined retrieval-unit fallback when
-needed and the plain-versus-normalized-English preprocessing pilot.
-
-Build the indexed corpus in canonical retrieval-unit ID order. Rank results by
-BM25 score descending and break exact score ties by canonical retrieval-unit ID
-ascending. Save raw scores in retrieval artifacts for diagnostics even though
-the target does not receive them. An identical frozen corpus, tokenizer, index
-configuration, and query must reproduce the same ranked IDs.
-
-### Curation search boundary
-
-The curator reviews, narrows, corrects, accepts, or rejects the proposed spans
-but is not expected to conduct open-ended manual corpus research. If the
-automated process does not surface sufficient Draft EIR support, flag the case
-as insufficient evidence found or exclude it under the applicable rule. During
-the annotation pilot, measure how often explicit response references are
-sufficient by source document; the frozen workflow may reduce additional
-search where the evidence shows it is unnecessary. Do not tune the later
-top-five benchmark retriever on this curation search configuration or report
-the curation search as baseline retrieval performance.
-
-Start with recorded lexical searches from the original comment, resolved
-response, reviewed assertions, and explicit source references. Merge and
-deduplicate candidate IDs before Codex evidence proposals. If reviewed gaps
-show that these searches missed needed evidence, a named revision may add
-recorded query expansion or a deterministic traversal/index view over accepted
-Task 03 cross-references. Task 07 does not re-extract or re-resolve references.
-Any traversal uses only resolved edges to usable targets, records its full
-path and limits, and stops at two explicit-reference hops. Unresolved mentions
-remain search or manual-review signals, not graph edges. Accepted evidence
-always needs exact canonical anchors, regardless of how it was discovered.
+BM25, agentic search and retrieval-versus-supplied-evidence comparisons require
+separately scoped work. The [historical plan](../history/sprint2_history.md#deferred-retrieval-design)
+retains earlier retrieval proposals for reconsideration; none constrains this
+condition or authorizes implementation.
 
 ### Model roles
 
-Keep curation, target generation, and automated judging as distinct model
-roles. Use Astra (`gpt-6-astra`) through the user's existing app allowance for
-all model-assisted dataset-label authoring, including proposal drafting and
-revisions. Record the actual model, task, prompt and input/output provenance;
-human review determines label acceptance. Human-only stages remain human-only.
-Kyle removed the local/no-extra-cost authoring-model comparison from Task 07G;
-Kyle then closed 07G and accepted grouped Task 08 question selection without
-another pilot round or a full retrospective. No LLM judge is
-part of Task 07. Use pinned
-`qwen3:4b-instruct-2507-q4_K_M` as the intentionally small initial target
-baseline in later tasks. Use `gemma3:12b` through Ollama as the initial local judge
-candidate, subject to Task 09B qualification and exact digest pinning. Any smaller-judge comparison is optional development work; it does
-not authorize a new human-labeling pass. Under Decision 006, report uncalibrated
-automated judgments unless a separate human calibration is actually completed.
-
-Resolve and record the exact local-model digest for every local run rather than
-relying on mutable tags. Local inference avoids per-token API charges but does
-not remove the need to record runtime, structured-output failures, and evaluation
-limitations. A later target-model comparison may test other model sizes or
-families against the same frozen benchmark without changing the reference cases.
-
-The canonical case preserves the exact original comment and its provenance,
-alongside the frozen human-approved single question. The target, human evaluator
-and automated judge receive that same scoped question, as must a future retriever. The original
-comment remains available for authoring/provenance checks, not additional unasked
-requirements in answer scoring. Do not expose official responses, reference answers, reviewed claims,
-support/context labels, relevance labels or curator rationales to the target.
-Decision 007 permits the approved citations and source passages as inputs to the
-evidence-only baseline.
-Existing multi-concern MVP records remain unchanged until explicitly migrated;
-do not mix question versions across target and judge inputs.
+Keep reference authoring, target generation and automated judging separate.
+Presented results include Luna and Haiku only. MiniMax is an archived side
+experiment, excluded from presented results and further exploration; its evidence
+remains in [Task 13A](../../tasks/sprint2/13a_minimax_cloud_comparison.md).
+The [09G freeze](../specs/task09g_judge_freeze_v1.json) owns selected judge identities.
+The same frozen scoped question reaches targets and judges; the original comment
+cannot introduce additional unasked scoring requirements.
 
 ## Execution sequence
 
-### Accepted inputs
+1. **[Task 14 — Selective review](../../tasks/sprint2/14_selective_failure_review.md): active.**
+   Begin review with Kyle in the next chat using a structured record and one
+   example or matched pair at a time. Six complete answer instances are the
+   intended stopping point; expand only for a named important unanswered question,
+   with twelve as the ceiling. Include a same-question Luna joint-pass/Haiku-fail
+   pair, counting as two answers, selected from saved scores before reading prose.
+   Compare claims, qualifications, evidence and conclusions without assuming that
+   Haiku adds more unsupported material. Preserve contrary observations, other
+   repeats' outcomes, frozen scores, uncertainty and selection limitations. The
+   task contract owns selection, discussion, explicit human review and acceptance.
+2. **[Task 15 — Methods/results writeup](../../tasks/sprint2/15_write_methods_and_results.md): provisional.**
+   After separate activation, explain construction, methods, results and limits
+   using final figures and the selected reviewed examples. Keep development,
+   test and synthetic judge diagnostics separate. Finish with a next-project decision.
 
-- [Task 03J](../../tasks/sprint2/03j_run_final_canonical_extraction.md)
-  owns the immutable 35-source machine extraction.
-- [Task 04A](../../tasks/sprint2/04a_regenerate_review_and_freeze_release.md)
-  owns the original usability review; [Task 04D](../../tasks/sprint2/04d_relink_frozen_extraction.md)
-  owns the original linking handoff.
-- [Task 06H](../../tasks/sprint2/06h_review_and_accept_replacement_handoff.md)
-  owns the accepted repaired handoff and sampled-review limitations;
-  [Task 06](../../tasks/sprint2/06_repair_reference_sources_and_target_index.md)
-  routes its completed subtasks.
-- [Task 05G](../../tasks/sprint2/05g_replay_and_extend_official_reference_links.md)
-  owns the accepted reference replay; [Task 05H](../../tasks/sprint2/05h_review_and_freeze_response_inventory.md)
-  owns the sole immutable curator-only response inventory and its
-  [Task 07/08 handoff](../specs/task05h_final_result.json).
-
-All of these tasks and Tasks 07–08 are complete. The
-[frozen Task 08 release](../specs/task08h_final_result.json) contains the approved
-49-case pool and exact 19/30 allocation.
-Exact identities, negative results and validation evidence remain in the numbered
-task records. Later tasks require separate authorization.
-
-### Remaining task sequence
-
-1. **Task 07 — Pilot reference-case authoring (closed).** Screen at least 50 accepted
-   comment-rooted cases with complete response context through human-only review,
-   then take a small varied subset through reviews for
-   one scoped question, claims/relevance, evidence, and a combined reference answer
-   with its reasoning (07E absorbs 07F). For those later authoring
-   stages, Codex proposes bounded batches in separate tasks; the curator reviews
-   each stage. Astra supplies model-assisted proposals; Kyle closed 07G and
-   chose to proceed to Task 08 without another pilot round or full retrospective. The
-   [Task 07 umbrella](../../tasks/sprint2/07_pilot_reference_case_authoring.md)
-   records the closed pilot's outcomes and handoff.
-2. **Task 08 — Curate, balance, split and freeze the benchmark.** The
-   [umbrella](../../tasks/sprint2/08_curate_grouped_benchmark.md) routes completed
-   authoring and the amended 08G/08H closeout. Retain all 49 approved cases in the
-   exact approved 19/30 allocation. Validate provenance, source and role separation,
-   approved split membership and documented overlap limits before sealing. No
-   retrieval, generation or judge run belongs to this task.
-3. **Task 09 — Evaluation components and judge freeze: complete.** Automatic
-   retrieval/citation metrics and independent A/G/S/C judges are established.
-   Luna A v2 / G v3 / C v8 and Haiku S v6 are selected through native Inspect.
-   [09F.2](../../tasks/sprint2/09f2_cleanup_production_judges.md) completed code
-   consolidation; [09G](../../tasks/sprint2/09g_challenge_and_freeze_judges.md)
-   freezes the committed configuration and existing evidence as documentation only.
-   Kyle explicitly replaced the provisional extra challenge/rerun requirement.
-   No new reserved-development check or held-out qualification is claimed.
-   Keep proposed-label uncertainty and known failures explicit. Task 11C integrates
-   whole-answer routing and aligned joins; Task 12 finalizes strict combined reporting.
-4. **[Task 10 — Prepare evidence-only inputs](../../tasks/sprint2/10_prepare_evidence_only_inputs.md): complete.**
-   The [result](../specs/task10_final_result.json) binds all 49 packets and validation.
-   One task, no subtasks: deterministically prepare the exact question and all
-   approved cited source passages for every one of the 49 cases. Preserve the
-   19/30 split, canonical mappings and complete text; validate target/reference
-   separation and publish reproducible packets and a handoff. No retrieval,
-   target inference or judge calls. Mechanical preparation of test inputs does
-   not open them for tuning or evaluation.
-5. **[Task 11 — Build and freeze Luna target generation](../../tasks/sprint2/11_build_and_freeze_target_generation.md).**
-   Start with Luna and pin the exact model/provider/settings before execution.
-   11A selects three development questions and a nested six-question panel;
-   11B builds the evidence-only generation runner; 11C integrates automatic
-   checks and frozen A/G/S/C judges; 11D cycles on the prompt using three then
-   six questions; 11E freezes a candidate and checks all 19 development questions
-   with bounded repeatability checks. Preserve exact request/output identities,
-   complete evidence, citations, abstention and context/output checks. Preserve
-   six/thirteen exposure identities in provenance; the current presentation pools
-   all 19 development questions under the accepted reporting policy. Development
-   results do not support a held-out performance claim.
-   Task 11 is complete with limitations: [11E](../../tasks/sprint2/11e_freeze_development_baseline.md)
-   retains all 114 Luna/Haiku answers (19 questions, three repeats each).
-   Task 12 reporting is complete; no further run is active.
-6. **[Task 12 — Tables, charts and reporting](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md): complete offline.**
-   The [frozen report contract](../specs/task12_reporting_v1.md) and
-   [result](../specs/task12_result.json) own definitions and readiness.
-   Reports include both-model component/automatic/joint results, three-repeat
-   at-least-once/every-time summaries, synthetic judge accuracy/repeatability and
-   Luna citation-occurrence/response-unit/document associations. The
-   [12A maintenance pass](../../tasks/sprint2/12a_reporting_code_quality.md) is closed;
-   use the [maintainer guide](../reporting_maintainer_guide.md) and its current
-   definition amendments. No new calls or full human audit were performed.
-7. **[Task 13 — Locked evaluation](../../tasks/sprint2/13_run_locked_test.md).**
-   After activation and readiness, run both frozen models on all 30 held-out cases,
-   three repeats each (180 planned target answers). Retain every failure and use
-   Task 12 reporting unchanged. No test-informed tuning or retrieval comparison.
-   Task 13 is complete; Luna and Haiku are the presented benchmark models.
-   [Task 13A](../../tasks/sprint2/13a_minimax_cloud_comparison.md) is an archived side
-   experiment, excluded from presented results. [Task 13B](../../tasks/sprint2/13b_locked_code_quality.md)
-   completed offline maintenance; original sealed results remain unchanged.
-8. **[Task 14 — Selective failure review](../../tasks/sprint2/14_selective_failure_review.md).**
-   After 13, inspect a small bounded selection of failures, successes and evaluator
-   disagreements, reusing prior analyses. Preserve frozen scores; no full human
-   labeling study or new judge accuracy experiment.
-9. **[Task 15 — Short methods/results writeup](../../tasks/sprint2/15_write_methods_and_results.md).**
-   Describe dataset construction/coverage, final methods, results and selected
-   limitations, using existing figures and examples. Keep Task 11 intervention
-   history internal. Close the sprint with a concise report and next-project decision.
-
-### Task 09 synthetic challenge scope
-
-[09A](../../tasks/sprint2/09a_create_synthetic_challenges.md) owns the complete
-perturbation catalog, record schema requirements, bounded alternative-argument
-discovery, restartable generation plan and coverage acceptance. Use only the
-19 development cases; retain positive invariance checks, meaningful partial-credit
-and central failures, and as many applicable perturbations as useful without
-contrived combinations or a fixed eight-variant cap. Preserve exact edits,
-intended effects, proposed G/A scores and evidence-based justifications separately
-from judge-visible answers. These are model-proposed expectations, not human gold.
-09A reserved final-check variants before prototype tuning. Those historical
-reservations remain preserved; the documentation-only 09G freeze does not evaluate
-them or claim an untouched final check. Existing development results remain
-uncalibrated automated judgments; the benchmark test cases stay untouched.
+Completed implementation and maintenance are documented in numbered task outcomes.
+The [sealed Task 13 result](../specs/task13_result.json) selects the test publication;
+the [Task 12 result](../specs/task12_result.json) selects development reporting.
+The [reporting maintainer guide](../reporting_maintainer_guide.md) owns reuse.
+Earlier sequencing and superseded proposals are preserved in the
+[historical sprint snapshot](../history/sprint2_history.md).
 
 ## UI and artifact boundary
 
-Docling Serve's UI is a convenience for conversion spot checks. Keep three
-artifact layers explicit: preserved producer output, immutable canonical
-records, and regenerable review cache. Canonical extraction evidence is the
-saved producer and canonical output plus machine validation records, not the
-presence of renders. Task 04 and Task 04A use the small read-only local
-HTML workspace and durable finding register. Label Studio remains the planned
-human-review surface for the later benchmark annotation/evaluation contract; it
-does not replace their extraction-review workspace. A deterministic export
-converter produces benchmark JSONL pinned to accepted artifact identities. Raw
-PDFs, converted text, renders, indices, local models, and runs remain under
-`ER_COMMONS_DATA_ROOT`, not Git.
+Use a structured chat review for Task 14, with persistent selected-answer IDs,
+evidence references, observations, Kyle's feedback and unresolved questions.
+Do not start a full labeling interface or human-calibration study. Generated
+reviews, figures, tables and underlying data stay under `ER_COMMONS_DATA_ROOT`;
+tracked documentation contains contracts and compact pointers. Preserve sealed
+source artifacts and make review commentary a separate derivative.
 
 ## Benchmark evaluation boundary
 
-The accepted [2026-10-16 grounding simplification](../decisions/006_structured_answers_four_part_evaluation.md#grounding-simplification--2026-10-16)
-supersedes the conclusion-grounding, conclusion-citation requirement and grounding
-0/1/2 rules below. The completed 09F/09F.1 components use a three-way no-answer
-classifier and binary G/S/C decisions; the 09G manifest owns their frozen identities.
-The earlier ordinal judge rubrics below are historical. Supporting-point grounding,
-S and C run independently; reporting adds their strict conjunction while preserving
-the separate results. Legacy results/releases remain preserved; obsolete
-execution paths were retired in 09F.2. [09F.1](../../tasks/sprint2/09f1_revisit_grounding_judge.md)
-establishes no-answer and grounding components; [Task 12](../../tasks/sprint2/12_integrate_evaluation_and_reporting.md)
-finalizes combined reporting after Task 11C implements routing integration. No automatic-metric change or
-provider run follows this plan update.
+The maintained [reporting definitions](../specs/task12_reporting_v1.md), their
+amendments in the [reporting guide](../reporting_maintainer_guide.md), and the
+[09G freeze](../specs/task09g_judge_freeze_v1.json) own exact scoring and joins.
+A classifies answer routing; G evaluates required supporting/qualification points;
+S measures support sufficiency; C evaluates the conclusion independently. Joint
+success requires applicable automatic/A/G/S/C results on the same answer.
+Citation recall/F1 is diagnostic, with no new joint-success threshold.
 
-Accepted revision 2026-10-08: [Decision 006](../decisions/006_structured_answers_four_part_evaluation.md)
-defined four separate results: automatic retrieval recall, automatic final-citation
-precision/recall/F1, LLM grounded correctness and LLM answer adequacy. Use one
-structured, cited reference answer, approved in 08F, as both the answer and the
-adequacy guide. No duplicate prose answer or later essential-points labeling.
-Task 09 implemented and froze the components before benchmark execution.
-Decision 007 makes retrieval recall not applicable to the first, evidence-only
-condition; retain the other results separately.
+Retain failures, unavailable judgments, N/A values and planned denominators.
+Never combine passing components across repeats. Report all 30 test questions
+together, separate from development. Synthetic challenge diagnostics do not
+establish human calibration or an untouched held-out judge qualification.
+Reserved judge challenges remain reserved. Task 14's selective commentary neither
+changes frozen scores nor estimates population error rates or human agreement.
 
 ### Structured answer output
 
-For `answered`, return a direct conclusion, essential supporting points and
-material qualifications attached to the points they constrain, each with citation
-links. Optional context is separate. Derive the citation set from those links;
-do not require a duplicate model claims list or flowing-text answer. The reference
-and target use this general structure, not identical point counts or wording.
-Use `insufficient_evidence` for abstention; unsupported substantive assertions
-cannot be shielded from grounding evaluation by an abstention status.
+The frozen schema uses a conclusion, supporting points, material qualifications,
+optional context and explicit citation links. Target and reference may differ
+in wording and point count. Citation validity and abstention routing follow the
+frozen contracts; a substantive assertion cannot avoid grounding checks merely
+by carrying an abstention status.
 
 ### Automatic citation metrics
 
@@ -776,7 +168,7 @@ attempts in a separate set:
 **Retrieval recall (deferred retrieval conditions only)** is `|R ∩ S| / |S|`. It measures whether supporting sources
 reached the model, including results across queries only in a separately approved
 multi-query condition. Searching a document does not count as retrieving every
-reference unit inside it. For the deferred top-five design, deeper ranked results are diagnostics only.
+reference unit inside it.
 For the current supplied-evidence baseline, report retrieval recall as not
 applicable, not perfect recall from the provided reference passages.
 
@@ -802,99 +194,20 @@ preserve it for error analysis or separately authorized human review without
 silently editing the frozen test reference. Likewise, all right citations can accompany a reversed conclusion or
 unsupported inference. Automatic citation scores do not establish logical use.
 Canonical-ID/anchor projection, schema validity, allowed corpus and citation
-resolution remain deterministic checks independent of the two judgments below.
-
-### LLM answer judgments
-
-**Adequacy update (2026-10-14):** The maintained
-[adequacy labeling rules](../specs/adequacy_labeling_rules.md) now own adequacy
-semantics and supersede conflicting adequacy text below, including abstention=0,
-partial conclusion credit and alternative substantive answers. The historical
-runtime has not migrated. The rules retain separate conclusion/support decisions,
-derive 0/1/2, and skip semantic judging for explicit abstentions; denominator policy
-is deferred. Grounding and automatic metrics remain unchanged. The new adequacy
-request/diagnostic schema must be specified before implementation.
-
-Score both dimensions per complete answer on an anchored `0`/`1`/`2` rubric.
-Statement-level observations remain diagnostic explanations, not a third score.
-
-1. **Grounded correctness:** do the cited sources justify the claims, conclusion
-   and visible reasoning, with their essential qualifications? `2`: supported,
-   logically justified and appropriately qualified; `1`: partly supported or
-   contains a material overstatement/unsupported step; `0`: central conclusion
-   contradicted, unsupported, or not established by the cited material. Do not
-   infer hidden reasoning or trust a citation merely because its ID matches.
-2. **Answer adequacy:** does the whole answer address the exact scoped question
-   and include the essential findings/conditions needed for a complete answer?
-   `2`: substantively correct, direct and complete; `1`: partial, indirect or missing an
-   important element; `0`: misses or materially misframes the central question.
-   The reviewed reference guides substantive expectations, not wording, order,
-   length or exhaustive citation reuse. Accept valid alternative explanations.
-
-These are whole-answer partial-credit scores, not fractions of correct points.
-A wrong central citation with no remaining cited justification can earn grounding
-0 even for a true conclusion; an unsupported secondary point generally earns 1
-when the remaining citations independently establish the conclusion. Never repair
-the answer by substituting the source it should have cited. A correct conclusion
-missing essential explanation generally earns adequacy 1; missing optional context
-has no penalty. Follow [Decision 006](../decisions/006_structured_answers_four_part_evaluation.md#partial-credit-and-wrong-citations).
-Report mean scores and 0/1/2 distributions with applicable denominators.
-
-One omission can affect both dimensions for different reasons: removing a critical
-condition can make the conclusion unsupported and the answer incomplete. Explain
-both judgments rather than forcing mutually exclusive error categories. Neither
-judgment requires every reference citation to appear in the answer.
-
-Target output follows the structured format above. On the answerable
-benchmark, abstention has grounded correctness not applicable and adequacy `0`;
-report it separately. Automatic final-citation metrics still reflect what was cited; retrieval recall
-is not applicable to the current condition. Analyze abstention using the supplied
-evidence context; do not call unsupported absence claims a
-successful abstention.
-
-### Two judge calls and diagnostic output
-
-Grounded correctness receives the scoped question, model structured answer and
-actual cited passages. Hide the reference answer, gold support/context roles,
-citation matching scores and target identity. The question is necessary to check
-application to the right scenario; this is not an essential-point coverage check.
-Save this judgment independently before revealing reference material.
-
-Answer adequacy receives the same question and model answer, structured reference
-answer and reviewed source pool, plus the model's cited evidence for assessing
-alternatives. Check essential substance and necessary qualifications, not wording,
-point count or exhaustive citation reuse. Neither judge may use official-response
-claims as evidence. Do not overwrite the grounding result with reference-based
-judgments. Keep automatic matching scores and target identity hidden from both.
-
-Both dimensions can fail for the same false explanation. A true but incomplete
-answer can pass grounding and fail adequacy. Missing scope conditions can affect
-both; merely missing an additional useful point does not make an otherwise
-supported assertion ungrounded. Statement-level diagnostics identify exact model
-points, source passages, unsupported or contradicted steps, and omitted material
-qualifications. Adequacy also identifies missing essential reference points.
-These are automated explanations, not further gold labels or primary scores.
+resolution remain deterministic checks independent of the frozen A/G/S/C judgments.
 
 ### Judge qualification and labeling budget
 
-08F is the last planned substantive case-labeling pass. No mandatory human
-prediction-labeling or human calibration pass follows it. The earlier 80-percent
-agreement/endpoint/flag-recall gate and mandatory human review of all test outputs
-are superseded by Decision 006, not silently considered satisfied.
-
-Without separately authorized human calibration, report the two judge scores as
-**uncalibrated automated judgments**. Pin model, prompts, schemas and exact inputs;
-run bounded automated development checks for evidence sensitivity, reversed
-conclusions, dropped conditions and valid paraphrases. Such checks do not measure
-human agreement. Do not tune on locked-test outputs. Preserve every judgment and
-its dimension-specific evidence explanation, uncertainty and execution failures.
-Any future human calibration requires separate authorization and its own real
-labels before agreement statistics can be reported. Reference incompleteness and
-judge error remain explicit limits; reference-answer approval is not judge validation.
+Treat judge results as uncalibrated automated judgments. The
+[judge maintainer guide](../judge_maintainer_guide.md) and completed
+[09G task](../../tasks/sprint2/09g_challenge_and_freeze_judges.md) own qualification
+provenance and limitations. Human reference approval is not judge validation.
+Task 14 provides bounded, evidence-backed interpretation; new calibration,
+reannotation, model calls or scoring revisions require separate scope.
 
 ## Completion gate
 
-Sprint 2 is ready for a second-project decision only after the Task 08-agreed
-locked test run is reproducible, citations resolve, automated-judge qualification
-and its uncalibrated status (unless separately calibrated) are reported, and error
-analysis identifies the limiting stage.
+The sprint is ready for a second-project decision when the sealed locked test is
+reproducible, citations and reporting are verified, selected human-reviewed
+examples explain material limitations, and Task 15 presents the methods and
+results with explicit scope and uncalibrated-judge limitations.

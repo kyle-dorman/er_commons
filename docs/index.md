@@ -4,31 +4,30 @@ Start with `AGENTS.md`, then use this page to choose the smallest useful context
 
 ## Current status
 
-**Task 13 is closed with all 180 evaluations complete:** 90 per model across
-30 test questions and three fresh answers each. The
-[sealed result pointer](specs/task13_result.json) selects the final report and
-gallery. Presented benchmark results cover **Luna and Haiku only**.
-[Task 13B maintenance](../tasks/sprint2/13b_locked_code_quality.md) is closed.
-No task or remote run is active; Tasks 14–15 remain provisional.
+**[Task 14 — Selective review](../tasks/sprint2/14_selective_failure_review.md)
+is active.** The next chat will review a small selection of saved Luna/Haiku
+answers with the user, one structured review unit at a time. Task 15 remains
+provisional; no remote run is active.
 
-The benchmark contains **49 questions: 19 development and 30 test**. Development
-and test publications remain separate, as do synthetic judge accuracy and
-repeatability. See the [Task 13 outcome](../tasks/sprint2/13_run_locked_test.md)
-for coverage, accounting and limitations.
+The benchmark contains **49 questions: 19 development and 30 test**. The
+[sealed test result pointer](specs/task13_result.json) selects all 180 Luna/Haiku
+evaluations and the final gallery. Development results and synthetic judge
+diagnostics remain separate. MiniMax is excluded from presented results.
 
 ## Next work
 
-Tasks 14–15 require separate activation:
+Start with the [Task 14 contract](../tasks/sprint2/14_selective_failure_review.md):
+propose six answer instances, including a matched Luna-success/Haiku-failure
+comparison, then discuss and save each review with the user. The task owns the
+review form, stopping rule and confirmation requirements.
 
-1. [Task 14 — Selective review](../tasks/sprint2/14_selective_failure_review.md):
-   bounded diagnosis of the completed frozen test results.
-2. [Task 15 — Methods/results](../tasks/sprint2/15_write_methods_and_results.md):
-   short writeup of dataset construction, methods, results and limitations.
+[Task 15 — Methods/results](../tasks/sprint2/15_write_methods_and_results.md)
+follows the confirmed synthesis and requires separate activation.
 
 See [TODO](todo.md) for the actionable queue and
 [Sprint 2](sprints/sprint2_brisbane_draft_eir_defense.md) for scope.
 
-## Read for reporting and Task 13
+## Read for review and reporting
 
 | Need | Authoritative route |
 | --- | --- |

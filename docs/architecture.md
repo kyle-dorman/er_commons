@@ -368,15 +368,7 @@ Task 03J's exact v4 configuration set is documented in
 configurations remain separate historical or diagnostic inputs and must not be
 mixed with current native-v2 production contracts.
 
-## Historical implementation record
-
-The completed Task 03A through Task 03J records preserve implementation detail,
-negative experiments, identities, and validation evidence. They are the source
-of truth for historical reconstruction, not current entry-point instructions.
-Use the active task and the versioned specifications for new work; do not copy
-old task-era package names, commands, or artifact roots into a current contract.
-
-### Task 07D repeatable discovery and citation assembly
+## Repeatable discovery and citation assembly
 
 `pilot_evidence_search` builds a source-bound SQLite FTS5 cache and produces
 ordered BM25 receipts from fixed query plans. The index is a derived external
@@ -605,8 +597,9 @@ another judge's predictions. Development loaders retain explicit frozen data sea
 `configs/judges_selected_v1.json` and `configs/judge_models_v1.json` are the current
 selection and provider contracts. Exact selected prompt/schema identities are
 validated before selected dispatch. Inspect owns transport, generation, retries,
-concurrency and logs. Invalid output remains a non-decision. Task 11C owns initial routing
-and per-question reporting; Task 12 finalizes combined reporting. 09G owns the freeze.
+concurrency and logs. Invalid output remains a non-decision. The saved-candidate
+evaluator owns routing and per-question reporting; the Task 12 reporting contracts own combined reporting.
+09G owns the freeze.
 
 09F.2 retired the older staged/whole-answer grounding and adequacy runners,
 hand-written cloud transports and experiment dispatch. Their source is recoverable
@@ -632,73 +625,10 @@ remain author proposals, not evaluator predictions or human calibration. The
 [09A.2 contract](../tasks/sprint2/09a2_regenerate_point_expectations.md) owns scope
 and the fresh result; existing judge pipelines are not invoked or modified.
 
-For bounded point-prompt comparisons, `grounding_run --pipeline points` reuses the
-staged Inspect adapter while skipping abstention/conclusion calls. It retains
-zero-point samples, emits null answer scores, and aggregates validated point flags
-without answer-level accuracy. The [v2 comparison contract](specs/task09e_point_scope_v2.md)
-owns the frozen inputs and source-review requirements.
-
-The combined 09A.3 panel adapter (`grounding_dataset_panel`) verifies the new
-publication, eligibility and record-specific origins independently of the preserved
-four-answer panel loader. `grounding_run --dataset-version 09a3` selects it;
-`dev6_additions` loads only the additional three cases. An explicit
-`freeze_dataset_panel(..., full_dev=True)` publication and `full_dev` loader
-selection support the user-authorized full development comparison; the default
-stays at six cases and exact sealed development membership is required. Restricted stage expectations
-are canonical-ID-mapped metadata, never model input. Inspect reports stage-level
-agreement and coverage separately from final scores; missing/invalid predictions
-are not false labels. The [combined rerun contract](specs/task09e_09a3_small_v1.md)
-owns authorized counts and experiment bounds.
-
-
-Task 09E.1 retains historical strict judge behavior while extracting the shared
-legacy stage executor into `grounding_stage_runtime`. New `grounding_comparison_*`
-modules separately own sealed Dev3 loading, semantic/quotation validation, provider
-wire mappings, exact preflight and budgets, Inspect execution, offline audits and
-post-run proposed-label analysis. Binary-only observations cross stage boundaries.
-The live CLI is create-only; incomplete attempts never trigger automatic replay.
-See the [comparison contract](specs/task09e1_comparison_v1.md) and
-[cloud handoff](specs/task09e1_cloud_handoff.md) for qualification gates and commands.
-Clef execution and its uncounted local exception are retired. Historical receipts
-remain unchanged. The maintained three-model profile selects GLM with Luna/Haiku
-alternatives, while legacy Ollama paths remain for local integration checks.
-See the [maintainer guide](grounding_judge_guide.md) and
-[09E.2 cleanup](../tasks/sprint2/09e2_cleanup_grounding_judges.md).
-
-Pure sample/metrics contracts live in `grounding_records` and `grounding_metrics`;
-source-text traversal and local transport policy have separate owners. Cloud
-prompts are frozen independently of legacy prompt wording. Provider configuration
-is validated before rendering. The shared cloud budget stops further reservations
-on transport uncertainty, cancellation, storage/receipt failures and native
-identity/usage mismatch, including requests already waiting on token counting.
-Explicitly pinned development panels are checked against original source/answer
-projections without loading labels; post-run analysis alone consumes expectations.
-Coverage-aware metrics separate original claims, reviews, conclusions and scores.
-
-Bounded generation experiments may supply a nonempty per-stage prompt override;
-its actual rendered request and configuration identity are preserved in receipts.
-Default prompts remain unchanged. OpenAI sampling overrides are explicitly
-validated against the selected reasoning mode, and cache controls are rendered
-only when configured for that model. Exact counting omits generation-only
-sampling fields while retaining the full generation request's hash binding.
-See the [settings/prompt contract](specs/task09e1_settings_prompts_models_v1.md).
-
-The comparison evaluator accepts validated stage-specific prompt mappings, so
-fresh point decisions flow into conclusions with independently selected review
-instructions. Luna can opt into an evidence-prefix cache breakpoint: two text
-blocks concatenate to the original JSON exactly, while implicit caching still
-covers exact duplicates. The exact counter retains nested breakpoint markers.
-Schema differences and short prefixes can still prevent reuse; neither provider
-caching nor prompt overrides reuse saved judgments. See the
-[bounded pipeline outcome](specs/task09e1_luna_cache_pipeline_result.md).
-
-The bounded [frozen-claims conclusion experiment](specs/task09e1_luna_conclusion_blind_v1.md)
-adds explicit Luna-only stage options. Blind review projects prior observations
-to IDs before native rendering and counting; original observations remain offline
-for validation and the unchanged disagreement gate. Conclusion-only mode has its
-own genuine output schema without point reviews and a separate aggregator using
-frozen point decisions directly. Default requests and scoring are unchanged;
-the experimental paths do not invent reviews or silently suppress disagreements.
+Earlier point-prompt, cache and conclusion comparisons are retained in the
+[historical architecture notes](history/architecture_history.md#judge-development-experiments).
+Their runners are not current judge entry points; use the production judge guide
+above for the frozen A/G/S/C implementation.
 
 ## Evidence-only target input preparation
 
@@ -822,8 +752,8 @@ Edit prompt text only in its versioned prompt file under an authorized new condi
 `alternative_target_generation` and `haiku_output_generation` retain the earlier
 registered comparison conditions. Do not broaden these historical limits to run
 the accepted all-19 condition. The sealed 11E runner/report scripts are execution
-snapshots, not a second editable package API. Task 12 must explicitly select any
-reporting code it needs to maintain. See [11F](../tasks/sprint2/11f_cleanup_target_generation.md)
+snapshots, not a second editable package API. The frozen offline reporting modules
+below own maintained reporting. See [11F](../tasks/sprint2/11f_cleanup_target_generation.md)
 for the cleanup review and offline validation.
 
 ## Frozen offline result reporting
@@ -857,8 +787,8 @@ provider construction unless the task records a specific user-accepted exception
 The gate records the accepted OpenAI counting-fee exception separately from
 verified prices; unknown actual fees remain null and the zero planning allowance
 is not a provider-confirmed price. Reserved or uncertain requests cannot be
-automatically replayed. Task 13 is closed with all 180 evaluations complete;
-sealed reporting preserves every planned slot and the original scoring definitions.
+automatically replayed. Sealed reporting preserves every planned slot and the
+original scoring definitions.
 See [Task 13](../tasks/sprint2/13_run_locked_test.md) for the accepted exception,
 validation and limitations.
 
@@ -873,24 +803,9 @@ continuations preserve the union of those intervals and charge live queueing
 against elapsed evaluation time. The six-hour global window, $10 spending cap
 and shared ceiling of 10 remote requests remain unchanged.
 
-## Archived MiniMax side experiment
+## Archived experiments
 
-This code is retained for historical reproducibility, not active model work.
-Its sealed outputs are excluded from presented benchmark results. The maintained
-Task 13 result route selects Luna and Haiku only.
-
-
-[Task 13A](../tasks/sprint2/13a_minimax_cloud_comparison.md) adds a narrow
-`minimax_provider` native-schema generation adapter, a separately bound
-`minimax_run` roster/accounting wrapper and offline `minimax_reporting` replay.
-The original evaluator and judges remain unchanged; explicit generation/delivery
-hooks let the existing slot runner and observation replay consume actual Ollama
-messages. The final publication retains all 90 attempted slots, including invalid outputs
-and provider failures; no automatic continuation or retry is authorized.
-
-`minimax_continue` binds the explicitly approved 90-minute active evaluation
-deadline to a copied sealed ancestor, preserving original answer identities and
-cumulative reservations. One answer worker finishes saved partial evaluations
-before verified untouched slots, matching the retained rate-limit concurrency.
-A durable global restart excludes only the sealed administrative pause; live
-queueing and the original six-hour clock continue to count.
+MiniMax code and sealed artifacts are retained only for historical reproducibility.
+Presented results select Luna and Haiku. The [Task 13A outcome](../tasks/sprint2/13a_minimax_cloud_comparison.md)
+owns the archived experiment and its limits; [historical architecture notes](history/architecture_history.md#archived-minimax-side-experiment)
+retain its module and continuation details.

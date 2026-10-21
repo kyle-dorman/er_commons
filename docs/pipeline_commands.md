@@ -1,6 +1,7 @@
 # Maintained pipeline commands
 
-Task 06B separates current execution requests from immutable historical evidence.
+These entrypoints describe maintained interfaces; completed-task commands are
+historical evidence unless an active contract selects them.
 Run commands from the repository with `uv run python scripts/<name>.py` (or the
 package CLI shown below). Paths in a request are resolved by its typed loader;
 read that loader's schema before preparing a new request. `--help` performs no
@@ -112,23 +113,18 @@ Saved-report figure/table export and explicit legacy-judge enrichment are docume
 in the [reporting maintainer guide](reporting_maintainer_guide.md). The exporter
 accepts `--primary-model`; model comparison rosters come from saved tables.
 
-## Task 13 locked evaluation
+## Locked evaluation and selective review
 
-Task 13 is closed with all 180 evaluations complete. These are the
-implemented preparation/dispatch interfaces, not instructions to restart the
-closed run. Further execution requires a separately scoped active contract.
-Preparation itself makes no remote requests:
+Task 13 is closed. Its [task outcome](../tasks/sprint2/13_run_locked_test.md)
+retains historical preparation/dispatch commands and the approved execution gates;
+these do not authorize restarting the run. Use the
+[sealed result pointer](specs/task13_result.json) for the completed Luna/Haiku report.
+The final gallery is `task_13/test_30_review/START_HERE.html` beneath the project's
+external pipeline root. Offline re-export uses the
+[reporting maintainer guide](reporting_maintainer_guide.md) and a fresh destination.
 
-```bash
-uv run --offline --env-file .env python -m er_commons.locked_run prepare --output /path/to/fresh/task_13/run
-uv run --offline --env-file .env python -m er_commons.locked_run dispatch --output /path/to/reviewed/task_13/run
-```
-
-Paths must be beneath the configured external Task 13 root. Dispatch requires a
-matching approved independent preflight receipt, unchanged inputs/code and verified
-pricing evidence plus the explicit user-accepted OpenAI counting-fee exception.
-Do not bypass the gate, clear the policy stop or start a new paid namespace to
-reset limits. See the [Task 13 outcome](../tasks/sprint2/13_run_locked_test.md) and
-[sealed result pointer](specs/task13_result.json). The final gallery is
-`task_13/test_30_review/START_HERE.html` beneath the project's external pipeline
-root; offline re-export uses the reporting command above and a fresh destination.
+[Task 14](../tasks/sprint2/14_selective_failure_review.md) is active for structured,
+iterative review with Kyle in the next chat. Read saved score tables to select
+examples, then review their saved answers and evidence within the task's bounds.
+It authorizes no remote generation, judging or token-counting requests and no
+changes to sealed scores. The task contract owns the review record and handoff.

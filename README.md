@@ -12,14 +12,13 @@ format, or command-line tool does not cleanly solve the need.
 
 ## Current milestone
 
-The first benchmark has 49 questions: 19 development and 30 test. Development
-execution, offline reporting and the reporting code-quality pass are complete.
-[Task 13](tasks/sprint2/13_run_locked_test.md) is closed with all 180 evaluations
-complete: Luna and Haiku each answered all 30 test questions three times.
-The sealed test report and final gallery preserve the frozen evaluation definitions
-and all original receipts. Presented results cover Luna and Haiku only.
-[Task 13B maintenance](tasks/sprint2/13b_locked_code_quality.md) is complete.
-No task is active; Tasks 14–15 remain provisional.
+The benchmark has 49 questions: 19 development and 30 test. Presented model
+results cover Luna and Haiku, with three answers per test question and sealed
+figures and tables. Development and synthetic judge diagnostics remain separate.
+
+[Task 14](tasks/sprint2/14_selective_failure_review.md) is active for a small,
+structured review of saved answers with the user. Task 15 will turn the results
+and confirmed examples into a short methods/results report and remains provisional.
 
 Use the [docs index](docs/index.md) for accepted inputs and status, the
 [queue](docs/todo.md) for next actions, and the

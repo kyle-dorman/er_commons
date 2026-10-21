@@ -1,6 +1,7 @@
 # Task 14 — Selective failure and evaluator-disagreement review
 
-Status: provisional; after Task 13. No new review or locked-content access now.
+Status: active (2026-10-21). Structured review with the user begins in the next
+chat; this activation does not record any completed reviews.
 
 ## Abstract and goal
 
@@ -12,18 +13,25 @@ turning this into a comprehensive human-labeling or judge-calibration project.
 
 Read Task 13's sealed results, Task 12 tables/charts and existing Task 11 manual
 findings. Target-model examples are limited to Luna and Haiku; the archived
-MiniMax side experiment is excluded. Reuse earlier judge challenge examples where
-relevant. Output a small selection manifest, case notes and a concise synthesis
-with exact answer/repeat/
-point IDs and links to source evidence, verdicts and prior review.
+MiniMax side experiment is excluded. Reuse only previously reviewed/disclosed
+judge challenge examples where relevant; reserved challenges remain unopened. Output a small selection manifest, case notes and a concise synthesis
+with exact answer/repeat/point IDs and links to source evidence, verdicts and
+prior review.
 
 ## Plan and research checkpoint
 
 1. Use completed automatic/component tables to select examples, not ad hoc browsing
-   of test content. Start with six examples, with a provisional ceiling of twelve
-   complete answer instances including reused examples. Refresh that bound before
-   work; expanding it requires a documented scope change. Include both models,
-   a clear failure, a repeat disagreement and at least one success/near miss.
+   of test content. Review six complete answer instances, including reused
+   examples, as the intended stopping point. Expand only to answer a named,
+   important question left unresolved by those six; document that question and
+   the additional selection before reviewing more answers. Twelve is the ceiling,
+   not a target; exceeding it requires a separately documented scope change.
+   Include both models, a clear failure, a repeat disagreement and at least one
+   success/near miss. Include at least one same-question comparison where Luna
+   passes the frozen joint criterion and Haiku fails it. Count the paired answers
+   as two of the six instances. Select exact repeats from saved score tables
+   before reading answer prose and disclose the other repeats' recorded outcomes;
+   the selected contrast is illustrative, not evidence of a consistent gap.
 2. Prioritize questions that explain a distinct limitation. Use existing reviews
    first; avoid re-reviewing all failed judgments or every answer in a selected
    case. Record the selection rationale and which populations were not reviewed.
@@ -33,12 +41,20 @@ point IDs and links to source evidence, verdicts and prior review.
    omissions, answer completeness, input/specification mismatch, reference scope,
    evaluator disagreement and execution/formatting failures. Allow multiple causes;
    do not force a definitive cause where the evidence is ambiguous.
-4. Use Task 12's component intersections to inspect selected cases where C passes
+   For the Luna/Haiku pair, compare substantive claims, qualifications, cited
+   support and the final conclusion against the same question and supplied
+   evidence. Treat the user's impression that Haiku adds more claims and
+   qualifications as a hypothesis, not a selection rule or finding. Distinguish
+   supported, relevant qualifications from unsupported or unnecessary additions,
+   and report evidence that contradicts the hypothesis as well as supports it.
+   Do not infer a model-wide tendency from this selected pair.
+4. Use Task 13 component outcomes under the Task 12 definitions to inspect
+   selected cases where C passes
    despite G/S failure, or C fails despite grounded support. These are diagnostic
    patterns, not proof of hidden model reasoning or of which judge is wrong.
 5. Preserve frozen scores beside commentary. Explain source contradictions,
    plausible alternate evidence or reference limitations without silently rescoring.
-   Choose a few relevant historical challenge examples instead of conducting a
+   Use relevant previously reviewed/disclosed challenge examples instead of conducting a
    new full human judge audit. Report review counts, not population error rates.
 
 Borrow stage-aware examples from [DocScope §§4/B.5/F.6](https://arxiv.org/html/2605.08888v2)
@@ -47,21 +63,78 @@ and the distinction between model and answer-extractor errors from
 Adapt the categories to supplied text/table evidence; no new spatial grounding
 metric or evidence-trajectory annotation is required.
 
+## Interactive review workflow
+
+The user wants to review the examples iteratively with the agent in the next
+chat. Prepare and verify saved materials offline, but do not complete a batch of
+interpretive reviews or infer user agreement before that discussion.
+
+1. Verify the accepted Task 13 result pointer and relevant sealed tables. Propose
+   a six-answer selection manifest with exact identities, selection rationale,
+   frozen outcomes and intended coverage. Discuss the roster with the user before
+   beginning case review. Start with the matched Luna-pass/Haiku-fail question.
+2. Present one review unit at a time; the matched pair is one discussion unit but
+   consumes two answer instances. Show the question, both answers side by side
+   where useful, selected evidence excerpts with source IDs, and the frozen
+   automatic/A/G/S/C/joint outcomes. Keep additional evidence accessible by link.
+3. Use the same compact review form below for every unit. Offer a tentative agent
+   interpretation clearly labeled as such, then ask for the user's interpretation,
+   corrections and unresolved questions. Follow up on requested evidence within
+   the selected scope. Wait for the user's response before finalizing that unit
+   or advancing; silence is not agreement.
+4. Save the discussion outcome after each unit. Keep agent proposals separate
+   from the user's actual comments and confirmation. A review may be accepted
+   with an unresolved interpretation; never force agreement or invent a human
+   verdict. On resumption, show the last saved status and next pending unit.
+5. After six answer instances, summarize supported observations, counterexamples
+   and uncertainties for the user. Stop unless a named important question
+   justifies additional examples within the ceiling. Complete a bounded evidence
+   and wording check, then obtain the user's confirmation of the final synthesis
+   before closing Task 14 or handing its examples to Task 15.
+
+### Review form and saved records
+
+| Field | Required content |
+| --- | --- |
+| Identity and selection | Review ID; question/case ID; model, run and repeat IDs; why selected; source completion digest. |
+| Frozen observations | Original automatic/component/joint outcomes; other repeats' recorded outcomes; no revised score. |
+| Answer and evidence | Exact excerpts and source/point IDs supporting the discussion; distinguish supplied evidence from reference answer and judge rationale. |
+| Agent assessment | Claim, qualification, support and conclusion comparison; tentative explanation; attribution confidence and alternative explanations. |
+| User review | The user's comments/corrections, accurately quoted or labeled as paraphrase; unresolved questions. Leave empty until the user responds. |
+| Disposition | Pending discussion, needs evidence, or user-confirmed; accepted interpretation and remaining uncertainty. |
+| Writeup use | Proposed short lesson/example and its selection limits; mark pending until confirmed. |
+
+Use a fresh review directory under
+`ER_COMMONS_DATA_ROOT/pipelines/brisbane_baylands/task_14/` for the selection
+manifest, per-unit Markdown forms, revision/event record and final synthesis.
+Plain JSON and Markdown are sufficient; no review application is needed.
+Preserve earlier form revisions or record changes in the event record so user
+corrections remain traceable. Link exact saved inputs; never modify sealed Task
+13 artifacts. Keep the task outcome concise and route detailed review history to
+these external records. Agent/subagent evidence checks supplement the user's
+review; they do not count as human confirmation.
+
 ## Validation, review and acceptance
 
 Check excerpts against saved evidence and exact candidate identities. A bounded
 second review checks the selected examples and claim wording, not the whole test
 set. Each claim distinguishes model error, dataset/evaluator limitation and
 unresolved interpretation. State selection bias and the small review's limits.
+Confirm the matched comparison is included and any expansion beyond six has a
+specific recorded justification. If no eligible Luna-pass/Haiku-fail pair exists,
+report that limitation rather than changing the success criterion.
 Deliver a handful of useful cases to Task 15, not a new leaderboard.
 Documentation changes use link/diff inspection and `git diff --check`.
 
 ## Non-goals
 
 Exhaustive human failure analysis, new human accuracy/F1 estimates, reannotation,
-new model calls, prompt/judge changes, correcting the frozen test score, or adding
+new model calls, reserved judge-challenge inspection, prompt/judge changes,
+correcting the frozen test score, or adding
 an experiment because an example is interesting. No commit or push.
 
 ## Outcome
 
-Planning only. This task begins after the locked evaluation and remains selective.
+Activated for the next chat. No examples have been selected or reviewed yet.
+The finish line is a user-confirmed, bounded synthesis and traceable review forms
+for Task 15; Task 15 remains provisional.
