@@ -1,12 +1,14 @@
 # Task 14 — Selective failure and evaluator-disagreement review
 
-Status: active (2026-10-21). Structured review with the user begins in the next
-chat; this activation does not record any completed reviews.
+Status: complete (2026-10-21). Eight selected answers discussed; final synthesis
+confirmed by the user and required quality pass completed. Unresolved judgments
+remain recorded. Task 15 plans C-judge repair; Task 16 owns the later writeup.
 
 ## Abstract and goal
 
 Explain a small, useful selection of model failures and evaluator disagreements
-from the completed runs. Produce evidence-backed examples for Task 15 without
+from the completed runs. Produce evidence-backed examples for Task 16 and
+diagnostic findings for Task 15 without
 turning this into a comprehensive human-labeling or judge-calibration project.
 
 ## Inputs and outputs
@@ -65,6 +67,15 @@ metric or evidence-trajectory annotation is required.
 
 ## Interactive review workflow
 
+User amendment (2026-10-21): after accepting the roster, the user authorized
+offline agent assessment of all six selected inputs, predictions and judgments
+before interactive discussion. Discuss single-model units first (U02, U03, U04,
+U05), then the matched pair U01 together. Show the question, exact conclusion,
+selection reason, what worked/failed and ambiguities, then the full model
+supporting response rather than an evidence summary. This supersedes the initial
+pair-first order and restriction on batch agent preparation below; it does not
+authorize batch human confirmation or advancing discussion without feedback.
+
 The user wants to review the examples iteratively with the agent in the next
 chat. Prepare and verify saved materials offline, but do not complete a batch of
 interpretive reviews or infer user agreement before that discussion.
@@ -90,7 +101,7 @@ interpretive reviews or infer user agreement before that discussion.
    and uncertainties for the user. Stop unless a named important question
    justifies additional examples within the ceiling. Complete a bounded evidence
    and wording check, then obtain the user's confirmation of the final synthesis
-   before closing Task 14 or handing its examples to Task 15.
+   before closing Task 14 or handing its confirmed examples to Task 16.
 
 ### Review form and saved records
 
@@ -123,7 +134,8 @@ unresolved interpretation. State selection bias and the small review's limits.
 Confirm the matched comparison is included and any expansion beyond six has a
 specific recorded justification. If no eligible Luna-pass/Haiku-fail pair exists,
 report that limitation rather than changing the success criterion.
-Deliver a handful of useful cases to Task 15, not a new leaderboard.
+Deliver a handful of useful cases to Task 16, not a new leaderboard. The separately
+scoped Task 15 may use disclosed findings to motivate its C-judge revision.
 Documentation changes use link/diff inspection and `git diff --check`.
 
 ## Non-goals
@@ -135,6 +147,20 @@ an experiment because an example is interesting. No commit or push.
 
 ## Outcome
 
-Activated for the next chat. No examples have been selected or reviewed yet.
-The finish line is a user-confirmed, bounded synthesis and traceable review forms
-for Task 15; Task 15 remains provisional.
+Completed eight answers across seven discussion units: six test answers and two
+reused development answers, including the matched Luna-pass/Haiku-fail pair.
+The two-answer expansion EQ01 examined the deferred conclusion-adequacy question.
+The user confirmed the synthesis; uncertainty about C003 scope, the MMRP citation
+and the wetland absence claim remains explicit. Frozen scores are unchanged.
+
+The [result pointer](../../docs/specs/task14_result.json) selects the final synthesis,
+selection manifest, current state and quality completion. Versioned forms and
+journals preserve exact inputs, excerpts, corrections and user comments. The
+quality pass found no runtime-code changes requiring refactoring; it corrected
+stale selection/status metadata and simplified resume routing. Source/completion
+hashes, exact score joins, Markdown links and `git diff --check` passed. Prior
+sealed records remain intact. No new model calls, reserved challenges, MiniMax,
+commit or push.
+
+Next is [Task 15](15_revise_conclusion_judge.md), planned but not executing.
+[Task 16](16_write_methods_and_results.md) remains provisional after its acceptance.

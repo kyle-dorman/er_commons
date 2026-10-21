@@ -5,9 +5,10 @@ Start with `AGENTS.md`, then use this page to choose the smallest useful context
 ## Current status
 
 **[Task 14 — Selective review](../tasks/sprint2/14_selective_failure_review.md)
-is active.** The next chat will review a small selection of saved Luna/Haiku
-answers with the user, one structured review unit at a time. Task 15 remains
-provisional; no remote run is active.
+is complete**, including the user-confirmed eight-answer synthesis and quality
+pass. The [result pointer](specs/task14_result.json) selects final records and
+preserves unresolved judgments. [Task 15 — Conclusion-judge revision](../tasks/sprint2/15_revise_conclusion_judge.md)
+is next, planned but not executing; no remote run is active.
 
 The benchmark contains **49 questions: 19 development and 30 test**. The
 [sealed test result pointer](specs/task13_result.json) selects all 180 Luna/Haiku
@@ -16,13 +17,14 @@ diagnostics remain separate. MiniMax is excluded from presented results.
 
 ## Next work
 
-Start with the [Task 14 contract](../tasks/sprint2/14_selective_failure_review.md):
-propose six answer instances, including a matched Luna-success/Haiku-failure
-comparison, then discuss and save each review with the user. The task owns the
-review form, stopping rule and confirmation requirements.
+Start with the [Task 15 plan](../tasks/sprint2/15_revise_conclusion_judge.md) and
+the accepted [Task 14 findings](specs/task14_result.json). Activate its first
+bounded stage before implementation:
+revise C rules/prompt, regenerate synthetic tests, develop on six then nineteen
+questions, freeze, reevaluate thirty, and review conclusion issues.
 
-[Task 15 — Methods/results](../tasks/sprint2/15_write_methods_and_results.md)
-follows the confirmed synthesis and requires separate activation.
+[Task 16 — Methods/results](../tasks/sprint2/16_write_methods_and_results.md)
+follows acceptance of Task 15 and requires separate activation.
 
 See [TODO](todo.md) for the actionable queue and
 [Sprint 2](sprints/sprint2_brisbane_draft_eir_defense.md) for scope.

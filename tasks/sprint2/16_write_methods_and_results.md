@@ -1,6 +1,7 @@
-# Task 15 — Short methods and results writeup
+# Task 16 — Short methods and results writeup
 
-Status: provisional; after Tasks 13 and 14. No writeup implementation active.
+Status: provisional; after accepted Task 15 conclusion-judge revision and
+reevaluation, and confirmed Task 14 findings. No writeup implementation active.
 
 ## Abstract and goal
 
@@ -12,8 +13,9 @@ selected examples rather than reproducing task logs or prompt-development histor
 ## Inputs and outputs
 
 Use accepted construction/publication records from Tasks 02–10, the final Task 11
-condition, Task 12 reporting/calibration tables, Task 13 results and Task 14's
-selective cases. Present Luna and Haiku only; exclude the archived MiniMax side
+condition, Task 12 reporting/calibration tables, original Task 13 results, Task 14's
+selective cases, and the accepted [Task 15](15_revise_conclusion_judge.md) rules,
+synthetic qualification, reevaluation and subsequent conclusion review. Present Luna and Haiku only; exclude the archived MiniMax side
 experiment from figures, tables, comparisons and the experiment narrative.
 Produce a short readable report with figure/table source links
 and a compact reproducibility appendix. Choose final format/length at activation;
@@ -40,15 +42,25 @@ working target is roughly 1,500–2,500 words plus selected figures/tables.
    Report existing judge-label agreement and limitations without claiming new human
    calibration. A delivery receipt is not proof of cognitive reading; retrieval
    metrics are N/A for the supplied-evidence condition.
-5. **Results.** Use Task 13's 30-test-question figures as the main model results.
+5. **Results.** Use Task 15's designated thirty-question reevaluation as the
+   revised-condition results, alongside original Task 13 results. Explain the
+   evaluator change, saved-answer comparison versus any fresh-generation arm,
+   and which result pointer selects each condition. The thirty questions were
+   exposed during diagnosis; the reevaluation is not a new untouched held-out test.
    Task 12's pooled 19-development-question views are a reporting preview, not
    the main results. Historical judge accuracy uses separate populations.
    Select figures showing both models, component/joint
    performance, observed at-least-once/every-time success, automatic citation
-   measures, and the predeclared Luna citation/section/document associations.
-   Keep development and locked results separate; show denominators and availability.
-6. **Discussion and limits.** A few Task 14 cases, source/reference/judge limitations,
+   measures, and the predeclared Luna associations with citation occurrences,
+   distinct response units and distinct documents. Keep development, original
+   Task 13 results and revised exposed-test reevaluation separate; show
+   denominators and availability.
+6. **Discussion and limits.** A few Task 14 and Task 15 cases, source/reference/judge limitations,
    repeat variability, exposure, accounting uncertainty and generalization limits.
+   Discuss support-versus-qualification volumes and frozen grounding-failure
+   fractions, supported useful qualifications, source contradictions, local
+   citation scope, and reference-coverage failures. Distinguish actual claims
+   from human interpretations and judge disagreement; preserve unresolved cases.
    Distinguish official response provenance from independent factual validity.
 7. **Reproducibility.** Compact artifact/configuration/code identities, runtime,
    evaluation definitions, costs, source rights/access and replay instructions.
@@ -93,5 +105,8 @@ implementation, or external publication/submission without authorization.
 
 ## Outcome
 
-Planning only. Task 15 owns the short methods/results narrative and sprint closeout;
-Tasks 12–14 prepare its reusable evidence and illustrations.
+Planning only. Renumbered from Task 15 on 2026-10-21 at the user’s request.
+Task 15 now owns C-judge repair and reevaluation; Task 16 owns the short
+methods/results narrative and sprint closeout after that outcome is accepted.
+Tasks 12–15 supply versioned evidence and illustrations. No new execution or
+external publication is authorized by this renumbering.

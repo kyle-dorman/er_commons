@@ -9,8 +9,9 @@ source passages; it does not measure retrieval or establish general CEQA compete
 
 The frozen release has 49 questions: 19 development and 30 test. The completed
 locked test preserves all 180 planned answers (two models, three repeats per
-question). Task 14 is active for structured, iterative review with Kyle in the
-next chat; Task 15 remains provisional. No new model run is active or authorized.
+question). Task 14's eight-answer review and required quality pass are complete.
+Task 15 plans the requested conclusion-judge revision and reevaluation; the
+writeup is now Task 16. No new model run is active or authorized by this plan.
 
 ## Accepted execution decisions
 
@@ -95,20 +96,22 @@ cannot introduce additional unasked scoring requirements.
 
 ## Execution sequence
 
-1. **[Task 14 — Selective review](../../tasks/sprint2/14_selective_failure_review.md): active.**
-   Begin review with Kyle in the next chat using a structured record and one
-   example or matched pair at a time. Six complete answer instances are the
-   intended stopping point; expand only for a named important unanswered question,
-   with twelve as the ceiling. Include a same-question Luna joint-pass/Haiku-fail
-   pair, counting as two answers, selected from saved scores before reading prose.
-   Compare claims, qualifications, evidence and conclusions without assuming that
-   Haiku adds more unsupported material. Preserve contrary observations, other
-   repeats' outcomes, frozen scores, uncertainty and selection limitations. The
-   task contract owns selection, discussion, explicit human review and acceptance.
-2. **[Task 15 — Methods/results writeup](../../tasks/sprint2/15_write_methods_and_results.md): provisional.**
-   After separate activation, explain construction, methods, results and limits
-   using final figures and the selected reviewed examples. Keep development,
-   test and synthetic judge diagnostics separate. Finish with a next-project decision.
+1. **[Task 14 — Selective review](../../tasks/sprint2/14_selective_failure_review.md): complete.**
+   The result pointer selects the confirmed eight-answer synthesis and quality
+   records. Frozen scores stay unchanged and unresolved judgments remain explicit.
+2. **[Task 15 — Revise conclusion judge](../../tasks/sprint2/15_revise_conclusion_judge.md): planned.**
+   Revise C rules/prompt, regenerate synthetic tests, iterate on the original six
+   then all nineteen development questions, freeze, reevaluate all thirty test
+   questions and review conclusion outcomes. Prefer same-answer C comparisons to
+   isolate evaluator changes; resolve any requested fresh-generation arm and
+   numerical execution limits before calls. The thirty are exposed to the redesign,
+   so reevaluation cannot be described as fresh held-out qualification. Preserve
+   the original experiment and keep A/G/S and target settings fixed initially.
+3. **[Task 16 — Methods/results writeup](../../tasks/sprint2/16_write_methods_and_results.md): provisional.**
+   After Task 15 acceptance and separate activation, explain construction,
+   methods, original/revised results and limits using versioned figures and
+   reviewed examples. Keep development, test and synthetic diagnostics separate.
+   Finish with a next-project decision.
 
 Completed implementation and maintenance are documented in numbered task outcomes.
 The [sealed Task 13 result](../specs/task13_result.json) selects the test publication;
@@ -209,5 +212,6 @@ reannotation, model calls or scoring revisions require separate scope.
 
 The sprint is ready for a second-project decision when the sealed locked test is
 reproducible, citations and reporting are verified, selected human-reviewed
-examples explain material limitations, and Task 15 presents the methods and
+examples explain material limitations, Task 15's revised evaluation is accepted,
+and Task 16 presents the methods and
 results with explicit scope and uncalibrated-judge limitations.

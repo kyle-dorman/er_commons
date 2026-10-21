@@ -1,0 +1,79 @@
+{
+  "schema_version": "task14.result.v2",
+  "status": "complete_with_recorded_uncertainties",
+  "date": "2026-10-21",
+  "artifact_root": "ER_COMMONS_DATA_ROOT",
+  "namespace": "pipelines/brisbane_baylands/task_14/review_20261021_v1",
+  "answers": 8,
+  "discussion_units": 7,
+  "test_answers": 6,
+  "development_answers": 2,
+  "final_synthesis": {
+    "path": "pipelines/brisbane_baylands/task_14/review_20261021_v1/synthesis.final.v2.md",
+    "sha256": "8f6ae6a84adf7df426a6b322f7f2e2ef9f17f5092bb1eb93041ab67ac6669192",
+    "byte_size": 10078
+  },
+  "selection_manifest": {
+    "path": "pipelines/brisbane_baylands/task_14/review_20261021_v1/selection_manifest.v5.json",
+    "sha256": "5548744c12af8cd08744ef81206b19af08755db8c23ca8400c045e97fec2bb40",
+    "byte_size": 100266
+  },
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_14/quality_review_20261021_v1/completion.json",
+    "sha256": "506aaf9587dd3b56a4acdeeffcfba52d090a2298707113f098977c9634315b7f",
+    "byte_size": 2092
+  },
+  "user_confirmation": "ok i think task 14 is done then yes?",
+  "confirmation_event_id": 39,
+  "scores_changed": false,
+  "new_model_calls": 0,
+  "reserved_challenges_inspected": false,
+  "minimax_included": false,
+  "unresolved_interpretations": [
+    "C003 Luna r2 conclusion scope materiality",
+    "C003 Haiku r1 S4 exact MMRP citation coverage",
+    "C037 Haiku r3 Q1 supplied-excerpt scope"
+  ],
+  "next_tasks": {
+    "15": {
+      "status": "planned_not_executing",
+      "contract": "tasks/sprint2/15_revise_conclusion_judge.md"
+    },
+    "16": {
+      "status": "provisional",
+      "contract": "tasks/sprint2/16_write_methods_and_results.md"
+    }
+  },
+  "commit_or_push": false,
+  "current_state": {
+    "path": "pipelines/brisbane_baylands/task_14/review_20261021_v1/state.final.v2.json",
+    "sha256": "e9d7c21a06c551955fffebace911c7b45f142059be0356771db79f393475b576",
+    "byte_size": 1710
+  },
+  "resume": {
+    "path": "pipelines/brisbane_baylands/task_14/review_20261021_v1/README.final.v2.md",
+    "sha256": "2d140dd8f32c70bfed0b04ef3f1860d6a3e010cba98245d53684378ca010a5d0",
+    "byte_size": 823
+  },
+  "prior_review_completion": {
+    "path": "pipelines/brisbane_baylands/task_14/review_20261021_v1/completion.json",
+    "sha256": "f69129cbdda55df8909431c9ff97bda3d152b557d209c914fa173ab59861eac6",
+    "byte_size": 3478
+  },
+  "quality_review": {
+    "path": "pipelines/brisbane_baylands/task_14/quality_review_20261021_v1/quality_review.json",
+    "sha256": "e432e85f0fa7872a681a0a11dbe960533d48cef8e61ac29c53e96e881b422c22",
+    "byte_size": 1895
+  },
+  "quality_validation": {
+    "path": "pipelines/brisbane_baylands/task_14/quality_review_20261021_v1/validation.json",
+    "sha256": "d2a758a6c82bf148706cf2424e23b416ef6a045dd537c3959007858b41354b64",
+    "byte_size": 545
+  },
+  "quality_events": {
+    "path": "pipelines/brisbane_baylands/task_14/quality_review_20261021_v1/events.jsonl",
+    "sha256": "521e39714ccdd8c7468c6d1366a66bfc8420375557b844e2ff5bf30b50bba0a4",
+    "byte_size": 1085
+  },
+  "quality_pass_complete": true
+}

@@ -135,6 +135,6 @@ not a new run or a prompt-ablation section for Task 15.
 [Task 12](12_integrate_evaluation_and_reporting.md) builds tables/charts and freezes
 reporting; [Task 13](13_run_locked_test.md) runs both models three times on the
 locked set; [Task 14](14_selective_failure_review.md) selectively reviews examples;
-[Task 15](15_write_methods_and_results.md) writes the short methods/results report,
+[Task 16](16_write_methods_and_results.md) writes the short methods/results report,
 including dataset construction and coverage. Task 11 remains closed. Code review/cleanup and the internal intervention
 analysis are complete; further reporting is owned by Task 12.

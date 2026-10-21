@@ -130,7 +130,7 @@ live under the external artifact root. Do not build a dashboard framework.
   historical five-unit retrieval budget into evidence-only generation.
 
 Task 14 owns selective failure/evaluator-disagreement discussion after Task 13.
-Task 15 owns dataset construction/coverage narrative and the short writeup. This
+Task 16 owns dataset construction/coverage narrative and the short writeup. This
 task supplies reusable figures/tables and reuses existing reviews as provenance;
 it does not launch a comprehensive failure annotation project.
 

@@ -3,7 +3,7 @@
 Status: Complete (2026-10-20). Internal development analysis synthesized from
 accepted task outcomes.
 This is a reading guide to the experiments, not a new evaluation, revised score
-publication or part of the short Task 15 methods/results writeup. The linked task
+publication or part of the short Task 16 methods/results writeup. The linked task
 records and their result pointers own exact outputs, identities and evidence.
 
 ## Accepted configuration and evidence boundary

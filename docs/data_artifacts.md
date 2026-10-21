@@ -294,7 +294,7 @@ Development results and synthetic judge diagnostics remain separate.
 
 ## Task 14 selective review artifacts
 
-The active [Task 14 contract](../tasks/sprint2/14_selective_failure_review.md)
+The completed [Task 14 contract](../tasks/sprint2/14_selective_failure_review.md)
 owns a fresh review namespace beneath
 `pipelines/brisbane_baylands/task_14/`. Its selection manifest binds exact saved
 Luna/Haiku answer, repeat and point identities to the designated Task 13 report
@@ -310,6 +310,19 @@ unreviewed proposals remain pending. Revisions preserve earlier displayed text
 and decisions. A concise final synthesis distinguishes accepted interpretations,
 uncertainty and selection limitations. This review adds commentary; it does not
 rescore answers, change frozen publications or authorize new model calls.
+
+## Task 15 planned judge-revision artifacts
+
+The [Task 15 plan](../tasks/sprint2/15_revise_conclusion_judge.md) owns fresh
+versioned artifacts under `pipelines/brisbane_baylands/task_15/` for C policy,
+synthetic expectations/reviews, six/nineteen-question development comparisons,
+full-thirty reevaluation, native receipts and bounded conclusion review. It does
+not overwrite Task 09/11/12/13 publications. Saved-answer comparisons preserve
+original candidate identities and automatic/A/G/S outcomes; any fresh-generation
+arm has separate identities and evaluations. Result pointers distinguish original
+and revised conditions. No Task 15 run has started; the contract owns activation,
+exposure disclosure, numerical limits and selection gates. Task 16 consumes the
+accepted publications for writing.
 
 ## Historical and development artifact routing
 

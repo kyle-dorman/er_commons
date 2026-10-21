@@ -703,7 +703,7 @@ task records. Later tasks require separate authorization.
    After 13, inspect a small bounded selection of failures, successes and evaluator
    disagreements, reusing prior analyses. Preserve frozen scores; no full human
    labeling study or new judge accuracy experiment.
-9. **[Task 15 — Short methods/results writeup](../../tasks/sprint2/15_write_methods_and_results.md).**
+9. **[Task 15 — Short methods/results writeup](../../tasks/sprint2/16_write_methods_and_results.md).**
    Describe dataset construction/coverage, final methods, results and selected
    limitations, using existing figures and examples. Keep Task 11 intervention
    history internal. Close the sprint with a concise report and next-project decision.
