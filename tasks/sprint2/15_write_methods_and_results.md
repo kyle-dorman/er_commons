@@ -13,7 +13,9 @@ selected examples rather than reproducing task logs or prompt-development histor
 
 Use accepted construction/publication records from Tasks 02–10, the final Task 11
 condition, Task 12 reporting/calibration tables, Task 13 results and Task 14's
-selective cases. Produce a short readable report with figure/table source links
+selective cases. Present Luna and Haiku only; exclude the archived MiniMax side
+experiment from figures, tables, comparisons and the experiment narrative.
+Produce a short readable report with figure/table source links
 and a compact reproducibility appendix. Choose final format/length at activation;
 working target is roughly 1,500–2,500 words plus selected figures/tables.
 

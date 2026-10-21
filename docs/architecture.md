@@ -834,9 +834,63 @@ citation/complexity reductions; `reporting_judges` reconstructs separate histori
 label-agreement tables. `reporting_charts` uses Matplotlib for static PNG/SVG, and
 `reporting_run` publishes create-only JSON/CSV, provenance and a completion seal.
 The [Task 12 contract](specs/task12_reporting_v1.md) owns meanings and missing/error
-handling. Task 13 must bind a separately authorized locked-only input adapter,
-then reuse the frozen reductions; this loader intentionally reads only 11E.
+handling. Task 13 binds a separate locked-only input adapter and reuses the
+frozen reductions; the development loader intentionally reads only 11E.
 
 For maintained reporting boundaries and future model comparisons, use the
 [reporting maintainer guide](reporting_maintainer_guide.md). Historical 11E/09G
 source adapters remain separate from pure counts/presentation and saved-report export.
+
+## Locked evaluation boundary
+
+Task 13 uses `locked_inputs` for split-only sealed inputs, `locked_dispatch` for
+atomic cumulative remote admission, `locked_provider` for unchanged native
+11E requests, and `locked_run` for bounded dependency scheduling. `locked_reporting`
+replays saved test observations into the existing pure reporting reducers. The
+historical development loader remains development-only; the pure evaluator accepts
+an explicit expected split with its existing development default unchanged.
+
+Every remote operation, including counters, passes one durable ledger and shared
+concurrency gate. A task-wide create-only paid-run claim prevents a fresh namespace
+from resetting the $10 authorization. Unknown billing blocks the whole run before
+provider construction unless the task records a specific user-accepted exception.
+The gate records the accepted OpenAI counting-fee exception separately from
+verified prices; unknown actual fees remain null and the zero planning allowance
+is not a provider-confirmed price. Reserved or uncertain requests cannot be
+automatically replayed. Task 13 is closed with all 180 evaluations complete;
+sealed reporting preserves every planned slot and the original scoring definitions.
+See [Task 13](../tasks/sprint2/13_run_locked_test.md) for the accepted exception,
+validation and limitations.
+
+Task 13's `locked_continue` verifies a sealed ancestor and creates a linked
+snapshot with the original run identities, paid ledger and immutable history.
+A separate continuation preflight binds current code and the user-approved
+30-item ceiling; source-specific successor claims prevent budget forks. Only
+never-attempted requests may be dispatched. Original wall-clock deadlines remain
+the default; excluding administrative pause requires explicit authorization.
+The user has authorized excluding verified administrative pauses. Chained
+continuations preserve the union of those intervals and charge live queueing
+against elapsed evaluation time. The six-hour global window, $10 spending cap
+and shared ceiling of 10 remote requests remain unchanged.
+
+## Archived MiniMax side experiment
+
+This code is retained for historical reproducibility, not active model work.
+Its sealed outputs are excluded from presented benchmark results. The maintained
+Task 13 result route selects Luna and Haiku only.
+
+
+[Task 13A](../tasks/sprint2/13a_minimax_cloud_comparison.md) adds a narrow
+`minimax_provider` native-schema generation adapter, a separately bound
+`minimax_run` roster/accounting wrapper and offline `minimax_reporting` replay.
+The original evaluator and judges remain unchanged; explicit generation/delivery
+hooks let the existing slot runner and observation replay consume actual Ollama
+messages. The final publication retains all 90 attempted slots, including invalid outputs
+and provider failures; no automatic continuation or retry is authorized.
+
+`minimax_continue` binds the explicitly approved 90-minute active evaluation
+deadline to a copied sealed ancestor, preserving original answer identities and
+cumulative reservations. One answer worker finishes saved partial evaluations
+before verified untouched slots, matching the retained rate-limit concurrency.
+A durable global restart excludes only the sealed administrative pause; live
+queueing and the original six-hour clock continue to count.

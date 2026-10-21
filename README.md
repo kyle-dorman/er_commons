@@ -14,8 +14,12 @@ format, or command-line tool does not cleanly solve the need.
 
 The first benchmark has 49 questions: 19 development and 30 test. Development
 execution, offline reporting and the reporting code-quality pass are complete.
-No task is active. [Task 13](tasks/sprint2/13_run_locked_test.md) is the next,
-separately authorized locked evaluation; it will supply the main model results.
+[Task 13](tasks/sprint2/13_run_locked_test.md) is closed with all 180 evaluations
+complete: Luna and Haiku each answered all 30 test questions three times.
+The sealed test report and final gallery preserve the frozen evaluation definitions
+and all original receipts. Presented results cover Luna and Haiku only.
+[Task 13B maintenance](tasks/sprint2/13b_locked_code_quality.md) is complete.
+No task is active; Tasks 14–15 remain provisional.
 
 Use the [docs index](docs/index.md) for accepted inputs and status, the
 [queue](docs/todo.md) for next actions, and the

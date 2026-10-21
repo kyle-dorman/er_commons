@@ -11,8 +11,10 @@ turning this into a comprehensive human-labeling or judge-calibration project.
 ## Inputs and outputs
 
 Read Task 13's sealed results, Task 12 tables/charts and existing Task 11 manual
-findings. Reuse earlier judge challenge examples where relevant. Output a small
-selection manifest, case notes and a concise synthesis with exact answer/repeat/
+findings. Target-model examples are limited to Luna and Haiku; the archived
+MiniMax side experiment is excluded. Reuse earlier judge challenge examples where
+relevant. Output a small selection manifest, case notes and a concise synthesis
+with exact answer/repeat/
 point IDs and links to source evidence, verdicts and prior review.
 
 ## Plan and research checkpoint

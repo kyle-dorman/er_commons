@@ -647,3 +647,69 @@ files, frozen configuration, accepted reviews, implementation and runtime;
 changed inputs or implementation require a new namespace. No upstream seal is
 modified. The [result](specs/task12_result.json) selects the accepted publication;
 preview and visual-QA directories are not designated results.
+
+## Task 13 locked artifacts
+
+A fresh `pipelines/brisbane_baylands/task_13/` run holds preflight bindings,
+all 180 planned slots, split-only projected inputs, exact requests/responses and
+per-slot completion inventories. The create-only ledger reserves liability before
+wire dispatch, retains uncertain liabilities, and never retries an attempted key.
+A task-wide `paid_run_claim.json` binds the sole paid namespace, preventing a
+second ledger from resetting the spending cap. Partial attempts remain intact;
+resume under an active contract can process untouched slots but never replays a
+partial slot automatically. Historical policy stops remain in sealed ancestor
+snapshots; closure does not authorize another run.
+
+The run's completion seal is written only after every worker drains. A separate
+sealed reporting publication feeds `test_30_review/`, containing final figures,
+tables and `START_HERE.html`; provenance remains adjacent. Preflight or billing
+failure is not a completed evaluation and does not produce a results gallery.
+
+The accepted Task 13 publication is selected by
+[its result pointer](specs/task13_result.json). The final sealed run is
+`pipelines/brisbane_baylands/task_13/locked_test_continue_20261020_v4/`; the
+sealed reporting directory is the sibling `locked_test_reporting_20261020_v4/`
+and the final gallery is `test_30_review/START_HERE.html`. All 180 evaluations
+are complete: 90 per model, all 30 questions and three fresh answers each.
+Development results and synthetic judge diagnostics remain separate.
+
+The linked continuation retains original run identities, frozen definitions and
+all historical reservations and settlements in its cumulative ledger. The user
+approved the 30-item judge ceiling and exclusion of verified administrative pauses
+from per-answer evaluation time; active time carries forward and live queueing
+still counts. The $10 cap, six-hour global window and shared concurrency ceiling
+of 10 remain unchanged. No remote requests were retried or replaced.
+
+Digest-specific ancestor-history folders and create-only successor claims preserve
+prior snapshots without budget forks. Separate preflights and independent reviews
+bind each operational amendment. Earlier execution and reporting publications,
+including the initial stopped gallery beneath
+`task_13/initial_policy_stop_publication/`, remain preserved. Completion seals
+establish artifact integrity; the final report separately verifies full coverage.
+
+## Archived Task 13A MiniMax artifacts
+
+These files are retained historical audit material. They are excluded from
+presented benchmark results; use the Task 13 pointer for Luna/Haiku figures and
+tables. Preserve the archive in place, including existing gallery bytes and seals.
+
+
+The separate `pipelines/brisbane_baylands/task_13a/` namespace preserves two
+compatibility attempts (the first made no wire request), the sealed
+`locked_test_20261020_v1/` checkpoint and its audit directory. The separate
+`locked_reporting_20261020_v1/` and `test_30_review/` publication retain all
+90 planned slots with incomplete-coverage disclosure. The
+[result pointer](specs/task13a_result.json) binds exact seals and receipts.
+Original Task 13 publications are unchanged. Continuation must carry cumulative
+liability, prior identities and attempted failures; a fresh namespace never
+authorizes a fresh budget or deadline.
+
+The approved Task 13A continuation uses a fresh linked snapshot with a 5,400-second
+active per-answer deadline. Saved elapsed time and all request receipts carry
+forward; only the verified administrative pause is excluded. The original
+six-hour dispatch window and cumulative monetary/request ceilings remain fixed.
+Historical stopped publications stay intact. The accepted final run is
+`locked_test_continue_20261020_v2/`, its report is
+`locked_reporting_20261020_v2/`, and its separate final gallery is
+`continued_publication_20261020_v2/test_30_review/START_HERE.html`. All 90 slots
+were attempted; invalid outputs and original provider failures remain disclosed.

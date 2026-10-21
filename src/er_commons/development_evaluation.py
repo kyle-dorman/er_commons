@@ -134,17 +134,20 @@ def _prepare_sources(
     target_record: dict[str, Any],
     mapping: dict[str, Any],
     delivery_receipt: dict[str, Any],
+    expected_split: str,
 ) -> _PreparedSources:
-    """Verify exact development delivery before resolving canonical citation roles."""
+    """Verify exact split-bound delivery before resolving canonical citation roles."""
+    if expected_split not in {"dev", "test"}:
+        raise ValueError("Unsupported expected split")
     validate_record(target_record)
     payload = target_record["payload"]
     if (
         target_record["case_id"] != identity["case_id"]
         or mapping["case_id"] != identity["case_id"]
-        or mapping["split"] != "dev"
+        or mapping["split"] != expected_split
         or mapping["payload_sha256"] != stable_json_sha256(payload)
     ):
-        raise ValueError("Cross-case or non-development mapping")
+        raise ValueError("Cross-case or wrong-split mapping")
     users = [m for m in delivery_receipt.get("input", []) if m.get("role") == "user"]
     if len(users) != 1 or len(users[0].get("content", [])) != 1:
         raise ValueError("Ambiguous delivered user payload")
@@ -287,6 +290,8 @@ def prepare_candidate(
     mapping: dict[str, Any],
     delivery_receipt: dict[str, Any],
     reference_conclusion: str,
+    *,
+    expected_split: str = "dev",
 ) -> dict[str, Any]:
     """Project a byte-bound candidate; malformed answers remain reportable, never repaired.
 
@@ -294,7 +299,7 @@ def prepare_candidate(
     function checks the actual native user request against the complete payload.
     """
     identity = _validate_identity(candidate_bytes, identity)
-    sources = _prepare_sources(identity, target_record, mapping, delivery_receipt)
+    sources = _prepare_sources(identity, target_record, mapping, delivery_receipt, expected_split)
     plan: dict[str, Any] = {
         "schema_version": "task11c.plan.v1",
         "identity": identity,

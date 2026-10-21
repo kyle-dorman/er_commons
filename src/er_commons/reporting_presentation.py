@@ -111,6 +111,23 @@ def gallery_html(tables: dict[str, Any], *, primary_model: str = "luna") -> str:
         else "These test questions are the main target-model results. "
         "Judge accuracy is measured against reference labels in synthetic datasets."
     )
+    execution = tables.get("execution_status", [])
+    if execution and any(row.get("completed", 0) != row["planned"] for row in execution):
+        coverage = "; ".join(
+            f"{html.escape(row['model'])}: {row.get('completed', 0)}/{row['planned']} "
+            "fully evaluated slots"
+            for row in execution
+        )
+        explanation = (
+            "<strong>Incomplete evaluation: these results do not establish a complete "
+            "model comparison.</strong> "
+            f"{coverage}. All planned slots remain in the tables and denominators. "
+            "Unavailable evaluations are not evidence of weaker answer quality. "
+            "Judge accuracy is measured separately on synthetic datasets."
+        )
+        reasons = {str(row["stop_reason"]) for row in execution if row.get("stop_reason")}
+        if reasons:
+            explanation += " Recorded stop: " + html.escape("; ".join(sorted(reasons))) + "."
     figures = "\n".join(
         f"<section><h2>{html.escape(label)}</h2>"
         f'<a href="{name}.png"><img src="{name}.png" alt="{html.escape(label)}"></a>'

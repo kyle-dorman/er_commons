@@ -4,24 +4,26 @@ Start with `AGENTS.md`, then use this page to choose the smallest useful context
 
 ## Current status
 
-**Tasks 02–12 and Task 12A are closed. No task is active.** Task 13 is next and
-remains provisional; Tasks 14–15 follow it. No locked evaluation has run.
+**Task 13 is closed with all 180 evaluations complete:** 90 per model across
+30 test questions and three fresh answers each. The
+[sealed result pointer](specs/task13_result.json) selects the final report and
+gallery. Presented benchmark results cover **Luna and Haiku only**.
+[Task 13B maintenance](../tasks/sprint2/13b_locked_code_quality.md) is closed.
+No task or remote run is active; Tasks 14–15 remain provisional.
 
-The benchmark contains **49 questions: 19 development and 30 test**. Both frozen
-target models have three evaluated answers for every development question.
-Reporting and its maintenance pass are complete. Development is a reporting
-preview; Task 13 will produce the main model results on the 30 test questions.
-Synthetic judge accuracy and repeatability remain separate.
+The benchmark contains **49 questions: 19 development and 30 test**. Development
+and test publications remain separate, as do synthetic judge accuracy and
+repeatability. See the [Task 13 outcome](../tasks/sprint2/13_run_locked_test.md)
+for coverage, accounting and limitations.
 
 ## Next work
 
-1. [Task 13 — Locked evaluation](../tasks/sprint2/13_run_locked_test.md): separately
-   activate, freeze execution caps and validate a locked-only adapter before
-   running Luna and Haiku × 30 questions × three repeats.
-2. [Task 14 — Selective review](../tasks/sprint2/14_selective_failure_review.md):
-   bounded diagnosis after the run.
-3. [Task 15 — Methods/results](../tasks/sprint2/15_write_methods_and_results.md):
-   short writeup of dataset construction, methods, main results and limitations.
+Tasks 14–15 require separate activation:
+
+1. [Task 14 — Selective review](../tasks/sprint2/14_selective_failure_review.md):
+   bounded diagnosis of the completed frozen test results.
+2. [Task 15 — Methods/results](../tasks/sprint2/15_write_methods_and_results.md):
+   short writeup of dataset construction, methods, results and limitations.
 
 See [TODO](todo.md) for the actionable queue and
 [Sprint 2](sprints/sprint2_brisbane_draft_eir_defense.md) for scope.
@@ -30,6 +32,7 @@ See [TODO](todo.md) for the actionable queue and
 
 | Need | Authoritative route |
 | --- | --- |
+| Locked test publication and limitations | [Task 13 outcome](../tasks/sprint2/13_run_locked_test.md), [sealed result pointer](specs/task13_result.json) |
 | Reporting code, edits and reuse | [Maintainer guide](reporting_maintainer_guide.md), [Task 12A outcome](../tasks/sprint2/12a_reporting_code_quality.md) |
 | Reporting definitions | [Base contract](specs/task12_reporting_v1.md), [pooled presentation](specs/task12_presentation_v2.md), [judge repeatability](specs/task12_judge_repeatability_v3.md), [response-unit/citation counts](specs/task12_response_units_v4.md) |
 | Original reporting publication and readiness | [Task 12 outcome](../tasks/sprint2/12_integrate_evaluation_and_reporting.md), [sealed result pointer](specs/task12_result.json); later amendments above supersede historical display/count definitions |
@@ -38,7 +41,9 @@ See [TODO](todo.md) for the actionable queue and
 | Published questions and prepared evidence | [Question publication](specs/task09f_question_publication_v2_result.json), [Task 10 result](specs/task10_final_result.json), [08H release](specs/task08h_final_result.json) |
 | Evidence-only boundary | [Decision 007](decisions/007_evidence_only_first_baseline.md); retrieval remains N/A |
 
-The final-only development gallery is under `ER_COMMONS_DATA_ROOT` at
+The final test gallery is under `ER_COMMONS_DATA_ROOT` at
+`pipelines/brisbane_baylands/task_13/test_30_review/START_HERE.html`.
+The separate development gallery is at
 `pipelines/brisbane_baylands/task_12/development_19_review/START_HERE.html`.
 It contains seven PNG/SVG figures and eleven CSV tables. Provenance and validation
 are adjacent to the folder. Source publications and prior presentations are
@@ -57,6 +62,10 @@ preserved separately; generated artifacts are not tracked by Git.
 ## Historical context — read only when needed
 
 Detailed experiment histories belong to task outcomes, not the current queue.
+
+- [Task 13A](../tasks/sprint2/13a_minimax_cloud_comparison.md) is an archived MiniMax
+  side experiment. Its code and sealed artifacts are retained for provenance;
+  it is excluded from presented benchmark results and further exploration.
 
 - [Task 11 umbrella](../tasks/sprint2/11_build_and_freeze_target_generation.md)
   and [internal findings](../tasks/sprint2/11_prompt_iteration_findings.md) preserve

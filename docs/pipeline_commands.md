@@ -111,3 +111,24 @@ and [accepted result](specs/task12_result.json).
 Saved-report figure/table export and explicit legacy-judge enrichment are documented
 in the [reporting maintainer guide](reporting_maintainer_guide.md). The exporter
 accepts `--primary-model`; model comparison rosters come from saved tables.
+
+## Task 13 locked evaluation
+
+Task 13 is closed with all 180 evaluations complete. These are the
+implemented preparation/dispatch interfaces, not instructions to restart the
+closed run. Further execution requires a separately scoped active contract.
+Preparation itself makes no remote requests:
+
+```bash
+uv run --offline --env-file .env python -m er_commons.locked_run prepare --output /path/to/fresh/task_13/run
+uv run --offline --env-file .env python -m er_commons.locked_run dispatch --output /path/to/reviewed/task_13/run
+```
+
+Paths must be beneath the configured external Task 13 root. Dispatch requires a
+matching approved independent preflight receipt, unchanged inputs/code and verified
+pricing evidence plus the explicit user-accepted OpenAI counting-fee exception.
+Do not bypass the gate, clear the policy stop or start a new paid namespace to
+reset limits. See the [Task 13 outcome](../tasks/sprint2/13_run_locked_test.md) and
+[sealed result pointer](specs/task13_result.json). The final gallery is
+`task_13/test_30_review/START_HERE.html` beneath the project's external pipeline
+root; offline re-export uses the reporting command above and a fresh destination.

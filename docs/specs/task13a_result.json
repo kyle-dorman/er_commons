@@ -1,0 +1,149 @@
+{
+  "schema_version": "task13a.result.v2",
+  "status": "closed_all_slots_attempted_with_failures",
+  "complete_model_comparison": false,
+  "model": "minimax-m3.1-flash",
+  "planned_slots": 90,
+  "questions": 30,
+  "repeats": 3,
+  "slot_statuses": {
+    "completed": 54,
+    "evaluation_incomplete": 29,
+    "generation_failed": 7
+  },
+  "stop_reason": null,
+  "generation_details": {
+    "actual_requests": 90,
+    "http_200": 83,
+    "http_429": 7,
+    "valid_answers": 54,
+    "invalid_or_truncated_answers": 29,
+    "no_wire_blocked_labels": 0
+  },
+  "request_counts": {
+    "count": 468,
+    "generation": 90,
+    "judge": 468
+  },
+  "known_additional_cost_usd": "0.215831260",
+  "held_failed_request_liability_usd": "0.1566096",
+  "additional_planning_liability_usd": "0.372440860",
+  "known_cumulative_cost_usd": "1.220006810",
+  "cumulative_planning_liability_usd": "1.376616410",
+  "additional_unknown_openai_count_fees": 414,
+  "invoice_total_usd": null,
+  "run_completion": {
+    "path": "pipelines/brisbane_baylands/task_13a/locked_test_continue_20261020_v2/completion.json",
+    "sha256": "ab07460228fedad691586a1cca2d2defb15ee624f08db98d77b6af38458a52f2",
+    "byte_size": 2998954
+  },
+  "preflight": {
+    "path": "pipelines/brisbane_baylands/task_13a/locked_test_continue_20261020_v2/preflight.json",
+    "sha256": "c449247bdbd54d00ee22b145440090065c49a387723a3f9b8b894549a2f91cf7",
+    "byte_size": 419277
+  },
+  "independent_preflight": {
+    "path": "pipelines/brisbane_baylands/task_13a/locked_test_20261020_v1/independent_preflight_review.json",
+    "sha256": "15d44d2f3b14a3d5c93d1efb9d3714667110122c3178005d3d939942626ed2da",
+    "byte_size": 2602
+  },
+  "compatibility_completion": {
+    "path": "pipelines/brisbane_baylands/task_13a/compatibility_20261020_v2/completion.json",
+    "sha256": "0dd80c20501904536c4462b1651bde082f73c4de6cc7892c984144cf22f2e841",
+    "byte_size": 4694
+  },
+  "report_completion": {
+    "path": "pipelines/brisbane_baylands/task_13a/locked_reporting_20261020_v2/completion.json",
+    "sha256": "4dc530dd115937b9e5d67ee33c5cfc2b7b9db8d17de10f762fcce1737627e1e6",
+    "byte_size": 4980
+  },
+  "gallery": "pipelines/brisbane_baylands/task_13a/continued_publication_20261020_v2/test_30_review/START_HERE.html",
+  "gallery_provenance": {
+    "path": "pipelines/brisbane_baylands/task_13a/continued_publication_20261020_v2/test_30_review_provenance.json",
+    "sha256": "8d84874aa9b54411d813100b29267a9aac1cdf3119fa7d40bf700e5e0c14cdb4",
+    "byte_size": 33695
+  },
+  "validation": {
+    "make_fix": "pass",
+    "make_check": "pass",
+    "tests_passed": 4383,
+    "tests_skipped": 1,
+    "warnings": 105,
+    "git_diff_check": "pass",
+    "continuation_fixtures": 8,
+    "network_disabled_report_replay": 83,
+    "figures_png": 7,
+    "figures_svg": 7,
+    "tables_csv": 11
+  },
+  "next_step": "Task 13A closed. Tasks 14\u201315 remain provisional and require separate activation. Preserve all attempted outcomes; no automatic retries or replacement answers.",
+  "limits_and_limitations": [
+    "All 90 slots attempted once;54 fully evaluated,29 invalid outputs,7 original429 failures.",
+    "5400-second active evaluation deadline; consumed time preserved and only verified administrative pause excluded.",
+    "Original six-hour dispatch clock and cumulative $10 planning cap retained; continuation concurrency one.",
+    "Missing/invalid coverage does not establish a model ranking; all30 questions and planned repeats remain in denominator.",
+    "Native JSON schema accepted but server-side enforcement not proven; no output repair.",
+    "Conservative input-byte proxy is not an exact provider token count.",
+    "Promotional generation accounting uses announced free window; original429 liabilities remain held.",
+    "OpenAI counting fees remain unknown under accepted exception."
+  ],
+  "commit_or_push": false,
+  "independent_native_audit": {
+    "path": "pipelines/brisbane_baylands/task_13a/locked_test_continue_20261020_v2_audit/independent_native_audit.json",
+    "sha256": "dee5734d595c54b50de14e2a9dd9e88432c18e8495ac6a3470250fd14a709f96",
+    "byte_size": 2594
+  },
+  "independent_reporting_review": {
+    "path": "pipelines/brisbane_baylands/task_13a/independent_reporting_review_v2.json",
+    "sha256": "bc92789151cd5708f582cf956093221b861412847b7168dfef6f2edbc831704d",
+    "byte_size": 2631
+  },
+  "joint_outcomes": {
+    "pass": 26,
+    "fail": 57,
+    "unavailable": 7,
+    "planned": 90,
+    "interpretation": "All slots attempted; invalid outputs fail automatic checks, original failed requests unavailable; not a model ranking."
+  },
+  "all_slots_attempted": true,
+  "continuation_preflight": {
+    "path": "pipelines/brisbane_baylands/task_13a/locked_test_continue_20261020_v2/continuation_preflight.json",
+    "sha256": "d21d962e04b100ce28f3ed1fad9b3fec197027f09bbb25a3351f068245a9c7b2",
+    "byte_size": 318693
+  },
+  "independent_continuation_preflight": {
+    "path": "pipelines/brisbane_baylands/task_13a/locked_test_continue_20261020_v2/independent_continuation_review.json",
+    "sha256": "3ce081b78f8b9181643f760c534ca390fb37354bc5eec45dc3a65cee0560a253",
+    "byte_size": 2629
+  },
+  "prior_checkpoint_pointer": {
+    "path": "pipelines/brisbane_baylands/task_13a/deadline_stop_result_pointer.json",
+    "sha256": "8ee9b46af2e694628bd99556815962b073c7afbc08155381cb48de658af941d8",
+    "byte_size": 4246
+  },
+  "continuation": {
+    "administrative_pause_seconds": 4156.807645320892,
+    "ancestor_files_preserved": 4845,
+    "ancestor_requests_preserved": 344,
+    "evaluation_seconds": 5400,
+    "new_peak_concurrency": 1,
+    "new_requests": 682,
+    "source": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_13a/locked_test_20261020_v1",
+    "source_completion_sha256": "96af688b0913bc79d23b01d6b81a22f8a42f5a9f67573878dbe9309eda57a313",
+    "source_ledger": {
+      "counts": {
+        "count": 154,
+        "generation": 36,
+        "judge": 154
+      },
+      "dispatch_span_seconds": 3552.6752359867096,
+      "held_liability_usd": "0.1566096",
+      "known_cost_usd": "0.075034840",
+      "peak_concurrency": 10,
+      "peak_reserved_liability_usd": "0.862018560",
+      "planning_liability_usd": "0.231644440"
+    },
+    "successor_claim_verified": true,
+    "verified_adjusted_evaluation_requests": 90
+  }
+}

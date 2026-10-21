@@ -1,0 +1,61 @@
+{
+  "schema_version": "task13.pricing.v1",
+  "verified_date": "2026-10-20",
+  "basis": "docs/specs/task13_pricing_basis.md",
+  "openai": {
+    "model": "gpt-6-luna",
+    "verified": false,
+    "generation_rates_verified": true,
+    "count_max_usd": null,
+    "input_per_million": 0.1,
+    "cache_read_per_million": 0.01,
+    "cache_write_per_million": 0.125,
+    "input_max_per_million": 0.125,
+    "output_per_million": 0.5,
+    "count_fee_status": "unverified_no_authoritative_fee_bound",
+    "sources": [
+      "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "https://developers.openai.com/api/docs/guides/token-counting",
+      "https://developers.openai.com/api/docs/pricing"
+    ],
+    "worst_request_input_tokens": 1050000,
+    "reserve_input_per_million": 0.25,
+    "reserve_output_per_million": 0.75,
+    "long_context_threshold_tokens": 272000,
+    "long_context_input_multiplier": 2,
+    "long_context_output_multiplier": 1.5,
+    "count_fee_exception": {
+      "scope": "openai_responses_input_tokens_only",
+      "accepted_by": "user",
+      "accepted_on": "2026-10-20",
+      "status": "accepted_unknown_fee",
+      "planning_allowance_usd": 0,
+      "actual_fee_usd": null,
+      "note": "User accepts possible counting charges. Zero is a planning allowance, not a verified price or guarantee that unknown fees fit the cap."
+    }
+  },
+  "anthropic": {
+    "model": "claude-haiku-5-5",
+    "verified": true,
+    "generation_rates_verified": true,
+    "count_max_usd": 0,
+    "input_per_million": 0.1,
+    "cache_read_per_million": 0.01,
+    "cache_write_per_million": 0.125,
+    "input_max_per_million": 0.125,
+    "output_per_million": 0.5,
+    "count_fee_status": "official_documentation_free",
+    "sources": [
+      "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+      "https://platform.claude.com/docs/en/about-claude/pricing",
+      "https://platform.claude.com/docs/en/build-with-claude/token-counting"
+    ],
+    "worst_request_input_tokens": 1000000,
+    "reserve_input_per_million": 0.625,
+    "reserve_output_per_million": 2.5,
+    "long_context_threshold_tokens": 100000,
+    "long_context_input_multiplier": 5,
+    "long_context_output_multiplier": 5
+  }
+}

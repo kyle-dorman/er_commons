@@ -684,6 +684,10 @@ task records. Later tasks require separate authorization.
    After activation and readiness, run both frozen models on all 30 held-out cases,
    three repeats each (180 planned target answers). Retain every failure and use
    Task 12 reporting unchanged. No test-informed tuning or retrieval comparison.
+   Task 13 is complete; Luna and Haiku are the presented benchmark models.
+   [Task 13A](../../tasks/sprint2/13a_minimax_cloud_comparison.md) is an archived side
+   experiment, excluded from presented results. [Task 13B](../../tasks/sprint2/13b_locked_code_quality.md)
+   completed offline maintenance; original sealed results remain unchanged.
 8. **[Task 14 — Selective failure review](../../tasks/sprint2/14_selective_failure_review.md).**
    After 13, inspect a small bounded selection of failures, successes and evaluator
    disagreements, reusing prior analyses. Preserve frozen scores; no full human
