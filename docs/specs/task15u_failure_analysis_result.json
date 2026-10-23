@@ -1,0 +1,34 @@
+{
+  "schema_version": "task15u.failure_analysis_result.v1",
+  "status": "review_complete_user_decision_pending",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/conclusion_failure_audit_20261022_v1",
+  "completion": {
+    "sha256": "df67852ad4487694defece394b5a9a6afd4e929bcb8b7dad894937930971405b",
+    "byte_size": 2535
+  },
+  "entrypoint": "summary.md",
+  "selected_results": "docs/specs/task15t_retry_result.json",
+  "failures": {
+    "total": 130,
+    "required_content_omitted": 66,
+    "judge_reference_boundary": 41,
+    "why_how_not_explained": 15,
+    "conflicting_claim": 8,
+    "likely_false_rejects": 7,
+    "unresolved": 34,
+    "concrete_reference_mismatch": 89
+  },
+  "positive_review": {
+    "population": 164,
+    "stratified_sample": 24,
+    "targeted_sample": 8,
+    "supported_passes": 28,
+    "likely_false_accepts": 1,
+    "disputed_passes": 3,
+    "accuracy_estimate": false
+  },
+  "provenance": "128 prior rejection reviews reused;2 newly available failures added;20 failure packets reread;32 passes newly audited; supplied references, not full independent source-truth audit",
+  "paid_calls": 0,
+  "labels_changed": false,
+  "recommendation": "Freeze current baseline with documented judge limitations and move on when user selects next task; no higher-reasoning rerun recommended from this review alone. Task16 not activated."
+}

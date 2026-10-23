@@ -88,6 +88,37 @@ one-to-one rule; BRIDGE has unequal evaluated subsets and subgroup-best strategi
 These motivate accurate reporting, not a literature critique section in the short
 writeup. Keep any such claim appropriately qualified and source-linked.
 
+## Reference-conclusion cleanup reporting
+
+[Task15F](15f_review_reference_conclusions.md) adds an evidence-only review of all49
+reference conclusions. Its [result pointer](../../docs/specs/task15f_reference_conclusion_review_result.json)
+selects a methods procedure note, per-case proposals/challenges and a conclusion
+pitfalls appendix draft. Include the final adjudicated cleanup procedure and
+representative pitfalls in methods/appendix. All49 were subsequently approved
+and published in15M;15AA added prediction-informed materiality review, published
+in [15AC](../../docs/specs/task15ac_reference_result.json). Distinguish these
+stages and their approved changes from initial proposal counts. Disclose that
+predictions were excluded from this batch but prior experiments motivated the
+rubric, the lead had prior exposure, and original test references were re-curated.
+Do not describe revised evaluation as untouched held-out testing.
+
+The discussion must retain C's coverage gap: additional conclusion claims absent
+from the reference and contradicting none of its required or optional meanings
+may be supported or unsupported. C cannot establish their factual support without
+evidence. Conclusion-only claims may also escape G's supporting-point/qualification
+inputs and may not be caught by S. A C pass therefore does not certify all added
+claims. The user accepted numbered reference-point judgments on 2026-10-22,
+without a separate additions category. The implemented v6 judge subsequently
+added internal-contradiction reasons; that does not close the unsupported-addition
+gap. Also report the relevance gap: complete, supported answers can include
+unrelated content and still pass. C does not certify relevance or concision, and
+extra detail earns no credit. This limitation is accepted for the current
+evaluation use; the project is not training models against this score.
+
+Accepted changes require a new reference release, regenerated synthetic data,
+judge retesting, generation-prompt alignment and fresh downstream execution.
+Use the resulting designated versions, preserving earlier runs as historical.
+
 ## Validation, review and acceptance
 
 Check every number against accepted machine-readable tables and every example

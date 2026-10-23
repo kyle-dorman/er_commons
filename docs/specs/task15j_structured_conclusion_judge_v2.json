@@ -1,0 +1,32 @@
+{
+  "schema_version": "task15j.structured_conclusion_contract.v2",
+  "status": "implemented_not_semantically_qualified",
+  "prompt_version": "task15.binary_adequacy.conclusion_structured.v2",
+  "system_prompt_sha256": "cb3004296ba287fdde54368267c158173885fc815f31d1d1b58a31e0a2b9e1c7",
+  "input_schema_sha256": "2a4137842937d5a90a1459b8363ce88eb5c078a2049bce580343088dc647ce39",
+  "output_schema_sha256": "228e1197316968067696da1063ec90e953712e8049377e9e2eb659572b0f2a83",
+  "overview_file": "docs/prompts/task11d14_document_overview.md",
+  "overview_bytes_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "policy": "docs/specs/adequacy_labeling_rules.md#3-conclusion-check-c",
+  "input_fields": [
+    "question",
+    "candidate_conclusion",
+    "reference_required_points",
+    "reference_optional_points"
+  ],
+  "output_fields": [
+    "judgments",
+    "conclusion_adequate",
+    "reason"
+  ],
+  "frozen_defaults_changed": false,
+  "provider_calls": 0,
+  "next": "C001-only refreshed synthetic pilot and repeated judging; no production promotion",
+  "predecessor_contract": "docs/specs/task15g_structured_conclusion_judge_v1.json",
+  "changes": [
+    "Numerical optional details require relevant numerical values with identifying context; partial numerical coverage is sufficient.",
+    "Qualification addressedness requires the limitation itself, not restated linked context.",
+    "Missing/not_addressed may quote partial or related candidate content; other statuses still require quotes.",
+    "Prompt asks the judge to reconcile status with explanation before deriving its overall judgment."
+  ]
+}

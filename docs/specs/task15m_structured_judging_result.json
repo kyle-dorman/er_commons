@@ -1,0 +1,50 @@
+{
+  "schema_version": "task15m.structured_judging_result.v1",
+  "status": "steps_1_to_5_complete_pending_step6_discussion",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_judging_19_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "ff3f9e3a665eae6829f082a1debbace635439f97da2789f48edf0533258b80f4",
+    "byte_size": 31510
+  },
+  "report": "report.md",
+  "audit": "final_audit.json",
+  "failure_review": "failure_review_coverage.json",
+  "questions": 19,
+  "candidates": 378,
+  "logical_judgments": 2268,
+  "rounds_per_model": 3,
+  "concurrency_per_model": 16,
+  "reviewed_exception_calls": 282,
+  "models": {
+    "openai/gpt-6-luna": {
+      "judgments": 1134,
+      "valid": 1132,
+      "overall_agree": 1119,
+      "full_vector_agree": 990,
+      "point_status_total": 7410,
+      "point_status_agree": 7245,
+      "false_accepts": 3,
+      "false_rejects": 10
+    },
+    "anthropic/claude-haiku-5-5": {
+      "judgments": 1134,
+      "valid": 1130,
+      "overall_agree": 1127,
+      "full_vector_agree": 1026,
+      "point_status_total": 7410,
+      "point_status_agree": 7248,
+      "false_accepts": 1,
+      "false_rejects": 2
+    }
+  },
+  "configured_cost_estimate_usd": 1.1971455149999999,
+  "retained_conservative_liability_usd": 7.46173015,
+  "wall_seconds": 590.9468648433685,
+  "label_status": "agent_authored_independently_reviewed_not_human_gold",
+  "post_result_labels_changed": false,
+  "reserved_challenges_read": false,
+  "minimax_included": false,
+  "production_judge_promoted": false,
+  "next": "Discuss expectation ambiguities and acceptable judge limitations at step6; steps7\u20139 retain separate gates."
+}

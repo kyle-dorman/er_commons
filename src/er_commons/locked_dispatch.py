@@ -77,15 +77,41 @@ class LockedDispatcher:
         judge_per_answer: int = 16,
         evaluation_seconds: int = 1800,
         clock: Callable[[], float] = time.time,
+        policy_version: str = "task13",
     ) -> None:
         """Acquire exclusive process ownership and recover cumulative liabilities."""
-        if not 1 <= concurrency <= 10 or not Decimal("0") < _money(cap_usd) <= Decimal("10"):
-            raise ValueError("Task 13 cap or concurrency exceeds authorization")
-        if judge_per_answer not in (16, 30):
+        if policy_version not in ("task13", "task15s", "task15t", "task15v", "task15w"):
+            raise ValueError("Unknown dispatcher policy")
+        expanded = policy_version in ("task15s", "task15t", "task15v", "task15w")
+        recovery = policy_version == "task15t"
+        high_comparison = policy_version == "task15v"
+        high_recovery = policy_version == "task15w"
+        max_cap, max_concurrency = (Decimal("40"), 32) if expanded else (Decimal("10"), 10)
+        if recovery:
+            max_cap = Decimal("37.394200565")
+        if high_comparison:
+            max_cap, max_concurrency = Decimal("37.370634635"), 16
+        if high_recovery:
+            max_cap, max_concurrency = Decimal("37.117295000"), 16
+        if not 1 <= concurrency <= max_concurrency or not Decimal("0") < _money(cap_usd) <= max_cap:
+            raise ValueError("Dispatcher cap or concurrency exceeds authorization")
+        if judge_per_answer not in ((64,) if expanded else (16, 30)):
             raise ValueError("Judge ceiling must match an authorized policy")
         if type(evaluation_seconds) is not int or evaluation_seconds not in (1800, 5400):
             raise ValueError("Evaluation deadline must match an authorized policy")
         directory.mkdir(parents=True, exist_ok=True)
+        self._policy_request_caps = (
+            {"generation": 294, "judge": 294 * 64, "count": 294 * 65}
+            if expanded
+            else {"generation": 180, "judge": 2880, "count": 3060}
+        )
+        if recovery:
+            self._policy_request_caps = {"generation": 2, "judge": 129, "count": 131}
+        if high_comparison:
+            self._policy_request_caps = {"generation": 36, "judge": 36 * 64, "count": 36 * 65}
+        if high_recovery:
+            self._policy_request_caps = {"generation": 3, "judge": 192, "count": 195}
+        self.policy_version = policy_version
         self.directory = directory
         self.cap_usd = cap_usd
         self.concurrency = concurrency
@@ -112,6 +138,29 @@ class LockedDispatcher:
                 policy.update(version=2, judge_per_answer=30)
             if evaluation_seconds == 5400:
                 policy.update(version=3, evaluation_seconds=5400)
+            if expanded:
+                policy.update(
+                    version=4,
+                    policy_version=policy_version,
+                    judge_per_answer=judge_per_answer,
+                    evaluation_seconds=evaluation_seconds,
+                    request_caps=self._policy_request_caps,
+                )
+            if recovery:
+                policy.update(
+                    version=5, judge_output_tokens=6144, prior_liability_usd="2.605799435"
+                )
+            if high_comparison:
+                policy.update(
+                    version=6, judge_output_tokens=6144, prior_liability_usd="2.629365365"
+                )
+            if high_recovery:
+                policy.update(
+                    version=7,
+                    judge_output_tokens=6144,
+                    generation_output_tokens=16384,
+                    prior_liability_usd="2.882705000",
+                )
             policy_path = directory / "policy.json"
             if policy_path.exists():
                 if json.loads(policy_path.read_text()) != policy:
@@ -290,14 +339,15 @@ class LockedDispatcher:
             if request.kind not in ("generation", "judge", "count"):
                 raise ValueError("Unknown remote request kind")
             _money(request.maximum_cost_usd)
-            output_cap = 12288 if request.kind == "generation" else 4096
+            judge_cap = 6144 if self.policy_version in ("task15t", "task15v", "task15w") else 4096
+            generation_cap = 16384 if self.policy_version == "task15w" else 12288
+            output_cap = generation_cap if request.kind == "generation" else judge_cap
             if (
                 not 0 <= request.input_tokens <= 100000
                 or not 0 <= request.output_tokens <= output_cap
             ):
                 self._stop_dispatch("Input or output token ceiling exceeded")
-            caps = {"generation": 180, "judge": 2880, "count": 3060}
-            if self._count(request.kind) >= caps[request.kind]:
+            if self._count(request.kind) >= self._policy_request_caps[request.kind]:
                 self._stop_dispatch("Global request ceiling exhausted")
             if (
                 request.kind == "judge"

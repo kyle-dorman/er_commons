@@ -1,0 +1,107 @@
+{
+  "schema_version": "task15q.synthetic_result.v1",
+  "status": "reviewed_sealed",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_synthetic_full_internal_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "ca053644df1a6cf205b5f0fd598e1578977f041b8d25cd69880415bdb750a325",
+    "byte_size": 2167
+  },
+  "summary": {
+    "samples": 382,
+    "questions": 19,
+    "logical_judgments": 2292,
+    "expected_pass": 154,
+    "expected_fail": 228,
+    "families": {
+      "CA": 40,
+      "CD": 76,
+      "CP": 50,
+      "CT": 57,
+      "EX": 21,
+      "ME": 31,
+      "OC": 57,
+      "RC": 50
+    },
+    "by_case": {
+      "C001": {
+        "pass": 9,
+        "fail": 12
+      },
+      "C006": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C007": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C008": {
+        "pass": 9,
+        "fail": 12
+      },
+      "C014": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C017": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C019": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C027": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C028": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C029": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C036": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C037": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C041": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C042": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C045": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C050": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C051": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C054": {
+        "pass": 8,
+        "fail": 12
+      },
+      "C056": {
+        "pass": 8,
+        "fail": 12
+      }
+    }
+  },
+  "reason_semantic_scoring": false,
+  "reserved_challenges_read": false
+}

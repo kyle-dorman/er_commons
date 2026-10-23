@@ -1,0 +1,32 @@
+{
+  "schema_version": "task15n.structured_conclusion_contract.v4",
+  "status": "implemented_development_comparison_complete_not_promoted",
+  "prompt_version": "task15.binary_adequacy.conclusion_structured.v4",
+  "system_prompt_sha256": "890e2bc78e3df1748ee7fc725172f0b6e33eb6f83d16454ae770f98ddfdc8e0d",
+  "input_schema_sha256": "7e70df2b154bacb134d1b380b0ad137502a299d897508113e5b8c2a459cd4f72",
+  "output_schema_sha256": "4733941fa6d8a50cda35dd09ecb8432413ad6444f77c5da9c41f44196765cd68",
+  "overview_file": "docs/prompts/task11d14_document_overview.md",
+  "overview_bytes_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "policy": "docs/specs/adequacy_labeling_rules.md#3-conclusion-check-c",
+  "transformation_extension": "docs/specs/task15n_conclusion_transformations_v3.md",
+  "input_fields": [
+    "question",
+    "candidate_conclusion",
+    "reference_required_points",
+    "reference_optional_points",
+    "candidate_statements"
+  ],
+  "output_fields": [
+    "judgments",
+    "contradicting_points",
+    "conclusion_adequate",
+    "reason"
+  ],
+  "candidate_statement_ids": "A1,A2,... exact spans joining to original candidate",
+  "contradicting_points": "unordered pairs of distinct candidate IDs; no reference IDs",
+  "aggregate": "all required satisfied AND no reference contradicted AND no candidate contradiction pairs; unavailable if structurally incomplete",
+  "model_final_retained_when_aggregate_disagrees": true,
+  "frozen_defaults_changed": false,
+  "predecessor_contract": "docs/specs/task15k_structured_conclusion_judge_v3.json",
+  "result": "docs/specs/task15n_structured_judging_result.json"
+}

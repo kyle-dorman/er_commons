@@ -1,15 +1,21 @@
 # Task 15 — Revise and qualify the conclusion judge
 
-Status: planned (2026-10-21), requested by the user after Task 14 analysis.
-This contract authorizes planning only; implementation and remote execution have
-not started. Task 14's synthesis and quality pass are complete. The methods and
-results writeup moves to [Task 16](16_write_methods_and_results.md).
+Status: closed at user request after the code-quality pass and final validation.
+The conclusion-judge revision, reference cleanup/publication and saved-answer
+comparison are complete. Current references: [15AC](15ac_publish_materiality_references.md).
+Latest diagnostic comparison: [15AB](15ab_rejudge_approved_materiality_labels.md).
+Remaining judge uncertainties are documented, not manually rescored.
 
-Next-chat entry: read this plan and the accepted Task 14 conclusion analysis,
-then discuss suggested rule changes with the user in chat. Start with the C/G/S
-division of responsibilities and concrete positive/negative examples. Do not
-begin implementation, synthetic generation or model calls during this initial
-discussion; wait until the user agrees on the rules and moves to the next stage.
+Three separately activatable follow-ups remain; closing this parent does not
+claim these are implemented or run:
+1. [15Y — Required-support coverage judge](15y_required_support_coverage_judge.md).
+2. [15Z — Required/context citation review](15z_required_context_citation_review.md).
+3. [15AD — Final end-to-end run](15ad_final_end_to_end_run.md).
+
+The accepted C configuration is Luna/v6, one judgment per answer. Task14 is complete;
+Task16 writing remains separately activated. The user authorized committing this
+Task15 work after quality checks, not pushing. No additional model calls, MiniMax
+or reserved-challenge access are authorized by closeout.
 
 ## Abstract
 
@@ -32,22 +38,25 @@ source grounding of supporting/qualification points to G. Investigate a definiti
 of key fact through reviewed contrasts rather than adding an exhaustive list of
 case-specific mandatory reference details.
 
-Retain the current C model initially. Change C policy/prompt, not target generation
-instructions, question wording, source packets, model settings, or A/G/S semantics.
-Any departure needs a separate recorded decision and comparison arm.
+The original bounded C revision retained question wording, source packets and
+A/G/S semantics. The later user-authorized dependency reset above adds reference
+adjudication and subsequent target-generation alignment. Each execution phase
+needs its own recorded input versions and comparison condition.
 
 ### Meaning of the requested rerun
 
-The proposed primary experiment rejudges **saved answers with revised C**, then
-recomputes joint outcomes using the unchanged automatic/A/G/S observations. This
-isolates the evaluator change and requires no new target answers. The user's
-choice between this and a fresh end-to-end run is pending; resolve and record it
-before finalizing the execution budget, not by silently choosing a run type.
+The user selected Luna with one judgment per answer and explicitly requested
+saved-answer judging first as an educational comparison. [15E](15e_rejudge_saved_development.md)
+completed all114 development answers with the revised C core and unchanged old
+project overview, replacing only C for derived same-answer outcomes.
 
-If fresh target generation is requested, retain the saved-answer C comparison as
-the attribution baseline and add a separate run: two models × thirty questions ×
-three fresh answers, with all applicable judges. Fresh generations cannot reuse
-judgments for old candidates and cannot isolate a C effect from answer variability.
+The user also stated that the target-generation prompt must reflect the new judge
+rules and that a fresh end-to-end rerun is needed afterward. This intent replaces
+the prior pending choice between saved-only and fresh generation. Preserve the
+saved-answer comparison as attribution evidence, then separately specify the
+aligned generation prompt, exact fresh population and numerical budgets before
+dispatch. Fresh generations require all applicable judges and cannot reuse old
+judgments. Their score changes mix target behavior with evaluator effects.
 
 ## Accepted inputs and implementation owners
 
@@ -88,7 +97,7 @@ The selection manifest owns exact run/candidate/repeat/point IDs and frozen scor
 
 | Review | Frozen observation | Interpretation and remaining uncertainty |
 | --- | --- | --- |
-| U02: C003 Luna repeat 2, test | G/S pass, C fail; impact scope appears in S1 but not C1 | C requires explicit “new and substantially more severe impacts.” The conclusion gives insufficiency, new information and concrete examples. Whether the exact scope is essential to this broad why-question remains deferred. Do not require this example to become a pass. |
+| U02: C003 Luna repeat 2, test | G/S pass, C fail; impact scope appears in S1 but not C1 | Task 14 deferred materiality. In Task 15 discussion the user judged the explanation insufficient: updated analysis/new information does not state the new/worsened-impact finding, and “call for additional mitigation” restates the need. Preserve that meaning without requiring the exact phrase. Frozen scores and Task 14 records stay unchanged. |
 | U06: C002 Luna repeat 1, test | G/S pass, C fail | Judge misses “residential calm” and rejects comfort/privacy additions absent from reference. User distinguishes the intended outcome from its concrete noise/air-quality buffering mechanism. Source P2 explicitly mentions privacy and pedestrian comfort. Test semantic equivalence and reference coverage separately. |
 | U07: C025 Haiku repeat 3, test | G/S pass, C fail | Both reference triggers are matched; judge rejects the additional any-district 50% occupancy deadline. P1 explicitly states that deadline alongside the commercial-district trigger. User agrees this appears to be what happened. It is a source-supported addition missing from the label, not demonstrated contradiction. |
 
@@ -172,10 +181,11 @@ conclusion that leaves a requested dimension unanswered.
    explicit “all/only/exactly” questions establish completeness without turning a
    concise reference into proof no other valid item exists.
 
-The maintained policy and current C rules 3/6 explicitly constrain alternative
-answers and extra items; the old catalog's A02 rejects extras even when true.
-Revise those rules and the synthetic expectations coherently. A cosmetic prompt
-addition saying “be flexible” conflicts with the old contract and is insufficient.
+Historical C v8 rules 3/6 constrain alternative answers and extra items; the old
+catalog's A02 rejects extras even when true. Task 15A replaced that rule in a
+versioned candidate and updated the maintained policy. Task 15B's new catalog
+and independently reviewed expectations apply the accepted semantics without
+changing the old labels. A cosmetic “be flexible” addition would be insufficient.
 Keep S behavior unchanged; update shared documentation only where the C/S boundary
 must be explained. Do not implicitly alter target-answer instructions.
 
@@ -229,6 +239,14 @@ Do not implement a whole new evaluator framework.
 not inherited paid-call authorization or a reason to reuse Task 13's old budget.
 
 ### 15B — Regenerate and review synthetic C tests
+
+The bounded [15B authoring outcome](15b_regenerate_conclusion_cases.md) and
+[result pointer](../../docs/specs/task15b_conclusion_synthesis_result.json)
+select the completed 340-case publication. It follows the development-derived
+pattern below with 25 declared slots per question; the optional 120-item proposal
+was not adopted. Tuning/audit groups contain 259/81 variants on 15/4 familiar
+development questions. Source-grounding and full-answer composition diagnostics
+remain outside this C-only publication.
 
 Create a fresh C suite against the revised general rules. Start from the accepted
 nineteen-development-question authoring pattern: regenerate applicable C variants
@@ -460,7 +478,73 @@ Internal artifact sealing and result-pointer publication are required task outpu
 
 ## Outcome
 
-Detailed planning contract written. No revised rules/prompts or synthetic data
-have been implemented, no model calls made, no historical scores altered, and
-Task 14's review and quality pass are complete. Next: activate 15A with the run-type
-decision and a concrete bounded execution plan.
+The accepted C rules and explicit candidate prompt have a separate reviewed
+340-case synthetic suite. Both Luna and Haiku judged the original six questions'
+106 candidates: 105/106 and 104/106 agreement respectively, with all outputs
+valid. One Luna acceptance materially changes a scoped approximate flooding
+prediction into an exact universal guarantee. Two Haiku disagreements concern
+whether a specific future-land-use-input relationship is necessary beyond the
+retained inventory/scenario mechanism; that label materiality remains unresolved.
+
+[Task 15C](15c_run_conclusion_development.md) owns all three reviews and the
+predeclared initial stop decision. The user subsequently authorized three-round
+execution on the remaining thirteen; Task15D preserves that new decision and
+combined results separately. No original
+labels, prompt, frozen results or selected judge were changed by execution.
+The prompt remains unqualified. Task 16 remains provisional.
+
+
+## Current continuation — structured reference drafts
+
+The user accepted the C001 judge pilot as sufficient for this stage, with the
+point-level limitations in Task15K preserved. [Task15L](15l_draft_structured_reference_conclusions.md)
+now drafts all49 required/optional conclusions from evidence and existing labels,
+with independent review, before one-at-a-time human adjudication. This supersedes
+the old prose-review queue as the next review format, not the original labels.
+No prediction-driven label tuning, source-support edits or downstream reruns are
+part of that batch. The final rules distinguish optional numerical coverage from
+contradiction checking and qualification content from contextual restatements.
+
+
+## Fresh generation and reporting completion
+
+[Task15S](15s_fresh_generation_and_reporting.md) executed approved steps8–9 under
+a separate $40 cap. The [result](../../docs/specs/task15s_fresh_generation_result.json)
+selects292 valid answers,291 complete evaluations and all294 planned slots, with
+separate development/test reports and exhaustive C/G/S failure inventories.
+Two interrupted generations and one truncated C judgment remain unavailable;
+no paid requests were retried. Model/computed C agree for all291 valid judgments.
+Review uncertainty remains distinct from frozen scores; no new tuning cycle or
+Task16 writing was activated. Earlier publications are preserved.
+
+[Task15T](15t_retry_unavailable_slots.md) subsequently completed the user's three
+explicitly authorized availability retries, with a6144-token C output cap. The
+[selected result](../../docs/specs/task15t_retry_result.json) now has294 valid
+answers and294 complete evaluations; all selected model/computed C verdicts agree.
+Original attempts and their costs remain preserved, with cumulative retained
+liability$2.629365365 plus accepted unknown counting fees. No additional tuning
+or Task16 work is activated.
+
+## Code quality and closeout
+
+User requested maintainable, editable, simple and readable code, followed by
+Task15 closure and a local commit. Three bounded reviews covered structured-C
+contracts, native execution controls and projection/scoring integration.
+
+Centralized the six structured prompt/input/output version mappings, eliminating
+duplicated routing ladders. Simplified repeated policy checks without changing
+authorization limits. Marked the old direct-answer synthetic loader explicitly
+historical to avoid accidental reuse for v6. Preserved all historical/current
+prompt bytes and input/output schemas; no scoring-rule changes or model calls.
+Existing contract tests cover version routing, context parity, output validity
+and aggregation. Kept historical policy serialization explicit rather than adding
+a new framework. Final project-check results are recorded below.
+
+Final validation: `make fix` and `make check` passed;4559tests passed,1skipped.
+Formatting/lint clean; mypy found no issues in671source files. All changed/new
+Markdown relative links and Git whitespace checks passed. Focused reviews also
+verified byte-identical prompts and input/output schemas across all six structured
+versions. Remaining warnings are the existing Inspect retry-library deprecation.
+The authorized local commit includes Task15 code, tests, specifications, result
+pointers and closeout documentation; large data and generated artifacts remain
+outside Git. The three future subtasks remain unactivated.

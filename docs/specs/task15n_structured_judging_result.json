@@ -1,0 +1,86 @@
+{
+  "schema_version": "task15n.structured_judging_result.v1",
+  "status": "complete_pending_user_discussion_not_promoted",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_judging_pairs_19_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "513384379f48569b970abe0d20853def3476861992cf9e0eb80d10d0b8ad8c01",
+    "byte_size": 34407
+  },
+  "report": "report.md",
+  "audit": "final_audit.json",
+  "failure_review": "failure_review_coverage.json",
+  "prior_aggregate_diagnostic": "prior_aggregation_diagnostic.json",
+  "pair_increment": "pair_increment.json",
+  "questions": 19,
+  "candidates": 378,
+  "logical_judgments": 2268,
+  "rounds_per_model": 3,
+  "concurrency_per_model": 16,
+  "reviewed_exception_calls": 243,
+  "pair_scored_candidates": 359,
+  "pair_excluded_candidates": 19,
+  "models": {
+    "openai/gpt-6-luna": {
+      "judgments": 1134,
+      "valid": 1134,
+      "invalid": 0,
+      "model_final": {
+        "correct": 1123,
+        "false_accepts": 4,
+        "false_rejects": 7,
+        "valid_denominator": 1134,
+        "planned_or_observed_denominator": 1134
+      },
+      "deterministic_aggregate": {
+        "correct": 1123,
+        "false_accepts": 4,
+        "false_rejects": 7,
+        "valid_denominator": 1134,
+        "planned_or_observed_denominator": 1134
+      },
+      "model_aggregate_disagreements": 0,
+      "point_status_total": 7410,
+      "point_status_agree": 7293,
+      "pair_exact_agree": 1065,
+      "pair_scored_calls": 1077,
+      "pair_precision_valid": 0.9827586206896551,
+      "pair_recall_valid": 0.95
+    },
+    "anthropic/claude-haiku-5-5": {
+      "judgments": 1134,
+      "valid": 1133,
+      "invalid": 1,
+      "model_final": {
+        "correct": 1129,
+        "false_accepts": 1,
+        "false_rejects": 3,
+        "valid_denominator": 1133,
+        "planned_or_observed_denominator": 1134
+      },
+      "deterministic_aggregate": {
+        "correct": 1130,
+        "false_accepts": 2,
+        "false_rejects": 1,
+        "valid_denominator": 1133,
+        "planned_or_observed_denominator": 1134
+      },
+      "model_aggregate_disagreements": 5,
+      "point_status_total": 7410,
+      "point_status_agree": 7281,
+      "pair_exact_agree": 1063,
+      "pair_scored_calls": 1077,
+      "pair_precision_valid": 0.9365079365079365,
+      "pair_recall_valid": 0.9833333333333333
+    }
+  },
+  "configured_cost_estimate_usd": 1.1749213650000003,
+  "this_run_conservative_liability_usd": 7.658360350000003,
+  "cumulative_conservative_liability_usd": 15.120090500000003,
+  "wall_seconds": 772.9148919582367,
+  "original_candidates_and_labels_changed": false,
+  "reserved_challenges_read": false,
+  "minimax_included": false,
+  "production_judge_promoted": false,
+  "next": "Discuss retaining explicit candidate pairs and selecting final versus computed verdict; no automatic tuning or paid follow-up."
+}

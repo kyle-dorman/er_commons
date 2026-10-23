@@ -1,0 +1,30 @@
+{
+  "schema_version": "task15m.structured_synthetic_result.v1",
+  "status": "reviewed_sealed",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_synthetic_19_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "4f7eedb7b22e32b7744233f6f0493b3e7bb477bf46b5d2e75a8abddce4804ed4",
+    "byte_size": 2471
+  },
+  "summary": {
+    "samples": 378,
+    "questions": 19,
+    "logical_judgments": 2268,
+    "expected_pass": 147,
+    "expected_fail": 231,
+    "families": {
+      "RC": 51,
+      "ME": 25,
+      "CT": 49,
+      "CP": 38,
+      "CA": 26,
+      "EX": 16,
+      "OC": 75,
+      "CD": 98
+    }
+  },
+  "label_status": "agent_authored_independently_reviewed_not_human_gold",
+  "reserved_challenges_read": false,
+  "next": "Bounded repeated judging under Task15M."
+}

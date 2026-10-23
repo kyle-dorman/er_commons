@@ -1,0 +1,80 @@
+{
+  "schema_version": "task15q.structured_judging_result.v1",
+  "status": "complete_pending_user_discussion_not_promoted",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_judging_full_internal_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "a08bfda97d79e99edffb4eae5ab839ca319b8d075cd78b1fbea010ed6a196ceb",
+    "byte_size": 27504
+  },
+  "report": "report.md",
+  "audit": "final_audit.json",
+  "independent_audit": "postrun_independent_review.json",
+  "failure_review": "failure_review.md",
+  "failure_review_coverage": "failure_review_coverage.json",
+  "candidates": 382,
+  "questions": 19,
+  "expected_pass": 154,
+  "expected_fail": 228,
+  "logical_judgments": 2292,
+  "rounds_per_model": 3,
+  "concurrency_per_model": 16,
+  "models": {
+    "openai/gpt-6-luna": {
+      "valid": 1146,
+      "invalid": 0,
+      "model_final": {
+        "correct": 1143,
+        "false_accepts": 0,
+        "false_rejects": 3,
+        "valid_denominator": 1146,
+        "all_calls_denominator": 1146
+      },
+      "aggregate_decision": {
+        "correct": 1143,
+        "false_accepts": 0,
+        "false_rejects": 3,
+        "valid_denominator": 1146,
+        "all_calls_denominator": 1146
+      },
+      "model_aggregate_disagreements": 0,
+      "internal_list_plus_pass_inconsistent": 0
+    },
+    "anthropic/claude-haiku-5-5": {
+      "valid": 1145,
+      "invalid": 1,
+      "model_final": {
+        "correct": 1145,
+        "false_accepts": 0,
+        "false_rejects": 0,
+        "valid_denominator": 1145,
+        "all_calls_denominator": 1146
+      },
+      "aggregate_decision": {
+        "correct": 1145,
+        "false_accepts": 0,
+        "false_rejects": 0,
+        "valid_denominator": 1145,
+        "all_calls_denominator": 1146
+      },
+      "model_aggregate_disagreements": 0,
+      "internal_list_plus_pass_inconsistent": 0
+    }
+  },
+  "reviewed_exception_calls": 4,
+  "disputed_label_calls": 3,
+  "structural_invalid_calls": 1,
+  "reason_semantic_scoring_or_review": false,
+  "point_accuracy_computed": false,
+  "configured_cost_estimate_usd": 1.3522086399999997,
+  "new_conservative_liability_usd": 8.531213099999995,
+  "cumulative_conservative_liability_usd": 25.539724874999994,
+  "authorized_cap_usd": 30,
+  "wall_seconds": 644.7512881755829,
+  "original_labels_changed_after_results": false,
+  "production_judge_promoted": false,
+  "reserved_challenges_read": false,
+  "minimax_included": false,
+  "claim_limit": "Fresh familiar-development synthetic suite, not held-out accuracy or paired causal comparison.",
+  "next": "Discuss C006 implied-verification boundary; downstream generation and production promotion retain separate gates."
+}

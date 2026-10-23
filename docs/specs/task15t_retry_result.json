@@ -1,0 +1,44 @@
+{
+  "schema_version": "task15t.retry_result.v1",
+  "status": "completed_ready_for_review",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/availability_retries_20261022_v1",
+  "completion": {
+    "sha256": "4e5f2bec2688ecd8c098488e912b27a97eb32b3c459154628b7df0eddc36c096",
+    "byte_size": 143267
+  },
+  "entrypoint": "reporting/report.md",
+  "selection": "reporting/selection.json",
+  "retry_review": "retry_review.md",
+  "original_result": "docs/specs/task15s_fresh_generation_result.json",
+  "conclusion_execution": "docs/specs/task15t_conclusion_execution_v1.json",
+  "counts": {
+    "questions": 49,
+    "development": 19,
+    "test": 30,
+    "planned_answers": 294,
+    "valid_answers": 294,
+    "complete_evaluations": 294,
+    "retried_generations": 2,
+    "saved_answer_C_retries": 1,
+    "new_generation_requests": 2,
+    "new_judge_requests": 19,
+    "new_count_requests": 21
+  },
+  "model_computed_C_agreement": {
+    "valid_judgments": 294,
+    "disagreements": 0
+  },
+  "cost": {
+    "cap_usd": "40",
+    "new_known_usage_usd": "0.023565930",
+    "cumulative_known_usage_usd": "1.701929365",
+    "cumulative_retained_liability_usd": "2.629365365",
+    "cumulative_unknown_count_fee_calls": 2419
+  },
+  "audits": [
+    "final_audit.json",
+    "reporting_audit.json"
+  ],
+  "validation": "make fix and make check passed:4540 passed,1 skipped; native/replay/accounting/selection audits passed",
+  "next_action": "Review selected results and uncertainties. Task16 requires separate activation; no additional calls or tuning selected."
+}

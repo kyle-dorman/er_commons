@@ -1,0 +1,17 @@
+{
+  "schema_version": "task15p.structured_synthetic_result.v1",
+  "status": "complete",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_synthetic_internal_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "d022649b02b3ef68a99b2212fa9ab2d49d639330f2767f77a1370fa849c6d6e1",
+    "byte_size": 1058
+  },
+  "samples": 16,
+  "questions": 6,
+  "planned_judgments": 96,
+  "reference_meaning_changes": false,
+  "candidate_statement_ids": false,
+  "expected_reason_inventory": false,
+  "reason_scoring": false
+}

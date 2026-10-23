@@ -1,0 +1,78 @@
+{
+  "schema_version": "task15v.high_reasoning_result.v1",
+  "status": "experimental_complete_not_promoted",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/high_reasoning_six_20261023_v1",
+  "completion": {
+    "sha256": "f16d9f2295196a4a90c7ff9bbccc194ee6a7a17834dd7823645df2c7a00c6b92",
+    "byte_size": 2191797
+  },
+  "entrypoint": "reporting/summary.md",
+  "semantic_review": "outcome_review.md",
+  "baseline": "docs/specs/task15t_retry_result.json",
+  "cases": [
+    "C014",
+    "C017",
+    "C019",
+    "C037",
+    "C041",
+    "C056"
+  ],
+  "repeats": 3,
+  "models": [
+    "gpt-6-luna",
+    "claude-haiku-5-5"
+  ],
+  "generation_effort": "high",
+  "judge_effort": "medium",
+  "counts": {
+    "planned_generations": 36,
+    "valid_answers": 33,
+    "complete_evaluations": 33,
+    "generation_truncations": 3,
+    "judge_requests": 315,
+    "count_requests": 351
+  },
+  "availability": {
+    "truncated": "All three Haiku C014 repeats reached12288 output tokens; no retries."
+  },
+  "conclusion": {
+    "luna": {
+      "medium_pass": 11,
+      "high_pass": 14,
+      "planned": 18,
+      "high_available": 18
+    },
+    "haiku": {
+      "medium_pass": 12,
+      "high_pass": 11,
+      "planned": 18,
+      "high_available": 15,
+      "common_five_questions_medium_pass": 11,
+      "common_five_questions_high_pass": 11,
+      "common_five_questions_denominator": 15
+    }
+  },
+  "joint": {
+    "luna_medium": 11,
+    "luna_high": 14,
+    "haiku_medium": 4,
+    "haiku_high": 6,
+    "planned_per_model": 18
+  },
+  "cost": {
+    "new_configured_usage_usd": "0.253339635",
+    "cumulative_known_usage_usd": "1.955269000",
+    "cumulative_retained_liability_usd": "2.882705000",
+    "new_unknown_count_fee_calls": 300,
+    "cumulative_unknown_count_fee_calls": 2719,
+    "cap_usd": "40"
+  },
+  "limits": {
+    "generation": 12288,
+    "AGS": 4096,
+    "C": 6144,
+    "baseline_C": 4096
+  },
+  "validation": "4550 passed,1 skipped;85 focused tests; independent preflight and final native/accounting/replay audit passed;33/33 C model and aggregate agree",
+  "next_action": "Review small-sample findings; no default promotion or further paid run selected. Task16 requires separate activation."
+}

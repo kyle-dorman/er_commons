@@ -1,0 +1,111 @@
+{
+  "schema_version": "task15.c_synthetic_repeatability.v1",
+  "status": "complete",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/judge_synthetic_repeats_20261021_v1",
+  "completion": {
+    "sha256": "5ccbbe64ac39bc7d4064d198a49ff3a67524709fb4d7d346a49a5f180ca2d5fb",
+    "byte_size": 3182
+  },
+  "metrics": {
+    "anthropic/claude-haiku-5-5": {
+      "aggregate": {
+        "samples": 106,
+        "agree_3_of_3": 104,
+        "round1_agree": 104,
+        "at_least_once": 104,
+        "all_three": 104,
+        "majority": 104,
+        "decision_varies": 0,
+        "critical_samples": 45,
+        "critical_accepted_any": 2,
+        "critical_accepted_all": 2,
+        "agree_0_of_3": 2
+      },
+      "rounds": {
+        "1": {
+          "total": 106,
+          "valid": 106,
+          "agree": 104,
+          "critical_false_accept": 2,
+          "expected_fail": 64,
+          "fail_agree": 62,
+          "expected_pass": 42,
+          "pass_agree": 42
+        },
+        "2": {
+          "total": 106,
+          "valid": 106,
+          "agree": 104,
+          "critical_false_accept": 2,
+          "expected_fail": 64,
+          "fail_agree": 62,
+          "expected_pass": 42,
+          "pass_agree": 42
+        },
+        "3": {
+          "total": 106,
+          "valid": 106,
+          "agree": 104,
+          "critical_false_accept": 2,
+          "expected_fail": 64,
+          "fail_agree": 62,
+          "expected_pass": 42,
+          "pass_agree": 42
+        }
+      }
+    },
+    "openai/gpt-6-luna": {
+      "aggregate": {
+        "samples": 106,
+        "agree_3_of_3": 105,
+        "round1_agree": 105,
+        "at_least_once": 106,
+        "all_three": 105,
+        "majority": 106,
+        "decision_varies": 1,
+        "critical_samples": 45,
+        "critical_accepted_any": 1,
+        "critical_accepted_all": 0,
+        "agree_2_of_3": 1
+      },
+      "rounds": {
+        "1": {
+          "total": 106,
+          "valid": 106,
+          "agree": 105,
+          "critical_false_accept": 1,
+          "expected_fail": 64,
+          "fail_agree": 63,
+          "expected_pass": 42,
+          "pass_agree": 42
+        },
+        "2": {
+          "total": 106,
+          "valid": 106,
+          "agree": 106,
+          "critical_false_accept": 0,
+          "expected_fail": 64,
+          "fail_agree": 64,
+          "expected_pass": 42,
+          "pass_agree": 42
+        },
+        "3": {
+          "total": 106,
+          "valid": 106,
+          "agree": 106,
+          "critical_false_accept": 0,
+          "expected_fail": 64,
+          "fail_agree": 64,
+          "expected_pass": 42,
+          "pass_agree": 42
+        }
+      }
+    }
+  },
+  "new_judgments": 424,
+  "combined_judgments": 636,
+  "new_estimated_cost_usd": 0.165807295,
+  "review": "review.html",
+  "label_status": "agent_proposals_not_human_gold",
+  "original_gate_unchanged": true
+}

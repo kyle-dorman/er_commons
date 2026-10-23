@@ -1,0 +1,25 @@
+{
+  "schema_version": "task15n.structured_synthetic_result.v1",
+  "status": "reviewed_sealed",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_synthetic_pairs_19_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "767d95edbe60d4aac4ed422d02ddb3d1b315037573665b760290e9dd6462e012",
+    "byte_size": 2997
+  },
+  "summary": {
+    "samples": 378,
+    "questions": 19,
+    "logical_judgments": 2268,
+    "expected_pass": 147,
+    "expected_fail": 231,
+    "candidate_statements": 1166,
+    "pair_positive_candidates": 65,
+    "definite_pairs": 71,
+    "pair_scored_candidates": 359,
+    "pair_unscored_candidates": 19
+  },
+  "original_candidates_and_labels_unchanged": true,
+  "pair_labels": "agent_authored_independently_reviewed",
+  "reserved_challenges_read": false
+}

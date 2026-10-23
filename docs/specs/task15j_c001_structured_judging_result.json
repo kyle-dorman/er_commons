@@ -1,0 +1,261 @@
+{
+  "schema_version": "task15j.c001_structured_judging_result.v2",
+  "status": "complete_with_reviewed_diagnostics",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/c001_structured_judging_20261022_v2",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "cd16ef0fb2ad8fe7463fc6037303173de0f320153603bc1a28da40c92c57489d",
+    "byte_size": 4427
+  },
+  "metrics": {
+    "anthropic/claude-haiku-5-5": {
+      "judgments": 156,
+      "valid": 156,
+      "overall_agree": 156,
+      "point_status_agree": 1242,
+      "point_status_total": 1248,
+      "full_vector_agree": 150,
+      "false_accepts": 0,
+      "false_rejects": 0,
+      "quote_issue_calls": 1,
+      "by_round": {
+        "1": {
+          "valid": 52,
+          "overall_agree": 52,
+          "full_vector_agree": 50,
+          "judgments": 52
+        },
+        "2": {
+          "valid": 52,
+          "overall_agree": 52,
+          "full_vector_agree": 49,
+          "judgments": 52
+        },
+        "3": {
+          "valid": 52,
+          "overall_agree": 52,
+          "full_vector_agree": 51,
+          "judgments": 52
+        }
+      },
+      "per_point": {
+        "R1": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        },
+        "R2": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        },
+        "O1": {
+          "agree": 153,
+          "total": 156,
+          "confusions": {
+            "contradicted -> not_addressed": 3
+          }
+        },
+        "O2": {
+          "agree": 155,
+          "total": 156,
+          "confusions": {
+            "not_addressed -> contradicted": 1
+          }
+        },
+        "O3": {
+          "agree": 155,
+          "total": 156,
+          "confusions": {
+            "not_addressed -> addressed_without_contradiction": 1
+          }
+        },
+        "O4": {
+          "agree": 155,
+          "total": 156,
+          "confusions": {
+            "not_addressed -> addressed_without_contradiction": 1
+          }
+        },
+        "O5": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        },
+        "O6": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        }
+      },
+      "latency_seconds": {
+        "mean": 11.202669826923078,
+        "median": 11.466908499999999,
+        "p95": 13.772311,
+        "min": 5.760927,
+        "max": 18.919384,
+        "includes_scheduler_wait": true
+      },
+      "repeat": {
+        "candidates": 52,
+        "overall_any3_agree": 52,
+        "overall_all3_agree": 52,
+        "overall_majority3_agree": 52,
+        "vector_any3_agree": 52,
+        "vector_all3_agree": 48,
+        "decision_or_validity_varies": 0,
+        "valid_decision_varies": 0,
+        "vector_varies": 4
+      },
+      "point_status_valid_total": 1248,
+      "point_status_disagreements_valid": 6
+    },
+    "openai/gpt-6-luna": {
+      "judgments": 156,
+      "valid": 156,
+      "overall_agree": 156,
+      "point_status_agree": 1242,
+      "point_status_total": 1248,
+      "full_vector_agree": 150,
+      "false_accepts": 0,
+      "false_rejects": 0,
+      "quote_issue_calls": 1,
+      "by_round": {
+        "1": {
+          "valid": 52,
+          "overall_agree": 52,
+          "full_vector_agree": 49,
+          "judgments": 52
+        },
+        "2": {
+          "valid": 52,
+          "overall_agree": 52,
+          "full_vector_agree": 49,
+          "judgments": 52
+        },
+        "3": {
+          "valid": 52,
+          "overall_agree": 52,
+          "full_vector_agree": 52,
+          "judgments": 52
+        }
+      },
+      "per_point": {
+        "R1": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        },
+        "R2": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        },
+        "O1": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        },
+        "O2": {
+          "agree": 152,
+          "total": 156,
+          "confusions": {
+            "not_addressed -> contradicted": 4
+          }
+        },
+        "O3": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        },
+        "O4": {
+          "agree": 154,
+          "total": 156,
+          "confusions": {
+            "not_addressed -> addressed_without_contradiction": 2
+          }
+        },
+        "O5": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        },
+        "O6": {
+          "agree": 156,
+          "total": 156,
+          "confusions": {}
+        }
+      },
+      "latency_seconds": {
+        "mean": 14.649749096153846,
+        "median": 14.1343325,
+        "p95": 23.203713,
+        "min": 4.882168,
+        "max": 39.144567,
+        "includes_scheduler_wait": true
+      },
+      "repeat": {
+        "candidates": 52,
+        "overall_any3_agree": 52,
+        "overall_all3_agree": 52,
+        "overall_majority3_agree": 52,
+        "vector_any3_agree": 52,
+        "vector_all3_agree": 49,
+        "decision_or_validity_varies": 0,
+        "valid_decision_varies": 0,
+        "vector_varies": 3
+      },
+      "point_status_valid_total": 1248,
+      "point_status_disagreements_valid": 6
+    }
+  },
+  "cost_latency": {
+    "checks_passed": true,
+    "models": {
+      "anthropic/claude-haiku-5-5": {
+        "calls": 156,
+        "valid": 156,
+        "overall_agree": 156,
+        "full_vector_agree": 150,
+        "cost_estimate_usd": 0.13679590000000003,
+        "native_usage": {
+          "input_tokens": 157089,
+          "output_tokens": 219768,
+          "total_tokens": 890877,
+          "input_tokens_cache_write": 52720,
+          "input_tokens_cache_read": 461300,
+          "reasoning_tokens": 74169,
+          "total_cost": 0.13679590000000003
+        },
+        "model_output_median_seconds": 5.7346608333755285,
+        "transport_retries": 0,
+        "log_sha256": "0850c54d2c5660eaf660d247ea4b33f7242bbe93b4cc656489b5612c089ff898"
+      },
+      "openai/gpt-6-luna": {
+        "calls": 156,
+        "valid": 156,
+        "overall_agree": 156,
+        "full_vector_agree": 150,
+        "cost_estimate_usd": 0.06343470500000002,
+        "native_usage": {
+          "input_tokens": 468,
+          "output_tokens": 112095,
+          "total_tokens": 460284,
+          "input_tokens_cache_write": 33593,
+          "input_tokens_cache_read": 314128,
+          "reasoning_tokens": 38454,
+          "total_cost": 0.06343470500000002
+        },
+        "model_output_median_seconds": 5.561902854358777,
+        "transport_retries": 0,
+        "log_sha256": "0c4316cd0555b7248a98995e601df6b1cc799e6292cc2d147f0b3f67f440ee3c"
+      }
+    },
+    "cost_basis": "Native Inspect configured repository rates; estimate, not billing receipt",
+    "total_estimated_cost_usd": 0.20023060500000006,
+    "wall_seconds": 98.71297097206116
+  },
+  "review": "review.md",
+  "browser": "review.html",
+  "next": "Discuss remaining qualification addressedness and contradiction attribution before broader rollout; no production promotion."
+}

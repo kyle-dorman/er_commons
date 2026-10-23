@@ -320,9 +320,11 @@ full-thirty reevaluation, native receipts and bounded conclusion review. It does
 not overwrite Task 09/11/12/13 publications. Saved-answer comparisons preserve
 original candidate identities and automatic/A/G/S outcomes; any fresh-generation
 arm has separate identities and evaluations. Result pointers distinguish original
-and revised conditions. No Task 15 run has started; the contract owns activation,
-exposure disclosure, numerical limits and selection gates. Task 16 consumes the
-accepted publications for writing.
+and revised conditions. [Task15M](../tasks/sprint2/15m_publish_references_and_retest_conclusions.md)
+owns the approved structured-reference release and conclusion-only development
+retesting. Its shared budget ledger reserves calls before dispatch and retains
+uncertain liabilities. Exposure disclosure and subsequent activation gates remain
+in the task contract. Task16 consumes accepted publications for writing.
 
 ## Historical and development artifact routing
 
@@ -344,3 +346,14 @@ The archived [Task 13A MiniMax side experiment](../tasks/sprint2/13a_minimax_clo
 remains under `pipelines/brisbane_baylands/task_13a/`. Preserve its publications,
 receipts and seals in place; exclude it from presented benchmark results and
 Task 14 review. Luna/Haiku results are selected only by the Task 13 pointer.
+
+## Current approved Task15 reference publication
+
+[15AC](specs/task15ac_reference_result.json) designates the current approved
+49-case structured overlay. It inherits source/corpus lineage from15M, preserves
+the19/30 split, and applies the28 adjudicated materiality decisions. Curator cases
+retain stable IDs, supporting points, citations and evidence; target files contain
+only IDs/questions. Curator-only judge projections provide sequential wire IDs
+with reversible canonical mappings. Four explicit provenance-only anchor repairs
+are recorded separately from approved text. Earlier releases and scores remain
+immutable; follow-up consumers must explicitly pin15AC or an accepted successor.

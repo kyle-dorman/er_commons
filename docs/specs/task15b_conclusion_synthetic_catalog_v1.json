@@ -1,0 +1,177 @@
+{
+  "schema_version": "task15.c_synthetic_catalog.v1",
+  "status": "authoring_contract_not_labels",
+  "slot_count": 25,
+  "questions": 19,
+  "maximum_slots": 475,
+  "policy": "docs/specs/adequacy_labeling_rules.md",
+  "prompt_version": "task15.binary_adequacy.conclusion_direct_answer.v1",
+  "slots": [
+    {
+      "slot": "BASE",
+      "intended_label": true,
+      "critical_negative": false,
+      "instruction": "Unchanged reference conclusion. Flag unresolved if reference itself does not answer the question under C-only visibility."
+    },
+    {
+      "slot": "P01",
+      "intended_label": true,
+      "critical_negative": false,
+      "instruction": "Equivalent paraphrase preserving all requested meanings and material conditions."
+    },
+    {
+      "slot": "P02",
+      "intended_label": true,
+      "critical_negative": false,
+      "instruction": "Reorder substantive list items without changing coverage; only for a meaningful list."
+    },
+    {
+      "slot": "P03_P04",
+      "intended_label": true,
+      "critical_negative": false,
+      "instruction": "Combine or split substantive list items without changing coverage; only where grouping is meaningful."
+    },
+    {
+      "slot": "P05",
+      "intended_label": true,
+      "critical_negative": false,
+      "instruction": "Concise answer preserving all requested meaning; omit incidental detail without losing the substantive explanation."
+    },
+    {
+      "slot": "P06",
+      "intended_label": true,
+      "critical_negative": false,
+      "instruction": "Change tone or formality without changing certainty or substance."
+    },
+    {
+      "slot": "A03",
+      "intended_label": true,
+      "critical_negative": false,
+      "instruction": "Add compatible explanatory detail within an existing answer fact; do not change its meaning or treat factual support as certified."
+    },
+    {
+      "slot": "P07",
+      "intended_label": true,
+      "critical_negative": false,
+      "instruction": "Add a compatible additional answer fact, not just restatement. Absence from the reference is not contradiction. Do not claim source verification; mark inapplicable if no clear addition can be judged compatible within the input boundary."
+    },
+    {
+      "slot": "P08",
+      "intended_label": true,
+      "critical_negative": false,
+      "instruction": "Express a purpose through a concrete equivalent mechanism without repeating an abstract outcome. Only if reference meaning warrants it; do not invent an unstated mechanism or lose a requested outcome."
+    },
+    {
+      "slot": "O02",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "Omit a requested dimension of a multipart question, retaining other content. Identify the meaning lost."
+    },
+    {
+      "slot": "O03",
+      "intended_label": false,
+      "critical_negative": false,
+      "instruction": "Answer a neighboring question or give background rather than the direct requested answer."
+    },
+    {
+      "slot": "O04",
+      "intended_label": false,
+      "critical_negative": false,
+      "instruction": "Provide a nonresponsive conclusion, not a clean explicit insufficient-evidence abstention."
+    },
+    {
+      "slot": "F03",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "Reverse the required outcome or substantive relationship."
+    },
+    {
+      "slot": "F04",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "Change a material number, unit, direction or comparison; only where required rather than incidental."
+    },
+    {
+      "slot": "F05_F09",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "Replace material uncertainty or a conditional finding with an unwarranted definite or unconditional guarantee."
+    },
+    {
+      "slot": "F06",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "Answer for the wrong entity, location, scenario, population or time period."
+    },
+    {
+      "slot": "F07",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "Omit an essential condition, exception, trigger or deadline; identify concrete change in answer applicability."
+    },
+    {
+      "slot": "F08",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "Replace the substantive explanatory relationship with a different or reversed one. For why/how questions only."
+    },
+    {
+      "slot": "F10",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "State materially incompatible answers under the same relevant conditions, not distinct times/scenarios."
+    },
+    {
+      "slot": "A01",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "Omit a required substantive list item; preserve remaining items."
+    },
+    {
+      "slot": "A02",
+      "intended_label": false,
+      "critical_negative": false,
+      "instruction": "Add an item violating an explicit category, count or exclusive boundary established by question/reference. Do not fail solely for absence from a reference list; inapplicable without such a boundary."
+    },
+    {
+      "slot": "A09",
+      "intended_label": false,
+      "critical_negative": false,
+      "instruction": "Replace the required direct answer with a substantively different plausible answer; not merely an addition or equivalent mechanism."
+    },
+    {
+      "slot": "A10",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "Replace one required list item with a duplicate/paraphrase of another; superficial bullet count does not restore coverage."
+    },
+    {
+      "slot": "F11",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "For why/how, restate the outcome or need as its own reason without a substantive explanatory finding or relationship."
+    },
+    {
+      "slot": "F12",
+      "intended_label": false,
+      "critical_negative": true,
+      "instruction": "For why/how, name analysis, new information, evidence, method or topics without stating the finding or relationship that answers why/how. Distinguish from F11 pure restatement."
+    }
+  ],
+  "label_policy": "Intended labels are not automatic gold. Review actual candidate meaning. Ambiguities are unresolved, not forced. Generated labels require independent review.",
+  "partitions": {
+    "unit": "case_id",
+    "seed": "task15-c-synthetic-v1",
+    "audit": [
+      "C007",
+      "C027",
+      "C042",
+      "C054"
+    ],
+    "tuning": "remaining 15 development cases",
+    "scope": "Unjudged familiar-development variants; not unseen-question qualification."
+  },
+  "authoring_method": "Direct coding-agent authoring; no provider API or external generation service.",
+  "provider_request_budget": 0,
+  "composition_scope": "C only; no full-answer S/G fixtures or source verification in this publication."
+}

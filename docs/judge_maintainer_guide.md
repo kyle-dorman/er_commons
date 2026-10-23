@@ -18,6 +18,164 @@ cores own input validation, exact prompts and strict parsing; component adapters
 own scoring. Dataset loaders verify frozen development artifacts and keep labels
 and provenance outside model messages. Task 11C owns initial whole-answer routing and joins; Task 12 audits and finalizes aggregate reporting.
 
+## Current structured C candidate (Task15P)
+
+[Task15P](../tasks/sprint2/15p_paragraph_internal_contradictions.md) uses explicit
+`CONCLUSION_STRUCTURED_V6_PROMPT_VERSION`: original paragraph input via
+`ConclusionInput`, with only reference R/O IDs. Output includes `judgments`,
+`internal_contradictions` (objects with a nonempty `reason`), `conclusion_adequate`
+and `reason`. No candidate statement IDs, segmentation or contradiction pairs
+enter this path. The [v6 contract](specs/task15p_structured_conclusion_judge_v6.json) binds prompt and
+schemas; [v4 transformations](specs/task15p_conclusion_transformations_v4.md) own
+new-case authoring. Earlier versions below are retained for historical replay.
+
+The contradiction list is model reasoning support, not a separately scored label.
+No expected list, pair matching or semantic review of explanation quality is
+performed. Structural validation checks its shape. Logical diagnostics flag a
+nonempty list with a pass and any disagreement with the independently computed
+verdict: all R satisfied, no R/O contradicted and list empty. Preserve both verdicts;
+no silent correction or semantic retry. The shared Baylands overview and native
+real/synthetic context composition remain unchanged. Production defaults stay frozen.
+
+The [Task15Q full-suite result](specs/task15q_structured_judging_result.json) records
+382 fresh reviewed paragraph cases across all19 development questions and three
+rounds per model. Expected labels are frozen overall Booleans; contradiction
+reasons and point vectors have no separate accuracy target. The user accepted Luna with v6 for subsequent evaluation, retaining one judgment
+per answer. Use the explicit v6 version; frozen historical defaults remain unchanged.
+The evidence remains a synthetic development diagnostic.
+
+The aligned generation prompt is selected by [Task15R](specs/task15r_generation_prompt_v1.json).
+Its approved changes were used in15S/T; the final rerun is planned in15AD.
+
+Current references are selected by [15AC](specs/task15ac_reference_result.json).
+Canonical point IDs remain stable when a required point is removed. The existing
+C schema still requires sequential IDs: use each release
+`curator/judge_references/<case_id>.json` `input_reference`, supply the candidate
+conclusion separately, and map results back with `wire_to_reference_point_id`.
+Never pass the mapping or curator provenance to the judge, or curator references
+to target generation. Pin the release/version; historical loaders do not select
+this publication automatically.15Y joins must use canonical point IDs.
+
+## Historical candidate-ID-only ablation (Task15O)
+
+[Task15O](../tasks/sprint2/15o_candidate_ids_without_pair_output.md) tests the explicit
+`CONCLUSION_STRUCTURED_V5_PROMPT_VERSION`. Input is identical to v4, including
+lossless candidate A IDs. Output has only judgments, conclusion_adequate and reason;
+no pair field or pair-reporting instructions. `aggregate_diagnostics` accepts an
+explicit v5 version and computes reference-point-only adequacy. The native adapter
+preserves both model and computed verdicts. V1–v4 and all defaults remain unchanged.
+This experiment uses only65 known contradiction candidates, so it cannot measure
+false rejection of compatible answers. The [contract](specs/task15o_structured_conclusion_judge_v5.json)
+binds the exact prompt and schemas.
+
+## Historical candidate pairs (Task15N experiment)
+
+[Task15N](../tasks/sprint2/15n_explicit_contradictions_and_aggregation.md) adds
+`CONCLUSION_STRUCTURED_V4_PROMPT_VERSION` as an explicit opt-in. The
+[v4 contract](specs/task15n_structured_conclusion_judge_v4.json) binds prompt/schema
+hashes and the same Baylands overview. `ConclusionInputV4` adds
+`candidate_statements`, sequential A IDs and exact text spans whose single-space
+join must reproduce `candidate_conclusion`. The experimental synthetic publication
+supplies these spans; callers must not paraphrase candidate text to produce them.
+
+`ConclusionOutputV4` adds `contradicting_points`, pairs of distinct supplied A IDs.
+R/O statuses still report conflicts with reference meanings. Pair order is
+irrelevant; duplicate/reversed duplicate pairs, unknown IDs and self-pairs are
+invalid. Exact reference coverage remains required. Unlike v1–v3, v4 preserves a
+model-final Boolean that disagrees with the point/pair aggregate.
+`aggregate_diagnostics` computes the independent verdict and reports consistency;
+the native scorer retains both decisions. The aggregate passes only when every R
+is satisfied, no R/O is contradicted, and the pair list is empty. Incomplete output
+has no computed verdict. Frozen defaults and historical validators are unchanged.
+
+This is a paired development experiment, not a production promotion. See its task
+for independently reviewed pair expectations, exclusions, carried-forward budget,
+and model-final versus computed-result reporting.
+
+## Structured C candidate (Task 15K)
+
+The Task15K required/optional C policy
+is preserved as `task15.binary_adequacy.conclusion_structured.v3`. Its contract
+lives in `conclusion_structured.py`, exposed through `adequacy_binary` with
+`CONCLUSION_STRUCTURED_V3_PROMPT_VERSION`. V3 adds contradiction-first
+ordering and reuses the v2 schema/validator. The explicit v2 constant preserves
+that earlier prompt. The original
+`CONCLUSION_STRUCTURED_PROMPT_VERSION` still selects v1 with its original strict
+quote policy. No structured version is promoted to frozen defaults. V2 clarifies
+numerical and qualification addressedness and requests status/reason consistency.
+
+Pass the explicit version to `system_prompt`, `output_json_schema`,
+`validate_input`, and the native adapter. New input fields are `question`,
+`candidate_conclusion`, `reference_required_points`, and
+`reference_optional_points`. Each point contains `point_id` and `text`;
+required IDs are sequential R1... and optional IDs sequential O1... . Reference
+supporting points and sources remain excluded. The input model is
+`conclusion_structured.ConclusionInput`.
+
+Output fields are `judgments`, `conclusion_adequate`, and `reason`. Each judgment
+contains `point_id`, `status`, `candidate_quotes`, and `reason`. Required statuses
+are `satisfied`, `missing`, `contradicted`; optional statuses are `not_addressed`,
+`addressed_without_contradiction`, `contradicted`. No legacy reason codes or
+catch-all additions entries are accepted. `parse_output` requires `payload=packet`
+for this version and validates exact ID coverage, status roles, quote presence
+and Boolean aggregation. V2 permits quotes for missing/not-addressed judgments
+when they illustrate incomplete or related content; v1 requires empty quotes for
+those statuses. Other statuses require excerpts in both versions. ID order is a presentation preference, not a semantic
+failure. Literal quote fidelity remains a diagnostic, not a semantic verdict.
+
+`system_prompt` returns the complete new prompt including the exact frozen
+Task11D14 Baylands document overview. `judge_context` verifies its checksum and
+shares composition with real context projections. For structured real projections,
+pass the explicit version to `context_projection.project_judge`; mismatched
+prompts/overviews and legacy prose derivatives are rejected. Native synthetic
+messages and real projected messages are tested byte-for-byte, including offline
+Luna/Haiku provider schema handling. Do not prefix the overview manually.
+
+Frozen production defaults and old synthetic publications remain unchanged.
+The Task15B loader still accepts only its original prose-reference contract; a
+revised [C001 structured pilot](specs/task15j_c001_structured_synthetic_result.json)
+provides native-compatible `samples.jsonl`, separate `expected_labels.json` and
+full `expected_judgments.jsonl`. Verify its completion and prompt/schema identities
+before passing samples and labels to the explicit structured `build_task` version.
+[Task15I](../tasks/sprint2/15i_run_c001_structured_judges.md) records the first
+three-round Luna/Haiku execution. [Task15J](../tasks/sprint2/15j_refine_c001_structured_judge.md)
+owns the v2 rerun and remaining point-level diagnostics. The legacy
+whole-answer generation/evaluation/reporting pipeline is not yet migrated to a
+new approved reference release. Native structured judging and real context
+projection are available; end-to-end release migration remains downstream.
+
+## Historical Task 15 prose C candidate
+
+The earlier 2026-10-21 C policy
+is preserved as `task15.binary_adequacy.conclusion_direct_answer.v1` in
+`adequacy_binary.py`. It is an unqualified candidate, not the frozen selection.
+Obtain its prompt with
+`system_prompt("C", prompt_version=CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION)`;
+pass that same explicit version to `output_json_schema` and `parse_output`.
+The three-field input and strict output schema are unchanged; the new version
+distinguishes changed semantics, including the narrower `extra_list_item` rule.
+
+Omitting the version still selects v8. The native adapter accepts the candidate
+through an explicit `prompt_version` argument to `build_task`, `native_model`,
+`generation_config` and `adequacy_score`; it binds the same identity throughout
+the request and scoring path. The selected configuration, default adapter path
+and Make targets remain frozen. [Task 15C](../tasks/sprint2/15c_run_conclusion_development.md)
+owns the newly requested staged execution and its population/run preflight.
+Do not run the historical synthetic loader as a Task 15
+evaluation. [Task 15A](../tasks/sprint2/15a_update_conclusion_prompt.md) records
+the prompt-only scope and checks. Offline checks establish preservation and
+strict parsing, not improved semantic judging.
+
+The separate [Task 15B synthetic publication](specs/task15b_conclusion_synthesis_result.json)
+contains newly authored, independently agent-reviewed C proposals. Load it with
+`conclusion_synthetic.load_publication(result_path, data_root=..., partition=...)`,
+explicitly selecting `tuning`, `audit` or `all`. It returns native-compatible
+samples plus separate labels and provenance metadata; it does not dispatch a
+judge. The loader verifies the seal, policy/prompt identity, development grouping,
+reference bindings and reviews. The old C246 loader and Make targets are unchanged.
+Audit variants use familiar development questions and are not unseen-question
+qualification. Do not use audit outcomes for tuning.
+
 ## Execution
 
 Inspect owns generation, retries, concurrency, epochs, logs and resumption. There

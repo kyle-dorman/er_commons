@@ -229,3 +229,71 @@ def test_question_normalization_absorbs_nested_edition_acronyms() -> None:
         neutral = cp.neutral_question(text + " scenario 2100, final grading within 2 years.")
         assert neutral == "EIR scenario 2100, final grading within 2 years."
         assert cp.neutral_question(neutral) == neutral
+
+
+@pytest.mark.parametrize(
+    "version", sorted(cp.adequacy_binary.CONCLUSION_STRUCTURED_PROMPT_VERSIONS)
+)
+def test_structured_c_has_same_context_and_payload_as_native_task(monkeypatch, version):
+    """Synthetic native tasks and real context envelopes deliver identical C inputs."""
+    from er_commons import adequacy_inspect as native
+    from er_commons.judge_context import baylands_overview
+
+    record, mapping = fixture()
+    record["payload"]["question"] = "How does the EIR address 2100 flooding?"
+    mapping = cp.build_locator_map(
+        record, {entry["citation_id"]: entry["neutral"] for entry in mapping["entries"]}
+    )
+    prior = item("C", record)
+    prior["packet"].pop("reference_conclusion")
+    prior["packet"].update(
+        reference_required_points=[{"point_id": "R1", "text": "An invented answer."}],
+        reference_optional_points=[],
+    )
+    if version in {
+        cp.adequacy_binary.CONCLUSION_STRUCTURED_V4_PROMPT_VERSION,
+        cp.adequacy_binary.CONCLUSION_STRUCTURED_V5_PROMPT_VERSION,
+    }:
+        prior["packet"]["candidate_statements"] = [
+            {"statement_id": "A1", "text": prior["packet"]["candidate_conclusion"]}
+        ]
+    prior["payload_sha256"] = digest(prior["packet"])
+    prompt = cp.adequacy_binary.system_prompt("C", prompt_version=version)
+    summary = baylands_overview()
+    projected = cp.project_judge(
+        prior, record, mapping, summary=summary, prompt=prompt, prompt_version=version
+    )
+    monkeypatch.setattr(native, "native_model", lambda *args, **kwargs: None)
+    task = native.build_task(
+        "openai_generation",
+        "C",
+        [{"sample_id": "fixture", "case_id": "fixture", "packet": prior["packet"]}],
+        {"fixture": True},
+        prompt_version=version,
+    )
+    assert projected["messages"][0]["content"] == task.dataset[0].input[0].content
+    assert projected["messages"][0]["content"].count("<project_context>") == 1
+    assert projected["messages"][1]["content"] == task.dataset[0].input[1].content
+    assert projected["private_provenance"]["output_schema_sha256"] == digest(
+        cp.adequacy_binary.output_json_schema("C", prompt_version=version)
+    )
+    for summary_value, prompt_value in [("Changed.", prompt), (summary, "Changed.")]:
+        with pytest.raises(ValueError, match="exact versioned prompt"):
+            cp.project_judge(
+                prior,
+                record,
+                mapping,
+                summary=summary_value,
+                prompt=prompt_value,
+                prompt_version=version,
+            )
+    with pytest.raises(ValueError, match="not a prose derivative"):
+        cp.project_judge(
+            prior,
+            record,
+            mapping,
+            summary=summary,
+            prompt=prompt,
+            prompt_version=version,
+            reference={},
+        )

@@ -1,0 +1,570 @@
+{
+  "schema_version": "task15.remaining_synthetic_judging.v1",
+  "status": "complete_with_reviewed_disagreements",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/judge_synthetic_remaining13_20261021_v1",
+  "completion": {
+    "sha256": "29359f87e710f893b0bdef3cffafd2ce6e8c1f5c6c45f274b504825b6eccad0c",
+    "byte_size": 4085
+  },
+  "metrics": {
+    "remaining13": {
+      "anthropic/claude-haiku-5-5": {
+        "aggregate": {
+          "samples": 234,
+          "judgments": 702,
+          "valid": 702,
+          "agree": 694,
+          "round1": 231,
+          "any3": 232,
+          "all3": 231,
+          "majority3": 231,
+          "varies": 1,
+          "agree_3_of_3": 231,
+          "critical_samples": 104,
+          "critical_accept_any": 3,
+          "critical_accept_all": 2,
+          "agree_0_of_3": 2,
+          "agree_1_of_3": 1
+        },
+        "rounds": [
+          {
+            "valid": 234,
+            "agree": 231,
+            "expected_fail": 143,
+            "fail_agree": 140,
+            "expected_pass": 91,
+            "pass_agree": 91
+          },
+          {
+            "valid": 234,
+            "agree": 231,
+            "expected_fail": 143,
+            "fail_agree": 140,
+            "expected_pass": 91,
+            "pass_agree": 91
+          },
+          {
+            "valid": 234,
+            "agree": 232,
+            "expected_fail": 143,
+            "fail_agree": 141,
+            "expected_pass": 91,
+            "pass_agree": 91
+          }
+        ]
+      },
+      "openai/gpt-6-luna": {
+        "aggregate": {
+          "samples": 234,
+          "judgments": 702,
+          "valid": 702,
+          "agree": 691,
+          "round1": 231,
+          "any3": 232,
+          "all3": 229,
+          "majority3": 230,
+          "varies": 3,
+          "agree_3_of_3": 229,
+          "critical_samples": 104,
+          "critical_accept_any": 5,
+          "critical_accept_all": 2,
+          "agree_1_of_3": 2,
+          "agree_0_of_3": 2,
+          "agree_2_of_3": 1
+        },
+        "rounds": [
+          {
+            "valid": 234,
+            "agree": 231,
+            "expected_fail": 143,
+            "fail_agree": 140,
+            "expected_pass": 91,
+            "pass_agree": 91
+          },
+          {
+            "valid": 234,
+            "agree": 230,
+            "expected_fail": 143,
+            "fail_agree": 139,
+            "expected_pass": 91,
+            "pass_agree": 91
+          },
+          {
+            "valid": 234,
+            "agree": 230,
+            "expected_fail": 143,
+            "fail_agree": 139,
+            "expected_pass": 91,
+            "pass_agree": 91
+          }
+        ]
+      }
+    },
+    "original6": {
+      "anthropic/claude-haiku-5-5": {
+        "aggregate": {
+          "samples": 106,
+          "judgments": 318,
+          "valid": 318,
+          "agree": 312,
+          "round1": 104,
+          "any3": 104,
+          "all3": 104,
+          "majority3": 104,
+          "varies": 0,
+          "agree_3_of_3": 104,
+          "critical_samples": 45,
+          "critical_accept_any": 2,
+          "critical_accept_all": 2,
+          "agree_0_of_3": 2
+        },
+        "rounds": [
+          {
+            "valid": 106,
+            "agree": 104,
+            "expected_fail": 64,
+            "fail_agree": 62,
+            "expected_pass": 42,
+            "pass_agree": 42
+          },
+          {
+            "valid": 106,
+            "agree": 104,
+            "expected_fail": 64,
+            "fail_agree": 62,
+            "expected_pass": 42,
+            "pass_agree": 42
+          },
+          {
+            "valid": 106,
+            "agree": 104,
+            "expected_fail": 64,
+            "fail_agree": 62,
+            "expected_pass": 42,
+            "pass_agree": 42
+          }
+        ]
+      },
+      "openai/gpt-6-luna": {
+        "aggregate": {
+          "samples": 106,
+          "judgments": 318,
+          "valid": 318,
+          "agree": 317,
+          "round1": 105,
+          "any3": 106,
+          "all3": 105,
+          "majority3": 106,
+          "varies": 1,
+          "agree_3_of_3": 105,
+          "critical_samples": 45,
+          "critical_accept_any": 1,
+          "critical_accept_all": 0,
+          "agree_2_of_3": 1
+        },
+        "rounds": [
+          {
+            "valid": 106,
+            "agree": 105,
+            "expected_fail": 64,
+            "fail_agree": 63,
+            "expected_pass": 42,
+            "pass_agree": 42
+          },
+          {
+            "valid": 106,
+            "agree": 106,
+            "expected_fail": 64,
+            "fail_agree": 64,
+            "expected_pass": 42,
+            "pass_agree": 42
+          },
+          {
+            "valid": 106,
+            "agree": 106,
+            "expected_fail": 64,
+            "fail_agree": 64,
+            "expected_pass": 42,
+            "pass_agree": 42
+          }
+        ]
+      }
+    },
+    "all19": {
+      "anthropic/claude-haiku-5-5": {
+        "aggregate": {
+          "samples": 340,
+          "judgments": 1020,
+          "valid": 1020,
+          "agree": 1006,
+          "round1": 335,
+          "any3": 336,
+          "all3": 335,
+          "majority3": 335,
+          "varies": 1,
+          "agree_3_of_3": 335,
+          "critical_samples": 149,
+          "critical_accept_any": 5,
+          "critical_accept_all": 4,
+          "agree_0_of_3": 4,
+          "agree_1_of_3": 1
+        },
+        "rounds": [
+          {
+            "valid": 340,
+            "agree": 335,
+            "expected_fail": 207,
+            "fail_agree": 202,
+            "expected_pass": 133,
+            "pass_agree": 133
+          },
+          {
+            "valid": 340,
+            "agree": 335,
+            "expected_fail": 207,
+            "fail_agree": 202,
+            "expected_pass": 133,
+            "pass_agree": 133
+          },
+          {
+            "valid": 340,
+            "agree": 336,
+            "expected_fail": 207,
+            "fail_agree": 203,
+            "expected_pass": 133,
+            "pass_agree": 133
+          }
+        ]
+      },
+      "openai/gpt-6-luna": {
+        "aggregate": {
+          "samples": 340,
+          "judgments": 1020,
+          "valid": 1020,
+          "agree": 1008,
+          "round1": 336,
+          "any3": 338,
+          "all3": 334,
+          "majority3": 336,
+          "varies": 4,
+          "agree_3_of_3": 334,
+          "critical_samples": 149,
+          "critical_accept_any": 6,
+          "critical_accept_all": 2,
+          "agree_1_of_3": 2,
+          "agree_0_of_3": 2,
+          "agree_2_of_3": 2
+        },
+        "rounds": [
+          {
+            "valid": 340,
+            "agree": 336,
+            "expected_fail": 207,
+            "fail_agree": 203,
+            "expected_pass": 133,
+            "pass_agree": 133
+          },
+          {
+            "valid": 340,
+            "agree": 336,
+            "expected_fail": 207,
+            "fail_agree": 203,
+            "expected_pass": 133,
+            "pass_agree": 133
+          },
+          {
+            "valid": 340,
+            "agree": 336,
+            "expected_fail": 207,
+            "fail_agree": 203,
+            "expected_pass": 133,
+            "pass_agree": 133
+          }
+        ]
+      }
+    },
+    "remaining_tuning": {
+      "anthropic/claude-haiku-5-5": {
+        "aggregate": {
+          "samples": 153,
+          "judgments": 459,
+          "valid": 459,
+          "agree": 454,
+          "round1": 151,
+          "any3": 152,
+          "all3": 151,
+          "majority3": 151,
+          "varies": 1,
+          "agree_3_of_3": 151,
+          "critical_samples": 66,
+          "critical_accept_any": 2,
+          "critical_accept_all": 1,
+          "agree_1_of_3": 1,
+          "agree_0_of_3": 1
+        },
+        "rounds": [
+          {
+            "valid": 153,
+            "agree": 151,
+            "expected_fail": 93,
+            "fail_agree": 91,
+            "expected_pass": 60,
+            "pass_agree": 60
+          },
+          {
+            "valid": 153,
+            "agree": 151,
+            "expected_fail": 93,
+            "fail_agree": 91,
+            "expected_pass": 60,
+            "pass_agree": 60
+          },
+          {
+            "valid": 153,
+            "agree": 152,
+            "expected_fail": 93,
+            "fail_agree": 92,
+            "expected_pass": 60,
+            "pass_agree": 60
+          }
+        ]
+      },
+      "openai/gpt-6-luna": {
+        "aggregate": {
+          "samples": 153,
+          "judgments": 459,
+          "valid": 459,
+          "agree": 450,
+          "round1": 151,
+          "any3": 151,
+          "all3": 149,
+          "majority3": 150,
+          "varies": 2,
+          "agree_3_of_3": 149,
+          "critical_samples": 66,
+          "critical_accept_any": 4,
+          "critical_accept_all": 2,
+          "agree_0_of_3": 2,
+          "agree_1_of_3": 1,
+          "agree_2_of_3": 1
+        },
+        "rounds": [
+          {
+            "valid": 153,
+            "agree": 151,
+            "expected_fail": 93,
+            "fail_agree": 91,
+            "expected_pass": 60,
+            "pass_agree": 60
+          },
+          {
+            "valid": 153,
+            "agree": 150,
+            "expected_fail": 93,
+            "fail_agree": 90,
+            "expected_pass": 60,
+            "pass_agree": 60
+          },
+          {
+            "valid": 153,
+            "agree": 149,
+            "expected_fail": 93,
+            "fail_agree": 89,
+            "expected_pass": 60,
+            "pass_agree": 60
+          }
+        ]
+      }
+    },
+    "audit": {
+      "anthropic/claude-haiku-5-5": {
+        "aggregate": {
+          "samples": 81,
+          "judgments": 243,
+          "valid": 243,
+          "agree": 240,
+          "round1": 80,
+          "any3": 80,
+          "all3": 80,
+          "majority3": 80,
+          "varies": 0,
+          "agree_3_of_3": 80,
+          "critical_samples": 38,
+          "critical_accept_any": 1,
+          "critical_accept_all": 1,
+          "agree_0_of_3": 1
+        },
+        "rounds": [
+          {
+            "valid": 81,
+            "agree": 80,
+            "expected_fail": 50,
+            "fail_agree": 49,
+            "expected_pass": 31,
+            "pass_agree": 31
+          },
+          {
+            "valid": 81,
+            "agree": 80,
+            "expected_fail": 50,
+            "fail_agree": 49,
+            "expected_pass": 31,
+            "pass_agree": 31
+          },
+          {
+            "valid": 81,
+            "agree": 80,
+            "expected_fail": 50,
+            "fail_agree": 49,
+            "expected_pass": 31,
+            "pass_agree": 31
+          }
+        ]
+      },
+      "openai/gpt-6-luna": {
+        "aggregate": {
+          "samples": 81,
+          "judgments": 243,
+          "valid": 243,
+          "agree": 241,
+          "round1": 80,
+          "any3": 81,
+          "all3": 80,
+          "majority3": 80,
+          "varies": 1,
+          "agree_3_of_3": 80,
+          "critical_samples": 38,
+          "critical_accept_any": 1,
+          "critical_accept_all": 0,
+          "agree_1_of_3": 1
+        },
+        "rounds": [
+          {
+            "valid": 81,
+            "agree": 80,
+            "expected_fail": 50,
+            "fail_agree": 49,
+            "expected_pass": 31,
+            "pass_agree": 31
+          },
+          {
+            "valid": 81,
+            "agree": 80,
+            "expected_fail": 50,
+            "fail_agree": 49,
+            "expected_pass": 31,
+            "pass_agree": 31
+          },
+          {
+            "valid": 81,
+            "agree": 81,
+            "expected_fail": 50,
+            "fail_agree": 50,
+            "expected_pass": 31,
+            "pass_agree": 31
+          }
+        ]
+      }
+    },
+    "all_tuning": {
+      "anthropic/claude-haiku-5-5": {
+        "aggregate": {
+          "samples": 259,
+          "judgments": 777,
+          "valid": 777,
+          "agree": 766,
+          "round1": 255,
+          "any3": 256,
+          "all3": 255,
+          "majority3": 255,
+          "varies": 1,
+          "agree_3_of_3": 255,
+          "critical_samples": 111,
+          "critical_accept_any": 4,
+          "critical_accept_all": 3,
+          "agree_0_of_3": 3,
+          "agree_1_of_3": 1
+        },
+        "rounds": [
+          {
+            "valid": 259,
+            "agree": 255,
+            "expected_fail": 157,
+            "fail_agree": 153,
+            "expected_pass": 102,
+            "pass_agree": 102
+          },
+          {
+            "valid": 259,
+            "agree": 255,
+            "expected_fail": 157,
+            "fail_agree": 153,
+            "expected_pass": 102,
+            "pass_agree": 102
+          },
+          {
+            "valid": 259,
+            "agree": 256,
+            "expected_fail": 157,
+            "fail_agree": 154,
+            "expected_pass": 102,
+            "pass_agree": 102
+          }
+        ]
+      },
+      "openai/gpt-6-luna": {
+        "aggregate": {
+          "samples": 259,
+          "judgments": 777,
+          "valid": 777,
+          "agree": 767,
+          "round1": 256,
+          "any3": 257,
+          "all3": 254,
+          "majority3": 256,
+          "varies": 3,
+          "agree_3_of_3": 254,
+          "critical_samples": 111,
+          "critical_accept_any": 5,
+          "critical_accept_all": 2,
+          "agree_0_of_3": 2,
+          "agree_1_of_3": 1,
+          "agree_2_of_3": 2
+        },
+        "rounds": [
+          {
+            "valid": 259,
+            "agree": 256,
+            "expected_fail": 157,
+            "fail_agree": 154,
+            "expected_pass": 102,
+            "pass_agree": 102
+          },
+          {
+            "valid": 259,
+            "agree": 256,
+            "expected_fail": 157,
+            "fail_agree": 154,
+            "expected_pass": 102,
+            "pass_agree": 102
+          },
+          {
+            "valid": 259,
+            "agree": 255,
+            "expected_fail": 157,
+            "fail_agree": 153,
+            "expected_pass": 102,
+            "pass_agree": 102
+          }
+        ]
+      }
+    }
+  },
+  "new_judgments": 1404,
+  "combined_judgments": 2040,
+  "new_disagreements": 19,
+  "new_estimated_cost_usd": 0.49773546,
+  "review": "review.html",
+  "label_status": "agent_proposals_not_human_gold",
+  "production_judge_changed": false
+}

@@ -33,7 +33,13 @@ WIRE = {
 }
 
 
-def model_fixture(monkeypatch: pytest.MonkeyPatch, provider: str, handler: Any) -> Any:
+def model_fixture(
+    monkeypatch: pytest.MonkeyPatch,
+    provider: str,
+    handler: Any,
+    *,
+    prompt_version: str | None = None,
+) -> Any:
     """Inject only HTTP transport; native SDK rendering and Inspect retries remain real."""
     for name in ("OPENAI_API_KEY", "ANTHROPIC_API_KEY", "FIREWORKS_API_KEY"):
         monkeypatch.setenv(name, "offline-fixture-key")
@@ -42,10 +48,12 @@ def model_fixture(monkeypatch: pytest.MonkeyPatch, provider: str, handler: Any) 
         from inspect_ai.model._providers.openai_compatible import OpenAICompatibleAPI
 
         monkeypatch.setattr(OpenAICompatibleAPI, "_create_http_client", lambda self: client)
-        model = native.native_model(provider, "C")
+        model = native.native_model(provider, "C", prompt_version=prompt_version)
         model.api.stream = False
     else:
-        model = native.native_model(provider, "C", http_client=client, streaming=False)
+        model = native.native_model(
+            provider, "C", prompt_version=prompt_version, http_client=client, streaming=False
+        )
     monkeypatch.setattr(model.api, "retry_wait", lambda: wait_none())
     return model
 
@@ -289,3 +297,161 @@ def test_selected_default_rejects_prompt_drift(monkeypatch):
     monkeypatch.setattr(native.core, "system_prompt", lambda *args, **kwargs: "changed prompt")
     with pytest.raises(ValueError, match="version the selection"):
         native.selected_condition("S")
+
+
+@pytest.mark.parametrize("provider", ["openai_generation", "anthropic_generation"])
+def test_explicit_candidate_binds_native_prompt_and_scoring(monkeypatch, tmp_path, provider):
+    """The explicit candidate reaches native messages, parsing and log provenance."""
+    from inspect_ai import eval as inspect_eval
+
+    version = native.core.CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION
+    bodies = []
+
+    def handler(request):
+        bodies.append(json.loads(request.content))
+        return httpx2.Response(200, json=envelope(provider, json.dumps(WIRE)))
+
+    model = model_fixture(monkeypatch, provider, handler, prompt_version=version)
+    monkeypatch.setattr(native, "native_model", lambda *args, **kwargs: model)
+    task = native.build_task(
+        provider,
+        "C",
+        [{"sample_id": "fixture", "case_id": "fixture", "packet": PACKET}],
+        {"fixture": True},
+        prompt_version=version,
+    )
+    prompt = native.core.system_prompt("C", prompt_version=version)
+    assert task.metadata["prompt_version"] == version
+    assert task.metadata["prompt_sha256"] == native.shared.stable_json_sha256(prompt)
+    log = inspect_eval(task, log_dir=str(tmp_path), display="none")[0]
+    assert log.status == "success"
+    assert len(bodies) == 1
+    assert json.dumps(prompt, ensure_ascii=False) in json.dumps(bodies[0], ensure_ascii=False)
+    score = next(iter(log.samples[0].scores.values()))
+    assert score.value == {"correct": 1, "valid": 1}
+    assert score.metadata["prompt_version"] == version
+    assert native.VERSIONS["C"] == native.core.CONCLUSION_COMPARISON_REASON_PROMPT_VERSION
+    assert native.selected_condition("C") == "openai_generation"
+
+
+@pytest.mark.parametrize(
+    "entrypoint", ["generation_config", "native_model", "adequacy_score", "build_task"]
+)
+@pytest.mark.parametrize(
+    "component,version",
+    [("S", native.core.CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION), ("C", "unknown")],
+)
+def test_candidate_selection_rejects_other_semantics(monkeypatch, entrypoint, component, version):
+    """Unsupported versions fail before provider construction, including C on S."""
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("provider constructed")
+
+    monkeypatch.setattr(native.shared, "native_model", forbidden)
+    args = [component] if entrypoint == "adequacy_score" else ["openai_generation", component]
+    if entrypoint == "build_task":
+        args += [
+            [{"sample_id": "fixture", "case_id": "fixture", "packet": PACKET}],
+            {"fixture": True},
+        ]
+    with pytest.raises(ValueError, match="Unsupported native adequacy prompt"):
+        getattr(native, entrypoint)(*args, prompt_version=version)
+
+
+def test_explicit_candidate_still_checks_frozen_selection(monkeypatch):
+    """Candidate dispatch cannot bypass frozen selection integrity verification."""
+    monkeypatch.setattr(native.core, "system_prompt", lambda *args, **kwargs: "changed prompt")
+    with pytest.raises(ValueError, match="version the selection"):
+        native.build_task(
+            "openai_generation",
+            "C",
+            [{"sample_id": "fixture", "case_id": "fixture", "packet": PACKET}],
+            {"fixture": True},
+            prompt_version=native.core.CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION,
+        )
+
+
+@pytest.mark.parametrize("provider", ["openai_generation", "anthropic_generation"])
+@pytest.mark.parametrize("version", sorted(native.core.CONCLUSION_STRUCTURED_PROMPT_VERSIONS))
+def test_structured_c_native_transport_and_point_scoring(monkeypatch, tmp_path, provider, version):
+    """Both native test providers receive canonical context and validate point coverage."""
+    from inspect_ai import eval as inspect_eval
+
+    from er_commons.judge_context import baylands_overview
+
+    packet = {
+        "question": "Is entry allowed?",
+        "candidate_conclusion": "No.",
+        "reference_required_points": [{"point_id": "R1", "text": "Entry is not allowed."}],
+        "reference_optional_points": [{"point_id": "O1", "text": "The entrance is closed."}],
+    }
+    wire = {
+        "judgments": [
+            {
+                "point_id": "R1",
+                "status": "satisfied",
+                "candidate_quotes": ["No."],
+                "reason": "The answer states entry is not allowed.",
+            },
+            {
+                "point_id": "O1",
+                "status": "not_addressed",
+                "candidate_quotes": [],
+                "reason": "The optional entrance detail is omitted.",
+            },
+        ],
+        "conclusion_adequate": True,
+        "reason": "The required point is satisfied and neither point is contradicted.",
+    }
+    if version in {
+        native.core.CONCLUSION_STRUCTURED_V4_PROMPT_VERSION,
+        native.core.CONCLUSION_STRUCTURED_V5_PROMPT_VERSION,
+    }:
+        packet["candidate_statements"] = [{"statement_id": "A1", "text": "No."}]
+        if version == native.core.CONCLUSION_STRUCTURED_V4_PROMPT_VERSION:
+            wire["contradicting_points"] = []
+        wire["conclusion_adequate"] = False
+
+    if version == native.core.CONCLUSION_STRUCTURED_V6_PROMPT_VERSION:
+        wire["internal_contradictions"] = [{"reason": "Working conflict explanation."}]
+    bodies = []
+
+    def handler(request):
+        bodies.append(json.loads(request.content))
+        return httpx2.Response(200, json=envelope(provider, json.dumps(wire)))
+
+    model = model_fixture(monkeypatch, provider, handler, prompt_version=version)
+    monkeypatch.setattr(native, "native_model", lambda *args, **kwargs: model)
+    task = native.build_task(
+        provider,
+        "C",
+        [{"sample_id": "fixture", "case_id": "fixture", "packet": packet}],
+        {"fixture": True},
+        prompt_version=version,
+    )
+    prompt = native.core.system_prompt("C", prompt_version=version)
+    assert prompt.startswith("<project_context>\n" + baylands_overview())
+    assert prompt.count("<project_context>") == 1
+    assert task.metadata["prompt_sha256"] == native.shared.stable_json_sha256(prompt)
+    log = inspect_eval(task, log_dir=str(tmp_path), display="none")[0]
+    assert log.status == "success"
+    assert len(bodies) == 1
+    assert json.dumps(prompt, ensure_ascii=False) in json.dumps(bodies[0], ensure_ascii=False)
+    score = next(iter(log.samples[0].scores.values()))
+    if version in {
+        native.core.CONCLUSION_STRUCTURED_V4_PROMPT_VERSION,
+        native.core.CONCLUSION_STRUCTURED_V5_PROMPT_VERSION,
+    }:
+        assert score.value == {"correct": 0, "valid": 1}
+        assert score.metadata["model_decision"] is False
+        assert score.metadata["aggregate_decision"] is True
+        assert score.metadata["aggregation_consistent"] is False
+    else:
+        assert score.value == {"correct": 1, "valid": 1}
+    if version == native.core.CONCLUSION_STRUCTURED_V6_PROMPT_VERSION:
+        assert score.metadata["model_decision"] is True
+        assert score.metadata["aggregate_decision"] is False
+        assert score.metadata["internal_contradictions_pass_inconsistent"] is True
+        assert "candidate_statements" not in packet
+    assert score.metadata["result"]["judgments"] == wire["judgments"]
+    assert score.explanation == wire["reason"]

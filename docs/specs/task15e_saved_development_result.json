@@ -1,0 +1,71 @@
+{
+  "schema_version": "task15.saved_development_comparison.v1",
+  "status": "educational_comparison_complete",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/saved_development_20261021_v1",
+  "completion": {
+    "sha256": "d6b5f1d9778151139087b382f15af340994d7000bcdf272e57ee9dd80e9c9341",
+    "byte_size": 5203
+  },
+  "judge": "gpt-6-luna",
+  "judge_repeats": 1,
+  "reasoning": "medium",
+  "concurrency": 16,
+  "metrics": {
+    "luna": {
+      "answers": 57,
+      "transitions": {
+        "pass->pass": 36,
+        "fail->fail": 11,
+        "fail->pass": 9,
+        "pass->fail": 1
+      },
+      "old_C": {
+        "pass": 37,
+        "fail": 20
+      },
+      "new_C": {
+        "pass": 45,
+        "fail": 12
+      },
+      "old_joint": {
+        "fail": 28,
+        "pass": 29
+      },
+      "new_joint": {
+        "fail": 21,
+        "pass": 36
+      }
+    },
+    "haiku": {
+      "answers": 57,
+      "transitions": {
+        "pass->pass": 35,
+        "fail->fail": 18,
+        "fail->pass": 4
+      },
+      "old_C": {
+        "pass": 35,
+        "fail": 22
+      },
+      "new_C": {
+        "pass": 39,
+        "fail": 18
+      },
+      "old_joint": {
+        "pass": 6,
+        "fail": 51
+      },
+      "new_joint": {
+        "pass": 8,
+        "fail": 49
+      }
+    }
+  },
+  "valid": 114,
+  "planned": 114,
+  "reviewed": 43,
+  "estimated_cost_usd": 0.059590705,
+  "review": "review.html",
+  "generation_prompt_changed": false,
+  "next": "Align answer-generation prompt to new C rules, then separately scope fresh end-to-end rerun as requested."
+}

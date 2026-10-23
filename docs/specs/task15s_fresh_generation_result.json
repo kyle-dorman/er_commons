@@ -1,0 +1,65 @@
+{
+  "schema_version": "task15s.fresh_generation_result.v1",
+  "status": "completed_with_availability_limitations_ready_for_review",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/fresh_generation_20261022_v1",
+  "completion": {
+    "sha256": "6b8715414e059a142f499dd65aa4731d51136ac71e58ba1bdc69ee0cbcf61430",
+    "byte_size": 24137501
+  },
+  "entrypoint": "summary.md",
+  "split_reports": {
+    "development": "reporting/development/review.html",
+    "test": "reporting/test/review.html"
+  },
+  "counts": {
+    "questions": 49,
+    "development": 19,
+    "test": 30,
+    "planned_answers": 294,
+    "valid_answers": 292,
+    "complete_evaluations": 291,
+    "generation_requests": 294,
+    "judge_requests": 2546,
+    "count_requests": 2840
+  },
+  "models": [
+    "gpt-6-luna",
+    "claude-haiku-5-5"
+  ],
+  "generation_prompt": "docs/specs/task15r_generation_prompt_v1.json",
+  "conclusion_judge": "docs/specs/task15p_structured_conclusion_judge_v6.json",
+  "conclusion_judge_model": "gpt-6-luna",
+  "conclusion_judgments_per_answer": 1,
+  "reference_release": "docs/specs/task15m_structured_reference_result.json",
+  "cost": {
+    "separate_cap_usd": "40",
+    "known_usage_usd": "1.678363435",
+    "retained_liability_usd": "2.605799435",
+    "unknown_count_fee_calls": 2401
+  },
+  "availability": {
+    "interrupted_generations": [
+      "haiku_repeat1/C008",
+      "luna_repeat1/C011"
+    ],
+    "truncated_conclusion_judgment": [
+      "haiku_repeat2/C011"
+    ],
+    "paid_retries": 0
+  },
+  "model_computed_C_agreement": {
+    "valid_judgments": 291,
+    "disagreements": 0
+  },
+  "failure_reviews": [
+    "failure_review_c.md",
+    "failure_review_gs.md"
+  ],
+  "final_audit": {
+    "path": "final_audit.json",
+    "sha256": "db765f99987827efda5149decd8e74f5abc826f23050c1d90668b0e1e4f88e4b",
+    "byte_size": 1587
+  },
+  "validation": "4536 passed,1 skipped; focused offline recovery tests; native/accounting/replay audit passed; representative visual QA",
+  "next_action": "Review fresh results and uncertainties; Task16 requires separate activation; no new tuning or paid run selected."
+}

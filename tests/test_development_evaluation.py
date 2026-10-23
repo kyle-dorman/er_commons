@@ -295,3 +295,87 @@ def test_known_evidence_loading_error_is_not_invalid_citation(monkeypatch):
     assert report["results"][1]["status"] == "execution_error"
     assert report["results"][1]["error_type"] == "source_loading_error"
     assert report["automatic"]["resolved_citations"]
+
+
+def structured_plan():
+    """Make a v6 plan while preserving all non-conclusion inputs."""
+    from er_commons.conclusion_structured import VERSION_V6
+
+    return prepare_candidate(
+        *fixture(),
+        structured_reference={
+            "reference_required_points": [{"point_id": "R1", "text": "A basis."}],
+            "reference_optional_points": [{"point_id": "O1", "text": "Additional detail."}],
+        },
+        conclusion_prompt_version=VERSION_V6,
+    )
+
+
+def structured_judgment(plan, *, missing_optional=False):
+    """Keep a model pass that disagrees with its internal contradiction flag."""
+    item = plan["items"][-1]
+    output = {
+        "judgments": [
+            {
+                "point_id": "R1",
+                "status": "satisfied",
+                "candidate_quotes": ["A basis."],
+                "reason": "Present.",
+            },
+            {
+                "point_id": "O1",
+                "status": "not_addressed",
+                "candidate_quotes": [],
+                "reason": "Absent.",
+            },
+        ],
+        "internal_contradictions": [{"reason": "Claims conflict."}],
+        "conclusion_adequate": True,
+        "reason": "Model verdict retained for consistency diagnostics.",
+    }
+    if missing_optional:
+        output["judgments"].pop()
+    return {**judgment(item, output), **{k: item[k] for k in ("prompt_version", "input_version")}}
+
+
+def test_structured_opt_in_preserves_routing_and_non_c_projections():
+    legacy, current = prepare_candidate(*fixture()), structured_plan()
+    assert legacy["items"][:-1] == current["items"][:-1]
+    assert current["items"][-1]["sample_id"] != legacy["items"][-1]["sample_id"]
+    assert [i["component"] for i in pending_items(current, [])] == ["A"]
+    assert [i["component"] for i in pending_items(current, [a_result(current)])] == ["G", "S", "C"]
+    assert set(current["items"][-1]["packet"]) == {
+        "question",
+        "candidate_conclusion",
+        "reference_required_points",
+        "reference_optional_points",
+    }
+    report = build_report(current, [a_result(current), structured_judgment(current)])
+    c = report["results"][-1]
+    assert c["status"] == "completed"
+    assert c["decision"]["conclusion_adequate"] is True
+    assert c["model_decision"] is True and c["aggregate_decision"] is False
+    assert c["aggregation_consistent"] is False
+    assert c["internal_contradictions_pass_inconsistent"] is True
+
+
+def test_structured_inventory_failure_is_unavailable_not_semantic_fail():
+    plan = structured_plan()
+    c = build_report(plan, [a_result(plan), structured_judgment(plan, missing_optional=True)])[
+        "results"
+    ][-1]
+    assert c["status"] == "invalid_output" and c["decision"] is None
+    assert "aggregate_decision" not in c
+
+
+def test_structured_join_rejects_changed_version():
+    plan = structured_plan()
+    result = structured_judgment(plan)
+    result["input_version"] = "changed"
+    with pytest.raises(ValueError, match="version mismatch"):
+        build_report(plan, [a_result(plan), result])
+
+
+def test_structured_reference_requires_explicit_version():
+    with pytest.raises(ValueError, match="explicit conclusion v6"):
+        prepare_candidate(*fixture(), structured_reference={})

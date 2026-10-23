@@ -1,0 +1,71 @@
+{
+  "schema": "task15f_reference_conclusion_review_result_v1",
+  "status": "batch_complete_pending_user_adjudication",
+  "artifact_root": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/reference_cleanup_20261021_v1",
+  "completion": {
+    "path": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/reference_cleanup_20261021_v1/completion.json",
+    "sha256": "eb61b267ef3a1c9de8b3c0f9718e07396641a009570d9eadce64c9de3bea79f4"
+  },
+  "source_release": "task09f_20261014_v2",
+  "source_result_pointer": "docs/specs/task09f_question_publication_v2_result.json",
+  "summary": {
+    "cases": 49,
+    "recommendations": {
+      "clarify": 17,
+      "keep": 27,
+      "prune": 4,
+      "evidence_hold": 1
+    },
+    "human_approved": 0,
+    "prediction_inputs_read": false,
+    "lead_prior_exposure": true,
+    "independent_reviews": 49,
+    "status": "batch_suggestions_pending_user_adjudication",
+    "independent_verdicts": {
+      "accept_for_user_review": 42,
+      "discuss_with_user": 7
+    },
+    "discussion_case_ids": [
+      "C005",
+      "C007",
+      "C020",
+      "C028",
+      "C029",
+      "C044",
+      "C052"
+    ],
+    "repaired_case_ids": [
+      "C014",
+      "C031",
+      "C042",
+      "C048"
+    ]
+  },
+  "review_browser": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/reference_cleanup_20261021_v1/review.html",
+  "methods_note": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/reference_cleanup_20261021_v1/methods_note.md",
+  "pitfalls_appendix": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/reference_cleanup_20261021_v1/pitfalls_appendix.md",
+  "human_review_queue": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/reference_cleanup_user_review_20261021_v1/queue.json",
+  "human_decision_journal": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/reference_cleanup_user_review_20261021_v1/decisions.jsonl",
+  "next_case_id": "C001",
+  "boundaries": {
+    "predicted_answers_read_this_review": false,
+    "lead_prior_exposure": true,
+    "fresh_context_proposal_reviewers": true,
+    "original_test_references_reviewed": 30,
+    "reserved_judge_challenges_opened": false,
+    "provider_calls": 0,
+    "approved_labels_changed": false,
+    "frozen_results_changed": false,
+    "minimax_included": false
+  },
+  "downstream_order": [
+    "individual_human_adjudication",
+    "versioned_reference_release",
+    "synthetic_regeneration_and_independent_review",
+    "judge_retesting_selection",
+    "generation_prompt_alignment",
+    "fresh_generation_evaluation_reporting",
+    "result_review",
+    "task16_writeup"
+  ]
+}

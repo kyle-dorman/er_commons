@@ -1,0 +1,42 @@
+{
+  "schema_version": "task15.c_synthetic_judging.v1",
+  "status": "six_complete_expansion_stopped",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/judge_synthetic_20261021_v1",
+  "completion": {
+    "sha256": "4464648934bc5d9a6b82efc15b548469e312aafe606f20a316323d15a2c0eea3",
+    "byte_size": 4564
+  },
+  "metrics": {
+    "anthropic/claude-haiku-5-5": {
+      "total": 106,
+      "valid": 106,
+      "expected_fail": 64,
+      "fail_agree": 62,
+      "critical_false_accept": 2,
+      "critical_total": 45,
+      "expected_pass": 42,
+      "pass_agree": 42
+    },
+    "openai/gpt-6-luna": {
+      "total": 106,
+      "valid": 106,
+      "expected_fail": 64,
+      "fail_agree": 63,
+      "critical_false_accept": 1,
+      "critical_total": 45,
+      "expected_pass": 42,
+      "pass_agree": 42
+    }
+  },
+  "gate": {
+    "continue": false,
+    "reason": "Luna accepts C056 universal exact guarantee, a confirmed material scope and certainty error. Critical-negative gate fails.",
+    "confirmed_critical_false_accept_sample_id": "t15c-C056-1d439068d842ee3a",
+    "remaining_judgments_dispatched": 0,
+    "labels_changed": false,
+    "prompt_changed": false
+  },
+  "review": "review.html",
+  "estimated_cost_usd": 0.087201195,
+  "label_status": "agent_proposals_not_human_gold"
+}

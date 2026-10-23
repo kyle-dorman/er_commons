@@ -1,0 +1,25 @@
+{
+  "schema_version": "task15o.structured_conclusion_contract.v5",
+  "status": "implemented_pending_ablation",
+  "prompt_version": "task15.binary_adequacy.conclusion_structured.v5",
+  "system_prompt_sha256": "fa2682725389d17cdfeacd4ed332543c84cce747fcee41f7742755b8bbcdc3c6",
+  "input_schema_sha256": "7e70df2b154bacb134d1b380b0ad137502a299d897508113e5b8c2a459cd4f72",
+  "output_schema_sha256": "4aa59ef1291ff9c2e6c7a6799e113a9bd9ba68e9872f58f99377093d0d4925ce",
+  "overview_file": "docs/prompts/task11d14_document_overview.md",
+  "overview_bytes_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "input_fields": [
+    "question",
+    "candidate_conclusion",
+    "reference_required_points",
+    "reference_optional_points",
+    "candidate_statements"
+  ],
+  "output_fields": [
+    "judgments",
+    "conclusion_adequate",
+    "reason"
+  ],
+  "ablation": "Same numbered input asv4; no contradicting_points output or pair instructions; aggregate reference statuses only.",
+  "frozen_defaults_changed": false,
+  "predecessor_contract": "docs/specs/task15n_structured_conclusion_judge_v4.json"
+}

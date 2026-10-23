@@ -1,0 +1,57 @@
+{
+  "schema_version": "task15w.haiku_16k_retry_result.v1",
+  "status": "completed_experimental_overlay_not_promoted",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/haiku_16k_retries_20261023_v1",
+  "completion": {
+    "sha256": "2c6317210a7bec404bd3c33ef670d43b64c05605457771ef51aa77cc3e86f06f",
+    "byte_size": 290932
+  },
+  "entrypoint": "reporting/summary.md",
+  "selection": "reporting/selection.json",
+  "review": "outcome_review.md",
+  "parent": "docs/specs/task15v_high_reasoning_result.json",
+  "baseline": "docs/specs/task15t_retry_result.json",
+  "generation": {
+    "model": "claude-haiku-5-5",
+    "effort": "high",
+    "max_output_tokens": 16384,
+    "attempt": 2,
+    "case_id": "C014",
+    "repeats": [
+      1,
+      2,
+      3
+    ]
+  },
+  "counts": {
+    "retried_generations": 3,
+    "completed_retries": 3,
+    "retry_C_passes": 0,
+    "selected_answers": 36,
+    "selected_complete_evaluations": 36,
+    "new_judge_requests": 43,
+    "new_count_requests": 46
+  },
+  "selected_scores": {
+    "luna": {
+      "C_pass": 14,
+      "joint_pass": 14,
+      "planned": 18
+    },
+    "haiku": {
+      "C_pass": 11,
+      "joint_pass": 6,
+      "planned": 18
+    }
+  },
+  "cost": {
+    "new_configured_usage_usd": "0.113914885",
+    "cumulative_known_usage_usd": "2.069183885",
+    "cumulative_retained_liability_usd": "2.996619885",
+    "new_unknown_count_fee_calls": 40,
+    "cumulative_unknown_count_fee_calls": 2759,
+    "cap_usd": "40"
+  },
+  "validation": "4558 passed,1 skipped;93 focused tests; independent native/accounting/overlay audit passed;3/3 new C model/aggregate agree",
+  "next_action": "Review completed six-question comparison. No default promotion or additional paid runs selected; Task16 requires separate activation."
+}

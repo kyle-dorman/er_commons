@@ -1,0 +1,75 @@
+{
+  "schema_version": "task15p.structured_judging_result.v1",
+  "status": "complete_pending_user_discussion_not_promoted",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_judging_internal_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "49f13477a3fbac7148dec48e5f7cb315320ae9af69cd5ea3b45709d34d575961",
+    "byte_size": 11796
+  },
+  "report": "report.md",
+  "audit": "final_audit.json",
+  "independent_audit": "postrun_independent_review.json",
+  "failure_review": "failure_review_coverage.json",
+  "candidates": 16,
+  "questions": 6,
+  "logical_judgments": 96,
+  "rounds_per_model": 3,
+  "concurrency_per_model": 16,
+  "models": {
+    "openai/gpt-6-luna": {
+      "valid": 48,
+      "invalid": 0,
+      "model_final": {
+        "correct": 48,
+        "false_accepts": 0,
+        "false_rejects": 0,
+        "valid_denominator": 48,
+        "all_calls_denominator": 48
+      },
+      "aggregate_decision": {
+        "correct": 48,
+        "false_accepts": 0,
+        "false_rejects": 0,
+        "valid_denominator": 48,
+        "all_calls_denominator": 48
+      },
+      "model_aggregate_disagreements": 0,
+      "internal_list_plus_pass_inconsistent": 0,
+      "internal_list_present_valid": 48
+    },
+    "anthropic/claude-haiku-5-5": {
+      "valid": 48,
+      "invalid": 0,
+      "model_final": {
+        "correct": 48,
+        "false_accepts": 0,
+        "false_rejects": 0,
+        "valid_denominator": 48,
+        "all_calls_denominator": 48
+      },
+      "aggregate_decision": {
+        "correct": 48,
+        "false_accepts": 0,
+        "false_rejects": 0,
+        "valid_denominator": 48,
+        "all_calls_denominator": 48
+      },
+      "model_aggregate_disagreements": 0,
+      "internal_list_plus_pass_inconsistent": 0,
+      "internal_list_present_valid": 48
+    }
+  },
+  "reason_semantic_scoring_or_review": false,
+  "point_accuracy_computed": false,
+  "configured_cost_estimate_usd": 0.07135313,
+  "new_conservative_liability_usd": 0.39529059999999916,
+  "cumulative_conservative_liability_usd": 17.008511775,
+  "wall_seconds": 61.901407957077026,
+  "candidate_statement_ids": false,
+  "contradiction_pairs": false,
+  "production_judge_promoted": false,
+  "reserved_challenges_read": false,
+  "minimax_included": false,
+  "claim_limit": "Targeted all-negative familiar-development paragraph diagnostic; does not measure specificity or full-suite improvement."
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "task15r.generation_prompt.v1",
+  "status": "user_approved_changes_implemented_not_executed",
+  "prompt_path": "docs/prompts/task15r_conclusion_alignment_v1.md",
+  "prompt_sha256": "3aa28445aefb4870a5982a40adad2e90158769eef5775d094e5d0e995e7c963a",
+  "predecessor_prompt_path": "docs/prompts/task11d12_conclusion_focus.md",
+  "predecessor_prompt_sha256": "87ae893eaba00c0ae730c5c6291d5514b4eddba21771ff3fc20bf24430977382",
+  "context_path": "docs/prompts/task11d14_document_overview.md",
+  "context_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "composition": "Existing shared project_context wrapper, unchanged; no manual double prefix",
+  "conclusion_judge_model": "gpt-6-luna",
+  "conclusion_judge_prompt_version": "task15.binary_adequacy.conclusion_structured.v6",
+  "conclusion_judge_repetitions": 1,
+  "generation_models": "pending_step8_agreement",
+  "generation_schema_changed": false,
+  "reference_answers_exposed_to_generation": false,
+  "frozen_defaults_changed": false,
+  "paid_calls_made": false,
+  "changed_requirements": [
+    1,
+    5
+  ]
+}

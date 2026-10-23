@@ -1,7 +1,10 @@
 # Adequacy labeling rules
 
-Status: approved first-pass policy. This maintained document defines labeling
-semantics; it does not certify that a judge implementation satisfies them.
+Status: structured-reference C policy user-approved in Task 15 (2026-10-22); S semantics
+unchanged. This maintained document defines labeling semantics; it does not
+certify that a judge implementation satisfies them. Frozen historical prompts,
+labels and results retain their original policy and are not relabeled by this
+revision.
 
 Examples here are invented illustrations in unrelated contexts. They are not
 benchmark cases or human-labeled calibration records. Per-question requirements,
@@ -36,7 +39,12 @@ when needed, and citations attached to the relevant claims. Every substantive
 answer requires at least one real supporting basis; an unsupported yes/no is
 insufficient.
 
-There are three answer formats.
+These describe candidate answer formats. The reference conclusion is a judging
+guide with numbered required and optional points (section 3); it need not look
+like the candidate conclusion. Reference supporting points remain separate as
+the evidence-labeling record.
+
+There are three candidate answer formats.
 
 ### Direct answer or finding
 
@@ -60,13 +68,15 @@ complete-list answer. The explanation may use separate supporting paragraphs.
 The conclusion contains the complete required list as bullets. Supporting
 points follow separately.
 
-The conclusion must contain every approved substantive item and no additional
-substantive items. Equivalent wording is allowed. Implementation details and
-explanations may appear within an item without becoming additional items.
+The conclusion must contain every requested substantive item and dimension.
+Equivalent wording is allowed. Implementation details and explanations may
+appear within an item. Compatible additional information is not a failure merely
+because it is absent from the reference; apply section 3 for material changes,
+contradictions and explicit category, count or exclusive boundaries.
 
-Match substantive items, not literal words or bullet counts. Splitting,
-combining, or repeating wording does not create a missing substantive item or
-remove an extra one.
+Match substantive items, not literal words or bullet counts. Splitting or
+combining wording does not change coverage; repetition cannot supply a missing
+item. Do not infer exclusivity from bullet formatting or reference brevity.
 
 Supporting points may explain one list item each or several related items
 together. Do not require equal numbers of conclusion bullets and supporting
@@ -75,53 +85,154 @@ joint explanatory coverage.
 
 ## 3. Conclusion check (C)
 
-Pass C only when the conclusion conveys the approved substantive answer and
-answers all parts of the question.
+Pass C when every required reference point is satisfied and no required or
+optional reference point is substantively contradicted, and no internal
+contradiction is detected. Task15P implements the current paragraph-input and
+internal-contradiction contract as explicit v6. Production promotion remains pending.
+Historical runs retain their old contract.
 
-### Reference authority
+### 1. Use the supplied conclusion inputs only
 
-The provided approved answer determines the required answer in every case.
+Evaluate the question, candidate conclusion, and numbered reference points.
+The candidate conclusion is its original prose, without added statement IDs or
+a segmented duplicate. Only the reference points have identifiers.
+Required points use R1, R2, ...; optional points use O1, O2, ... . Supporting points
+and source documents are outside C's inputs. Candidate support cannot repair
+missing conclusion content. S assesses supporting reasoning; G assesses source
+support within its supplied inputs. C must not infer their judgments.
 
-- Accept paraphrases and equivalent wording.
-- Do not accept a substantively different answer merely because it could be
-  independently valid.
-- Permit alternative supporting reasoning, not alternative substantive answers.
-- Do not research other possible answers or adjudicate new source interpretations.
+The reference has two lists. Either list may contain answer facts, details,
+explanations or qualifications. Each bullet is a logically complete, self-contained
+point. Keep related facts together when needed for an explanation; restate enough
+scope within qualifications to make them understandable. Do not introduce point
+dependency links. Optional quantitative details should supply modeled values and
+relevant comparisons, not just thresholds. Preserve source citation IDs separately
+from R/O judgment IDs; use S identifiers inline and source links below review text.
 
-### Completeness
+### 2. Require every required meaning
 
-The conclusion must cover every requested part of the question. Supporting text
-does not repair a missing, incorrect, incomplete, or non-answer conclusion.
+The required list defines completeness. Do not invent requirements or promote
+optional content into requirements. Label authors decide which facts, explanations,
+list items and conditions are necessary to answer the question. A defective
+reference requires label review, not silent repair by the judge.
 
-For example, if a question asks how a recipe change affects both sweetness and
-texture, a conclusion addressing only sweetness is incomplete even when the
-support discusses texture.
+### 3. Accept equivalent expression
 
-The conclusion need not reproduce the entire supporting explanation or every
-reference detail.
+Match meaning, not wording, ordering, formatting or sentence count. One sentence
+may satisfy several points; several statements may jointly satisfy one point.
+Preserve relationships, negation, scope, quantities, conditions and uncertainty
+when they affect meaning. Do not supply unstated premises or reinterpret an
+explicitly changed claim as what the candidate probably intended.
 
-### Complete-list boundaries
+### 4. Require the specified why/how explanation
 
-C fails if the conclusion omits a required substantive item, adds an extra
-substantive item, or changes an item's essential meaning, scope, trigger, or
-condition.
+The candidate must convey the required reason, finding, mechanism or calculation
+and its connection to the outcome. Naming topics or repeating the outcome is
+insufficient. Do not require deeper explanations found only in optional points.
 
-For example, suppose the approved answer to a question about library borrowing
-options is physical books, e-books, and audiobooks. Omitting audiobooks or adding
-room reservations changes the required list. Mentioning adjustable text size
-within the e-book item is an explanatory detail, not a fourth borrowing option.
+### 5. Allow optional points to be omitted
 
-### Scope and conditions
+Any or all optional points may be omitted. Their absence never causes an omission
+failure. Including optional content does not compensate for missing or
+contradicting required content.
 
-Preserve material distinctions in the approved answer, including relevant
-scenarios, timing, conditions, and uncertainty. Do not turn a conditional or
-modeled finding into an unconditional guarantee.
+### 6. Do not allow contradictions of optional points
 
-For example, “The backup can restore files if a usable snapshot exists” is not
-equivalent to “The backup always restores files.”
+A candidate discussing an optional point must not contradict it. It need not
+reproduce the whole point. Missing detail, different emphasis or a shorter
+explanation is not itself a contradiction. Check the actual claims and retain
+conditions needed to interpret them correctly.
 
-This is reference-answer comparison. Do not search source evidence for additional
-conditions and silently add them to the grading requirements.
+For numerical details, Addressed requires relevant numerical values with enough
+scope to identify what they describe. A generic below-threshold statement does
+not address modeled numerical values. Meaningful partial numerical coverage is
+allowed; every listed value need not be repeated. Equivalent units are acceptable.
+For a qualification, Addressed requires conveying the qualification or limitation
+itself. Restating the underlying claim or contextual comparison alone is Not
+addressed. Shared context does not automatically address multiple reference points.
+First check for contradictions, regardless of whether the candidate supplies
+numbers or otherwise addresses the point. The numerical-coverage requirement
+applies only when choosing between Not addressed and Addressed without
+contradiction; it must never prevent Contradicted. Only after finding no
+contradiction should the judge decide whether the point is addressed.
+
+### 7. Check reference conflicts and explicit internal conflicts separately
+
+Check additional content against required and optional reference points and flag
+conflicts on the affected R/O points. Also return `internal_contradictions`, a list
+of objects containing a brief `reason` identifying incompatible claims in the
+candidate and explaining why they cannot both hold in the same circumstances.
+Use an empty list when none are detected. Scan the entire conclusion, including
+claims after an otherwise correct answer. No candidate IDs or pair matching.
+
+An internal contradiction may overlap a reference-point contradiction; report
+both where applicable. It may also occur outside both reference lists. Do not
+force it onto an unrelated R/O point. A claim that contradicts only a reference
+still fails that reference point but is not an internal contradiction by itself.
+Do not reject an addition merely because neither reference list mentions it.
+Absence establishes neither truth nor falsehood; compatible additions receive
+no separate factual-support or relevance judgment.
+
+### 8. Identify the actual incompatibility
+
+A contradiction requires meanings that cannot both hold under the same relevant
+circumstances. Different times, scenarios, populations or concurrent requirements
+are not inherently contradictory. Distinguish missing required meaning from an
+explicitly incompatible claim. Do not infer exclusivity from bullet formatting
+or brevity; explicit category, count or exclusive boundaries must be preserved.
+If the candidate both conveys and contradicts a reference point, mark that point
+Contradicted. Correct wording elsewhere does not cancel the conflict.
+
+### 9. Return point-level judgments and an overall judgment
+
+Return exactly one judgment per numbered reference point, including every optional
+point even when Not addressed. Also return `internal_contradictions` as
+`[{"reason": "..."}]` (or `[]` when none are detected):
+
+| Reference point | Statuses |
+| --- | --- |
+| Required (R1, R2, ...) | Satisfied; Missing; Contradicted |
+| Optional (O1, O2, ...) | Not addressed; Addressed without contradiction; Contradicted |
+
+Each judgment contains the reference point ID, status, relevant candidate
+excerpt(s) if present, and a brief reason. Preserve relevant relationships,
+negation and conditions in excerpts. An absent phrase alone is not a failure. Missing and Not addressed judgments may
+quote incomplete or related candidate content to explain the gap; otherwise use
+no excerpts. Other statuses require relevant excerpts. Before returning, check
+that each status agrees with its explanation, then derive the overall judgment.
+Addressed without contradiction does not certify factual support for added claims.
+
+Overall pass requires every required point to be Satisfied, no required or
+optional point to be Contradicted, and an empty `internal_contradictions` list.
+Do not average judgments, count matched words, or award extra credit for length
+or optional content. Correct statements never cancel incompatible statements.
+
+Retain the model's overall Boolean and compute the rule above independently from
+its complete per-point predictions and the contradiction list. Report both against
+the same expected labels and report their agreement. A nonempty contradiction
+list with an overall pass is a logical consistency failure. Keep this separate
+from structural invalidity so both verdicts remain available for analysis; never
+silently repair the model's prediction or reroll it. An empty list alone does not
+require a pass. Missing, duplicate or unknown reference IDs make the aggregate
+unavailable; never infer missing optional rows as Not addressed.
+
+Internal-contradiction explanations support the model's judgment and overall
+reason; they are not separately scored, string-matched, or semantically reviewed.
+There is no exhaustive expected list, expected pair inventory, or explanation
+accuracy metric. Validate the list/object/nonempty-reason structure and consistency
+with the overall prediction. Raw Booleans from structurally incomplete outputs may
+be reported separately, not as valid results. Historical versions retain their
+original validation contracts and scores.
+
+### 10. Preserve the coverage boundary
+
+A C pass does not certify factual support or relevance of content outside the
+reference's coverage. Such additions can be supported or unsupported without
+contradicting any listed point. Conclusion-only claims may fall outside G's inputs
+and may not be caught by S. A complete, supported answer with unrelated extras may
+pass; C is not a relevance or concision judge. Retain these factual-coverage and
+relevance limitations in Task16 discussion. No model-training claim follows from
+this evaluation contract.
 
 ## 4. Support check (S)
 
@@ -132,8 +243,8 @@ for the candidate's conclusion.
 ### Independence from C
 
 Evaluate the candidate's actual conclusion. A conclusion can fail C by omitting
-a required item or adding an extra item while its support adequately explains
-the claims it actually makes. Conversely, a complete conclusion can pass C
+a required item or adding an incompatible claim while its support adequately
+explains the claims it actually makes. Conversely, a complete conclusion can pass C
 while the support fails to establish one of its claims.
 
 Support does not rescue a failed conclusion. A failed conclusion does not

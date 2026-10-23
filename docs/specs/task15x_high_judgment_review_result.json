@@ -1,0 +1,23 @@
+{
+  "schema_version": "task15x.high_judgment_review_result.v1",
+  "status": "completed_offline_review_no_rescoring",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/high_judgment_review_20261023_v1",
+  "completion": {
+    "sha256": "5cf737a2b917ff06c31faee1809c21d3078b6e0e6096997d8f1d764c79908813",
+    "byte_size": 2115
+  },
+  "entrypoint": "summary.md",
+  "review": "review.json",
+  "source": "docs/specs/task15w_haiku_16k_retry_result.json",
+  "counts": {
+    "reasonable_fail": 8,
+    "disputed": 5,
+    "reasonable_pass": 23
+  },
+  "paid_calls": 0,
+  "limitations": [
+    "Supplied-reference audit, not full source verification.",
+    "Exposed correlated sample; no general judge accuracy claim.",
+    "Five overall interpretations remain disputed."
+  ]
+}

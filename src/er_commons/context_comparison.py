@@ -15,7 +15,7 @@ from inspect_ai.util._json import (
     set_additional_properties_false,
 )
 
-from er_commons import judge_inspect
+from er_commons import adequacy_binary, adequacy_inspect, judge_inspect
 from er_commons.alternative_target_generation import canonical_delivery
 from er_commons.artifact_io import (
     artifact_inventory,
@@ -85,20 +85,48 @@ class ReceiptHooks(FrozenHooks):
             raise ValueError("Streaming forbidden")
         if self.provider == "anthropic" and (
             native.get("thinking", {}).get("type") != "adaptive"
-            or native.get("output_config", {}).get("effort") != "medium"
+            or native.get("output_config", {}).get("effort") != self.expected_reasoning_effort
             or any(k in native for k in ("temperature", "top_p", "top_k", "stop_sequences"))
         ):
             raise ValueError("Frozen Anthropic reasoning changed")
 
 
 def _execution_config(
-    condition: str, component: str, prompt: str, max_output_tokens: int
+    condition: str,
+    component: str,
+    prompt: str,
+    max_output_tokens: int,
+    *,
+    prompt_version: str | None = None,
+    max_connections: int = 1,
+    generation_effort: str = "medium",
 ) -> GenerateConfig:
     """Validate the registered condition before constructing native execution settings."""
-    if component == "target":
+    if generation_effort not in ("medium", "high") or (
+        generation_effort != "medium" and component != "target"
+    ):
+        raise ValueError("High reasoning is registered only for target generation")
+    if type(max_connections) is not int or max_connections not in (1, 16):
+        raise ValueError("Unregistered native connection limit")
+    if prompt_version is not None:
         if (
-            condition not in {"openai_generation", "anthropic_generation"}
-            or max_output_tokens != TARGET_OUTPUT_TOKENS
+            component != "C"
+            or condition != "openai_generation"
+            or prompt_version != adequacy_binary.CONCLUSION_STRUCTURED_V6_PROMPT_VERSION
+            or max_output_tokens not in (JUDGE_OUTPUT_TOKENS, 6144)
+        ):
+            raise ValueError("Unregistered versioned judge condition")
+        if prompt != adequacy_binary.system_prompt("C", prompt_version=prompt_version):
+            raise ValueError("Versioned conclusion prompt changed or context duplicated")
+        config = adequacy_inspect.generation_config(condition, "C", prompt_version=prompt_version)
+    elif component == "target":
+        if condition not in {"openai_generation", "anthropic_generation"} or (
+            max_output_tokens != TARGET_OUTPUT_TOKENS
+            and not (
+                max_output_tokens == 16384
+                and condition == "anthropic_generation"
+                and generation_effort == "high"
+            )
         ):
             raise ValueError("Unregistered target condition")
         config = judge_inspect.generation_config(
@@ -108,11 +136,13 @@ def _execution_config(
         frozen_condition, _, config = component_settings(component)
         if condition != frozen_condition or max_output_tokens != JUDGE_OUTPUT_TOKENS:
             raise ValueError("Frozen judge condition changed")
+    if component == "target":
+        config = config.model_copy(update={"reasoning_effort": generation_effort})
     config = config.model_copy(
         update={
             "max_tokens": max_output_tokens,
             "max_retries": 0,
-            "max_connections": 1,
+            "max_connections": max_connections,
             "timeout": REQUEST_TIMEOUT_SECONDS,
             "attempt_timeout": REQUEST_TIMEOUT_SECONDS,
         }
@@ -143,9 +173,12 @@ async def execute(
     payload: dict[str, Any],
     deadline: float,
     max_output_tokens: int,
+    prompt_version: str | None = None,
 ) -> dict[str, Any]:
     """Attempt one native request, count exactly once, retain all failures; never retry."""
-    config = _execution_config(condition, component, prompt, max_output_tokens)
+    config = _execution_config(
+        condition, component, prompt, max_output_tokens, prompt_version=prompt_version
+    )
     selected = judge_inspect.profile(condition)
     limits = {"max_input_tokens": MAX_INPUT_TOKENS, "max_output_tokens": max_output_tokens}
     expected_schema = _expected_schema(config, selected.provider)

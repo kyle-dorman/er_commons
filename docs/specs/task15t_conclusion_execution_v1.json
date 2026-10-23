@@ -1,0 +1,12 @@
+{
+  "schema_version": "task15t.conclusion_execution.v1",
+  "status": "user_approved",
+  "conclusion_prompt_version": "task15.binary_adequacy.conclusion_structured.v6",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "medium",
+  "max_output_tokens": 6144,
+  "previous_max_output_tokens": 4096,
+  "semantic_prompt_changed": false,
+  "scope": "Selected C execution limit for authorized retries and subsequent explicitly scoped runs; no retrospective rescore of successful judgments.",
+  "task": "tasks/sprint2/15t_retry_unavailable_slots.md"
+}

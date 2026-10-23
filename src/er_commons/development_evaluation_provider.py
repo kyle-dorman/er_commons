@@ -145,8 +145,13 @@ class ReceiptHooks:
         model: str,
         deadline: float,
         limits: dict[str, Any] | None = None,
+        *,
+        expected_reasoning_effort: str = "medium",
     ) -> None:
         """Bind a fresh request directory and immutable runtime limits."""
+        if expected_reasoning_effort not in ("medium", "high"):
+            raise ValueError("Unregistered expected reasoning effort")
+        self.expected_reasoning_effort = expected_reasoning_effort
         self.directory, self.provider, self.model = directory, provider, model
         self.deadline = deadline
         self.limits = dict(LIMITS if limits is None else limits)
@@ -226,7 +231,7 @@ class ReceiptHooks:
             raise ValueError("Tools or premium service tier forbidden")
         if self.provider == "openai" and (
             native.get("truncation") != "disabled"
-            or native.get("reasoning") != {"effort": "medium"}
+            or native.get("reasoning") != {"effort": self.expected_reasoning_effort}
             or native.get("store") is not False
         ):
             raise ValueError("Frozen native controls changed")

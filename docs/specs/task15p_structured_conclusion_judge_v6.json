@@ -1,0 +1,28 @@
+{
+  "schema_version": "task15p.structured_conclusion_contract.v6",
+  "status": "implemented_for_targeted_retest",
+  "prompt_version": "task15.binary_adequacy.conclusion_structured.v6",
+  "system_prompt_sha256": "a0400b3586bae4cd7a25dc49f457a64d5a7fb4fda61282db6c58d23238899b5e",
+  "input_schema_sha256": "2a4137842937d5a90a1459b8363ce88eb5c078a2049bce580343088dc647ce39",
+  "output_schema_sha256": "f0e77145bd13fe5c878e8ebb585d6ede2d31bc199953cbbb20b76a264f2962d8",
+  "overview_file": "docs/prompts/task11d14_document_overview.md",
+  "overview_bytes_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "input_fields": [
+    "question",
+    "candidate_conclusion",
+    "reference_required_points",
+    "reference_optional_points"
+  ],
+  "output_fields": [
+    "judgments",
+    "internal_contradictions",
+    "conclusion_adequate",
+    "reason"
+  ],
+  "candidate_presentation": "Original paragraph; reference R/O IDs only",
+  "internal_contradictions": "Always-present list of objects with nonempty reason; no semantic grading or expected inventory",
+  "logical_consistency": "Nonempty list requires false; empty list alone does not require true; preserve model and computed verdict",
+  "structural_invalidity_separate": true,
+  "frozen_defaults_changed": false,
+  "predecessor_contract": "docs/specs/task15o_structured_conclusion_judge_v5.json"
+}

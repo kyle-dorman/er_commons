@@ -217,9 +217,36 @@ async def execute(
     slot_id: str,
     pricing: dict[str, Any],
     evaluation_started_at: float | None = None,
+    prompt_version: str | None = None,
+    generation_effort: str = "medium",
 ) -> dict[str, Any]:
-    """Attempt one native request, count exactly once, retain all failures; never retry."""
-    config = _execution_config(condition, component, prompt, max_output_tokens)
+    """Attempt one authorized native request, count once and never retry."""
+    policy_version = getattr(dispatcher, "policy_version", "task13")
+    if generation_effort != "medium" and (
+        generation_effort != "high"
+        or component != "target"
+        or policy_version not in ("task15v", "task15w")
+    ):
+        raise ValueError("High generation effort requires the Task15V target policy")
+    if component == "target" and (
+        max_output_tokens != TARGET_OUTPUT_TOKENS or policy_version == "task15w"
+    ):
+        if not (
+            policy_version == "task15w"
+            and condition == "anthropic_generation"
+            and generation_effort == "high"
+            and max_output_tokens == 16384
+        ):
+            raise ValueError("16K target output requires the Task15W high Anthropic retry policy")
+    config = _execution_config(
+        condition,
+        component,
+        prompt,
+        max_output_tokens,
+        prompt_version=prompt_version,
+        max_connections=16 if policy_version in ("task15s", "task15t", "task15v", "task15w") else 1,
+        generation_effort=generation_effort,
+    )
     selected = judge_inspect.profile(condition)
     limits = {"max_input_tokens": MAX_INPUT_TOKENS, "max_output_tokens": max_output_tokens}
     expected_schema = _expected_schema(config, selected.provider)
@@ -231,6 +258,7 @@ async def execute(
         limits,
         expected=expected_delivery(prompt, payload),
         expected_schema=expected_schema,
+        expected_reasoning_effort=generation_effort,
     )
     result: dict[str, Any] = {
         "status": "execution_error",
@@ -333,8 +361,19 @@ async def generate_one(
     dispatcher: LockedDispatcher,
     slot_id: str,
     pricing: dict[str, Any],
+    *,
+    attempt: int = 1,
+    generation_effort: str = "medium",
+    max_output_tokens: int = TARGET_OUTPUT_TOKENS,
 ) -> dict[str, Any]:
-    """Validate one candidate while keeping raw output and exact native identity."""
+    """Validate one candidate; attempt two requires the explicit recovery policy."""
+    policy_version = getattr(dispatcher, "policy_version", "task13")
+    if type(attempt) is not int or attempt not in (1, 2):
+        raise ValueError("Unregistered generation attempt")
+    if attempt == 2 and policy_version not in ("task15t", "task15w"):
+        raise ValueError("Attempt two requires the authorized recovery policy")
+    if policy_version == "task15w" and attempt != 2:
+        raise ValueError("Task15W requires the authorized second attempt")
     result = await execute(
         directory=directory,
         condition=condition,
@@ -342,12 +381,13 @@ async def generate_one(
         prompt=prompt,
         payload=record["payload"],
         deadline=deadline,
-        max_output_tokens=TARGET_OUTPUT_TOKENS,
+        max_output_tokens=max_output_tokens,
         dispatcher=dispatcher,
         slot_id=slot_id,
         pricing=pricing,
+        generation_effort=generation_effort,
     )
-    result.update({k: identity[k] for k in ("run_id", "case_id", "repeat")}, attempt=1)
+    result.update({k: identity[k] for k in ("run_id", "case_id", "repeat")}, attempt=attempt)
     result["generation_calls"] = result.pop("judge_calls")
     if (directory / "native_request.json").exists():
         result["request_sha256"] = sha256_file(directory / "native_request.json")

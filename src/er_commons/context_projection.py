@@ -13,6 +13,7 @@ from typing import Any, cast
 
 from er_commons import adequacy_binary, no_answer, point_grounding
 from er_commons.artifact_io import stable_json_sha256
+from er_commons.judge_context import baylands_overview, compose_project_context
 from er_commons.target_generation import validate_record
 
 VERSION = "task11d6.context.v1"
@@ -141,9 +142,8 @@ def _envelope(
     """Separate model messages from private provenance and bind both identities."""
     if not isinstance(summary, str) or not summary.strip() or not prompt.strip():
         raise ValueError("Shared summary and prompt must be nonblank")
-    prefix = "<project_context>\n" + summary + "\n</project_context>\n\n"
     messages = [
-        {"role": "system", "content": prefix + prompt},
+        {"role": "system", "content": compose_project_context(prompt, summary)},
         {"role": "user", "content": json.dumps(payload, ensure_ascii=False, separators=(",", ":"))},
     ]
     private = {"locator_mapping": copy.deepcopy(mapping), **provenance}
@@ -233,14 +233,22 @@ def _validate_item(item: dict[str, Any], record: dict[str, Any]) -> None:
         raise ValueError("Legacy payload changed")
 
 
-def _validate_packet(component: str, packet: dict[str, Any], citations: Any = None) -> None:
+def _validate_packet(
+    component: str,
+    packet: dict[str, Any],
+    citations: Any = None,
+    *,
+    prompt_version: str | None = None,
+) -> None:
     """Reuse frozen component input isolation, without changing judge semantics."""
     if component == "A":
         no_answer.validate_input(packet)
     elif component == "G":
         point_grounding.validate_input(packet, citation_ids=citations)
     elif component in {"S", "C"}:
-        adequacy_binary.validate_input(cast(adequacy_binary.Component, component), packet)
+        adequacy_binary.validate_input(
+            cast(adequacy_binary.Component, component), packet, prompt_version=prompt_version
+        )
     else:
         raise ValueError("Unsupported component")
 
@@ -299,6 +307,7 @@ def project_judge(
     summary: str,
     prompt: str,
     reference: dict[str, Any] | None = None,
+    prompt_version: str | None = None,
 ) -> dict[str, Any]:
     """Build a new context identity; existing candidate prose is never neutralized.
 
@@ -308,7 +317,23 @@ def project_judge(
     labels = _mapping(record, mapping)
     _validate_item(item, record)
     component = item["component"]
-    _validate_packet(component, item["packet"], item.get("citation_ids"))
+    if prompt_version is not None:
+        if (
+            component != "C"
+            or prompt_version not in adequacy_binary.CONCLUSION_STRUCTURED_PROMPT_VERSIONS
+            or prompt != adequacy_binary.system_prompt("C", prompt_version=prompt_version)
+            or summary != baylands_overview()
+        ):
+            raise ValueError(
+                "Structured C requires its exact versioned prompt and Baylands overview"
+            )
+        if reference is not None:
+            raise ValueError(
+                "Structured C requires approved points in its packet, not a prose derivative"
+            )
+    _validate_packet(
+        component, item["packet"], item.get("citation_ids"), prompt_version=prompt_version
+    )
     if reference is not None and component != "C":
         raise ValueError("Reference leakage outside C")
     packet = copy.deepcopy(item["packet"])
@@ -325,7 +350,12 @@ def project_judge(
     if reference is not None:
         _project_reference(packet, reference)
         provenance["reference_derivative"] = copy.deepcopy(reference)
-    _validate_packet(component, packet, item.get("citation_ids"))
+    _validate_packet(component, packet, item.get("citation_ids"), prompt_version=prompt_version)
+    if prompt_version is not None:
+        provenance["prompt_version"] = prompt_version
+        provenance["output_schema_sha256"] = stable_json_sha256(
+            adequacy_binary.output_json_schema("C", prompt_version=prompt_version)
+        )
     return _envelope(
         component,
         packet,

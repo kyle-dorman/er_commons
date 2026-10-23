@@ -1,6 +1,7 @@
 """Offline checks for global Task 13 admission and interrupted-attempt accounting."""
 
 import asyncio
+import json
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from decimal import Decimal
@@ -346,3 +347,97 @@ def test_unapproved_evaluation_deadlines_rejected(tmp_path: Path, seconds: objec
     with pytest.raises(ValueError, match="Evaluation deadline"):
         LockedDispatcher(tmp_path, evaluation_seconds=seconds)  # type: ignore[arg-type]
     assert not (tmp_path / "policy.json").exists()
+
+
+def test_task15s_policy_expansion_and_frozen_resume(tmp_path: Path) -> None:
+    """The new run has explicit limits; historical policies cannot silently expand."""
+    import json
+
+    with pytest.raises(ValueError):
+        LockedDispatcher(tmp_path / "old", cap_usd=Decimal("40"), concurrency=32)
+    path = tmp_path / "new"
+    options = {
+        "policy_version": "task15s",
+        "cap_usd": Decimal("40"),
+        "concurrency": 32,
+        "judge_per_answer": 64,
+    }
+    with LockedDispatcher(path, **options) as dispatcher:
+        assert dispatcher._policy_request_caps == {
+            "generation": 294,
+            "judge": 18816,
+            "count": 19110,
+        }
+        for i in range(294):
+            dispatcher.invoke(request(str(i), "0.001"), lambda: (None, Decimal("0")))
+        with pytest.raises(DispatchStopped, match="request ceiling"):
+            dispatcher.invoke(request("295"), lambda: pytest.fail("over ceiling"))
+    policy = json.loads((path / "policy.json").read_text())
+    assert policy["policy_version"] == "task15s" and policy["version"] == 4
+    with pytest.raises(ValueError, match="frozen dispatcher policy"):
+        LockedDispatcher(path, **{**options, "concurrency": 31})
+    with LockedDispatcher(path, **options) as restored:
+        assert restored.snapshot()["stop_reason"]
+
+
+def test_task15t_recovery_cap_and_output_are_explicit(tmp_path: Path) -> None:
+    """A separate recovery ledger cannot exceed the remaining cumulative allowance."""
+    from dataclasses import replace
+
+    options = dict(policy_version="task15t", concurrency=32, judge_per_answer=64)
+    with pytest.raises(ValueError, match="authorization"):
+        LockedDispatcher(tmp_path / "over", cap_usd=Decimal("37.394200566"), **options)
+    with LockedDispatcher(tmp_path / "recovery", cap_usd=Decimal("37.394200565"), **options) as d:
+        assert d._policy_request_caps == {"generation": 2, "judge": 129, "count": 131}
+        item = replace(request("c-recovery"), kind="judge", output_tokens=6144)
+        d.invoke(item, lambda: (None, Decimal("0")))
+        with pytest.raises(DispatchStopped, match="token ceiling"):
+            d.invoke(replace(item, key="too-large", output_tokens=6145), lambda: None)
+    with LockedDispatcher(tmp_path / "historical") as d:
+        with pytest.raises(DispatchStopped, match="token ceiling"):
+            d.invoke(item, lambda: None)
+
+
+def test_task15v_remaining_allowance_and_roster_caps(tmp_path: Path) -> None:
+    """Bind the high-effort comparison to its prior liability and 36-slot ceiling."""
+    from dataclasses import replace
+
+    options = dict(policy_version="task15v", concurrency=16, judge_per_answer=64)
+    with pytest.raises(ValueError, match="authorization"):
+        LockedDispatcher(tmp_path / "over", cap_usd=Decimal("37.370634636"), **options)
+    with pytest.raises(ValueError, match="authorization"):
+        LockedDispatcher(
+            tmp_path / "concurrency", policy_version="task15v", concurrency=17, judge_per_answer=64
+        )
+    with LockedDispatcher(tmp_path / "high", cap_usd=Decimal("37.370634635"), **options) as d:
+        assert d._policy_request_caps == {"generation": 36, "judge": 2304, "count": 2340}
+        policy = json.loads((tmp_path / "high" / "policy.json").read_text())
+        assert policy["prior_liability_usd"] == "2.629365365"
+        d.invoke(
+            replace(request("high-c"), kind="judge", output_tokens=6144),
+            lambda: (None, Decimal("0")),
+        )
+
+
+def test_task15w_budget_and_explicit_16k_generation(tmp_path: Path) -> None:
+    """Only the authorized three-slot recovery ledger admits the enlarged output cap."""
+    from dataclasses import replace
+
+    options = dict(policy_version="task15w", concurrency=16, judge_per_answer=64)
+    with pytest.raises(ValueError, match="authorization"):
+        LockedDispatcher(tmp_path / "over", cap_usd=Decimal("37.117295001"), **options)
+    with LockedDispatcher(tmp_path / "retry", cap_usd=Decimal("37.117295000"), **options) as d:
+        assert d._policy_request_caps == {"generation": 3, "judge": 192, "count": 195}
+        policy = json.loads((tmp_path / "retry" / "policy.json").read_text())
+        assert policy["prior_liability_usd"] == "2.882705000"
+        d.invoke(
+            replace(request("gen16k"), kind="generation", output_tokens=16384),
+            lambda: (None, Decimal("0")),
+        )
+        with pytest.raises(DispatchStopped, match="token ceiling"):
+            d.invoke(replace(request("judge16k"), kind="judge", output_tokens=16384), lambda: None)
+    with LockedDispatcher(tmp_path / "historical") as d:
+        with pytest.raises(DispatchStopped, match="token ceiling"):
+            d.invoke(
+                replace(request("gen16k"), kind="generation", output_tokens=16384), lambda: None
+            )

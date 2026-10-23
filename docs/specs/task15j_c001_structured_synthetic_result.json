@@ -1,0 +1,47 @@
+{
+  "schema_version": "task15j.c001_structured_synthetic_result.v2",
+  "status": "complete_with_disclosed_prior_exclusion",
+  "dataset_id": "c001_structured_synthetic_20261022_v2",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/c001_structured_synthetic_20261022_v2",
+  "completion": {
+    "path": "completion.json",
+    "byte_size": 12627,
+    "sha256": "8c172f208348473819af1c2ff9144e6ccd027af08fd7ed048cfc3c6b3b2f5b09"
+  },
+  "counts": {
+    "sample_count": 52,
+    "expected_pass": 27,
+    "expected_fail": 25,
+    "by_primary_family": {
+      "OC": 17,
+      "CT": 11,
+      "CD": 7,
+      "ME": 5,
+      "RC": 3,
+      "EX": 3,
+      "CA": 2,
+      "CP": 4
+    },
+    "inherited_candidates": 42,
+    "new_candidates": 10,
+    "changed_expected_statuses": 1,
+    "expected_point_judgments": 416,
+    "provider_calls": 0,
+    "judge_runs": 0,
+    "human_gold": false,
+    "excluded_drafts": [
+      "C001-RC-03 (preserved in v1)"
+    ],
+    "reference_status": "fixed_discussion_draft_for_pilot_not_benchmark_release"
+  },
+  "prompt_version": "task15.binary_adequacy.conclusion_structured.v2",
+  "label_status": "agent_proposed_independently_reviewed_not_human_gold",
+  "reference_status": "fixed_discussion_draft_for_pilot_not_benchmark_release",
+  "transformations_spec": "docs/specs/task15j_conclusion_transformations_v2.md",
+  "review_browser": "review.html",
+  "provider_calls": 0,
+  "judge_runs": 0,
+  "reserved_challenges_read": false,
+  "benchmark_labels_changed": false,
+  "predecessor": "docs/specs/task15h_c001_structured_synthetic_result.json"
+}

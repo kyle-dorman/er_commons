@@ -8,7 +8,7 @@ from typing import Any, TypedDict, cast
 
 from jsonschema import ValidationError, validate  # type: ignore[import-untyped]
 
-from er_commons import adequacy_binary, no_answer, point_grounding
+from er_commons import adequacy_binary, conclusion_structured, no_answer, point_grounding
 from er_commons.artifact_io import sha256_bytes, stable_json_sha256
 from er_commons.automatic_metric_inputs import (
     ReferenceResolution,
@@ -49,6 +49,8 @@ def _evaluation_item(
 ) -> dict[str, Any]:
     """Bind one projection to its complete candidate and point identity."""
     key = {"identity": identity, "component": component, "point_id": point_id}
+    if "prompt_version" in extra:
+        key.update(prompt_version=extra["prompt_version"], input_version=extra["input_version"])
     return {
         **key,
         "sample_id": stable_json_sha256(key),
@@ -225,6 +227,8 @@ def _project_items(
     answer: CandidateAnswer,
     sources: _PreparedSources,
     reference_conclusion: str,
+    structured_reference: dict[str, Any] | None = None,
+    conclusion_prompt_version: str | None = None,
 ) -> list[dict[str, Any]]:
     """Build A, point-owned G, S and C inputs in their stable dispatch order."""
     items: list[dict[str, Any]] = []
@@ -250,6 +254,15 @@ def _project_items(
             items.append(
                 _evaluation_item(identity, "G", point["point_id"], packet, group=group, **prepared)
             )
+    conclusion_packet = {
+        "question": sources.payload["question"],
+        "candidate_conclusion": conclusion,
+        **(
+            structured_reference
+            if structured_reference is not None
+            else {"reference_conclusion": reference_conclusion}
+        ),
+    }
     for component, packet in (
         (
             "S",
@@ -265,11 +278,7 @@ def _project_items(
         ),
         (
             "C",
-            {
-                "question": sources.payload["question"],
-                "candidate_conclusion": conclusion,
-                "reference_conclusion": reference_conclusion,
-            },
+            conclusion_packet,
         ),
     ):
         items.append(
@@ -277,7 +286,19 @@ def _project_items(
                 identity,
                 component,
                 None,
-                adequacy_binary.validate_input(cast(adequacy_binary.Component, component), packet),
+                adequacy_binary.validate_input(
+                    cast(adequacy_binary.Component, component),
+                    packet,
+                    prompt_version=conclusion_prompt_version if component == "C" else None,
+                ),
+                **(
+                    {
+                        "prompt_version": conclusion_prompt_version,
+                        "input_version": "conclusion_structured.input.v1",
+                    }
+                    if component == "C" and conclusion_prompt_version is not None
+                    else {}
+                ),
             )
         )
     return items
@@ -292,12 +313,33 @@ def prepare_candidate(
     reference_conclusion: str,
     *,
     expected_split: str = "dev",
+    structured_reference: dict[str, Any] | None = None,
+    conclusion_prompt_version: str | None = None,
 ) -> dict[str, Any]:
     """Project a byte-bound candidate; malformed answers remain reportable, never repaired.
 
     The caller verifies the sealed files and successful transport receipt. This
     function checks the actual native user request against the complete payload.
     """
+    if conclusion_prompt_version is not None or structured_reference is not None:
+        if (
+            conclusion_prompt_version != conclusion_structured.VERSION_V6
+            or structured_reference is None
+        ):
+            raise ValueError("Structured reference requires explicit conclusion v6")
+        if set(structured_reference) != {"reference_required_points", "reference_optional_points"}:
+            raise ValueError(
+                "Structured reference must contain exactly required and optional points"
+            )
+        adequacy_binary.validate_input(
+            "C",
+            {
+                "question": "Reference validation",
+                "candidate_conclusion": "Reference validation",
+                **structured_reference,
+            },
+            prompt_version=conclusion_prompt_version,
+        )
     identity = _validate_identity(candidate_bytes, identity)
     sources = _prepare_sources(identity, target_record, mapping, delivery_receipt, expected_split)
     plan: dict[str, Any] = {
@@ -326,7 +368,14 @@ def prepare_candidate(
     )
     plan["supporting_point_count"] = len(answer["supporting_points"])
     plan["optional_context"] = answer["optional_context"]
-    plan["items"] = _project_items(identity, answer, sources, reference_conclusion)
+    plan["items"] = _project_items(
+        identity,
+        answer,
+        sources,
+        reference_conclusion,
+        structured_reference,
+        conclusion_prompt_version,
+    )
     return plan
 
 
@@ -346,6 +395,10 @@ def _join_judgments(
             for k in ("identity", "component", "point_id", "payload_sha256")
         ):
             raise ValueError("Cross-answer or projection judgment mismatch")
+        if "prompt_version" in item and any(
+            judgment.get(key) != item[key] for key in ("prompt_version", "input_version")
+        ):
+            raise ValueError("Judgment prompt or input version mismatch")
         if item["status"] != "not_run":
             raise ValueError("Judgment supplied for mechanically blocked point")
         outcome = {**judgment, "decision": None}
@@ -358,7 +411,18 @@ def _join_judgments(
                 elif component == "G":
                     decision = point_grounding.parse_output(raw)
                 else:
-                    decision = adequacy_binary.parse_output(component, raw)
+                    decision = adequacy_binary.parse_output(
+                        component,
+                        raw,
+                        prompt_version=item.get("prompt_version"),
+                        payload=item["packet"],
+                    )
+                    if item.get("prompt_version") == conclusion_structured.VERSION_V6:
+                        outcome.update(
+                            conclusion_structured.aggregate_diagnostics(
+                                decision, item["packet"], version=conclusion_structured.VERSION_V6
+                            )
+                        )
                 outcome["decision"] = decision
                 if component == "C":
                     outcome["quotation_fidelity"] = adequacy_binary.quote_fidelity_diagnostics(

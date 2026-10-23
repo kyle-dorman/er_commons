@@ -8,6 +8,7 @@ from typing import Any
 import pytest
 
 from er_commons.adequacy_binary import (
+    CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION,
     output_json_schema,
     parse_output,
     quotation_fidelity,
@@ -143,9 +144,45 @@ def test_selected_identities(component: Any) -> None:
         system_prompt(component, with_reference=True)
 
 
-@pytest.mark.parametrize("component", ["C", "S"])
+def test_candidate_selection_preserves_frozen_default() -> None:
+    """The new rubric is explicit and cannot impersonate the frozen native selection."""
+    from er_commons import adequacy_inspect, judge_inspect
+
+    version = CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION
+    candidate = system_prompt("C", prompt_version=version)
+    assert candidate != system_prompt("C")
+    assert output_json_schema("C", prompt_version=version) == output_json_schema("C")
+    assert adequacy_inspect.selected_condition("C") == "openai_generation"
+    with pytest.raises(ValueError, match="version the selection"):
+        judge_inspect.selected_condition(
+            "C", version, candidate, output_json_schema("C", prompt_version=version)
+        )
+    with pytest.raises(ValueError):
+        system_prompt("C", prompt_version=version, with_reference=True)
+
+
+@pytest.mark.parametrize(
+    "component,prompt_version",
+    [("C", "unknown"), ("S", CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION)],
+)
+def test_version_rejected_across_core_entrypoints(component: Any, prompt_version: str) -> None:
+    """Unknown and cross-component versions fail even when the wire schema matches."""
+    with pytest.raises(ValueError):
+        system_prompt(component, prompt_version=prompt_version)
+    with pytest.raises(ValueError):
+        output_json_schema(component, prompt_version=prompt_version)
+    with pytest.raises(ValueError):
+        parse_output(component, json.dumps(c_wire()), prompt_version=prompt_version)
+
+
+@pytest.mark.parametrize(
+    "component,prompt_version",
+    [("C", None), ("C", CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION), ("S", None)],
+)
 @pytest.mark.parametrize("passed", [True, False])
-def test_selected_wire_and_canonical_diagnostics(component: Any, passed: bool) -> None:
+def test_selected_wire_and_canonical_diagnostics(
+    component: Any, prompt_version: str | None, passed: bool
+) -> None:
     """Preserve strict decisions and canonical explanation fields without repair."""
     wire = (
         c_wire()
@@ -157,7 +194,7 @@ def test_selected_wire_and_canonical_diagnostics(component: Any, passed: bool) -
     wire["reason_codes"] = (
         [] if passed else ["incorrect_answer" if component == "C" else "missing_basis"]
     )
-    result = parse_output(component, json.dumps(wire))
+    result = parse_output(component, json.dumps(wire), prompt_version=prompt_version)
     assert result[field] is passed
     assert result["explanation"] == wire["reason"]
     assert "reason" not in result
@@ -165,7 +202,10 @@ def test_selected_wire_and_canonical_diagnostics(component: Any, passed: bool) -
         assert result["comparison"][0]["explanation"] == "Same position."
 
 
-@pytest.mark.parametrize("component", ["C", "S"])
+@pytest.mark.parametrize(
+    "component,prompt_version",
+    [("C", None), ("C", CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION), ("S", None)],
+)
 @pytest.mark.parametrize(
     "defect",
     [
@@ -180,7 +220,7 @@ def test_selected_wire_and_canonical_diagnostics(component: Any, passed: bool) -
         "nan",
     ],
 )
-def test_invalid_output(component: Any, defect: str) -> None:
+def test_invalid_output(component: Any, prompt_version: str | None, defect: str) -> None:
     """Invalid output cannot acquire a semantic decision or an automatic repair."""
     wire = (
         c_wire()
@@ -209,11 +249,12 @@ def test_invalid_output(component: Any, defect: str) -> None:
     if defect == "duplicate_key":
         raw = raw[:-1] + ', "reason": "Repeated"}'
     with pytest.raises(ValueError):
-        parse_output(component, raw)
+        parse_output(component, raw, prompt_version=prompt_version)
 
 
 @pytest.mark.parametrize("defect", ["alias", "missing", "type", "blank", "status", "extra"])
-def test_nested_comparison_contract(defect: str) -> None:
+@pytest.mark.parametrize("prompt_version", [None, CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION])
+def test_nested_comparison_contract(defect: str, prompt_version: str | None) -> None:
     """Selected nested reason fields are mandatory and strictly typed."""
     wire = c_wire()
     entry = wire["comparison"][0]
@@ -230,7 +271,7 @@ def test_nested_comparison_contract(defect: str) -> None:
     if defect == "extra":
         entry["score"] = 1
     with pytest.raises(ValueError):
-        parse_output("C", json.dumps(wire))
+        parse_output("C", json.dumps(wire), prompt_version=prompt_version)
 
 
 def test_quote_diagnostics_do_not_change_decision() -> None:

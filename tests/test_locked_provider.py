@@ -499,3 +499,201 @@ def test_accepted_unknown_count_preserves_unknown_actual_and_allows_generation(
             assert fixture.calls == 2
 
     asyncio.run(run())
+
+
+@pytest.mark.parametrize(
+    "policy, connections",
+    [("task13", 1), ("task15s", 16), ("task15t", 16), ("task15v", 16), ("task15w", 16)],
+)
+def test_execute_forwards_explicit_conclusion_version(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, policy: str, connections: int
+) -> None:
+    """Validate opt-in propagation before any provider or budget activity is possible."""
+    from types import SimpleNamespace
+
+    from er_commons import adequacy_binary as core
+    from er_commons import locked_provider as provider
+
+    captured = {}
+
+    def capture(*args, **kwargs):
+        captured.update(kwargs)
+        raise ValueError("offline configuration boundary")
+
+    monkeypatch.setattr(provider, "_execution_config", capture)
+    version = core.CONCLUSION_STRUCTURED_V6_PROMPT_VERSION
+    with pytest.raises(ValueError, match="offline configuration boundary"):
+        asyncio.run(
+            provider.execute(
+                directory=tmp_path,
+                condition="openai_generation",
+                component="C",
+                prompt=core.system_prompt("C", prompt_version=version),
+                payload={},
+                deadline=1,
+                max_output_tokens=4096,
+                dispatcher=SimpleNamespace(policy_version=policy),
+                slot_id="offline",
+                pricing={},
+                prompt_version=version,
+            )
+        )
+    assert captured == {
+        "prompt_version": version,
+        "max_connections": connections,
+        "generation_effort": "medium",
+    }
+
+
+def test_generation_attempt_two_requires_recovery_policy(tmp_path: Path, monkeypatch) -> None:
+    """Preserve retry identity without allowing historical automatic retries."""
+    from types import SimpleNamespace
+
+    from er_commons import locked_provider as provider
+
+    async def fake_execute(**kwargs):
+        return {"status": "execution_error", "judge_calls": 1}
+
+    monkeypatch.setattr(provider, "execute", fake_execute)
+    args = (
+        {"payload": {}},
+        tmp_path,
+        "openai_generation",
+        "prompt",
+        1,
+        {"run_id": "recovery", "case_id": "C008", "repeat": 1},
+    )
+    for policy in ("task13", "task15s"):
+        with pytest.raises(ValueError, match="recovery policy"):
+            asyncio.run(
+                provider.generate_one(
+                    *args, SimpleNamespace(policy_version=policy), "slot", {}, attempt=2
+                )
+            )
+    result = asyncio.run(
+        provider.generate_one(
+            *args, SimpleNamespace(policy_version="task15t"), "slot", {}, attempt=2
+        )
+    )
+    assert result["attempt"] == 2
+    assert result["generation_calls"] == 1
+    assert (tmp_path / "completion.json").exists()
+
+
+@pytest.mark.parametrize(
+    "policy, component, allowed",
+    [
+        ("task15v", "target", True),
+        ("task15t", "target", False),
+        ("task15s", "target", False),
+        ("task13", "target", False),
+        ("task15v", "C", False),
+    ],
+)
+def test_high_effort_requires_explicit_target_policy(
+    tmp_path: Path, monkeypatch, policy, component, allowed
+) -> None:
+    """Deny high judge or historical requests before any native dispatch."""
+    from types import SimpleNamespace
+
+    from er_commons import locked_provider as provider
+
+    def capture(*args, **kwargs):
+        assert kwargs["generation_effort"] == "high"
+        assert kwargs["max_connections"] == 16
+        raise ValueError("offline configuration boundary")
+
+    monkeypatch.setattr(provider, "_execution_config", capture)
+    with pytest.raises(
+        ValueError, match="offline configuration boundary" if allowed else "Task15V target policy"
+    ):
+        asyncio.run(
+            provider.execute(
+                directory=tmp_path,
+                condition="openai_generation",
+                component=component,
+                prompt="prompt",
+                payload={},
+                deadline=1,
+                max_output_tokens=12288,
+                dispatcher=SimpleNamespace(policy_version=policy),
+                slot_id="offline",
+                pricing={},
+                generation_effort="high",
+            )
+        )
+
+
+@pytest.mark.parametrize(
+    "policy, condition, effort, tokens, allowed",
+    [
+        ("task15w", "anthropic_generation", "high", 16384, True),
+        ("task15v", "anthropic_generation", "high", 16384, False),
+        ("task15w", "openai_generation", "high", 16384, False),
+        ("task15w", "anthropic_generation", "medium", 16384, False),
+        ("task15w", "anthropic_generation", "high", 12288, False),
+    ],
+)
+def test_16k_native_policy_guard(
+    tmp_path, monkeypatch, policy, condition, effort, tokens, allowed
+) -> None:
+    """Reject broadened provider, effort or output scope before constructing a client."""
+    from types import SimpleNamespace
+
+    from er_commons import locked_provider as provider
+
+    def capture(*args, **kwargs):
+        assert args[3] == 16384
+        assert kwargs["generation_effort"] == "high"
+        assert kwargs["max_connections"] == 16
+        raise ValueError("offline boundary")
+
+    monkeypatch.setattr(provider, "_execution_config", capture)
+    with pytest.raises(ValueError, match="offline boundary" if allowed else "16K target"):
+        asyncio.run(
+            provider.execute(
+                directory=tmp_path,
+                condition=condition,
+                component="target",
+                prompt="prompt",
+                payload={},
+                deadline=1,
+                max_output_tokens=tokens,
+                dispatcher=SimpleNamespace(policy_version=policy),
+                slot_id="offline",
+                pricing={},
+                generation_effort=effort,
+            )
+        )
+
+
+def test_task15w_attempt_and_output_propagation(tmp_path, monkeypatch) -> None:
+    """Require second attempt and carry its explicit limit without changing defaults."""
+    from types import SimpleNamespace
+
+    from er_commons import locked_provider as provider
+
+    async def fake_execute(**kwargs):
+        assert kwargs["max_output_tokens"] == 16384
+        assert kwargs["generation_effort"] == "high"
+        return {"status": "execution_error", "judge_calls": 1}
+
+    monkeypatch.setattr(provider, "execute", fake_execute)
+    args = (
+        {"payload": {}},
+        tmp_path,
+        "anthropic_generation",
+        "prompt",
+        1,
+        {"run_id": "recovery", "case_id": "C014", "repeat": 1},
+        SimpleNamespace(policy_version="task15w"),
+        "slot",
+        {},
+    )
+    with pytest.raises(ValueError, match="second attempt"):
+        asyncio.run(provider.generate_one(*args, generation_effort="high", max_output_tokens=16384))
+    result = asyncio.run(
+        provider.generate_one(*args, attempt=2, generation_effort="high", max_output_tokens=16384)
+    )
+    assert result["attempt"] == 2
+    assert result["generation_calls"] == 1

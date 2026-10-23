@@ -1,0 +1,56 @@
+{
+  "schema_version": "task15l.structured_reference_review_result.v1",
+  "status": "draft_batch_complete_pending_user_adjudication",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_reference_review_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "fe4896c2941a07832a944d862ea7f2681b39ec908000631ee40eb421c4be76b3",
+    "byte_size": 36206
+  },
+  "summary": {
+    "reference_required_points": 97,
+    "reference_optional_points": 83,
+    "cases": 49,
+    "cases_with_unresolved_questions": 6,
+    "discussion_reviews": 12,
+    "status": "draft_batch_complete_pending_user_adjudication",
+    "independent_reviews": 49,
+    "published_labels_changed": false,
+    "prediction_inputs_read": false,
+    "lead_prior_exposure": true,
+    "reserved_challenges_opened": false,
+    "judge_provider_calls": 0,
+    "human_approved": 0,
+    "discussion_case_ids": [
+      "C003",
+      "C012",
+      "C025",
+      "C028",
+      "C029",
+      "C030",
+      "C032",
+      "C040",
+      "C042",
+      "C043",
+      "C045",
+      "C055"
+    ],
+    "repaired_case_ids": [
+      "C011",
+      "C012",
+      "C022",
+      "C027",
+      "C035"
+    ]
+  },
+  "review_browser": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/structured_reference_review_20261022_v1/review.html",
+  "methods_note": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/structured_reference_review_20261022_v1/methods_note.md",
+  "pitfalls_appendix": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/structured_reference_review_20261022_v1/pitfalls_appendix.md",
+  "human_review": {
+    "queue": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/structured_reference_user_review_20261022_v1/queue.json",
+    "journal": "/Volumes/x10pro/er_commons/pipelines/brisbane_baylands/task_15/structured_reference_user_review_20261022_v1/decisions.jsonl",
+    "initial_queue_sha256": "ae8b027ea8b03670d2c4ed1c6242eee9d4b9bfd3f42f864a808b6e3091e0cfcb",
+    "next_case_id": "C001"
+  },
+  "next": "Individual human review; preserve drafts and explicit decisions before versioned label publication or downstream regeneration."
+}

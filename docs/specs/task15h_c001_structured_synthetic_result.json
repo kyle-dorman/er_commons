@@ -1,0 +1,47 @@
+{
+  "schema_version": "task15h.c001_structured_synthetic_result.v1",
+  "status": "complete_with_disclosed_exclusion",
+  "dataset_id": "c001_structured_synthetic_20261022_v1",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/c001_structured_synthetic_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "byte_size": 17977,
+    "sha256": "eed356498152e188052ff1032481c35aa9626c75374853f277a963d0e14a93a1"
+  },
+  "counts": {
+    "sample_count": 42,
+    "expected_pass": 20,
+    "expected_fail": 22,
+    "by_primary_family": {
+      "CA": 2,
+      "CD": 5,
+      "CP": 4,
+      "CT": 10,
+      "EX": 3,
+      "ME": 5,
+      "OC": 10,
+      "RC": 3
+    },
+    "held_authored_candidates": [],
+    "excluded_drafts": [
+      "C001-RC-03"
+    ],
+    "combined_defect_objectives": 6,
+    "expected_point_judgments": 336,
+    "provider_calls": 0,
+    "judge_runs": 0,
+    "human_gold": false,
+    "reference_status": "fixed_discussion_draft_for_pilot_not_benchmark_release"
+  },
+  "prompt_version": "task15.binary_adequacy.conclusion_structured.v1",
+  "label_status": "agent_proposed_independently_reviewed_not_human_gold",
+  "reference_status": "fixed_discussion_draft_for_pilot_not_benchmark_release",
+  "transformations_spec": "docs/specs/task15h_conclusion_transformations_v1.md",
+  "review_browser": "review.html",
+  "provider_calls": 0,
+  "judge_runs": 0,
+  "reserved_challenges_read": false,
+  "predictions_read": false,
+  "benchmark_labels_changed": false,
+  "next_action": "Review/execute C001-only structured judge pilot under separately recorded run settings; no production promotion."
+}

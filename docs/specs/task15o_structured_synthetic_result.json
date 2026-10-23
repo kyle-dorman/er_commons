@@ -1,0 +1,20 @@
+{
+  "schema_version": "task15o.structured_synthetic_result.v1",
+  "status": "sealed_subset",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/structured_synthetic_ids_only_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "ab4aa1f53f87c9b86dbad16c1d35f864445b65e9ccad1b73828fbc889bdb45c9",
+    "byte_size": 1431
+  },
+  "summary": {
+    "samples": 65,
+    "questions": 19,
+    "logical_judgments": 390,
+    "expected_pass": 0,
+    "expected_fail": 65,
+    "prior_pair_scoring_excluded_candidates": 10,
+    "selection": "Every sealed15N candidate with at least one reviewed definite internal contradiction pair; no selection on predictions."
+  },
+  "original_text_and_labels_changed": false
+}

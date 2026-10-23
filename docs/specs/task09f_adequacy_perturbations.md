@@ -1,12 +1,49 @@
 # Task 09F — Adequacy perturbation additions and conclusion selection
 
-Status: selected conclusion-generation catalog; no examples generated yet.
-The [generation handoff](task09f_conclusion_synthesis_handoff.md) owns the active
-authoring scope and input contract.
-Extends the [original 31-category catalog](task09a_perturbations.json) without
-changing its historical bytes or score expectations. The maintained
-[adequacy rules](adequacy_labeling_rules.md) determine new labels. This document
-is generator/planning material, not judge-prompt content.
+Status: historical Task 09F conclusion-generation catalog. The tables and
+expectations below preserve the original policy and authoring scope; they are
+not a current authorization to generate examples or labels. The
+[generation handoff](task09f_conclusion_synthesis_handoff.md) preserves that
+historical input contract. This catalog extends the
+[original 31-category catalog](task09a_perturbations.json) without changing its
+historical bytes or score expectations. It is generator/planning material, not
+judge-prompt content.
+
+## Task 15 supersession — current C policy
+
+The user-approved Task 15 revision of the maintained
+[adequacy rules, section 3](adequacy_labeling_rules.md#3-conclusion-check-c)
+supersedes conflicting C expectations below for future work. Historical labels,
+examples and results remain unchanged. No replacement synthetic suite is
+published or authorized by this note.
+
+- **A02 is no longer an automatic failure.** An extra substantive item, even one
+  absent from the reference, fails C only when it changes or contradicts required
+  meaning or violates an explicit category, count or exclusive boundary established
+  by the inputs. Compatible additions are not failures solely for being extra.
+  Review actual meaning; do not mechanically flip historical A02 labels.
+- **A03 is not the sole permitted addition.** Compatible additional answer facts
+  can also be acceptable. Reference absence does not establish falsehood or certify
+  source support; S/G responsibilities remain unchanged.
+- **A01/O02/F07 remain material-omission checks.** Identify the requested meaning
+  lost rather than requiring every reference detail. A concrete mechanism may
+  convey an abstract purpose without repeating its wording.
+- **F08 includes explanatory insufficiency.** A why/how conclusion must express
+  the substantive reason, finding, mechanism or calculation and its connection to
+  the outcome. Merely reporting that analysis or information warrants the outcome
+  is insufficient. Supporting points cannot supply missing conclusion meaning.
+- **F10 requires actual incompatibility.** Additional concurrent requirements or
+  claims about different scenarios or times are not inherently contradictory.
+  Classify missing required content as an omission unless an incompatible meaning
+  is also asserted.
+- **A09 still concerns replacement of required meaning.** It does not prohibit
+  compatible additions or equivalent meaning conveyed through different wording.
+
+Future authoring requires its own activated scope and reviewed expectations under
+that policy. The old selected table and boundaries below describe Task 09F only;
+reserved challenges remain unopened.
+
+## Historical Task 09F catalog
 
 ## Added adequacy distinctions
 

@@ -1,0 +1,25 @@
+{
+  "schema_version": "task15m.reference_result.v1",
+  "status": "complete",
+  "artifact_root_relative": "benchmarks/er_bench/releases/task15m_structured_20261022_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "87da0a6a2a2c9038762bb063b83e3f6e8e280fe99e2d2b398f88c6091abbf377",
+    "byte_size": 9686
+  },
+  "counts": {
+    "cases": 49,
+    "required": 128,
+    "optional": 193,
+    "development": 19,
+    "test": 30
+  },
+  "question_changes": [
+    "C040"
+  ],
+  "supporting_changes": [
+    "C054"
+  ],
+  "legacy_defaults_changed": false,
+  "next": "Conclusion-only development synthetic qualification."
+}

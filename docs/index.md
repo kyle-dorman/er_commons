@@ -4,30 +4,37 @@ Start with `AGENTS.md`, then use this page to choose the smallest useful context
 
 ## Current status
 
-**[Task 14 — Selective review](../tasks/sprint2/14_selective_failure_review.md)
-is complete**, including the user-confirmed eight-answer synthesis and quality
-pass. The [result pointer](specs/task14_result.json) selects final records and
-preserves unresolved judgments. [Task 15 — Conclusion-judge revision](../tasks/sprint2/15_revise_conclusion_judge.md)
-is next, planned but not executing; no remote run is active.
+**Task15 is closed.** The conclusion-reference review cycle and code-quality pass are complete. [Task15AC](../tasks/sprint2/15ac_publish_materiality_references.md)
+publishes the [current approved references](specs/task15ac_reference_result.json):
+all49 questions,125 required points,211 optional points, supporting points,
+citations and source evidence. It includes22 label revisions and C034's approved
+question change; the19/30 split and prior releases remain preserved.
 
-The benchmark contains **49 questions: 19 development and 30 test**. The
-[sealed test result pointer](specs/task13_result.json) selects all 180 Luna/Haiku
-evaluations and the final gallery. Development results and synthetic judge
-diagnostics remain separate. MiniMax is excluded from presented results.
+[Task15AB](../tasks/sprint2/15ab_rejudge_approved_materiality_labels.md) records the
+[latest saved-answer comparison](specs/task15ab_materiality_rejudge_result.json).
+It is an experiment using revised labels, not a fresh full evaluation. The last
+complete fresh baseline remains [Task15T](specs/task15t_retry_result.json);
+[Task15W](specs/task15w_haiku_16k_retry_result.json) is the separate high-reasoning
+experiment. None of these scores applies to the newly worded C034 question.
+
+Luna/v6 remains the accepted C judge; [its contract](specs/task15p_structured_conclusion_judge_v6.json)
+and the [generation prompt](specs/task15r_generation_prompt_v1.json) are unchanged.
+All49 references have curation exposure; do not claim pristine held-out results.
+MiniMax is excluded and reserved challenges remain unopened.
 
 ## Next work
 
-Start with the [Task 15 plan](../tasks/sprint2/15_revise_conclusion_judge.md) and
-the accepted [Task 14 findings](specs/task14_result.json). Activate its first
-bounded stage before implementation:
-revise C rules/prompt, regenerate synthetic tests, develop on six then nineteen
-questions, freeze, reevaluate thirty, and review conclusion issues.
+Three planned follow-ups, each requiring activation:
 
-[Task 16 — Methods/results](../tasks/sprint2/16_write_methods_and_results.md)
-follows acceptance of Task 15 and requires separate activation.
+1. [15Y — Required-support coverage judge](../tasks/sprint2/15y_required_support_coverage_judge.md).
+2. [15Z — Required/context citation review](../tasks/sprint2/15z_required_context_citation_review.md).
+3. [15AD — Final end-to-end run and closeout](../tasks/sprint2/15ad_final_end_to_end_run.md).
 
-See [TODO](todo.md) for the actionable queue and
-[Sprint 2](sprints/sprint2_brisbane_draft_eir_defense.md) for scope.
+No further calls are running. These are open follow-ups to the closed Task15;
+[Task16 methods/results](../tasks/sprint2/16_write_methods_and_results.md) remains
+separate. [TODO](todo.md) owns the queue; [Task15](../tasks/sprint2/15_revise_conclusion_judge.md)
+retains experiment history and boundaries. Use15AC as the starting reference
+version for follow-ups; explicitly pin any later15Z successor.
 
 ## Read for review and reporting
 
