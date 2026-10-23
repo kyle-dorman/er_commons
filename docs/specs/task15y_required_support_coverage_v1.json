@@ -1,0 +1,95 @@
+{
+  "schema_version": "task15y.coverage_contract.v1",
+  "status": "approved_for_six_question_pilot",
+  "prompt_version": "task15y.required_support_coverage.v1",
+  "prompt_file": "docs/prompts/task15y_required_support_coverage_v1.txt",
+  "system_prompt_sha256": "3b56cb97c0be899c2681fae17d0f46770d0354b19dbe7e63da65f6f7bcc88675",
+  "input_schema_sha256": "7c4f3283eee17b91b3552ca8e99888c095653c12d4bba47d9418f67b13b8f4b5",
+  "output_schema_sha256": "3d843855d500208fb319b4e20fdffd86adc894c03a7daa0d574a09e4e5793516",
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "question",
+      "required_reference_point",
+      "candidate_supporting_points"
+    ],
+    "properties": {
+      "question": {
+        "type": "string",
+        "minLength": 1
+      },
+      "required_reference_point": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "point_id",
+          "text"
+        ],
+        "properties": {
+          "point_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "candidate_supporting_points": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "point_id",
+            "text"
+          ],
+          "properties": {
+            "point_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "covered",
+      "supporting_point_ids",
+      "reason"
+    ],
+    "properties": {
+      "covered": {
+        "type": "boolean"
+      },
+      "supporting_point_ids": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uniqueItems": true
+      },
+      "reason": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "overview_file": "docs/prompts/task11d14_document_overview.md",
+  "overview_bytes_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "wire_adaptation": "OpenAI schema omits minLength and uniqueItems; unchanged local validators enforce both",
+  "diagnostic_only": true,
+  "false_witness_ids": [],
+  "mixed_conflicts_covered": false
+}

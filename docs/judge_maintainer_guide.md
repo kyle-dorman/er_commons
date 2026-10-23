@@ -1,5 +1,75 @@
 # Production judge guide
 
+## Task15Y diagnostic coverage judge
+
+Task15Y is complete and accepted. Start with the
+[accepted handoff](specs/task15y_judge_handoff_v1.md) and its
+[machine-readable bindings](specs/task15y_judge_handoff_v1.json) for downstream use.
+
+`required_support_coverage` owns the one-required-point input, approved prompt and
+strict binary parser. `required_support_coverage_inspect` shares native provider
+configuration without changing frozen A/G/S/C selection. Its wire schema omits
+provider-unsupported `uniqueItems`; local validation still enforces unique IDs.
+Only successful complete responses can receive a semantic label.
+
+`required_support_coverage_run` executes a frozen, independently reviewed
+six-question pilot or the explicitly pinned all19 suite. It reserves the full round,
+including all allowed attempts,
+binds the execution directory and verifies actual native request bytes. It retains
+the full reserve rather than claiming unknown retry charges are free. Use
+`make prepare-support-coverage-pilot COVERAGE_ROOT=...` offline, then explicitly
+select `COVERAGE_PHASE=checkpoint` or `remainder` with
+`make run-support-coverage-pilot COVERAGE_ROOT=...`. Remainder requires a saved
+checkpoint review; phases are create-only and cannot be automatically replayed.
+The [pilot specification](specs/task15y_pilot_v1.md) owns settings and limits.
+Coverage remains diagnostic, independent of grounding and overall pass policy.
+The [initial checkpoint](specs/task15y_round1_result.json) stopped because Luna
+requires24h caching. The [authorized continuation](specs/task15y_round1_continuation_result.json)
+completedRound1 using24h, with prior sent liabilities and attempt counts carried
+forward. The runner verifies the ancestor's full seal and unchanged semantic inputs;
+its create-only successor claim prevents budget forks. Continuation checkpoint
+retries are reduced to one to respect each previously attempted slot's ceiling.
+Both attempts are sealed; do not replay them.
+
+The [all19 contract](specs/task15y_all19_preparation_v1.md) binds585 reviewed variants,
+42 points, a new$30 cap and84 checkpoint variants. Use the explicit
+`prepare-support-coverage-all19` / `run-support-coverage-all19` Make targets with
+`COVERAGE_ROOT` and, for dispatch, `COVERAGE_PHASE`. The manifest must select
+`execution_mode=all19` and exactly match the sealed prepared inputs. The fixed sibling
+execution root and shared create-only claim prevent additional budget namespaces.
+Remainder requires matching result/status hashes, fewer than two invalid checkpoint
+slots, no fatal stop and an explicit review finding no systematic rule failure.
+One approved round only; review before further calls. All19 remains development
+calibration, with original-six/additional13 reporting kept separate.
+
+### Editing and offline verification
+
+Keep semantic changes in `required_support_coverage` and transport integration in
+`required_support_coverage_inspect`. Within `required_support_coverage_run`:
+
+| Concern | Owner |
+| --- | --- |
+| Exact source/file identities | `sealed_inventory`, `all19_binding`, `continuation_accounting` |
+| Allowed cases, points and checkpoint | `validate_population` |
+| Conservative budget and request-size allowance | `budget_bound`, `input_byte_bound` |
+| Paid claims and checkpoint permission | `authorize_phase` |
+| Actual request/response guards | `WireGate` |
+| Planned-slot records, including failures | `judgment_rows` |
+| Native execution and CLI | `execute`, `main` |
+
+Limits and approved release identities are deliberate constraints, not general run
+configuration. Keep them explicit. Failed/missing native results have no coverage
+label; a failed sample cannot retain an evaluated status from stale score metadata.
+
+Completed runs include their original code snapshots. Current code must reject an
+old manifest when its code hashes differ; do not update historical manifests or
+weaken that check to make them run. Verify behavior offline using saved inputs,
+outputs and native logs. The code-quality audit records equivalence to all19 results;
+it does not authorize new inference. Artifact-specific authoring/report scripts stay
+with their run provenance; they are not additional maintained runtime entrypoints.
+
+## Frozen production components
+
 The maintained judges are four independent native Inspect calls. The selected
 models and exact semantic identities live in
 [`configs/judges_selected_v1.json`](../configs/judges_selected_v1.json); native

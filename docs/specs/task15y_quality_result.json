@@ -1,0 +1,17 @@
+{
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15y_quality_20261023_v1",
+  "completion": {
+    "byte_size": 1437,
+    "path": "completion.json",
+    "sha256": "5c1bdad8d647f30d87e6a4c30b0a4a480f471dd6a21358db56f648a1891d6dfd"
+  },
+  "final_task_approval": false,
+  "independent_review_passed": true,
+  "model_calls": 0,
+  "offline_equivalence_passed": true,
+  "saved_judgments_unchanged": 1755,
+  "schema_version": "task15y.code_quality_result.v1",
+  "status": "code_quality_complete_pending_user_approval",
+  "tests_passed": 4594,
+  "tests_skipped": 1
+}

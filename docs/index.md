@@ -24,17 +24,17 @@ MiniMax is excluded and reserved challenges remain unopened.
 
 ## Next work
 
-Three planned follow-ups, each requiring activation:
+[Task15Y](../tasks/sprint2/15y_required_support_coverage_judge.md) is complete and
+user-accepted after its code-quality pass. The [accepted judge handoff](specs/task15y_judge_handoff_v1.md)
+pins the diagnostic coverage judge, reviewed synthetics, validation and accepted
+material-omission limitations. Frozen results and historical liabilities are preserved.
 
-1. [15Y — Required-support coverage judge](../tasks/sprint2/15y_required_support_coverage_judge.md).
-2. [15Z — Required/context citation review](../tasks/sprint2/15z_required_context_citation_review.md).
-3. [15AD — Final end-to-end run and closeout](../tasks/sprint2/15ad_final_end_to_end_run.md).
+1. [15Z — Required/context citation review](../tasks/sprint2/15z_required_context_citation_review.md): next, not activated.
+2. [15AD — Final end-to-end run and closeout](../tasks/sprint2/15ad_final_end_to_end_run.md): provisional; consumes the15Y handoff after15Z.
 
-No further calls are running. These are open follow-ups to the closed Task15;
 [Task16 methods/results](../tasks/sprint2/16_write_methods_and_results.md) remains
-separate. [TODO](todo.md) owns the queue; [Task15](../tasks/sprint2/15_revise_conclusion_judge.md)
-retains experiment history and boundaries. Use15AC as the starting reference
-version for follow-ups; explicitly pin any later15Z successor.
+separate. [TODO](todo.md) owns the queue. Use15AC as the starting reference version;
+explicitly pin any later15Z successor. No further model calls or push are authorized.
 
 ## Read for review and reporting
 

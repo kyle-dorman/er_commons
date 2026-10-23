@@ -1,0 +1,124 @@
+{
+  "acceptance": "User accepted after code-quality pass and instructed mark15Ycomplete, publishjudgehandoff, commitcode. No push.",
+  "accepted_limitations": [
+    "Material omissions may be accepted; six false positives across four distributed-gap variants.",
+    "Two false-positive verdicts conflict with reasons admitting missing content.",
+    "Exposed partly formulaic development suite; no held-out reliability claim."
+  ],
+  "accepted_on": "2026-10-23",
+  "adds_overall_pass_requirement": false,
+  "code_and_contract_sha256": {
+    "Makefile": "7fa2eaf5fa81e05eb95857fc939852322385e36adc58b88bf962da5ef7b088b5",
+    "configs/judge_models_v1.json": "ce5704511667d53016237423af1d8cdfa0851d1f8836370d5b9c9bb5f6b3747b",
+    "docs/prompts/task11d14_document_overview.md": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+    "docs/prompts/task15y_required_support_coverage_v1.txt": "ecc1d2cb0dd6db0c810c6adcf1605a91a3819018f80bab472146734f738a4916",
+    "docs/specs/task15y_required_support_coverage_v1.json": "570749b217e4b2099139e47cee28b8c3dc3227b6db7a717dada63671fff617d2",
+    "src/er_commons/artifact_io.py": "742def5e35aa9a29f747149a06d77daf44106ddd5ce50c157181e19f6561236f",
+    "src/er_commons/judge_context.py": "f86cdced992fc44c3e3f9b804bcef7f55f9036991301051102ab20d0d30b5299",
+    "src/er_commons/judge_inspect.py": "35037aae5848e788ef8347c6bf81924293efccfa275ef449b8750eeaca993b43",
+    "src/er_commons/required_support_coverage.py": "96067a15fadc33fa3d6ebaa1974b70ebc87031a19663128c7834980fbe2e8ac5",
+    "src/er_commons/required_support_coverage_inspect.py": "7b9ff46cbc33185ae8005ed825d33a7ffa1a49741c47b5f29d28218099509980",
+    "src/er_commons/required_support_coverage_run.py": "b1a852554efe10e35a5c4ff78dce9d5432de205d34ffc60440514aa4ede518c5",
+    "tests/test_required_support_coverage.py": "8abf38417d95a2024edcef1882a7ce406fd04455e65c0caa9f7c89c55d6b36b9",
+    "tests/test_required_support_coverage_inspect.py": "7ae20c889cbf2acc43df18cc2c41547c77de2607de31be4bd8cd2bd52c518b99",
+    "tests/test_required_support_coverage_run.py": "be40bae3e0acec41916399ceb0297dcd47c971df8926e70982e674c85aafe0b7",
+    "uv.lock": "4619b132a8d1381ea0bb8722bdb072a5dbb8b339a1c312a129578c04fda42d74"
+  },
+  "diagnostic_only": true,
+  "downstream": {
+    "future_execution_authorized": false,
+    "integration_owner": "15AD",
+    "next_task": "15Z",
+    "real_answer_projection_and_C_G_joins_completed": false,
+    "requires_explicit_reference_successor": true
+  },
+  "evidence": {
+    "task15ac_reference_result": {
+      "artifact_root_relative": "benchmarks/er_bench/releases/task15ac_approved_20261023_v1",
+      "completion": {
+        "byte_size": 17873,
+        "path": "completion.json",
+        "sha256": "756cf8fadc81787e98773472dcfbf6ab58102f7d5ecc038b68dd088cdc1ebbca"
+      },
+      "pointer": "docs/specs/task15ac_reference_result.json",
+      "pointer_sha256": "ac80d8d23dcc44f3f45c11d883c6333284b5c8d48292b0ed95f8c052b24f6807"
+    },
+    "task15y_all19_preparation_result": {
+      "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15y_all19_20261023_v1",
+      "completion": {
+        "byte_size": 6870,
+        "path": "completion.json",
+        "sha256": "bc1765e7881c4cab97253ec10aa2d4fa2efb0129929e9fc1c764c3635af9fc74"
+      },
+      "pointer": "docs/specs/task15y_all19_preparation_result.json",
+      "pointer_sha256": "062e0501a36cd25dd829ee031c8f8425e95058ae976f68c151fa41d5b5067b4e"
+    },
+    "task15y_all19_round1_result": {
+      "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15y_all19_20261023_v1_round1",
+      "completion": {
+        "byte_size": 309544,
+        "path": "completion.json",
+        "sha256": "ec2d59cd2635cfad27382e78941e21f44a96d94bbdf24c3a3b1d77ee1a98c31d"
+      },
+      "pointer": "docs/specs/task15y_all19_round1_result.json",
+      "pointer_sha256": "7aed5c62545e4c4bd4e5dda777c1abf0c5d0caf4d1546ac1299f10baf18adb21"
+    },
+    "task15y_quality_result": {
+      "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15y_quality_20261023_v1",
+      "completion": {
+        "byte_size": 1437,
+        "path": "completion.json",
+        "sha256": "5c1bdad8d647f30d87e6a4c30b0a4a480f471dd6a21358db56f648a1891d6dfd"
+      },
+      "pointer": "docs/specs/task15y_quality_result.json",
+      "pointer_sha256": "7ff22e4e4357bdabf9217626abc1f249349861fb6b14bbb31b1542ec66cff04e"
+    }
+  },
+  "false_supporting_point_ids": [],
+  "historical_artifacts_modified": false,
+  "input_schema_sha256": "7c4f3283eee17b91b3552ca8e99888c095653c12d4bba47d9418f67b13b8f4b5",
+  "mixed_unresolved_conflicts_covered": false,
+  "model": "gpt-6-luna",
+  "output_schema_sha256": "3d843855d500208fb319b4e20fdffd86adc894c03a7daa0d574a09e4e5793516",
+  "overview_bytes_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5",
+  "prompt_version": "task15y.required_support_coverage.v1",
+  "push_authorized": false,
+  "qualification": {
+    "agreeing_triples": 582,
+    "false_negative": 0,
+    "false_positive": 6,
+    "judgments": 1755,
+    "matching": 1749,
+    "negative_distributed_gap_correct": 105,
+    "negative_distributed_gap_total": 111,
+    "questions": 19,
+    "required_points": 42,
+    "total_triples": 585,
+    "valid": 1755,
+    "variants": 585
+  },
+  "qualification_settings": {
+    "attempt_timeout_seconds": 45,
+    "concurrency": 16,
+    "max_output_tokens": 4096,
+    "native_timeout_seconds": 120,
+    "prompt_cache_retention": "24h",
+    "repetitions": 3,
+    "sample_timeout_seconds": 150,
+    "sdk_retries": 0,
+    "service_tier": "default",
+    "transport_retries": 2
+  },
+  "quality_validation": {
+    "independent_review_passed": true,
+    "saved_judgments_equivalent": 1755,
+    "saved_native_requests_equivalent": 1755,
+    "tests_passed": 4594,
+    "tests_skipped": 1
+  },
+  "reasoning_effort": "medium",
+  "schema_version": "task15y.accepted_judge_handoff.v1",
+  "status": "accepted_task_complete",
+  "system_prompt_sha256": "3b56cb97c0be899c2681fae17d0f46770d0354b19dbe7e63da65f6f7bcc88675",
+  "task": "tasks/sprint2/15y_required_support_coverage_judge.md"
+}

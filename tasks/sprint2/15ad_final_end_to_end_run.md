@@ -12,8 +12,11 @@ agentic search and rebuilding raw extraction are outside scope.
 
 ## Dependencies and inputs
 
-1. Task15Y: accepted binary required-support coverage judge, one call per required
-   point, diagnostic rather than an added overall pass gate.
+1. Task15Y: [accepted judge handoff](../../docs/specs/task15y_judge_handoff_v1.md)
+   and [exact bindings](../../docs/specs/task15y_judge_handoff_v1.json), one call per
+   required point, diagnostic rather than an added overall pass gate. Carry its
+   accepted omission limitations. Real-answer projection, execution and C/G report
+   joins are15AD implementation work;15Y did not execute those diagnostics.
 2. Task15Z: user-adjudicated citation review and a sealed publication of accepted
    changes. If no changes are approved, explicitly retain the15AC release.
 3. Current reference starting point: docs/specs/task15ac_reference_result.json.

@@ -1,0 +1,24 @@
+{
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15y_all19_20261023_v1",
+  "budget_approved": false,
+  "carried_variants": 149,
+  "cases": 19,
+  "completion": {
+    "byte_size": 6870,
+    "path": "completion.json",
+    "sha256": "bc1765e7881c4cab97253ec10aa2d4fa2efb0129929e9fc1c764c3635af9fc74"
+  },
+  "judge_changed": false,
+  "model_calls": 0,
+  "negative": 323,
+  "new_variants": 436,
+  "planned_judgments": 1755,
+  "positive": 262,
+  "proposal": "docs/specs/task15y_all19_preparation_v1.md",
+  "proposed_cap_usd": "30.00",
+  "required_points": 42,
+  "reservation_usd": "24.97518",
+  "schema_version": "task15y.all19_preparation_result.v1",
+  "status": "reviewed_inputs_pending_budget_approval",
+  "variants": 585
+}

@@ -420,3 +420,15 @@ generate-luna-smoke: check-env
 evaluate-development-smoke: check-env
 	@test -n "$(EVALUATION_OUTPUT)" || (echo "Set EVALUATION_OUTPUT to a fresh external run directory"; exit 1)
 	uv run --env-file "$(ENV_FILE)" python -m er_commons.development_evaluation_run --output "$(EVALUATION_OUTPUT)" $(EVALUATION_OPTIONS)
+
+# Task15Y guarded phases; prepare validates inputs offline, run dispatches one phase.
+.PHONY: prepare-support-coverage-pilot prepare-support-coverage-all19
+.PHONY: run-support-coverage-pilot run-support-coverage-all19
+prepare-support-coverage-pilot prepare-support-coverage-all19: check-env
+	@test -n "$(COVERAGE_ROOT)" || (echo "Set COVERAGE_ROOT to the frozen external coverage run directory"; exit 1)
+	uv run python -m er_commons.required_support_coverage_run --root "$(COVERAGE_ROOT)" --phase prepare
+
+run-support-coverage-pilot run-support-coverage-all19: check-env
+	@test -n "$(COVERAGE_ROOT)" || (echo "Set COVERAGE_ROOT to the frozen external coverage run directory"; exit 1)
+	@test "$(COVERAGE_PHASE)" = checkpoint -o "$(COVERAGE_PHASE)" = remainder || (echo "Set COVERAGE_PHASE=checkpoint or remainder"; exit 1)
+	uv run --env-file "$(ENV_FILE)" python -m er_commons.required_support_coverage_run --root "$(COVERAGE_ROOT)" --phase "$(COVERAGE_PHASE)"

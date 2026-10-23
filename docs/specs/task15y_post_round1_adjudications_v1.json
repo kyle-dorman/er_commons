@@ -1,0 +1,30 @@
+{
+  "schema_version": "task15y.post_round1_adjudications.v1",
+  "status": "user_approved_for_future_suite",
+  "source_result": "docs/specs/task15y_round1_continuation_result.json",
+  "source_completion_sha256": "7ab21c262f982bd91b47a9f4506b7de15e18c755f428653799802c4728c4ff75",
+  "decisions": [
+    {
+      "variant_id": "C017_R1__distributed_gap",
+      "action": "change_future_expected_label",
+      "expected_covered": true,
+      "reason": "User accepts the stated subtraction as covering the required meaning despite not naming net grid demand."
+    },
+    {
+      "variant_id": "C041_R2__distributed_gap",
+      "action": "retain_expected_label",
+      "expected_covered": false,
+      "reason": "User retains false: generic enforcement does not supply the deed-restriction detail."
+    },
+    {
+      "variant_id": "C041_R2__distinguished_scenarios",
+      "action": "exclude_from_future_suite",
+      "reason": "User rejects the unnamed different-development example as confusing and requests removal."
+    }
+  ],
+  "scope": "Only these exact variants; no blanket exclusion of the distinguished-scenarios family. Apply this overlay before freezing any successor suite.",
+  "frozen_round1_modified": false,
+  "historical_scores_changed": false,
+  "round2_authorized": false,
+  "replacement_authored": false
+}
