@@ -17,8 +17,11 @@ agentic search and rebuilding raw extraction are outside scope.
    required point, diagnostic rather than an added overall pass gate. Carry its
    accepted omission limitations. Real-answer projection, execution and C/G report
    joins are15AD implementation work;15Y did not execute those diagnostics.
-2. Task15Z: user-adjudicated citation review and a sealed publication of accepted
-   changes. If no changes are approved, explicitly retain the15AC release.
+2. Task15Z: [user-accepted](../../docs/specs/task15z_acceptance.json)
+   [retrieval evidence sidecar](../../docs/specs/task15z_retrieval_mapping_result.json)
+   and independent review. Required/optional meaning and approved citation bundles
+   remain unchanged; explicitly retain15AC. The curator-only sidecar supports future
+   retrieval development and does not add a metric or target input to this evidence-only run.
 3. Current reference starting point: docs/specs/task15ac_reference_result.json.
    Resolve any15Z successor explicitly and pin its completion hash; do not select
    a directory simply because it is newest.

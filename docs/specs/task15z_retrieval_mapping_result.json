@@ -1,0 +1,61 @@
+{
+  "schema_version": "task15z.retrieval_mapping_result.v1",
+  "status": "published_independently_reviewed",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15z_retrieval_mapping_20261023_v1",
+  "completion": {
+    "path": "completion.json",
+    "byte_size": 11151,
+    "sha256": "3779fb52442fe1893cd7001a0685f0b6480a0764898e363b68c894ce9d07c78d"
+  },
+  "mapping": {
+    "path": "mapping.json",
+    "sha256": "a59c0a46a62a864d38d70f23377858c8724e43fad93c3a852d7bc1eeb3323d9c"
+  },
+  "contract": "docs/specs/task15z_retrieval_mapping_v1.md",
+  "source_reference_pointer": "docs/specs/task15ac_reference_result.json",
+  "source_audit_pointer": "docs/specs/task15z_citation_audit_result.json",
+  "counts": {
+    "cases": 49,
+    "required_points": 125,
+    "optional_points": 211,
+    "citation_occurrences": 236,
+    "required_sufficient_sets": 207,
+    "required_points_with_alternatives": 49,
+    "required_joint_sets": 28,
+    "optional_sufficient_sets": 297,
+    "optional_points_with_alternatives": 58,
+    "optional_joint_sets": 18,
+    "retrieval_roles": {
+      "optional_context": 68,
+      "direct_required": 36,
+      "mixed": 132
+    }
+  },
+  "independent_review": {
+    "cases": 49,
+    "required_points": 125,
+    "optional_points": 211,
+    "mapping_refinements": 4,
+    "unresolved": 0,
+    "code_review": "passed"
+  },
+  "audit_role_refinements": [
+    {
+      "case_id": "C054",
+      "citation_id": "C054-S006",
+      "from": "optional_context",
+      "to": "mixed",
+      "reason": "Alternative5 feasibility passage supplies land-use mix jointly for R2, besides optional detail."
+    }
+  ],
+  "curator_only": true,
+  "reference_meaning_changed": false,
+  "frozen_releases_changed": false,
+  "runtime_retrieval_evaluation_activated": false,
+  "provider_calls": 0,
+  "reserved_challenges_opened": false,
+  "minimax_included": false,
+  "review": "review.md",
+  "readable_mapping": "mapping_review.md",
+  "commit_or_push_authorized": false
+}

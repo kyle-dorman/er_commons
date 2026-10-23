@@ -1,6 +1,13 @@
 # Task15Z — Review citations for required conclusion content versus context
 
-Status: provisional; task specification only. User has not activated cleanup.
+Status: Complete and user-accepted on 2026-10-23.
+The [acceptance record](../../docs/specs/task15z_acceptance.json) binds the approved
+audit, retrieval mapping and contract after independent semantic/code review.
+The [publication pointer](../../docs/specs/task15z_retrieval_mapping_result.json)
+selects the curator-only sidecar: required evidence, optional/context, verified
+alternative routes and jointly sufficient sets. Task15AC remains unchanged.
+The prior citation audit is preserved. The user authorized a local closeout commit;
+no push or further run is authorized.
 
 ## Abstract and goal
 
@@ -77,7 +84,82 @@ record the rationale before adopting a new schema.
 
 ## Non-goals
 
-No cleanup execution, label edits, synthetic generation, model calls or downstream
-rescoring in the task-writing turn. No assumption that most citations must become
+No label edits, replacement of Task15AC, synthetic generation, paid model calls or
+downstream rescoring. The retrieval-facing sidecar publication is authorized. No assumption that most citations must become
 context. No target evidence removal, source research expansion, MiniMax, reserved
-challenges, commits or pushes. Task16 requires separate activation.
+challenges or pushes. The local closeout commit is authorized. Task16 requires
+separate activation.
+
+
+## Initial citation-audit outcome
+
+The evidence-first audit and independent cross-review covered all 49 cases,
+125 required points, 211 optional points and 236 citation occurrences. No new
+ambiguities or proposed required/optional meaning changes require adjudication;
+no reference citation corrections are necessary. Retain Task15AC without a new
+successor release. Acceptance was recorded at final closeout below.
+
+The [result pointer](../../docs/specs/task15z_citation_audit_result.json) selects a
+sealed external review with per-citation classifications, all-case independent
+review, exact source provenance and a concise review summary. The reconciled
+classifications are 36 direct-required, 131 mixed and 69 optional-detail/context.
+Two internal audit mappings were refined during independent review; neither
+requires changing the existing reference citation lists. Existing source
+inconsistencies remain disclosed rather than silently repaired.
+
+Learning: citation role is relative to a particular claim, not an entire document.
+A passage can jointly support required meaning and optional detail; optional
+support is not automatically runtime context-only metadata. Existing IDs and
+exact anchors suffice; no new runtime schema or dependency is needed. The external
+methods note records the W3C Web Annotation Data Model's segment/selector guidance
+(https://www.w3.org/TR/annotation-model/) and how it informs provenance checks.
+
+Validation verified all 132 frozen release files, all 481 exact anchors (including
+the approved research supplement), all case/citation/point identities and
+independent review coverage of all 49 cases. Documentation passes `git diff --check`.
+Frozen releases/results, synthetics, judges and scores remain unchanged. No paid
+calls, reserved challenges, MiniMax, commit or push. After acceptance, separately
+activate Task15AD and agree its settings/budget; this audit grants no execution
+allowance.
+
+
+## Retrieval mapping publication outcome
+
+The user clarified that15Z should publish retrieval relationships now, ahead of
+search-agent implementation, and explicitly authorized this sidecar plus independent
+review. The [contract](../../docs/specs/task15z_retrieval_mapping_v1.md) defines OR
+between sufficient sets and AND within each set. All required points need evidence;
+optional/context evidence never becomes an added completeness requirement.
+
+Published all49 cases,125 required and211 optional points, and236 citation
+occurrences. There are207 required sufficient sets, including28 joint sets;
+49 required points have alternatives. Optional points have297 sets,18 joint sets
+and58 points with alternatives. Citation roles are36 direct-required,132 mixed
+and68 optional/context. C054-S006 is newly recognized as mixed because its
+Alternative5 feasibility paragraph also supports R2's land-use mix jointly.
+No required/optional point meaning changed and no prior required citation was
+demoted. The previous audit's69-context count remains preserved in its own seal.
+
+Independent cross-review covered every case and all336 points. Four evidence-route
+refinements removed unsupported alternatives, avoided unnecessary joint requirements
+and preserved genuinely complementary support. No unresolved decisions remain.
+Independent code review and six malformed-input controls checked the bounded
+publication builder. Exact source/input hashes, point text, citation catalogs,
+review hashes and the70-file completion inventory were verified.
+
+The sidecar is curator-only and must not enter evaluated search-agent inputs.
+Unlisted evidence remains unjudged; a document hit does not prove passage coverage.
+The known evidence routes are not an exhaustive corpus relevance judgment. No
+retrieval implementation, metric, paid call, synthetic/judge change or rescoring
+was performed. Task15AD remains separately activated/budgeted; its evidence-only
+baseline does not acquire a retrieval requirement from this publication.
+
+
+## Final acceptance
+
+The user approved the completed task and instructed closing and committing it.
+Task15Z is complete: the audit, retrieval-facing sidecar, independent reviews and
+validation are accepted. The acceptance record supersedes historical pending or
+no-commit metadata without rewriting sealed artifacts or their result pointers.
+Closeout verifies artifact hashes and documentation diffs. Task15AD is next and
+remains separately activated and budgeted. No push is authorized.

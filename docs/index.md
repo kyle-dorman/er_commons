@@ -29,12 +29,16 @@ user-accepted after its code-quality pass. The [accepted judge handoff](specs/ta
 pins the diagnostic coverage judge, reviewed synthetics, validation and accepted
 material-omission limitations. Frozen results and historical liabilities are preserved.
 
-1. [15Z — Required/context citation review](../tasks/sprint2/15z_required_context_citation_review.md): next, not activated.
-2. [15AD — Final end-to-end run and closeout](../tasks/sprint2/15ad_final_end_to_end_run.md): provisional; consumes the15Y handoff after15Z.
+[Task15Z](../tasks/sprint2/15z_required_context_citation_review.md) is complete and
+[user-accepted](specs/task15z_acceptance.json). Its [retrieval evidence mapping](specs/task15z_retrieval_mapping_result.json)
+preserves required/optional evidence, alternatives and joint sets alongside unchanged15AC.
+
+Next: [15AD — Final end-to-end run and closeout](../tasks/sprint2/15ad_final_end_to_end_run.md),
+not activated; consumes the accepted15Y/15Z handoffs.
 
 [Task16 methods/results](../tasks/sprint2/16_write_methods_and_results.md) remains
 separate. [TODO](todo.md) owns the queue. Use15AC as the starting reference version;
-explicitly pin any later15Z successor. No further model calls or push are authorized.
+retain the accepted15Z sidecar separately from answer references. No further model calls or push are authorized.
 
 ## Read for review and reporting
 

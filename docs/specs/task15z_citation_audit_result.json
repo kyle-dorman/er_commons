@@ -1,0 +1,38 @@
+{
+  "schema_version": "task15z.citation_audit_result.v1",
+  "status": "audit_complete_pending_user_acceptance",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15z_citation_audit_20261023_v1",
+  "completion": {
+    "path": "completion.json",
+    "byte_size": 3595,
+    "sha256": "9e99f0239dfaf0be6bfafe8101a12c2cf30c918233d133f5cc5d3894d9af7aca"
+  },
+  "source_reference_pointer": "docs/specs/task15ac_reference_result.json",
+  "recommendation": "Retain Task15AC; no reference successor needed from this audit.",
+  "summary": {
+    "status": "passed",
+    "cases": 49,
+    "required_points": 125,
+    "optional_points": 211,
+    "citation_occurrences": 236,
+    "existing_exact_anchors": 481,
+    "frozen_release_files_verified": 132,
+    "independent_reviewed_cases": 49,
+    "review_mapping_refinements": 2,
+    "reference_corrections": 0,
+    "new_ambiguities": 0,
+    "meaning_changes": 0,
+    "classification_counts": {
+      "optional_context": 69,
+      "direct_required": 36,
+      "mixed": 131
+    },
+    "reference_releases_modified": false
+  },
+  "review": "review.md",
+  "references_modified": false,
+  "provider_calls": 0,
+  "reserved_challenges_opened": false,
+  "minimax_included": false,
+  "next": "User acceptance, then separately activate and budget Task15AD. No commit or push authorized."
+}

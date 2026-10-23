@@ -357,3 +357,15 @@ only IDs/questions. Curator-only judge projections provide sequential wire IDs
 with reversible canonical mappings. Four explicit provenance-only anchor repairs
 are recorded separately from approved text. Earlier releases and scores remain
 immutable; follow-up consumers must explicitly pin15AC or an accepted successor.
+
+
+## Task15Z retrieval evidence sidecar
+
+The [Task15Z mapping pointer](specs/task15z_retrieval_mapping_result.json) designates
+an independently reviewed curator-only sidecar to15AC, preserving exact point text
+and source identities. Per-point alternative sufficient sets retain jointly needed
+citations; optional/context evidence is separate from required completeness.
+The mapping and source hashes, detailed reviews and readable routes are sealed
+externally. The earlier citation audit and all reference releases remain immutable.
+See the [mapping contract](specs/task15z_retrieval_mapping_v1.md) for consumption
+rules; this is neither search-agent input nor an activated retrieval metric.

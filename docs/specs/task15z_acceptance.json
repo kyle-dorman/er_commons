@@ -1,0 +1,17 @@
+{
+  "schema_version": "task15z.acceptance.v1",
+  "status": "complete_user_accepted",
+  "accepted_on": "2026-10-23",
+  "task": "tasks/sprint2/15z_required_context_citation_review.md",
+  "accepted_artifacts": {
+    "docs/specs/task15z_citation_audit_result.json": "1f084ce2c06283ecec17ef5be55e22af7a9ea60bc197dddff43da178f323f1ae",
+    "docs/specs/task15z_retrieval_mapping_result.json": "c4874fc8183ebb738ed2b40d926257451cb5b8aa0bdcbf787bd49a2ca150714b",
+    "docs/specs/task15z_retrieval_mapping_v1.md": "db9a7ca3130c1291212a8bc5a821080f0bfd99de24c17af2768c464c28a42bd7"
+  },
+  "reference_policy": "Retain Task15AC unchanged; retrieval mapping is a curator-only sidecar.",
+  "supersedes_historical_pending_acceptance": true,
+  "local_commit_authorized": true,
+  "push_authorized": false,
+  "further_model_calls_authorized": false,
+  "next_task": "15AD, separately activated and budgeted"
+}
