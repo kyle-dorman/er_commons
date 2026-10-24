@@ -12,8 +12,8 @@ question change; the19/30 split and prior releases remain preserved.
 
 [Task15AB](../tasks/sprint2/15ab_rejudge_approved_materiality_labels.md) records the
 [latest saved-answer comparison](specs/task15ab_materiality_rejudge_result.json).
-It is an experiment using revised labels, not a fresh full evaluation. The last
-complete fresh baseline remains [Task15T](specs/task15t_retry_result.json);
+It is an experiment using revised labels, not a fresh full evaluation. The historical
+fresh baseline is [Task15T](specs/task15t_retry_result.json);
 [Task15W](specs/task15w_haiku_16k_retry_result.json) is the separate high-reasoning
 experiment. None of these scores applies to the newly worded C034 question.
 
@@ -26,19 +26,30 @@ MiniMax is excluded and reserved challenges remain unopened.
 
 [Task15Y](../tasks/sprint2/15y_required_support_coverage_judge.md) is complete and
 user-accepted after its code-quality pass. The [accepted judge handoff](specs/task15y_judge_handoff_v1.md)
-pins the diagnostic coverage judge, reviewed synthetics, validation and accepted
-material-omission limitations. Frozen results and historical liabilities are preserved.
+pins **RC — Required-point Coverage**, reviewed synthetics, validation and accepted
+material-omission limitations. The [standing RC contract](specs/required_point_coverage_judge_v1.md)
+requires it in future full runs, independently of overall pass/fail.
+[RC/C comparisons](specs/task15ad_rc_comparison_result.json) pair each required point
+on the same answer. Frozen results and historical liabilities are preserved.
 
 [Task15Z](../tasks/sprint2/15z_required_context_citation_review.md) is complete and
 [user-accepted](specs/task15z_acceptance.json). Its [retrieval evidence mapping](specs/task15z_retrieval_mapping_result.json)
 preserves required/optional evidence, alternatives and joint sets alongside unchanged15AC.
 
-Next: [15AD — Final end-to-end run and closeout](../tasks/sprint2/15ad_final_end_to_end_run.md),
-not activated; consumes the accepted15Y/15Z handoffs.
+Completed and [user-accepted](specs/task15ad_acceptance.json):
+[15AD — Final end-to-end run and closeout](../tasks/sprint2/15ad_final_end_to_end_run.md).
+S v9 is [user-accepted with the C028 completeness limitation](specs/task15ad_s_v9_acceptance.json).
+The [completed real run](specs/task15ad_real_run_result.json) contains294 fresh answers
+and3331 grading judgments across49 questions. Estimated charges:$1.776348480 under
+its$40 cap, with no unresolved liabilities. Independent execution/report replay
+and all179 failures plus12 pass controls are reviewed; recorded scores are unchanged.
+The [C/RC prompt experiment is abandoned](specs/task15ad_c_rc_experiment_disposition.md).
+Retain accepted C v6, RC v1 and S v9. Cleanup and independent review are complete.
+No further model calls or push are authorized.
 
 [Task16 methods/results](../tasks/sprint2/16_write_methods_and_results.md) remains
 separate. [TODO](todo.md) owns the queue. Use15AC as the starting reference version;
-retain the accepted15Z sidecar separately from answer references. No further model calls or push are authorized.
+retain the accepted15Z sidecar separately from answer references. Task16 and push remain unauthorized.
 
 ## Read for review and reporting
 

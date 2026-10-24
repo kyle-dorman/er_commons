@@ -1,0 +1,18 @@
+{
+  "status": "complete_offline_audit_not_qualification",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_compatibility_plan_20261023_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "f8cc9543253656fbc1524a326f30c6477edc9abd77a659a6973c8188becb2baa",
+    "byte_size": 1835
+  },
+  "counts": {
+    "total": 382,
+    "unchanged": 242,
+    "affected": 140,
+    "retained_affected": 123,
+    "changed_expectations": 9,
+    "quarantined_ambiguous": 8
+  },
+  "current_plan": "docs/specs/task15ad_judge_preflight_plan_v1.md"
+}

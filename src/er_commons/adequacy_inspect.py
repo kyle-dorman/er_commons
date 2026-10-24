@@ -17,7 +17,7 @@ from inspect_ai.scorer import Score, Scorer, Target, mean, scorer
 from inspect_ai.solver import TaskState, generate
 
 from er_commons import adequacy_binary as core
-from er_commons import conclusion_structured
+from er_commons import conclusion_structured, support_claims, support_conclusion, support_material
 from er_commons import judge_inspect as shared
 
 REPO = Path(__file__).resolve().parents[2]
@@ -29,11 +29,15 @@ PROVIDERS = shared.PROVIDERS
 
 
 def _prompt_version(component: core.Component, prompt_version: str | None) -> str:
-    """Allow the frozen component or the explicitly selected Task 15 C candidate."""
+    """Allow frozen components and explicitly selected adequacy candidates."""
     if component not in VERSIONS:
         raise ValueError("Unknown component")
     version = VERSIONS[component] if prompt_version is None else prompt_version
     allowed = {VERSIONS[component]}
+    if component == "S":
+        allowed.update(
+            {support_claims.VERSION, support_conclusion.VERSION, support_material.VERSION}
+        )
     if component == "C":
         allowed.update(
             {

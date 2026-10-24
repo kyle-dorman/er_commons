@@ -15,7 +15,13 @@ from inspect_ai.util._json import (
     set_additional_properties_false,
 )
 
-from er_commons import adequacy_binary, adequacy_inspect, judge_inspect
+from er_commons import (
+    adequacy_binary,
+    adequacy_inspect,
+    judge_inspect,
+    support_conclusion,
+    support_material,
+)
 from er_commons.alternative_target_generation import canonical_delivery
 from er_commons.artifact_io import (
     artifact_inventory,
@@ -25,6 +31,7 @@ from er_commons.artifact_io import (
 )
 from er_commons.development_evaluation_provider import ReceiptHooks as FrozenHooks
 from er_commons.development_evaluation_provider import component_settings
+from er_commons.judge_context import baylands_overview, compose_project_context
 from er_commons.target_generation import output_schema, save, validate_answer
 
 # These are the registered comparison condition, not tunable per-request defaults.
@@ -108,7 +115,22 @@ def _execution_config(
         raise ValueError("High reasoning is registered only for target generation")
     if type(max_connections) is not int or max_connections not in (1, 16):
         raise ValueError("Unregistered native connection limit")
-    if prompt_version is not None:
+    if component == "S" and prompt_version in {
+        support_conclusion.VERSION,
+        support_material.VERSION,
+    }:
+        if (
+            condition != "anthropic_generation"
+            or max_output_tokens != 4096
+            or prompt
+            != compose_project_context(
+                adequacy_binary.system_prompt("S", prompt_version=prompt_version),
+                baylands_overview(),
+            )
+        ):
+            raise ValueError("Unregistered versioned support condition")
+        config = adequacy_inspect.generation_config(condition, "S", prompt_version=prompt_version)
+    elif prompt_version is not None:
         if (
             component != "C"
             or condition != "openai_generation"
@@ -179,6 +201,11 @@ async def execute(
     config = _execution_config(
         condition, component, prompt, max_output_tokens, prompt_version=prompt_version
     )
+    if component == "S" and prompt_version in {
+        support_conclusion.VERSION,
+        support_material.VERSION,
+    }:
+        adequacy_binary.validate_input("S", payload, prompt_version=prompt_version)
     selected = judge_inspect.profile(condition)
     limits = {"max_input_tokens": MAX_INPUT_TOKENS, "max_output_tokens": max_output_tokens}
     expected_schema = _expected_schema(config, selected.provider)

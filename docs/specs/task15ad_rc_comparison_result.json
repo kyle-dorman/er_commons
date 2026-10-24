@@ -1,0 +1,33 @@
+{
+  "schema_version": "rc.c_comparison.result.v1",
+  "component": "RC",
+  "display_name": "Required-point Coverage",
+  "prompt_version": "task15y.required_support_coverage.v1",
+  "status": "complete_offline",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_rc_comparison_20261023_v1",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_15/15ad_rc_comparison_20261023_v1/completion.json",
+    "sha256": "9fa3156f92dec12ac6e82af57e41920624e911937040e80ad8ebd1c0414417f0"
+  },
+  "report": "pipelines/brisbane_baylands/task_15/15ad_rc_comparison_20261023_v1/report.md",
+  "data": "pipelines/brisbane_baylands/task_15/15ad_rc_comparison_20261023_v1/comparison.json",
+  "differences": "pipelines/brisbane_baylands/task_15/15ad_rc_comparison_20261023_v1/differences.json",
+  "source_run": "docs/specs/task15ad_real_run_result.json",
+  "required_point_judgments": 750,
+  "covered": 632,
+  "layer_differences": 116,
+  "covered_c_missing": 74,
+  "not_covered_c_satisfied": 39,
+  "covered_c_contradicted": 3,
+  "unavailable": 0,
+  "model_calls": 0,
+  "adds_overall_pass_requirement": false,
+  "future_run_contract": "docs/specs/required_point_coverage_judge_v1.md",
+  "current_run_helper": "src/er_commons/current_judges.py",
+  "validation": {
+    "tests_passed": 4625,
+    "tests_skipped": 1,
+    "independent_review": "passed",
+    "unchanged_decision_reports_replayed": 294
+  }
+}

@@ -1,6 +1,12 @@
 # Production judge guide
 
-## Task15Y diagnostic coverage judge
+## RC — Required-point Coverage
+
+RC is required in every future full benchmark evaluation, outside the A/G/S/C
+decision chain. The [standing RC contract](specs/required_point_coverage_judge_v1.md)
+owns naming, inclusion and per-required-point comparisons with C. Use
+`current_judges` to prepare both plans and report decision and diagnostic
+completion separately. Historical runners/configuration remain frozen.
 
 Task15Y is complete and accepted. Start with the
 [accepted handoff](specs/task15y_judge_handoff_v1.md) and its
@@ -87,6 +93,20 @@ cost registration, sample identity checks and selection verification. The compon
 cores own input validation, exact prompts and strict parsing; component adapters
 own scoring. Dataset loaders verify frozen development artifacts and keep labels
 and provenance outside model messages. Task 11C owns initial whole-answer routing and joins; Task 12 audits and finalizes aggregate reporting.
+
+## Current S input boundary (Task15AD)
+
+Task15AD's [S supporting-material contract](specs/task15ad_s_support_material_v9.md)
+selects an explicit versioned successor: question context, original conclusion,
+supporting points and qualification text. Only the conclusion is the judgment
+target; points and qualifications jointly supply its basis. Do not merge the
+fields or grade qualifications as extra conclusion claims. Optional context stays
+excluded. G and generation fields remain unchanged. Historical v6/v7/v8 inputs
+and production defaults stay reproducible; new Task15AD execution must explicitly
+select v9 after independent review and a version-bound execution/budget gate.
+The user [accepted v9](specs/task15ad_s_v9_acceptance.json) after681/684 all19
+synthetic judgments matched. Retain the C028 completeness-leakage limitation and
+its true expectation. Real-run calls require the separate15AD budget approval.
 
 ## Current structured C candidate (Task15P)
 

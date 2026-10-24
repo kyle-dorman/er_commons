@@ -1,0 +1,60 @@
+{
+  "status": "round_complete_stopped_for_user_review",
+  "artifact_root": "pipelines/brisbane_baylands/task_15/15ad_c_rc_real_disagreement_run_20261023_v1",
+  "completion_sha256": "9184f7c8efeaab4799492f436f49f0046fb2b3cd77e9740b66d3adc767c11bf1",
+  "preparation_result": "docs/specs/task15ad_c_rc_real_disagreement_preparation_result.json",
+  "calls": 1218,
+  "execution_errors": 0,
+  "retries": 0,
+  "actual_estimated_usd": "0.554979370",
+  "pending_or_unknown_usd": "0",
+  "cap_usd": "6.00",
+  "selected_points": 116,
+  "real_answers": 87,
+  "questions": 32,
+  "versions": 2,
+  "repeats": 3,
+  "C_selected_unanimous": {
+    "accepted": 92,
+    "candidate": 94,
+    "denominator": 116
+  },
+  "RC_unanimous": {
+    "accepted": 98,
+    "candidate": 87,
+    "denominator": 116
+  },
+  "C_overall_unanimous": {
+    "accepted": 68,
+    "candidate": 75,
+    "denominator": 87
+  },
+  "majority_C_RC_disagreements": {
+    "accepted": 101,
+    "candidate": 96,
+    "denominator": 116
+  },
+  "majority_changes": {
+    "selected_C": 10,
+    "selected_RC": 10,
+    "C_overall": 12
+  },
+  "C_aggregate_inconsistencies": 0,
+  "C_literal_quote_flags": {
+    "quotes_flagged": 99,
+    "quotes_checked": 4184,
+    "accepted_flags": 50,
+    "candidate_flags": 49,
+    "responses_affected": 69,
+    "interpretation": "Literal fidelity diagnostic, not automatically semantic error."
+  },
+  "independent_execution_audit": "passed",
+  "independent_reporting_audit": "passed",
+  "interpretation": "Mixed evidence; slight C repeat stability improvement, worse RC stability, known real-answer failures persist. No gold accuracy or general reliability claim.",
+  "accepted_judges_changed": false,
+  "real_run_regraded": false,
+  "required_optional_meanings_changed": false,
+  "further_calls_authorized": false,
+  "committed": false,
+  "pushed": false
+}

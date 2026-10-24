@@ -1,0 +1,30 @@
+{
+  "version": "task15ad.s_conclusion_perturbations.result.v1",
+  "status": "independently_reviewed_budget_proposed_no_calls",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_s_conclusion_perturbations_20261023_v6",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_15/15ad_s_conclusion_perturbations_20261023_v6/completion.json",
+    "sha256": "781d58ff535ec6a164f9449dba1285709a4f6a2b133c243cf137d37f35a5f078"
+  },
+  "report": "pipelines/brisbane_baylands/task_15/15ad_s_conclusion_perturbations_20261023_v6/report.md",
+  "independent_review": "pipelines/brisbane_baylands/task_15/15ad_s_conclusion_perturbations_20261023_v6/reviews/final_independent_review.json",
+  "budget_audit": "pipelines/brisbane_baylands/task_15/15ad_s_conclusion_perturbations_20261023_v6/reviews/budget_audit.json",
+  "budget_proposal": "pipelines/brisbane_baylands/task_15/15ad_s_conclusion_perturbations_20261023_v6/budget_proposal.json",
+  "prompt_version": "task15ad.binary_adequacy.support_material.v9",
+  "samples": 228,
+  "questions": 19,
+  "true_labels": 114,
+  "false_labels": 114,
+  "fixed_support_points": 67,
+  "fixed_qualification_texts": 8,
+  "nonempty_qualification_questions": 6,
+  "perturbed_field": "candidate_conclusion",
+  "unresolved_ambiguities": 0,
+  "proposed_total_cap_usd": "80",
+  "proposed_S_cap_usd": "65",
+  "proposed_cumulative_reservation_usd": "77.708944350",
+  "model_calls": 0,
+  "new_budget_claims": 0,
+  "further_calls_authorized": false,
+  "review_stop": "six-question checkpoint before remaining13, then afterall19"
+}

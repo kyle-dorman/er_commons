@@ -1,0 +1,29 @@
+{
+  "version": "task15ad.s_all19.result.v3",
+  "status": "sealed_partial_round_early_stop_not_all19_complete",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_s_remaining_20261023_v3",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_15/15ad_s_remaining_20261023_v3/completion.json",
+    "sha256": "bfb09c205bf923c4b1494d4dd98baf98835acc6010c8aa92392961e1c06941ff"
+  },
+  "report": "pipelines/brisbane_baylands/task_15/15ad_s_remaining_20261023_v3/report.md",
+  "mismatch_review": "pipelines/brisbane_baylands/task_15/15ad_s_remaining_20261023_v3/mismatch_review.md",
+  "prompt_version": "task15ad.binary_adequacy.support_claims.v7",
+  "prior_v7_result": "docs/specs/task15ad_s_retest_result.json",
+  "new_judgments": 192,
+  "new_valid": 192,
+  "new_matches": 186,
+  "combined_v7_judgments": 384,
+  "combined_v7_matches": 376,
+  "completed_questions": 8,
+  "remaining_questions": 11,
+  "unattempted_judgments": 528,
+  "stop_reason": "Repeated unsupported-qualification exemption on C006 and C008",
+  "biological_recovery_expected": true,
+  "cumulative_reservation_usd": "66.896754975",
+  "cap_usd": "70",
+  "new_configured_rate_usage_estimate_usd": "0.05022638",
+  "cumulative_configured_rate_usage_estimate_usd": "0.375863725",
+  "further_calls_authorized": false,
+  "production_promoted": false
+}

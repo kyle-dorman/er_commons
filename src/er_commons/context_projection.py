@@ -11,7 +11,13 @@ import json
 import re
 from typing import Any, cast
 
-from er_commons import adequacy_binary, no_answer, point_grounding
+from er_commons import (
+    adequacy_binary,
+    no_answer,
+    point_grounding,
+    support_conclusion,
+    support_material,
+)
 from er_commons.artifact_io import stable_json_sha256
 from er_commons.judge_context import baylands_overview, compose_project_context
 from er_commons.target_generation import validate_record
@@ -40,6 +46,8 @@ ITEM_FIELDS = {
     "citation_ids",
     "unresolved_citation_ids",
     "supported",
+    "prompt_version",
+    "input_version",
 }
 
 
@@ -225,9 +233,20 @@ def _validate_item(item: dict[str, Any], record: dict[str, Any]) -> None:
         {k: v for k, v in identity.items() if k != "candidate_id"}
     ):
         raise ValueError("Candidate identity mismatch")
-    if item["sample_id"] != stable_json_sha256(
-        {k: item[k] for k in ("identity", "component", "point_id")}
-    ):
+    sample_key = {k: item[k] for k in ("identity", "component", "point_id")}
+    if "prompt_version" in item or "input_version" in item:
+        if item["component"] != "S" or (
+            item.get("prompt_version"),
+            item.get("input_version"),
+        ) not in {
+            (support_conclusion.VERSION, support_conclusion.INPUT_VERSION),
+            (support_material.VERSION, support_material.INPUT_VERSION),
+        }:
+            raise ValueError("Unregistered versioned plan item")
+        sample_key.update(
+            prompt_version=item["prompt_version"], input_version=item["input_version"]
+        )
+    if item["sample_id"] != stable_json_sha256(sample_key):
         raise ValueError("Sample identity mismatch")
     if item["payload_sha256"] != stable_json_sha256(item["packet"]):
         raise ValueError("Legacy payload changed")
@@ -317,7 +336,19 @@ def project_judge(
     labels = _mapping(record, mapping)
     _validate_item(item, record)
     component = item["component"]
-    if prompt_version is not None:
+    if item.get("prompt_version") is not None and item["prompt_version"] != prompt_version:
+        raise ValueError("Plan item and selected prompt versions differ")
+    if component == "S" and prompt_version in {
+        support_conclusion.VERSION,
+        support_material.VERSION,
+    }:
+        if (
+            item.get("prompt_version") != prompt_version
+            or prompt != adequacy_binary.system_prompt("S", prompt_version=prompt_version)
+            or summary != baylands_overview()
+        ):
+            raise ValueError("Versioned S requires its versioned plan, exact prompt and overview")
+    elif prompt_version is not None:
         if (
             component != "C"
             or prompt_version not in adequacy_binary.CONCLUSION_STRUCTURED_PROMPT_VERSIONS
@@ -354,7 +385,9 @@ def project_judge(
     if prompt_version is not None:
         provenance["prompt_version"] = prompt_version
         provenance["output_schema_sha256"] = stable_json_sha256(
-            adequacy_binary.output_json_schema("C", prompt_version=prompt_version)
+            adequacy_binary.output_json_schema(
+                cast(adequacy_binary.Component, component), prompt_version=prompt_version
+            )
         )
     return _envelope(
         component,

@@ -1,0 +1,27 @@
+{
+  "schema_version": "task15ad.s_v9.acceptance.v1",
+  "accepted_on": "2026-10-23",
+  "user_instruction": "ok accept S v9 with that limitation. prepare the 49 real predictions and grading run, and propose the budget before any calls. dont commit or push yet.",
+  "prompt_version": "task15ad.binary_adequacy.support_material.v9",
+  "model": "claude-haiku-5-5",
+  "reasoning_effort": "medium",
+  "max_output_tokens": 4096,
+  "status": "user_accepted_with_limitation",
+  "limitation": "C028-03: directly supported narrow conclusion rejected in all three repeats; answer completeness/protection implication leaks into S. Two reasons acknowledge support despite false verdict. Retain true expected label.",
+  "all19_result": "docs/specs/task15ad_s_fixed_material_all19_result.json",
+  "all19_result_sha256": "63736cea28d470ab1e9658aa3fe894267f10d7833e7e871ce64a8c54d4666b44",
+  "all19_counts": {
+    "examples": 228,
+    "judgments": 684,
+    "valid": 684,
+    "matches": 681
+  },
+  "system_prompt_sha256": "24bd4604472f23c15c32e87562d11d7a6528ee6a0b3197dbe5e1f43771e3f5aa",
+  "output_schema_sha256": "9261be094262c9d58e4125f5509cee6d02115dac30847fa022548b67fd0e2a56",
+  "code_sha256": "246f88e8e5f9b3820085ae5381f71bb0f0881d6fc302d8d90e4a3c2fa8eddf64",
+  "explicit_version_selection_required": true,
+  "historical_defaults_preserved": true,
+  "real_run_paid_calls_authorized": false,
+  "effective_system_prompt_sha256": "58540df1d811aea9ccf00f1eb1f8c4011acb700e7658a6d134e2a5e1160d8a81",
+  "overview_sha256": "3b7e196bc74085c947526a060f7f9dae2637505bf7f65da093c624a98970abc5"
+}

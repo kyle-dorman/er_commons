@@ -1,0 +1,39 @@
+{
+  "version": "task15ad.s_support_material.result.v5",
+  "status": "offline_reviewed_not_model_qualified",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_s_support_material_20261023_v5",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_15/15ad_s_support_material_20261023_v5/completion.json",
+    "sha256": "1c347b38e50f22a5777f1d085d3f681be13a0693f7e9a11c9c63453f84c6c425"
+  },
+  "report": "pipelines/brisbane_baylands/task_15/15ad_s_support_material_20261023_v5/report.md",
+  "independent_review": "pipelines/brisbane_baylands/task_15/15ad_s_support_material_20261023_v5/independent_review.json",
+  "prompt_version": "task15ad.binary_adequacy.support_material.v9",
+  "input_version": "support_material.input.v1",
+  "input_fields": [
+    "question",
+    "candidate_conclusion",
+    "candidate_supporting_points",
+    "candidate_qualifications"
+  ],
+  "judgment_target": "candidate_conclusion only",
+  "supporting_material": [
+    "candidate_supporting_points",
+    "candidate_qualifications"
+  ],
+  "samples": 304,
+  "questions": 19,
+  "scope_migrations_preserved": 18,
+  "texts_unchanged_from_v8": 304,
+  "nonempty_qualification_all19_examples": 0,
+  "separate_offline_qualification_fixtures": 5,
+  "true_labels": 153,
+  "false_labels": 151,
+  "biological_recovery_expected": true,
+  "model_calls": 0,
+  "new_budget_claims": 0,
+  "cumulative_reservation_unchanged_usd": "66.896754975",
+  "production_promoted": false,
+  "further_calls_authorized": false,
+  "prior_preparation_preserved": "docs/specs/task15ad_s_conclusion_only_result.json"
+}

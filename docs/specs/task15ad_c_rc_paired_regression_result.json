@@ -1,0 +1,19 @@
+{
+  "status": "prepared_awaiting_prompt_and_budget_approval",
+  "artifact_root": "pipelines/brisbane_baylands/task_15/15ad_c_rc_paired_regression_20261023_v1",
+  "completion_sha256": "8ace14a858256fd8c5667d0c3ee14ffc36042135095ff562611fdac7857c5324",
+  "plan": "docs/specs/task15ad_c_rc_paired_regression_plan_v1.md",
+  "pairs_per_judge": 8,
+  "pair_slots": 32,
+  "unique_payloads": 30,
+  "proposed_calls": 192,
+  "proposed_new_cap_usd": "3.00",
+  "offline_reservation_envelope_usd": "0.790965",
+  "independent_review": "pass_after_correction",
+  "unresolved_label_ambiguities": 0,
+  "accepted_judges_changed": false,
+  "required_optional_meanings_changed": false,
+  "calls_made": 0,
+  "committed": false,
+  "pushed": false
+}

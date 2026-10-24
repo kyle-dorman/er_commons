@@ -1,0 +1,38 @@
+{
+  "schema_version": "task15ad.real_run_preparation.result.v1",
+  "status": "offline_prepared_budget_approval_required",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_real_run_preparation_20261023_v9",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_15/15ad_real_run_preparation_20261023_v9/completion.json",
+    "sha256": "c675d6e39335c248fa746d4ce0cdb6ac0a3330e44e635ef251c4047c4bdb43b4"
+  },
+  "report": "pipelines/brisbane_baylands/task_15/15ad_real_run_preparation_20261023_v9/report.md",
+  "plan": "docs/specs/task15ad_real_run_plan_v1.md",
+  "S_acceptance": "docs/specs/task15ad_s_v9_acceptance.json",
+  "budget_proposal": "pipelines/brisbane_baylands/task_15/15ad_real_run_preparation_20261023_v9/budget_proposal.json",
+  "independent_review": "pipelines/brisbane_baylands/task_15/15ad_real_run_preparation_20261023_v9/reviews/final_preparation_audit.json",
+  "questions": 49,
+  "development": 19,
+  "test": 30,
+  "planned_answers": 294,
+  "native_generation_templates": 98,
+  "required_points": 125,
+  "coverage_calls_max": 750,
+  "proposed_new_pool_usd": "40",
+  "proposed_cumulative_cap_usd": "120",
+  "proposed_S_cap_usd": "90",
+  "prior_retained_reservation_usd": "77.708944350",
+  "generation_reservation_usd": "10.757851125",
+  "validation": {
+    "tests_passed": 4613,
+    "tests_skipped": 1,
+    "make_fix": "passed",
+    "make_check": "passed"
+  },
+  "model_calls": 0,
+  "count_calls": 0,
+  "new_budget_claims": 0,
+  "paid_calls_authorized": false,
+  "paid_runner_armed": false,
+  "activation_prerequisite": "Bind and independently test fresh native-byte admission/unlabeled dispatch; no unchanged reuse of old counting runner."
+}

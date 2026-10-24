@@ -1,0 +1,37 @@
+{
+  "status": "round_complete_stopped_for_user_review",
+  "artifact_root": "pipelines/brisbane_baylands/task_15/15ad_c_rc_comparison_20261023_v1",
+  "completion_sha256": "44607d99a9674b565f75eb584917082bd27830b5640e5229dd574661debc73a9",
+  "preparation_result": "docs/specs/task15ad_c_rc_paired_regression_result.json",
+  "calls": 192,
+  "execution_errors": 0,
+  "retries": 0,
+  "actual_estimated_usd": "0.047775430",
+  "pending_or_unknown_usd": "0",
+  "cap_usd": "3.00",
+  "C": {
+    "baseline_binary_correct": 46,
+    "candidate_binary_correct": 47,
+    "per_version_denominator": 48,
+    "baseline_all_labels_correct": 38,
+    "candidate_all_labels_correct": 39,
+    "remaining_candidate_binary_error": "C-P04-2 staging only: loading obligation missing, passed once in3 repeats"
+  },
+  "RC": {
+    "baseline_binary_correct": 45,
+    "candidate_binary_correct": 47,
+    "per_version_denominator": 48,
+    "remaining_candidate_binary_error": "RC02-1 features only: actual Specific Plan designation missing, covered once in3 repeats"
+  },
+  "pair_slots": 32,
+  "unique_payloads": 30,
+  "independent_execution_audit": "passed",
+  "independent_report_audit": "passed",
+  "interpretation": "Modest targeted accuracy improvement, no demonstrated consistency improvement. Optional C status discrepancies require boundary adjudication, not automatic relabeling.",
+  "accepted_judges_changed": false,
+  "real_run_regraded": false,
+  "required_optional_meanings_changed": false,
+  "further_calls_authorized": false,
+  "committed": false,
+  "pushed": false
+}

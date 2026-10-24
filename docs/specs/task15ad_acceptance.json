@@ -1,0 +1,40 @@
+{
+  "schema_version": "task15ad.acceptance.v1",
+  "status": "user_accepted_complete",
+  "accepted_on": "2026-10-24",
+  "user_instruction": "Ok I approve. Please close and commit",
+  "accepted_versions": {
+    "C": "task15.binary_adequacy.conclusion_structured.v6",
+    "S": "task15ad.binary_adequacy.support_material.v9",
+    "RC": "task15y.required_support_coverage.v1",
+    "A_G": "unchanged"
+  },
+  "RC_required_diagnostic": true,
+  "RC_changes_overall_pass": false,
+  "main_result": "docs/specs/task15ad_real_run_result.json",
+  "cleanup": "docs/specs/task15ad_code_cleanup_result.json",
+  "experiment_disposition": "docs/specs/task15ad_c_rc_experiment_disposition.md",
+  "bound_documents": {
+    "docs/specs/task15ad_real_run_result.json": "dc34eb942277fde7938b76edbba21e318488bd3e65d2c331a5f69b10c1412f33",
+    "docs/specs/task15ad_code_cleanup_result.json": "cd8682a7e5da7390e79ff03f21de547c8898fd38abf66489b326e9ed5125586f",
+    "docs/specs/task15ad_s_v9_acceptance.json": "d3a9ee43dad9808678d9144ee5993cd4c0d112c05933e181084dad5ecc07adf7",
+    "docs/specs/task15ad_rc_comparison_result.json": "b3581e5ac6d3b9ec51f7fbfd76e927f45cc79edd3e60e89afecb8e86b23fc792"
+  },
+  "limitations_retained": [
+    "All49 questions have curation exposure; no pristine held-out claim.",
+    "Accepted S v9 completeness limitation and existing C/RC judge noise remain.",
+    "C/RC prompt candidates abandoned; original full-run grades unchanged."
+  ],
+  "validation": {
+    "tests_passed": 4625,
+    "tests_skipped": 1,
+    "saved_reports_replayed": 294,
+    "RC_rows_replayed": 750,
+    "independent_review": "passed"
+  },
+  "next_task": "tasks/sprint2/16_write_methods_and_results.md",
+  "next_task_activated": false,
+  "commit_authorized": true,
+  "push_authorized": false,
+  "further_model_calls_authorized": false
+}

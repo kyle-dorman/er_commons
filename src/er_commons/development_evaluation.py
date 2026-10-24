@@ -8,7 +8,14 @@ from typing import Any, TypedDict, cast
 
 from jsonschema import ValidationError, validate  # type: ignore[import-untyped]
 
-from er_commons import adequacy_binary, conclusion_structured, no_answer, point_grounding
+from er_commons import (
+    adequacy_binary,
+    conclusion_structured,
+    no_answer,
+    point_grounding,
+    support_conclusion,
+    support_material,
+)
 from er_commons.artifact_io import sha256_bytes, stable_json_sha256
 from er_commons.automatic_metric_inputs import (
     ReferenceResolution,
@@ -229,6 +236,7 @@ def _project_items(
     reference_conclusion: str,
     structured_reference: dict[str, Any] | None = None,
     conclusion_prompt_version: str | None = None,
+    support_prompt_version: str | None = None,
 ) -> list[dict[str, Any]]:
     """Build A, point-owned G, S and C inputs in their stable dispatch order."""
     items: list[dict[str, Any]] = []
@@ -263,24 +271,37 @@ def _project_items(
             else {"reference_conclusion": reference_conclusion}
         ),
     }
-    for component, packet in (
+    support_packet: dict[str, Any] = {
+        "question": sources.payload["question"],
+        "candidate_conclusion": conclusion,
+        "candidate_supporting_points": [
+            {"point_id": p["point_id"], "text": p["text"]} for p in answer["supporting_points"]
+        ],
+    }
+    if support_prompt_version != support_conclusion.VERSION:
+        support_packet["candidate_qualifications"] = [p["text"] for p in answer["qualifications"]]
+    support_input_version = (
+        support_material.INPUT_VERSION
+        if support_prompt_version == support_material.VERSION
+        else support_conclusion.INPUT_VERSION
+    )
+    for component, packet, prompt_version, input_version in (
         (
             "S",
-            {
-                "question": sources.payload["question"],
-                "candidate_conclusion": conclusion,
-                "candidate_supporting_points": [
-                    {"point_id": p["point_id"], "text": p["text"]}
-                    for p in answer["supporting_points"]
-                ],
-                "candidate_qualifications": [p["text"] for p in answer["qualifications"]],
-            },
+            support_packet,
+            support_prompt_version,
+            support_input_version,
         ),
         (
             "C",
             conclusion_packet,
+            conclusion_prompt_version,
+            "conclusion_structured.input.v1",
         ),
     ):
+        version_fields = {}
+        if prompt_version is not None:
+            version_fields = {"prompt_version": prompt_version, "input_version": input_version}
         items.append(
             _evaluation_item(
                 identity,
@@ -289,16 +310,9 @@ def _project_items(
                 adequacy_binary.validate_input(
                     cast(adequacy_binary.Component, component),
                     packet,
-                    prompt_version=conclusion_prompt_version if component == "C" else None,
+                    prompt_version=prompt_version,
                 ),
-                **(
-                    {
-                        "prompt_version": conclusion_prompt_version,
-                        "input_version": "conclusion_structured.input.v1",
-                    }
-                    if component == "C" and conclusion_prompt_version is not None
-                    else {}
-                ),
+                **version_fields,
             )
         )
     return items
@@ -315,12 +329,15 @@ def prepare_candidate(
     expected_split: str = "dev",
     structured_reference: dict[str, Any] | None = None,
     conclusion_prompt_version: str | None = None,
+    support_prompt_version: str | None = None,
 ) -> dict[str, Any]:
     """Project a byte-bound candidate; malformed answers remain reportable, never repaired.
 
     The caller verifies the sealed files and successful transport receipt. This
     function checks the actual native user request against the complete payload.
     """
+    if support_prompt_version not in {None, support_conclusion.VERSION, support_material.VERSION}:
+        raise ValueError("Support projection requires an explicit registered S version")
     if conclusion_prompt_version is not None or structured_reference is not None:
         if (
             conclusion_prompt_version != conclusion_structured.VERSION_V6
@@ -375,6 +392,7 @@ def prepare_candidate(
         reference_conclusion,
         structured_reference,
         conclusion_prompt_version,
+        support_prompt_version,
     )
     return plan
 

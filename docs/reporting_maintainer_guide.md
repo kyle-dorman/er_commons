@@ -24,6 +24,17 @@ Current score definitions are [v1](specs/task12_reporting_v1.md), with
 | Original development publication | `reporting_run` | Task 12-specific replay/manifest, not a generic run dispatcher. |
 | Locked test replay/publication | `locked_reporting` | Verifies the complete sealed 180-slot roster. `_observation` replays one answer; `_replay_judgments` verifies saved judge identities, items and contexts before reduction. |
 
+## Current RC diagnostics
+
+Every new full benchmark run includes **RC — Required-point Coverage** alongside
+A/G/S/C. Follow the [RC contract](specs/required_point_coverage_judge_v1.md) and use
+`current_judges` for separate decision/diagnostic plans and reports. RC never enters
+`answer_outcomes` or the joint-pass gate. Cross RC true/false with C's exact
+required-point status (satisfied/missing/contradicted), preserving operational
+non-decisions separately. Join only identical candidate/repeat/reference identities.
+The [15AD comparison](specs/task15ad_rc_comparison_result.json) is an offline example;
+old reports and calibration receipts keep their original names and hashes.
+
 ## Locked execution maintenance
 
 Task 13 is closed. These boundaries explain the retained code; editing it does

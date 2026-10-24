@@ -1,0 +1,23 @@
+{
+  "version": "task15ad.s_retest.result.v2",
+  "status": "complete_awaiting_user_review_not_production_promotion",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_s_retest_20261023_v2",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_15/15ad_s_retest_20261023_v2/completion.json",
+    "sha256": "62bb8aeeaa56fbd7681813b07176442816d95cd9baf6453ea1e1578e2c1389b4"
+  },
+  "report": "pipelines/brisbane_baylands/task_15/15ad_s_retest_20261023_v2/report.md",
+  "prompt_version": "task15ad.binary_adequacy.support_claims.v7",
+  "prior_checkpoint": "docs/specs/task15ad_qualification_checkpoint_result.json",
+  "judgments": 192,
+  "valid": 192,
+  "matches": 190,
+  "baseline_matches_same_adjudicated_labels": 184,
+  "only_remaining_mismatch": "15AD-S-C037-additional_claim-N",
+  "cumulative_reservation_usd": "66.111054975",
+  "cap_usd": "70",
+  "usage_estimate_usd": "0.03985858",
+  "cumulative_usage_estimate_usd": "0.325637345",
+  "production_promoted": false,
+  "further_calls_authorized": false
+}

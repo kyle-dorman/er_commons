@@ -1,7 +1,8 @@
 # Adequacy labeling rules
 
-Status: structured-reference C policy user-approved in Task 15 (2026-10-22); S semantics
-unchanged. This maintained document defines labeling semantics; it does not
+Status: structured-reference C policy user-approved in Task15 (2026-10-22);
+S conclusion-target/supporting-material boundary user-approved in Task15AD (2026-10-23).
+This maintained document defines labeling semantics; it does not
 certify that a judge implementation satisfies them. Frozen historical prompts,
 labels and results retain their original policy and are not relabeled by this
 revision.
@@ -237,8 +238,61 @@ this evaluation contract.
 ## 4. Support check (S)
 
 Pass S when the answer contains at least one substantive supporting basis and
-its supporting points jointly provide sufficient, logically valid reasoning
-for the candidate's conclusion.
+its supporting points and qualifications jointly provide sufficient, logically
+valid reasoning for the candidate's original conclusion.
+
+### S input boundary
+
+S receives the question as context, the candidate's original conclusion,
+supporting points with IDs, and qualification text. The conclusion is the sole
+judgment target. Supporting points and qualifications are supporting material:
+assess their facts, conditions and relationships jointly as a basis for that
+conclusion. The question clarifies meaning; it does not impose completeness
+requirements on S.
+
+Do not append qualifications to the conclusion or grade them as additional
+conclusion claims. A qualification may supply a necessary premise or condition;
+it need not independently prove the entire conclusion. An unrelated or separately
+unsupported qualification does not itself fail S. It matters when it reveals a
+material gap, invalid inference or contradiction that undermines the conclusion's
+supporting basis. Source factuality remains G's responsibility.
+
+Qualifications cannot silently rewrite or repair the conclusion's scope. If the
+supporting material justifies only a conditional outcome while the conclusion
+asserts an unconditional result, S fails for that unsupported conclusion claim.
+If an essential condition is already expressed in the conclusion, evaluate its
+basis normally. An empty supporting-points array may pass when qualifications
+provide a substantive basis; material with no substantive basis fails S.
+
+Optional context remains excluded. Real projection preserves the original
+conclusion and the separate supporting fields without merging text. Generation's
+schema and G's treatment of factual qualifications remain unchanged.
+
+For synthetic scope tests, write the intended scope change directly into the
+single coherent conclusion paragraph and preserve supporting points. Do not hide
+the tested claim in a separate field. Historical qualification-field tests retain
+their old contracts and results; they are not qualification evidence for this input
+boundary without new evaluation.
+
+### Conclusion claims and supporting facts
+
+Assess every substantive claim actually asserted in the conclusion, including
+quantities, timing, conditions and what an analysis includes or excludes.
+Substantive claims add factual content about outcome, magnitude, timing, scope
+or conditions. Support for the main claim does not excuse an unsupported
+additional claim. Pure transitions and redundant wording need no separate basis.
+
+An assertion appearing only in the conclusion does not establish its own basis.
+Evaluate the facts and relationships supplied in the supporting material, including
+internal consistency and calculations. A basis may be explicit or follow through
+a straightforward inference; one supporting item may support multiple claims and
+multiple items may jointly support one claim. Do not require obvious inferential steps
+to be spelled out. Source verification remains G's responsibility; S does not
+consult source documents or outside knowledge.
+
+Reference optionality does not excuse unsupported claims that the candidate
+chooses to include. Omitted reference content creates no S failure. Reference
+points and their required/optional labels are not supplied to S.
 
 ### Independence from C
 
@@ -312,7 +366,7 @@ from it” does not establish the claimed restore capability. This is a reasonin
 problem without checking whether the file is actually absent.
 
 Different scenarios, times, or conditions are not automatically contradictory.
-Interpret qualifications together with the claims they constrain.
+Interpret conditions and scope within the conclusion with the claims they constrain.
 
 ## 5. Combined score
 

@@ -8,7 +8,7 @@ from typing import Annotated, Any, Literal
 
 from pydantic import AfterValidator, BaseModel, ConfigDict
 
-from er_commons import conclusion_structured
+from er_commons import conclusion_structured, support_claims, support_conclusion, support_material
 from er_commons.judge_context import structured_conclusion_prompt
 
 CONCLUSION_COMPARISON_REASON_PROMPT_VERSION = (
@@ -539,6 +539,14 @@ class Point(StrictModel):
     text: Text
 
 
+class SupportConclusionInput(StrictModel):
+    """Expose only the conclusion and its supporting argument for explicit S v8."""
+
+    question: Text
+    candidate_conclusion: Text
+    candidate_supporting_points: list[Point]
+
+
 class SupportInput(StrictModel):
     """Expose the candidate argument without reference or source material."""
 
@@ -619,8 +627,14 @@ def _check_component(component: Component, with_reference: bool = False) -> None
 
 
 def _check_prompt_version(component: Component, prompt_version: str | None) -> None:
-    """Accept frozen defaults and the explicit Task 15 C candidate only."""
+    """Accept frozen defaults and explicitly selected adequacy candidates."""
     _check_component(component)
+    if component == "S" and prompt_version in {
+        support_claims.VERSION,
+        support_conclusion.VERSION,
+        support_material.VERSION,
+    }:
+        return
     if component == "C" and prompt_version in {
         CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION,
         *CONCLUSION_STRUCTURED_PROMPT_VERSIONS,
@@ -633,7 +647,7 @@ def _check_prompt_version(component: Component, prompt_version: str | None) -> N
 def system_prompt(
     component: Component, *, with_reference: bool = False, prompt_version: str | None = None
 ) -> str:
-    """Return frozen defaults unless the Task 15 C candidate is explicitly requested."""
+    """Return frozen defaults unless a versioned candidate is requested."""
     _check_prompt_version(component, prompt_version)
     if with_reference:
         raise ValueError("Selected support judging is reference-blind")
@@ -641,6 +655,12 @@ def system_prompt(
         return structured_conclusion_prompt(conclusion_structured.PROMPTS[prompt_version])
     if prompt_version == CONCLUSION_DIRECT_ANSWER_PROMPT_VERSION:
         return CONCLUSION_DIRECT_ANSWER_PROMPT
+    if prompt_version == support_claims.VERSION:
+        return support_claims.PROMPT
+    if prompt_version == support_conclusion.VERSION:
+        return support_conclusion.PROMPT
+    if prompt_version == support_material.VERSION:
+        return support_material.PROMPT
     return CONCLUSION_PROMPT if component == "C" else SUPPORT_PROMPT
 
 
@@ -694,6 +714,14 @@ def validate_input(
         return structured_input.model_validate(payload).model_dump()
     if component == "C":
         return ConclusionInput.model_validate(payload).model_dump()
+    if prompt_version == support_conclusion.VERSION:
+        if with_reference:
+            raise ValueError("Conclusion-only support judging is reference-blind")
+        result_v8 = SupportConclusionInput.model_validate(payload)
+        _unique_points(result_v8.candidate_supporting_points)
+        return result_v8.model_dump()
+    if prompt_version == support_material.VERSION and with_reference:
+        raise ValueError("Support-material judging is reference-blind")
     model = SupportReferenceInput if with_reference else SupportInput
     result = model.model_validate(payload)
     _unique_points(result.candidate_supporting_points)

@@ -1,0 +1,58 @@
+{
+  "schema_version": "task15ad.qualification_checkpoint.v1",
+  "status": "C_round_complete_S_pilot_stopped_for_review",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_qualification_20261023_v1/review_checkpoint_v1",
+  "completion": {
+    "path": "completion.json",
+    "sha256": "2c1237d18e5fe18d385d5978cf2ce2d412e15fc2df80af65e19e7994a97332d8",
+    "byte_size": 1702
+  },
+  "report": "round_report.md",
+  "S_review": "S_early_stop_report.md",
+  "independent_audit": "final_independent_audit.json",
+  "components": {
+    "C": {
+      "examples_run": 157,
+      "planned_examples": 157,
+      "judgments": 471,
+      "valid": 471,
+      "matches": 464,
+      "false_passes": 1,
+      "false_failures": 6,
+      "sensitivity": 0.96875,
+      "specificity": 0.996415770609319,
+      "unanimous_three_repeat_examples": 154,
+      "mismatch_examples": [
+        "15AD-C-C006-Q-EX-01",
+        "15AD-C-C006-Q-ME-01",
+        "15AD-C-C036-NEW-03",
+        "15AD-C-C045-OLD-08"
+      ]
+    },
+    "S": {
+      "examples_run": 64,
+      "planned_examples": 304,
+      "judgments": 192,
+      "valid": 192,
+      "matches": 183,
+      "false_passes": 9,
+      "false_failures": 0,
+      "sensitivity": 1.0,
+      "specificity": 0.90625,
+      "unanimous_three_repeat_examples": 62,
+      "mismatch_examples": [
+        "15AD-S-C017-included_optional-N",
+        "15AD-S-C037-additional_claim-N",
+        "15AD-S-C037-distributed_support-N",
+        "15AD-S-C037-included_optional-N"
+      ]
+    }
+  },
+  "configured_rate_estimate_usd": "0.285778765",
+  "full_reserved_usd": "56.643960600",
+  "approved_cap_usd": 70,
+  "next": "Review S claim-versus-premise boundary and ambiguous biological-tracking expectation before any more calls. No automatic prompt changes, relabeling, rerun or final benchmark execution.",
+  "task_complete": false,
+  "committed": false,
+  "pushed": false
+}

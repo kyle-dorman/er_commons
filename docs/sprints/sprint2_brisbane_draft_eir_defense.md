@@ -10,8 +10,10 @@ source passages; it does not measure retrieval or establish general CEQA compete
 The frozen release has 49 questions: 19 development and 30 test. The completed
 locked test preserves all 180 planned answers (two models, three repeats per
 question). Task 14's eight-answer review and required quality pass are complete.
-Task 15 plans the requested conclusion-judge revision and reevaluation; the
-writeup is now Task 16. No new model run is active or authorized by this plan.
+Task15 and its follow-ups through [Task15AD](../specs/task15ad_acceptance.json)
+are complete and accepted. Task15AD supplies the current fresh49-question result;
+the writeup is Task16, ready for separate activation. No new model run is active
+or authorized by this plan.
 
 ## Accepted execution decisions
 
@@ -99,16 +101,12 @@ cannot introduce additional unasked scoring requirements.
 1. **[Task 14 — Selective review](../../tasks/sprint2/14_selective_failure_review.md): complete.**
    The result pointer selects the confirmed eight-answer synthesis and quality
    records. Frozen scores stay unchanged and unresolved judgments remain explicit.
-2. **[Task 15 — Revise conclusion judge](../../tasks/sprint2/15_revise_conclusion_judge.md): planned.**
-   Revise C rules/prompt, regenerate synthetic tests, iterate on the original six
-   then all nineteen development questions, freeze, reevaluate all thirty test
-   questions and review conclusion outcomes. Prefer same-answer C comparisons to
-   isolate evaluator changes; resolve any requested fresh-generation arm and
-   numerical execution limits before calls. The thirty are exposed to the redesign,
-   so reevaluation cannot be described as fresh held-out qualification. Preserve
-   the original experiment and keep A/G/S and target settings fixed initially.
-3. **[Task 16 — Methods/results writeup](../../tasks/sprint2/16_write_methods_and_results.md): provisional.**
-   After Task 15 acceptance and separate activation, explain construction,
+2. **[Task15AD — Final run and closeout](../../tasks/sprint2/15ad_final_end_to_end_run.md): complete.**
+   Accepted references, C v6, S v9 and RC v1 diagnostics feed the sealed fresh49-question
+   evaluation. Historical runs and abandoned prompt experiments remain separate.
+   All49 questions have curation exposure; do not claim untouched held-out evaluation.
+3. **[Task 16 — Methods/results writeup](../../tasks/sprint2/16_write_methods_and_results.md): ready for separate activation.**
+   Use the accepted Task15AD handoff to explain construction,
    methods, original/revised results and limits using versioned figures and
    reviewed examples. Keep development, test and synthetic diagnostics separate.
    Finish with a next-project decision.

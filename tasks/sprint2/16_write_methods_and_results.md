@@ -1,7 +1,7 @@
 # Task 16 — Short methods and results writeup
 
-Status: provisional; after accepted Task 15 conclusion-judge revision and
-reevaluation, and confirmed Task 14 findings. No writeup implementation active.
+Status: ready for separate activation after [accepted Task15AD](../../docs/specs/task15ad_acceptance.json).
+No writeup implementation active.
 
 ## Abstract and goal
 
@@ -17,6 +17,15 @@ condition, Task 12 reporting/calibration tables, original Task 13 results, Task 
 selective cases, and the accepted [Task 15](15_revise_conclusion_judge.md) rules,
 synthetic qualification, reevaluation and subsequent conclusion review. Present Luna and Haiku only; exclude the archived MiniMax side
 experiment from figures, tables, comparisons and the experiment narrative.
+Use [Task15AD's accepted fresh full run](../../docs/specs/task15ad_real_run_result.json)
+as the current main evaluation:294 answers over49 questions, with19/30 results
+reported separately. Retain C v6, S v9 and mandatory diagnostic RC v1; A/G are
+unchanged. RC does not add an overall pass requirement. The later C/RC prompt
+experiments were abandoned and must not replace the accepted grades.
+Carry the [accepted S v9 completeness limitation](../../docs/specs/task15ad_s_v9_acceptance.json)
+and [RC omission/conflict limitations](../../docs/specs/required_point_coverage_judge_v1.md)
+into the discussion; neither a C/RC agreement nor a judge pass establishes factual
+correctness. Preserve RC's support-only input boundary when interpreting differences.
 Produce a short readable report with figure/table source links
 and a compact reproducibility appendix. Choose final format/length at activation;
 working target is roughly 1,500–2,500 words plus selected figures/tables.
@@ -42,11 +51,12 @@ working target is roughly 1,500–2,500 words plus selected figures/tables.
    Report existing judge-label agreement and limitations without claiming new human
    calibration. A delivery receipt is not proof of cognitive reading; retrieval
    metrics are N/A for the supplied-evidence condition.
-5. **Results.** Use Task 15's designated thirty-question reevaluation as the
-   revised-condition results, alongside original Task 13 results. Explain the
-   evaluator change, saved-answer comparison versus any fresh-generation arm,
-   and which result pointer selects each condition. The thirty questions were
-   exposed during diagnosis; the reevaluation is not a new untouched held-out test.
+5. **Results.** Use Task15AD's designated fresh49-question run as the current
+   results, separating19 development and30 exposed test questions. Earlier Task15
+   saved-answer reevaluations and original Task13 runs are historical comparisons,
+   not the current primary result. Explain evaluator/reference changes and distinguish
+   saved-answer regrading from fresh generation with exact result pointers.
+   All49 questions have curation exposure; this is not untouched held-out testing.
    Task 12's pooled 19-development-question views are a reporting preview, not
    the main results. Historical judge accuracy uses separate populations.
    Select figures showing both models, component/joint

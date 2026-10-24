@@ -1,0 +1,72 @@
+{
+  "schema_version": "task15ad.real_run.result.v1",
+  "status": "user_accepted",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_real_run_20261023_v10",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_15/15ad_real_run_20261023_v10/completion.json",
+    "sha256": "9125749bd483d78e995a34243e52f5df0b228fa5f90e37e192e54808929a81ed"
+  },
+  "report": "pipelines/brisbane_baylands/task_15/15ad_real_run_20261023_v10/review_handoff.md",
+  "detailed_results": "pipelines/brisbane_baylands/task_15/15ad_real_run_20261023_v10/report.json",
+  "reviews": "pipelines/brisbane_baylands/task_15/15ad_real_run_20261023_v10/reviews/semantic_review_coverage.json",
+  "execution_audit": "pipelines/brisbane_baylands/task_15/15ad_real_run_20261023_v10/reviews/independent_final_execution_audit.json",
+  "questions": 49,
+  "development": 19,
+  "test": 30,
+  "answers": 294,
+  "grading_calls": 3331,
+  "paid_calls": 3625,
+  "paid_retries": 0,
+  "counter_calls": 0,
+  "actual_estimated_usd": "1.776348480",
+  "pending_or_unknown_usd": "0",
+  "approved_new_run_cap_usd": "40",
+  "joint_pass": {
+    "luna": {
+      "all": [
+        75,
+        147
+      ],
+      "dev": [
+        27,
+        57
+      ],
+      "test": [
+        48,
+        90
+      ]
+    },
+    "haiku": {
+      "all": [
+        40,
+        147
+      ],
+      "dev": [
+        17,
+        57
+      ],
+      "test": [
+        23,
+        90
+      ]
+    }
+  },
+  "diagnostic_coverage": {
+    "covered": 632,
+    "required_point_judgments": 750,
+    "covered_c_missing": 74,
+    "adds_overall_pass_requirement": false
+  },
+  "semantic_review": {
+    "nonpassing_answers": 179,
+    "pass_controls": 12,
+    "scores_changed": false
+  },
+  "accepted": true,
+  "further_calls_authorized": false,
+  "commit_push_authorized": false,
+  "accepted_on": "2026-10-24",
+  "acceptance": "docs/specs/task15ad_acceptance.json",
+  "commit_authorized": true,
+  "push_authorized": false
+}

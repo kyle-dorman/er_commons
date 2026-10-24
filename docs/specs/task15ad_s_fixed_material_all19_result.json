@@ -1,0 +1,37 @@
+{
+  "version": "task15ad.s_fixed_material_all19.result.v1",
+  "status": "all19_complete_stopped_for_user_review",
+  "artifact_root_relative": "pipelines/brisbane_baylands/task_15/15ad_s_fixed_material_remaining_20261023_v8",
+  "completion": {
+    "path": "pipelines/brisbane_baylands/task_15/15ad_s_fixed_material_remaining_20261023_v8/completion.json",
+    "sha256": "efd6dc94f84e87f42aad6d02018d4a5d0bf7fe1a6ded7171c81f85fb77d50796"
+  },
+  "report": "pipelines/brisbane_baylands/task_15/15ad_s_fixed_material_remaining_20261023_v8/report.md",
+  "summary": "pipelines/brisbane_baylands/task_15/15ad_s_fixed_material_remaining_20261023_v8/all19_summary.json",
+  "mismatches": "pipelines/brisbane_baylands/task_15/15ad_s_fixed_material_remaining_20261023_v8/all19_mismatches.json",
+  "independent_execution_review": "pipelines/brisbane_baylands/task_15/15ad_s_fixed_material_remaining_20261023_v8/reviews/postrun_audit.json",
+  "independent_semantic_review": "pipelines/brisbane_baylands/task_15/15ad_s_fixed_material_remaining_20261023_v8/reviews/mismatch_semantic_review.json",
+  "checkpoint_result": "docs/specs/task15ad_s_fixed_material_checkpoint_result.json",
+  "prompt_version": "task15ad.binary_adequacy.support_material.v9",
+  "questions": 19,
+  "samples": 228,
+  "judgments": 684,
+  "valid": 684,
+  "matches": 681,
+  "unanimous_examples": 228,
+  "unanimous_correct_examples": 227,
+  "mismatch_samples": [
+    "15AD-SF-C028-03"
+  ],
+  "new_provider_attempts": 468,
+  "new_retries": 0,
+  "new_configured_rate_usage_estimate_usd": "0.12939370",
+  "cumulative_configured_rate_usage_estimate_usd": "0.575730625",
+  "cumulative_full_reservation_usd": "77.708944350",
+  "S_full_reservation_usd": "64.908922500",
+  "approved_total_cap_usd": "80",
+  "approved_S_cap_usd": "65",
+  "further_calls_authorized": false,
+  "final_benchmark_authorized": false,
+  "prompt_or_labels_changed": false
+}

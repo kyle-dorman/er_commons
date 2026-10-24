@@ -1,0 +1,23 @@
+{
+  "status": "cleanup_complete",
+  "artifact_root": "pipelines/brisbane_baylands/task_15/15ad_code_cleanup_20261024_v1",
+  "completion_sha256": "7d07028ce823b0d562caed312fe21737368762e396d0c08edbb8c89580ec7b3e",
+  "changed_modules": [
+    "src/er_commons/development_evaluation.py",
+    "src/er_commons/current_judges.py",
+    "src/er_commons/task15ad_coverage.py"
+  ],
+  "behavior_changed": false,
+  "make_fix": "passed",
+  "make_check": "passed",
+  "tests_passed": 4625,
+  "tests_skipped": 1,
+  "independent_review": "passed",
+  "saved_reports_unchanged": 294,
+  "RC_rows_unchanged": 750,
+  "S_projection_combinations_unchanged": 12,
+  "prompt_schema_hashes_unchanged": true,
+  "model_calls": 0,
+  "committed": false,
+  "pushed": false
+}

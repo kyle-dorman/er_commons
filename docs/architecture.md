@@ -585,6 +585,16 @@ load benchmark partitions. Task 10 supplies qualified search-record/fragment map
 and delivery receipts. See the [metric and receipt contract](specs/task09d_automatic_metrics_v1.md)
 for nullable status, exact counts and primary versus diagnostic retrieval.
 
+## Current full-run judge preparation
+
+`current_judges` pairs the accepted A/G/S/C decision plan with a mandatory separate
+RC (Required-point Coverage) diagnostic plan. Future full benchmark runners use
+this helper and execute/report both plans; historical frozen runners are unchanged.
+`task15ad_coverage` owns singleton RC projection, parsing joins and witness grounding.
+The [RC contract](specs/required_point_coverage_judge_v1.md) defines per-point C/RC
+comparisons. Missing/false RC never enters decision-item completeness or joint pass;
+diagnostic completeness is reported separately. No transport is implemented here.
+
 ## Production A/G/S/C judge boundary
 
 The [production judge guide](judge_maintainer_guide.md) owns current interfaces.
